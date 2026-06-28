@@ -1,0 +1,75 @@
+# Python / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.token
+
+# Unreal generated/cache directories
+.ue_cache/
+external/
+hf_cache/
+model_cache/
+checkpoints/
+DerivedDataCache/
+Intermediate/
+Saved/
+Binaries/
+.vs/
+*.sln
+
+# Render outputs and generated datasets
+out/
+outputs/
+renders/
+results/
+model_runs/
+datasets/
+data/raw/
+data/generated/
+ue_projects/*/Saved/
+ue_projects/*/Intermediate/
+ue_projects/*/DerivedDataCache/
+ue_projects/*/Binaries/
+30_engine_synth/34_output/data/
+30_engine_synth/34_output/renders/
+30_engine_synth/34_output/generated/
+
+# Large binary artifacts; use external storage, DVC, Git LFS, or Perforce as appropriate.
+*.safetensors
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.engine
+*.exr
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.tgz
+*.sif
+*.pak
+*.ucas
+*.utoc
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo

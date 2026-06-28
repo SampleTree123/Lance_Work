@@ -1,0 +1,85 @@
+# Lance 阅读笔记
+
+> 来源登记与初读日期：2026-06-28。
+> 状态：已读 GitHub README、Hugging Face 文件清单、arXiv 论文文本；尚未下载权重。
+
+## 来源
+
+- GitHub: https://github.com/bytedance/Lance
+- Project page: https://lance-project.github.io/
+- Paper: https://arxiv.org/abs/2605.18678
+- Model: https://huggingface.co/bytedance-research/Lance
+- HF Space: https://huggingface.co/spaces/bytedance-research/Lance
+
+## 它是什么
+
+Lance 是 ByteDance 发布的 3B active parameter 原生统一多模态模型，覆盖图片/视频的理解、生成和编辑。官方 README 明确支持：
+
+- `t2i` / `t2v`
+- `i2v`
+- `image_edit` / `video_edit`
+- `x2t_image` / `x2t_video`
+
+官方也强调它是 research artifact，不是成熟产品模型。发布 checkpoint 的训练覆盖 768x768 图片生成和 480p、12 FPS 视频生成；推理要求至少 40GB 显存。
+
+## 方法要点
+
+论文核心不是单纯扩大模型，而是“多任务协同”：
+
+- 统一上下文建模：文本、图片、视频、语义 token、生成 latent token 被组织到 interleaved multimodal sequence。
+- 解耦能力路径：理解走语义视觉 token + 自回归语言建模；生成/编辑走 VAE latent + flow matching。
+- 双专家架构：理解 expert 与生成 expert 共享上下文但分开处理，降低理解/生成目标冲突。
+- 视觉表示分两类：
+  - Qwen2.5-VL ViT 语义 token 用于理解；
+  - Wan2.2 3D causal VAE latent 用于生成和编辑。
+- MaPE（modality-aware rotary positional encoding）用于减少不同视觉 token 群之间的位置干扰。
+
+## 训练数据与任务
+
+论文把编辑数据作为训练主成分，而不是下游补丁：
+
+- PT：约 1B image-text 与 140M video-text pair。
+- CT：加入多任务数据，包括约 2.8M image editing、2.6M video editing、3.6M subject-driven image generation、1M subject-driven video generation。
+- SFT：加入高质量任务数据，包括约 84K image editing、9K video editing、5.5K subject-driven video generation。
+- 论文消融显示，加入理解数据和多任务生成数据会同时提升生成、编辑和理解表现。
+
+这点对本项目很关键：它支持我们把 UE 精确编辑数据、真实视频数据、大模型生成数据放到统一 schema，而不是把它们当成互不相干的来源。
+
+## 与 DataMake 的关系
+
+Lance 对我们有两类价值：
+
+1. **作为外部能力基线**：先测 `video_edit` 和多轮一致性，判断现有开放模型在“多轮视频编辑”上差到什么程度。
+2. **反推数据需求**：如果 Lance 在回退编辑、身份保持、服装/道具一致性上失败，这些失败样例可以转成我们 UE 合成数据的优先编辑类型。
+
+建议优先验证：
+
+- 单轮 `video_edit`：低风险局部编辑、服装/道具/背景/光照指令。
+- 多轮一致性：A→B→C，再要求部分回退到 B 或 A。
+- 身份/动作保持：编辑外观或场景时，动作轨迹和主体身份是否稳定。
+- 文本渲染不要作为第一优先级；论文和 README 都显示文字相关能力不是它的强项。
+
+## 权重与环境
+
+官方推理环境：
+
+- Python 3.10+；README 示例用 Python 3.11。
+- CUDA 12.4+。
+- PyTorch 2.8.0 + cu126 或 PyTorch 2.5.1 + cu124。
+- `flash-attn` 需要与 PyTorch/CUDA/Python 匹配。
+- 至少 40GB VRAM。
+
+只做视频编辑验证时，不建议下载 HF 仓库里的 demo assets。最小有用下载范围应是：
+
+- `Lance_3B_Video/*`
+- `Qwen2.5-VL-ViT/*`
+- `Wan2.2_VAE.pth`
+- 必要的 `*.json`、tokenizer 和 config 文件
+
+详见 [`../40_model_validation/lance_validation_plan.md`](../40_model_validation/lance_validation_plan.md)。
+
+## 暂定判断
+
+- Lance 值得优先验证，因为它明确支持视频编辑，并且论文里直接讨论 multi-turn consistency editing。
+- 它不替代我们的 UE 数据管线；它更像是“现有模型能力探针”和“失败模式收集器”。
+- 权重下载前需要先确定：是否在 H200 节点建 `xks_lance` 环境、是否只下载视频分支、是否接受约 25-30GB 的实际落盘预算。
