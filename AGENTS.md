@@ -11,17 +11,18 @@
 
 - 先读 `HANDOFF.md`，确认当前状态和下一步。
 - 用 `README.md` 查看完整目录图和决策日志。
-- 用 `00_planning/README.md` 查看核心数据模型、edit taxonomy 和多样性目标。
-- 用 `05_research/README.md` 查看论文、外部项目和 UE harness 调研。
-- 用 `30_engine_synth/33_render/README.md` 查看当前 MVP 渲染管线。
-- 用 `40_model_validation/README.md` 查看外部模型验证计划。
+- 用 `00_project/README.md` 查看存储、环境和风险。
+- 用 `01_data_design/README.md` 查看核心数据模型、edit taxonomy 和多样性目标。
+- 用 `02_research/README.md` 查看论文、外部项目和 UE harness 调研。
+- 用 `10_sources/unreal_engine/render/README.md` 查看当前 MVP 渲染管线。
+- 用 `30_experiments/external_models/README.md` 查看外部模型验证计划。
 
 ## 文档规则
 
 - 项目文档默认中文；明显偏命令、配置或代码的文件可用英文。
 - 文件名默认英文。
 - 保持分层文档模型：顶层 `README.md` 讲全局，越往子目录越具体。
-- 讨论产生稳定决策时，要更新对应正式文档和顶层决策日志，不要只留在 `discussions/`。
+- 讨论产生稳定决策时，要更新对应正式文档和顶层决策日志，不要只留在 `99_archive/discussions/`。
 - 外部事实必须带日期和范围。Unreal Engine 版本、许可证、集群策略、工具可用性等在执行前必须重新核实。
 
 ## 当前操作假设
@@ -29,7 +30,7 @@
 - 截至 Codex 在 2026-06-28 接手时，本目录只有规划文档；尚无 UE 工程、渲染脚本或资产台账。
 - 当前目录已是本地 Git 仓库，分支 `main`。开始写脚本或做大改前先看 `git status --short`，确认没有意外大文件或无关改动。
 - 大型生成数据、Unreal 缓存、引擎安装、数据集、模型文件和凭据不要提交进 Git；本项目用 `.gitignore` 排除这些路径。
-- 管理员已确认不能使用 `/local`。当前阶段 UE、DDC、MVP 工程、外部模型验证权重/cache 和少量输出都放在当前 DataMake 目录下，按 `00_planning/filesystem_usage.md` 执行。
+- 管理员已确认不能使用 `/local`。当前阶段 UE、DDC、MVP 工程、外部模型验证权重/cache 和少量输出都放在当前 DataMake 目录下，按 `00_project/storage.md` 执行。
 - 外部模型代码、权重和 HF cache 分别放在 `external/repos/`、`external/models/`、`external/hf_cache/`，不要写入 home cache。
 - 文档中的当前 Unreal 目标是 UE 5.8，来自 2026-06-19 规划。UE 5.6 相关备忘录视为历史调研，除非用户明确要钉死 5.6。
 - Lance 已读初步资料但权重未下载；BAGEL 只登记来源，暂未深读。

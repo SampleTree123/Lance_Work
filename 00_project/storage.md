@@ -87,7 +87,7 @@ du -sh external .ue_cache ue_projects outputs logs 2>/dev/null
 
 该方案已被 2026-06-28 的管理员限制取代：**当前不能使用 `/local`**。旧方案只作为历史背景保留，不再作为执行方案。
 
-## Agent 备忘（filesystem_usage）
+## Agent 备忘（storage）
 
 - 当前权威结论：**所有当前阶段工作都在 DataMake 目录下完成**。
 - 网络盘小文件慢是已知风险，不再反复争论；MVP 和单模型验证阶段通过控制规模接受该风险。

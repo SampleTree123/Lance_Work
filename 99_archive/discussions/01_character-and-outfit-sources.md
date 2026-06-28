@@ -1,6 +1,6 @@
 # 话题 01 —— 人物与服装：来源与适配
 
-> ↑ [话题索引](./README.md) ｜ 关联：[`00_planning/`](../00_planning/README.md)（多样性矩阵/edit taxonomy）、[`30_engine_synth/`](../30_engine_synth/README.md)（服装适配后账）、[`30_engine_synth/pipeline_research_memo.md`](../30_engine_synth/pipeline_research_memo.md)
+> ↑ [话题索引](./README.md) ｜ 关联：[`../../01_data_design/`](../../01_data_design/README.md)（多样性矩阵/edit taxonomy）、[`../../10_sources/unreal_engine/`](../../10_sources/unreal_engine/README.md)（服装适配后账）、[`../../10_sources/unreal_engine/pipeline_research_memo.md`](../../10_sources/unreal_engine/pipeline_research_memo.md)
 
 **状态**：讨论中（2026-06-19 起）
 
@@ -50,7 +50,7 @@
 - **跨风格（写实 ↔ 动漫）→ 衣服基本不能迁移**（动漫衣服套写实身体会很怪，反之亦然）。
 - ➡️ 所以**换装编辑(E2) 大概率要限定在"兼容的身体/风格组"内**，而非任意角色 × 任意衣服。动漫角色往往**自带服装**，其换装在同风格组内做。
 
-**务实策略**：选定标准身体/骨架，把服装**收敛到该标准**；原型用 MetaHuman Outfit Asset 自动贴合；多体型用 wrap 变形/重模拟（见 `30_engine_synth/` 的"服装适配后账"）。静态贴合 与 动态飘动(Chaos Cloth) 分开处理。
+**务实策略**：选定标准身体/骨架，把服装**收敛到该标准**；原型用 MetaHuman Outfit Asset 自动贴合；多体型用 wrap 变形/重模拟（见 `../../10_sources/unreal_engine/` 的"服装适配后账"）。静态贴合 与 动态飘动(Chaos Cloth) 分开处理。
 
 ## 关键解法：用「风格域」把"多风格"变可行（2026-06-19）
 
@@ -91,9 +91,9 @@
 
 - ❓ **【需作者拍板】是否采用「风格域分区」并纳入动漫/风格化**：作者倾向要；上面的风格域解法使其可行。若采用，进一步定：**包含哪几个域**（写实/动漫/卡通…）、**先做哪个**、**"100 角色"在各域的配比**。（已从"能不能做"收敛为"做哪几个域、怎么配比"。）
 - ❓ 多样性矩阵里"100 角色"的**风格构成**（写实 : 动漫 : 风格化 = ?）。
-- 🔜 若确定要多风格：建"角色归一化到 UE5 骨架"的流水线（自动绑定工具选型）+ 把 E2 换装约束写进 `00_planning` 的 taxonomy。
+- 🔜 若确定要多风格：建"角色归一化到 UE5 骨架"的流水线（自动绑定工具选型）+ 把 E2 换装约束写进 `01_data_design` 的 taxonomy。
 - 🔜 SMPL-X 仅作底座的定位，待"安全资产/发布阶段"再细化。
 
 ## 关联决策（回写记录）
 
-- 形成的设计洞见（共同骨架归一、SMPL-X 当底座、E2 按风格组、服装可迁移性=同质性）——**风格跨度一旦拍板**，回写 `00_planning/`（多样性矩阵 + taxonomy）与总览决策日志。
+- 形成的设计洞见（共同骨架归一、SMPL-X 当底座、E2 按风格组、服装可迁移性=同质性）——**风格跨度一旦拍板**，回写 `01_data_design/`（多样性矩阵 + taxonomy）与总览决策日志。

@@ -27,7 +27,7 @@
 | ②b | **服务器其余项曾通过检查（2026-06-19），存储方案已在 2026-06-28 修正**：H200(144G)/Ubuntu22.04/glibc2.35/内核5.15/2TB RAM。管理员确认不能使用 `/local`；当前 UE/MVP 全部放在 `/scratch/prj0000000275/jcy/xks/DataMake`，清理后约 897G 可用。 | 需执行前复核 | 安装 UE 前重新确认当前目录空间、`ldd` 依赖、`vulkaninfo` 和 `UnrealEditor-Cmd -version` |
 | ③ | **资产归一化前处理**：杂源角色上骨架 + 补 blendshape + 多体型服装贴合 | 工作量（非难题） | 优先标准化来源（MetaHuman/VRoid/RPM）降本；参数化自动贴合 |
 | ④ | **动漫极端比例 retarget**：穿插/脚滑 | 需逐域调 | IK Retargeter + Control Rig 修正（调研验证中） |
-| ⑤ | **许可证**（发布前的非技术 gate） | 合规（已暂缓） | 发布前换安全资产并收口（见 `../90_meta/`） |
+| ⑤ | **许可证**（发布前的非技术 gate） | 合规（已暂缓） | 发布前换安全资产并收口（见 [`../90_compliance/`](../90_compliance/README.md)） |
 
 ## 刻意排除的范围（为保持可行）
 
@@ -36,13 +36,13 @@
 
 ## 判定后的下一步
 
-1. **MVP 最小闭环**（`30_engine_synth/33_render/`）：先验证 ①确定性/对齐 + 整条 render→改一因子→render→GT→sidecar 闭环。
+1. **MVP 最小闭环**（[`../10_sources/unreal_engine/render/`](../10_sources/unreal_engine/render/README.md)）：先验证 ①确定性/对齐 + 整条 render→改一因子→render→GT→sidecar 闭环。
 2. **服务器自检**：确认 ②。
 3. 两者通过 → 可行性从"有把握"升级为"已验证"，再规模化。
 
 ---
 
-## Agent 备忘（feasibility）
+## Agent 备忘（risks）
 
 - 这是 go 判定文档。**别把"纸面可行"当成"已验证"**——MVP 渲出第一对对齐配对前，措辞用"预期可行"。
 - 风险①（确定性/对齐）是整套范式的命门，MVP 必须最先打。若压不住 → 退到"近似对齐 + 光流监督"，并回来更新数据模型与本文件。

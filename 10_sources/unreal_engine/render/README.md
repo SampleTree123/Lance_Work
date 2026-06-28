@@ -1,6 +1,6 @@
-# 33_render —— 渲染与自动化 / 流水线打通（Level 2）★当前主线
+# render —— 渲染与自动化 / 流水线打通（Level 3）★当前主线
 
-> ↑ 父层：[`../README.md`](../README.md)（引擎合成）→ [`../../README.md`](../../README.md)（总览）。
+> ↑ 父层：[`../README.md`](../README.md)（Unreal Engine 来源）→ [`../../README.md`](../../README.md)（数据来源）→ [`../../../README.md`](../../../README.md)（总览）。
 > 本层放 **UE5.8 目标环境下的自动化脚本、渲染配置、GT 导出、sidecar**。当前唯一目标：**把整条流水线打通（MVP 最小闭环）**。版权暂缓仅限内部原型；所有临时资产必须标为 `prototype-only`，不得进入发布/训练数据。
 
 ---
@@ -11,7 +11,7 @@
 |------|------|------|
 | `README.md` | 本文件：MVP 闭环定义、脚本架构、对齐 checklist、样本 schema v0 | ✅ |
 | `cluster_deploy_and_mvp.md` | **集群部署 + MVP 启动计划**（命令级：装 UE5.8 无 root / 无头渲染 native vs Apptainer / SLURM job-array / Win↔集群同步） | ✅ 调研稿 |
-| `../../05_research/unreal_harness_survey.md` | UE 官方 automation / MCP / harness 调研结论 | ✅ 参考 |
+| `../../../02_research/tools/unreal_harness_survey.md` | UE 官方 automation / MCP / harness 调研结论 | ✅ 参考 |
 | `render_pair.py` | 主入口：给定 (base_config, edit) 渲一对前后视频 + GT + sidecar | 待写 |
 | `factors.py` | 每个因子的"读/改"接口（统一签名，便于扩到 E1–E11） | 待写 |
 | `passes.py` | 配置 GT passes + 多层 EXR 输出 | 待写 |
@@ -64,7 +64,7 @@ render_pair(base_config, edit) ->
 - [ ] 道具增删用 visibility toggle（`SetActorHiddenInGame` / Sequencer Visibility track），不 spawn/destroy
 - [ ] 未改动区域逐像素差 sanity check（E8 光照改用深度/几何一致性校验）
 
-## 6. 统一样本 schema v0（草案，稳定后升级到 `00_planning/schema/`）
+## 6. 统一样本 schema v0（草案，稳定后升级到 `01_data_design/schema/`）
 
 ```json
 {
@@ -88,11 +88,11 @@ render_pair(base_config, edit) ->
 
 ---
 
-## Agent 备忘（33_render）
+## Agent 备忘（render）
 
 - **当前主线就是这里**：把第 1 节的 MVP 跑通 = 项目当前最高优先。
 - **动手写脚本前先确认**：① UE5.8 是否已安装并能跑 Python/MoviePipeline；② 当前先要操作指南还是直接脚本；③ 第一对采用 E8/E5/E6/E11 哪个最小编辑。
 - **写脚本时落地要点**（来自 `../pipeline_research_memo.md`）：MRG 优先验证，必要时退回 MRQ；GT 走多层 EXR（depth/motion vectors=光流）；相机内外参 + 每-actor 标签需自写 sidecar；Object IDs/Cryptomatte 实验性、仅编辑器。
-- **harness 策略**（来自 `../../05_research/unreal_harness_survey.md`）：生产侧自建薄 harness，底层用 UE Python + Automation Test Framework + MRQ/MRG；Unreal MCP/agent 工具只作编辑器辅助。
-- **版权**：原型资产可先服务内部管线验证，但必须标 `prototype-only`；进入发布集的资产再回 `../../90_meta/` 收口。
+- **harness 策略**（来自 `../../../02_research/tools/unreal_harness_survey.md`）：生产侧自建薄 harness，底层用 UE Python + Automation Test Framework + MRQ/MRG；Unreal MCP/agent 工具只作编辑器辅助。
+- **版权**：原型资产可先服务内部管线验证，但必须标 `prototype-only`；进入发布集的资产再回 `../../../90_compliance/` 收口。
 - MVP 之后：写 `walk.py` 做随机游走批量，验证端点复用与多轮链抽取。

@@ -1,6 +1,6 @@
 # 话题 02 —— 面部表情（跨风格域 + 是否作为编辑因子）
 
-> ↑ [话题索引](./README.md) ｜ 关联：[`01_character-and-outfit-sources.md`](./01_character-and-outfit-sources.md)、[`00_planning/`](../00_planning/README.md)（edit taxonomy）
+> ↑ [话题索引](./README.md) ｜ 关联：[`01_character-and-outfit-sources.md`](./01_character-and-outfit-sources.md)、[`../../01_data_design/`](../../01_data_design/README.md)（edit taxonomy）
 
 **状态**：已细化（2026-06-19 深度调研 + 对抗式核查）
 
@@ -86,6 +86,6 @@
 
 ## 待定与下一步
 
-- ✅ **已定（2026-06-19）**：表情独立为 **E11**，与 E3 肢体动作分列（已回写 `00_planning` taxonomy + 决策日志）。肢体动作另见话题 03。
+- ✅ **已定（2026-06-19）**：表情独立为 **E11**，与 E3 肢体动作分列（已回写 `01_data_design` taxonomy + 决策日志）。肢体动作另见话题 03。
 - 🔜 在"角色归一化前处理"里加一步：**确保角色带标准 blendshape 集（ARKit/VRM）**，缺则用 CC/FACEIT 补。
 - 🔜 数据集表情采样策略（离散几类 vs 连续权重）后续在 `32_config/` 细化。

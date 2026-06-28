@@ -1,23 +1,22 @@
-# 00_planning —— 全局设计层（Level 1）
+# 01_data_design —— 数据设计层（Level 1）
 
-> ↑ 父层：[`../README.md`](../README.md)（项目总览）。本层只讲**全局设计**：任务定义、数据模型、编辑原子类型表、多样性矩阵——这些是跨所有来源、决定一切的"宪法"。
+> ↑ 父层：[`../README.md`](../README.md)（项目总览）。
+> 本层只讲数据本身：任务定义、配置图、编辑原子类型、schema、采样与多轮链。这些规则跨真实视频、大模型生成和 Unreal 合成三种来源。
 
 ---
 
 ## 📂 内容说明
 
-本文件夹放**与具体来源无关的全局设计文档**。当前主要承载：
+本目录放**与具体来源无关的数据设计文档**。当前主要承载：
 
 1. **任务定义** —— 多轮视频编辑的输入输出。
 2. **编辑原子类型表（edit taxonomy）** —— 一次"编辑"有哪些类型（全部都要实现）。
 3. **数据组织：配置图 + 沿游走渲染** —— 数据怎么存，才能让"多轮链"成为训练侧的事（关键决策）。
 4. **多样性矩阵（diversity matrix）** —— 各因子覆盖多少、怎么覆盖。
+5. **统一样本 schema**（[`schema/`](./schema/README.md)）—— 当前先占位，MVP 后收敛正式字段。
+6. **采样与多轮链**（[`sampling/`](./sampling/README.md)）—— 随机游走、链长、回退/成环一致性。
 
-5. **环境与基建**（[`environment_infra.md`](./environment_infra.md)）—— UE 版本、本机/服务器分工、无头渲染、远程 UI、配套软件、工程同步（调研综合稿）。
-6. **可行性与风险**（[`feasibility_and_risks.md`](./feasibility_and_risks.md)）—— go 判定 + 风险登记（含服务器自检结论）。
-7. **文件系统使用**（[`filesystem_usage.md`](./filesystem_usage.md)）—— 当前 DataMake 单目录存储方案（管理员确认不能使用 `/local`）。
-
-> 后续可能新增：统一样本 schema（`schema/`）、指令自动生成规范、评测集设计等。新增时更新本说明。
+运行环境、存储和风险登记在 [`../00_project/`](../00_project/README.md)；具体来源实现在 [`../10_sources/`](../10_sources/README.md)。
 
 ---
 
@@ -71,7 +70,7 @@
   1. **各类编辑都要作为边出现、覆盖充分**（呼应"E1–E11 全都要实现"）；
   2. **端点复用 + 渲染确定性对齐**。
 
-> 采样/游走的具体策略（基础配置怎么选、游走多长、每步改哪个因子的分布、如何保证图连通与覆盖）落到 `30_engine_synth/32_config/` 细化。
+> 采样/游走的具体策略（基础配置怎么选、游走多长、每步改哪个因子的分布、如何保证图连通与覆盖）落到 [`sampling/`](./sampling/README.md) 细化；UE 侧实现落到 [`../10_sources/unreal_engine/`](../10_sources/unreal_engine/README.md)。
 
 ## 4. 多样性矩阵（diversity matrix · 初版来自作者）
 
@@ -90,13 +89,13 @@
 
 ---
 
-## Agent 备忘（00_planning）
+## Agent 备忘（01_data_design）
 
-- **本层定位**：全局"宪法"。改这里牵动所有来源，谨慎并记入总览决策日志。
+- **本层定位**：数据设计"宪法"。改这里牵动所有来源，谨慎并记入总览决策日志。
 - **两条已锁定的核心决策（2026-06-19）**：
   1. E1–E11 全部要实现、渐进推进、不分必做可选；复合编辑在范围但以单因子边为图元。
   2. 数据 = **配置图**（确定性渲染节点 + 原子编辑边 + **端点复用**），沿**随机游走**渲染；多轮链=训练侧路径采样。**端点复用是后期补不回来的硬约束。**
 - **下一步**：
-  1. 起草**统一样本 schema**（字段：节点视频路径、配置 C、改动因子、指令、GT passes 路径、所属游走/边 id…）——配置图落到具体存储格式。等调研给出 GT passes 能导哪些后再定字段。
-  2. 把"游走/采样策略"对接给 `32_config/`。
-- **依赖**：100角色/100服装等"可实现性"取决于 UE 调研与 MVP 实测结果；UE5.6 调研已保留在 `30_engine_synth/pipeline_research_memo.md`，当前执行目标以 UE5.8 相关部署文档为准。
+  1. MVP 后把 `10_sources/unreal_engine/render/README.md` 里的 schema v0 迁到 [`schema/`](./schema/README.md)。
+  2. 把"至少三次编辑链"和"回退/成环一致性"写进 [`sampling/`](./sampling/README.md)。
+- **依赖**：100角色/100服装等"可实现性"取决于 UE 调研与 MVP 实测结果；UE5.6 调研已保留在 [`../10_sources/unreal_engine/pipeline_research_memo.md`](../10_sources/unreal_engine/pipeline_research_memo.md)，当前执行目标以 UE5.8 相关部署文档为准。

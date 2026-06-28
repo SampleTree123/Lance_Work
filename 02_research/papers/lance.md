@@ -76,7 +76,7 @@ Lance 对我们有两类价值：
 - `Wan2.2_VAE.pth`
 - 必要的 `*.json`、tokenizer 和 config 文件
 
-详见 [`../40_model_validation/lance_validation_plan.md`](../40_model_validation/lance_validation_plan.md)。
+详见 [`../../30_experiments/external_models/lance_validation_plan.md`](../../30_experiments/external_models/lance_validation_plan.md)。
 
 ## 暂定判断
 

@@ -61,7 +61,7 @@ Movie Render Pipeline 是我们渲染侧的核心接口。MRQ 用于排队和脚
 
 短期：
 
-- 继续按 `30_engine_synth/33_render/README.md` 写自有薄 harness。
+- 继续按 [`../../10_sources/unreal_engine/render/README.md`](../../10_sources/unreal_engine/render/README.md) 写自有薄 harness。
 - 入口脚本使用 UE Python command line，优先验证 `-ExecutePythonScript`；需要更轻时再试 `-run=pythonscript`。
 - 用 Automation Test Framework 写确定性/对齐 smoke tests，例如同配置双渲像素差、深度一致性、sidecar 完整性。
 - MRQ 先跑通；MRG 作为更复杂输出图和多 pass 方案的升级路径。

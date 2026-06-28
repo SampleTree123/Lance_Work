@@ -1,6 +1,6 @@
 # 话题 03 —— 肢体动作（E3，编辑因子）
 
-> ↑ [话题索引](./README.md) ｜ 关联：[`02_facial-expressions.md`](./02_facial-expressions.md)、[`00_planning/`](../00_planning/README.md)（taxonomy E3）、[`30_engine_synth/pipeline_research_memo.md`](../30_engine_synth/pipeline_research_memo.md)
+> ↑ [话题索引](./README.md) ｜ 关联：[`02_facial-expressions.md`](./02_facial-expressions.md)、[`../../01_data_design/`](../../01_data_design/README.md)（taxonomy E3）、[`../../10_sources/unreal_engine/pipeline_research_memo.md`](../../10_sources/unreal_engine/pipeline_research_memo.md)
 
 **状态**：已细化（2026-06-19 深度调研 + 对抗式核查）
 
@@ -80,6 +80,6 @@
 
 ## 待定与下一步
 
-- 🔜 与 `33_render/` MVP 对接：E3 的"in-place + Sequencer 位移"约定写进渲染管线。
+- 🔜 与 `10_sources/unreal_engine/render/` MVP 对接：E3 的"in-place + Sequencer 位移"约定写进渲染管线。
 - 🔜 与 `32_config/` 对接动作采样（5 类配额、多轮编辑链中动作如何排布）。
 - ❓ 各域"20 个动作"的具体清单待定（建议先定写实域 GASP 选哪 20 条）。

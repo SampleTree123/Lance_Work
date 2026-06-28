@@ -17,7 +17,7 @@
 - GitHub: https://github.com/bytedance/Lance
 - Paper: https://arxiv.org/abs/2605.18678
 - Model: https://huggingface.co/bytedance-research/Lance
-- 阅读笔记：[`../05_research/lance.md`](../05_research/lance.md)
+- 阅读笔记：[`../../02_research/papers/lance.md`](../../02_research/papers/lance.md)
 
 ## 本地路径方案
 

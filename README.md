@@ -1,162 +1,119 @@
-# DataMake —— 数据集构建工作空间（总览层 / Level 0）
+# DataMake —— 多轮视频编辑数据集构建工作区
 
-> 本文件是整个工作空间的**最外层文档**，覆盖面最广、最笼统。
-> 越往子文件夹深入，文档越具体。读这一份就能知道"我们在干什么、东西都放在哪、为什么这么放"。
->
-> **换环境 / 接续对话**：先读 [`HANDOFF.md`](./HANDOFF.md)，再读 [`AGENTS.md`](./AGENTS.md)。`HANDOFF.md` 是项目上下文，`AGENTS.md` 是 Codex 在本项目里的长期工作约定。
+> 本文件是项目总览。换会话先读 [`HANDOFF.md`](./HANDOFF.md)，再读 [`AGENTS.md`](./AGENTS.md)。
 
----
+## 1. 项目定位
 
-## 1. 项目是什么
+DataMake 只负责**多轮视频编辑模型的数据集构建**，不负责模型训练。目标数据形态是：
 
-- 一篇**新论文**：训练一个**多轮视频生成 / 编辑的专家模型**——对同一段视频按指令**反复修改、迭代**。
-- 本工作空间（DataMake）**只负责「数据集构建」**，给上面这个能力提供配套数据。训练部分不在此处、不在本对话讨论。
-- 当前阶段：**企划 / 设计 + 外部模型/工具验证准备**。UE 合成仍是数据主线；论文阅读、Lance/BAGEL 等模型验证用于反推数据需求和基线能力。
-
-## 2. 任务与数据范围（已与作者对齐 · 2026-06-19）
-
-- ✅ **目标能力**：多轮视频编辑（输入「视频 + 文本指令」→ 修改后视频，可多轮迭代）。
-- ✅ **模态**：视频 + 文本。**文本可后续自动生成；当前主攻的是视频数据。**
-- ✅ **三个数据来源**：
-  - ① 真实视频数据集
-  - ② 大模型生成
-  - ③ **引擎合成（Unreal Engine，当前工作目标为 UE 5.8；5.6 调研作为历史参考）← 最关键、当前主攻**
-- ✅ 合成数据**靠多样性保证质量**；多样性达标，规模随之有保证（因子组合爆炸）。
-- ✅ **多样性目标（初版）**：≥100 角色 / ≥100 套服装 / ≥20 动作 / ≥50 场景 ＋ 配饰道具（草木、车辆、人物身上的配饰等）。
-- ❓ 真实 / 大模型来源的具体清单与规模：待定（作者称"好说"，后议）。
-
-## 3. 核心数据模型（多轮编辑 ↔ 可控合成）——本项目的设计基石
-
-把视频镜头建模为**一组独立因子的配置**：
-
-```
-配置 C = { 角色, 服装, 动作, 场景, 道具/配饰, 相机, 光照, （可选：风格/天气/特效） }
-渲染(C) → 一段视频
+```text
+video_in + instruction -> video_out
+video_0 -> video_1 -> video_2 -> ...
 ```
 
-- **一次编辑 = 配置空间里的一次"转移"**：`C → C'`，通常只改一个（或少数几个）因子。
-- **训练样本（单轮）** = `(渲染(C), 指令文本, 渲染(C'))`，其中前后视频**像素级对齐**、指令由"已知改了什么"自动生成。
-- **多轮样本** = 在配置空间里走一条链 `C0 → C1 → C2 → …`，得到一段编辑轨迹。
-- **数据按"配置图"组织**：节点 = 确定性渲染的视频，边 = 原子编辑；**端点复用**（一条边的输出视频就是下条边的输入文件）让多轮链成为**训练侧的路径采样**，链长/比例数据侧不固定。沿**随机游走**渲染以最大复用节点、最省渲染。详见 `00_planning/`。**端点复用是后期补不回来的硬约束。**
-- **三来源的分工（设计假设，待验证）**：
-  - **引擎合成** = 提供**精确配对的编辑监督**（核心，别处拿不到）；
-  - **真实数据** = 提供**真实分布/画质锚点**与"凭空生成视频"的基础能力；
-  - **大模型生成** = 补充**内容与题材多样性**。
-- 编辑的"原子类型表（edit taxonomy）"与"多样性矩阵"详见 `00_planning/`。
+当前主攻来源是 **Unreal Engine 合成视频数据**。真实视频和大模型生成数据保留为后续来源；Lance/BAGEL 等外部模型验证用于判断现有能力和反推数据需求。
 
-## 4. 文档与目录约定（给未来接手者，务必遵守）
+## 2. 核心数据模型
 
-核心是**分层：最外侧最笼统，越深入越具体**。
+把一个镜头建模为配置：
 
-1. **每一层一个 `README.md`**（Level 0 = 本文件；子文件夹各自一份，只讲自己这层，开头放一行指回父层）。
-2. **文件夹用数字前缀排序**（`00_ 10_ 20_…`），留 `05_/15_` 插空号余地。
-3. **每个 README 必含两块**：`📂 内容说明` 与 `Agent 备忘`（供跨对话接续，必须及时更新）。
-4. **重大决策只在本总览层第 7 节维护一份全局日志**，带日期＋理由。
-5. 文件名默认英文、正文默认中文；要改随时说。
-6. **不预建空文件夹**：方向/内容明确了再建。每次推进同步更新「树 + 相关 README + 备忘录」。
-7. **`discussions/`**：按话题记录我俩的讨论，每个话题一个 md；话题里**敲定的结论要回写正式文档 + 决策日志**，别只留在话题里。
-
-## 5. 当前文件结构树（实时维护）
-
+```text
+C = {角色, 服装, 动作, 表情, 场景, 道具/配饰, 相机, 光照, 天气/特效, 风格}
+render(C) -> video
 ```
+
+- 节点：确定性渲染的视频。
+- 边：一次原子编辑 `C -> C'`，通常只改一个因子。
+- 单轮样本：`(render(C), instruction, render(C'))`。
+- 多轮样本：配置图上的路径 `C0 -> C1 -> C2 -> ...`。
+- 硬约束：**端点复用**。一条边的 `video_out` 必须就是下一条边的 `video_in` 文件。
+
+详细设计见 [`01_data_design/`](./01_data_design/README.md)。
+
+## 3. 当前目录结构
+
+```text
 DataMake/
-├── AGENTS.md                 ← Codex 自动读取的项目规则
-├── README.md                 ← 项目总览（Level 0，本文件）
-├── HANDOFF.md                ← 接续入口（可移植项目上下文，换环境先读这个）
-├── .gitignore                ← 本地 Git 建库时忽略缓存/输出/大文件
-├── 00_planning/              ← 全局设计：任务定义 / 数据模型 / 编辑taxonomy / 多样性矩阵 / 环境基建
+├── README.md
+├── HANDOFF.md
+├── AGENTS.md
+├── .gitignore
+├── 00_project/                 # 项目运行：存储、环境、风险
 │   ├── README.md
-│   ├── environment_infra.md   ← 环境与基建方案（UE版本/服务器/远程UI/软件/同步，调研综合稿）
-│   ├── feasibility_and_risks.md  ← 可行性与风险评估（前分析收尾·go 判定）
-│   └── filesystem_usage.md    ← 当前 DataMake 单目录存储方案（不能用 /local）
-├── 05_research/              ← 论文 / 外部项目 / UE harness 与 agent 工具调研
+│   ├── storage.md
+│   ├── environment.md
+│   └── risks.md
+├── 01_data_design/             # 数据设计：配置图、taxonomy、schema、sampling
 │   ├── README.md
-│   ├── lance.md              ← Lance 项目与论文初读，模型验证建议
-│   ├── bagel.md              ← BAGEL 来源登记（暂未深读）
-│   └── unreal_harness_survey.md  ← UE automation / MCP / harness 调研
-├── 30_engine_synth/          ← 来源③引擎合成（当前目标 UE5.8）★当前主攻
+│   ├── schema/README.md
+│   └── sampling/README.md
+├── 02_research/                # 论文、外部项目、工具调研
 │   ├── README.md
-│   ├── pipeline_research_memo.md   ← UE5.6 起步的合成管线技术备忘（历史调研稿）
-│   └── 33_render/            ← ★当前主线：流水线打通（MVP 最小闭环 + 脚本 + schema）
+│   ├── papers/
+│   │   ├── lance.md
+│   │   └── bagel.md
+│   └── tools/
+│       └── unreal_harness_survey.md
+├── 10_sources/                 # 数据来源
+│   ├── README.md
+│   ├── real_video/README.md
+│   ├── model_generated/README.md
+│   └── unreal_engine/
 │       ├── README.md
-│       └── cluster_deploy_and_mvp.md   ← 集群部署 + MVP 启动计划（命令级，调研稿）
-├── 40_model_validation/      ← 外部模型能力验证（Lance 先行）
+│       ├── pipeline_research_memo.md
+│       └── render/
+│           ├── README.md
+│           └── cluster_deploy_and_mvp.md
+├── 30_experiments/             # 实验与能力验证
 │   ├── README.md
-│   └── lance_validation_plan.md
-├── 90_meta/                  ← 许可证合规台账（暂缓，发布前收口）
+│   └── external_models/
+│       ├── README.md
+│       └── lance_validation_plan.md
+├── 90_compliance/              # 许可证、资产和发布约束
+│   ├── README.md
 │   └── licensing_compliance.md
-└── discussions/              ← 话题讨论记录（每个话题一个 md）
+└── 99_archive/                 # 讨论和历史归档
     ├── README.md
-    ├── 01_character-and-outfit-sources.md   ← 人物与服装：来源与适配
-    ├── 02_facial-expressions.md             ← 面部表情（E11，已细化）
-    ├── 03_body-action.md                    ← 肢体动作（E3，已细化）
-    └── 04_2026-06-27-meeting.md             ← 会议记录：UE harness / skill / 三轮编辑链
+    └── discussions/
+        ├── README.md
+        ├── 01_character-and-outfit-sources.md
+        ├── 02_facial-expressions.md
+        ├── 03_body-action.md
+        └── 04_2026-06-27-meeting.md
 ```
 
-## 6. 拟定骨架（**按"数据来源"组织**，草案，按需再建）
+## 4. 当前主线
 
-```
-DataMake/
-├── AGENTS.md                 # Codex 项目规则
-├── README.md                 # Level 0 总览
-├── 00_planning/              # 全局设计（已建）
-├── 05_research/              # 论文 / 外部项目 / harness 调研（已建）
-├── 10_real/                  # 来源①真实视频数据集（待建）
-├── 20_model_gen/             # 来源②大模型生成视频（待建）
-├── 30_engine_synth/          # 来源③引擎合成 UE5.8 ★主攻（已建；5.6 调研保留为历史）
-│   ├── 31_assets/            #   资产库：角色 / 服装 / 动作 / 场景 / 道具配饰
-│   ├── 32_config/            #   配置空间与多样性组合（场景图 / 属性矩阵 / 采样）
-│   ├── 33_render/            #   渲染与自动化（Sequencer / MRQ / Python批渲 / GT passes）
-│   └── 34_output/            #   渲染产出与多轮编辑配对
-├── 40_model_validation/      # 外部模型能力验证：Lance/BAGEL/后续模型（已建）
-├── 80_unified/               # 三来源汇总、统一schema、train/val/test 划分（待建）
-└── 90_meta/                  # datasheet、许可证合规、复现说明（待建）
-```
+1. **UE MVP**：在 [`10_sources/unreal_engine/render/`](./10_sources/unreal_engine/render/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
+2. **Lance 验证**：按 [`30_experiments/external_models/lance_validation_plan.md`](./30_experiments/external_models/lance_validation_plan.md) 决定是否下载视频分支权重并测试 `video_edit` / 多轮一致性。
+3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`01_data_design/schema/`](./01_data_design/schema/README.md)。
+4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`01_data_design/sampling/`](./01_data_design/sampling/README.md)。
 
-## 7. 决策日志（全局唯一，倒序）
+## 5. 目录规则
+
+- 顶层按职责分区，不按临时任务堆文件。
+- 每个长期目录必须有 `README.md`。
+- 文档正文默认中文，文件名默认英文。
+- 外部事实要带日期；UE 版本、许可证、模型权重、服务器环境执行前重新核实。
+- 大文件、模型权重、UE 安装、缓存和输出不进 Git。路径约定见 [`00_project/storage.md`](./00_project/storage.md)。
+- 讨论放在 [`99_archive/discussions/`](./99_archive/discussions/README.md)，稳定结论必须回写正式文档。
+
+## 6. 决策日志
 
 | 日期 | 决策 | 理由 |
 |------|------|------|
-| 2026-06-28 | **建立本地 Git 基线**：当前 `DataMake/` 已初始化为本地 Git 仓库，分支 `main`；文档、规划和规则进入版本控制，大文件/模型/UE/缓存/输出由 `.gitignore` 排除 | 后续项目会持续改文档、脚本和实验计划，需要可回滚、可 diff、可 review 的本地版本管理 |
-| 2026-06-28 | **研究与外部模型验证升为一等分支**：新增 `05_research/` 记录论文、外部项目和 UE harness/MCP 调研；新增 `40_model_validation/` 记录 Lance 等外部模型验证计划。Lance 先做视频编辑/多轮一致性验证，BAGEL 先登记来源暂不深读 | 项目后续不只有 UE 引擎落地，还需要用开放模型能力验证和失败模式反推数据需求；但本仓库仍不是训练仓库 |
-| 2026-06-28 | **UE harness 采用策略**：生产流水线不依赖第三方 MCP/agent 工具；以 UE 官方 Python + Automation Test Framework + MRQ/MRG 为底层，自建薄 harness（`render_pair.py` / `factors.py` / `passes.py` / `sidecar.py`）。MCP 工具只作为编辑器辅助或原型探索 | 配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证；agent 远程控制不适合作为批量数据生产核心 |
-| 2026-06-28 | **存储方案改为单目录工作区**：管理员确认不能使用 `/local`；后续 UE、DDC、MVP 工程、外部模型验证权重/cache 和少量输出都放在当前 `DataMake/` 下：`external/UE_5.8/`、`external/models/`、`external/hf_cache/`、`.ue_cache/ddc/`、`ue_projects/`、`outputs/mvp/`、`outputs/model_validation/`。当前 `/scratch` 清理后可用约 897G，足够 MVP 和单模型验证；正式大规模生产另行规划 | `/local` 不可用；当前盘空间已足够安装 UE、做 MVP、验证 Lance 这类单模型，但网络盘小文件 I/O 可能较慢，需控制规模 |
-| 2026-06-28 | **Codex 接手文档治理**：新增 `AGENTS.md`，将可移植上下文收敛到 `HANDOFF.md`，把旧工具专名改为通用 agent/Codex 约定；后续新事实要带日期复核 | 当前后续工作将由 Codex 协助；需要把历史 AI 交接文件变成可长期维护的项目规则 |
-| 2026-06-19 | **前分析收尾 · go 判定**：未发现阻断性问题，架构可行、批量自动化可实现；列出待验证风险（①确定性/对齐 为首，②服务器未验）；转入 MVP 验证。详见 `00_planning/feasibility_and_risks.md` | 作者询问可行性；分析阶段告一段落，需明确"纸面可行→MVP 验证"的过渡 |
-| 2026-06-19 | **"动作"拆为两个独立编辑因子：E3 肢体动作（骨骼动画）+ E11 面部表情（blendshape）**；表情是最易对齐的编辑（只改权重、不换资产） | 作者：表情与肢体动作机制不同应分开；表情可控性/对齐性极佳，值得作独立因子 |
-| 2026-06-19 | **存储布局实测定（三层，已被 2026-06-28 覆盖）**：引擎+DDC+渲染中间 → **`/local/$USER`**；大批量成品 → **`/scratch` 用户区**；工程源+zip 备份 → **`/home/$USER`**。`/raid` 不可写。 | 历史方案；管理员后来确认不能使用 `/local`，当前以 2026-06-28 单目录方案为准 |
-| 2026-06-19 | **部署方式定（路径已被 2026-06-28 覆盖）**：原生预编译 UE5.8 Linux .zip + `-RenderOffscreen`；容器仅作复现后备；SLURM 单变体单 array-task、≤18h。详见 `30_engine_synth/33_render/cluster_deploy_and_mvp.md` | 技术路线仍保留；路径从 `/local/$USER` 改为当前 `DataMake/` 单目录布局 |
-| 2026-06-19 | **环境定调：UE 5.8**（最新稳定、UE5 末代；含 MetaHuman 批量API + MRG 生产就绪 + 逐光隔离 Light Modifier）。原型用 5.8.0；大批量等首个 5.8.x hotfix；5.7 作回退。Win 做 MetaHuman 创作、Linux 无头批渲 | 5.8 把两大支柱（批量造角色 + 成熟 MRG）凑齐；逐光隔离正好服务 E8 光照配对 |
-| 2026-06-19 | 本机(Win)创作 + 服务器(Linux 无头)批渲；Perforce 作工程同步源、rsync 只回传产物 | Linux 无头可渲（-RenderOffscreen+Vulkan，无需 X/VNC）；Perforce 是 Epic 对二进制资产的推荐做法 |
-| 2026-06-19 | **当前优先打通流水线，版权暂缓但需隔离**：原型/跑通阶段可用临时网上资源（含 Mixamo）做内部验证，但必须标 `prototype-only`，不得进入发布/训练集；规模化/发布前再收口 | 作者：先把流水线跑通，后续可替换；文档治理时补充 prototype-only 隔离要求 |
-| 2026-06-19 | 策略方向（最终收口目标）：数据集**公开发布** + 资产**"安全资产优先"**（CC0/自制/自采mocap/企业授权，绑 UE5 骨架）；MetaHuman/Mixamo/Synty/Reallusion/未授权 Fab 最终排除 | 公开发布要求每个资产允许"训练+再分发"；作为收口目标，但当前不阻塞原型 |
-| 2026-06-19 | 识别许可证为 gating 风险：Mixamo/Synty/Reallusion 标准许可禁 AI 训练；MetaHuman/Fab 不确定 | 数据集要训练/发表，含受限资产的渲染帧可能不可用，须从源头规避 |
-| 2026-06-19 | 完成 UE5.6 合成管线深度调研，落 `30_engine_synth/pipeline_research_memo.md`；技术路径打通 | MetaHuman 共享 rig / IK 重定向 / MRG+MRQ / 多层EXR GT / level streaming 换场景 / visibility 增删道具 均验证可行 |
-| 2026-06-19 | 数据组织为**配置图**：确定性渲染节点 + 原子编辑边 + **端点复用**；沿随机游走渲染；多轮链=训练侧路径采样 | 作者指出链结构属训练侧；前提是数据侧保证端点复用，否则后期不可补救 |
-| 2026-06-19 | **E1–E11 全部编辑类型均在范围**（含复合编辑），不分必做/可选，逐步推进 | 作者：所有内容都要实现，边做边解决；E11 后续由面部表情拆分补入 |
-| 2026-06-19 | 目录骨架改为**按数据来源组织**，引擎合成（`30_engine_synth/`）设为主攻分支并展开子结构 | 作者明确三来源、且引擎合成最关键、当前主攻 |
-| 2026-06-19 | 确立**核心数据模型**：镜头=因子配置，编辑=配置转移，前后对齐配对，多轮=配置空间游走 | 多轮视频编辑任务与引擎"可控因子"天然契合，是别处拿不到的精确监督 |
-| 2026-06-19 | 多样性矩阵初版 100角色/100服装/20动作/50场景+道具 | 作者给定；多样性达标即规模有保证 |
-| 2026-06-19 | 建立分层文档体系：Level 0 总览 + 各文件夹 README + 备忘录块 | 便于实时维护文件树并跨对话接续 |
-| 2026-06-19 | 工作空间仅聚焦「数据集构建」，不涉及训练 | 作者划定范围 |
+| 2026-06-29 | **目录结构重组为长期工作区**：确立 `00_project/`、`01_data_design/`、`02_research/`、`10_sources/`、`30_experiments/`、`90_compliance/`、`99_archive/` 七个主分支 | 后续工作不只有 UE；需要把项目运行、数据设计、研究、数据来源、实验、合规和讨论归档分开 |
+| 2026-06-28 | **建立本地 Git 基线**：当前目录是本地 Git 仓库，分支 `main`；文档、规划和规则进入版本控制，大文件由 `.gitignore` 排除 | 后续会持续改文档、脚本和实验计划，需要可回滚、可 diff、可 review |
+| 2026-06-28 | **UE harness 采用策略**：生产流水线不依赖第三方 MCP/agent 工具；使用 UE 官方 Python + Automation Test Framework + MRQ/MRG 自建薄 harness | 配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
+| 2026-06-28 | **存储改为单目录工作区**：管理员确认不能使用 `/local`；UE、DDC、模型验证权重/cache 和少量输出都放在当前 DataMake 下 | 当前 `/scratch` 空间足够 MVP 和单模型验证；网络盘小文件 I/O 较慢但可接受 |
+| 2026-06-28 | **Codex 接手文档治理**：新增 `AGENTS.md`，用 `HANDOFF.md` 承载可移植上下文 | 后续主要由 Codex 协助，需要稳定项目规则 |
+| 2026-06-19 | **数据组织为配置图**：确定性渲染节点 + 原子编辑边 + 端点复用 + 随机游走 | 让多轮链成为训练侧路径采样，避免重复渲染完整链 |
+| 2026-06-19 | **E1-E11 全部在范围**，动作拆为 E3 肢体动作与 E11 面部表情 | 编辑 taxonomy 要覆盖目标能力；表情机制不同且容易对齐 |
+| 2026-06-19 | **当前主攻 UE 5.8 引擎合成**，真实视频和大模型生成后续展开 | 引擎合成能提供其他来源拿不到的精确配对监督 |
 
----
+## Agent 备忘
 
-## Agent 备忘（Level 0）
-
-**接续对话时先读这一段。**
-
-- **方向已定**：多轮视频编辑专家模型的数据集；当前主攻 **UE5.8 引擎合成视频**；UE5.6 相关内容保留为历史调研参考；文本后生成；真实/大模型来源后议。外部模型验证只服务于基线和数据需求反推。
-- **设计基石**：第 3 节的"因子配置空间"模型。一切围绕"如何在 UE 里独立控制各因子、批量渲出对齐的前后配对"展开。
-- **调研已完成（2026-06-19）**：结论落在 `30_engine_synth/pipeline_research_memo.md` 与 `30_engine_synth/README.md`（技术）、`90_meta/licensing_compliance.md`（许可证）。技术路径预期可行；**最大风险是确定性/对齐验证与许可证**。
-- **环境/基建已定（2026-06-19，存储方案 2026-06-28 修正）**：UE **5.8** + 本机(Win)创作 / 服务器(Linux 无头)批渲；管理员确认不能用 `/local`，当前 MVP 全部放在 `DataMake/` 下。服务器自检关键：**不能只看 `nvidia-smi`，必须 `vulkaninfo` 确认 Vulkan ICD**；UE 安装后还要实跑 `UnrealEditor-Cmd -version` 和一帧 `-RenderOffscreen`。
-- **许可证：方向已定但当前不阻塞（2026-06-19）**：最终 = 公开发布 + 安全资产；但作者要求**先打通流水线、版权暂缓后续收口**。原型/跑通阶段可用临时资产做内部验证，但必须记录来源并标 `prototype-only`，发布/训练前再换安全资产并补合规。
-- **Lance 已初读（2026-06-28）**：它是 3B active 的统一图片/视频理解、生成、编辑模型；明确支持 `video_edit`。权重未下载。验证计划见 `40_model_validation/lance_validation_plan.md`；下载前需确认只下视频分支和 H200 环境。
-- **UE harness 调研（2026-06-28）**：没有发现可直接替代数据流水线的成熟 harness；采用官方 UE Python + Automation Test Framework + MRQ/MRG 自建薄 harness。MCP/agent 工具只作为编辑器辅助。
-- **当前主线 = 打通最小闭环（MVP）**：见 `30_engine_synth/33_render/README.md`——一个 Python 脚本自动产出 1 对对齐的前后编辑配对 + GT + sidecar。首选 E8 光照、E5 道具可见性、E6 配饰可见性或 E11 表情，服装/身份放到闭环之后。
-- **版本管理**：当前目录已初始化为本地 Git 仓库，分支 `main`；提交前先看 `git status --short`，不要把 `external/`、`.ue_cache/`、`outputs/`、模型权重或 UE 产物加入版本控制。
-- **下一步**：① 确认是否下载 Lance 视频分支权重并建立 `xks_lance`；② 按 `00_planning/filesystem_usage.md` 创建当前目录下的 UE/MVP/模型验证工作布局；③ 下载/解压 UE5.8 并跑 `UnrealEditor-Cmd -version`；④ MVP 跑通后再扩到随机游走批量（节点+边、端点复用）。
-- **坑/注意**：
-  - **许可证是高风险项**：MetaHuman / Fab(Quixel) / Mixamo / Marketplace 资产能否用于"训练生成模型 + 发布数据集"差异很大，必须先查清（已纳入调研）。
-  - Windows 平台；脚本注意 UTF-8 编码；UE 自动化多用 Python / Editor Utility。
-  - 每次推进同步更新「第 5 节树 + 相关 README + HANDOFF / Agent 备忘」三处。
+- 当前执行入口：[`HANDOFF.md`](./HANDOFF.md)。
+- 当前 MVP 入口：[`10_sources/unreal_engine/render/README.md`](./10_sources/unreal_engine/render/README.md)。
+- Lance 权重未下载；下载前先确认只下视频分支和 `xks_lance` 环境。
+- 提交前先看 `git status --short`，不要把 `external/`、`.ue_cache/`、`outputs/`、模型权重或 UE 产物加入版本控制。
