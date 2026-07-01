@@ -1,17 +1,17 @@
 # DataMake —— 多轮视频编辑数据集构建工作区
 
-> 本文件是项目总览。换会话先读 [`HANDOFF.md`](./HANDOFF.md)，再读 [`AGENTS.md`](./AGENTS.md)。
+> 新会话先读 [`HANDOFF.md`](./HANDOFF.md)，再读 [`AGENTS.md`](./AGENTS.md)。
 
 ## 1. 项目定位
 
-DataMake 只负责**多轮视频编辑模型的数据集构建**，不负责模型训练。目标数据形态是：
+DataMake 用于**多轮视频编辑模型的数据集构建**，不负责模型训练。目标样本形态是：
 
 ```text
 video_in + instruction -> video_out
 video_0 -> video_1 -> video_2 -> ...
 ```
 
-当前主攻来源是 **Unreal Engine 合成视频数据**。真实视频和大模型生成数据保留为后续来源；Lance/BAGEL 等外部模型验证用于判断现有能力和反推数据需求。
+当前主攻来源是 **Unreal Engine 合成视频数据**。真实视频和大模型生成来源保留为后续规划；Lance/BAGEL 等外部模型验证用于判断现有能力和反推数据需求。
 
 ## 2. 核心数据模型
 
@@ -28,7 +28,7 @@ render(C) -> video
 - 多轮样本：配置图上的路径 `C0 -> C1 -> C2 -> ...`。
 - 硬约束：**端点复用**。一条边的 `video_out` 必须就是下一条边的 `video_in` 文件。
 
-详细设计见 [`01_data_design/`](./01_data_design/README.md)。
+详细设计见 [`20_planning/data_design/`](./20_planning/data_design/README.md)。
 
 ## 3. 当前目录结构
 
@@ -38,71 +38,50 @@ DataMake/
 ├── HANDOFF.md
 ├── AGENTS.md
 ├── .gitignore
-├── 00_project/                 # 项目运行：存储、环境、风险
+├── 00_engine/                  # 引擎合成：UE、资产、脚本、工程、输出、缓存
 │   ├── README.md
-│   ├── storage.md
-│   ├── environment.md
-│   └── risks.md
-├── 01_data_design/             # 数据设计：配置图、taxonomy、schema、sampling
-│   ├── README.md
-│   ├── schema/README.md
-│   └── sampling/README.md
-├── 02_research/                # 论文、外部项目、工具调研
+│   ├── unreal/
+│   ├── assets/
+│   ├── scripts/
+│   ├── projects/
+│   ├── outputs/
+│   └── cache/
+├── 10_research/                # 论文、外部项目、工具调研、模型能力验证
 │   ├── README.md
 │   ├── papers/
-│   │   ├── lance.md
-│   │   └── bagel.md
-│   └── tools/
-│       └── unreal_harness_survey.md
-├── 10_sources/                 # 数据来源
-│   ├── README.md
-│   ├── real_video/README.md
-│   ├── model_generated/README.md
-│   └── unreal_engine/
-│       ├── README.md
-│       ├── pipeline_research_memo.md
-│       └── render/
-│           ├── README.md
-│           └── cluster_deploy_and_mvp.md
-├── 30_experiments/             # 实验与能力验证
-│   ├── README.md
-│   └── external_models/
-│       ├── README.md
-│       └── lance_validation_plan.md
-├── 90_compliance/              # 许可证、资产和发布约束
-│   ├── README.md
-│   └── licensing_compliance.md
-└── 99_archive/                 # 讨论和历史归档
+│   ├── tool_surveys/
+│   └── model_experiments/
+└── 20_planning/                # 数据设计、实施计划、合规、讨论记录
     ├── README.md
+    ├── data_design/
+    ├── implementation/
+    ├── compliance/
     └── discussions/
-        ├── README.md
-        ├── 01_character-and-outfit-sources.md
-        ├── 02_facial-expressions.md
-        ├── 03_body-action.md
-        └── 04_2026-06-27-meeting.md
 ```
 
 ## 4. 当前主线
 
-1. **UE MVP**：在 [`10_sources/unreal_engine/render/`](./10_sources/unreal_engine/render/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
-2. **Lance 验证**：按 [`30_experiments/external_models/lance_validation_plan.md`](./30_experiments/external_models/lance_validation_plan.md) 决定是否下载视频分支权重并测试 `video_edit` / 多轮一致性。
-3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`01_data_design/schema/`](./01_data_design/schema/README.md)。
-4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`01_data_design/sampling/`](./01_data_design/sampling/README.md)。
+1. **UE MVP**：在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
+2. **Lance 验证**：按 [`10_research/model_experiments/lance_validation_plan.md`](./10_research/model_experiments/lance_validation_plan.md) 决定是否下载视频分支权重并测试 `video_edit` / 多轮一致性。
+3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)。
+4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
 
 ## 5. 目录规则
 
-- 顶层按职责分区，不按临时任务堆文件。
-- 每个长期目录必须有 `README.md`。
+- 顶层只保留三类长期工作：`00_engine/`、`10_research/`、`20_planning/`。
+- 每个长期目录必须有 `README.md`；越往子目录越具体。
 - 文档正文默认中文，文件名默认英文。
 - 外部事实要带日期；UE 版本、许可证、模型权重、服务器环境执行前重新核实。
-- 大文件、模型权重、UE 安装、缓存和输出不进 Git。路径约定见 [`00_project/storage.md`](./00_project/storage.md)。
-- 讨论放在 [`99_archive/discussions/`](./99_archive/discussions/README.md)，稳定结论必须回写正式文档。
+- 大文件、模型权重、UE 安装、缓存和输出不进 Git。路径约定见 [`20_planning/implementation/storage.md`](./20_planning/implementation/storage.md)。
+- 讨论放在 [`20_planning/discussions/`](./20_planning/discussions/README.md)，稳定结论必须回写正式文档和本文件决策日志。
 
 ## 6. 决策日志
 
 | 日期 | 决策 | 理由 |
 |------|------|------|
-| 2026-06-29 | **目录结构重组为长期工作区**：确立 `00_project/`、`01_data_design/`、`02_research/`、`10_sources/`、`30_experiments/`、`90_compliance/`、`99_archive/` 七个主分支 | 后续工作不只有 UE；需要把项目运行、数据设计、研究、数据来源、实验、合规和讨论归档分开 |
+| 2026-07-01 | **UE agent/MCP 采用边界**：UE 5.8 官方 MCP 插件可作为 Codex/Claude/Cursor 等 MCP-capable agent 的编辑器辅助入口；生产数据流水线仍以 UE Python + Automation Test Framework + MRQ/MRG 自建薄 harness 为核心 | UE 5.8 的 MCP 插件是官方 Experimental agent 控制层，但配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
+| 2026-07-01 | **目录收敛为三大主分支**：`00_engine/`、`10_research/`、`20_planning/` | 后续主要工作围绕引擎合成、外部资料/模型验证、讨论与实施计划三类展开；更贴合当前协作方式 |
+| 2026-06-29 | **建立长期文档工作区** | 将零散规划整理为可接手、可 review、可持续更新的项目文档 |
 | 2026-06-28 | **建立本地 Git 基线**：当前目录是本地 Git 仓库，分支 `main`；文档、规划和规则进入版本控制，大文件由 `.gitignore` 排除 | 后续会持续改文档、脚本和实验计划，需要可回滚、可 diff、可 review |
 | 2026-06-28 | **UE harness 采用策略**：生产流水线不依赖第三方 MCP/agent 工具；使用 UE 官方 Python + Automation Test Framework + MRQ/MRG 自建薄 harness | 配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
 | 2026-06-28 | **存储改为单目录工作区**：管理员确认不能使用 `/local`；UE、DDC、模型验证权重/cache 和少量输出都放在当前 DataMake 下 | 当前 `/scratch` 空间足够 MVP 和单模型验证；网络盘小文件 I/O 较慢但可接受 |
@@ -114,6 +93,6 @@ DataMake/
 ## Agent 备忘
 
 - 当前执行入口：[`HANDOFF.md`](./HANDOFF.md)。
-- 当前 MVP 入口：[`10_sources/unreal_engine/render/README.md`](./10_sources/unreal_engine/render/README.md)。
+- 当前 MVP 入口：[`00_engine/scripts/README.md`](./00_engine/scripts/README.md)。
 - Lance 权重未下载；下载前先确认只下视频分支和 `xks_lance` 环境。
-- 提交前先看 `git status --short`，不要把 `external/`、`.ue_cache/`、`outputs/`、模型权重或 UE 产物加入版本控制。
+- 提交前先看 `git status --short`，不要把 UE 安装、缓存、输出、模型权重或大型资产加入版本控制。

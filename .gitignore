@@ -16,12 +16,49 @@ env/
 *.key
 *.token
 
-# Unreal generated/cache directories
-.ue_cache/
-external/
-hf_cache/
-model_cache/
-checkpoints/
+# Unreal installs, projects, caches, and generated output
+00_engine/unreal/UE_*/
+00_engine/unreal/downloads/
+00_engine/cache/*
+!00_engine/cache/README.md
+00_engine/projects/*/Saved/
+00_engine/projects/*/Intermediate/
+00_engine/projects/*/DerivedDataCache/
+00_engine/projects/*/Binaries/
+00_engine/projects/*/.vs/
+00_engine/projects/*/*.sln
+00_engine/outputs/*
+!00_engine/outputs/README.md
+00_engine/logs/
+
+# Asset staging. Track manifests and notes, not raw asset packs.
+00_engine/assets/raw/
+00_engine/assets/marketplace/
+00_engine/assets/prototype/
+00_engine/assets/released/
+
+# External model validation artifacts
+10_research/model_experiments/external/
+10_research/model_experiments/outputs/
+10_research/model_experiments/logs/
+
+# Legacy root scratch names: do not use for new work, but keep ignored if created accidentally.
+/.ue_cache/
+/external/
+/hf_cache/
+/model_cache/
+/checkpoints/
+/out/
+/outputs/
+/renders/
+/results/
+/model_runs/
+/datasets/
+/data/raw/
+/data/generated/
+/ue_projects/
+
+# Common generated directories
 DerivedDataCache/
 Intermediate/
 Saved/
@@ -29,24 +66,7 @@ Binaries/
 .vs/
 *.sln
 
-# Render outputs and generated datasets
-out/
-outputs/
-renders/
-results/
-model_runs/
-datasets/
-data/raw/
-data/generated/
-ue_projects/*/Saved/
-ue_projects/*/Intermediate/
-ue_projects/*/DerivedDataCache/
-ue_projects/*/Binaries/
-10_sources/unreal_engine/output/data/
-10_sources/unreal_engine/output/renders/
-10_sources/unreal_engine/output/generated/
-
-# Large binary artifacts; use external storage, DVC, Git LFS, or Perforce as appropriate.
+# Large binary artifacts; use ignored workspace paths, DVC, Git LFS, or Perforce as appropriate.
 *.safetensors
 *.pth
 *.pt
