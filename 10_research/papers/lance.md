@@ -1,7 +1,7 @@
 # Lance 阅读笔记
 
-> 来源登记与初读日期：2026-06-28。
-> 状态：已读 GitHub README、Hugging Face 文件清单、arXiv 论文文本；尚未下载权重。
+> 来源登记与初读日期：2026-06-28；模型文件树复核与 PDF 下载日期：2026-07-01。
+> 状态：已读 GitHub README、Hugging Face 文件清单、arXiv 论文文本；PDF 已本地下载；尚未下载权重。
 
 ## 来源
 
@@ -10,6 +10,7 @@
 - Paper: https://arxiv.org/abs/2605.18678
 - Model: https://huggingface.co/bytedance-research/Lance
 - HF Space: https://huggingface.co/spaces/bytedance-research/Lance
+- Local PDF: `10_research/papers/pdfs/lance_2605.18678.pdf`（本地忽略目录，不进 Git）
 
 ## 它是什么
 
@@ -77,6 +78,20 @@ Lance 对我们有两类价值：
 - 必要的 `*.json`、tokenizer 和 config 文件
 
 详见 [`../model_experiments/lance_validation_plan.md`](../model_experiments/lance_validation_plan.md)。
+
+## HF 模型目录复核（2026-07-01）
+
+Hugging Face 仓库当前不是一堆同级 checkpoint，而是两个主 Lance 权重目录加两个共享组件：
+
+| 路径 | 作用 | 文件大小 |
+|------|------|----------|
+| `Lance_3B/` | 图片相关任务：`t2i`、`image_edit`、`x2t_image` | `model.safetensors` 约 12.37GB |
+| `Lance_3B_Video/` | 视频相关任务：`t2v`、`i2v`、`video_edit`、`x2t_video` | `model.safetensors` 约 14.21GB |
+| `Qwen2.5-VL-ViT/` | 语义视觉编码器，用于理解侧视觉 token | `vit.safetensors` 约 1.34GB |
+| `Wan2.2_VAE.pth` | 视频 VAE，用于生成/编辑侧 latent | 约 2.82GB |
+| `assets/` | 官方 demo 图片、视频、网页素材 | 不建议下载 |
+
+当前 DataMake 优先验证的是视频编辑和多轮一致性，因此第一轮只选 `Lance_3B_Video`。`Lance_3B` 暂不下载，除非后续要专门测图片编辑或图片理解。
 
 ## 暂定判断
 

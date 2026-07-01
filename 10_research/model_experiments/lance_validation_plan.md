@@ -1,7 +1,7 @@
 # Lance 能力验证计划
 
-> 创建日期：2026-06-28。
-> 状态：待用户确认下载策略和运行环境后执行。
+> 创建日期：2026-06-28；模型文件树复核日期：2026-07-01。
+> 状态：待用户确认下载策略和运行环境后执行；第一轮推荐只下载视频分支。
 
 ## 目标
 
@@ -43,12 +43,14 @@ xks_lance
 
 | 路径 | 用途 | 约大小 |
 |------|------|--------|
-| `Lance_3B_Video/model.safetensors` + tokenizer/config | 视频生成/编辑主模型 | 约 14.2GB |
+| `Lance_3B_Video/model.safetensors` + tokenizer/config | 视频生成/编辑主模型；支持 `t2v`、`i2v`、`video_edit`、`x2t_video` | 约 14.2GB |
 | `Qwen2.5-VL-ViT/vit.safetensors` + config | 视频/图片理解侧 ViT | 约 1.34GB |
 | `Wan2.2_VAE.pth` | 视频 VAE | 约 2.82GB |
 | `*.json` / tokenizer files | 推理配置 | 很小 |
 
 实际落盘预算建议按 **25-30GB** 预留，因为还会有 git repo、HF cache、conda env、日志和少量输出。
+
+`Lance_3B/` 是图片分支，主要用于 `t2i`、`image_edit`、`x2t_image`。本项目第一轮不下载它，避免多占约 12.37GB。
 
 ## 环境要求
 
