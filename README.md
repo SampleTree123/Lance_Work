@@ -62,7 +62,7 @@ DataMake/
 ## 4. 当前主线
 
 1. **UE MVP**：在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
-2. **Lance 验证**：按 [`10_research/model_experiments/lance_validation_plan.md`](./10_research/model_experiments/lance_validation_plan.md) 决定是否下载视频分支权重并测试 `video_edit` / 多轮一致性。
+2. **Lance 验证**：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 公开视频三轮链式测试已跑完，记录见 [`10_research/model_experiments/lance/reports/video_edit_batch8_report.md`](./10_research/model_experiments/lance/reports/video_edit_batch8_report.md)。
 3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)。
 4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
 
@@ -79,6 +79,8 @@ DataMake/
 
 | 日期 | 决策 | 理由 |
 |------|------|------|
+| 2026-07-03 | **Lance batch8 测试跑完**：已下载视频分支权重，建立 `xks_lance`，跑通 `video_edit` smoke test，并完成 batch8 中 8 个领域的三轮链式编辑；2 个损坏源视频已用 clean 版补跑 | Lance 用于外部能力基线和失败模式收集，不替代 UE 数据管线；实测结果将反推 UE 编辑类型优先级 |
+| 2026-07-03 | **HF cache 采用现有 scratch 全局路径**：继续使用 `/scratch/prj0000000275/jcy/.cache/huggingface`，Lance 可运行权重目录放在项目 `lance/models/Lance/` | 避免重复下载已有 HF cache；模型引用仍保持项目内稳定路径 |
 | 2026-07-01 | **UE agent/MCP 采用边界**：UE 5.8 官方 MCP 插件可作为 Codex/Claude/Cursor 等 MCP-capable agent 的编辑器辅助入口；生产数据流水线仍以 UE Python + Automation Test Framework + MRQ/MRG 自建薄 harness 为核心 | UE 5.8 的 MCP 插件是官方 Experimental agent 控制层，但配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
 | 2026-07-01 | **目录收敛为三大主分支**：`00_engine/`、`10_research/`、`20_planning/` | 后续主要工作围绕引擎合成、外部资料/模型验证、讨论与实施计划三类展开；更贴合当前协作方式 |
 | 2026-06-29 | **建立长期文档工作区** | 将零散规划整理为可接手、可 review、可持续更新的项目文档 |
@@ -94,5 +96,5 @@ DataMake/
 
 - 当前执行入口：[`HANDOFF.md`](./HANDOFF.md)。
 - 当前 MVP 入口：[`00_engine/scripts/README.md`](./00_engine/scripts/README.md)。
-- Lance 权重未下载；下载前先确认只下视频分支和 `xks_lance` 环境。
+- Lance 视频分支权重已下载，`xks_lance` 可用；后续继续用 `10_research/model_experiments/lance/scripts/run_video_edit.sh` 做真实视频基线验证。
 - 提交前先看 `git status --short`，不要把 UE 安装、缓存、输出、模型权重或大型资产加入版本控制。

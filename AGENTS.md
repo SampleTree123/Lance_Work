@@ -34,9 +34,9 @@
 - 大型生成数据、Unreal 缓存、引擎安装、数据集、模型文件和凭据不要提交进 Git；本项目用 `.gitignore` 排除这些路径。
 - 管理员已确认不能使用 `/local`。当前阶段 UE、DDC、MVP 工程、外部模型验证权重/cache 和少量输出都放在当前 DataMake 目录下，按 `20_planning/implementation/storage.md` 执行。
 - UE 安装、DDC、工程和渲染输出放在 `00_engine/` 下。
-- 外部模型代码、权重、HF cache 和验证输出放在 `10_research/model_experiments/` 下，不要写入 home cache。
+- 外部模型代码、权重和验证输出放在 `10_research/model_experiments/` 下；Lance 当前使用用户已配置的 scratch 全局 HF cache `/scratch/prj0000000275/jcy/.cache/huggingface`，不要落回默认小 home。
 - 文档中的当前 Unreal 目标是 UE 5.8，来自 2026-06-19 规划。UE 5.6 相关备忘录视为历史调研，除非用户明确要钉死 5.6。
-- Lance 已读初步资料但权重未下载；BAGEL 只登记来源，暂未深读。
+- Lance 已读初步资料，视频分支权重已下载，`xks_lance` 环境与 `video_edit` 脚本已跑通；BAGEL 只登记来源，暂未深读。
 
 ## 工程优先级
 

@@ -12,7 +12,7 @@
 | `papers/lance.md` | Lance 项目与论文阅读笔记；已形成模型验证建议 | 初读 |
 | `papers/bagel.md` | BAGEL 项目、论文、模型入口登记；暂未深读 | 已登记 |
 | `tool_surveys/unreal_harness_survey.md` | UE automation / MCP / harness 调研与采用建议 | 2026-07-01 已复核 UE5.8 MCP |
-| `model_experiments/` | Lance、BAGEL、后续开放模型的验证计划、协议和结果摘要 | Lance 待执行 |
+| `model_experiments/` | Lance、BAGEL、后续开放模型的验证计划、协议和结果摘要 | Lance 已进入实测 |
 
 ## 维护规则
 
@@ -23,6 +23,6 @@
 
 ## Agent 备忘
 
-- Lance 是当前第一个外部模型验证对象，详见 [`model_experiments/lance_validation_plan.md`](./model_experiments/lance_validation_plan.md)。
+- Lance 是当前第一个外部模型验证对象；权重、环境和 `video_edit` 测试脚本已可用，详见 [`model_experiments/lance/validation_plan.md`](./model_experiments/lance/validation_plan.md) 和 [`model_experiments/lance/reports/video_edit_batch8_report.md`](./model_experiments/lance/reports/video_edit_batch8_report.md)。
 - BAGEL 先只登记，不要假设已经读完论文。
 - UE harness 的当前结论：生产流水线优先用 UE 官方 Python + Automation Framework + MRQ/MRG 自建薄 harness；UE5.8 官方 MCP 和第三方 MCP/agent 工具只作为编辑器辅助、资产/关卡检查或原型探索，不进入确定性批渲核心链路。

@@ -1,7 +1,7 @@
 # Lance 阅读笔记
 
-> 来源登记与初读日期：2026-06-28；模型文件树复核与 PDF 下载日期：2026-07-01。
-> 状态：已读 GitHub README、Hugging Face 文件清单、arXiv 论文文本；PDF 已本地下载；尚未下载权重。
+> 来源登记与初读日期：2026-06-28；模型文件树复核与 PDF 下载日期：2026-07-01；实测状态更新：2026-07-03。
+> 状态：已读 GitHub README、Hugging Face 文件清单、arXiv 论文文本；PDF 已本地下载；视频分支权重已下载并完成 `video_edit` 初轮验证。
 
 ## 来源
 
@@ -77,7 +77,7 @@ Lance 对我们有两类价值：
 - `Wan2.2_VAE.pth`
 - 必要的 `*.json`、tokenizer 和 config 文件
 
-详见 [`../model_experiments/lance_validation_plan.md`](../model_experiments/lance_validation_plan.md)。
+详见 [`../model_experiments/lance/validation_plan.md`](../model_experiments/lance/validation_plan.md)。
 
 ## HF 模型目录复核（2026-07-01）
 
@@ -93,8 +93,9 @@ Hugging Face 仓库当前不是一堆同级 checkpoint，而是两个主 Lance �
 
 当前 DataMake 优先验证的是视频编辑和多轮一致性，因此第一轮只选 `Lance_3B_Video`。`Lance_3B` 暂不下载，除非后续要专门测图片编辑或图片理解。
 
-## 暂定判断
+## 实测后暂定判断（2026-07-03）
 
 - Lance 值得优先验证，因为它明确支持视频编辑，并且论文里直接讨论 multi-turn consistency editing。
 - 它不替代我们的 UE 数据管线；它更像是“现有模型能力探针”和“失败模式收集器”。
-- 权重下载前需要先确定：是否在 H200 节点建 `xks_lance` 环境、是否只下载视频分支、是否接受约 25-30GB 的实际落盘预算。
+- `video_edit` 路径已跑通，说明它适合作为外部基线；下一步重点不是继续搭环境，而是人工审查多轮输出并抽象失败模式。
+- 当前只下载视频分支。图片分支 `Lance_3B/` 仍未下载，除非后续要测图片编辑或图片理解。

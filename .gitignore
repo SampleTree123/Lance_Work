@@ -39,6 +39,19 @@ env/
 
 # External model validation artifacts
 10_research/papers/pdfs/
+
+# Lance validation workspace. Track protocols/docs/scripts, not repos, weights, raw videos, logs, or outputs.
+10_research/model_experiments/lance/lance/
+10_research/model_experiments/lance/models/
+10_research/model_experiments/lance/inputs/video_edit/videos/*
+!10_research/model_experiments/lance/inputs/video_edit/videos/.gitkeep
+10_research/model_experiments/lance/inputs/video_edit/prompts/*
+!10_research/model_experiments/lance/inputs/video_edit/prompts/example_*.txt
+!10_research/model_experiments/lance/inputs/video_edit/prompts/0*_multiedit.txt
+10_research/model_experiments/lance/outputs/
+10_research/model_experiments/lance/logs/
+
+# Legacy external model scratch paths kept ignored if old commands recreate them.
 10_research/model_experiments/external/
 10_research/model_experiments/outputs/
 10_research/model_experiments/logs/

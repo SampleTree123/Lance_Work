@@ -14,7 +14,8 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - 本地 Git 已初始化，分支 `main`。
 - 尚无 UE 工程、渲染脚本、资产台账或样本数据。
 - 管理员确认不能使用 `/local`，当前阶段所有工作都在 DataMake 目录下完成。
-- Lance 已读 GitHub / 论文 / HF 文件清单，但权重尚未下载。
+- Lance 已完成 GitHub / 论文 / HF 文件清单初读；视频分支权重已下载，`xks_lance` 环境可运行。
+- Lance `video_edit` smoke test 已跑通；真实公开视频 batch8 的 8 个领域均已完成三轮链式编辑，其中 `6.mp4`、`7.mp4` 原始视频编码损坏，已用 clean 版补跑完成。
 - BAGEL 只登记来源，暂未深读。
 - 当前顶层结构已收敛为 `00_engine/`、`10_research/`、`20_planning/` 三大块。
 
@@ -54,8 +55,12 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
   - `00_engine/cache/tmp/`：UE 临时目录。
   - `00_engine/projects/`：UE MVP 工程。
   - `00_engine/outputs/`：少量 UE 验证输出。
-  - `10_research/model_experiments/external/`：外部模型代码、权重和 HF cache。
-  - `10_research/model_experiments/outputs/`：外部模型验证输出。
+  - `10_research/model_experiments/lance/lance/`：Lance 上游代码仓库。
+  - `10_research/model_experiments/lance/models/`：Lance 权重。
+  - `10_research/model_experiments/lance/inputs/`：Lance 自测输入和 prompt。
+  - `10_research/model_experiments/lance/outputs/`：Lance 验证输出。
+  - `10_research/model_experiments/lance/logs/`：Lance 运行日志和自动生成 config。
+- Lance 当前实际使用用户已配置的 HF cache：`/scratch/prj0000000275/jcy/.cache/huggingface`；可运行权重目录仍在 `10_research/model_experiments/lance/models/Lance/`。
 - 上述大文件、缓存、输出和模型权重不进 Git。
 
 历史服务器记录在 [`20_planning/implementation/environment.md`](./20_planning/implementation/environment.md) 和 [`20_planning/implementation/risks.md`](./20_planning/implementation/risks.md)。执行前必须重新检查 `nvidia-smi`、`vulkaninfo`、`ldd`、UE 版本和 SLURM 限制。
@@ -71,15 +76,15 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 
 ## 最近下一步
 
-1. 确认是否下载 Lance 视频分支权重并建立 `xks_lance`。
-2. 按 [`20_planning/implementation/storage.md`](./20_planning/implementation/storage.md) 创建实际工作目录。
-3. 重新确认 UE 5.8 Linux 包、Vulkan、依赖和 SLURM。
-4. 在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 写 MVP 最小脚本/伪代码骨架。
-5. MVP 通过后，把 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)，并把三轮链/环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
+1. 人工查看 Lance batch8 输出，整理失败模式：身份漂移、动作漂移、局部编辑失败、背景幻觉、画质累积退化。
+2. 重新确认 UE 5.8 Linux 包、Vulkan、依赖和 SLURM。
+3. 在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 写 MVP 最小脚本/伪代码骨架。
+4. MVP 通过后，把 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)，并把三轮链/环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
 
 ## Agent 备忘
 
 - 接手先跑 `git status --short`。
 - 不要下载或提交大文件，除非用户明确确认。
 - 旧讨论只作背景；稳定结论以正式分支文档为准。
-- Lance 权重未下载；不要整 HF 仓库拉 demo assets，只下视频验证所需文件。
+- Lance 视频权重已下载；没有下载 `Lance_3B/` 图片分支和 HF demo assets。
+- Lance 输出、日志、真实视频输入、clean 输入副本和自测 prompt 默认不进 Git；稳定结论写入正式文档。

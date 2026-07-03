@@ -1,7 +1,7 @@
 # Lance 能力验证计划
 
-> 创建日期：2026-06-28；模型文件树复核日期：2026-07-01。
-> 状态：待用户确认下载策略和运行环境后执行；第一轮推荐只下载视频分支。
+> 创建日期：2026-06-28；模型文件树复核日期：2026-07-01；执行状态更新：2026-07-03。
+> 状态：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 多领域三轮测试已跑完，待人工质量评估。
 
 ## 目标
 
@@ -17,19 +17,34 @@
 - GitHub: https://github.com/bytedance/Lance
 - Paper: https://arxiv.org/abs/2605.18678
 - Model: https://huggingface.co/bytedance-research/Lance
-- 阅读笔记：[`../papers/lance.md`](../papers/lance.md)
+- 阅读笔记：[`../../papers/lance.md`](../../papers/lance.md)
 
 ## 本地路径方案
 
-所有下载和输出都在当前 DataMake 目录下，且都被 `.gitignore` 排除：
+可运行权重、输入、输出和日志都在当前 DataMake 目录下，且相关大文件路径都被 `.gitignore` 排除：
 
 ```text
-10_research/model_experiments/external/repos/Lance/       # Lance 代码
-10_research/model_experiments/external/models/Lance/      # Lance 权重
-10_research/model_experiments/external/hf_cache/Lance/    # HF 下载缓存
-10_research/model_experiments/outputs/lance/              # 生成结果
-10_research/model_experiments/logs/lance/                 # 小日志，可按需摘录进文档
+10_research/model_experiments/lance/lance/          # Lance 代码
+10_research/model_experiments/lance/models/Lance/   # Lance 权重
+10_research/model_experiments/lance/inputs/         # 自测输入和 prompt
+10_research/model_experiments/lance/outputs/        # 生成结果
+10_research/model_experiments/lance/logs/           # 运行日志和自动生成 config
 ```
+
+当前实际使用的 Hugging Face cache 是用户已配置的 scratch 全局路径：
+
+```text
+/scratch/prj0000000275/jcy/.cache/huggingface
+```
+
+可运行权重仍放在项目内：
+
+```text
+10_research/model_experiments/lance/models/Lance/
+10_research/model_experiments/lance/lance/downloads -> ../models/Lance
+```
+
+这样避免重复下载已有 HF cache，同时 Lance 官方脚本仍可使用 `downloads/Lance_3B_Video`。
 
 环境名按项目约定使用 `xks_` 前缀：
 
@@ -51,6 +66,21 @@ xks_lance
 实际落盘预算建议按 **25-30GB** 预留，因为还会有 git repo、HF cache、conda env、日志和少量输出。
 
 `Lance_3B/` 是图片分支，主要用于 `t2i`、`image_edit`、`x2t_image`。本项目第一轮不下载它，避免多占约 12.37GB。
+
+## 已执行摘要（2026-07-03）
+
+- `xks_lance` 环境已创建并验证：Python 3.11、PyTorch `2.8.0+cu126`、CUDA `12.6`、`flash-attn 2.8.3`。
+- Lance 代码位于 `10_research/model_experiments/lance/lance/`，commit `9717d91`。
+- 视频分支最小权重已下载到 `10_research/model_experiments/lance/models/Lance/`，约 18GB：
+  - `Lance_3B_Video/model.safetensors`
+  - `Qwen2.5-VL-ViT/vit.safetensors`
+  - `Wan2.2_VAE.pth`
+- 未下载 `Lance_3B/` 图片分支，未下载 HF demo assets。
+- 官方 `video_edit` smoke test 已在 H200 上跑通，能加载模型、读取官方样例、输出 MP4 和 `prompt.json`。
+- 已新增快速脚本：`10_research/model_experiments/lance/scripts/run_video_edit.sh`，支持单轮和按行链式多轮 prompt。
+- Batch8 公开视频测试已完成 8 个领域的三轮链式编辑；`6.mp4`、`7.mp4` 原始文件损坏，已用 clean 版在 `94644` allocation 上补跑完成。
+
+详细记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。
 
 ## 环境要求
 
@@ -76,7 +106,7 @@ nvcc --version
 
 ### 阶段 0：不下载权重的预检查
 
-- 克隆 Lance 代码到 `10_research/model_experiments/external/repos/Lance/`。
+- 克隆 Lance 代码到 `10_research/model_experiments/lance/lance/`。
 - 读 `inference_lance.sh`、`config/examples/video_edit_example.json`。
 - 确认自定义 `CONFIG_PATH` 的格式。
 - 确认是否使用 SLURM 跑推理，避免在登录节点长时间占 GPU。
@@ -90,11 +120,12 @@ nvcc --version
 先跑官方 `video_edit` 默认样例：
 
 ```bash
+cd 10_research/model_experiments/lance/lance
 bash inference_lance.sh \
   --TASK_NAME video_edit \
-  --MODEL_PATH 10_research/model_experiments/external/models/Lance/Lance_3B_Video \
+  --MODEL_PATH downloads/Lance_3B_Video \
   --RESOLUTION video_480p \
-  --SAVE_PATH_GEN 10_research/model_experiments/outputs/lance/smoke_video_edit
+  --SAVE_PATH_GEN ../outputs/smoke_video_edit
 ```
 
 验收：
@@ -134,10 +165,8 @@ C3: 移除道具，要求回到 C0 的主体和背景状态
 - 回退是否真的回到旧状态；
 - 每轮画质是否退化。
 
-## 需要用户确认
+## 后续待办
 
-1. 是否现在下载 Lance 权重，且只下载视频分支。
-2. 是否在 H200 节点上创建 `xks_lance` 环境。
-3. 是否接受 25-30GB 的初始落盘预算和可能较长的 `flash-attn` 环境调试时间。
-
-确认后再执行下载和环境安装。
+1. 人工查看 batch8 输出，记录每轮指令遵循、身份保持、动作保持、背景稳定和画质退化。
+2. 从失败模式反推 UE MVP 的优先编辑类型，尤其是道具/配饰、局部颜色、光照/天气和多主体误编辑。
+3. 如需图片任务，再单独决定是否下载 `Lance_3B/` 图片分支。
