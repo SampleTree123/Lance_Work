@@ -15,7 +15,7 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - 尚无 UE 工程、渲染脚本、资产台账或样本数据。
 - 管理员确认不能使用 `/local`，当前阶段所有工作都在 DataMake 目录下完成。
 - Lance 已完成 GitHub / 论文 / HF 文件清单初读；视频分支权重已下载，`xks_lance` 环境可运行。
-- Lance `video_edit` smoke test 已跑通；真实公开视频 batch8 的 8 个领域均已完成三轮链式编辑，其中 `6.mp4`、`7.mp4` 原始视频编码损坏，已用 clean 版补跑完成。
+- Lance `video_edit` smoke test 已跑通；真实公开视频 batch8 的 8 个领域均已完成三次连续单轮调用，其中 `6.mp4`、`7.mp4` 原始视频编码损坏，已用 clean 版补跑完成。这不是 Lance 真多轮编辑结论。
 - BAGEL 只登记来源，暂未深读。
 - 当前顶层结构已收敛为 `00_engine/`、`10_research/`、`20_planning/` 三大块。
 
@@ -76,7 +76,7 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 
 ## 最近下一步
 
-1. 人工查看 Lance batch8 输出，整理失败模式：身份漂移、动作漂移、局部编辑失败、背景幻觉、画质累积退化。
+1. 先实现或接入 Lance 真多轮编辑调用逻辑；当前 `run_video_edit.sh --prompts-file` 只是连续单轮回灌。
 2. 重新确认 UE 5.8 Linux 包、Vulkan、依赖和 SLURM。
 3. 在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 写 MVP 最小脚本/伪代码骨架。
 4. MVP 通过后，把 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)，并把三轮链/环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。

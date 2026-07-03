@@ -10,7 +10,7 @@ Usage:
 Required:
   --video VIDEO          Input video path for the first turn.
   --prompt PROMPT        Single-turn edit prompt.
-  --prompts-file FILE    Multi-turn prompt file; each non-empty non-comment line is one turn.
+  --prompts-file FILE    Chained single-turn prompt file; each non-empty non-comment line is one separate video_edit call.
 
 Options:
   --name NAME            Run name. Default: timestamped name.
@@ -26,9 +26,13 @@ Options:
   --no-srun              Internal flag; prevents recursive srun wrapping.
   -h, --help             Show this help.
 
+Note:
+  --prompts-file does not use Lance true multi-turn context. It feeds each turn's output video
+  back as the next independent single-turn input.
+
 Examples:
   10_research/model_experiments/lance/scripts/run_video_edit.sh --video 10_research/model_experiments/lance/inputs/video_edit/videos/a.mp4 --prompt "Make the sky cloudy." --name cloudy
-  10_research/model_experiments/lance/scripts/run_video_edit.sh --video 10_research/model_experiments/lance/inputs/video_edit/videos/a.mp4 --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/turns.txt --name chain_test
+  10_research/model_experiments/lance/scripts/run_video_edit.sh --video 10_research/model_experiments/lance/inputs/video_edit/videos/a.mp4 --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt --name chain_test
 EOF
 }
 

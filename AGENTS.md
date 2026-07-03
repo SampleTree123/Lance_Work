@@ -36,7 +36,7 @@
 - UE 安装、DDC、工程和渲染输出放在 `00_engine/` 下。
 - 外部模型代码、权重和验证输出放在 `10_research/model_experiments/` 下；Lance 当前使用用户已配置的 scratch 全局 HF cache `/scratch/prj0000000275/jcy/.cache/huggingface`，不要落回默认小 home。
 - 文档中的当前 Unreal 目标是 UE 5.8，来自 2026-06-19 规划。UE 5.6 相关备忘录视为历史调研，除非用户明确要钉死 5.6。
-- Lance 已读初步资料，视频分支权重已下载，`xks_lance` 环境与 `video_edit` 脚本已跑通；BAGEL 只登记来源，暂未深读。
+- Lance 已读初步资料，视频分支权重已下载，`xks_lance` 环境与 `video_edit` 单轮脚本已跑通；当前 batch8 是连续单轮回灌，不是真多轮编辑验证。BAGEL 只登记来源，暂未深读。
 
 ## 工程优先级
 

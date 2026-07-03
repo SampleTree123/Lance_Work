@@ -7,7 +7,7 @@
 | 路径 | 用途 | Git 状态 |
 |------|------|----------|
 | `videos/` | 原始测试视频，如 `.mp4` | 忽略 |
-| `prompts/` | 单轮或多轮 prompt 文本 | 默认忽略；`example_*.txt` 和 curated batch prompt 作为模板保留 |
+| `prompts/` | 单轮或连续单轮 prompt 文本 | 默认忽略；`example_*.txt` 和 curated batch prompt 作为模板保留 |
 
 ## 单轮 prompt
 
@@ -17,9 +17,9 @@
 Change the car's color to red and change the background to a snowy road.
 ```
 
-## 多轮 prompt
+## 连续单轮 prompt
 
-多轮编辑用“每个非空行一轮”的文本文件：
+当前脚本的 `--prompts-file` 不是 Lance 真多轮编辑接口，而是“每个非空行一次独立 `video_edit` 调用”：
 
 ```text
 Change the car's color to red.
@@ -27,7 +27,7 @@ Add snow to the road while keeping the car motion unchanged.
 Remove the snow and make the road look dry again.
 ```
 
-运行脚本时，第一轮输入原始视频，后续每轮自动输入上一轮生成的视频。
+运行脚本时，第一轮输入原始视频，后续每次单轮调用自动输入上一轮生成的视频。这个流程只能测试连续单轮编辑的误差累积，不能作为真多轮编辑能力结论。
 
 ## 脚本
 
@@ -36,7 +36,7 @@ Remove the snow and make the road look dry again.
 ```bash
 10_research/model_experiments/lance/scripts/run_video_edit.sh \
   --video 10_research/model_experiments/lance/inputs/video_edit/videos/example.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_multiturn.txt \
+  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt \
   --name my_test
 ```
 

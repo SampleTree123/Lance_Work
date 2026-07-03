@@ -2,7 +2,7 @@
 
 > 父层：[`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
 
-本目录收拢 Lance 相关的代码、权重、输入、输出、脚本和报告。这里不是训练代码仓库；Lance 在 DataMake 中只作为外部能力基线和失败模式收集器。
+本目录收拢 Lance 相关的代码、权重、输入、输出、脚本和报告。这里不是训练代码仓库；Lance 在 DataMake 中先作为外部单轮调用基线和运行验证对象。
 
 ## 目录
 
@@ -24,16 +24,18 @@
 - 视频分支权重位于 `models/Lance/`，约 18GB。
 - 代码仓库内 `downloads -> ../models/Lance`，因此官方脚本仍可使用 `downloads/Lance_3B_Video`。
 - 当前只下载视频分支，没有下载 `Lance_3B/` 图片分支和 HF demo assets。
-- Batch8 多领域三轮测试记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。
+- Batch8 多领域连续单轮测试记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。这不是 Lance 真多轮编辑验证。
 
 ## 使用入口
 
 ```bash
 10_research/model_experiments/lance/scripts/run_video_edit.sh \
   --video 10_research/model_experiments/lance/inputs/video_edit/videos/example.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_multiturn.txt \
+  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt \
   --name my_test
 ```
+
+当前 `--prompts-file` 只是把上一轮输出视频重新输入给下一次独立 `video_edit` 调用。后续需要先实现 Lance 真多轮编辑逻辑，再重新做多轮一致性测试。
 
 如果从登录节点提交到已存在的 SLURM allocation：
 
@@ -41,6 +43,6 @@
 10_research/model_experiments/lance/scripts/run_video_edit.sh \
   --job-id <JOB_ID> \
   --video 10_research/model_experiments/lance/inputs/video_edit/videos/example.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_multiturn.txt \
+  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt \
   --name my_test
 ```
