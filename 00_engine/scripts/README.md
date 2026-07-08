@@ -10,6 +10,10 @@
 | 文件 | 职责 | 状态 |
 |------|------|------|
 | `README.md` | 本文件：MVP 闭环定义、脚本架构、对齐 checklist、样本 schema v0 | 当前 |
+| `ue_env.sh` | UE 5.8 用户态运行环境：项目内 `HOME`、DDC、tmp、本地补库 `LD_LIBRARY_PATH` | 已写 |
+| `run_ue_cmd.sh` | `UnrealEditor-Cmd` 包装入口，默认追加 `-ddc=NoZenLocalFallback` | 已写 |
+| `run_mvp_python_smoke.sh` | MVPProject Python commandlet smoke；支持 `nullrhi` / `renderoffscreen` | 已写 |
+| `run_mcp_generate_client_config.sh` | 用 UE 控制台命令生成/刷新 MCP client config；会临时关闭 auto-start 避免只生成配置时占用端口 | 已写 |
 | `render_pair.py` | 主入口：给定 `(base_config, edit)` 渲一对前后视频 + GT + sidecar | 待写 |
 | `factors.py` | 每个因子的“读/改”接口（统一签名，便于扩到 E1-E11） | 待写 |
 | `passes.py` | 配置 GT passes + 多层 EXR 输出 | 待写 |
@@ -44,6 +48,35 @@
 7. 做对齐 sanity check。E8 光照是全局变化，改用深度/几何一致性校验。
 
 ## 4. 脚本架构（建议）
+
+UE 命令统一通过包装脚本运行：
+
+```bash
+00_engine/scripts/run_ue_cmd.sh <UE arguments>
+```
+
+不要裸跑 `00_engine/unreal/UE_5.8/Engine/Binaries/Linux/UnrealEditor-Cmd`，否则会漏掉本地 `libgbm`、项目内 `HOME` 和 DDC 配置。登录节点只用 `-NullRHI` 做轻量检查；真正渲染 smoke test 放到 GPU 节点。
+
+当前短生命周期 smoke 入口：
+
+```bash
+# 已在 GPU allocation 内时
+00_engine/scripts/run_mvp_python_smoke.sh nullrhi
+00_engine/scripts/run_mvp_python_smoke.sh renderoffscreen
+
+# 从登录节点复用已有 Slurm allocation
+srun --jobid=<JOBID> --overlap -n1 bash -lc 'cd /scratch/prj0000000275/jcy/xks/DataMake; 00_engine/scripts/run_mvp_python_smoke.sh nullrhi'
+```
+
+UE 对 `.uproject` 相对路径解析不稳定，脚本内部统一使用绝对路径。`-run=pythonscript` commandlet 会短生命周期退出，但它通常选择 Null RHI；真实 Vulkan/H200 初始化需要用渲染路径或专门 RHI smoke 日志确认。
+
+MCP client config 生成入口：
+
+```bash
+00_engine/scripts/run_mcp_generate_client_config.sh
+```
+
+MCP/Codex 详细配置见 [`../unreal/mcp_agent_setup.md`](../unreal/mcp_agent_setup.md)。Agent 只能作为编辑器辅助入口，生产数据生成逻辑仍要落到这里的脚本和 sidecar。
 
 ```text
 render_pair(base_config, edit) ->
@@ -96,7 +129,7 @@ render_pair(base_config, edit) ->
 ## Agent 备忘
 
 - 当前主线就是这里：把 MVP 跑通 = 项目当前最高优先。
-- 动手写脚本前先确认 UE5.8 是否已安装并能跑 Python/MoviePipeline。
+- 动手写脚本前先用 `00_engine/scripts/run_ue_cmd.sh` 确认 UE5.8 能在当前节点跑 Python/MoviePipeline。
 - 写脚本时优先 MRQ 跑通，MRG 作为更复杂输出图和多 pass 方案的升级路径。
 - MCP/agent 只用于检查资产、关卡、Sequencer 和原型脚本；生产逻辑必须固化到可审计的 Python/MRQ/MRG 脚本和 sidecar。
 - 版权：原型资产可先服务内部管线验证，但必须标 `prototype-only`；进入发布集的资产再回 [`../../20_planning/compliance/`](../../20_planning/compliance/README.md) 收口。

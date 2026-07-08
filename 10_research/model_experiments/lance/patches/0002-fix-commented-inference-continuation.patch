@@ -1,0 +1,18 @@
+diff --git a/inference_lance.sh b/inference_lance.sh
+index 3a5b959..2e4b010 100755
+--- a/inference_lance.sh
++++ b/inference_lance.sh
+@@ -117,10 +117,11 @@ echo ""
+ # ============================== Run Inference ==============================
+ CONFIG_ARGS=()
+ if [ -n "$CONFIG_PATH" ]; then
+-    CONFIG_ARGS=(--val_dataset_config_file "$CONFIG_PATH")# 这里用法没懂，为撒谎可以在括号里这样写？为啥要用数组
++    CONFIG_ARGS=(--val_dataset_config_file "$CONFIG_PATH") # 这里用法没懂，为撒谎可以在括号里这样写？为啥要用数组
+ fi
+
+-accelerate launch \ #解释关键词作用
++# accelerate launch 关键词作用待解释。
++accelerate launch \
+     --num_machines          $NUM_MACHINES \
+     --num_processes         $TOTAL_RANK \
+     --machine_rank          $MACHINE_RANK \

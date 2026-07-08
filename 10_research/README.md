@@ -2,15 +2,14 @@
 
 > 父层：[`../README.md`](../README.md)。
 
-本目录放会影响数据方案和实验选择的外部资料：论文、开源模型、Unreal 自动化 harness、agent/MCP 工具，以及 Lance/BAGEL 等外部模型能力验证。
+本目录放会影响数据方案和实验选择的外部资料：学习笔记、论文阅读、开源模型、Unreal 自动化 harness、agent/MCP 工具，以及 Lance/BAGEL 等外部模型能力验证。
 
 ## 内容说明
 
 | 文件/目录 | 内容 | 状态 |
 |-----------|------|------|
 | `README.md` | 本层索引和维护规则 | 当前 |
-| `papers/lance.md` | Lance 项目与论文阅读笔记；已形成模型验证建议 | 初读 |
-| `papers/bagel.md` | BAGEL 项目、论文、模型入口登记；暂未深读 | 已登记 |
+| `study/` | 学习计划、论文阅读、模型架构概念、代码走读和后续讨论沉淀 | 当前 |
 | `tool_surveys/unreal_harness_survey.md` | UE automation / MCP / harness 调研与采用建议 | 2026-07-01 已复核 UE5.8 MCP |
 | `model_experiments/` | Lance、BAGEL、后续开放模型的验证计划、协议和结果摘要 | Lance 已进入实测 |
 

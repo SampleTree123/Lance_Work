@@ -1,0 +1,40 @@
+diff --git a/data/datasets_custom/validation_dataset.py b/data/datasets_custom/validation_dataset.py
+index cac4ef6..2ca5552 100644
+--- a/data/datasets_custom/validation_dataset.py
++++ b/data/datasets_custom/validation_dataset.py
+@@ -856,9 +856,15 @@ class ValidationDataset(Dataset):
+         additional_info = sample["data"]["additional_info"] if "additional_info" in sample["data"] else []
+
+         interleave_array, element_dtype_array, istarget_in_interleave = data_sample["interleave_array"], data_sample["element_dtype_array"], data_sample["istarget_in_interleave"]
++        element_role_array = data_sample.get("element_role_array", ["source"] * len(element_dtype_array))
++        if len(element_role_array) != len(element_dtype_array):
++            raise ValueError(
++                f"element_role_array length {len(element_role_array)} does not match "
++                f"element_dtype_array length {len(element_dtype_array)}"
++            )
+
+         curr, curr_rope_id, curr_split_len, curr_video_grid_thw, video_sizes, caption_all = 0, 0, 0, [], [], ''
+-        for element, element_dtype, is_target in zip(interleave_array, element_dtype_array, istarget_in_interleave):
++        for element, element_dtype, is_target, element_role in zip(interleave_array, element_dtype_array, istarget_in_interleave, element_role_array):
+             if element_dtype == "text":
+                 caption_all += element
+                 if self.data_config.text_template:
+@@ -870,6 +876,8 @@ class ValidationDataset(Dataset):
+                     sample_modality.extend([modality_map['text']] * curr_split_len)
+             elif element_dtype in ["image", "video"]:
+                 if is_target == 0:
++                    element_role = str(element_role or "source")
++                    vit_only = element_role in {"history_vit", "vit_only", "semantic_reference"}
+                     vit_image_tensor = self.get_video_tensor_online(element, vision_stream="vit_video", element_dtype=element_dtype)
+                     self.sample, curr, curr_rope_id, curr_split_len, curr_video_grid_thw, num_tokens_ = self.process_vit_video(
+                         vit_image_tensor, curr=curr, curr_rope_id=curr_rope_id, curr_split_len=0, curr_video_grid_thw=curr_video_grid_thw, item_loss=0
+@@ -882,6 +890,9 @@ class ValidationDataset(Dataset):
+                         sample_lens += curr_split_len
+                         sample_modality.extend([modality_map['ref_vit']] * curr_split_len)
+
++                    if vit_only:
++                        continue
++
+                     # Process VAE conditioning input.
+                     vae_image_tensor = self.get_video_tensor_online(element, vision_stream="vae_video", element_dtype=element_dtype)
+                     self.sample, curr, curr_rope_id, curr_split_len, curr_video_grid_thw, video_sizes, num_tokens_ = self.process_vae_video(

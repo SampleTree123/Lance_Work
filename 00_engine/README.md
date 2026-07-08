@@ -22,9 +22,11 @@
 - MVP 入口：[`scripts/README.md`](./scripts/README.md)。
 - 部署计划：[`unreal/cluster_deploy_and_mvp.md`](./unreal/cluster_deploy_and_mvp.md)。
 - 存储路径：[`../20_planning/implementation/storage.md`](../20_planning/implementation/storage.md)。
+- 资产台账 schema：[`assets/asset_ledger_schema.md`](./assets/asset_ledger_schema.md)。
 
 ## Agent 备忘
 
 - 不把 UE 安装、DDC、工程生成目录、渲染输出或原始资产包提交进 Git。
 - 原型资产必须标 `prototype-only`；可发布资产必须走 [`../20_planning/compliance/`](../20_planning/compliance/README.md) 的台账。
+- 本地只作为图形化预览和小子集验证，不作为完整素材库。
 - 第一对样例优先 E8 光照、E5 道具可见性、E6 配饰可见性或 E11 表情。

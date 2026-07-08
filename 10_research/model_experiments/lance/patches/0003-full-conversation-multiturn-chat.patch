@@ -1,0 +1,1817 @@
+diff --git a/data/datasets_custom/validation_dataset.py b/data/datasets_custom/validation_dataset.py
+index cac4ef6..3d7f726 100644
+--- a/data/datasets_custom/validation_dataset.py
++++ b/data/datasets_custom/validation_dataset.py
+@@ -77,13 +77,18 @@ class ValidationDataset(Dataset):
+         self.tokenizer = tokenizer
+         self.new_token_ids = new_token_ids
+
+-        try:
+-            full_data = self._read_jsonl()
+-        except:
+-            with open(jsonl_path, 'r', encoding='utf-8') as f:
+-                full_data = json.load(f)
+-            if isinstance(full_data, dict):
+-                full_data = [{"index": self.pro_index(index), "data": prompt} for index, prompt in full_data.items()]
++        if jsonl_path is None:
++            # Builder mode: reuse ValidationDataset transforms/tokenization helpers
++            # without loading a validation JSON file.
++            full_data = []
++        else:
++            try:
++                full_data = self._read_jsonl()
++            except:
++                with open(jsonl_path, 'r', encoding='utf-8') as f:
++                    full_data = json.load(f)
++                if isinstance(full_data, dict):
++                    full_data = [{"index": self.pro_index(index), "data": prompt} for index, prompt in full_data.items()]
+
+         if world_size > 1:
+             self.data = full_data[local_rank::world_size]
+@@ -856,9 +861,15 @@ class ValidationDataset(Dataset):
+         additional_info = sample["data"]["additional_info"] if "additional_info" in sample["data"] else []
+
+         interleave_array, element_dtype_array, istarget_in_interleave = data_sample["interleave_array"], data_sample["element_dtype_array"], data_sample["istarget_in_interleave"]
++        element_role_array = data_sample.get("element_role_array", ["source"] * len(element_dtype_array))
++        if len(element_role_array) != len(element_dtype_array):
++            raise ValueError(
++                f"element_role_array length {len(element_role_array)} does not match "
++                f"element_dtype_array length {len(element_dtype_array)}"
++            )
+
+         curr, curr_rope_id, curr_split_len, curr_video_grid_thw, video_sizes, caption_all = 0, 0, 0, [], [], ''
+-        for element, element_dtype, is_target in zip(interleave_array, element_dtype_array, istarget_in_interleave):
++        for element, element_dtype, is_target, element_role in zip(interleave_array, element_dtype_array, istarget_in_interleave, element_role_array):
+             if element_dtype == "text":
+                 caption_all += element
+                 if self.data_config.text_template:
+@@ -870,6 +881,8 @@ class ValidationDataset(Dataset):
+                     sample_modality.extend([modality_map['text']] * curr_split_len)
+             elif element_dtype in ["image", "video"]:
+                 if is_target == 0:
++                    element_role = str(element_role or "source")
++                    vit_only = element_role in {"history_vit", "vit_only", "semantic_reference"}
+                     vit_image_tensor = self.get_video_tensor_online(element, vision_stream="vit_video", element_dtype=element_dtype)
+                     self.sample, curr, curr_rope_id, curr_split_len, curr_video_grid_thw, num_tokens_ = self.process_vit_video(
+                         vit_image_tensor, curr=curr, curr_rope_id=curr_rope_id, curr_split_len=0, curr_video_grid_thw=curr_video_grid_thw, item_loss=0
+@@ -882,6 +895,9 @@ class ValidationDataset(Dataset):
+                         sample_lens += curr_split_len
+                         sample_modality.extend([modality_map['ref_vit']] * curr_split_len)
+
++                    if vit_only:
++                        continue
++
+                     # Process VAE conditioning input.
+                     vae_image_tensor = self.get_video_tensor_online(element, vision_stream="vae_video", element_dtype=element_dtype)
+                     self.sample, curr, curr_rope_id, curr_split_len, curr_video_grid_thw, video_sizes, num_tokens_ = self.process_vae_video(
+diff --git a/inference_lance.py b/inference_lance.py
+index 27f49c4..39701ef 100644
+--- a/inference_lance.py
++++ b/inference_lance.py
+@@ -396,6 +396,121 @@ def validate_on_fixed_batch(
+     clean_memory()
+
+
++def build_lance_model(
++    model_args: ModelArguments,
++    data_args: DataArguments,
++    inference_args: InferenceArguments,
++    device: int,
++    log=print,
++):
++    """Build the Lance model stack for inference and return reusable handles.
++
++    This is the same construction path used by main(), factored out so the
++    multi-turn engine can load the model once and generate several turns in one
++    process.
++    """
++    training_args = inference_args
++
++    log(f"[startup] Loading LLM config: {osp.join(model_args.model_path, 'llm_config.json')}")
++    llm_config: Qwen2Config = Qwen2Config.from_json_file(osp.join(model_args.model_path, "llm_config.json"))
++
++    llm_config.layer_module = model_args.layer_module
++    llm_config.qk_norm = model_args.llm_qk_norm
++    llm_config.qk_norm_und = model_args.llm_qk_norm_und
++    llm_config.qk_norm_gen = model_args.llm_qk_norm_gen
++    llm_config.tie_word_embeddings = model_args.tie_word_embeddings
++    llm_config.freeze_und = training_args.freeze_und
++    llm_config.apply_qwen_2_5_vl_pos_emb = training_args.apply_qwen_2_5_vl_pos_emb
++
++    log(f"[startup] Initializing LLM weights: {model_args.model_path}")
++    language_model: Qwen2ForCausalLM = Qwen2ForCausalLM(llm_config)
++
++    vit_model = None
++    vit_config = None
++    if training_args.visual_und:
++        if model_args.vit_type in ("qwen2_5_vl", "qwen_2_5_vl_original"):
++            log(f"[startup] Loading VIT config: {model_args.vit_path}")
++            vit_config = Qwen2_5_VLVisionConfig.from_pretrained(model_args.vit_path)
++
++            log(f"[startup] Loading VIT weights: {osp.join(model_args.vit_path, 'vit.safetensors')}")
++            vit_model = Qwen2_5_VisionTransformerPretrainedModel(vit_config)
++            vit_weights = load_file(osp.join(model_args.vit_path, "vit.safetensors"))
++            vit_model.load_state_dict(vit_weights, strict=True)
++            clean_memory(vit_weights)
++        else:
++            raise ValueError(f"Unsupported vit_type: {model_args.vit_type}")
++
++    if training_args.visual_gen:
++        log("[startup] Initializing VAE")
++        vae_model = WanVideoVAE()
++        vae_config: AutoEncoderParams = deepcopy(vae_model.vae_config)
++    else:
++        vae_model = None
++        vae_config = None
++
++    config = LanceConfig(
++        visual_gen=training_args.visual_gen,
++        visual_und=training_args.visual_und,
++        llm_config=llm_config,
++        vit_config=vit_config if training_args.visual_und else None,
++        vae_config=vae_config if training_args.visual_gen else None,
++        latent_patch_size=model_args.latent_patch_size,
++        max_num_frames=model_args.max_num_frames,
++        max_latent_size=model_args.max_latent_size,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        connector_act=model_args.connector_act,
++        interpolate_pos=model_args.interpolate_pos,
++        timestep_shift=training_args.timestep_shift,
++    )
++    model: Lance = Lance(
++        language_model=language_model,
++        vit_model=vit_model if training_args.visual_und else None,
++        vit_type=model_args.vit_type,
++        config=config,
++        training_args=training_args,
++    )
++    log(f"[startup] Moving Lance model to GPU {device}")
++    model = model.to(device)
++
++    log(f"[startup] Loading tokenizer: {model_args.model_path}")
++    tokenizer: Qwen2Tokenizer = Qwen2Tokenizer.from_pretrained(model_args.model_path)
++    tokenizer, new_token_ids, num_new_tokens = add_special_tokens(tokenizer)
++    log(f"[startup] tokenizer ready | num_new_tokens={num_new_tokens}")
++
++    if training_args.copy_init_moe:
++        language_model.init_moe()
++
++    init_from_model_path_if_needed(model, model_args)
++
++    if num_new_tokens > 0:
++        model.language_model.resize_token_embeddings(len(tokenizer))
++        model.config.llm_config.vocab_size = len(tokenizer)
++        model.language_model.config.vocab_size = len(tokenizer)
++
++    if model_args.vit_type.lower() == "qwen2_5_vl":
++        from common.model.hacks import hack_qwen2_5_vl_config
++        language_model = hack_qwen2_5_vl_config(language_model)
++
++    image_token_id = language_model.config.video_token_id
++    new_token_ids.update({"image_token_id": image_token_id})
++    model.update_tokenizer(tokenizer=tokenizer)
++
++    if model_args.tie_word_embeddings:
++        model.language_model.untie_lm_head()
++        model.language_model.copy_new_token_rows_to_lm_head(num_new_tokens)
++        model_args.tie_word_embeddings = False
++        llm_config.tie_word_embeddings = False
++    else:
++        assert model.language_model.get_input_embeddings().weight.data.data_ptr() != model.language_model.get_output_embeddings().weight.data.data_ptr(), 'tie_word_embeddings conflict'
++
++    model = model.to(device=device, dtype=torch.bfloat16)
++    model.eval()
++    if vae_model is not None and hasattr(vae_model, "eval"):
++        vae_model.eval()
++
++    return model, tokenizer, vae_model, vae_config, new_token_ids, image_token_id
++
++
+ def main():
+     # ========================= Env setup ==============================
+     assert torch.cuda.is_available()
+@@ -412,8 +527,8 @@ def main():
+     torch.cuda.set_device(DEVICE)
+
+     # ========================= Args and logger setup ==============================
+-    parser = HfArgumentParser((ModelArguments, DataArguments, InferenceArguments))
+-    model_args, data_args, inference_args = cast(
++    parser = HfArgumentParser((ModelArguments, DataArguments, InferenceArguments)) #这个地方用到的三个arguments需要了解吗？下面的cast什么意思?parse的过程不用了解吗？哪些参数分为model，哪些被分为data这些需要了解吗
++    model_args, data_args, inference_args = cast(
+         Tuple[ModelArguments, DataArguments, InferenceArguments],
+         parser.parse_args_into_dataclasses(),
+     )
+@@ -423,7 +538,7 @@ def main():
+     apply_inference_defaults(model_args, data_args, inference_args)
+     training_args.validation_noise_seed = training_args.validation_data_seed
+
+-    logger = get_logger()
++    logger = get_logger() #这种初始化参数函数需要了解吗？另外下面的这行函数为啥能直接等于print这个关键字，下面这行正则又是啥意思
+     log_rank0 = print if GLOBAL_RANK == 0 else (lambda *_: None)  # Only print on rank 0.
+
+     def log_stage(stage_name: str, start_time: float, extra: str = ""):
+@@ -488,18 +603,18 @@ def main():
+         visual_gen=training_args.visual_gen,
+         visual_und=training_args.visual_und,
+         llm_config=llm_config,
+-        vit_config=vit_config if training_args.visual_und else None,
++        vit_config=vit_config if training_args.visual_und else None, #这里是不是用visual_und作为条件也可以
+         vae_config=vae_config if training_args.visual_gen else None,
+         latent_patch_size=model_args.latent_patch_size,
+         max_num_frames=model_args.max_num_frames,
+         max_latent_size=model_args.max_latent_size,
+-        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side, #这些没有讲的配置都是什么作用
+         connector_act=model_args.connector_act,
+         interpolate_pos=model_args.interpolate_pos,
+         timestep_shift=training_args.timestep_shift,
+     )
+     model: Lance = Lance(
+-        language_model=language_model,
++        language_model=language_model, #这里为什么不用包含vae我还是不明白，另外lance模型就只用包含这些部分吗？
+         vit_model=vit_model if training_args.visual_und else None,
+         vit_type=model_args.vit_type,
+         config=config,
+@@ -513,19 +628,19 @@ def main():
+     # Setup tokenizer for model:
+     stage_start = time.perf_counter()
+     log_rank0(f"[startup] Loading tokenizer: {model_args.model_path}")
+-    tokenizer: Qwen2Tokenizer = Qwen2Tokenizer.from_pretrained(model_args.model_path)
++    tokenizer: Qwen2Tokenizer = Qwen2Tokenizer.from_pretrained(model_args.model_path) #tokenizer什么作用详细说下，我不是很了解
+
+-    tokenizer, new_token_ids, num_new_tokens = add_special_tokens(tokenizer)
++    tokenizer, new_token_ids, num_new_tokens = add_special_tokens(tokenizer) #这里的逻辑需要细看吗？我不是很明白这里做了什么
+     log_stage("tokenizer load and special token init", stage_start, extra=f"num_new_tokens={num_new_tokens}")
+
+     # Initialize MoE before loading the checkpoint.
+     if training_args.copy_init_moe:
+-        language_model.init_moe()
++        language_model.init_moe() #这里做了什么？
+
+-    init_from_model_path_if_needed(model, model_args)
++    init_from_model_path_if_needed(model, model_args) #解释做了什么
+
+     # Resize afterward to avoid checkpoint shape mismatches or overwritten weights.
+-    if num_new_tokens > 0:
++    if num_new_tokens > 0: #这里不懂是在干什么
+         model.language_model.resize_token_embeddings(len(tokenizer))
+         model.config.llm_config.vocab_size = len(tokenizer)
+         model.language_model.config.vocab_size = len(tokenizer)
+diff --git a/multiturn/__init__.py b/multiturn/__init__.py
+new file mode 100644
+index 0000000..dff7647
+--- /dev/null
++++ b/multiturn/__init__.py
+@@ -0,0 +1,45 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# coding: utf-8
++
++"""Unified multi-turn multimodal chat (inference-only) for Lance.
++
++This package implements a manual (per-turn action) multi-turn conversation
++pipeline on top of the existing single-turn Lance inference machinery:
++
++- ``conversation``    : data model for interleaved text/image/video turns.
++- ``sequence_builder``: turns a ``Conversation`` + target action into the packed
++  tensors that ``modeling.lance.Lance`` validation methods consume.
++- ``engine``          : drives the per-turn build -> generate -> decode -> append loop.
++"""
++
++from .conversation import (
++    ContentItem,
++    Conversation,
++    Turn,
++    TurnAction,
++    MODALITY_TEXT,
++    MODALITY_IMAGE,
++    MODALITY_VIDEO,
++)
++
++__all__ = [
++    "ContentItem",
++    "Conversation",
++    "Turn",
++    "TurnAction",
++    "MODALITY_TEXT",
++    "MODALITY_IMAGE",
++    "MODALITY_VIDEO",
++]
+diff --git a/multiturn/conversation.py b/multiturn/conversation.py
+new file mode 100644
+index 0000000..244abd6
+--- /dev/null
++++ b/multiturn/conversation.py
+@@ -0,0 +1,270 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# coding: utf-8
++
++"""Data model for a unified multi-turn multimodal conversation.
++
++A conversation is an ordered list of :class:`Turn`. Each turn has a role
++(``user`` / ``assistant``) and a list of :class:`ContentItem` (interleaved text,
++image, or video). A user turn additionally carries an ``action`` that the caller
++uses to tell the model *what to produce* in response (Phase 1 is fully manual;
++the model does not self-select the output modality).
++"""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++from enum import Enum
++from typing import Any, Dict, List, Optional
++
++# Content modalities (string tags used in the conversation JSON and templates).
++MODALITY_TEXT = "text"
++MODALITY_IMAGE = "image"
++MODALITY_VIDEO = "video"
++_VISUAL_MODALITIES = (MODALITY_IMAGE, MODALITY_VIDEO)
++
++ROLE_USER = "user"
++ROLE_ASSISTANT = "assistant"
++_VALID_ROLES = (ROLE_USER, ROLE_ASSISTANT)
++
++
++class TurnAction(str, Enum):
++    """How the model should respond to a user turn (manual modality selection).
++
++    Text output -> understanding branch (autoregressive text generation).
++    Visual output -> generation branch (flow-matching denoising + VAE decode).
++    """
++
++    # Text output.
++    CHAT = "chat"
++    UNDERSTAND = "understand"
++
++    # Visual output (no per-turn input visual required; history may still be context).
++    GENERATE_IMAGE = "generate_image"
++    GENERATE_VIDEO = "generate_video"
++
++    # Visual output conditioned on an input visual in the current/most-recent turn.
++    EDIT_IMAGE = "edit_image"
++    EDIT_VIDEO = "edit_video"
++    IMAGE_TO_VIDEO = "image_to_video"
++
++    @property
++    def is_text_output(self) -> bool:
++        return self in (TurnAction.CHAT, TurnAction.UNDERSTAND)
++
++    @property
++    def is_visual_output(self) -> bool:
++        return not self.is_text_output
++
++    @property
++    def target_modality(self) -> str:
++        """Modality of the produced output."""
++        if self.is_text_output:
++            return MODALITY_TEXT
++        if self in (TurnAction.GENERATE_IMAGE, TurnAction.EDIT_IMAGE):
++            return MODALITY_IMAGE
++        return MODALITY_VIDEO
++
++    @property
++    def is_edit(self) -> bool:
++        """Whether the action conditions generation on an input visual."""
++        return self in (TurnAction.EDIT_IMAGE, TurnAction.EDIT_VIDEO)
++
++    @property
++    def is_image_to_video(self) -> bool:
++        return self is TurnAction.IMAGE_TO_VIDEO
++
++
++@dataclass
++class ContentItem:
++    """A single interleaved content element inside a turn."""
++
++    type: str  # one of MODALITY_TEXT / MODALITY_IMAGE / MODALITY_VIDEO
++    value: str  # text payload, or a file path for visual modalities
++
++    def __post_init__(self) -> None:
++        if self.type not in (MODALITY_TEXT, MODALITY_IMAGE, MODALITY_VIDEO):
++            raise ValueError(
++                f"ContentItem.type must be one of "
++                f"{(MODALITY_TEXT, MODALITY_IMAGE, MODALITY_VIDEO)}, got {self.type!r}"
++            )
++        if not isinstance(self.value, str):
++            raise TypeError(
++                f"ContentItem.value must be str, got {type(self.value).__name__}: {self.value!r}"
++            )
++
++    @property
++    def is_visual(self) -> bool:
++        return self.type in _VISUAL_MODALITIES
++
++    @property
++    def is_text(self) -> bool:
++        return self.type == MODALITY_TEXT
++
++    @classmethod
++    def from_dict(cls, raw: Dict[str, Any]) -> "ContentItem":
++        if not isinstance(raw, dict):
++            raise TypeError(f"content item must be a dict, got {type(raw).__name__}: {raw!r}")
++        if "type" not in raw or "value" not in raw:
++            raise ValueError(f"content item requires 'type' and 'value' keys, got {sorted(raw.keys())}")
++        return cls(type=raw["type"], value=raw["value"])
++
++    def to_dict(self) -> Dict[str, Any]:
++        return {"type": self.type, "value": self.value}
++
++
++@dataclass
++class Turn:
++    """One conversation turn: a role plus interleaved content.
++
++    For a ``user`` turn, ``action`` declares how the model should respond. For an
++    ``assistant`` turn (either pre-seeded context or a model-produced response),
++    ``action`` is ``None``.
++    """
++
++    role: str
++    content: List[ContentItem] = field(default_factory=list)
++    action: Optional[TurnAction] = None
++    # Optional visual-target overrides for the produced output (visual actions only).
++    height: Optional[int] = None
++    width: Optional[int] = None
++    num_frames: Optional[int] = None
++    # Free-form metadata (e.g. saved output path) attached after generation.
++    meta: Dict[str, Any] = field(default_factory=dict)
++
++    def __post_init__(self) -> None:
++        if self.role not in _VALID_ROLES:
++            raise ValueError(f"Turn.role must be one of {_VALID_ROLES}, got {self.role!r}")
++        if self.action is not None and not isinstance(self.action, TurnAction):
++            raise TypeError(
++                f"Turn.action must be a TurnAction or None, got {type(self.action).__name__}: {self.action!r}"
++            )
++        if self.role == ROLE_ASSISTANT and self.action is not None:
++            raise ValueError("assistant turns must not declare an action")
++
++    @property
++    def visual_items(self) -> List[ContentItem]:
++        return [c for c in self.content if c.is_visual]
++
++    @property
++    def text_items(self) -> List[ContentItem]:
++        return [c for c in self.content if c.is_text]
++
++    def joined_text(self) -> str:
++        """Concatenate all text content of this turn."""
++        return " ".join(c.value for c in self.content if c.is_text).strip()
++
++    @classmethod
++    def from_dict(cls, raw: Dict[str, Any]) -> "Turn":
++        if not isinstance(raw, dict):
++            raise TypeError(f"turn must be a dict, got {type(raw).__name__}: {raw!r}")
++        role = raw.get("role")
++        if role not in _VALID_ROLES:
++            raise ValueError(f"turn 'role' must be one of {_VALID_ROLES}, got {role!r}")
++
++        raw_content = raw.get("content", [])
++        if isinstance(raw_content, str):
++            raw_content = [{"type": MODALITY_TEXT, "value": raw_content}]
++        if not isinstance(raw_content, list):
++            raise TypeError(
++                f"turn 'content' must be a list (or str), got {type(raw_content).__name__}: {raw_content!r}"
++            )
++        content = [ContentItem.from_dict(item) for item in raw_content]
++
++        action_raw = raw.get("action")
++        action: Optional[TurnAction] = None
++        if action_raw is not None:
++            try:
++                action = TurnAction(action_raw)
++            except ValueError as exc:
++                valid = [a.value for a in TurnAction]
++                raise ValueError(
++                    f"unknown turn action {action_raw!r}; valid actions are {valid}"
++                ) from exc
++
++        return cls(
++            role=role,
++            content=content,
++            action=action,
++            height=raw.get("height"),
++            width=raw.get("width"),
++            num_frames=raw.get("num_frames"),
++            meta=dict(raw.get("meta", {})),
++        )
++
++    def to_dict(self) -> Dict[str, Any]:
++        out: Dict[str, Any] = {
++            "role": self.role,
++            "content": [c.to_dict() for c in self.content],
++        }
++        if self.action is not None:
++            out["action"] = self.action.value
++        for key in ("height", "width", "num_frames"):
++            value = getattr(self, key)
++            if value is not None:
++                out[key] = value
++        if self.meta:
++            out["meta"] = dict(self.meta)
++        return out
++
++
++@dataclass
++class Conversation:
++    """An ordered multi-turn multimodal conversation."""
++
++    turns: List[Turn] = field(default_factory=list)
++    system_prompt: Optional[str] = None
++
++    def append(self, turn: Turn) -> None:
++        if not isinstance(turn, Turn):
++            raise TypeError(f"can only append Turn, got {type(turn).__name__}: {turn!r}")
++        self.turns.append(turn)
++
++    def add_assistant_text(self, text: str, meta: Optional[Dict[str, Any]] = None) -> Turn:
++        turn = Turn(
++            role=ROLE_ASSISTANT,
++            content=[ContentItem(type=MODALITY_TEXT, value=text)],
++            meta=dict(meta or {}),
++        )
++        self.append(turn)
++        return turn
++
++    def add_assistant_visual(
++        self, path: str, modality: str, meta: Optional[Dict[str, Any]] = None
++    ) -> Turn:
++        if modality not in _VISUAL_MODALITIES:
++            raise ValueError(f"assistant visual modality must be image/video, got {modality!r}")
++        turn = Turn(
++            role=ROLE_ASSISTANT,
++            content=[ContentItem(type=modality, value=path)],
++            meta=dict(meta or {}),
++        )
++        self.append(turn)
++        return turn
++
++    @classmethod
++    def from_dict(cls, raw: Dict[str, Any]) -> "Conversation":
++        if not isinstance(raw, dict):
++            raise TypeError(f"conversation must be a dict, got {type(raw).__name__}: {raw!r}")
++        raw_turns = raw.get("turns")
++        if not isinstance(raw_turns, list) or len(raw_turns) == 0:
++            raise ValueError("conversation requires a non-empty 'turns' list")
++        turns = [Turn.from_dict(t) for t in raw_turns]
++        return cls(turns=turns, system_prompt=raw.get("system_prompt"))
++
++    def to_dict(self) -> Dict[str, Any]:
++        out: Dict[str, Any] = {"turns": [t.to_dict() for t in self.turns]}
++        if self.system_prompt is not None:
++            out["system_prompt"] = self.system_prompt
++        return out
+diff --git a/multiturn/engine.py b/multiturn/engine.py
+new file mode 100644
+index 0000000..815ba6b
+--- /dev/null
++++ b/multiturn/engine.py
+@@ -0,0 +1,304 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# coding: utf-8
++
++"""Drive a multi-turn multimodal conversation end to end.
++
++The engine loads the Lance stack once (via :func:`inference_lance.build_lance_model`),
++then for every user turn that carries an action it:
++
++1. builds the packed inputs for the whole conversation so far,
++2. calls the matching ``Lance`` validation method (visual or text),
++3. decodes + saves the output, and
++4. appends the produced output back into the conversation so it becomes context
++   for subsequent turns.
++"""
++
++from __future__ import annotations
++
++import os
++import os.path as osp
++from typing import Any, Dict, Optional
++
++import torch
++
++from common.utils.misc import tuple_mul
++from common.val.utils import decode_video_tensor, make_padded_latent
++from config.config_factory import DataArguments, InferenceArguments, ModelArguments
++from data.dataset_base import DataConfig, simple_custom_collate
++from inference_lance import build_lance_model, clean_memory, normalize_understanding_answer
++
++from .conversation import Conversation, ROLE_USER, TurnAction
++from .sequence_builder import MultiTurnSequenceBuilder
++
++# Max number of generated text tokens per understanding/chat turn.
++_MAX_TEXT_TOKENS = 256
++
++
++class MultiTurnChatEngine:
++    def __init__(
++        self,
++        model_args: ModelArguments,
++        data_args: DataArguments,
++        inference_args: InferenceArguments,
++        device: int = 0,
++        log=print,
++    ):
++        self.model_args = model_args
++        self.data_args = data_args
++        self.inference_args = inference_args
++        self.device = device
++        self.log = log
++
++        # Validation noise seed mirrors the single-turn inference entry point.
++        inference_args.validation_noise_seed = inference_args.validation_data_seed
++
++        (
++            self.model,
++            self.tokenizer,
++            self.vae_model,
++            self.vae_config,
++            self.new_token_ids,
++            self.image_token_id,
++        ) = build_lance_model(model_args, data_args, inference_args, device, log=log)
++
++        self.dataset_config = self._build_dataset_config()
++        self.builder = MultiTurnSequenceBuilder(
++            tokenizer=self.tokenizer,
++            data_args=data_args,
++            model_args=model_args,
++            training_args=inference_args,
++            new_token_ids=self.new_token_ids,
++            dataset_config=self.dataset_config,
++        )
++
++    # ------------------------------------------------------------------
++    # Setup
++    # ------------------------------------------------------------------
++    def _build_dataset_config(self) -> DataConfig:
++        """Replicate the in-place dataset config from ``inference_lance.main``."""
++        model_args, inference_args = self.model_args, self.inference_args
++        dataset_config = DataConfig()
++
++        if inference_args.visual_und:
++            dataset_config.vit_patch_size = model_args.vit_patch_size
++            dataset_config.vit_patch_size_temporal = model_args.vit_patch_size_temporal
++            dataset_config.vit_max_num_patch_per_side = model_args.vit_max_num_patch_per_side
++        if inference_args.visual_gen:
++            if len(model_args.latent_patch_size) != 3:
++                raise ValueError(
++                    f"latent_patch_size must have length 3, got {model_args.latent_patch_size!r}"
++                )
++            vae_downsample = tuple_mul(
++                model_args.latent_patch_size,
++                (
++                    self.vae_config.downsample_temporal,
++                    self.vae_config.downsample_spatial,
++                    self.vae_config.downsample_spatial,
++                ),
++            )
++            dataset_config.latent_patch_size = model_args.latent_patch_size
++            dataset_config.vae_downsample = vae_downsample
++            dataset_config.max_latent_size = model_args.max_latent_size
++            dataset_config.max_num_frames = model_args.max_num_frames
++
++        dataset_config.text_cond_dropout_prob = model_args.text_cond_dropout_prob
++        dataset_config.vae_cond_dropout_prob = model_args.vae_cond_dropout_prob
++        dataset_config.vit_cond_dropout_prob = model_args.vit_cond_dropout_prob
++
++        dataset_config.num_frames = inference_args.num_frames
++        dataset_config.H = inference_args.video_height
++        dataset_config.W = inference_args.video_width
++        dataset_config.task = inference_args.task
++        dataset_config.resolution = inference_args.resolution
++        # Multi-turn conversation always uses the Qwen-VL chat template.
++        dataset_config.text_template = True
++        dataset_config.enhance_prompt = False
++        return dataset_config
++
++    # ------------------------------------------------------------------
++    # Conversation loop
++    # ------------------------------------------------------------------
++    def run_conversation(self, conversation: Conversation, save_dir: str) -> Conversation:
++        """Replay the conversation in order, interleaving generated responses.
++
++        Input turns are consumed one at a time into a running conversation. When a
++        user turn declares an action, the assistant response is generated using the
++        running conversation (so it sees all prior turns and prior responses in
++        their correct positions) and appended immediately, keeping a well-formed
++        user/assistant ordering for subsequent turns.
++        """
++        os.makedirs(save_dir, exist_ok=True)
++        input_turns = list(conversation.turns)
++        built = Conversation(turns=[], system_prompt=conversation.system_prompt)
++
++        turn_no = 0
++        for turn in input_turns:
++            built.append(turn)
++            if turn.role == ROLE_USER and turn.action is not None:
++                self.log(f"[turn {turn_no}] action={turn.action.value}")
++                self.generate_turn(built, len(built.turns) - 1, save_dir, turn_no)
++                turn_no += 1
++
++        # Reflect the fully built (interleaved) conversation back to the caller.
++        conversation.turns = built.turns
++        return conversation
++
++    def generate_turn(
++        self, conversation: Conversation, target_user_idx: int, save_dir: str, turn_no: int
++    ) -> str:
++        action = conversation.turns[target_user_idx].action
++        sample = self.builder.build(conversation, target_user_idx)
++        batch = simple_custom_collate([sample])
++        val_data = batch.cuda(self.device).to_dict()
++
++        if action.is_text_output:
++            text = self._run_text(val_data)
++            self.log(f"[turn {turn_no}] -> text: {text}")
++            conversation.add_assistant_text(text, meta={"turn_no": turn_no})
++            clean_memory(val_data)
++            return text
++
++        path = self._run_visual(val_data, action, save_dir, turn_no)
++        self.log(f"[turn {turn_no}] -> {action.target_modality}: {path}")
++        conversation.add_assistant_visual(path, action.target_modality, meta={"turn_no": turn_no})
++        clean_memory(val_data)
++        return path
++
++    # ------------------------------------------------------------------
++    # Model calls (mirror inference_lance.validate_on_fixed_batch)
++    # ------------------------------------------------------------------
++    def _run_visual(
++        self, val_data: Dict[str, Any], action: TurnAction, save_dir: str, turn_no: int
++    ) -> str:
++        model = self.model.to(device=self.device, dtype=torch.bfloat16)
++        inference_args = self.inference_args
++        model_args = self.model_args
++
++        with torch.no_grad(), torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
++            val_data["padded_latent"] = make_padded_latent(
++                val_data["padded_videos"], val_data["vae_data_mode"], self.vae_model
++            )
++            save_fps = int(val_data.get("save_fps", 12))
++            params = {
++                "val_packed_text_ids": val_data["packed_text_ids"],
++                "val_packed_text_indexes": val_data["packed_text_indexes"],
++                "val_sample_lens": val_data["sample_lens"],
++                "val_packed_position_ids": val_data["packed_position_ids"],
++                "val_split_lens": val_data["split_lens"],
++                "val_attn_modes": val_data["attn_modes"],
++                "val_sample_N_target": val_data["sample_N_target"],
++                "val_packed_vae_token_indexes": val_data["packed_vae_token_indexes"],
++                "timestep_shift": inference_args.validation_timestep_shift,
++                "num_timesteps": inference_args.validation_num_timesteps,
++                "val_mse_loss_indexes": val_data.get("mse_loss_indexes", None),
++                "val_padded_latent": val_data["padded_latent"],
++                "video_sizes": val_data["video_sizes"],
++                "cfg_text_scale": model_args.cfg_text_scale,
++                "cfg_interval": inference_args.cfg_interval,
++                "cfg_renorm_min": inference_args.cfg_renorm_min,
++                "cfg_renorm_type": inference_args.cfg_renorm_type,
++                "device": self.device,
++                "dtype": torch.bfloat16,
++                "new_token_ids": self.new_token_ids,
++                "max_samples": inference_args.validation_max_samples,
++                "validation_noise_seed": inference_args.validation_noise_seed,
++                "apply_chat_template": inference_args.apply_chat_template,
++                "apply_qwen_2_5_vl_pos_emb": inference_args.apply_qwen_2_5_vl_pos_emb,
++                "image_token_id": self.image_token_id,
++                "val_packed_vit_token_indexes": val_data.get("packed_vit_token_indexes", None),
++                "val_packed_vit_tokens": val_data.get("packed_vit_tokens", None),
++                "vit_video_grid_thw": val_data.get("vit_video_grid_thw", None),
++                "vae_video_grid_thw": val_data["vae_video_grid_thw"],
++                "video_grid_thw": val_data.get("video_grid_thw", None),
++                "caption": val_data.get("caption", None),
++                "sample_task": val_data["sample_task"],
++                "sample_modality": val_data["sample_modality"],
++                "cfg_type": inference_args.cfg_type,
++                "cfg_uncond_token_id": inference_args.cfg_uncond_token_id,
++                "index": val_data["index"],
++                "val_padded_videos": None,
++            }
++            if inference_args.use_KVcache:
++                denoise_latent, _captions, _padded_videos, _index = model.validation_gen_KVcache(**params)
++            else:
++                denoise_latent, _captions, _padded_videos, _index = model.validation_gen(**params)
++
++            if len(denoise_latent) == 0:
++                raise RuntimeError("validation_gen returned no latents for the visual turn")
++
++            # One sample, one target: the final patch entry is the generated target
++            # (earlier entries, if any, are clean condition reconstructions).
++            latent = denoise_latent[0]
++            target_latents = [latent[-1]]
++            v_list = [self.vae_model.vae_decode([latent_])[0] for latent_ in target_latents]
++
++            save_item_name = f"turn{turn_no:02d}"
++            v_thwc = decode_video_tensor(
++                v_list,
++                save_path=save_dir,
++                save_half=False,
++                save_item_name=save_item_name,
++                save_fps=save_fps,
++            )
++            ext = "mp4" if v_thwc.shape[0] > 1 else "png"
++            out_path = osp.join(save_dir, f"{save_item_name}.{ext}")
++
++        clean_memory()
++        return out_path
++
++    def _run_text(self, val_data: Dict[str, Any]) -> str:
++        model = self.model.to(device=self.device, dtype=torch.bfloat16)
++        inference_args = self.inference_args
++
++        with torch.no_grad(), torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
++            params = {
++                "val_packed_text_ids": val_data["packed_text_ids"],
++                "val_packed_text_indexes": val_data["packed_text_indexes"],
++                "val_packed_position_ids": val_data["packed_position_ids"],
++                "val_sample_N_target": val_data["sample_N_target"],
++                "val_split_lens": val_data["split_lens"],
++                "val_attn_modes": val_data["attn_modes"],
++                "val_sample_lens": val_data["sample_lens"],
++                "val_sample_type": val_data["sample_type"],
++                "val_packed_vit_tokens": val_data["packed_vit_tokens"],
++                "val_vit_video_grid_thw": val_data["vit_video_grid_thw"],
++                "val_ce_loss_indexes": val_data["ce_loss_indexes"],
++                "max_samples": inference_args.validation_max_samples,
++                "max_length": _MAX_TEXT_TOKENS,
++                "device": self.device,
++                "dtype": torch.bfloat16,
++                "new_token_ids": self.new_token_ids,
++                "pad_token_id": self.tokenizer.pad_token_id,
++                "vocab_size": len(self.tokenizer),
++                "caption": val_data.get("caption_cn", None),
++                "tokenizer": self.tokenizer,
++                "apply_chat_template": inference_args.apply_chat_template,
++                "apply_qwen_2_5_vl_pos_emb": inference_args.apply_qwen_2_5_vl_pos_emb,
++                "do_sample": False,
++                "image_token_id": self.image_token_id,
++                "index": val_data["index"],
++            }
++            if inference_args.use_KVcache:
++                generated_sequence_all, _captions, _index = model.validation_und_KVcache(**params)
++            else:
++                generated_sequence_all, _captions, _index = model.validation_video_to_text(**params)
++
++            if len(generated_sequence_all) == 0:
++                raise RuntimeError("validation_video_to_text returned no sequences for the text turn")
++            generated_sequence = generated_sequence_all[0]
++            text = self.tokenizer.decode(generated_sequence[:, 0])
++
++        clean_memory()
++        return normalize_understanding_answer(text)
+diff --git a/multiturn/sequence_builder.py b/multiturn/sequence_builder.py
+new file mode 100644
+index 0000000..64460d9
+--- /dev/null
++++ b/multiturn/sequence_builder.py
+@@ -0,0 +1,677 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# coding: utf-8
++
++"""Build packed model inputs for a multi-turn multimodal conversation.
++
++:class:`MultiTurnSequenceBuilder` subclasses :class:`ValidationDataset` so it can
++reuse the exact single-turn assembly helpers (``process_vit_video``,
++``process_vae_video``, ``process_text_template``, ``get_video_tensor_online``,
++``get_thw``, ``gen_timesteps``, ``_finalize_sample``). The only genuinely new
++logic is:
++
++1. rendering the *full* conversation (multiple user/assistant turns) instead of a
++   single user+assistant pair, and
++2. indexing the *final* assistant turn as the generation target (the stock
++   helper targets the first ``assistant`` marker, which is wrong once there are
++   multiple assistant turns).
++
++The produced dict matches what ``inference_lance.validate_on_fixed_batch``
++consumes, so the existing ``Lance.validation_gen`` / ``Lance.validation_video_to_text``
++methods can be called unchanged.
++"""
++
++from __future__ import annotations
++
++from typing import Any, Dict, List, Optional, Tuple
++
++import torch
++
++from data.common import generate_system_prompt
++from data.data_utils import get_flattened_position_ids_extrapolate_video
++from data.datasets_custom.validation_dataset import (
++    ValidationDataset,
++    modality_map,
++    sample_task_map,
++)
++from data.system_prompt_render import VS, VE, render_qwenvl_prompt
++
++from .conversation import (
++    Conversation,
++    ContentItem,
++    MODALITY_IMAGE,
++    MODALITY_TEXT,
++    MODALITY_VIDEO,
++    ROLE_ASSISTANT,
++    TurnAction,
++    Turn,
++)
++
++# Placeholder answer used for text-generation turns. It is sliced away before the
++# model generates (generation truncates at the first CE-loss index, i.e. right
++# after "assistant\n"), so its exact value does not matter; it only needs to be a
++# non-empty span so target indexing succeeds.
++_DUMMY_ANSWER = "."
++
++# System-prompt type per action, fed to ``generate_system_prompt``.
++_ACTION_SYSTEM_PROMPT_TYPE = {
++    TurnAction.GENERATE_IMAGE: "t2i",
++    TurnAction.GENERATE_VIDEO: "t2v",
++    TurnAction.EDIT_IMAGE: "edit",
++    TurnAction.EDIT_VIDEO: "edit",
++    TurnAction.IMAGE_TO_VIDEO: "i2v",
++    TurnAction.CHAT: "caption",
++    TurnAction.UNDERSTAND: "caption",
++}
++
++
++def _find_last_anchored(all_ids: List[int], needle: List[int]) -> int:
++    """Return the start index of the LAST occurrence of ``needle`` in ``all_ids``.
++
++    Uses the same first-token-anchored / last-token-verified matching as the stock
++    ``expand_and_index_by_token_ids_new`` so behavior is identical for a
++    single-turn conversation, but scans to the final match for multi-turn.
++    Returns -1 if not found.
++    """
++    if not needle:
++        return -1
++    last = -1
++    i = 0
++    n, m = len(all_ids), len(needle)
++    while i < n:
++        try:
++            pos = all_ids[i:].index(needle[0]) + i
++        except ValueError:
++            break
++        if pos + m - 1 < n and all_ids[pos + m - 1] == needle[-1]:
++            last = pos
++        i = pos + 1
++    return last
++
++
++def _find_last_exact(all_ids: List[int], needle: List[int]) -> int:
++    """Return the start index of the LAST exact subsequence match, or -1."""
++    if not needle:
++        return -1
++    last = -1
++    n, m = len(all_ids), len(needle)
++    for i in range(n - m + 1):
++        if all_ids[i : i + m] == needle:
++            last = i
++    return last
++
++
++def expand_and_index_multiturn(
++    rendered_text: str,
++    tokens: List[int],
++    tokenizer,
++    target_text: str = "assistant\n",
++    search_text: str = "",
++) -> Tuple[List[int], List[List[int]], List[int], List[int]]:
++    """Tokenize a multi-turn rendered prompt and expand vision placeholders.
++
++    Mirrors ``data.system_prompt_render.expand_and_index_by_token_ids_new`` for the
++    vision-span expansion, but resolves ``target_text`` and ``search_text`` to
++    their LAST occurrence so the final assistant turn (the generation target) and
++    the current-turn instruction are indexed correctly.
++
++    Returns:
++        all_token_id : expanded token ids
++        spans_index  : per-visual pad-token index blocks, in occurrence order
++        tgt_index    : token indexes of the final assistant target span (to end)
++        search_index : token indexes of the current-turn instruction (or [])
++    """
++    vs_ids = tokenizer(VS, add_special_tokens=False)["input_ids"]
++    ve_ids = tokenizer(VE, add_special_tokens=False)["input_ids"]
++
++    base_ids = tokenizer(rendered_text, add_special_tokens=False)["input_ids"]
++
++    all_ids: List[int] = []
++    spans_index: List[List[int]] = []
++
++    i = 0
++    tk_ptr = 0
++    while True:
++        try:
++            vs_pos = base_ids[i:].index(vs_ids[0]) + i
++        except ValueError:
++            all_ids.extend(base_ids[i:])
++            break
++        all_ids.extend(base_ids[i:vs_pos])
++        i = vs_pos + 3  # skip the original VS + single pad + VE triple
++
++        pad_ids = base_ids[vs_pos + 1 : vs_pos + 2]
++        if tk_ptr >= len(tokens):
++            raise ValueError(
++                f"found more vision placeholders than provided token counts: "
++                f"tokens has {len(tokens)} entries but encountered placeholder #{tk_ptr + 1}"
++            )
++        K = int(tokens[tk_ptr])
++        start, end = len(all_ids) + 1, len(all_ids) + 1 + K
++        all_ids.extend(vs_ids + pad_ids * K + ve_ids)
++        tk_ptr += 1
++        spans_index.append(list(range(start, end)))
++
++    if tk_ptr != len(tokens):
++        raise ValueError(
++            f"vision placeholder count ({tk_ptr}) does not match provided token "
++            f"counts ({len(tokens)}); messages and video_types are misaligned"
++        )
++
++    tgt_ids = tokenizer(target_text, add_special_tokens=False)["input_ids"]
++    tgt_pos = _find_last_anchored(all_ids, tgt_ids)
++    tgt_index: List[int] = []
++    if tgt_pos >= 0:
++        tgt_index = list(range(tgt_pos + len(tgt_ids), len(all_ids)))
++
++    search_index: List[int] = []
++    if search_text:
++        s_ids = tokenizer(search_text, add_special_tokens=False)["input_ids"]
++        s_pos = _find_last_exact(all_ids, s_ids)
++        if s_pos >= 0:
++            search_index = list(range(s_pos, s_pos + len(s_ids)))
++
++    return all_ids, spans_index, tgt_index, search_index
++
++
++class MultiTurnSequenceBuilder(ValidationDataset):
++    """Assemble packed model inputs for one assistant response in a conversation."""
++
++    def __init__(
++        self,
++        tokenizer,
++        data_args,
++        model_args,
++        training_args,
++        new_token_ids: Dict[str, int],
++        dataset_config,
++    ):
++        super().__init__(
++            jsonl_path=None,
++            tokenizer=tokenizer,
++            data_args=data_args,
++            model_args=model_args,
++            training_args=training_args,
++            new_token_ids=new_token_ids,
++            dataset_config=dataset_config,
++            local_rank=0,
++            world_size=1,
++        )
++
++    # ------------------------------------------------------------------
++    # Public API
++    # ------------------------------------------------------------------
++    def build(self, conversation: Conversation, target_user_idx: int) -> Dict[str, Any]:
++        """Build the packed sample for responding to ``turns[target_user_idx]``.
++
++        ``target_user_idx`` must point at a ``user`` turn that carries an action.
++        Returns a dict shaped like the single-turn ``ValidationDataset`` outputs.
++        """
++        if target_user_idx < 0 or target_user_idx >= len(conversation.turns):
++            raise IndexError(
++                f"target_user_idx {target_user_idx} out of range for conversation "
++                f"with {len(conversation.turns)} turns"
++            )
++        turn = conversation.turns[target_user_idx]
++        if turn.action is None:
++            raise ValueError(
++                f"turn {target_user_idx} has no action; cannot build a generation request"
++            )
++        action = turn.action
++        history = conversation.turns[: target_user_idx + 1]
++
++        if action.is_text_output:
++            return self._build_text(conversation, history, turn, action)
++        if action.is_image_to_video:
++            return self._build_image_to_video(conversation, history, turn, action)
++        return self._build_visual(conversation, history, turn, action)
++
++    # ------------------------------------------------------------------
++    # Context assembly shared by the visual/text builders
++    # ------------------------------------------------------------------
++    def _ordered_content(self, turn: Turn) -> List[ContentItem]:
++        """Visuals first then text, matching the trained edit/understanding layout."""
++        return turn.visual_items + turn.text_items
++
++    def _add_visual_condition(
++        self,
++        item: ContentItem,
++        message_content: List[Dict[str, Any]],
++        video_types: List[str],
++        vit_num_tokens: List[int],
++        curr_video_grid_thw: List[Any],
++        video_sizes: List[Any],
++        include_vae: bool,
++    ) -> Optional[torch.Tensor]:
++        """Process one context visual as a condition (VIT, plus VAE when ``include_vae``).
++
++        Returns the VAE condition tensor (or None) for downstream target sizing.
++        """
++        # VIT branch (understanding features) -- present for every condition.
++        vit_tensor = self.get_video_tensor_online(
++            item.value, vision_stream="vit_video", element_dtype=item.type
++        )
++        (
++            self.sample,
++            _,
++            _,
++            _,
++            curr_video_grid_thw,
++            vit_k,
++        ) = self.process_vit_video(
++            vit_tensor,
++            curr=0,
++            curr_rope_id=0,
++            curr_split_len=0,
++            curr_video_grid_thw=curr_video_grid_thw,
++            item_loss=0,
++        )
++        message_content.append({"type": item.type})
++        video_types.append("vit_video")
++        vit_num_tokens.append(vit_k)
++
++        vae_tensor = None
++        if include_vae:
++            vae_tensor = self.get_video_tensor_online(
++                item.value, vision_stream="vae_video", element_dtype=item.type
++            )
++            (
++                self.sample,
++                _,
++                _,
++                _,
++                curr_video_grid_thw,
++                video_sizes,
++                vae_k,
++            ) = self.process_vae_video(
++                vae_tensor,
++                curr=0,
++                curr_rope_id=0,
++                curr_split_len=0,
++                curr_video_grid_thw=curr_video_grid_thw,
++                video_sizes=video_sizes,
++                item_loss=0,
++            )
++            message_content.append({"type": item.type})
++            video_types.append("cond_vae_video")
++            vit_num_tokens.append(vae_k)
++
++        return vae_tensor
++
++    def _collect_context(
++        self,
++        history: List[Turn],
++        vae_condition_item: Optional[ContentItem],
++        curr_video_grid_thw: List[Any],
++        video_sizes: List[Any],
++    ) -> Tuple[List[Dict[str, Any]], List[str], List[int], Optional[torch.Tensor]]:
++        """Build messages + aligned span metadata for all history turns.
++
++        Returns (messages, video_types, vit_num_tokens, last_vae_cond_tensor).
++        """
++        messages: List[Dict[str, Any]] = []
++        video_types: List[str] = []
++        vit_num_tokens: List[int] = []
++        last_vae_cond: Optional[torch.Tensor] = None
++
++        for turn in history:
++            content: List[Dict[str, Any]] = []
++            for item in self._ordered_content(turn):
++                if item.is_visual:
++                    vae_tensor = self._add_visual_condition(
++                        item,
++                        content,
++                        video_types,
++                        vit_num_tokens,
++                        curr_video_grid_thw,
++                        video_sizes,
++                        include_vae=item is vae_condition_item,
++                    )
++                    if vae_tensor is not None:
++                        last_vae_cond = vae_tensor
++                else:
++                    content.append({"type": MODALITY_TEXT, "text": item.value})
++            if content:
++                messages.append({"role": turn.role, "content": content})
++
++        return messages, video_types, vit_num_tokens, last_vae_cond
++
++    # ------------------------------------------------------------------
++    # Target sizing
++    # ------------------------------------------------------------------
++    def _prepare_target_size(
++        self, action: TurnAction, turn: Turn, condition_tensor: Optional[torch.Tensor]
++    ) -> None:
++        self.data_config.target_modality = action.target_modality
++
++        if action.is_edit:
++            if condition_tensor is None:
++                raise ValueError(
++                    f"action {action.value} requires an input image/video in the current turn, "
++                    f"but none was found"
++                )
++            self.data_config.num_frames = condition_tensor.shape[1]
++            self.data_config.H = condition_tensor.shape[2]
++            self.data_config.W = condition_tensor.shape[3]
++        else:  # plain generation
++            if turn.height:
++                self.data_config.H = turn.height
++            if turn.width:
++                self.data_config.W = turn.width
++            if action.target_modality == MODALITY_VIDEO and turn.num_frames:
++                self.data_config.num_frames = turn.num_frames
++
++    def _append_target_vae(
++        self,
++        curr_video_grid_thw: List[Any],
++        video_sizes: List[Any],
++        first_frame_source: Optional[torch.Tensor] = None,
++    ) -> Tuple[int, List[int]]:
++        """Append the target VAE slot (mirrors tiv2v_sample / ff2v_sample target build).
++
++        Returns (num_vid_tokens, mse_loss_indexes_from_gen_timesteps).
++        """
++        thw_video, thw_downsample = self.get_thw()
++        video_sizes.append(thw_video)
++        t, h, w = thw_downsample
++        num_vid_tokens = t * h * w
++        self.sample["vae_data_mode"].append("online")
++
++        spatial_merge_size = 2
++        vae_video_grid_thw = [t, h * spatial_merge_size, w * spatial_merge_size]
++        curr_video_grid_thw.append(vae_video_grid_thw)
++        self.sample["vae_video_grid_thw"].append(vae_video_grid_thw)
++        self.sample["vae_latent_shapes"].append((t, h, w))
++        self.sample["packed_latent_position_ids"].append(
++            get_flattened_position_ids_extrapolate_video(t, h, w, max_latent_size=self.data_config.max_latent_size)
++        )
++
++        packed_timesteps, mse_loss_indexes = self.gen_timesteps(t, h, w, 0, num_vid_tokens)
++        self.sample["packed_timesteps"].extend(packed_timesteps)
++
++        vae_tensor = torch.randn([3, thw_video[0], thw_video[1], thw_video[2]], dtype=torch.float32)
++        if first_frame_source is not None:
++            # i2v: inject the conditioning first frame (mirrors ff2v_sample).
++            vae_tensor[:, :4, :, :] = first_frame_source[:, 0:1, :, :].repeat(1, 4, 1, 1)
++        self.sample["vae_video_tensors"].append(vae_tensor)
++
++        return num_vid_tokens, mse_loss_indexes
++
++    # ------------------------------------------------------------------
++    # Builders
++    # ------------------------------------------------------------------
++    def _resolve_instruction(
++        self, conversation: Conversation, action: TurnAction, vision_type: str
++    ) -> str:
++        if conversation.system_prompt:
++            return conversation.system_prompt
++        sp_type = _ACTION_SYSTEM_PROMPT_TYPE.get(action, "caption")
++        return generate_system_prompt(system_prompt_type=sp_type, vision_type=vision_type)
++
++    def _build_visual(
++        self,
++        conversation: Conversation,
++        history: List[Turn],
++        turn: Turn,
++        action: TurnAction,
++    ) -> Dict[str, Any]:
++        self.sample = self.set_sequence_status()
++        self.frame_condition_idx = []
++        curr_video_grid_thw: List[Any] = []
++        video_sizes: List[Any] = []
++
++        vae_condition_item = self._latest_visual_item(history) if action.is_edit else None
++        messages, video_types, vit_num_tokens, last_vae_cond = self._collect_context(
++            history,
++            vae_condition_item=vae_condition_item,
++            curr_video_grid_thw=curr_video_grid_thw,
++            video_sizes=video_sizes,
++        )
++
++        if action.is_edit and last_vae_cond is None:
++            raise ValueError(f"action {action.value} requires a previous or current visual source")
++        self.sample_task = "edit" if action.is_edit else "t2v"
++
++        self._prepare_target_size(action, turn, last_vae_cond)
++        num_vid_tokens, _ = self._append_target_vae(curr_video_grid_thw, video_sizes)
++        vit_num_tokens.append(num_vid_tokens)
++        video_types.append("target_vae_video")
++        messages.append({"role": ROLE_ASSISTANT, "content": [{"type": action.target_modality}]})
++
++        instruction = self._resolve_instruction(conversation, action, action.target_modality)
++        search_text = turn.joined_text()
++        all_token_id, spans_index, tgt_index, search_index = expand_and_index_multiturn(
++            rendered_text=render_qwenvl_prompt(messages, default_system=instruction, include_assistant_content=True).strip(),
++            tokens=vit_num_tokens,
++            tokenizer=self.tokenizer,
++            target_text="assistant\n",
++            search_text=search_text,
++        )
++
++        self.sample, _, _, _ = self.process_text_template(
++            all_token_id,
++            spans_index,
++            tgt_index,
++            search_index,
++            video_types=video_types,
++            curr=0,
++            curr_rope_id=0,
++            curr_split_len=0,
++            item_loss=0,
++        )
++        sample_lens = len(all_token_id)
++        self.sample["sample_task"] = torch.ones(sample_lens) * sample_task_map[self.sample_task]
++
++        caption_all = turn.joined_text()
++        finalized = self._finalize_sample(
++            sample_lens,
++            curr_video_grid_thw,
++            sample_type="gen",
++            additional_fields={
++                "caption": caption_all,
++                "caption_cn": caption_all,
++                "index": str(turn.meta.get("index", "turn")),
++            },
++            video_sizes=video_sizes,
++        )
++        # No VIT conditions -> signal absence with None so validation_gen skips the
++        # VIT branch (mirrors ff2v_sample; avoids indexing empty grid tensors).
++        if "vit_video" not in video_types:
++            finalized["vit_video_grid_thw"] = None
++            finalized["packed_vit_token_indexes"] = None
++            finalized["packed_vit_tokens"] = None
++        return finalized
++
++    def _build_image_to_video(
++        self,
++        conversation: Conversation,
++        history: List[Turn],
++        turn: Turn,
++        action: TurnAction,
++    ) -> Dict[str, Any]:
++        # i2v bakes the conditioning frame into the target latent (ff2v style); the
++        # input image is NOT a separate VIT/VAE condition span. History visuals are
++        # therefore not used as context for i2v (text history still is).
++        self.sample = self.set_sequence_status()
++        self.frame_condition_idx = [0]
++        curr_video_grid_thw: List[Any] = []
++        video_sizes: List[Any] = []
++
++        first_frame_source = self._latest_visual_vae_tensor(history)
++        if first_frame_source is None:
++            raise ValueError("image_to_video requires an input image in the conversation")
++
++        # Text-only messages (visual placeholders are intentionally omitted for i2v).
++        messages: List[Dict[str, Any]] = []
++        for hist_turn in history:
++            text = hist_turn.joined_text()
++            if text:
++                messages.append({"role": hist_turn.role, "content": [{"type": MODALITY_TEXT, "text": text}]})
++
++        self.sample_task = "t2v"
++        self._prepare_target_size(action, turn, first_frame_source)
++        video_types: List[str] = ["target_vae_video"]
++        vit_num_tokens: List[int] = []
++        num_vid_tokens, mse_loss_indexes = self._append_target_vae(
++            curr_video_grid_thw, video_sizes, first_frame_source=first_frame_source
++        )
++        vit_num_tokens.append(num_vid_tokens)
++        messages.append({"role": ROLE_ASSISTANT, "content": [{"type": action.target_modality}]})
++
++        instruction = self._resolve_instruction(conversation, action, action.target_modality)
++        search_text = turn.joined_text()
++        all_token_id, spans_index, tgt_index, search_index = expand_and_index_multiturn(
++            rendered_text=render_qwenvl_prompt(messages, default_system=instruction, include_assistant_content=True).strip(),
++            tokens=vit_num_tokens,
++            tokenizer=self.tokenizer,
++            target_text="assistant\n",
++            search_text=search_text,
++        )
++
++        self.sample, _, _, _ = self.process_text_template(
++            all_token_id,
++            spans_index,
++            tgt_index,
++            search_index,
++            video_types=video_types,
++            curr=0,
++            curr_rope_id=0,
++            curr_split_len=0,
++            item_loss=0,
++        )
++        sample_lens = len(all_token_id)
++
++        # Re-anchor the frame-conditioned mse indexes to the target span (ff2v_sample).
++        if self.frame_condition_idx and len(self.sample["mse_loss_indexes"]) > 0:
++            mse_first = self.sample["mse_loss_indexes"][0]
++            self.sample["mse_loss_indexes"] = [idx + mse_first for idx in mse_loss_indexes]
++
++        self.sample["sample_task"] = torch.ones(sample_lens) * sample_task_map[self.sample_task]
++
++        caption_all = turn.joined_text()
++        finalized = self._finalize_sample(
++            sample_lens,
++            curr_video_grid_thw,
++            sample_type="gen",
++            additional_fields={
++                "caption": caption_all,
++                "caption_cn": caption_all,
++                "index": str(turn.meta.get("index", "turn")),
++            },
++            video_sizes=video_sizes,
++        )
++        # i2v has no VIT condition spans (the frame is baked into the target).
++        finalized["vit_video_grid_thw"] = None
++        finalized["packed_vit_token_indexes"] = None
++        finalized["packed_vit_tokens"] = None
++        return finalized
++
++    def _build_text(
++        self,
++        conversation: Conversation,
++        history: List[Turn],
++        turn: Turn,
++        action: TurnAction,
++    ) -> Dict[str, Any]:
++        self.sample = self.set_sequence_status()
++        self.sample_task = "t2v"  # unused for text output, set for safety
++        self.frame_condition_idx = []
++        curr_video_grid_thw: List[Any] = []
++        video_sizes: List[Any] = []
++
++        messages, video_types, vit_num_tokens, _ = self._collect_context(
++            history,
++            vae_condition_item=None,
++            curr_video_grid_thw=curr_video_grid_thw,
++            video_sizes=video_sizes,
++        )
++
++        # Append a placeholder assistant answer so the target span exists; it is
++        # discarded before generation (truncated at the first CE-loss index).
++        messages.append({"role": ROLE_ASSISTANT, "content": [{"type": MODALITY_TEXT, "text": _DUMMY_ANSWER}]})
++
++        vision_type = self._primary_vision_type(history)
++        instruction = self._resolve_instruction(conversation, action, vision_type)
++        search_text = turn.joined_text()
++        all_token_id, spans_index, tgt_index, search_index = expand_and_index_multiturn(
++            rendered_text=render_qwenvl_prompt(messages, default_system=instruction, include_assistant_content=True).strip(),
++            tokens=vit_num_tokens,
++            tokenizer=self.tokenizer,
++            target_text="assistant\n",
++            search_text=search_text,
++        )
++        if not tgt_index:
++            raise ValueError("failed to locate the assistant target span in the rendered prompt")
++
++        self.sample, _, _, _ = self.process_text_template(
++            all_token_id,
++            spans_index,
++            tgt_index,
++            search_index,
++            video_types=video_types,
++            curr=0,
++            curr_rope_id=0,
++            curr_split_len=0,
++            item_loss=1,
++        )
++        sample_lens = len(all_token_id)
++        self.sample["sample_task"] = torch.ones(sample_lens) * sample_task_map["t2v"]
++
++        caption_all = turn.joined_text()
++        return self._finalize_sample(
++            sample_lens,
++            curr_video_grid_thw,
++            sample_type="und",
++            additional_fields={
++                "caption": caption_all,
++                "caption_cn": caption_all,
++                "index": str(turn.meta.get("index", "turn")),
++            },
++        )
++
++    # ------------------------------------------------------------------
++    # Small helpers
++    # ------------------------------------------------------------------
++    def _latest_visual_item(self, history: List[Turn]) -> Optional[ContentItem]:
++        """Return the latest visual item to use as the direct VAE edit source.
++
++        Older visual turns remain in the rendered conversation and VIT context,
++        but only this latest item becomes the clean VAE source. This preserves the
++        full multi-turn chat history while keeping Lance video/image edit aligned
++        to one source-target VAE pair.
++        """
++        for turn in reversed(history):
++            visuals = turn.visual_items
++            if visuals:
++                return visuals[-1]
++        return None
++
++    def _latest_visual_vae_tensor(self, history: List[Turn]) -> Optional[torch.Tensor]:
++        for turn in reversed(history):
++            visuals = turn.visual_items
++            if visuals:
++                item = visuals[-1]
++                return self.get_video_tensor_online(
++                    item.value, vision_stream="vae_video", element_dtype=item.type
++                )
++        return None
++
++    def _primary_vision_type(self, history: List[Turn]) -> str:
++        for turn in history:
++            for item in turn.content:
++                if item.type == MODALITY_VIDEO:
++                    return MODALITY_VIDEO
++                if item.type == MODALITY_IMAGE:
++                    return MODALITY_IMAGE
++        return MODALITY_IMAGE
+diff --git a/multiturn_chat.py b/multiturn_chat.py
+new file mode 100644
+index 0000000..f233097
+--- /dev/null
++++ b/multiturn_chat.py
+@@ -0,0 +1,116 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++# coding: utf-8
++
++"""CLI entry for unified multi-turn multimodal chat (inference-only PoC).
++
++Reads a conversation JSON (a list of turns; each user turn declares an ``action``),
++runs the turns sequentially with a single loaded Lance model, and writes the
++produced images/videos plus an updated transcript to the output directory.
++
++Mirrors ``inference_lance.py`` argument conventions; see ``multiturn_chat.sh`` for
++the recommended model recipe flags.
++"""
++
++import warnings
++warnings.filterwarnings("ignore", message=".*pkg_resources is deprecated.*", category=UserWarning)
++warnings.filterwarnings("ignore", category=FutureWarning, module="diffusers.models.transformers.transformer_2d")
++
++import os
++os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
++os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
++
++import json
++import os.path as osp
++from dataclasses import dataclass, field
++from typing import Tuple, cast
++
++import torch
++from transformers import HfArgumentParser, set_seed
++
++from config.config_factory import (
++    DataArguments,
++    InferenceArguments,
++    ModelArguments,
++    get_model_path,
++)
++from multiturn.conversation import Conversation
++from multiturn.engine import MultiTurnChatEngine
++
++
++@dataclass
++class MultiTurnArguments:
++    conversation_path: str = field(
++        default="config/examples/multiturn_example.json",
++        metadata={"help": "Path to the conversation JSON describing the multi-turn dialogue."},
++    )
++    save_path: str = field(
++        default="results/multiturn",
++        metadata={"help": "Directory for generated media and the output transcript."},
++    )
++    transcript_name: str = field(
++        default="transcript.json",
++        metadata={"help": "Filename for the produced conversation transcript."},
++    )
++
++
++def _apply_defaults(model_args: ModelArguments, inference_args: InferenceArguments) -> None:
++    if not model_args.model_path:
++        raise ValueError(
++            "--model_path is required (e.g. downloads/Lance_3B or downloads/Lance_3B_Video)"
++        )
++    if not getattr(model_args, "llm_path", ""):
++        model_args.llm_path = model_args.model_path
++    if not model_args.vit_path:
++        model_args.vit_path = get_model_path("vit.qwen2_5_vl")
++
++
++def main() -> None:
++    if not torch.cuda.is_available():
++        raise RuntimeError("CUDA is required to run Lance multi-turn chat")
++
++    parser = HfArgumentParser((ModelArguments, DataArguments, InferenceArguments, MultiTurnArguments))
++    model_args, data_args, inference_args, mt_args = cast(
++        Tuple[ModelArguments, DataArguments, InferenceArguments, MultiTurnArguments],
++        parser.parse_args_into_dataclasses(),
++    )
++
++    _apply_defaults(model_args, inference_args)
++
++    device = 0
++    torch.cuda.set_device(device)
++    set_seed(inference_args.global_seed)
++
++    with open(mt_args.conversation_path, "r", encoding="utf-8") as f:
++        conversation = Conversation.from_dict(json.load(f))
++
++    engine = MultiTurnChatEngine(
++        model_args=model_args,
++        data_args=data_args,
++        inference_args=inference_args,
++        device=device,
++        log=print,
++    )
++
++    os.makedirs(mt_args.save_path, exist_ok=True)
++    engine.run_conversation(conversation, save_dir=mt_args.save_path)
++
++    transcript_path = osp.join(mt_args.save_path, mt_args.transcript_name)
++    with open(transcript_path, "w", encoding="utf-8") as f:
++        json.dump(conversation.to_dict(), f, ensure_ascii=False, indent=2)
++    print(f"[done] transcript saved to {transcript_path}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/multiturn_chat.sh b/multiturn_chat.sh
+new file mode 100755
+index 0000000..1101334
+--- /dev/null
++++ b/multiturn_chat.sh
+@@ -0,0 +1,110 @@
++#!/bin/bash
++
++# Unified multi-turn multimodal chat (inference-only PoC).
++# Mirrors the model recipe flags used by inference_lance.sh.
++
++SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
++cd "$SCRIPT_DIR"
++source "$SCRIPT_DIR/benchmarks/sample_env.sh"
++
++# ========================= Parameters =========================
++NUM_GPUS=${NUM_GPUS:-1}
++
++MODEL_PATH=${MODEL_PATH:-"downloads/Lance_3B"}
++CONVERSATION_PATH=${CONVERSATION_PATH:-"config/examples/multiturn_example.json"}
++SAVE_PATH=${SAVE_PATH:-"results/multiturn"}
++
++RESOLUTION=${RESOLUTION:-"image_768res"}   # image_768res | video_480p
++NUM_FRAMES=${NUM_FRAMES:-50}               # default frames for video outputs
++VIDEO_HEIGHT=${VIDEO_HEIGHT:-768}
++VIDEO_WIDTH=${VIDEO_WIDTH:-768}
++
++VALIDATION_NUM_TIMESTEPS=${VALIDATION_NUM_TIMESTEPS:-30}
++VALIDATION_TIMESTEP_SHIFT=${VALIDATION_TIMESTEP_SHIFT:-3.5}
++VALIDATION_DATA_SEED=${VALIDATION_DATA_SEED:-42}
++CFG_TEXT_SCALE=${CFG_TEXT_SCALE:-4.0}
++USE_KVCACHE=${USE_KVCACHE:-true}
++
++# ========================= Command-line Arguments =========================
++while [[ $# -gt 0 ]]; do
++    case "$1" in
++        --NUM_GPUS) NUM_GPUS="$2"; shift 2 ;;
++        --MODEL_PATH) MODEL_PATH="$2"; shift 2 ;;
++        --CONVERSATION_PATH) CONVERSATION_PATH="$2"; shift 2 ;;
++        --SAVE_PATH) SAVE_PATH="$2"; shift 2 ;;
++        --RESOLUTION) RESOLUTION="$2"; shift 2 ;;
++        --NUM_FRAMES) NUM_FRAMES="$2"; shift 2 ;;
++        --VIDEO_HEIGHT) VIDEO_HEIGHT="$2"; shift 2 ;;
++        --VIDEO_WIDTH) VIDEO_WIDTH="$2"; shift 2 ;;
++        --VALIDATION_NUM_TIMESTEPS) VALIDATION_NUM_TIMESTEPS="$2"; shift 2 ;;
++        --VALIDATION_TIMESTEP_SHIFT) VALIDATION_TIMESTEP_SHIFT="$2"; shift 2 ;;
++        --VALIDATION_DATA_SEED) VALIDATION_DATA_SEED="$2"; shift 2 ;;
++        --CFG_TEXT_SCALE) CFG_TEXT_SCALE="$2"; shift 2 ;;
++        --USE_KVCACHE) USE_KVCACHE="$2"; shift 2 ;;
++        -h|--help)
++            echo "Usage: bash multiturn_chat.sh [OPTIONS]"
++            echo "  --MODEL_PATH downloads/Lance_3B"
++            echo "  --CONVERSATION_PATH config/examples/multiturn_example.json"
++            echo "  --SAVE_PATH results/multiturn"
++            exit 0
++            ;;
++        *)
++            echo "Unknown option: $1"; echo "Use -h or --help for usage."; exit 1 ;;
++    esac
++done
++
++# ============================== Environment and Distributed Setup ==============================
++lance_setup_common_env
++lance_setup_distributed_env "$NUM_GPUS"
++lance_setup_shard_env 1
++
++echo "================================================"
++echo "Lance Multi-turn Multimodal Chat"
++echo "================================================"
++echo "Model path:        ${MODEL_PATH}"
++echo "Conversation:      ${CONVERSATION_PATH}"
++echo "Save path:         ${SAVE_PATH}"
++echo "Resolution:        ${RESOLUTION}"
++echo "================================================"
++
++accelerate launch \
++    --num_machines          $NUM_MACHINES \
++    --num_processes         $TOTAL_RANK \
++    --machine_rank          $MACHINE_RANK \
++    --main_process_ip       $MAIN_PROCESS_IP \
++    --main_process_port     $MAIN_PROCESS_PORT \
++    --mixed_precision       bf16 \
++    multiturn_chat.py \
++    --model_path            "$MODEL_PATH" \
++    --vit_type              qwen_2_5_vl_original \
++    --llm_qk_norm           true \
++    --llm_qk_norm_und       true \
++    --llm_qk_norm_gen       true \
++    --tie_word_embeddings   false \
++    --validation_num_timesteps $VALIDATION_NUM_TIMESTEPS \
++    --validation_timestep_shift $VALIDATION_TIMESTEP_SHIFT \
++    --copy_init_moe         true \
++    --max_num_frames        121 \
++    --max_latent_size       64 \
++    --latent_patch_size     1 1 1 \
++    --visual_und            true \
++    --visual_gen            true \
++    --vae_model_type        wan \
++    --apply_qwen_2_5_vl_pos_emb true \
++    --apply_chat_template   false \
++    --cfg_type              0 \
++    --validation_data_seed  $VALIDATION_DATA_SEED \
++    --video_height          $VIDEO_HEIGHT \
++    --video_width           $VIDEO_WIDTH \
++    --num_frames            $NUM_FRAMES \
++    --resolution            "$RESOLUTION" \
++    --text_template         true \
++    --cfg_text_scale        $CFG_TEXT_SCALE \
++    --use_KVcache           "$USE_KVCACHE" \
++    --conversation_path     "$CONVERSATION_PATH" \
++    --save_path             "$SAVE_PATH"
++
++echo ""
++echo "================================================"
++echo "Done! Results: ${SAVE_PATH}"
++echo "================================================"

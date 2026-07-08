@@ -10,7 +10,7 @@
 - Paper: https://arxiv.org/abs/2605.18678
 - Model: https://huggingface.co/bytedance-research/Lance
 - HF Space: https://huggingface.co/spaces/bytedance-research/Lance
-- Local PDF: `10_research/papers/pdfs/lance_2605.18678.pdf`（本地忽略目录，不进 Git）
+- Local PDF: `10_research/study/pdfs/lance_2605.18678.pdf`（本地忽略目录，不进 Git）
 
 ## 它是什么
 
@@ -34,6 +34,56 @@ Lance 是 ByteDance 发布的 3B active parameter 原生统一多模态模型，
   - Qwen2.5-VL ViT 语义 token 用于理解；
   - Wan2.2 3D causal VAE latent 用于生成和编辑。
 - MaPE（modality-aware rotary positional encoding）用于减少不同视觉 token 群之间的位置干扰。
+
+## 论文阅读进度（2026-07-03）
+
+主体阅读已完成，后续进入代码走读。当前稳定理解如下：
+
+- Lance 的核心类型是统一多模态理解/生成/编辑模型，不是传统单一 T2V 模型。
+- `MoE/MoT` 只能解释专家分工，不能完整解释 Lance；还必须看 interleaved context、ViT/VAE 双视觉表示和 staged multi-task training。
+- ViT semantic tokens 负责语义理解，VAE latent tokens 负责生成和编辑；两者能力差异来自训练目标、信息形态和损失函数。
+- `noisy VAE tokens` 是当前要生成/去噪的目标 latent，不是输入视频本身。
+- MaPE 给 ViT、clean VAE、noisy VAE 三类视觉功能组加时间 offset；它区分的是功能组，不是严格物理时间戳。
+- 多轮编辑可以用“上一轮输出回灌”实现实用 baseline；真正把历史轮次全部放入 unified context 需要代码验证。
+- Table 9 的关键价值是证明 cross-task data synergy：理解数据、多任务生成数据、编辑数据会相互促进，而不是各自只提升一个任务。
+- Lance 仍有明显缺口：视频级 reward、长上下文多轮一致性、文本/符号编辑、可量化视频编辑 benchmark。
+
+下一步代码问题：
+
+- 官方推理配置是否允许多个 text/video/image 元素共同组成一个 true multi-turn context。
+- `interleave_array`、`element_dtype_array`、`istarget_in_interleave` 如何映射到 segment、mask、ViT/VAE token 和 target loss。
+- `LLM_UND` 与 `LLM_GEN` 在代码里如何分流，flow head 如何接收 noisy VAE token。
+- batch8 脚本和新增 contextual smoke 脚本分别属于 chain baseline 还是真上下文调用。
+
+## 代码走读启动记录（2026-07-03）
+
+第一轮已读入口：
+
+- 官方入口：`10_research/model_experiments/lance/lance/inference_lance.sh`
+- 推理主程序：`10_research/model_experiments/lance/lance/inference_lance.py`
+- 验证数据集：`10_research/model_experiments/lance/lance/data/datasets_custom/validation_dataset.py`
+- 单轮回灌脚本：`10_research/model_experiments/lance/scripts/run_video_edit.sh`
+- contextual 多轮配置工具：`10_research/model_experiments/lance/scripts/contextual_video_edit.py`
+- contextual smoke 报告：`10_research/model_experiments/lance/reports/contextual_video_edit_smoke.md`
+
+初始代码结论：
+
+- `run_video_edit.sh --prompts-file` 明确是连续单轮回灌：每一轮生成一个只有 `[prompt, current_video]` 的 JSON，再独立调用一次 `video_edit`。
+- 官方 `video_edit` 示例 JSON 只有 `[text, video]`，但 `ValidationDataset.tiv2v_sample()` 会遍历整个 `interleave_array`，不是写死只接受一个视频。
+- 在 `video_edit` 路径里，每个 `is_target == 0` 的 image/video 会先生成 ViT 条件块，再生成 VAE 条件块；遍历结束后代码额外追加一个 target VAE 噪声块。
+- `process_text_template()` 会根据 `video_types` 把块标为 `vit_video`、`cond_vae_video`、`target_vae_video`，对应 attention mode 大致是 `full`、`full_noise`、`noise`。
+- 因此，多视频 true-context 在数据打包层面可表达：例如 `text -> video(C0) -> video(C1)` 会打包成 2 个 ViT 条件块、2 个 VAE 条件块、1 个 target VAE 块。
+- `contextual_video_edit.py` 的 v1 写法是 `text -> video -> history videos...`；这是为了配合 Lance 内部模板把首个 text block 旋转到视频之后，同时保留 `video_edit` system prompt 的 `vision_type=video`。
+- 已有 contextual smoke 证明 turn1/turn2 可以跑通，但视觉质量失败：主体和场景保持不可靠。因此当前结论是“代码路径可运行”，不是“模型可靠支持多轮视频编辑”。
+- synthetic pack 复核 `contextual_smoke_v1_01/turn_02.json`：`packed_len=14077`，`attn_modes=['causal','full','full_noise','full','full_noise','causal','causal','noise','causal']`，包含 2 个 ViT condition blocks、2 个 VAE condition blocks、1 个 target VAE block。
+- MaPE/位置偏移在代码中通过 `shift_position_ids(..., pos_shift=1000, pro_type=10, i_sample_modality=...)` 实现。当前实现按 `sample_modality` 处理：ViT 条件块标记为 `ref_vit=4`，会移到 1000 起点；`ref_image=3` 会移到 2000 起点；编辑任务里的 clean VAE source 标记为 `ref_source=2`，target noisy 标记为 `noise=1`，在长度一致时代码会让 noisy target 的 position ids 对齐 ref source。
+- 这解释了前面一个疑问：实现并不是把所有视觉组都简单加 `i * Δt`。论文写的是抽象设计，代码为了编辑对齐做了更具体的 modality 规则。
+
+下一步继续读：
+
+- `validation_gen_KVcache` 与 non-KV `validation_gen` 的差异，确认当前默认 `--USE_KVCACHE true` 路径是否也保持上述 MaPE/CFG 逻辑。
+- `qwen2_navit.py` 中 dual expert / MoE token index 如何使用 `packed_und_token_indexes` 与 `packed_gen_token_indexes`。
+- VAE latent decode 前后 shape：从 `x_t` patch latent 到 `vae_decode` 输出视频。
 
 ## 训练数据与任务
 

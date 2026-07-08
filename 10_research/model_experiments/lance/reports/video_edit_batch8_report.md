@@ -33,7 +33,7 @@ single-turn calls per video: 3
 - `run_video_edit.sh --prompts-file` 每一行 prompt 都会启动一次独立 `video_edit` 调用。
 - 第 2、3 次调用的输入是上一轮输出视频，不包含前序 prompt、原始视频或显式对话上下文。
 - 因此 batch8 只能说明单轮推理和输出回灌流程跑通，不能说明 Lance 的真实多轮编辑能力。
-- 之后如要讨论多轮一致性，必须先实现或接入 Lance 真多轮编辑调用逻辑，再重新测试。
+- 之后如要讨论多轮一致性，应使用 `scripts/contextual_video_edit.py` 生成包含历史输入/输出的 Lance config，再重新测试。
 
 ## 输入类型与结果
 
@@ -99,5 +99,5 @@ batch8_07_black_car_street_clean_retry/
 ## 后续动作
 
 1. 暂不继续整理这批输出的详细失败模式；用户初步观察已经足够说明原模型在主体和背景编辑上问题较多。
-2. 下一步先研究 Lance 官方代码的数据格式和推理入口，确认如何实现真多轮编辑上下文。
-3. 实现真多轮调用脚本后，用少量样例重测，再决定是否记录多轮一致性失败模式。
+2. `scripts/contextual_video_edit.py` 已实现 config 生成和 synthetic media pack 检查。结构验证显示 `C0 + e1 + C1 + e2` 会形成 2 个 VIT 条件块、2 个 VAE 条件块和 1 个 target VAE block。
+3. 首个 contextual v0 GPU smoke 已完成，见 [`contextual_video_edit_smoke.md`](./contextual_video_edit_smoke.md)。代码复查后 v1 已修正 prompt/config 顺序；后续质量判断前应先重跑 v1，如测 turn3 还应先预处理输入视频以控制帧数和尺寸。
