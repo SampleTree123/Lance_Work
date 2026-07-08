@@ -12,7 +12,7 @@
 - v1 turn1/turn2 已重新生成并抽帧检查。结论是：执行链路通过，但视觉质量失败，不适合作为可用多轮编辑能力结论。
 - 2026-07-05 复查 BAGEL 与 Lance 打包逻辑后，确认 v1 的主要结构问题：它把 C0 和 C1 都作为 clean VAE `ref_source`，但只有一个 noisy VAE target，导致 Lance edit 的 source-target 位置对齐条件失效。`contextual_video_edit.py` 已升级到 v2 role-aware config；历史视频标为 `history_vit`，只进 VIT，最新视频标为 `direct_source`，作为唯一 clean VAE source。
 - v2 role-aware turn2/turn3 已在 `94766` allocation 上生成成功。turn2 明显优于 v1 all-source：没有重绘成全新非雪林场景，并能在 turn1 结果上加入暖金色夕阳。turn3 暴露新问题：局部“蓝色狗项圈”容易错误绑定到人物外套；单轮对照基本保住红外套，说明多历史上下文会增加局部属性绑定干扰。
-- 2026-07-08 新增 full-conversation multi-turn chat A 方案原型：参考 `Jayce-Ping/Lance@8b002b5` 的 conversation engine，但保留 DataMake 的 v2 视觉策略，即历史视觉只进 VIT，最新视觉作为唯一 clean VAE direct source。该方案保留历史 user/assistant turns，不把历史 prompt 拼进最新 prompt 字符串；当前已通过静态语法检查和 conversation JSON 生成测试，尚未跑 GPU 视觉结果。
+- 2026-07-08 新增并测试 full-conversation multi-turn chat A 方案原型：参考 `Jayce-Ping/Lance@8b002b5` 的 conversation engine，但保留 DataMake 的 v2 视觉策略，即历史视觉只进 VIT，最新视觉作为唯一 clean VAE direct source。该方案保留历史 user/assistant turns，不把历史 prompt 拼进最新 prompt 字符串；已在 job `102622` 上完成三轮 GPU smoke，代码路径跑通，但视觉保持差于 `contextual_role_v2_current_only_full_01`。详见 [`full_conversation_multiturn_chat_smoke.md`](./full_conversation_multiturn_chat_smoke.md)。
 
 ## 环境与参数
 
@@ -177,7 +177,7 @@ outputs/video_edit/contextual_role_v2_current_only_full_01/preview_frames/curren
 ## 下一步
 
 1. 保留 v2 role-aware 作为当前正确结构；不要回到 v1 all-source。
-2. 测试 full-conversation A 方案：历史文本作为独立 turns 保留，和 `contextual_role_v2_current_only_full_01` 做同视频/同 prompt 对照。
+2. full-conversation A 方案已经完成同视频/同 prompt 对照；代码路径成立，但该样例视觉保持更差，不作为默认路径。
 3. 默认 prompt style 仍以当前轮自然指令为主；A 方案的关键变量是是否保留历史 turn，而不是把历史 prompt 拼入当前 prompt。
 4. 后续测试应换更短、更清晰、主体更稳定的视频，优先测大尺度编辑和中尺度属性编辑，暂时不要把“小项圈”作为 Lance 多轮能力的主判据。
 5. 若继续研究 Lance 多轮，需要比较 `history_vit` 数量、历史文本 turn、少量保持约束和 direct-source-only 结构对局部属性绑定的影响。

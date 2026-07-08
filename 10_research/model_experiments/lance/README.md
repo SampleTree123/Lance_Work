@@ -26,7 +26,7 @@
 - 当前只下载视频分支，没有下载 `Lance_3B/` 图片分支和 HF demo assets。
 - Batch8 多领域连续单轮测试记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。这不是 Lance 真多轮编辑验证。
 - 已新增 contextual 多轮 config 工具：`scripts/contextual_video_edit.py`。v1 把所有历史视频都作为 VAE source，turn1/turn2 视觉质量失败；复查后确认这种结构会让多个 `ref_source` 对一个 `noise target`，破坏 Lance edit 的 source-target 对齐。当前已改为 v2 role-aware 路径：历史视频 `history_vit` 只进 VIT，最新视频 `direct_source` 作为唯一 clean VAE source；turn2/turn3 已在 H200 上生成成功。v2 turn2 明显优于 v1 all-source，但 turn3 小目标项圈编辑仍有属性绑定失败。记录见 [`reports/contextual_video_edit_smoke.md`](./reports/contextual_video_edit_smoke.md)。
-- 已接入 full-conversation multi-turn chat A 方案原型：参考 `Jayce-Ping/Lance@8b002b5`，新增 Lance 内部 `multiturn/` engine 和 DataMake 入口 `scripts/run_multiturn_chat.sh`。该方案保留历史 user/assistant turns，而不是把历史 prompt 拼进最新 prompt；实现上仍保留我们的 v2 原则：历史视觉只作为 VIT 语义上下文，最新视觉才作为唯一 clean VAE direct source。当前只完成静态检查和 conversation JSON 生成测试，尚未跑 GPU 视觉结果。
+- 已接入并测试 full-conversation multi-turn chat A 方案原型：参考 `Jayce-Ping/Lance@8b002b5`，新增 Lance 内部 `multiturn/` engine 和 DataMake 入口 `scripts/run_multiturn_chat.sh`。该方案保留历史 user/assistant turns，而不是把历史 prompt 拼进最新 prompt；实现上仍保留我们的 v2 原则：历史视觉只作为 VIT 语义上下文，最新视觉才作为唯一 clean VAE direct source。2026-07-08 在 job `102622` 上完成三轮 GPU smoke：代码路径跑通，但同样例视觉保持差于 contextual v2 current-only，记录见 [`reports/full_conversation_multiturn_chat_smoke.md`](./reports/full_conversation_multiturn_chat_smoke.md)。
 
 ## 使用入口
 
@@ -159,4 +159,4 @@ user edit_video(text) -> assistant video
 - 文本上下文采用 full conversation：前几轮 prompt 是历史 user turns，不被拼接进最新 prompt 字符串。
 - 视觉上下文采用 role-aware：旧图/视频只进 VIT，最新图/视频进 VIT + VAE direct source。
 - `edit_video` 第二轮以后可以只写当前轮文本，因为 engine 会把上一轮生成视频作为 assistant visual 自动追加回上下文。
-- GPU 视觉质量尚未验证；下一次测试应对照 `contextual_role_v2_current_only_full_01`。
+- 2026-07-08 已完成 GPU smoke；该入口可继续用于混合任务 conversation 研究，但当前默认多轮视频编辑验证仍使用 `contextual_video_edit.py` 的 v2 role-aware + `current-only`。

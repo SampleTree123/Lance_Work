@@ -26,6 +26,8 @@
 
 完整策略见 [`../../20_planning/implementation/storage.md`](../../20_planning/implementation/storage.md)。
 
+本地 UE 整理资产、打包上传服务器和 Git/素材分离规则见 [`../../20_planning/implementation/local_asset_workflow.md`](../../20_planning/implementation/local_asset_workflow.md)。
+
 ## 约定
 
 - 原始资产包、大型贴图、压缩包、下载缓存不进 Git。
@@ -33,9 +35,11 @@
 - 实际引入第一批资产时，先按 [`asset_ledger_schema.md`](./asset_ledger_schema.md) 创建台账，再下载或导入资产。
 - 许可证策略见 [`../../20_planning/compliance/licensing_compliance.md`](../../20_planning/compliance/licensing_compliance.md)。
 - 资产形态与数据设计的关系见 [`../../20_planning/data_design/README.md`](../../20_planning/data_design/README.md)。
+- 本地导入 UE 的 `Content/` 二进制资产不进 Git；服务器需要时通过资产包、`rsync`、压缩包或后续冷存储同步工具传输。
 
 ## Agent 备忘
 
 - 不要把 `prototype-only` 资产误写成可训练或可发布。
 - 不要建议把完整素材库同步到用户本地；本地只保留当前预览子集。
 - 真正引入资产时先建台账，再写下载/转换步骤。
+- 用户准备推送远程 Git 前，确认没有 `.uasset`、`.umap`、视频、压缩包或模型权重进入 tracked files。

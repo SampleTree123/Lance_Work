@@ -17,9 +17,10 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - Lance 已完成 GitHub / 论文 / HF 文件清单初读；视频分支权重已下载，`xks_lance` 环境可运行。
 - Lance `video_edit` smoke test 已跑通；真实公开视频 batch8 的 8 个领域均已完成三次连续单轮调用，其中 `6.mp4`、`7.mp4` 原始视频编码损坏，已用 clean 版补跑完成。这不是 Lance 真多轮编辑结论。
 - Lance contextual 多轮 config 工具已新增：`10_research/model_experiments/lance/scripts/contextual_video_edit.py`。v1 已重跑 turn1/turn2 并抽帧检查；链路能跑通，但主体和场景保持失败。2026-07-05 复查后确认 v1 的 all-source 结构会打破 Lance edit 的 source-target VAE 对齐；现已实现并测试 v2 role-aware config：历史视频只进 VIT，最新视频作为唯一 clean VAE source。v2 turn2/turn3 已在 H200 上生成成功；完整 `contextual_role_v2_current_only_full_01` 三轮重跑效果最好：turn1 保住双人主体并改红外套，turn2 稳定加夕阳，turn3 保持红外套/夕阳并把蓝色加到前景狗附近，但项圈不精确。默认 prompt 改为 `current-only`：只写当前轮指令，必要时加入少量保持约束，不复述完整历史编辑。记录见 `10_research/model_experiments/lance/reports/contextual_video_edit_smoke.md`。
-- Lance full-conversation multi-turn chat A 方案原型已接入：参考 `Jayce-Ping/Lance@8b002b5`，本地 Lance 增加 `multiturn/`、`multiturn_chat.py`，DataMake 增加 `scripts/run_multiturn_chat.sh` 和 `scripts/build_multiturn_conversation.py`。它保留历史 user/assistant turns，不把历史 prompt 拼进最新 prompt；视觉条件仍按 DataMake v2 原则处理：旧视觉 VIT-only，最新视觉为唯一 clean VAE direct source。已通过语法检查和 conversation JSON 生成测试，尚未跑 GPU 视觉结果。
+- Lance full-conversation multi-turn chat A 方案原型已接入并完成 GPU smoke：参考 `Jayce-Ping/Lance@8b002b5`，本地 Lance 增加 `multiturn/`、`multiturn_chat.py`，DataMake 增加 `scripts/run_multiturn_chat.sh` 和 `scripts/build_multiturn_conversation.py`。它保留历史 user/assistant turns，不把历史 prompt 拼进最新 prompt；视觉条件仍按 DataMake v2 原则处理：旧视觉 VIT-only，最新视觉为唯一 clean VAE direct source。2026-07-08 job `102622` 三轮输出成功；初次 `steps=12` 质量很差，复跑 `steps=30` 后主体保持明显改善，turn1/turn2 能保住双人并加夕阳，但狗颜色和 turn3 蓝项圈仍不稳定。记录见 `10_research/model_experiments/lance/reports/full_conversation_multiturn_chat_smoke.md`。
 - BAGEL 已做针对性代码/论文查阅：其 interleaved image generation 训练支持多张历史图像作为 clean VAE/VIT context；这启发 Lance v2 采用历史 VIT-only、最新 source VAE-only 的保守映射。
 - 当前顶层结构已收敛为 `00_engine/`、`10_research/`、`20_planning/` 三大块。
+- 已决定采用“本地 UE Editor 准备资产，服务器脚本化渲染”的分工。用户准备把本 Git 仓库推到自己的远程仓库，本地 clone 后先读 Markdown 了解项目进度，再寻找素材。Git 只保存文档、脚本、配置、台账和 manifest；UE `Content/`、`.uasset`、`.umap`、原始资产包和渲染输出不进 Git。具体注意事项见 `20_planning/implementation/local_asset_workflow.md`。
 
 ## 核心数据模型
 
@@ -91,13 +92,16 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - E1 身份、E2 服装较难，放到基础闭环之后。
 - 原型资产可 `prototype-only`，但不能进入发布或训练数据。
 - 本地 400G 不作为完整素材库；只放少量交互预览子集。服务器只放当前批次工作副本；长期冷存储层需在正式规模生产前确认。
+- 本地导入 UE 的资产先按 `00_engine/assets/asset_ledger_schema.md` 建台账，未确认训练/再分发权前标记 `candidate` 或 `prototype-only`；整理好的当前批次工作副本通过资产包或文件同步工具传到服务器，不通过 Git。
 
 ## 最近下一步
 
 1. 向用户确认是否删除 `00_engine/unreal/downloads/Linux_Unreal_Engine_5.8.0.zip` 释放约 38G。
-2. 在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 写 MVP 最小渲染脚本骨架：创建/加载最小场景、固定相机、跑 MRQ/MRG 或可替代的首帧/短视频 smoke。
-3. 真正像素渲染 smoke 通过后，再实现 `render_pair.py` / `factors.py` / `passes.py` / `sidecar.py`。
-4. Lance 后续若继续测多轮，先用 `run_multiturn_chat.sh` 测 full-conversation A 方案，并与 `contextual_role_v2_current_only_full_01` 做同视频/同 prompt 对照；不要回到 v1 all-source 作为默认方案。
+2. 用户将仓库推到自己的远程 Git 后，本地 clone 阅读 `HANDOFF.md`、`README.md`、`20_planning/implementation/local_asset_workflow.md`、`00_engine/assets/asset_ledger_schema.md`，再开始找素材。
+3. 第一批素材只做小规模 `prototype-only` pilot：1 个场景、1-2 个角色、2-3 个动作、少量道具/配饰，先验证导入、绑定、相机和渲染。
+4. 在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 写 MVP 最小渲染脚本骨架：创建/加载最小场景、固定相机、跑 MRQ/MRG 或可替代的首帧/短视频 smoke。
+5. 真正像素渲染 smoke 通过后，再实现 `render_pair.py` / `factors.py` / `passes.py` / `sidecar.py`。
+6. Lance 后续若继续测多轮，默认沿用 `contextual_video_edit.py` 的 v2 role-aware + `current-only`；full-conversation A 先作为混合任务 conversation 研究分支，不作为默认视频编辑路径；不要回到 v1 all-source。
 
 ## Agent 备忘
 
@@ -106,3 +110,4 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - 旧讨论只作背景；稳定结论以正式分支文档为准。
 - Lance 视频权重已下载；没有下载 `Lance_3B/` 图片分支和 HF demo assets。
 - Lance 输出、日志、真实视频输入、clean 输入副本和自测 prompt 默认不进 Git；稳定结论写入正式文档。
+- 本地 UE 资产和服务器工作副本不进 Git；只提交资产台账、manifest、hash、脚本和稳定说明。

@@ -63,10 +63,11 @@ DataMake/
 ## 4. 当前主线
 
 1. **UE MVP**：在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
-2. **Lance 验证**：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 公开视频连续单轮测试已跑完；contextual v2 真多轮原型已完成 current-only 三轮测试；full-conversation multi-turn chat A 方案已接入但尚未 GPU 验证，记录见 [`10_research/model_experiments/lance/reports/contextual_video_edit_smoke.md`](./10_research/model_experiments/lance/reports/contextual_video_edit_smoke.md)。
+2. **Lance 验证**：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 公开视频连续单轮测试已跑完；contextual v2 真多轮原型已完成 current-only 三轮测试；full-conversation multi-turn chat A 方案已完成 GPU smoke，`steps=12` 结果很差，复跑 `steps=30` 后明显改善但蓝项圈仍不稳定，记录见 [`10_research/model_experiments/lance/reports/full_conversation_multiturn_chat_smoke.md`](./10_research/model_experiments/lance/reports/full_conversation_multiturn_chat_smoke.md)。
 3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)。
 4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
 5. **资产存储与台账**：本地只保留预览子集，服务器保留当前批次工作副本，长期素材/冷存储层待正式规模生产前确认；台账 schema 见 [`00_engine/assets/asset_ledger_schema.md`](./00_engine/assets/asset_ledger_schema.md)。
+6. **本地资产准备**：用户本地 UE Editor 负责找素材、导入、绑定、调材质和人工预览；服务器负责接收整理好的工作副本并脚本化渲染。流程见 [`20_planning/implementation/local_asset_workflow.md`](./20_planning/implementation/local_asset_workflow.md)。
 
 ## 5. 目录规则
 
@@ -81,7 +82,8 @@ DataMake/
 
 | 日期 | 决策 | 理由 |
 |------|------|------|
-| 2026-07-08 | **Lance full-conversation multi-turn chat A 方案已接入待测**：参考 `Jayce-Ping/Lance@8b002b5` 新增 conversation engine 入口；历史 prompt 保留为独立 user turns，不拼入最新 prompt；视觉侧仍采用 DataMake v2 的旧视觉 VIT-only、最新视觉唯一 VAE direct source 策略 | 可以测试真正多轮对话上下文，并允许相邻轮次是不同任务；但避免回到 all-source 多 VAE 条件造成的 source-target 对齐问题 |
+| 2026-07-08 | **采用本地资产准备、服务器批量渲染的分工**：Git 只保存文档、脚本、配置、台账和 manifest；本地 UE Editor 用于找素材、导入、绑定、调材质和人工预览；服务器接收当前批次工作副本后跑脚本化渲染；UE `Content/`、`.uasset`、`.umap` 和资产包不进 Git | 服务器纯 Xvnc 不适合作为稳定完整 UE Editor GUI；本地更适合交互整理资产，服务器更适合确定性批渲；同时避免远程 Git 被大二进制污染 |
+| 2026-07-08 | **Lance full-conversation multi-turn chat A 方案已完成 GPU smoke**：参考 `Jayce-Ping/Lance@8b002b5` 新增 conversation engine 入口；历史 prompt 保留为独立 user turns，不拼入最新 prompt；视觉侧仍采用 DataMake v2 的旧视觉 VIT-only、最新视觉唯一 VAE direct source 策略；job `102622` 三轮生成成功；`steps=12` 质量差，复跑 `steps=30` 后主体保持明显改善但狗颜色和蓝项圈仍不稳定 | 代码路径成立，可以继续用于混合任务对话研究；质量对比应使用 `steps=30`，当前 Lance 多轮视频编辑默认路径仍是 contextual v2 role-aware + current-only |
 | 2026-07-08 | **资产存储改为三层策略**：本地 Laptop 4080/约 400G 只作交互预览层；服务器 DataMake `/scratch` 只作生产工作层；完整资产包、历史版本和正式结果需要长期素材/冷存储层，位置待正式规模生产前确认；新增资产台账 schema | 100+ 角色、多动作、多场景会迅速超过本地和当前工作盘的舒适容量；Git 只保存台账、脚本、配置、hash 和许可证记录，不保存资产本体 |
 | 2026-07-08 | **纯 Xvnc 已证明可连但不适合作为完整 UE Editor GUI**：Windows VNC Viewer 通过 reverse tunnel 连接到 GPU 节点 Xvnc 成功，只显示 xterm；UE Editor 可初始化 H200/Vulkan 和项目 map，但在编辑器 UI 后期 SIGSEGV | 远程图形链路本身成立，失败边界在纯用户态 Xvnc 缺少完整 NVIDIA GLX/桌面栈；服务器继续定位为脚本化 UE、MCP/offscreen/MRQ 生产环境，人工图形编辑主要放本地 |
 | 2026-07-07 | **用户态 TurboVNC 远程桌面支线已最小跑通**：TurboVNC 3.3 解包到 `00_engine/remote_desktop/`，补齐 `libXfont2`、`xkbcomp`、`xsetroot`；登录节点和 GPU job `101190` / `8FS9B74` 上 `Xvnc + xterm` 可监听 localhost；UE Editor 已确认能进入 H200/Vulkan 初始化 | 在无法联系管理员、集群未暴露 DCV/VNC/xpra module 的情况下，先验证普通用户能否自建远程桌面；UE 5.8 对当前 NVIDIA driver `565.57` 会弹出 bad-driver warning，交互预览脚本用 `r.WarnOfBadDrivers=0` 临时跳过；后续人工 VNC 结论见 2026-07-08 记录，生产数据管线仍以无头脚本为准 |
@@ -109,5 +111,6 @@ DataMake/
 
 - 当前执行入口：[`HANDOFF.md`](./HANDOFF.md)。
 - 当前 MVP 入口：[`00_engine/scripts/README.md`](./00_engine/scripts/README.md)。
+- 本地 clone 后找素材前，先读 [`20_planning/implementation/local_asset_workflow.md`](./20_planning/implementation/local_asset_workflow.md) 和 [`00_engine/assets/asset_ledger_schema.md`](./00_engine/assets/asset_ledger_schema.md)。
 - Lance 视频分支权重已下载，`xks_lance` 可用；后续继续用 `10_research/model_experiments/lance/scripts/run_video_edit.sh` 做真实视频基线验证。
 - 提交前先看 `git status --short`，不要把 UE 安装、缓存、输出、模型权重或大型资产加入版本控制。
