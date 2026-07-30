@@ -1,0 +1,236 @@
+{
+  "age_distribution": {
+    "middle": 0.35,
+    "older": 0.2,
+    "young": 0.45
+  },
+  "age_gray_policy": {
+    "dyed_visible_gray_fraction": 0.0,
+    "middle": {
+      "distribution": "triangular",
+      "maximum": 0.4,
+      "minimum": 0.0,
+      "mode": 0.18
+    },
+    "older": {
+      "distribution": "triangular",
+      "maximum": 0.95,
+      "minimum": 0.35,
+      "mode": 0.65
+    },
+    "young": {
+      "distribution": "uniform",
+      "maximum": 0.03,
+      "minimum": 0.0
+    }
+  },
+  "dynamic_wrinkles": {
+    "fixed_strength": 1.0,
+    "profiles": {
+      "female": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+      "male": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle"
+    }
+  },
+  "facial_hair_probability_male": 0.45,
+  "hair_color_mode_weights": {
+    "dyed": 0.02,
+    "natural_common": 0.92,
+    "natural_rare": 0.06
+  },
+  "hair_color_palette": {
+    "auburn": {
+      "end_srgb": "#8B4430",
+      "highlight_a_srgb": "#A85A3B",
+      "highlight_b_srgb": "#5A2119",
+      "root_srgb": "#4D1D18"
+    },
+    "black": {
+      "end_srgb": "#181512",
+      "highlight_a_srgb": "#2A2723",
+      "highlight_b_srgb": "#080706",
+      "root_srgb": "#060504"
+    },
+    "blonde": {
+      "end_srgb": "#D0B778",
+      "highlight_a_srgb": "#E1CC96",
+      "highlight_b_srgb": "#947846",
+      "root_srgb": "#705631"
+    },
+    "blue": {
+      "end_srgb": "#3778B5",
+      "highlight_a_srgb": "#5999D0",
+      "highlight_b_srgb": "#173D69",
+      "root_srgb": "#102A4B"
+    },
+    "burgundy": {
+      "end_srgb": "#76213A",
+      "highlight_a_srgb": "#963650",
+      "highlight_b_srgb": "#3C0C1C",
+      "root_srgb": "#280713"
+    },
+    "copper": {
+      "end_srgb": "#C36B3C",
+      "highlight_a_srgb": "#DA8958",
+      "highlight_b_srgb": "#73351F",
+      "root_srgb": "#4A2015"
+    },
+    "dark_blonde": {
+      "end_srgb": "#A48753",
+      "highlight_a_srgb": "#BDA36E",
+      "highlight_b_srgb": "#67502F",
+      "root_srgb": "#4D3923"
+    },
+    "dark_brown": {
+      "end_srgb": "#513323",
+      "highlight_a_srgb": "#6C4933",
+      "highlight_b_srgb": "#2C1A12",
+      "root_srgb": "#20110C"
+    },
+    "light_brown": {
+      "end_srgb": "#987057",
+      "highlight_a_srgb": "#B08A6A",
+      "highlight_b_srgb": "#5F402F",
+      "root_srgb": "#493023"
+    },
+    "medium_brown": {
+      "end_srgb": "#74503A",
+      "highlight_a_srgb": "#916B4D",
+      "highlight_b_srgb": "#432A1E",
+      "root_srgb": "#321E16"
+    },
+    "pink": {
+      "end_srgb": "#D5809D",
+      "highlight_a_srgb": "#E6A0B7",
+      "highlight_b_srgb": "#8D405E",
+      "root_srgb": "#64283F"
+    },
+    "platinum": {
+      "end_srgb": "#E3DDCB",
+      "highlight_a_srgb": "#F1EDDF",
+      "highlight_b_srgb": "#AAA38F",
+      "root_srgb": "#88816F"
+    },
+    "red": {
+      "end_srgb": "#AC4C2F",
+      "highlight_a_srgb": "#CB6943",
+      "highlight_b_srgb": "#632518",
+      "root_srgb": "#42160F"
+    },
+    "silver": {
+      "end_srgb": "#C4C7C9",
+      "highlight_a_srgb": "#E0E2E3",
+      "highlight_b_srgb": "#818589",
+      "root_srgb": "#62666A"
+    },
+    "soft_black": {
+      "end_srgb": "#292521",
+      "highlight_a_srgb": "#3B3732",
+      "highlight_b_srgb": "#12100E",
+      "root_srgb": "#0E0C0A"
+    },
+    "teal": {
+      "end_srgb": "#32918A",
+      "highlight_a_srgb": "#55AAA4",
+      "highlight_b_srgb": "#19534F",
+      "root_srgb": "#103A37"
+    },
+    "very_dark_brown": {
+      "end_srgb": "#38241A",
+      "highlight_a_srgb": "#4E3426",
+      "highlight_b_srgb": "#1A0F0B",
+      "root_srgb": "#120A07"
+    }
+  },
+  "hair_presentation_policy": {
+    "default_mode": "default",
+    "modes": {
+      "cross_presentation": {
+        "allow_all": true
+      },
+      "default": {
+        "female_minimum_score": 0.5,
+        "male_maximum_score": 0.5
+      },
+      "neutral_only": {
+        "maximum_score": 0.5,
+        "minimum_score": 0.5
+      }
+    }
+  },
+  "pigmentation_profiles": {
+    "african_high_pigment": {
+      "natural_common": {
+        "black": 0.55,
+        "soft_black": 0.3,
+        "very_dark_brown": 0.15
+      },
+      "natural_rare": {
+        "auburn": 0.2,
+        "blonde": 0.1,
+        "dark_brown": 0.45,
+        "medium_brown": 0.25
+      }
+    },
+    "asian_high_pigment": {
+      "natural_common": {
+        "black": 0.55,
+        "soft_black": 0.3,
+        "very_dark_brown": 0.15
+      },
+      "natural_rare": {
+        "auburn": 0.15,
+        "blonde": 0.05,
+        "dark_brown": 0.5,
+        "medium_brown": 0.3
+      }
+    },
+    "caucasian_broad_pigment": {
+      "natural_common": {
+        "black": 0.05,
+        "blonde": 0.1,
+        "dark_blonde": 0.15,
+        "dark_brown": 0.25,
+        "light_brown": 0.2,
+        "medium_brown": 0.25
+      },
+      "natural_rare": {
+        "auburn": 0.4,
+        "platinum": 0.2,
+        "red": 0.3,
+        "soft_black": 0.1
+      }
+    },
+    "middle_east_medium_high_pigment": {
+      "natural_common": {
+        "black": 0.25,
+        "dark_brown": 0.3,
+        "medium_brown": 0.1,
+        "very_dark_brown": 0.35
+      },
+      "natural_rare": {
+        "auburn": 0.3,
+        "blonde": 0.1,
+        "dark_blonde": 0.2,
+        "light_brown": 0.4
+      }
+    }
+  },
+  "production_hair_statuses": [
+    "approved_static_dynamic_pending",
+    "dynamic_approved",
+    "rigid_short_approved",
+    "static_only"
+  ],
+  "registry_id": "cc5_adult_facial_production_registry_v1",
+  "schema_version": 1,
+  "skin_group_profiles": {
+    "Female African": "african_high_pigment",
+    "Female Asian": "asian_high_pigment",
+    "Female Caucasian": "caucasian_broad_pigment",
+    "Female Middle East": "middle_east_medium_high_pigment",
+    "Male African": "african_high_pigment",
+    "Male Asian": "asian_high_pigment",
+    "Male Caucasian": "caucasian_broad_pigment",
+    "Male Middle East": "middle_east_medium_high_pigment"
+  }
+}

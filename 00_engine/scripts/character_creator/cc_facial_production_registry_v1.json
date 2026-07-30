@@ -1,0 +1,4804 @@
+{
+  "age": {
+    "distribution": {
+      "middle": 0.35,
+      "older": 0.2,
+      "young": 0.45
+    },
+    "gray_policy": {
+      "dyed_visible_gray_fraction": 0.0,
+      "middle": {
+        "distribution": "triangular",
+        "maximum": 0.4,
+        "minimum": 0.0,
+        "mode": 0.18
+      },
+      "older": {
+        "distribution": "triangular",
+        "maximum": 0.95,
+        "minimum": 0.35,
+        "mode": 0.65
+      },
+      "young": {
+        "distribution": "uniform",
+        "maximum": 0.03,
+        "minimum": 0.0
+      }
+    },
+    "levels": [
+      {
+        "label": "young",
+        "ui_value": 0,
+        "weight": 0.0
+      },
+      {
+        "label": "middle",
+        "ui_value": 50,
+        "weight": 0.5
+      },
+      {
+        "label": "older",
+        "ui_value": 100,
+        "weight": 1.0
+      }
+    ],
+    "morph": {
+      "display": "Full Face Elder",
+      "id": "2025-07-04-15-29-03_pack_old_man_face"
+    }
+  },
+  "assembly_order": [
+    "bodyfit_project",
+    "primary_head_preset",
+    "local_face_morphs",
+    "skin",
+    "age_morph",
+    "dynamic_wrinkle_profile",
+    "teeth",
+    "eyebrows",
+    "eyelashes",
+    "eyes_material_only",
+    "facial_hair",
+    "scalp_hair",
+    "shared_hair_pigmentation",
+    "quality_assurance"
+  ],
+  "component_pools": {
+    "dynamic_wrinkles": {
+      "fixed_strength": 1.0,
+      "profiles": [
+        {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        }
+      ]
+    },
+    "eyebrows": [
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_07eee7d6450c",
+        "display_name": "Female_Filled-in",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Filled-in.rlHair",
+        "sex_hint": "female",
+        "sha256": "b8cdbf163cb0e41bda0b07376122669152ae1c911ebf7c9542b1be50d03c3e33",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_1a74582ef88b",
+        "display_name": "Female_Petite",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Petite.rlHair",
+        "sex_hint": "female",
+        "sha256": "9aef3ead512796ba2b7e94862d75265839c1304206f60f46ce4228c52626aa4f",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_3a70849f2967",
+        "display_name": "Male_Coarse",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Coarse.rlHair",
+        "sex_hint": "male",
+        "sha256": "ff44cf0e4a03c1b6ee74140d18b7b509293d6b7b14bda17513789513a743bb66",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_3ff25a015a89",
+        "display_name": "Female_Tapered",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Tapered.rlHair",
+        "sex_hint": "female",
+        "sha256": "ee4a6c24fe19a59b90cbbfbaedb46c16d949799f629270302e9945cc97e8a179",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_41b86e20b0f4",
+        "display_name": "Male_Patchy",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Patchy.rlHair",
+        "sex_hint": "male",
+        "sha256": "b73bbf7ddea1e42d1d3dcb30e79dbd8c345ce9856a72723cccc2c9c75b67c4e0",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_4bc5d6fa62ed",
+        "display_name": "Male_Segmented",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Segmented.rlHair",
+        "sex_hint": "male",
+        "sha256": "4d9038b4b012b033e9662d8c7a459d7e7c0a2ca8da589832e604d66df981cb7a",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_50134d472bf5",
+        "display_name": "Male_Bushy",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Bushy.rlHair",
+        "sex_hint": "male",
+        "sha256": "4455d951e83632faae364f6ed6bda94959522806fba7b8b78ba3d3aea18f884d",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_7b88bea88499",
+        "display_name": "Male_Faint Unibrow",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Faint Unibrow.rlHair",
+        "sex_hint": "male",
+        "sha256": "5aa69e783918fa5c4dae005977a56e94aa45dd7478d92e3ca502e2ed9a50f633",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_7fe91b16c05a",
+        "display_name": "Male_Layered",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Layered.rlHair",
+        "sex_hint": "male",
+        "sha256": "49996be61a238538ef991761cb38ea424c5f49545abe483a76d496a0b59040f8",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_8c5b74b64118",
+        "display_name": "Female_Dense",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Dense.rlHair",
+        "sex_hint": "female",
+        "sha256": "8e6ffe0b9eeb3a5c813f724d925f40d12951d77d3f2d44a5652a18c3aa28723c",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_b0452965f1a4",
+        "display_name": "Male_Light",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_M\\Male_Light.rlHair",
+        "sex_hint": "male",
+        "sha256": "c19dc423ce8348b23093db62034dfaeecc70ec457cb8570235edb327ad1c7ce8",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_ca66c0635795",
+        "display_name": "Female_Untamed",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Untamed.rlHair",
+        "sex_hint": "female",
+        "sha256": "1cdf02fa95850507290c9f7d30a989845edf7f82bc0f24045f9617c641b13d96",
+        "slot": "eyebrows"
+      },
+      {
+        "application_mode": "replace_brow_avatar_part",
+        "asset_form": "group",
+        "asset_id": "CCAPP_EYEBROWS_f7525897a9ce",
+        "display_name": "Female_Flat",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Eyebrows\\HD Brows_F\\Female_Flat.rlHair",
+        "sex_hint": "female",
+        "sha256": "cc6e0b92cc4c0293b60330966ad373cc210b5ef28520e62c4756dad87c3bec24",
+        "slot": "eyebrows"
+      }
+    ],
+    "eyelashes": [
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+        "display_name": "Curled",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Curled.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "cb32129e9633307acd9e638d80ea3e7f559cffc5893ec4845535bcbe71a44685",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_284c3a142668",
+        "display_name": "Lush_Extended",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Lush_Extended.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "2b33d19afce6c84ebf87f6974033bc6c68c860fa17b60851590dc42a8ab8ad89",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_3d4a9075bd33",
+        "display_name": "Thin and Drooping",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Thin and Drooping.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "ce8fd171c8c6ed7bc254d18557f128f116ebb0b7598297bb175de88a90ee4645",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+        "display_name": "Delicate",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Delicate.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "cc7ea946db6669a32962a1a2974a1b5d0de4f4786448c52620795fd1a3e4020e",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_6dc5d354d85f",
+        "display_name": "Dense",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Dense.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "0e13dd3d95588b986128c82e5bd93fa2c7d2588efdb13b3ba122a6cd2c8610d3",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_9182b2b7aca6",
+        "display_name": "Lush",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Lush.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "9c5bf9e8f0bc34b7b0c88304162623689703141d6208d70b9ac1ebfb90a2d6c2",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_93227c69530c",
+        "display_name": "Sparse and Short",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Sparse and Short.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "69fc16e5e32607890b47bebadbb5f27eb81e2c6c93ba164af87fb5469846392a",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_c8325645905f",
+        "display_name": "Dense_Extended",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Dense_Extended.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "e20d83c87c986437dc1f3d7b348701c998892bc2a653288a977c38d1af36274d",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      },
+      {
+        "application_mode": "character_preset_replace",
+        "asset_form": "preset",
+        "asset_id": "CCAPP_EYELASHES_cb8c5e385c9a",
+        "display_name": "Straight",
+        "evidence": {
+          "source_face_visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+          "v3_extreme_automation": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Eyelash\\1.HD Natural\\Straight.ccAvatarPreset",
+        "sex_hint": "unknown",
+        "sha256": "4b8f1ec98c5581423b7166d7b3d27ee27966048b64209090817d949b476a8def",
+        "slot": "eyelashes",
+        "validation_status": "approved_source_faces_and_v3_extreme_matrix"
+      }
+    ],
+    "eyes": [
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_20fe8f283ceb",
+        "display_name": "Eyes_03",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_03.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "83b3eda3a3c0629ab99fb22ea2a08b2c24390154ae061ffce8519a002c337eae",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_2fd4c8984575",
+        "display_name": "Eyes_02",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_02.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "13620dac229fbdc89744698f23ca620ce0dc615af809edf6aff4fb2d18fb5b28",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_30a67801797b",
+        "display_name": "Eyes_07",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_07.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "01d86ee3c118d6b9ad17b0c1367215fa60ce63e25dbebfddad62c232c9f5566e",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_4ea86aadfe2f",
+        "display_name": "Eyes_05",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_05.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "035f0bf1c277368bc665a62ba7c91716b270c0cf392a808498a64d6bca540c26",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_6ccfc11f058d",
+        "display_name": "Eyes_10",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_10.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "c149a6662d84aebbfed9fa918a29c08533ebfeb7f82fea2a42991862a8ac4001",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_775c56b6c380",
+        "display_name": "Eyes_06",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_06.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "a3e7e7a62d896fb431c63be59a83201eaf79267647f6baef6f6db878c0fa791e",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_91523528133b",
+        "display_name": "Eyes_12",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_12.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "7a9111fd896f3dc41ba6555efec7cee565acfd46a235caca97b2225fbf64d207",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_9a42ba5420b0",
+        "display_name": "Eyes_01",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_01.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "82bf655e3216832217787752587d6178c9289c6c1f2d94a738054a382efd54b6",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_da24f67fcda7",
+        "display_name": "Eyes_09",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_09.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "7f16352e4e0b9cf9d7bb0d9f6b9a03e94f1170550239403915ec77936c47be2f",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_dffdc3acba51",
+        "display_name": "Eyes_04",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_04.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "e607ae75bc5ce02b2272905e647f96d6456693f6dc5c4c7af4a535d0a49a361f",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_f1c5819ce40d",
+        "display_name": "Eyes_08",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_08.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "dd615ec825ceefe7a69e441e6a00ce43ba66415398b8cf5d72eb094bc29057e9",
+        "slot": "eyes"
+      },
+      {
+        "application_mode": "material_only_preserve_geometry",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_EYES_f4fb1324adfb",
+        "display_name": "Eyes_11",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eye_compatibility_matrix_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Eye\\Eyes_11.ccEye",
+        "sex_hint": "unknown",
+        "sha256": "7ddc9791bfabfd2c0fe29fb7235960b9ab379566a291db132b9f04af457cccb3",
+        "slot": "eyes"
+      }
+    ],
+    "facial_hair": [
+      {
+        "application_mode": "replace_beard_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_FACIAL_HAIR_0564f3beeae6",
+        "display_name": "Thick Chin Curtain",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Beard\\Thick Chin Curtain.rlHair",
+        "sex_hint": "unknown",
+        "sha256": "88cdb6148532314d9e85f4b9bd082ed8a9347c13e2935b9aed257922572b7c63",
+        "slot": "facial_hair"
+      },
+      {
+        "application_mode": "replace_beard_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_FACIAL_HAIR_ba8a532b109d",
+        "display_name": "The Cowboy",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Beard\\The Cowboy.rlhair",
+        "sex_hint": "unknown",
+        "sha256": "dd520d19b7c261fbe5742dd5cb27aeff970b87ceb37e5475b39c89a8489b356d",
+        "slot": "facial_hair"
+      },
+      {
+        "application_mode": "replace_beard_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+        "display_name": "Country Style",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Beard\\Country Style.rlhair",
+        "sex_hint": "unknown",
+        "sha256": "9c3b2d21fe171e854c5430887e74d6ef5367527d2eb3ecebe645bd397b09bcfd",
+        "slot": "facial_hair"
+      },
+      {
+        "application_mode": "replace_beard_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_FACIAL_HAIR_eedcb805b235",
+        "display_name": "Viking",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Beard\\Viking.rlhair",
+        "sex_hint": "unknown",
+        "sha256": "56e778eabc93190cbbcace3346c60589df5a83d340bf3ae60c324f4593a84cf2",
+        "slot": "facial_hair"
+      },
+      {
+        "application_mode": "replace_beard_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_FACIAL_HAIR_fe2419c94599",
+        "display_name": "Stubble",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Hair\\Group\\Beard\\Stubble.rlHair",
+        "sex_hint": "unknown",
+        "sha256": "effad83455e876b0fc3771b602ba924db2a6ea2234a601660bd38d6792b8fdb0",
+        "slot": "facial_hair"
+      }
+    ],
+    "scalp_hair": [
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_05f349f557ea",
+        "display_name": "Double bubble braids",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 6,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double bubble braids.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "fixed_color_hair_ties"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "6e56db10217a5b17442e81a44190e7cb95529f669903dff3d72dc9ce721f2263",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Double Bubble Braids"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Double Half Up",
+              "Straight_long_low",
+              "Two Tone Bold Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Double Bubble Braids"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Double Half Up",
+              "Straight_long_low",
+              "Two Tone Bold Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_06358027cd11",
+        "display_name": "Layered Pixie",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.5,
+        "hair_builder_pack": {
+          "asset_index": 4,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Layered Pixie.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "9a1b4bb7adc3528dd226975eeac8033ed889f5a137a11848b5e427d9b1226b71",
+        "silhouette_family": "short_pixie",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Layered Hair_L",
+              "Layered Hair_R",
+              "Layered Mop Top",
+              "Layered Straight Hair"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Layered Hair_L",
+              "Layered Hair_R",
+              "Layered Mop Top",
+              "Layered Straight Hair"
+            ]
+          }
+        },
+        "style_tags": []
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_0d690370e105",
+        "display_name": "Side straight ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 19,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Side straight ponytail.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "0ac9c2c28feb4f972d7070c8172ccf99b1b7eb927d4cd6540f3f05e671390593",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Straight",
+              "Two Tone Bold Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Straight",
+              "Two Tone Bold Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "ponytail",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_0ea77b9317c9",
+        "display_name": "Side swept braid",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 9,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Side swept braid.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "4965835f7ae04cb4cb86f21b2f638c94eea03bdcd3968d6c9c4d6ac879620f46",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Pigtail braid_side",
+              "Side Swept"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Pigtail braid_side",
+              "Side Swept"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_1089b354115c",
+        "display_name": "Regal half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 15,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Regal half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "9f83a33f262edb651bc59a7c0000ef32eaaefbbd90d85f25a7707526a78fca0f",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Hair Bows_M",
+              "Straight_long_low",
+              "Twist_Half_Up",
+              "Two Tone Choppy bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Hair Bows_M",
+              "Straight_long_low",
+              "Twist_Half_Up",
+              "Two Tone Choppy bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_10cb0e3d61ee",
+        "display_name": "Side Braid Curly",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.65,
+        "hair_builder_pack": {
+          "asset_index": 8,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side Braid Curly.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "c591cadfa4de677382136d01136d0d981f5b10eeb28c54532da577af7f956cad",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Hair Rings_R"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Loose Curls",
+              "Side Braids_R",
+              "Side-swept Curly_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Hair Rings_R"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Loose Curls",
+              "Side Braids_R",
+              "Side-swept Curly_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "curly",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_11247b134aef",
+        "display_name": "Side-swept Mullet",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.4,
+        "hair_builder_pack": {
+          "asset_index": 16,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side-swept Mullet.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "2d3eae46fd13e6578aea2c0d19b61f7bbb6b788d8920fd45454c227596762baa",
+        "silhouette_family": "mullet",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Back-swept_L",
+              "Back-swept_R",
+              "Mullet Hair",
+              "Side Part Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Back-swept_L",
+              "Back-swept_R",
+              "Mullet Hair",
+              "Side Part Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "mullet",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_121085a4163b",
+        "display_name": "Large bun",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 5,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Large bun.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "592c4ff6a2f68803ce364bbab01d916eb69c923d10113102b00ea13048aa2cfd",
+        "silhouette_family": "bun_updo",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy high",
+              "Short ponytail",
+              "Short ponytail_1",
+              "Space bun_Big"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy high",
+              "Short ponytail",
+              "Short ponytail_1",
+              "Space bun_Big"
+            ]
+          }
+        },
+        "style_tags": [
+          "bun"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_1adcb4e56e15",
+        "display_name": "Short middle part",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 16,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Short middle part.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "575473e9799a76b0b288ea5c20e4debed46a7e8f56b05fe476674bf31610a41a",
+        "silhouette_family": "short",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Two Tone Choppy bangs",
+              "Two Tone Middle Part Hair"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Two Tone Choppy bangs",
+              "Two Tone Middle Part Hair"
+            ]
+          }
+        },
+        "style_tags": [
+          "middle_part",
+          "short"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_1dba4c39b4ff",
+        "display_name": "Messy Curly",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.5,
+        "hair_builder_pack": {
+          "asset_index": 6,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Messy Curly.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "0684960a48f374b02c1daaf8ad3a75911bf4b70899e5c571503088ddb3d1e4ba",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy Curls",
+              "Messy Curls_L",
+              "Messy Curls_R",
+              "Messy Curly Top"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy Curls",
+              "Messy Curls_L",
+              "Messy Curls_R",
+              "Messy Curly Top"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_2461bc8be8a1",
+        "display_name": "Messy Curly with Braids",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.5,
+        "hair_builder_pack": {
+          "asset_index": 5,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Messy Curly with Braids.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "8443b4c94d06a4953192eea554e17021e9ae1cf0b922032f1e3ff319d14fb46e",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy Curls",
+              "Messy Curly Top",
+              "Side Braids_L",
+              "Side Braids_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Messy Curls",
+              "Messy Curly Top",
+              "Side Braids_L",
+              "Side Braids_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "curly"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_2c28e47398c3",
+        "display_name": "Double bun braid",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 7,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double bun braid.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "488fd0c1fac35793aa5fa6261cfb0676965a8551aadc60cfe09b15d38813b9e5",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Bun",
+              "Bun(0)",
+              "Curly Streaked Bangs",
+              "Double Half Up",
+              "French Braid"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Bun",
+              "Bun(0)",
+              "Curly Streaked Bangs",
+              "Double Half Up",
+              "French Braid"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "bun"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_37764c8be0d9",
+        "display_name": "Side Clip Long Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 10,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side Clip Long Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "b5e12119452bdca16566212fbef29d52f8a91668aa61f31346872ee3e83223ec",
+        "silhouette_family": "long_loose",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Clip_R",
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Clip_R",
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_40adf5a17641",
+        "display_name": "Two curly ponytails",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 15,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Two curly ponytails.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "nape_component_color_mismatch_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "c7847e982ba4c5c07c2c6374ebe0dba2a4fb9baaf924cbd935161e52b88fe5d3",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Baby bangs",
+              "Double low",
+              "Side curly ponytail_L",
+              "Side curly ponytail_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Baby bangs",
+              "Double low",
+              "Side curly ponytail_L",
+              "Side curly ponytail_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "ponytail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_48ecead5c369",
+        "display_name": "Long middle part",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 14,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Long middle part.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "41a7ee654d89af07e4b59af5693bc959224cd340b8fda8dcd54cd2d1048a9e02",
+        "silhouette_family": "long_loose",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Arched Bangs",
+              "Two Tone Middle Part Hair"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Arched Bangs",
+              "Two Tone Middle Part Hair"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "middle_part"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_491016db4635",
+        "display_name": "Two ponytails",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 19,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Two ponytails.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "nape_component_color_mismatch_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "37748f4c47c1cd088553a0226230a0f7cb8fbee6d8f3d54a4fec89e20bd33d8d",
+        "silhouette_family": "twin_tail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Double high",
+              "Long wavy ponytail_L",
+              "Long wavy ponytail_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Double high",
+              "Long wavy ponytail_L",
+              "Long wavy ponytail_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "ponytail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_4dc557037b4e",
+        "display_name": "Half up short",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 2,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Half up short.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "958c482e9617f791c25ffdd7d1c7edb4cfebabc68c947e5e7d9102e0f7330aa3",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Bun",
+              "Hair_Base",
+              "Side bangs",
+              "Straight short"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Bun",
+              "Hair_Base",
+              "Side bangs",
+              "Straight short"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up",
+          "short"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_553a1b40f180",
+        "display_name": "Modern Mullet",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.4,
+        "hair_builder_pack": {
+          "asset_index": 7,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Modern Mullet.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "6e9a390dc52e7341151407b5570f04577ffa8da32fb57e9cc88f2c21f91d87b9",
+        "silhouette_family": "mullet",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Layered Mop Top",
+              "Mullet Hair",
+              "Straight Hair_L",
+              "Straight Hair_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Layered Mop Top",
+              "Mullet Hair",
+              "Straight Hair_L",
+              "Straight Hair_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "mullet"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_56b91b147d17",
+        "display_name": "Two low space buns",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 17,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Two low space buns.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "nape_component_color_mismatch_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "2f85c81ecbf03845b4c62b9c470c60addb5c09e4a057a839893ca27b893fdd1d",
+        "silhouette_family": "bun_updo",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Baby bangs",
+              "Double low",
+              "Space bun_L",
+              "Space bun_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Baby bangs",
+              "Double low",
+              "Space bun_L",
+              "Space bun_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "bun"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_5ebdc826b33c",
+        "display_name": "Two high space buns",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 16,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Two high space buns.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "nape_component_color_mismatch_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "8027a6196262ba6efddc99325324f1c0643bc09a068c677afe76a18b4aaf3780",
+        "silhouette_family": "bun_updo",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Air bangs",
+              "Double high",
+              "Space bun_L",
+              "Space bun_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Air bangs",
+              "Double high",
+              "Space bun_L",
+              "Space bun_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "bun"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_66a2901d4414",
+        "display_name": "Deep Side Part with Braids",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 3,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Deep Side Part with Braids.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "e91f1482c3319702ce9e3252075b55a01bb532733ccfb0c2dbbbff07d0d1db3f",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Side Braids_R",
+              "Sleek Deep Side Part_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Side Braids_R",
+              "Sleek Deep Side Part_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_6702386d999f",
+        "display_name": "Chic Half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 2,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Chic Half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "72aafa9014706811ee28681f4cd7b1ab633c9cf93cc945b7d3f788f3577ec8de",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Bubble_Braids_M"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Hair_Base",
+              "Straight_long_low",
+              "curly streaked bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Bubble_Braids_M"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Hair_Base",
+              "Straight_long_low",
+              "curly streaked bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_6934a4a6f535",
+        "display_name": "Double bow half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 4,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double bow half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "b02eb97485bf8e5c1daf01e27be4bbc44d3bd453f01afecd933dfebca0a7c353",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Chunky Highlights Bangs",
+              "Double Half Up",
+              "Hair Bows_L",
+              "Hair Bows_R",
+              "Straight_long_low"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Chunky Highlights Bangs",
+              "Double Half Up",
+              "Hair Bows_L",
+              "Hair Bows_R",
+              "Straight_long_low"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_6cbc99747f0a",
+        "display_name": "Side curly ponytail_Short",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 18,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Side curly ponytail_Short.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "bce235571a760d6a77058fcc67251acb74e8aa0a4fc08844384cd309413b8b42",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Braid Band"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Curly Piecey Bangs",
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Curly"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Braid Band"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Curly Piecey Bangs",
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Curly"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "ponytail",
+          "short",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_6f64a0b44c51",
+        "display_name": "Sleek Tucked Long Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 18,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Sleek Tucked Long Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "737f36c2b40b77e438c55f83952a530e1af4943f1fc9160469e237490b666415",
+        "silhouette_family": "long_loose",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Sleek Deep Side Part_R",
+              "Sleek Side_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Sleek Deep Side Part_R",
+              "Sleek Side_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "sleek"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_723181d44a4d",
+        "display_name": "Curly long ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 1,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Curly long ponytail.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "52e41be66e42848ee0c9087bc46ce0f8005734363509ef66738a0ef07a0fdd3d",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Curly long hair",
+              "Curly ponytail_back",
+              "Hair_Base",
+              "Side bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Curly long hair",
+              "Curly ponytail_back",
+              "Hair_Base",
+              "Side bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "long",
+          "ponytail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_7a93f1a1f61c",
+        "display_name": "Top knot long ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.45,
+        "hair_builder_pack": {
+          "asset_index": 11,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Top knot long ponytail.rlhair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "9bc7aca6132c6b2ad36b2088f43bf58489f25f27e4efc6ae052b35abbc68d3f2",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Long wavy ponytail",
+              "Undercut fade"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Long wavy ponytail",
+              "Undercut fade"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "ponytail",
+          "top_knot"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_7f3c4466e80f",
+        "display_name": "Side-swept Fringe",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.15,
+        "hair_builder_pack": {
+          "asset_index": 13,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side-swept Fringe.rlHair",
+        "presentation_label": "male_primary",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "8bfaf7cdcadc1fbd7a0844b7d1e520e7891a7249a663547372d957044a8a14b4",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Crew Cut",
+              "Side Part Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Crew Cut",
+              "Side Part Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "fringe",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_80c0c508e67a",
+        "display_name": "Top knot samurai",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.15,
+        "hair_builder_pack": {
+          "asset_index": 13,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Top knot samurai.rlhair",
+        "presentation_label": "male_primary",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "5df1dcaab7ce446de898eabea287bc7502f5f6396d56dc4224a951b123d79916",
+        "silhouette_family": "bun_updo",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Samurai bun",
+              "Undercut fade"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Samurai bun",
+              "Undercut fade"
+            ]
+          }
+        },
+        "style_tags": [
+          "top_knot"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_811630531060",
+        "display_name": "Side curly ponytail_long",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 17,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Side curly ponytail_long.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "8b6bfe7aa3ebeed55b42788f479284518e6e8d302cc1586f33416a75d2736c32",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Braid Band"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Arched Bangs",
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Curly"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Braid Band"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Arched Bangs",
+              "High Side Part Ponytail_Base",
+              "High Side Part Ponytail_Curly"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "long",
+          "ponytail",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_8dec18e57e54",
+        "display_name": "Side-swept Long Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 14,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side-swept Long Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "a754b3bba42c508291ef689d24df6c6dd4e414551961c60d0dc6df9b718ea87a",
+        "silhouette_family": "long_loose",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Long Hair_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Long Hair_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_9a8e0a32aa17",
+        "display_name": "Sleek Deep Side Part",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 17,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Sleek Deep Side Part.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "1bb40a3cc8616e9d6d05a32f3f2ac8f0127092017eba8019fe858102983a161f",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Side Clip_L",
+              "Sleek Deep Side Part_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Shoulder-length Hair",
+              "Side Clip_L",
+              "Sleek Deep Side Part_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "side_styled",
+          "sleek"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_9e4445668843",
+        "display_name": "Half up straight",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 3,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Half up straight.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "3b7515e10d7a1226a356853002f86fde8685cbbfdad882452ae29a0172cdb715",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Half up",
+              "Long bangs",
+              "Samurai bun",
+              "Straight short"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Half up",
+              "Long bangs",
+              "Samurai bun",
+              "Straight short"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_a12d7bf0d479",
+        "display_name": "Half up low Ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 11,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Half up low Ponytail.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "fixed_color_accessory"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "0f1beaf659a22ee17287242ab1cf5887b8875b8b029f4b1525256f157dbacc6b",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 3,
+            "accessory_names": [
+              "Hair Clip Butterfly_Shine",
+              "Hair Clip Butterfly_Shine(0)",
+              "Jewelry Barrette_04"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Chunky Highlights Bangs",
+              "Twist Middle Ponytail",
+              "Twist_Half_Up"
+            ]
+          },
+          "male": {
+            "accessory_count": 3,
+            "accessory_names": [
+              "Hair Clip Butterfly_Shine",
+              "Hair Clip Butterfly_Shine(0)",
+              "Jewelry Barrette_04"
+            ],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Chunky Highlights Bangs",
+              "Twist Middle Ponytail",
+              "Twist_Half_Up"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up",
+          "ponytail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_a728e1730d2b",
+        "display_name": "Wavy medium ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 20,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Wavy medium ponytail.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "e947307e679d17a1422dd2eceaa775fb66946ef403170573497e3fe1b10cc40f",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Long bangs",
+              "Messy high",
+              "Messy ponytail_back"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Long bangs",
+              "Messy high",
+              "Messy ponytail_back"
+            ]
+          }
+        },
+        "style_tags": [
+          "ponytail",
+          "wavy"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_a9d5c0588617",
+        "display_name": "Side part bang_mid",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 8,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Side part bang_mid.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "0276fe7b6aba356ee7de50160547927baaadef3e2aa8e4075def8930394301f0",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Side bangs",
+              "Side part_mid"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Side bangs",
+              "Side part_mid"
+            ]
+          }
+        },
+        "style_tags": [
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_a9eb6d7ba7d9",
+        "display_name": "Double half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 9,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "046a32160e7898a66eca8c46b2e50f61c10fd78081719c83ed8d3adc9988bcc3",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Double Half Up",
+              "High Hair Strands_Double",
+              "Real_Hair",
+              "Two Tone Bold Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Double Half Up",
+              "High Hair Strands_Double",
+              "Real_Hair",
+              "Two Tone Bold Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_aa8d6483e5db",
+        "display_name": "Long wavy ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 6,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Long wavy ponytail.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "c7f4cacc232bdb6e8a2dfd8c7135873a5211ef61cb6338c1af2857ad2419298a",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Long wavy ponytail",
+              "Messy high"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Long wavy ponytail",
+              "Messy high"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "ponytail",
+          "wavy"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_ae5d445ab5d2",
+        "display_name": "Back-swept Top",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.35,
+        "hair_builder_pack": {
+          "asset_index": 1,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Back-swept Top.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "b324784351895005834264754281318f7561484ffbd1edcb299f0223a560ee53",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Back-swept Top",
+              "Crew Cut"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Back-swept Top",
+              "Crew Cut"
+            ]
+          }
+        },
+        "style_tags": []
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_b28a5a8f5ee0",
+        "display_name": "Top knot short ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.15,
+        "hair_builder_pack": {
+          "asset_index": 14,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Top knot short ponytail.rlhair",
+        "presentation_label": "male_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "291659d5a2530f1299c589191a93e5e01b9df487a2023086f894ce8fcbc18d42",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Short ponytail",
+              "Undercut fade"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Half up",
+              "Short ponytail",
+              "Undercut fade"
+            ]
+          }
+        },
+        "style_tags": [
+          "ponytail",
+          "short",
+          "top_knot"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_b76abfcd9bdb",
+        "display_name": "Two pigtail braids",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 18,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Two pigtail braids.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "nape_component_color_mismatch_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "b4f68c9be769622500093b8c20a275342d5c8ca24e5bde965dcae5e212af6607",
+        "silhouette_family": "twin_tail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Pigtail braid_L",
+              "Pigtail braid_R"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Double high",
+              "Long bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Pigtail braid_L",
+              "Pigtail braid_R"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Double high",
+              "Long bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "pigtail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_ba0da3df8aa8",
+        "display_name": "Spiky Mullet",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.45,
+        "hair_builder_pack": {
+          "asset_index": 20,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Spiky Mullet.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "hair_color_normalization_required",
+          "non_neutral_source_hair_color"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "65d4c6367981af9d2e68cced933013877d56a96f5759c93bb6b90ce7bd9be509",
+        "silhouette_family": "mullet",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Hair Tattoo",
+              "Mullet Hair",
+              "Spiky Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Hair Tattoo",
+              "Mullet Hair",
+              "Spiky Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "mullet",
+          "spiky"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_bc50ffe00136",
+        "display_name": "Top knot pigtail braid",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.55,
+        "hair_builder_pack": {
+          "asset_index": 12,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Top knot pigtail braid.rlhair",
+        "presentation_label": "unisex",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "99b4df13ea1a22e174d9b5776e6e32cdf72d1a7dc8ed63917759e19be1c12430",
+        "silhouette_family": "twin_tail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Pigtail braid"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Half up",
+              "Undercut fade"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Pigtail braid"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Half up",
+              "Undercut fade"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "pigtail",
+          "top_knot"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_bd479d2afd3b",
+        "display_name": "Side swept ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 10,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Side swept ponytail.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "350689f51d9e807da4cb28ac7f2f98ecab3a999bac08c8cde52de2ef2c64ae0d",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Messy ponytail",
+              "Side swept"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Messy ponytail",
+              "Side swept"
+            ]
+          }
+        },
+        "style_tags": [
+          "ponytail",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_c4bc231ce574",
+        "display_name": "Whimsical Bow Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 20,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Whimsical Bow Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "5480463ae4fc337c0e7cb49d343d8cf330753d4bb080a97354e38ef3a90b1fd6",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Curly Streaked Bangs",
+              "Hair Bows_L",
+              "High Side Part Ponytail_Base"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Curly Streaked Bangs",
+              "Hair Bows_L",
+              "High Side Part Ponytail_Base"
+            ]
+          }
+        },
+        "style_tags": []
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_c8078bdda14a",
+        "display_name": "Half up with Clips",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 13,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Half up with Clips.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "accessory_visibility_head_shape_sensitive",
+          "fixed_color_accessory"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "160902da65aae0865a2f0bf36722bcee38f204afd75ab00a59b121d291aee94e",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 7,
+            "accessory_names": [
+              "Hair Clip Butterfly_Plastic",
+              "Hair Clip Butterfly_Shine(0)",
+              "Hair Clip Butterfly_Shine(1)",
+              "Hair Clip Butterfly_Shine(2)",
+              "Hair Clip Butterfly_Shine(3)",
+              "Hair Clip Butterfly_Shine(4)",
+              "Hair Clip Butterfly_Shine(5)"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Middle Down Hair Strands",
+              "Real_Hair",
+              "Twist_Half_Up",
+              "Two Tone Bold Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 7,
+            "accessory_names": [
+              "Hair Clip Butterfly_Plastic",
+              "Hair Clip Butterfly_Shine(0)",
+              "Hair Clip Butterfly_Shine(1)",
+              "Hair Clip Butterfly_Shine(2)",
+              "Hair Clip Butterfly_Shine(3)",
+              "Hair Clip Butterfly_Shine(4)",
+              "Hair Clip Butterfly_Shine(5)"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Middle Down Hair Strands",
+              "Real_Hair",
+              "Twist_Half_Up",
+              "Two Tone Bold Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_c8baf1677ea9",
+        "display_name": "Side-swept Curly",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.55,
+        "hair_builder_pack": {
+          "asset_index": 12,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side-swept Curly.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "3b54f4808f356a18abb215293fb13d52a23856811a984fbd65f51d72671f1c77",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Back-swept Curls_R",
+              "Loose Curls",
+              "Side-swept Curly_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 3,
+            "hair_part_names": [
+              "Back-swept Curls_R",
+              "Loose Curls",
+              "Side-swept Curly_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_caaed38ee178",
+        "display_name": "Spiky Fringe",
+        "dynamic_status": "rigid_short_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.15,
+        "hair_builder_pack": {
+          "asset_index": 19,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Spiky Fringe.rlHair",
+        "presentation_label": "male_primary",
+        "production_status": "rigid_short_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "934247ad23bcad7cdc1cc5527925146a3cae4e01196f4ed64ba1a22d82024930",
+        "silhouette_family": "medium_or_swept",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Hair Tattoo",
+              "Spiky Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Hair Tattoo",
+              "Spiky Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "fringe",
+          "spiky"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_cb40584ea852",
+        "display_name": "Double bun ponytail",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 8,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double bun ponytail.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "fixed_color_accessory"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "08e8597921942f885785d1c87737f731009c042cd3bae1741f30bd37173a2e14",
+        "silhouette_family": "ponytail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Jewelry Barrette_01",
+              "Jewelry Barrette_02"
+            ],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Arched Bangs",
+              "Bun",
+              "Bun(0)",
+              "Double Half Up",
+              "Twist Middle Ponytail"
+            ]
+          },
+          "male": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Jewelry Barrette_01",
+              "Jewelry Barrette_02"
+            ],
+            "hair_part_count": 5,
+            "hair_part_names": [
+              "Arched Bangs",
+              "Bun",
+              "Bun(0)",
+              "Double Half Up",
+              "Twist Middle Ponytail"
+            ]
+          }
+        },
+        "style_tags": [
+          "bun",
+          "ponytail"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_cf362c3cdc99",
+        "display_name": "Side bang pigtail braid",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 7,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Side bang pigtail braid.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "887c8165e39871e87dc57e253e8ff24cffb788fbe8cd510d400790bc544bb9db",
+        "silhouette_family": "twin_tail",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Pigtail braid"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Messy high",
+              "Side bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Pigtail braid"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Messy high",
+              "Side bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "pigtail",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_d01338c19968",
+        "display_name": "Side-swept long Mullet",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.45,
+        "hair_builder_pack": {
+          "asset_index": 15,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side-swept long Mullet.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "hair_color_normalization_required",
+          "non_neutral_source_hair_color"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "42970923f06ea2d4598c17f2c18d4980fa8180209623542b67daa01aa0cc5234",
+        "silhouette_family": "mullet",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Mullet Hair",
+              "Side Part Bangs",
+              "Straight Hair_L",
+              "Straight Hair_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Mullet Hair",
+              "Side Part Bangs",
+              "Straight Hair_L",
+              "Straight Hair_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "mullet",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_d45c2e152294",
+        "display_name": "Side Tucked Long Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 11,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side Tucked Long Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "1570a66b4f78b2cd5e73491aaaf878a6206daf9a20a6fff347156f43b51369f0",
+        "silhouette_family": "long_loose",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L",
+              "Sleek Side_R"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L",
+              "Sleek Side_R"
+            ]
+          }
+        },
+        "style_tags": [
+          "long",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_d840baee97e5",
+        "display_name": "Half up with braids",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 12,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Half up with braids.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "secondary_braid_visibility_head_shape_sensitive"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "8f2d864ce3074c093a7c2f96a336929164c9d11f355ecee37ab449496e2ae9b9",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 7,
+            "accessory_names": [
+              "Hair_Strands_Braid01",
+              "Hair_Strands_Braid02",
+              "Hair_Strands_Braid03",
+              "Hair_Strands_Braid04",
+              "Hair_Strands_Braid05",
+              "Hair_Strands_Braid06",
+              "Hair_Strands_Braid07"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Hair Bows_M",
+              "Real_Hair",
+              "Twist_Half_Up",
+              "Two Tone Bold Bangs"
+            ]
+          },
+          "male": {
+            "accessory_count": 7,
+            "accessory_names": [
+              "Hair_Strands_Braid01",
+              "Hair_Strands_Braid02",
+              "Hair_Strands_Braid03",
+              "Hair_Strands_Braid04",
+              "Hair_Strands_Braid05",
+              "Hair_Strands_Braid06",
+              "Hair_Strands_Braid07"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Hair Bows_M",
+              "Real_Hair",
+              "Twist_Half_Up",
+              "Two Tone Bold Bangs"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_d841f94586e3",
+        "display_name": "Half up wavy long",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 4,
+          "directory": "Hair Builder",
+          "official_intent": "universal_female_leaning",
+          "pack_code": "HB1",
+          "pack_id": "hair_builder_1"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder\\Half up wavy long.rlhair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "f3c6fad763fc48ceb84476fc07f262e27d6c87cdd035d5cb87693810d4d46078",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Air bangs",
+              "Curly long hair",
+              "Half up",
+              "Space bun_back"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Air bangs",
+              "Curly long hair",
+              "Half up",
+              "Space bun_back"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up",
+          "long",
+          "wavy"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_da75aba22424",
+        "display_name": "Curly Fringe Undercut",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.4,
+        "hair_builder_pack": {
+          "asset_index": 2,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Curly Fringe Undercut.rlHair",
+        "presentation_label": "unisex",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "shaved_scalp_material_match_pending_pigmentation"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "1d568571ac0cb52969d14fefbfae38c72cd49b6aaab0a9a091697ec38b7b3459",
+        "silhouette_family": "undercut",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Crew Cut",
+              "Messy Curly Top"
+            ]
+          },
+          "male": {
+            "accessory_count": 0,
+            "accessory_names": [],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Crew Cut",
+              "Messy Curly Top"
+            ]
+          }
+        },
+        "style_tags": [
+          "curly",
+          "fringe",
+          "undercut"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_db98f35b8f47",
+        "display_name": "Double braid half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 5,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Double braid half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "b7200fd9a263029239e466980d8a819d562e532bf22d27882975be071bc5b4ce",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Double_High_Braids"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Double Half Up",
+              "Straight_long_low"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Double_High_Braids"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Double Half Up",
+              "Straight_long_low"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "half_up"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_f26788312af7",
+        "display_name": "Side Braid Long Hair",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.85,
+        "hair_builder_pack": {
+          "asset_index": 9,
+          "directory": "Hair Builder 3 - Edgy",
+          "official_intent": "male_primary_mixed",
+          "pack_code": "HB3",
+          "pack_id": "hair_builder_3_edgy"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 3 - Edgy\\Side Braid Long Hair.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [],
+        "sex_hint": "unknown",
+        "sha256": "833992b11aac18efe46ecc5d34bf2a257d326289978a33d9f5eb1caae08bf52c",
+        "silhouette_family": "braid",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Hair Rings_R"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Braids_R",
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          },
+          "male": {
+            "accessory_count": 1,
+            "accessory_names": [
+              "Hair Rings_R"
+            ],
+            "hair_part_count": 4,
+            "hair_part_names": [
+              "Side Braids_R",
+              "Side Clip_Tail_R",
+              "Side-swept Long Hair_L",
+              "Side-swept_L"
+            ]
+          }
+        },
+        "style_tags": [
+          "braided",
+          "long",
+          "side_styled"
+        ]
+      },
+      {
+        "accepted_sexes": [
+          "male",
+          "female"
+        ],
+        "application_mode": "replace_scalp_hair_group",
+        "asset_form": "group",
+        "asset_id": "CCAPP_SCALP_HAIR_fcc3db2b5c40",
+        "display_name": "Classic half up",
+        "dynamic_status": "dynamic_approved",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json"
+        },
+        "female_presentation_score": 0.9,
+        "hair_builder_pack": {
+          "asset_index": 3,
+          "directory": "Hair Builder 2 - eGirl",
+          "official_intent": "female_primary",
+          "pack_code": "HB2",
+          "pack_id": "hair_builder_2_egirl"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Classic half up.rlHair",
+        "presentation_label": "female_primary",
+        "production_status": "dynamic_approved",
+        "risk_tags": [
+          "fixed_color_accessory"
+        ],
+        "sex_hint": "unknown",
+        "sha256": "42430834a9d616878e76a3e496e02a38826a0ec4ecd5eed05f9773ac0d234683",
+        "silhouette_family": "half_up",
+        "slot": "scalp_hair",
+        "structures_by_sex": {
+          "female": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Hair Strands_Braid",
+              "Hair_Bow_Clip"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Straight_long_low",
+              "Twist_Half_Up"
+            ]
+          },
+          "male": {
+            "accessory_count": 2,
+            "accessory_names": [
+              "Hair Strands_Braid",
+              "Hair_Bow_Clip"
+            ],
+            "hair_part_count": 2,
+            "hair_part_names": [
+              "Straight_long_low",
+              "Twist_Half_Up"
+            ]
+          }
+        },
+        "style_tags": [
+          "half_up"
+        ]
+      }
+    ],
+    "skins": [
+      {
+        "age_from_filename": 21,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_033119270011",
+        "display_name": "Age21-LoraSharp_2k",
+        "evidence": {
+          "preset_id": "SKA_F_CAU_03_A21",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "LoraSharp",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Caucasian\\Age21-LoraSharp_2k.ccSkin",
+        "pigmentation_profile_id": "caucasian_broad_pigment",
+        "region_label": "Caucasian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "1423897f7fcc6001de6ce73815cbd2493294d1971c53fd9abff7996d64849f46",
+        "skin_group": "Female Caucasian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 18,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_06f3f3d5548b",
+        "display_name": "Age18-ThomasReed_2k",
+        "evidence": {
+          "preset_id": "SKA_M_AFR_01_A18",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "ThomasReed",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male African\\Age18-ThomasReed_2k.ccSkin",
+        "pigmentation_profile_id": "african_high_pigment",
+        "region_label": "African",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "64f6981373a9e6c74c56a464d7ea969a406a565965021f9ceda8b9cdfe4b0c4b",
+        "skin_group": "Male African",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 20,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_2fc9b3a2cc34",
+        "display_name": "Age20-AlexisRogers_2k",
+        "evidence": {
+          "preset_id": "SKA_F_AFR_01_A20",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "AlexisRogers",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female African\\Age20-AlexisRogers_2k.ccSkin",
+        "pigmentation_profile_id": "african_high_pigment",
+        "region_label": "African",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "bcc3db7d935bebd5d86611e870e6a371bb00bca0b31b8c3accddbc63332e4954",
+        "skin_group": "Female African",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 19,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_30538e725134",
+        "display_name": "Age19-MollyOno_2k",
+        "evidence": {
+          "preset_id": "SKA_F_ASI_01_A19",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "MollyOno",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Asian\\Age19-MollyOno_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "351eb5708de3a0a1a9c833da502136e650a6a646016cc2e3091b381ad66ccc42",
+        "skin_group": "Female Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_4532cf5e146e",
+        "display_name": "Age23-ElaineDjou_2k",
+        "evidence": {
+          "preset_id": "SKA_F_ASI_02_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "ElaineDjou",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Asian\\Age23-ElaineDjou_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "f98b2d6e546c7be64540896e5b8d378be70178873444e125efa0732e183a3faa",
+        "skin_group": "Female Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 20,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_5eb11305b7e4",
+        "display_name": "Age20-JeremyShoji_2k",
+        "evidence": {
+          "preset_id": "SKA_M_ASI_03_A20",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "JeremyShoji",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Asian\\Age20-JeremyShoji_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "6debd2c056d9cf4ca8393a470fa6b162980c390fabbdc9b525e4f4f546cfa5bf",
+        "skin_group": "Male Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_64b59ac290ce",
+        "display_name": "Age23-SamirFarsut_2k",
+        "evidence": {
+          "preset_id": "SKA_M_MEA_02_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "SamirFarsut",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Middle East\\Age23-SamirFarsut_2k.ccSkin",
+        "pigmentation_profile_id": "middle_east_medium_high_pigment",
+        "region_label": "Middle East",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "a1b8a4b3827b4192bb25d11d9ed65370dcaa5c88840b9c781d749c0706d31183",
+        "skin_group": "Male Middle East",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_775551e3644c",
+        "display_name": "Age23-LandonRozen_2k",
+        "evidence": {
+          "preset_id": "SKA_M_AFR_03_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "LandonRozen",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male African\\Age23-LandonRozen_2k.ccSkin",
+        "pigmentation_profile_id": "african_high_pigment",
+        "region_label": "African",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "30c9bd0c98cafbca6d314f64ee37bdf2b991d878822d735b100a2c88d3900ee5",
+        "skin_group": "Male African",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_7c2a7233ca20",
+        "display_name": "Age23-LorenaBuchanan_2k",
+        "evidence": {
+          "preset_id": "SKA_F_AFR_02_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "LorenaBuchanan",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female African\\Age23-LorenaBuchanan_2k.ccSkin",
+        "pigmentation_profile_id": "african_high_pigment",
+        "region_label": "African",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "6168e483ac52999021644a6963f9e3074d53921ae6ef6d7481adc0b4285651cc",
+        "skin_group": "Female African",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 18,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+        "display_name": "Age18-NancyStevens_2k",
+        "evidence": {
+          "preset_id": "SKA_F_CAU_01_A18",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "NancyStevens",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Caucasian\\Age18-NancyStevens_2k.ccSkin",
+        "pigmentation_profile_id": "caucasian_broad_pigment",
+        "region_label": "Caucasian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "43b00f69f5f965f991e07d71e5c88afa6bff935b2cd7c4f745ebba81aa98b0f4",
+        "skin_group": "Female Caucasian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 19,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_837cbb355d84",
+        "display_name": "Age19-AnitaGhosh_2k",
+        "evidence": {
+          "preset_id": "SKA_F_MEA_01_A19",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "AnitaGhosh",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Middle East\\Age19-AnitaGhosh_2k.ccSkin",
+        "pigmentation_profile_id": "middle_east_medium_high_pigment",
+        "region_label": "Middle East",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "95e0fd24bc8cabbaca750e554a9523635871f88614a65d237042bb242d92d5b1",
+        "skin_group": "Female Middle East",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 22,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_91c37389e2f4",
+        "display_name": "Age22-RayanRohan_2k",
+        "evidence": {
+          "preset_id": "SKA_M_MEA_01_A22",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "RayanRohan",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Middle East\\Age22-RayanRohan_2k.ccSkin",
+        "pigmentation_profile_id": "middle_east_medium_high_pigment",
+        "region_label": "Middle East",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "662f4e022de7ccc631c3ab44a613320ce600d0e099870e0dbf04273fe1ac0a44",
+        "skin_group": "Male Middle East",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_98621ab8004b",
+        "display_name": "Age23-LisaKwan_2k",
+        "evidence": {
+          "preset_id": "SKA_F_ASI_03_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "LisaKwan",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Asian\\Age23-LisaKwan_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "deb45166a7a199fe674ae4b5a64bd1ea50a98f008e11a156f42c2097112d33da",
+        "skin_group": "Female Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 19,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_a591909f85f9",
+        "display_name": "Age19-SamuelWalters_2k",
+        "evidence": {
+          "preset_id": "SKA_M_CAU_01_A19",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "SamuelWalters",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Caucasian\\Age19-SamuelWalters_2k.ccSkin",
+        "pigmentation_profile_id": "caucasian_broad_pigment",
+        "region_label": "Caucasian",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "a47fbb22bdf25586763545bdf806087d264e1a6a00259b9ca56897815a1c952a",
+        "skin_group": "Male Caucasian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 19,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_af0404d88ad7",
+        "display_name": "Age19-DavidSoo_2k",
+        "evidence": {
+          "preset_id": "SKA_M_ASI_01_A19",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "DavidSoo",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Asian\\Age19-DavidSoo_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "933c35217409176d63103404d14105e9063a0a73b70f74a423251529f37e4614",
+        "skin_group": "Male Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 23,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_bc3fda7d4c66",
+        "display_name": "Age23-SusanDavis_2k",
+        "evidence": {
+          "preset_id": "SKA_F_CAU_04_A23",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "SusanDavis",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Caucasian\\Age23-SusanDavis_2k.ccSkin",
+        "pigmentation_profile_id": "caucasian_broad_pigment",
+        "region_label": "Caucasian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "4e346321df2a34a644378f352027bcd0d35724b1870fea58cbf809e3045ffe3f",
+        "skin_group": "Female Caucasian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 21,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_d1a9a8957b59",
+        "display_name": "Age21-AliaRay_2k",
+        "evidence": {
+          "preset_id": "SKA_F_MEA_02_A21",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "AliaRay",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Middle East\\Age21-AliaRay_2k.ccSkin",
+        "pigmentation_profile_id": "middle_east_medium_high_pigment",
+        "region_label": "Middle East",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "7698f16d9ca2c472f03f11019cd5caf97dff11865c44071ee575f4261d272322",
+        "skin_group": "Female Middle East",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 20,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_e57544a48e21",
+        "display_name": "Age20-AmandaMoore_2k",
+        "evidence": {
+          "preset_id": "SKA_F_CAU_02_A20",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "AmandaMoore",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Caucasian\\Age20-AmandaMoore_2k.ccSkin",
+        "pigmentation_profile_id": "caucasian_broad_pigment",
+        "region_label": "Caucasian",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "7086f4e1f7e71900955203c95d362599b8fe035229f517170d84edac071069f8",
+        "skin_group": "Female Caucasian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 21,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_f1015a2115bc",
+        "display_name": "Age21-FloraRahaman_2k",
+        "evidence": {
+          "preset_id": "SKA_F_MEA_03_A21",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "FloraRahaman",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Female Middle East\\Age21-FloraRahaman_2k.ccSkin",
+        "pigmentation_profile_id": "middle_east_medium_high_pigment",
+        "region_label": "Middle East",
+        "sex": "female",
+        "sex_hint": "female",
+        "sha256": "863e0771a5ec59538cf005a417d1b77c3ee143643c5b9eff994a037dfbf32042",
+        "skin_group": "Female Middle East",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 19,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_f4de0b099577",
+        "display_name": "Age19-JakeNoguchi_2k",
+        "evidence": {
+          "preset_id": "SKA_M_ASI_02_A19",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "JakeNoguchi",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male Asian\\Age19-JakeNoguchi_2k.ccSkin",
+        "pigmentation_profile_id": "asian_high_pigment",
+        "region_label": "Asian",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "9a4e5b1ad93080900aebfc4b5a1efd03c716051f23b50686d1e8c1387c0888f5",
+        "skin_group": "Male Asian",
+        "slot": "skin"
+      },
+      {
+        "age_from_filename": 20,
+        "application_mode": "skin_material_dialog_exact",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_SKIN_feb2aae05e20",
+        "display_name": "Age20-JasonBower_2k",
+        "evidence": {
+          "preset_id": "SKA_M_AFR_02_A20",
+          "validation_summary": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json"
+        },
+        "identity_label": "JasonBower",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Skin\\Overall\\CC5 Human 2K\\ActorMIXER CORE Library\\Male African\\Age20-JasonBower_2k.ccSkin",
+        "pigmentation_profile_id": "african_high_pigment",
+        "region_label": "African",
+        "sex": "male",
+        "sex_hint": "male",
+        "sha256": "87bafbfee22341c731983e45dcb6ab720931c8033962c74b972322ce9545e963",
+        "skin_group": "Male African",
+        "slot": "skin"
+      }
+    ],
+    "teeth": [
+      {
+        "application_mode": "replace_teeth_avatar_part",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_TEETH_4a7877c8220c",
+        "display_name": "_HD Teeth 2K",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_teeth_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Teeth\\HD Teeth\\_HD Teeth 2K.ccTeeth",
+        "sex_hint": "unknown",
+        "sha256": "791106b4bd2677a0ef7ed3fc0e3e249e7bb992ae1deab2b346607edbe26c2252",
+        "slot": "teeth"
+      },
+      {
+        "application_mode": "replace_teeth_avatar_part",
+        "asset_form": "asset",
+        "asset_id": "CCAPP_TEETH_b67a818a4484",
+        "display_name": "1 Normal Teeth",
+        "evidence": {
+          "visual_review": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_teeth_compatibility_visual_review_v1.json"
+        },
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Teeth\\1 Normal Teeth.ccTeeth",
+        "sex_hint": "unknown",
+        "sha256": "1d77ebef24c68251a2c2a111588dc62d0b0f9aefdf05e700fd696023cb109a64",
+        "slot": "teeth"
+      }
+    ]
+  },
+  "generated_at": "2026-07-29T05:23:44+08:00",
+  "pigmentation": {
+    "dyed_color_ids": [
+      "burgundy",
+      "copper",
+      "blue",
+      "teal",
+      "pink",
+      "silver"
+    ],
+    "mode_weights": {
+      "dyed": 0.02,
+      "natural_common": 0.92,
+      "natural_rare": 0.06
+    },
+    "palette": {
+      "auburn": {
+        "end_srgb": "#8B4430",
+        "highlight_a_srgb": "#A85A3B",
+        "highlight_b_srgb": "#5A2119",
+        "root_srgb": "#4D1D18"
+      },
+      "black": {
+        "end_srgb": "#181512",
+        "highlight_a_srgb": "#2A2723",
+        "highlight_b_srgb": "#080706",
+        "root_srgb": "#060504"
+      },
+      "blonde": {
+        "end_srgb": "#D0B778",
+        "highlight_a_srgb": "#E1CC96",
+        "highlight_b_srgb": "#947846",
+        "root_srgb": "#705631"
+      },
+      "blue": {
+        "end_srgb": "#3778B5",
+        "highlight_a_srgb": "#5999D0",
+        "highlight_b_srgb": "#173D69",
+        "root_srgb": "#102A4B"
+      },
+      "burgundy": {
+        "end_srgb": "#76213A",
+        "highlight_a_srgb": "#963650",
+        "highlight_b_srgb": "#3C0C1C",
+        "root_srgb": "#280713"
+      },
+      "copper": {
+        "end_srgb": "#C36B3C",
+        "highlight_a_srgb": "#DA8958",
+        "highlight_b_srgb": "#73351F",
+        "root_srgb": "#4A2015"
+      },
+      "dark_blonde": {
+        "end_srgb": "#A48753",
+        "highlight_a_srgb": "#BDA36E",
+        "highlight_b_srgb": "#67502F",
+        "root_srgb": "#4D3923"
+      },
+      "dark_brown": {
+        "end_srgb": "#513323",
+        "highlight_a_srgb": "#6C4933",
+        "highlight_b_srgb": "#2C1A12",
+        "root_srgb": "#20110C"
+      },
+      "light_brown": {
+        "end_srgb": "#987057",
+        "highlight_a_srgb": "#B08A6A",
+        "highlight_b_srgb": "#5F402F",
+        "root_srgb": "#493023"
+      },
+      "medium_brown": {
+        "end_srgb": "#74503A",
+        "highlight_a_srgb": "#916B4D",
+        "highlight_b_srgb": "#432A1E",
+        "root_srgb": "#321E16"
+      },
+      "pink": {
+        "end_srgb": "#D5809D",
+        "highlight_a_srgb": "#E6A0B7",
+        "highlight_b_srgb": "#8D405E",
+        "root_srgb": "#64283F"
+      },
+      "platinum": {
+        "end_srgb": "#E3DDCB",
+        "highlight_a_srgb": "#F1EDDF",
+        "highlight_b_srgb": "#AAA38F",
+        "root_srgb": "#88816F"
+      },
+      "red": {
+        "end_srgb": "#AC4C2F",
+        "highlight_a_srgb": "#CB6943",
+        "highlight_b_srgb": "#632518",
+        "root_srgb": "#42160F"
+      },
+      "silver": {
+        "end_srgb": "#C4C7C9",
+        "highlight_a_srgb": "#E0E2E3",
+        "highlight_b_srgb": "#818589",
+        "root_srgb": "#62666A"
+      },
+      "soft_black": {
+        "end_srgb": "#292521",
+        "highlight_a_srgb": "#3B3732",
+        "highlight_b_srgb": "#12100E",
+        "root_srgb": "#0E0C0A"
+      },
+      "teal": {
+        "end_srgb": "#32918A",
+        "highlight_a_srgb": "#55AAA4",
+        "highlight_b_srgb": "#19534F",
+        "root_srgb": "#103A37"
+      },
+      "very_dark_brown": {
+        "end_srgb": "#38241A",
+        "highlight_a_srgb": "#4E3426",
+        "highlight_b_srgb": "#1A0F0B",
+        "root_srgb": "#120A07"
+      }
+    },
+    "profiles": {
+      "african_high_pigment": {
+        "natural_common": {
+          "black": 0.55,
+          "soft_black": 0.3,
+          "very_dark_brown": 0.15
+        },
+        "natural_rare": {
+          "auburn": 0.2,
+          "blonde": 0.1,
+          "dark_brown": 0.45,
+          "medium_brown": 0.25
+        }
+      },
+      "asian_high_pigment": {
+        "natural_common": {
+          "black": 0.55,
+          "soft_black": 0.3,
+          "very_dark_brown": 0.15
+        },
+        "natural_rare": {
+          "auburn": 0.15,
+          "blonde": 0.05,
+          "dark_brown": 0.5,
+          "medium_brown": 0.3
+        }
+      },
+      "caucasian_broad_pigment": {
+        "natural_common": {
+          "black": 0.05,
+          "blonde": 0.1,
+          "dark_blonde": 0.15,
+          "dark_brown": 0.25,
+          "light_brown": 0.2,
+          "medium_brown": 0.25
+        },
+        "natural_rare": {
+          "auburn": 0.4,
+          "platinum": 0.2,
+          "red": 0.3,
+          "soft_black": 0.1
+        }
+      },
+      "middle_east_medium_high_pigment": {
+        "natural_common": {
+          "black": 0.25,
+          "dark_brown": 0.3,
+          "medium_brown": 0.1,
+          "very_dark_brown": 0.35
+        },
+        "natural_rare": {
+          "auburn": 0.3,
+          "blonde": 0.1,
+          "dark_blonde": 0.2,
+          "light_brown": 0.4
+        }
+      }
+    },
+    "shared_targets": [
+      "scalp_hair",
+      "eyebrows",
+      "facial_hair"
+    ]
+  },
+  "production_policy": {
+    "adult_cc5_hd_only": true,
+    "facial_hair_probability_male": 0.45,
+    "hair_presentation": {
+      "default_mode": "default",
+      "modes": {
+        "cross_presentation": {
+          "allow_all": true
+        },
+        "default": {
+          "female_minimum_score": 0.5,
+          "male_maximum_score": 0.5
+        },
+        "neutral_only": {
+          "maximum_score": 0.5,
+          "minimum_score": 0.5
+        }
+      }
+    },
+    "iris_color_is_independent": true,
+    "production_hair_statuses": [
+      "approved_static_dynamic_pending",
+      "dynamic_approved",
+      "rigid_short_approved",
+      "static_only"
+    ],
+    "request_paths_allowed": false,
+    "scalp_hair_selection": "presentation_filter_then_uniform_nonempty_silhouette_family",
+    "single_hair_color_per_character": true
+  },
+  "registry_id": "cc5_adult_facial_production_registry_v1",
+  "rejected_assets": {
+    "scalp_hair": [
+      {
+        "asset_id": "CCAPP_SCALP_HAIR_a45b182ac1cf",
+        "display_name": "Graceful half up",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Graceful half up.rlHair",
+        "production_status": "conditional_cleanup_required",
+        "reason_tags": [
+          "detached_accessory",
+          "complex_multi_part_group"
+        ],
+        "source_asset_retained": true
+      },
+      {
+        "asset_id": "CCAPP_SCALP_HAIR_e238ee2c9546",
+        "display_name": "Bridal-Style Braid",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Hair\\Group\\Hair\\Hair Builder 2 - eGirl\\Bridal-Style Braid.rlHair",
+        "production_status": "conditional_cleanup_required",
+        "reason_tags": [
+          "detached_accessory",
+          "complex_multi_part_group"
+        ],
+        "source_asset_retained": true
+      }
+    ]
+  },
+  "schema_version": 1,
+  "sources": {
+    "appearance_catalog": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json",
+      "sha256": "b4db5b9a8ccd9a75317d79efc4695f4a48ce3f5e41a163c17fe604c228931be2"
+    },
+    "appearance_compatibility": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_compatibility_v1.json",
+      "sha256": "a7d65d703d11f90fe2b8caa23ee68df8c6248aaffc87d10d4252114989d902f1"
+    },
+    "config": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_production_registry_config.json",
+      "sha256": "138d604864d7f54ee3ec161d04d7d327b70c8e212d95df34e29448428b23fc83"
+    },
+    "dynamic_wrinkle_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+      "sha256": "166de5ade53fb5def9b41bb743a792a1072a6375da2dce310db030337b73cf71"
+    },
+    "eyebrow_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyebrow_compatibility_visual_review_v1.json",
+      "sha256": "47e7c0cff55561bfe57ec94910a839a8a8170ebf59214e7fb0aa23edf2e84d80"
+    },
+    "eyelash_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_compatibility_visual_review_v1.json",
+      "sha256": "2fa3c873f1507aed0b44eb7bf28bd3e1b3749ccccb06cbcb40f38e48a7334bd5"
+    },
+    "eyelash_v3_summary": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_eyelash_v3_extreme_automation_summary_v1.json",
+      "sha256": "7db13b8d91d0163d2afa2265f860ab3d8ef280ee14d03f450d619d9c76553b10"
+    },
+    "facial_hair_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_hair_compatibility_visual_review_v1.json",
+      "sha256": "b1f377f646f1e4164ca63cb2b566d83bd6b551f5ec316211979ec2d714c7c8ac"
+    },
+    "scalp_hair_catalog": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_asset_catalog_v1.json",
+      "sha256": "8f7b375073379cdbea75989e7463e7bf761d48c32433b4ee0813a000d0a4bc70"
+    },
+    "scalp_hair_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_scalp_hair_compatibility_visual_review_v1.json",
+      "sha256": "510ad7cb9ba0216b42a4235919897c74a905e1d21e01a80ff238edcd90728903"
+    },
+    "skin_matrix": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_skin_age_matrix_v1.json",
+      "sha256": "9e2f6700497c2583c509ee575f65c0e98a9a0aaf6bf05e3373b28cd1a75d0b2c"
+    },
+    "skin_validation": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\skin_age_matrix_final_20260726_01\\validation_summary.json",
+      "sha256": "dbb284f5b6b667cd681b2729cb720699edc5f490967d179c771d0e560c24cff4"
+    },
+    "teeth_review": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_teeth_compatibility_visual_review_v1.json",
+      "sha256": "01f25bd9833c82ef4442b8e7436e58cea904dd090ee51f59dc949ebd67ddb3fa"
+    }
+  },
+  "validation_design": {
+    "dynamic_wrinkle_case_count": 6,
+    "eyelash_v3_extreme_case_count": 36,
+    "integration_character_count": 24,
+    "scalp_hair_dynamic_base_case_count": 58,
+    "scalp_hair_dynamic_cross_sex_case_count": 16,
+    "scalp_hair_static_pressure_asset_ids": [
+      "CCAPP_SCALP_HAIR_05f349f557ea",
+      "CCAPP_SCALP_HAIR_06358027cd11",
+      "CCAPP_SCALP_HAIR_11247b134aef",
+      "CCAPP_SCALP_HAIR_121085a4163b",
+      "CCAPP_SCALP_HAIR_1adcb4e56e15",
+      "CCAPP_SCALP_HAIR_1dba4c39b4ff",
+      "CCAPP_SCALP_HAIR_2c28e47398c3",
+      "CCAPP_SCALP_HAIR_37764c8be0d9",
+      "CCAPP_SCALP_HAIR_6934a4a6f535",
+      "CCAPP_SCALP_HAIR_a12d7bf0d479",
+      "CCAPP_SCALP_HAIR_b76abfcd9bdb",
+      "CCAPP_SCALP_HAIR_c8078bdda14a",
+      "CCAPP_SCALP_HAIR_cb40584ea852",
+      "CCAPP_SCALP_HAIR_d840baee97e5",
+      "CCAPP_SCALP_HAIR_da75aba22424",
+      "CCAPP_SCALP_HAIR_f26788312af7"
+    ],
+    "scalp_hair_static_pressure_case_count": 64,
+    "v3_extreme_primary_face_seed_ids": [
+      "M01_Aaron",
+      "M09_Male_F",
+      "F06_Female_C",
+      "F08_Female_E"
+    ]
+  }
+}

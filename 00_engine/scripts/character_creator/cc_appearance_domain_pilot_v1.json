@@ -1,0 +1,3542 @@
+{
+  "appearance_batch_source": {
+    "config": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_domain_pilot_v1_config.json",
+    "source_library_id": "adult_face_recipes_v2_1_balanced_pilot_32_quality",
+    "source_quality_batch": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_quality_batch_v2_1_32.json"
+  },
+  "appearance_catalog": {
+    "catalog_id": "cc_appearance_assets_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json"
+  },
+  "character_count": 10,
+  "execution_policy": {
+    "cc_restart_by_agent": false,
+    "max_presets_per_job": 1,
+    "private_memory_stop_gib": 24.0,
+    "requires_visual_review": true
+  },
+  "generated_at": "2026-07-23T21:51:12+08:00",
+  "library_id": "adult_appearance_domain_pilot_v1",
+  "presets": [
+    {
+      "appearance_asset_ids": [
+        "CCAPP_SKIN_2fc9b3a2cc34"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_SKIN_2fc9b3a2cc34",
+            "display_name": "Age20-AlexisRogers_2k",
+            "sex_hint": "female",
+            "slot": "skin"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_SKIN_AFRICAN_2K_01",
+      "appearance_validation_plan": {
+        "domain": "skin",
+        "required_views": [
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "full_body_front"
+        ],
+        "verification_mode": "material_fingerprint"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_SKIN_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_SKIN_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_SKIN_06f3f3d5548b"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_SKIN_06f3f3d5548b",
+            "display_name": "Age18-ThomasReed_2k",
+            "sex_hint": "male",
+            "slot": "skin"
+          }
+        ],
+        "source_preset_id": "V2_MFACEV21_0010"
+      },
+      "appearance_recipe_id": "M_SKIN_AFRICAN_2K_01",
+      "appearance_validation_plan": {
+        "domain": "skin",
+        "required_views": [
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "full_body_front"
+        ],
+        "verification_mode": "material_fingerprint"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "APDOM_M_SKIN_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.11767586264386276,
+        "modification_count": 8,
+        "modified_regions": [
+          "ear",
+          "forehead",
+          "jaw",
+          "mouth",
+          "skull"
+        ],
+        "parents": [
+          {
+            "seed_id": "M05_Male_B",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "M05_Male_B"
+      },
+      "face_recipe_id": "MFACEV21_0010",
+      "preset_id": "APDOM_M_SKIN_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "male",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_face_fingerprint": "97e667473f8be54b683a22c0ae94d2e756f0ebd7603714f4973d99847765b0ed",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral M_Eyeball",
+          "id": "2025-08-20-10-27-49_hd neutral m_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral M_Teeth",
+          "id": "2025-08-20-10-27-55_hd neutral m_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Depth",
+          "id": "cc embed morphs/embed_brow1",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.7099999785423279
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "weight": 0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.009999999776482582
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.5799999833106995
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "weight": 0.8100000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/Detail"
+          ],
+          "display": "Earlobe Define",
+          "id": "cc embed morphs/embed_ear1",
+          "weight": 0.7197364454509914
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Angle Out",
+          "id": "cc embed morphs/embed_ear2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Depth",
+          "id": "cc embed morphs/embed_ear3",
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Height",
+          "id": "cc embed morphs/embed_ear4",
+          "weight": 0.6309630528698464
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Scale",
+          "id": "cc embed morphs/embed_ear5",
+          "weight": 0.20999999344348907
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/Eyeball"
+          ],
+          "display": "Eyeball Height",
+          "id": "cc embed morphs/embed_eye10",
+          "weight": 0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Angle",
+          "id": "cc embed morphs/embed_eye3",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Height",
+          "id": "cc embed morphs/embed_eye5",
+          "weight": 0.6100000143051147
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Scale",
+          "id": "cc embed morphs/embed_eye6",
+          "weight": -0.5199999809265137
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Width",
+          "id": "cc embed morphs/embed_eye7",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Curve",
+          "id": "cc embed morphs/embed_forehead1",
+          "weight": 0.31105523621617837
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "weight": 0.24544265367648055
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC1_Base Male",
+          "id": "cc embed morphs/embed_full_head2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/General"
+          ],
+          "display": "Head Scale",
+          "id": "cc embed morphs/embed_full_head9",
+          "weight": 0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "weight": 0.5699999928474426
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "weight": 0.4304941044763616
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": -0.38999998569488525
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Depth A",
+          "id": "cc embed morphs/embed_jaw4",
+          "weight": 1.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Height",
+          "id": "cc embed morphs/embed_jaw5",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Lip"
+          ],
+          "display": "Lip Thin A",
+          "id": "cc embed morphs/embed_mouth1",
+          "weight": -0.4263482274754763
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Height",
+          "id": "cc embed morphs/embed_mouth3",
+          "weight": 0.29525088263843235
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Width",
+          "id": "cc embed morphs/embed_mouth5",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Philtrum"
+          ],
+          "display": "Philtrum Width",
+          "id": "cc embed morphs/embed_mouth6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Upper Depth",
+          "id": "cc embed morphs/embed_nose1",
+          "weight": -0.7599999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.6200000047683716
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "weight": -0.10999999940395355
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Height",
+          "id": "cc embed morphs/embed_nose4",
+          "weight": -0.5600000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Scale",
+          "id": "cc embed morphs/embed_nose5",
+          "weight": -0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Tip"
+          ],
+          "display": "Nose Tip Height",
+          "id": "cc embed morphs/embed_nose6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Width",
+          "id": "cc embed morphs/embed_nose7",
+          "weight": -0.4099999964237213
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Nostril"
+          ],
+          "display": "Nostril Width",
+          "id": "cc embed morphs/embed_nose8",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Skull",
+            "Actor/Head/Skull/General"
+          ],
+          "display": "Skull Back Depth",
+          "id": "cc embed morphs/embed_scalp4",
+          "weight": -0.24695204152860328
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_EYES_f353bf164d2e"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_EYES_f353bf164d2e",
+            "display_name": "_Blue CH1 Eyes",
+            "sex_hint": "unknown",
+            "slot": "eyes"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_EYES_BLUE_CH1_01",
+      "appearance_validation_plan": {
+        "domain": "eyes",
+        "required_views": [
+          "face_front",
+          "face_three_quarter"
+        ],
+        "verification_mode": "material_fingerprint"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_EYES_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_EYES_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_TEETH_26ffd477debb"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_TEETH_26ffd477debb",
+            "display_name": "1 Normal Teeth_2",
+            "sex_hint": "unknown",
+            "slot": "teeth"
+          }
+        ],
+        "source_preset_id": "V2_MFACEV21_0010"
+      },
+      "appearance_recipe_id": "M_TEETH_NORMAL_02",
+      "appearance_validation_plan": {
+        "domain": "teeth",
+        "required_views": [
+          "face_front"
+        ],
+        "verification_mode": "material_fingerprint",
+        "visual_limitation": "A neutral closed-mouth capture cannot fully validate tooth geometry."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "APDOM_M_TEETH_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.11767586264386276,
+        "modification_count": 8,
+        "modified_regions": [
+          "ear",
+          "forehead",
+          "jaw",
+          "mouth",
+          "skull"
+        ],
+        "parents": [
+          {
+            "seed_id": "M05_Male_B",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "M05_Male_B"
+      },
+      "face_recipe_id": "MFACEV21_0010",
+      "preset_id": "APDOM_M_TEETH_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "male",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_face_fingerprint": "97e667473f8be54b683a22c0ae94d2e756f0ebd7603714f4973d99847765b0ed",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral M_Eyeball",
+          "id": "2025-08-20-10-27-49_hd neutral m_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral M_Teeth",
+          "id": "2025-08-20-10-27-55_hd neutral m_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Depth",
+          "id": "cc embed morphs/embed_brow1",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.7099999785423279
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "weight": 0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.009999999776482582
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.5799999833106995
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "weight": 0.8100000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/Detail"
+          ],
+          "display": "Earlobe Define",
+          "id": "cc embed morphs/embed_ear1",
+          "weight": 0.7197364454509914
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Angle Out",
+          "id": "cc embed morphs/embed_ear2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Depth",
+          "id": "cc embed morphs/embed_ear3",
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Height",
+          "id": "cc embed morphs/embed_ear4",
+          "weight": 0.6309630528698464
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Scale",
+          "id": "cc embed morphs/embed_ear5",
+          "weight": 0.20999999344348907
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/Eyeball"
+          ],
+          "display": "Eyeball Height",
+          "id": "cc embed morphs/embed_eye10",
+          "weight": 0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Angle",
+          "id": "cc embed morphs/embed_eye3",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Height",
+          "id": "cc embed morphs/embed_eye5",
+          "weight": 0.6100000143051147
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Scale",
+          "id": "cc embed morphs/embed_eye6",
+          "weight": -0.5199999809265137
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Width",
+          "id": "cc embed morphs/embed_eye7",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Curve",
+          "id": "cc embed morphs/embed_forehead1",
+          "weight": 0.31105523621617837
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "weight": 0.24544265367648055
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC1_Base Male",
+          "id": "cc embed morphs/embed_full_head2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/General"
+          ],
+          "display": "Head Scale",
+          "id": "cc embed morphs/embed_full_head9",
+          "weight": 0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "weight": 0.5699999928474426
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "weight": 0.4304941044763616
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": -0.38999998569488525
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Depth A",
+          "id": "cc embed morphs/embed_jaw4",
+          "weight": 1.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Height",
+          "id": "cc embed morphs/embed_jaw5",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Lip"
+          ],
+          "display": "Lip Thin A",
+          "id": "cc embed morphs/embed_mouth1",
+          "weight": -0.4263482274754763
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Height",
+          "id": "cc embed morphs/embed_mouth3",
+          "weight": 0.29525088263843235
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Width",
+          "id": "cc embed morphs/embed_mouth5",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Philtrum"
+          ],
+          "display": "Philtrum Width",
+          "id": "cc embed morphs/embed_mouth6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Upper Depth",
+          "id": "cc embed morphs/embed_nose1",
+          "weight": -0.7599999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.6200000047683716
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "weight": -0.10999999940395355
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Height",
+          "id": "cc embed morphs/embed_nose4",
+          "weight": -0.5600000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Scale",
+          "id": "cc embed morphs/embed_nose5",
+          "weight": -0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Tip"
+          ],
+          "display": "Nose Tip Height",
+          "id": "cc embed morphs/embed_nose6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Width",
+          "id": "cc embed morphs/embed_nose7",
+          "weight": -0.4099999964237213
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Nostril"
+          ],
+          "display": "Nostril Width",
+          "id": "cc embed morphs/embed_nose8",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Skull",
+            "Actor/Head/Skull/General"
+          ],
+          "display": "Skull Back Depth",
+          "id": "cc embed morphs/embed_scalp4",
+          "weight": -0.24695204152860328
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_EYEBROWS_4dd9d9674d55"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "group",
+            "asset_id": "CCAPP_EYEBROWS_4dd9d9674d55",
+            "display_name": "Camila",
+            "sex_hint": "unknown",
+            "slot": "eyebrows"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_EYEBROWS_CAMILA_01",
+      "appearance_validation_plan": {
+        "domain": "eyebrows",
+        "required_views": [
+          "face_front",
+          "face_three_quarter"
+        ],
+        "verification_mode": "scene_inventory"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_EYEBROWS_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_EYEBROWS_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_FACIAL_HAIR_edbfa9f846a1"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "group",
+            "asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+            "display_name": "Country Style",
+            "sex_hint": "unknown",
+            "slot": "facial_hair"
+          }
+        ],
+        "source_preset_id": "V2_MFACEV21_0010"
+      },
+      "appearance_recipe_id": "M_FACIAL_HAIR_COUNTRY_01",
+      "appearance_validation_plan": {
+        "domain": "facial_hair",
+        "required_views": [
+          "face_front",
+          "face_three_quarter",
+          "face_profile"
+        ],
+        "verification_mode": "scene_inventory"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "APDOM_M_FACIAL_HAIR_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.11767586264386276,
+        "modification_count": 8,
+        "modified_regions": [
+          "ear",
+          "forehead",
+          "jaw",
+          "mouth",
+          "skull"
+        ],
+        "parents": [
+          {
+            "seed_id": "M05_Male_B",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "M05_Male_B"
+      },
+      "face_recipe_id": "MFACEV21_0010",
+      "preset_id": "APDOM_M_FACIAL_HAIR_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "male",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_face_fingerprint": "97e667473f8be54b683a22c0ae94d2e756f0ebd7603714f4973d99847765b0ed",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral M_Eyeball",
+          "id": "2025-08-20-10-27-49_hd neutral m_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral M_Teeth",
+          "id": "2025-08-20-10-27-55_hd neutral m_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Depth",
+          "id": "cc embed morphs/embed_brow1",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.7099999785423279
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "weight": 0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.009999999776482582
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.5799999833106995
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "weight": 0.8100000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/Detail"
+          ],
+          "display": "Earlobe Define",
+          "id": "cc embed morphs/embed_ear1",
+          "weight": 0.7197364454509914
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Angle Out",
+          "id": "cc embed morphs/embed_ear2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Depth",
+          "id": "cc embed morphs/embed_ear3",
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Height",
+          "id": "cc embed morphs/embed_ear4",
+          "weight": 0.6309630528698464
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "display": "Ear Scale",
+          "id": "cc embed morphs/embed_ear5",
+          "weight": 0.20999999344348907
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/Eyeball"
+          ],
+          "display": "Eyeball Height",
+          "id": "cc embed morphs/embed_eye10",
+          "weight": 0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Angle",
+          "id": "cc embed morphs/embed_eye3",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Height",
+          "id": "cc embed morphs/embed_eye5",
+          "weight": 0.6100000143051147
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Scale",
+          "id": "cc embed morphs/embed_eye6",
+          "weight": -0.5199999809265137
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Eye",
+            "Actor/Head/Eye/General"
+          ],
+          "display": "Eye Width",
+          "id": "cc embed morphs/embed_eye7",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Curve",
+          "id": "cc embed morphs/embed_forehead1",
+          "weight": 0.31105523621617837
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "weight": 0.24544265367648055
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC1_Base Male",
+          "id": "cc embed morphs/embed_full_head2",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/General"
+          ],
+          "display": "Head Scale",
+          "id": "cc embed morphs/embed_full_head9",
+          "weight": 0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "weight": 0.5699999928474426
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "weight": 0.4304941044763616
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": -0.38999998569488525
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Depth A",
+          "id": "cc embed morphs/embed_jaw4",
+          "weight": 1.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "display": "Chin Height",
+          "id": "cc embed morphs/embed_jaw5",
+          "weight": 0.07000000029802322
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Lip"
+          ],
+          "display": "Lip Thin A",
+          "id": "cc embed morphs/embed_mouth1",
+          "weight": -0.4263482274754763
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Height",
+          "id": "cc embed morphs/embed_mouth3",
+          "weight": 0.29525088263843235
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth Width",
+          "id": "cc embed morphs/embed_mouth5",
+          "weight": -0.36000001430511475
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/Philtrum"
+          ],
+          "display": "Philtrum Width",
+          "id": "cc embed morphs/embed_mouth6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Upper Depth",
+          "id": "cc embed morphs/embed_nose1",
+          "weight": -0.7599999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.6200000047683716
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "weight": -0.10999999940395355
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Height",
+          "id": "cc embed morphs/embed_nose4",
+          "weight": -0.5600000023841858
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Scale",
+          "id": "cc embed morphs/embed_nose5",
+          "weight": -0.2199999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Tip"
+          ],
+          "display": "Nose Tip Height",
+          "id": "cc embed morphs/embed_nose6",
+          "weight": -1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "display": "Nose Width",
+          "id": "cc embed morphs/embed_nose7",
+          "weight": -0.4099999964237213
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Nostril"
+          ],
+          "display": "Nostril Width",
+          "id": "cc embed morphs/embed_nose8",
+          "weight": -0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Skull",
+            "Actor/Head/Skull/General"
+          ],
+          "display": "Skull Back Depth",
+          "id": "cc embed morphs/embed_scalp4",
+          "weight": -0.24695204152860328
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_MAKEUP_cca4f6751cf6"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_MAKEUP_cca4f6751cf6",
+            "display_name": "Cordial",
+            "sex_hint": "unknown",
+            "slot": "makeup"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_MAKEUP_CORDIAL_FULL_01",
+      "appearance_validation_plan": {
+        "domain": "makeup",
+        "required_views": [
+          "face_front",
+          "face_three_quarter"
+        ],
+        "verification_mode": "material_fingerprint"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_MAKEUP_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_MAKEUP_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_SKIN_PRESET_cfe08e76c21e"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_SKIN_PRESET_cfe08e76c21e",
+            "display_name": "1Secondary Normal F",
+            "sex_hint": "female",
+            "slot": "skin_preset"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_SKIN_DETAIL_SECONDARY_NORMAL_01",
+      "appearance_validation_plan": {
+        "domain": "skin_preset",
+        "required_views": [
+          "face_front",
+          "face_three_quarter"
+        ],
+        "verification_mode": "material_fingerprint"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_SKIN_DETAIL_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_SKIN_DETAIL_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_ACCESSORY_HEAD_51e58b5c42fe"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_ACCESSORY_HEAD_51e58b5c42fe",
+            "display_name": "Sunglasses",
+            "sex_hint": "unknown",
+            "slot": "accessory_head"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_ACCESSORY_SUNGLASSES_01",
+      "appearance_validation_plan": {
+        "domain": "accessory_head",
+        "required_views": [
+          "face_front",
+          "face_three_quarter",
+          "face_profile"
+        ],
+        "verification_mode": "scene_inventory"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_ACCESSORY_HEAD_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_ACCESSORY_HEAD_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    },
+    {
+      "appearance_asset_ids": [
+        "CCAPP_ACCESSORY_OTHER_44fe2c046196"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_ACCESSORY_OTHER_44fe2c046196",
+            "display_name": "Earings",
+            "sex_hint": "unknown",
+            "slot": "accessory_other"
+          }
+        ],
+        "source_preset_id": "V2_FFACEV21_0010"
+      },
+      "appearance_recipe_id": "F_ACCESSORY_EARRINGS_01",
+      "appearance_validation_plan": {
+        "domain": "accessory_other",
+        "required_views": [
+          "face_front",
+          "face_three_quarter",
+          "face_profile"
+        ],
+        "verification_mode": "scene_inventory"
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "APDOM_F_ACCESSORY_OTHER_0001",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "method": "regional_sculpt",
+        "minimum_distance_to_accepted": 0.12210191355428304,
+        "modification_count": 6,
+        "modified_regions": [
+          "brow",
+          "cheek",
+          "jaw",
+          "mouth",
+          "nose"
+        ],
+        "parents": [
+          {
+            "seed_id": "F02_Camila",
+            "weight": 1.0
+          }
+        ],
+        "primary_seed_id": "F02_Camila"
+      },
+      "face_recipe_id": "FFACEV21_0010",
+      "preset_id": "APDOM_F_ACCESSORY_OTHER_0001",
+      "review_status": "appearance-v1-quality-candidate",
+      "sex": "female",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_face_fingerprint": "ed1570a48cabc43a6c54cfc2985088c965003edda7c6acbb92dd31ac7ebb6fb4",
+      "target_face_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Full Head",
+            "Actor/Head/Full Head/Character"
+          ],
+          "display": "CC4 Camila_Head",
+          "id": "2022-05-04-11-07-44_cc4 camila_head",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Eye",
+            "Actor Parts/CC_Base_Eye/Eye",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Eye/Eye/CC Embed Morphs/CC5 Characters/Eyeball"
+          ],
+          "display": "HD Neutral F_Eyeball",
+          "id": "2025-08-21-14-23-46_hd neutral f_eyeball",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor Parts",
+            "Actor Parts/CC_Base_Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters",
+            "Actor Parts/CC_Base_Teeth/Teeth/CC Embed Morphs/CC5 Characters/Teeth"
+          ],
+          "display": "HD Neutral F_Teeth",
+          "id": "2025-08-21-14-23-52_hd neutral f_teeth",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "weight": 0.2798932099319189
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "weight": 0.1655348872512428
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "weight": 0.28463216862860613
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "weight": 0.2604438238682194
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Mouth",
+            "Actor/Head/Mouth/General"
+          ],
+          "display": "Mouth  Scale",
+          "id": "cc embed morphs/embed_mouth4",
+          "weight": 0.21367752558191935
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "display": "Nose Ridge Curve A",
+          "id": "cc embed morphs/embed_nose2",
+          "weight": 0.30758067505554215
+        }
+      ],
+      "target_junction_morphs": []
+    }
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "schema_version": 1,
+  "selection": {
+    "bodyfit_by_sex": {
+      "female": "F02_Average",
+      "male": "M02_Average"
+    },
+    "count_per_sex": 16,
+    "method": "all_v2_pilot_faces_on_sex_matched_average_body"
+  },
+  "source_body_library": {
+    "library_id": "adult_body_fits_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_preset_library_v1.json",
+    "sha256": "1b20418fc9facfba47df81361c791362ebd0d38cdb20fe9128c0dbad713279ac"
+  },
+  "source_face_recipes": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes_v2_1\\adult_face_recipes_v2_1_balanced_pilot_32_seed20260723_20260723_021608_964917\\face_recipes_v2_1.json",
+    "recipe_set_id": "adult_face_recipes_v2_1_balanced_pilot_32",
+    "sha256": "f342c0db7795b8fe29e04ea5e1d5d6c19a90e91ac3befedcfe865372bb6946d0"
+  },
+  "status": "quality-review-only"
+}

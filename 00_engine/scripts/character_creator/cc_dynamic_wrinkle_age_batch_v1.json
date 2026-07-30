@@ -1,0 +1,1262 @@
+{
+  "appearance_catalog": {
+    "catalog_id": "cc_appearance_assets_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json",
+    "sha256": "b4db5b9a8ccd9a75317d79efc4695f4a48ce3f5e41a163c17fe604c228931be2"
+  },
+  "body_application_mode": "source_project",
+  "character_count": 6,
+  "expected_eyeball_move_weight": 0.0,
+  "face_resources": {
+    "identity_policy": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_identity_policy_v1.json",
+    "identity_policy_id": "adult_face_identity_policy_v1",
+    "identity_policy_sha256": "bc6a7a1ec67df0a11ac85670eb869aa7bb02a985b371c3fce8ab62dcb1c4630f",
+    "seed_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_seed_library_v1.json",
+    "seed_library_id": "adult_face_seeds_v1",
+    "seed_library_sha256": "99f82b2305d90ec06148b8a2b1245f7fbf839f152be484e7abb20d45185df7d5"
+  },
+  "generated_at": "2026-07-28T17:24:34+08:00",
+  "library_id": "cc5_neutral_dynamic_wrinkle_age_matrix_v1",
+  "pipeline": "complete_primary_face_plus_local_morphs_v1",
+  "presets": [
+    {
+      "age_label": "young",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "WRINKLE_M_YOUNG",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "young",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "M02_Kevin",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+        "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M02_Kevin",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_M02_Kevin",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_a591909f85f9"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 0.0,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "d04f8b0389b3d1059e9ab0180952c6766d33daf2143c047fa3a88317ef130a26",
+      "preset_id": "WRINKLE_M_YOUNG",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "male",
+      "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "middle",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "WRINKLE_M_MIDDLE",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "middle",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "M02_Kevin",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+        "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M02_Kevin",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_M02_Kevin",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_a591909f85f9"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 0.5,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "d04f8b0389b3d1059e9ab0180952c6766d33daf2143c047fa3a88317ef130a26",
+      "preset_id": "WRINKLE_M_MIDDLE",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "male",
+      "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "older",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "character_id": "WRINKLE_M_OLDER",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "older",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "M02_Kevin",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+        "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M02_Kevin",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_M02_Kevin",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_a591909f85f9"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 1.0,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "d04f8b0389b3d1059e9ab0180952c6766d33daf2143c047fa3a88317ef130a26",
+      "preset_id": "WRINKLE_M_OLDER",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "male",
+      "skin_asset_id": "CCAPP_SKIN_a591909f85f9",
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "WRINKLE_F_YOUNG",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "young",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "F03_Katherine",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+        "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F03_Katherine",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_F03_Katherine",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_7dbacd6daf8b"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 0.0,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "36e76d9fa152e8d516291ea168040410837601d93dc0474cd6c1dc768e616176",
+      "preset_id": "WRINKLE_F_YOUNG",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "female",
+      "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "middle",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "WRINKLE_F_MIDDLE",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "middle",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "F03_Katherine",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+        "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F03_Katherine",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_F03_Katherine",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_7dbacd6daf8b"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 0.5,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "36e76d9fa152e8d516291ea168040410837601d93dc0474cd6c1dc768e616176",
+      "preset_id": "WRINKLE_F_MIDDLE",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "female",
+      "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "older",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "dynamic_wrinkle_validation": {
+          "baseline_strength": 0.0,
+          "pose_ids": [
+            "blink_bilateral_front",
+            "brow_raise_front",
+            "brow_down_front",
+            "squint_bilateral_front",
+            "smile_front"
+          ],
+          "target_strength": 1.0
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "face_blink_bilateral_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_squint_front",
+          "face_smile_front"
+        ],
+        "verification_mode": "dynamic_wrinkle_strength_pair",
+        "visual_limitation": "One safe adult V3 face per sex. The .rlWrinkle asset is a hashed reference because CC5 cannot load it through the public Python API; the matching neutral BodyFit profile is inherited."
+      },
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "character_id": "WRINKLE_F_OLDER",
+      "dynamic_wrinkle_age_validation": {
+        "age_label": "older",
+        "baseline_strength": 0.0,
+        "primary_seed_id": "F03_Katherine",
+        "profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+        "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+        "target_strength": 1.0
+      },
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F03_Katherine",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_F03_Katherine",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_7dbacd6daf8b"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validation_status": "pending_age_matrix"
+        }
+      },
+      "full_face_elder_weight": 1.0,
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "36e76d9fa152e8d516291ea168040410837601d93dc0474cd6c1dc768e616176",
+      "preset_id": "WRINKLE_F_OLDER",
+      "review_status": "dynamic-wrinkle-age-candidate",
+      "sex": "female",
+      "skin_asset_id": "CCAPP_SKIN_7dbacd6daf8b",
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_junction_morphs": [],
+      "visible_gray_fraction": 0.0
+    }
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "schema_version": 1,
+  "selection": {
+    "age_labels": [
+      "young",
+      "middle",
+      "older"
+    ],
+    "case_count": 6,
+    "safe_face_seed_ids": {
+      "female": "F03_Katherine",
+      "male": "M02_Kevin"
+    },
+    "skin_asset_ids": {
+      "female": "CCAPP_SKIN_7dbacd6daf8b",
+      "male": "CCAPP_SKIN_a591909f85f9"
+    },
+    "strength_pair": {
+      "baseline": 0.0,
+      "target": 1.0
+    }
+  },
+  "source_body_library": {
+    "library_id": "adult_body_fits_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_preset_library_v1.json",
+    "sha256": "459c1db82a274f3f554219a41ba8297648713d440197a7ca8a942a83c306981d"
+  },
+  "source_face_recipes": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_recipes_v3_200.json",
+    "recipe_set_id": "adult_face_recipes_v3_primary_local_200",
+    "sha256": "9467330eabf9b839ed7d57ed2a6d3232b4ec3cf5abf5ab11075f1d991d98f350"
+  },
+  "sources": {
+    "appearance_catalog": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json",
+      "sha256": "b4db5b9a8ccd9a75317d79efc4695f4a48ce3f5e41a163c17fe604c228931be2"
+    },
+    "config": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_build_dynamic_wrinkle_age_batch_v1_config.json",
+      "sha256": "a1f586493faf194564d6b6dbe7ad4e1233570ea0ae3a9fa1c8ae26ec33f07514"
+    },
+    "facial_production_registry": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_production_registry_v1.json",
+      "sha256": "65ea7159e63224a28912eb72a05c875c7e8a7a63754c91076cbf52067be8fdde"
+    },
+    "v3_face_batch": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_quality_batch_v3_validation.json",
+      "sha256": "774ed3b6369229a6a2cc0a4ecd774be5833c20cecf30930b77679b9cc4c6ce0e"
+    }
+  },
+  "status": "dynamic-wrinkle-age-validation-pending",
+  "strategy": {
+    "candidate_pool_size": 12,
+    "complete_head_preset_required": true,
+    "dynamic_screening": {
+      "allowed_local_morph_roles": [
+        "local"
+      ],
+      "excluded_local_morphs": [
+        {
+          "evidence": "face_v3_random_bodyfits_20260727_01",
+          "id": "cc embed morphs/embed_full_head1",
+          "reason": "Full-character identity macro is not a local Morph and caused lower-teeth smile penetration when layered on a primary head."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_20260727_01",
+          "id": "cc embed morphs/embed_full_head2",
+          "reason": "Full-character identity macro is not a local Morph and may introduce a second incompatible head identity."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth1",
+          "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth2",
+          "reason": "Mouth Depth caused lower-teeth penetration in a full-smile dynamic probe."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth3",
+          "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth4",
+          "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth5",
+          "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+        },
+        {
+          "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+          "id": "cc embed morphs/embed_mouth6",
+          "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+        }
+      ],
+      "excluded_primary_seeds": [
+        {
+          "evidence": "face_v3_female_baselines_20260727_01/V3BASE_F09_Female_F/face_smile_front.png",
+          "id": "F09_Female_F",
+          "reason": "Full-smile dynamic baseline exposes lower teeth through the lower lip."
+        }
+      ],
+      "screened_at": "2026-07-27"
+    },
+    "local_morph_count": 35,
+    "missing_morphs_are_preserved": true,
+    "multiple_identity_parent_blending": false,
+    "neutral_identity_parents_allowed": false,
+    "pipeline": "complete_primary_face_plus_local_morphs_v1",
+    "production_primary_seed_ids_by_sex": {
+      "female": [
+        "F01_Ariana",
+        "F02_Camila",
+        "F03_Katherine",
+        "F04_Female_A",
+        "F05_Female_B",
+        "F06_Female_C",
+        "F07_Female_D",
+        "F08_Female_E"
+      ],
+      "male": [
+        "M01_Aaron",
+        "M02_Kevin",
+        "M03_Caleb",
+        "M04_Male_A",
+        "M05_Male_B",
+        "M06_Male_C",
+        "M07_Male_D",
+        "M08_Male_E",
+        "M09_Male_F"
+      ]
+    },
+    "sampling_limits": {
+      "extreme_absolute_limit": 1.0,
+      "maximum_regions_modified_extreme": 7,
+      "maximum_regions_modified_normal": 5,
+      "normal_local_delta": 0.32,
+      "ordinary_absolute_limit": 0.9,
+      "strong_local_delta": 0.48
+    },
+    "strong_fraction": 0.25
+  }
+}

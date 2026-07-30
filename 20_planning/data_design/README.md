@@ -99,3 +99,9 @@
   1. MVP 后把 `00_engine/scripts/README.md` 里的 schema v0 迁到 [`schema/`](./schema/README.md)。
   2. 把"至少三次编辑链"和"回退/成环一致性"写进 [`sampling/`](./sampling/README.md)。
 - **依赖**：100角色/100服装等"可实现性"取决于 UE 调研与 MVP 实测结果；UE5.6 调研已保留在 [`../../00_engine/unreal/pipeline_research_memo.md`](../../00_engine/unreal/pipeline_research_memo.md)，当前执行目标以 UE5.8 相关部署文档为准。
+
+# 近期新增
+
+- [Character Creator 角色生成与变体设计](./character_creator/README.md)：CC5 自动化、BodyFit/HeadFit、角色池、UE runtime pair 与插件验证方案。
+
+---

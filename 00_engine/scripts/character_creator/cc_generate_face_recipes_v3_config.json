@@ -1,0 +1,101 @@
+{
+  "batch_id": "adult_face_recipes_v3_primary_local_200",
+  "candidate_pool_size": 12,
+  "count_per_sex": 100,
+  "dynamic_screening": {
+    "allowed_local_morph_roles": [
+      "local"
+    ],
+    "excluded_local_morphs": [
+      {
+        "evidence": "face_v3_random_bodyfits_20260727_01",
+        "id": "cc embed morphs/embed_full_head1",
+        "reason": "Full-character identity macro is not a local Morph and caused lower-teeth smile penetration when layered on a primary head."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_20260727_01",
+        "id": "cc embed morphs/embed_full_head2",
+        "reason": "Full-character identity macro is not a local Morph and may introduce a second incompatible head identity."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth1",
+        "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth2",
+        "reason": "Mouth Depth caused lower-teeth penetration in a full-smile dynamic probe."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth3",
+        "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth4",
+        "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth5",
+        "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+      },
+      {
+        "evidence": "face_v3_random_bodyfits_r2_20260727_01/V3RANDOM_F04_Heavy_FFACEV3_0024/face_smile_front.png",
+        "id": "cc embed morphs/embed_mouth6",
+        "reason": "Mouth-region head Morphs are frozen until paired teeth and oral-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye10",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye13",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye3",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye4",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye5",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye6",
+        "reason": "Eye Scale exposed eyeball penetration during a textured bilateral-blink integration probe."
+      },
+      {
+        "evidence": "integration_component_isolation_diag_20260729_01/CCINT_M01_YOUNG_SKIN_ONLY_DIAG/face_blink_bilateral_front.png",
+        "id": "cc embed morphs/embed_eye7",
+        "reason": "Eye-region local Morphs are frozen until paired eyelid, eyeball, and eye-support handling is implemented."
+      }
+    ],
+    "excluded_primary_seeds": [
+      {
+        "evidence": "face_v3_female_baselines_20260727_01/V3BASE_F09_Female_F/face_smile_front.png",
+        "id": "F09_Female_F",
+        "reason": "Full-smile dynamic baseline exposes lower teeth through the lower lip."
+      }
+    ],
+    "screened_at": "2026-07-29"
+  },
+  "identity_policy": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_identity_policy_v1.json",
+  "output_filename": "face_recipes_v3.json",
+  "output_root": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes_v3",
+  "random_seed": 20260727,
+  "source_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_seed_library_v1.json",
+  "strong_fraction": 0.25
+}

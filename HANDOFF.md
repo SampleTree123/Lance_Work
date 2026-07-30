@@ -21,6 +21,7 @@ DataMake 为**多轮视频编辑模型**构建训练/验证数据集。本仓库
 - BAGEL 已做针对性代码/论文查阅：其 interleaved image generation 训练支持多张历史图像作为 clean VAE/VIT context；这启发 Lance v2 采用历史 VIT-only、最新 source VAE-only 的保守映射。
 - 当前顶层结构已收敛为 `00_engine/`、`10_research/`、`20_planning/` 三大块。
 - 已决定采用“本地 UE Editor 准备资产，服务器脚本化渲染”的分工。用户准备把本 Git 仓库推到自己的远程仓库，本地 clone 后先读 Markdown 了解项目进度，再寻找素材。Git 只保存文档、脚本、配置、台账和 manifest；UE `Content/`、`.uasset`、`.umap`、原始资产包和渲染输出不进 Git。具体注意事项见 `20_planning/implementation/local_asset_workflow.md`。
+- 本地 Character Creator 5 角色工厂已推进到 CC 端原型：8 个成人 BodyFit、Face Generator V2.1、941 项外观白名单目录，以及两套男女服装/鞋/发型兼容矩阵。兼容性注册表当前包含 42 个已验证资产和 214 个已接受 preset，另有 1 个 `M04_Heavy` 男性服装组合因下摆穿模被拒绝。两套牙齿、12 套眼球材质和用户指定的 13 套眉毛均已完成受限成人兼容验证；皮肤、SkinGen、胡须、睫毛、妆容和配饰仍待验证。配方支持精确清理冲突基础内衣，兼容性驱动的确定性角色 manifest 编译器也已完成；8 角色 pilot 与一个 `F04_Heavy` 最终 manifest 的 CC 端到端执行均通过。CC 作业保持小批量提交并以 24 GB private memory 为停止阈值，且不由 agent 自动重启。当前状态与产物见 `20_planning/data_design/character_creator/STATUS.md`。FBX 导出和 UE 导入尚未开始。
 
 ## 核心数据模型
 
