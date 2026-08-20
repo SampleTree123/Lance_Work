@@ -13,6 +13,8 @@
 | `local_asset_workflow.md` | 本地 UE 整理资产、上传服务器工作副本、Git/素材分离规则 | 当前 |
 | `environment.md` | UE 版本、本机/服务器分工、远程 UI、配套软件、工程同步 | 历史调研稿 |
 | `risks.md` | 可行性与风险登记、go 判定、服务器自检记录 | 当前风险表 |
+| [`FIRST_BATCH_SERVER_RUNBOOK.md`](./FIRST_BATCH_SERVER_RUNBOOK.md) | 第一批数据的 Linux/UE 5.8 同步、预检、10 节点基准、批量渲染与重试边界 | 当前计划 |
+| [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./FIRST_BATCH_SERVER_PREFLIGHT.sh) | 第一批数据服务器的可执行预检；采集 Linux/NVIDIA/Vulkan/UE 5.8 证据，并在项目已上传时执行插件检查和两次离屏启动 smoke | 当前可执行入口 |
 
 ## 维护规则
 

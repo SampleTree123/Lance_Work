@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "registry_id": "cc_outfit_compatibility_aliases_20260816_v1",
+  "policy": {
+    "byte_identity_required": true,
+    "source_assets_remain_immutable": true,
+    "allowed_transform": "extension_dispatch_alias_only"
+  },
+  "aliases": [
+    {
+      "alias_id": "redsoul_gloves_cccloth_dispatch_alias_v1",
+      "reason": "CC5 RFileIO rejects the ccGloves extension but loads the byte-identical asset through the ccCloth dispatch path.",
+      "source": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_gloves.ccGloves",
+        "extension": ".ccGloves",
+        "size_bytes": 22819257,
+        "sha256": "ee5472b654601dc717c535a344749004af6d6965ab5eda435a5aa9c8fbb3fc7e"
+      },
+      "alias": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\outfit_compatibility_aliases\\ee5472b65460_SHSV_S02MA_gloves.ccCloth",
+        "extension": ".ccCloth",
+        "size_bytes": 22819257,
+        "sha256": "ee5472b654601dc717c535a344749004af6d6965ab5eda435a5aa9c8fbb3fc7e"
+      },
+      "validation": {
+        "status": "passed",
+        "run": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\redsoul_gloves_asset_probe\\run_20260816_v4_extension_alias\\validation_result.json",
+        "control_and_target_case_count": 2,
+        "success_count": 2,
+        "blocking_dialog_count": 0
+      }
+    }
+  ]
+}

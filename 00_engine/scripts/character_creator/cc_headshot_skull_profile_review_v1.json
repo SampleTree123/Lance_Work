@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_headshot_skull_profile_review_v1",
+  "diagnostic_mode": "targeted_morph_visual_matrix",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [1536, 1536],
+  "inter_case_delay_seconds": 3.0,
+  "targeted_morph_review_scene": {
+    "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "face_camera_by_sex": {
+      "female": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "male": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam"
+    },
+    "face_position_by_sex": {
+      "female": [0.0, 8.0, 6.0],
+      "male": [0.0, 8.0, 6.0]
+    },
+    "views": [
+      {"view_id": "front", "yaw_degrees": 90.0},
+      {"view_id": "three_quarter", "yaw_degrees": 45.0},
+      {"view_id": "profile", "yaw_degrees": 0.0}
+    ]
+  },
+  "profile_policy": {
+    "purpose": "visual-review-only",
+    "canonical_projects_are_read_only": true,
+    "controlled_morphs": [
+      "2019-08-13-15-25-44_skull height",
+      "2019-08-13-15-26-49_skull width",
+      "2019-08-13-15-27-43_skull depth",
+      "2019-08-13-15-33-14_head width",
+      "2019-08-13-16-00-36_head depth",
+      "2019-08-21-13-57-18_skull back depth",
+      "2019-08-21-14-02-10_skull peak"
+    ],
+    "excluded_domains": [
+      "eyes",
+      "eye sockets",
+      "nose",
+      "mouth",
+      "jaw",
+      "teeth"
+    ]
+  },
+  "presets": [
+    {
+      "preset_id": "F_HS_002_P00_BASELINE",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P00_BASELINE", "label": "Baseline", "head_width": 0.0, "head_depth": 0.0, "skull_height": 0.0, "skull_width": 0.0, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.0},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p00_baseline", "values": [0.0]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "F_HS_002_P01_BROAD_SHALLOW",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P01_BROAD_SHALLOW", "label": "Broad shallow", "head_width": 0.25, "head_depth": -0.12, "skull_height": 0.0, "skull_width": 0.15, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": -0.12},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.15},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p01_broad_shallow", "values": [0.25]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "F_HS_002_P02_NARROW_DEEP",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P02_NARROW_DEEP", "label": "Narrow deep", "head_width": -0.25, "head_depth": 0.12, "skull_height": 0.06, "skull_width": 0.0, "skull_depth": 0.15, "skull_back_depth": 0.12, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.12},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.06},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.15},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.12},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p02_narrow_deep", "values": [-0.25]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "F_HS_002_P03_TALL_CROWN",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P03_TALL_CROWN", "label": "Tall crown", "head_width": -0.06, "head_depth": 0.04, "skull_height": 0.25, "skull_width": 0.03, "skull_depth": 0.04, "skull_back_depth": 0.05, "skull_peak": 0.18},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.04},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.25},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.03},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.04},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.05},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.18}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p03_tall_crown", "values": [-0.06]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "F_HS_002_P04_ROUND_OCCIPITAL",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P04_ROUND_OCCIPITAL", "label": "Round occipital", "head_width": 0.10, "head_depth": 0.12, "skull_height": 0.10, "skull_width": 0.14, "skull_depth": 0.12, "skull_back_depth": 0.25, "skull_peak": 0.05},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.12},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.10},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.14},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.12},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.25},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.05}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p04_round_occipital", "values": [0.10]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "F_HS_002_P05_COMPACT_SHALLOW",
+      "sex": "female",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject", "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638"},
+      "head_shape_profile": {"id": "P05_COMPACT_SHALLOW", "label": "Compact shallow", "head_width": -0.12, "head_depth": -0.22, "skull_height": 0.0, "skull_width": 0.0, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": -0.22},
+          {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0},
+          {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0},
+          {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0},
+          {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0},
+          {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p05_compact_shallow", "values": [-0.12]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P00_BASELINE",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P00_BASELINE", "label": "Baseline", "head_width": 0.0, "head_depth": 0.0, "skull_height": 0.0, "skull_width": 0.0, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.0}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p00_baseline", "values": [0.0]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P01_BROAD_SHALLOW",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P01_BROAD_SHALLOW", "label": "Broad shallow", "head_width": 0.25, "head_depth": -0.12, "skull_height": 0.0, "skull_width": 0.15, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": -0.12}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.15}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p01_broad_shallow", "values": [0.25]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P02_NARROW_DEEP",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P02_NARROW_DEEP", "label": "Narrow deep", "head_width": -0.25, "head_depth": 0.12, "skull_height": 0.06, "skull_width": 0.0, "skull_depth": 0.15, "skull_back_depth": 0.12, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.12}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.06}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.15}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.12}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p02_narrow_deep", "values": [-0.25]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P03_TALL_CROWN",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P03_TALL_CROWN", "label": "Tall crown", "head_width": -0.06, "head_depth": 0.04, "skull_height": 0.25, "skull_width": 0.03, "skull_depth": 0.04, "skull_back_depth": 0.05, "skull_peak": 0.18},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.04}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.25}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.03}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.04}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.05}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.18}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p03_tall_crown", "values": [-0.06]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P04_ROUND_OCCIPITAL",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P04_ROUND_OCCIPITAL", "label": "Round occipital", "head_width": 0.10, "head_depth": 0.12, "skull_height": 0.10, "skull_width": 0.14, "skull_depth": 0.12, "skull_back_depth": 0.25, "skull_peak": 0.05},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": 0.12}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.10}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.14}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.12}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.25}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.05}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p04_round_occipital", "values": [0.10]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    },
+    {
+      "preset_id": "M_HS_002_P05_COMPACT_SHALLOW",
+      "sex": "male",
+      "base_avatar": {"path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"},
+      "source_project": {"path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject", "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"},
+      "head_shape_profile": {"id": "P05_COMPACT_SHALLOW", "label": "Compact shallow", "head_width": -0.12, "head_depth": -0.22, "skull_height": 0.0, "skull_width": 0.0, "skull_depth": 0.0, "skull_back_depth": 0.0, "skull_peak": 0.0},
+      "neck_morph_review": {
+        "head_scale": {"morph_id": "cc embed morphs/embed_full_head9", "target": 0.0},
+        "fixed_morphs": [
+          {"morph_id": "2019-08-13-16-00-36_head depth", "target": -0.22}, {"morph_id": "2019-08-13-15-25-44_skull height", "target": 0.0}, {"morph_id": "2019-08-13-15-26-49_skull width", "target": 0.0}, {"morph_id": "2019-08-13-15-27-43_skull depth", "target": 0.0}, {"morph_id": "2019-08-21-13-57-18_skull back depth", "target": 0.0}, {"morph_id": "2019-08-21-14-02-10_skull peak", "target": 0.0}
+        ],
+        "morphs": [{"morph_id": "2019-08-13-15-33-14_head width", "review_id": "p05_compact_shallow", "values": [-0.12]}],
+        "views": [{"view_id": "front", "yaw_degrees": 0.0}, {"view_id": "three_quarter", "yaw_degrees": 45.0}, {"view_id": "profile", "yaw_degrees": 90.0}]
+      }
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "prototype_id": "M_HS_002",
+  "sex": "male",
+  "status": "candidate_cc5_hd_rm05b_visual_accepted",
+  "identity_representation": {
+    "mode": "baked_geometry_project",
+    "nonzero_shaping_morph_count": 0,
+    "reason": "The Headshot identity is baked into character geometry and cannot be reconstructed from the shaping slider vector alone."
+  },
+  "canonical_assets": {
+    "identity_project": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject",
+      "bytes": 107068699,
+      "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4"
+    },
+    "facial_profile": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\facial_profile_cc5_hd.ccFacialProfile",
+      "bytes": 2913587,
+      "sha256": "a66f87b0af672cc3eb1a966d13de578f0e0238299b09f0cf8e86358775e522b4"
+    },
+    "rollback_facial_profile": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\source_cc4_extended.ccFacialProfile",
+      "bytes": 1958625,
+      "sha256": "86aa4032b144abeb8bf2d54055eeca291694c40a0cf2c51aa1f4aab197462c6e"
+    },
+    "source_reference": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\source_reference.jpg",
+      "bytes": 1527492,
+      "sha256": "faec2a92f20bdd66dac3aab7143ce7be3bc095e8bc1039a7faaf63258aaee456"
+    }
+  },
+  "source_reference_match": {
+    "original_path": "D:\\UE\\CFD-WM-252-224-N.jpg",
+    "basis": "Visual identity match against the six user-provided Headshot candidates: mole placement, eye shape, face proportions, and skin details.",
+    "confirmation_status": "pending_user_review"
+  },
+  "frozen_source": {
+    "project_path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\RL_CC3_Plus Male2.ccProject",
+    "project_bytes": 106066022,
+    "project_sha256": "4c303599f801df968768e177261b6c1935a1e45106bf5b2b56cc2af3b637ef67"
+  },
+  "profile_upgrade": {
+    "mode": "derived_direct_hd_profile_load_with_source_profile_sidecar_v1",
+    "source_uid": "CC4 Extended",
+    "source_expression_count": 160,
+    "derived_uid": "CC5 MetaHuman",
+    "derived_expression_count": 379,
+    "target_path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral M.ccFacialProfile",
+    "target_sha256": "05e5c8991456d8cfdbe45157a467866531359ebe31f933e066b0c69d2fd96a1b"
+  },
+  "validation": {
+    "machine_status": "passed",
+    "visual_status": "passed",
+    "user_visual_accepted_at": "2026-08-10",
+    "static_morphs_unchanged": true,
+    "material_assignments_unchanged": true,
+    "eye_structure_unchanged": true,
+    "neutral_eye_integrity": true,
+    "profile_persisted_after_reload": true,
+    "source_project_unchanged": true,
+    "bounds_max_abs_delta": 0.00031185150146484375,
+    "report_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_profile_upgrade\\male2_20260808_v1\\profile_upgrade_report.json",
+    "report_sha256": "6d4f1cfe2baa71d802fb1be5844c1e1a92f7376d9630356011a97ce97f957ef8"
+  },
+  "assembly_contract": {
+    "pipeline": "headshot_project_seed_then_bodyfit_v1",
+    "implemented": false,
+    "pilot_runtime_available": true,
+    "prototype_bodyfit_pilot_validated": true,
+    "pilot_validation_id": "cc_headshot_project_seed_bodyfit_pilot_validation_v1",
+    "required_order": [
+      "load_identity_project",
+      "verify_identity_project_sha256",
+      "apply_same_sex_bodyfit_body_and_junction_morphs",
+      "reconcile_eye_and_teeth_actor_parts",
+      "load_canonical_facial_profile",
+      "apply_safe_local_face_morphs",
+      "apply_bodyfit_head_scale_and_neck_height",
+      "apply_skin_and_appearance_assets",
+      "run_dynamic_face_and_full_character_validation"
+    ],
+    "production_blockers": [
+      "production_recipe_integration_pending",
+      "rm05c_identity_pool_scale_comparison_pending",
+      "rm06_face_recipe_validation_pending"
+    ]
+  }
+}

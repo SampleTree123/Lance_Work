@@ -1,23 +1,26 @@
 """Rebuild canonical BodyFit presets on clean CC5 neutral bases and validate them."""
 
 import collections
+import copy
 import datetime
+import gc
 import hashlib
 import json
 import math
 import os
+import shutil
 import struct
 import subprocess
 import time
 import traceback
 
 import RLPy
-from PySide2 import QtCore, QtWidgets
+from PySide2 import QtCore, QtGui, QtWidgets
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ENGINE_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
-DEFAULT_LIBRARY = os.path.join(SCRIPT_DIR, "cc_body_preset_library_v1.json")
+DEFAULT_LIBRARY = os.path.join(SCRIPT_DIR, "cc_body_preset_library_v2.json")
 DEFAULT_FACE_SEED_LIBRARY = os.path.join(
     SCRIPT_DIR, "cc_face_seed_library_v1.json"
 )
@@ -27,10 +30,19 @@ DEFAULT_FACE_IDENTITY_POLICY = os.path.join(
 OUTPUT_ROOT = (
     r"D:\UE\Lance_Work\00_engine\outputs\character_creator_body_reconstruction"
 )
+BODYFIT_STANDARD_PROJECT_ROOT = (
+    r"D:\CharacterCreator_sucai\Reallusion Custom\Project\CC Project"
+)
+BODYFIT_HEAD_SCALE_MORPH_ID = "cc embed morphs/embed_full_head9"
 REPLACE_DIALOG_GUARD_PATH = os.path.join(
     ENGINE_ROOT,
     "character_creator_bridge",
     "cc_replace_dialog_once.ps1",
+)
+UNDO_DIALOG_GUARD_PATH = os.path.join(
+    ENGINE_ROOT,
+    "character_creator_bridge",
+    "cc_undo_dialog_guard.ps1",
 )
 REPLACE_DIALOG_GUARD_OUTPUT_ROOT = os.path.join(
     ENGINE_ROOT,
@@ -133,8 +145,12 @@ FACE_IDENTITY_CLIP_LENGTH_FRAMES = 40
 RENDER_PREVIEW_SETTLE_SECONDS = 0.25
 RENDER_PREVIEW_STABLE_SECONDS = 0.20
 RENDER_PREVIEW_TIMEOUT_SECONDS = 60.0
-VIEWPORT_PREVIEW_WIDTH = 512
-VIEWPORT_PREVIEW_HEIGHT = 512
+DEFAULT_VIEWPORT_PREVIEW_WIDTH = 512
+DEFAULT_VIEWPORT_PREVIEW_HEIGHT = 512
+VIEWPORT_PREVIEW_WIDTH = DEFAULT_VIEWPORT_PREVIEW_WIDTH
+VIEWPORT_PREVIEW_HEIGHT = DEFAULT_VIEWPORT_PREVIEW_HEIGHT
+PIXEL_STREAM_PREVIEW_SIZE = 1024
+PREVIEW_CAPTURE_MODE = "render_image"
 FACE_EVIDENCE_MIN_RMSE = 0.35
 COMPLETE_PRIMARY_FACE_PIPELINE = (
     "complete_primary_face_plus_local_morphs_v1"
@@ -248,6 +264,28 @@ EYELASH_EXPRESSION_ALIASES = {
     "lash_up_inner_right": ("Eyelashes_Up_IN_R",),
     "lash_up_outer_right": ("Eyelashes_Up_OUT_R",),
 }
+NATURAL_SMILE_SUPPORT_ALIASES = {
+    "cheek_raise_left": (
+        "Eye_Cheek_Raise_L",
+        "Eye_CheekRaise_L",
+        "Cheek_Raise_L",
+    ),
+    "cheek_raise_right": (
+        "Eye_Cheek_Raise_R",
+        "Eye_CheekRaise_R",
+        "Cheek_Raise_R",
+    ),
+    "squint_inner_left": (
+        "Eye_Squint_Inner_L",
+        "Eye_SquintInner_L",
+        "Eye_Squint_L",
+    ),
+    "squint_inner_right": (
+        "Eye_Squint_Inner_R",
+        "Eye_SquintInner_R",
+        "Eye_Squint_R",
+    ),
+}
 REPLACEABLE_AVATAR_PART_SLOTS = {
     "eyes": "EAvatarPartType_Eyes",
     "teeth": "EAvatarPartType_Teeth",
@@ -269,6 +307,23 @@ FACIAL_ASSEMBLY_ORDER = (
     "facial_hair",
     "scalp_hair",
     "shared_hair_pigmentation",
+    "face_material_quality_profile",
+)
+BODYFIT_PROPORTION_APPLICATION_ORDER = (
+    "head_scale",
+    "neck_height",
+)
+KNOWN_SIGNED_RUNTIME_MORPH_IDS = frozenset(
+    (
+        "2019-08-30-20-14-55_neck height",
+        "2019-08-13-15-33-14_head width",
+        "2019-08-13-16-00-36_head depth",
+        "2019-08-13-15-25-44_skull height",
+        "2019-08-13-15-26-49_skull width",
+        "2019-08-13-15-27-43_skull depth",
+        "2019-08-21-13-57-18_skull back depth",
+        "2019-08-21-14-02-10_skull peak",
+    )
 )
 WRINKLE_FACE_PART_CONSTANTS = (
     "EWrinkleFacePart_Blink",
@@ -325,6 +380,10 @@ SMART_HAIR_SCALAR_PARAMETERS = {
 
 
 class ReconstructionError(RuntimeError):
+    pass
+
+
+class BlockingDialogError(ReconstructionError):
     pass
 
 
@@ -814,7 +873,14 @@ def write_json(data, path):
     with open(temporary, "w", encoding="utf-8") as handle:
         json.dump(data, handle, indent=2, sort_keys=True, ensure_ascii=True)
         handle.write("\n")
-    os.replace(temporary, path)
+    for attempt in range(10):
+        try:
+            os.replace(temporary, path)
+            return
+        except PermissionError:
+            if attempt == 9:
+                raise
+            time.sleep(0.2 * (attempt + 1))
 
 
 def checked(label, status):
@@ -1090,6 +1156,50 @@ def capture_face_catalog(avatar, base_avatar):
     }
 
 
+def capture_filtered_morph_catalog(avatar, terms):
+    if not isinstance(terms, list) or any(
+        not isinstance(item, str) or not item.strip() for item in terms
+    ):
+        raise ReconstructionError(
+            "Morph catalog terms must be a list of non-empty strings"
+        )
+    normalized_terms = [item.strip().lower() for item in terms]
+    component, catalog, categories = morph_catalog(avatar)
+    entries = []
+    for morph_id in sorted(catalog):
+        source = catalog[morph_id]
+        searchable = " ".join(
+            [morph_id, source["display"]] + list(source["categories"])
+        ).lower()
+        if normalized_terms and not any(
+            term in searchable for term in normalized_terms
+        ):
+            continue
+        bounds = component.GetShapingMorphMinMax(morph_id)
+        entries.append(
+            {
+                "id": morph_id,
+                "display": source["display"],
+                "categories": source["categories"],
+                "classification": source["classification"],
+                "minimum": float(bounds.first),
+                "maximum": float(bounds.second),
+                "default_weight": float(
+                    component.GetShapingMorphWeight(morph_id)
+                ),
+            }
+        )
+    return {
+        "schema_version": 1,
+        "captured_at": now(),
+        "catalog_morph_count": len(catalog),
+        "category_count": len(categories),
+        "filter_terms": terms,
+        "matched_morph_count": len(entries),
+        "entries": entries,
+    }
+
+
 def group_delta(expected_entries, actual_entries, tolerance=1e-7):
     expected = dict((item["id"], float(item["weight"])) for item in expected_entries)
     actual = dict((item["id"], float(item["weight"])) for item in actual_entries)
@@ -1243,6 +1353,84 @@ def remove_current_avatars():
             errors.append("{}: {}".format(avatar.GetName(), exc))
     if errors:
         raise ReconstructionError("Unable to clear avatars: {}".format(errors))
+
+
+def probe_resource_release(library, output_dir, log):
+    """Release disposable scene/Python resources without restarting CC."""
+    clear_scene = bool(library.get("clear_current_scene", False))
+    before_avatars = list(RLPy.RScene.GetAvatars() or [])
+    before = [
+        {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+            "python_type": type(avatar).__name__,
+        }
+        for avatar in before_avatars
+    ]
+
+    if clear_scene:
+        log("Removing {} disposable avatar(s) from the current scene".format(
+            len(before_avatars)
+        ))
+        remove_current_avatars()
+        for _ in range(5):
+            QtWidgets.QApplication.processEvents()
+            time.sleep(0.1)
+
+    QtGui.QPixmapCache.clear()
+    collected = []
+    for _ in range(3):
+        collected.append(int(gc.collect()))
+        QtWidgets.QApplication.processEvents()
+        time.sleep(0.1)
+
+    after_avatars = list(RLPy.RScene.GetAvatars() or [])
+    api_candidates = {}
+    for owner_name in ("RGlobal", "RScene"):
+        owner = getattr(RLPy, owner_name, None)
+        api_candidates[owner_name] = sorted(
+            name
+            for name in dir(owner)
+            if any(
+                token in name.lower()
+                for token in ("cache", "garbage", "memory", "purge", "release")
+            )
+        ) if owner is not None else []
+
+    success = not clear_scene or not after_avatars
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "diagnostic_mode": "resource_release_probe",
+        "success": success,
+        "clear_current_scene": clear_scene,
+        "before_avatars": before,
+        "after_avatar_count": len(after_avatars),
+        "removed_avatar_count": len(before_avatars) - len(after_avatars),
+        "qt_pixmap_cache_cleared": True,
+        "python_gc_collected_per_pass": collected,
+        "public_release_api_candidates": api_candidates,
+        "scope_note": (
+            "This clears active scene references and Python/Qt caches only. "
+            "CC renderer or asset-manager native caches may remain allocated."
+        ),
+    }
+    report_path = os.path.join(output_dir, "resource_release_report.json")
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    write_json(report, report_path)
+    summary = {
+        "schema_version": 1,
+        "diagnostic_mode": "resource_release_probe",
+        "phase": "complete" if success else "failed",
+        "success": success,
+        "failure_count": 0 if success else 1,
+        "success_count": 1 if success else 0,
+        "report_path": report_path,
+        "summary_path": summary_path,
+        "resource_release": report,
+    }
+    write_json(summary, summary_path)
+    return summary
 
 
 def resolve_avatar():
@@ -1743,6 +1931,13 @@ def apply_local_face_morphs(
     }
 
 
+def allows_reported_bounds_probe(morph_id):
+    return (
+        morph_id.lower().startswith("cc embed morphs/")
+        or morph_id in KNOWN_SIGNED_RUNTIME_MORPH_IDS
+    )
+
+
 def apply_single_morph_weight(avatar, morph_id, target, label):
     component, catalog, unused_categories = morph_catalog(avatar)
     if morph_id not in catalog:
@@ -1753,7 +1948,10 @@ def apply_single_morph_weight(avatar, morph_id, target, label):
     bounds = component.GetShapingMorphMinMax(morph_id)
     minimum = float(bounds.first)
     maximum = float(bounds.second)
-    if target < minimum - 1e-7 or target > maximum + 1e-7:
+    reported_out_of_bounds = (
+        target < minimum - 1e-7 or target > maximum + 1e-7
+    )
+    if reported_out_of_bounds and not allows_reported_bounds_probe(morph_id):
         raise ReconstructionError(
             "{} Morph target is outside bounds: {} target={} "
             "bounds=[{}, {}]".format(
@@ -1786,8 +1984,143 @@ def apply_single_morph_weight(avatar, morph_id, target, label):
         "actual": actual,
         "display": catalog[morph_id]["display"],
         "id": morph_id,
+        "reported_bounds_override": (
+            reported_out_of_bounds
+            and allows_reported_bounds_probe(morph_id)
+        ),
         "previous": previous,
         "target": target,
+    }
+
+
+def apply_bodyfit_proportion_adjustment(
+    avatar,
+    preset,
+    progress_callback=None,
+):
+    adjustment = preset.get("bodyfit_proportion_adjustment")
+    if adjustment is None:
+        return avatar, None
+    if not isinstance(adjustment, dict):
+        raise ReconstructionError(
+            "bodyfit_proportion_adjustment must be an object"
+        )
+    decision_set_id = adjustment.get("decision_set_id")
+    if not isinstance(decision_set_id, str) or not decision_set_id:
+        raise ReconstructionError(
+            "bodyfit_proportion_adjustment decision_set_id is missing"
+        )
+    application_order = adjustment.get("application_order")
+    if application_order != list(BODYFIT_PROPORTION_APPLICATION_ORDER):
+        raise ReconstructionError(
+            "BodyFit proportion application order is not canonical"
+        )
+    targets = adjustment.get("targets")
+    if not isinstance(targets, list) or len(targets) != len(
+        BODYFIT_PROPORTION_APPLICATION_ORDER
+    ):
+        raise ReconstructionError(
+            "BodyFit proportion adjustment requires two targets"
+        )
+    if [item.get("role") for item in targets] != list(
+        BODYFIT_PROPORTION_APPLICATION_ORDER
+    ):
+        raise ReconstructionError(
+            "BodyFit proportion targets differ from canonical order"
+        )
+    controlled_ids = []
+    for item in targets:
+        morph_id = item.get("id")
+        target = item.get("target")
+        if not isinstance(morph_id, str) or not morph_id:
+            raise ReconstructionError(
+                "BodyFit proportion target Morph ID is missing"
+            )
+        if (
+            isinstance(target, bool)
+            or not isinstance(target, (int, float))
+            or not math.isfinite(float(target))
+        ):
+            raise ReconstructionError(
+                "BodyFit proportion target must be finite"
+            )
+        controlled_ids.append(morph_id)
+    if len(controlled_ids) != len(set(controlled_ids)):
+        raise ReconstructionError(
+            "BodyFit proportion target Morph IDs are duplicated"
+        )
+
+    component, catalog, unused_categories = morph_catalog(avatar)
+    missing_ids = sorted(set(controlled_ids) - set(catalog))
+    if missing_ids:
+        raise ReconstructionError(
+            "BodyFit proportion Morphs are unavailable: {}".format(
+                missing_ids
+            )
+        )
+    before_vectors = capture_vectors(avatar)
+    protected_before = vectors_excluding_morphs_fingerprint(
+        before_vectors,
+        controlled_ids,
+    )
+    eye_before = capture_eye_integrity_state(avatar)
+    applications = []
+    for item in targets:
+        role = item["role"]
+        if progress_callback is not None:
+            progress_callback(
+                "bodyfit_proportion_{}".format(role),
+                {
+                    "bodyfit_id": preset.get("bodyfit_id"),
+                    "target": float(item["target"]),
+                },
+            )
+        applications.append(
+            dict(
+                apply_single_morph_weight(
+                    avatar,
+                    item["id"],
+                    item["target"],
+                    "BodyFit proportion {}".format(role),
+                ),
+                role=role,
+                ui_value=item.get("ui_value"),
+            )
+        )
+    force_avatar_scene_evaluation(avatar)
+    after_vectors = capture_vectors(avatar)
+    protected_after = vectors_excluding_morphs_fingerprint(
+        after_vectors,
+        controlled_ids,
+    )
+    eye_after = capture_eye_integrity_state(avatar)
+    eye_structure_preserved = (
+        eye_integrity_structure_signature(eye_before)
+        == eye_integrity_structure_signature(eye_after)
+    )
+    if protected_after != protected_before:
+        raise ReconstructionError(
+            "BodyFit proportion adjustment changed protected Morphs"
+        )
+    if not eye_structure_preserved:
+        raise ReconstructionError(
+            "BodyFit proportion adjustment changed eye structure"
+        )
+    return avatar, {
+        "application_order": list(application_order),
+        "applications": applications,
+        "bodyfit_id": preset.get("bodyfit_id"),
+        "canonical_order_verified": True,
+        "controlled_morph_ids": controlled_ids,
+        "decision_set_id": decision_set_id,
+        "eye_structure_preserved": True,
+        "protected_morph_fingerprint_after": protected_after,
+        "protected_morph_fingerprint_before": protected_before,
+        "protected_morphs_unchanged": True,
+        "targets_match": all(
+            abs(float(item["actual"]) - float(item["target"])) <= 1e-6
+            for item in applications
+        ),
     }
 
 
@@ -2938,6 +3271,1233 @@ def avatar_material_fingerprint(avatar):
     }
 
 
+def avatar_material_structure(avatar):
+    component = avatar.GetMaterialComponent()
+    if component is None:
+        raise ReconstructionError("Avatar has no material component")
+    mesh_names = sorted(str(name) for name in (avatar.GetMeshNames() or []))
+    records = []
+    for mesh_name in mesh_names:
+        material_names = sorted(
+            str(name)
+            for name in (component.GetMaterialNames(mesh_name) or [])
+        )
+        for material_name in material_names:
+            records.append(
+                {
+                    "material": material_name,
+                    "mesh": mesh_name,
+                    "shader": str(
+                        component.GetShader(mesh_name, material_name)
+                    ),
+                }
+            )
+    encoded = json.dumps(
+        records,
+        sort_keys=True,
+        separators=(",", ":"),
+        ensure_ascii=True,
+    ).encode("utf-8")
+    return {
+        "digest": hashlib.sha256(encoded).hexdigest(),
+        "material_count": len(records),
+        "mesh_count": len(mesh_names),
+        "mesh_names": mesh_names,
+        "records": records,
+    }
+
+
+def face_material_domain(mesh_name, material_name):
+    mesh = str(mesh_name).lower()
+    material = str(material_name).lower()
+    if mesh == "cc_base_eye":
+        return "cornea" if "cornea" in material else "eye_base"
+    if mesh == "cc_base_eyeocclusion":
+        return "eye_occlusion"
+    if mesh == "cc_base_tearline":
+        return "tearline"
+    if mesh == "cc_base_body":
+        body_domains = {
+            "std_skin_head": "skin_head",
+            "std_skin_body": "skin_body",
+            "std_skin_arm": "skin_arm",
+            "std_skin_leg": "skin_leg",
+        }
+        return body_domains.get(material)
+    return None
+
+
+def probe_current_face_material_parameters(output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Face material probe expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    component = avatar.GetMaterialComponent()
+    if component is None:
+        raise ReconstructionError("Face material probe found no material component")
+    property_methods = (
+        "GetAmbientColor",
+        "GetDiffuseColor",
+        "GetSpecularColor",
+        "GetGlossinessWeight",
+        "GetSpecularWeight",
+        "GetSelfIlluminationWeight",
+        "GetOpacity",
+        "GetRefraction",
+        "GetReflection",
+    )
+    records = []
+    observation_errors = []
+    mesh_names = sorted(set(str(name) for name in (avatar.GetMeshNames() or [])))
+    for mesh_name in mesh_names:
+        material_names = sorted(
+            set(
+                str(name)
+                for name in (component.GetMaterialNames(mesh_name) or [])
+            )
+        )
+        for material_name in material_names:
+            domain = face_material_domain(mesh_name, material_name)
+            if domain is None:
+                continue
+            record = {
+                "domain": domain,
+                "mesh": mesh_name,
+                "material": material_name,
+                "shader": str(component.GetShader(mesh_name, material_name)),
+                "properties": {},
+                "shader_parameters": {},
+            }
+            for method_name in property_methods:
+                try:
+                    record["properties"][method_name] = material_call(
+                        component,
+                        method_name,
+                        mesh_name,
+                        material_name,
+                    )
+                except Exception as exc:
+                    observation_errors.append(
+                        {
+                            "domain": domain,
+                            "mesh": mesh_name,
+                            "material": material_name,
+                            "stage": method_name,
+                            "error": str(exc),
+                        }
+                    )
+            try:
+                parameter_names = sorted(
+                    set(
+                        str(name)
+                        for name in (
+                            component.GetShaderParameterNames(
+                                mesh_name,
+                                material_name,
+                            )
+                            or []
+                        )
+                    )
+                )
+            except Exception as exc:
+                parameter_names = []
+                observation_errors.append(
+                    {
+                        "domain": domain,
+                        "mesh": mesh_name,
+                        "material": material_name,
+                        "stage": "shader_parameter_names",
+                        "error": str(exc),
+                    }
+                )
+            for parameter_name in parameter_names:
+                try:
+                    record["shader_parameters"][parameter_name] = material_value(
+                        component.GetShaderParameter(
+                            mesh_name,
+                            material_name,
+                            parameter_name,
+                        )
+                    )
+                except Exception as exc:
+                    observation_errors.append(
+                        {
+                            "domain": domain,
+                            "mesh": mesh_name,
+                            "material": material_name,
+                            "stage": "shader_parameter:{}".format(parameter_name),
+                            "error": str(exc),
+                        }
+                    )
+            records.append(record)
+    required_domains = {
+        "cornea",
+        "eye_base",
+        "eye_occlusion",
+        "tearline",
+        "skin_head",
+        "skin_body",
+        "skin_arm",
+        "skin_leg",
+    }
+    observed_domains = set(record["domain"] for record in records)
+    missing_domains = sorted(required_domains - observed_domains)
+    if missing_domains:
+        raise ReconstructionError(
+            "Face material probe is missing domains: {}".format(missing_domains)
+        )
+    payload = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "diagnostic_mode": "face_material_parameter_probe",
+        "scene_policy": "read_only",
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+            "python_type": type(avatar).__name__,
+        },
+        "domain_count": len(observed_domains),
+        "domains": sorted(observed_domains),
+        "record_count": len(records),
+        "records": records,
+        "observation_error_count": len(observation_errors),
+        "observation_errors": observation_errors,
+        "eye_integrity": capture_eye_integrity_state(avatar),
+    }
+    inventory_path = os.path.join(
+        output_dir,
+        "face_material_parameters.json",
+    )
+    write_json(payload, inventory_path)
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": payload["captured_at"],
+        "finished_at": now(),
+        "requested_count": len(required_domains),
+        "success_count": len(required_domains),
+        "failure_count": 0,
+        "success": True,
+        "diagnostic_mode": "face_material_parameter_probe",
+        "face_material_parameters_path": inventory_path,
+        "summary_path": summary_path,
+        "scene_policy": "read_only",
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def face_material_numeric_value(component, mesh_name, material_name, parameter_name):
+    value = material_value(
+        component.GetShaderParameter(
+            mesh_name,
+            material_name,
+            parameter_name,
+        )
+    )
+    if (
+        not isinstance(value, list)
+        or not value
+        or any(isinstance(item, bool) or not isinstance(item, (int, float)) for item in value)
+    ):
+        raise ReconstructionError(
+            "Face material parameter is not numeric: {} {} {} {}".format(
+                mesh_name,
+                material_name,
+                parameter_name,
+                value,
+            )
+        )
+    return [float(item) for item in value]
+
+
+def face_material_values_match(left, right, tolerance=1e-5):
+    return len(left) == len(right) and all(
+        abs(float(a) - float(b)) <= tolerance
+        for a, b in zip(left, right)
+    )
+
+
+def apply_face_material_quality_profile(avatar, reference):
+    if not isinstance(reference, dict):
+        raise ReconstructionError(
+            "Face material quality profile reference must be an object"
+        )
+    profile_path = canonical_existing_file(
+        reference.get("path"),
+        "Face material quality profile",
+    )
+    actual_sha256 = sha256_file(profile_path)
+    expected_sha256 = reference.get("sha256")
+    if expected_sha256 and actual_sha256 != expected_sha256:
+        raise ReconstructionError("Face material quality profile hash changed")
+    profile = read_json(profile_path)
+    expected_profile_id = reference.get("profile_id")
+    required_status = reference.get("required_status")
+    if profile.get("profile_id") != expected_profile_id:
+        raise ReconstructionError("Face material quality profile ID changed")
+    if profile.get("status") != required_status:
+        raise ReconstructionError("Face material quality profile status changed")
+    changes = profile.get("recommended_changes")
+    if not isinstance(changes, list) or not changes:
+        raise ReconstructionError(
+            "Face material quality profile has no recommended changes"
+        )
+
+    component = avatar.GetMaterialComponent()
+    if component is None:
+        raise ReconstructionError(
+            "Face material quality application found no material component"
+        )
+    material_slots = []
+    for mesh_name in sorted(set(str(name) for name in (avatar.GetMeshNames() or []))):
+        for material_name in sorted(
+            set(str(name) for name in (component.GetMaterialNames(mesh_name) or []))
+        ):
+            domain = face_material_domain(mesh_name, material_name)
+            if domain is None:
+                continue
+            material_slots.append(
+                {
+                    "domain": domain,
+                    "mesh": mesh_name,
+                    "material": material_name,
+                    "parameter_names": set(
+                        str(name)
+                        for name in (
+                            component.GetShaderParameterNames(
+                                mesh_name, material_name
+                            )
+                            or []
+                        )
+                    ),
+                }
+            )
+
+    normalized_changes = []
+    seen_changes = set()
+    touched = {}
+    for change in changes:
+        domain = change.get("domain") if isinstance(change, dict) else None
+        parameter = (
+            change.get("parameter") if isinstance(change, dict) else None
+        )
+        value = (
+            change.get("recommended_value")
+            if isinstance(change, dict)
+            else None
+        )
+        if (
+            not isinstance(domain, str)
+            or not domain
+            or not isinstance(parameter, str)
+            or not parameter
+            or isinstance(value, bool)
+            or not isinstance(value, (int, float))
+        ):
+            raise ReconstructionError(
+                "Face material quality change is invalid"
+            )
+        key = (domain, parameter)
+        if key in seen_changes:
+            raise ReconstructionError(
+                "Face material quality change is duplicated: {} {}".format(
+                    domain, parameter
+                )
+            )
+        seen_changes.add(key)
+        matching_slots = [
+            slot
+            for slot in material_slots
+            if slot["domain"] == domain
+            and parameter in slot["parameter_names"]
+        ]
+        if not matching_slots:
+            raise ReconstructionError(
+                "No face material slot matches {} {}".format(
+                    domain, parameter
+                )
+            )
+        normalized_changes.append(
+            {
+                "domain": domain,
+                "parameter": parameter,
+                "value": [float(value)],
+                "documented_baseline": change.get("baseline_value"),
+                "matching_slots": matching_slots,
+            }
+        )
+        for slot in matching_slots:
+            material_key = (slot["mesh"], slot["material"], parameter)
+            if material_key not in touched:
+                touched[material_key] = face_material_numeric_value(
+                    component,
+                    material_key[0],
+                    material_key[1],
+                    material_key[2],
+                )
+
+    eye_before = capture_eye_integrity_state(avatar)
+    applied = []
+
+    def restore_touched():
+        for material_key, before in sorted(touched.items()):
+            checked(
+                "Restore failed face quality application {} {} {}".format(
+                    *material_key
+                ),
+                component.SetShaderParameter(
+                    material_key[0],
+                    material_key[1],
+                    material_key[2],
+                    tuple(before),
+                ),
+            )
+
+    try:
+        for change in normalized_changes:
+            for slot in change["matching_slots"]:
+                checked(
+                    "Apply face quality {} {}".format(
+                        slot["material"], change["parameter"]
+                    ),
+                    component.SetShaderParameter(
+                        slot["mesh"],
+                        slot["material"],
+                        change["parameter"],
+                        tuple(change["value"]),
+                    ),
+                )
+                actual = face_material_numeric_value(
+                    component,
+                    slot["mesh"],
+                    slot["material"],
+                    change["parameter"],
+                )
+                if not face_material_values_match(actual, change["value"]):
+                    raise ReconstructionError(
+                        "Face material quality write did not round-trip: "
+                        "{} {}".format(
+                            slot["material"], change["parameter"]
+                        )
+                    )
+                material_key = (
+                    slot["mesh"],
+                    slot["material"],
+                    change["parameter"],
+                )
+                applied.append(
+                    {
+                        "after": actual,
+                        "before": touched[material_key],
+                        "documented_baseline": change[
+                            "documented_baseline"
+                        ],
+                        "domain": change["domain"],
+                        "material": slot["material"],
+                        "mesh": slot["mesh"],
+                        "parameter": change["parameter"],
+                    }
+                )
+        force_avatar_scene_evaluation(avatar)
+        eye_after = capture_eye_integrity_state(avatar)
+        eye_integrity = compare_neutral_eye_states(
+            eye_before,
+            eye_after,
+            include_world=True,
+        )
+        if not eye_integrity.get("matches"):
+            raise ReconstructionError(
+                "Face material quality application changed eye geometry"
+            )
+    except Exception:
+        restore_touched()
+        force_avatar_scene_evaluation(avatar)
+        raise
+
+    return {
+        "application_order": profile.get("application_order"),
+        "applied": applied,
+        "applied_slot_count": len(applied),
+        "eye_integrity": eye_integrity,
+        "profile_id": profile["profile_id"],
+        "profile_path": profile_path,
+        "profile_sha256": actual_sha256,
+        "profile_status": profile["status"],
+        "success": True,
+    }
+
+
+def probe_current_face_material_visual_matrix(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    config = library.get("face_material_visual_matrix") or {}
+    if not isinstance(config, dict):
+        raise ReconstructionError("face_material_visual_matrix must be an object")
+    camera_path = canonical_existing_file(
+        config.get("camera_path"),
+        "Face material matrix camera",
+    )
+    restore_lightroom = canonical_existing_file(
+        config.get("restore_lightroom"),
+        "Face material matrix restore Lightroom",
+    )
+    lights = config.get("lights")
+    profiles = config.get("profiles")
+    if not isinstance(lights, list) or not lights:
+        raise ReconstructionError("Face material matrix lights are missing")
+    if not isinstance(profiles, list) or not profiles:
+        raise ReconstructionError("Face material matrix profiles are missing")
+    normalized_lights = []
+    seen_ids = set()
+    for item in lights:
+        light_id = item.get("id") if isinstance(item, dict) else None
+        if (
+            not isinstance(light_id, str)
+            or not light_id
+            or light_id in seen_ids
+        ):
+            raise ReconstructionError("Face material matrix light IDs must be unique")
+        seen_ids.add(light_id)
+        normalized_lights.append(
+            {
+                "id": light_id,
+                "path": canonical_existing_file(
+                    item.get("path"),
+                    "Face material matrix light {}".format(light_id),
+                ),
+            }
+        )
+    normalized_profiles = []
+    seen_ids = set()
+    for item in profiles:
+        profile_id = item.get("id") if isinstance(item, dict) else None
+        if (
+            not isinstance(profile_id, str)
+            or not profile_id
+            or profile_id in seen_ids
+        ):
+            raise ReconstructionError("Face material matrix profile IDs must be unique")
+        seen_ids.add(profile_id)
+        changes = item.get("changes", [])
+        if not isinstance(changes, list):
+            raise ReconstructionError(
+                "Face material profile changes must be a list: {}".format(profile_id)
+            )
+        normalized_changes = []
+        for change in changes:
+            domain = change.get("domain") if isinstance(change, dict) else None
+            parameter = change.get("parameter") if isinstance(change, dict) else None
+            value = change.get("value") if isinstance(change, dict) else None
+            if not isinstance(domain, str) or not domain:
+                raise ReconstructionError("Face material change has no domain")
+            if not isinstance(parameter, str) or not parameter:
+                raise ReconstructionError("Face material change has no parameter")
+            if isinstance(value, (int, float)) and not isinstance(value, bool):
+                value = [float(value)]
+            if (
+                not isinstance(value, list)
+                or not value
+                or any(
+                    isinstance(number, bool) or not isinstance(number, (int, float))
+                    for number in value
+                )
+            ):
+                raise ReconstructionError(
+                    "Face material change value must be numeric: {} {}".format(
+                        profile_id,
+                        parameter,
+                    )
+                )
+            normalized_changes.append(
+                {
+                    "domain": domain,
+                    "parameter": parameter,
+                    "value": [float(number) for number in value],
+                }
+            )
+        normalized_profiles.append(
+            {
+                "id": profile_id,
+                "label": str(item.get("label") or profile_id),
+                "changes": normalized_changes,
+            }
+        )
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Face material matrix expected one avatar, found {}".format(len(avatars))
+        )
+    component = avatar.GetMaterialComponent()
+    if component is None:
+        raise ReconstructionError("Face material matrix found no material component")
+    face_position = _quality_benchmark_position(
+        config.get("face_position", [0.0, 8.0, 6.0]),
+        "face_material_visual_matrix.face_position",
+    )
+    yaw_degrees = float(config.get("yaw_degrees", 90.0))
+    settle_seconds = float(config.get("light_settle_seconds", 1.0))
+    if settle_seconds < 0.0 or settle_seconds > 30.0:
+        raise ReconstructionError("Face material matrix settle time is invalid")
+    initial_position = {
+        "x": _transform_float(avatar, "Position/PositionX"),
+        "y": _transform_float(avatar, "Position/PositionY"),
+        "z": _transform_float(avatar, "Position/PositionZ"),
+    }
+    initial_yaw_radians = _transform_float(avatar, "Rotation/RotationZ")
+    initial_camera = RLPy.RScene.GetCurrentCamera()
+    initial_eye_integrity = capture_eye_integrity_state(avatar)
+    material_slots = []
+    for mesh_name in sorted(set(str(name) for name in (avatar.GetMeshNames() or []))):
+        for material_name in sorted(
+            set(str(name) for name in (component.GetMaterialNames(mesh_name) or []))
+        ):
+            domain = face_material_domain(mesh_name, material_name)
+            if domain is None:
+                continue
+            parameter_names = set(
+                str(name)
+                for name in (
+                    component.GetShaderParameterNames(mesh_name, material_name) or []
+                )
+            )
+            material_slots.append(
+                {
+                    "domain": domain,
+                    "mesh": mesh_name,
+                    "material": material_name,
+                    "parameter_names": parameter_names,
+                }
+            )
+    touched = {}
+    for profile in normalized_profiles:
+        for change in profile["changes"]:
+            matching_slots = [
+                slot
+                for slot in material_slots
+                if slot["domain"] == change["domain"]
+                and change["parameter"] in slot["parameter_names"]
+            ]
+            if not matching_slots:
+                raise ReconstructionError(
+                    "No face material slot matches {} {}".format(
+                        change["domain"],
+                        change["parameter"],
+                    )
+                )
+            for slot in matching_slots:
+                key = (slot["mesh"], slot["material"], change["parameter"])
+                if key not in touched:
+                    touched[key] = face_material_numeric_value(
+                        component,
+                        key[0],
+                        key[1],
+                        key[2],
+                    )
+
+    def restore_touched_parameters():
+        for key, before in sorted(touched.items()):
+            checked(
+                "Restore face material {} {} {}".format(*key),
+                component.SetShaderParameter(key[0], key[1], key[2], tuple(before)),
+            )
+
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "diagnostic_mode": "face_material_visual_matrix",
+        "scene_policy": "reversible_material_and_light_matrix",
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+        },
+        "camera_path": camera_path,
+        "restore_lightroom": restore_lightroom,
+        "face_position": face_position,
+        "yaw_degrees": yaw_degrees,
+        "initial_position": initial_position,
+        "initial_eye_integrity": initial_eye_integrity,
+        "lights": normalized_lights,
+        "profiles": [],
+        "touched_parameter_count": len(touched),
+        "touched_before": [
+            {
+                "mesh": key[0],
+                "material": key[1],
+                "parameter": key[2],
+                "value": value,
+            }
+            for key, value in sorted(touched.items())
+        ],
+    }
+    try:
+        checked("Load face material matrix camera", RLPy.RFileIO.LoadFile(camera_path))
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, yaw_degrees)
+        checked(
+            "Set face material matrix start time",
+            RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+        )
+        for profile in normalized_profiles:
+            restore_touched_parameters()
+            applied = []
+            for change in profile["changes"]:
+                for slot in material_slots:
+                    if (
+                        slot["domain"] != change["domain"]
+                        or change["parameter"] not in slot["parameter_names"]
+                    ):
+                        continue
+                    checked(
+                        "Apply face material {} {} {}".format(
+                            profile["id"],
+                            slot["material"],
+                            change["parameter"],
+                        ),
+                        component.SetShaderParameter(
+                            slot["mesh"],
+                            slot["material"],
+                            change["parameter"],
+                            tuple(change["value"]),
+                        ),
+                    )
+                    actual = face_material_numeric_value(
+                        component,
+                        slot["mesh"],
+                        slot["material"],
+                        change["parameter"],
+                    )
+                    if not face_material_values_match(actual, change["value"]):
+                        raise ReconstructionError(
+                            "Face material write did not round-trip: {} {} {} {}".format(
+                                profile["id"],
+                                slot["material"],
+                                change["parameter"],
+                                actual,
+                            )
+                        )
+                    applied.append(
+                        {
+                            "domain": change["domain"],
+                            "mesh": slot["mesh"],
+                            "material": slot["material"],
+                            "parameter": change["parameter"],
+                            "value": actual,
+                        }
+                    )
+            profile_record = {
+                "id": profile["id"],
+                "label": profile["label"],
+                "changes": profile["changes"],
+                "applied": applied,
+                "captures": [],
+            }
+            for light in normalized_lights:
+                checked(
+                    "Load face material matrix light {}".format(light["id"]),
+                    RLPy.RFileIO.LoadFile(light["path"]),
+                )
+                settle_cc_ui(settle_seconds)
+                checked(
+                    "Reload face material matrix camera for {}".format(
+                        light["id"]
+                    ),
+                    RLPy.RFileIO.LoadFile(camera_path),
+                )
+                set_avatar_position(
+                    avatar,
+                    position_x=face_position[0],
+                    position_y=face_position[1],
+                    position_z=face_position[2],
+                )
+                set_avatar_yaw(avatar, yaw_degrees)
+                checked(
+                    "Reset face material matrix time for {}".format(
+                        light["id"]
+                    ),
+                    RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+                )
+                force_avatar_scene_evaluation(avatar)
+                image_path = os.path.join(
+                    output_dir,
+                    "{}_{}.png".format(profile["id"], light["id"]),
+                )
+                render_preview(image_path, RLPy.RGlobal.GetStartTime())
+                profile_record["captures"].append(
+                    {
+                        "light_id": light["id"],
+                        "path": image_path,
+                        "bytes": os.path.getsize(image_path),
+                    }
+                )
+            report["profiles"].append(profile_record)
+    finally:
+        restore_touched_parameters()
+        checked(
+            "Restore face material matrix Lightroom",
+            RLPy.RFileIO.LoadFile(restore_lightroom),
+        )
+        settle_cc_ui(settle_seconds)
+        set_avatar_yaw(avatar, math.degrees(initial_yaw_radians))
+        set_avatar_position(
+            avatar,
+            position_x=initial_position["x"],
+            position_y=initial_position["y"],
+            position_z=initial_position["z"],
+        )
+        if initial_camera is not None:
+            checked(
+                "Restore camera after face material matrix",
+                RLPy.RScene.SetCurrentCamera(initial_camera),
+            )
+        force_avatar_scene_evaluation(avatar)
+    restoration_mismatches = []
+    for key, before in sorted(touched.items()):
+        actual = face_material_numeric_value(
+            component,
+            key[0],
+            key[1],
+            key[2],
+        )
+        if not face_material_values_match(actual, before):
+            restoration_mismatches.append(
+                {
+                    "mesh": key[0],
+                    "material": key[1],
+                    "parameter": key[2],
+                    "expected": before,
+                    "actual": actual,
+                }
+            )
+    report["restoration"] = {
+        "material_mismatches": restoration_mismatches,
+        "materials_restored": not restoration_mismatches,
+        "eye_integrity": compare_neutral_eye_states(
+            initial_eye_integrity,
+            capture_eye_integrity_state(avatar),
+            include_world=True,
+        ),
+    }
+    report["success"] = (
+        not restoration_mismatches
+        and report["restoration"]["eye_integrity"]["matches"]
+    )
+    report["finished_at"] = now()
+    report_path = os.path.join(output_dir, "face_material_visual_matrix.json")
+    write_json(report, report_path)
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    capture_count = sum(len(item["captures"]) for item in report["profiles"])
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": report["captured_at"],
+        "finished_at": report["finished_at"],
+        "requested_count": capture_count,
+        "success_count": capture_count if report["success"] else 0,
+        "failure_count": 0 if report["success"] else capture_count,
+        "success": report["success"],
+        "diagnostic_mode": "face_material_visual_matrix",
+        "face_material_visual_matrix_path": report_path,
+        "summary_path": summary_path,
+        "scene_policy": report["scene_policy"],
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def probe_face_material_cross_skin_matrix(library, output_dir, log):
+    os.makedirs(output_dir, exist_ok=True)
+    config = library.get("face_material_cross_skin_matrix") or {}
+    if not isinstance(config, dict):
+        raise ReconstructionError(
+            "face_material_cross_skin_matrix must be an object"
+        )
+    subjects = config.get("subjects")
+    views = config.get("views")
+    matrix_template = config.get("matrix")
+    if not isinstance(subjects, list) or not subjects:
+        raise ReconstructionError("Cross-skin subjects are missing")
+    if not isinstance(views, list) or not views:
+        raise ReconstructionError("Cross-skin views are missing")
+    if not isinstance(matrix_template, dict):
+        raise ReconstructionError("Cross-skin material matrix is missing")
+
+    expected_subject_ids = {
+        "female_light",
+        "female_dark",
+        "male_light",
+        "male_dark",
+    }
+    subject_ids = [
+        item.get("id") if isinstance(item, dict) else None
+        for item in subjects
+    ]
+    if (
+        len(subject_ids) != len(set(subject_ids))
+        or set(subject_ids) != expected_subject_ids
+    ):
+        raise ReconstructionError(
+            "Cross-skin subjects must be female_light, female_dark, "
+            "male_light, and male_dark exactly once"
+        )
+    normalized_views = []
+    seen_view_ids = set()
+    for item in views:
+        view_id = item.get("id") if isinstance(item, dict) else None
+        yaw_degrees = item.get("yaw_degrees") if isinstance(item, dict) else None
+        if (
+            not isinstance(view_id, str)
+            or not view_id
+            or view_id in seen_view_ids
+            or isinstance(yaw_degrees, bool)
+            or not isinstance(yaw_degrees, (int, float))
+        ):
+            raise ReconstructionError("Cross-skin view definition is invalid")
+        seen_view_ids.add(view_id)
+        normalized_views.append(
+            {"id": view_id, "yaw_degrees": float(yaw_degrees)}
+        )
+
+    restore_project = canonical_existing_file(
+        config.get("restore_project"),
+        "Cross-skin restore project",
+    )
+    load_settle_seconds = float(config.get("load_settle_seconds", 8.0))
+    skin_settle_seconds = float(config.get("skin_settle_seconds", 3.0))
+    if not 0.0 <= load_settle_seconds <= 60.0:
+        raise ReconstructionError("Cross-skin project settle time is invalid")
+    if not 0.0 <= skin_settle_seconds <= 60.0:
+        raise ReconstructionError("Cross-skin asset settle time is invalid")
+
+    normalized_subjects = []
+    for item in subjects:
+        subject_id = item["id"]
+        sex = item.get("sex")
+        tone_class = item.get("tone_class")
+        if sex not in ("female", "male"):
+            raise ReconstructionError(
+                "Cross-skin subject has invalid sex: {}".format(subject_id)
+            )
+        if tone_class not in ("light", "dark"):
+            raise ReconstructionError(
+                "Cross-skin subject has invalid tone class: {}".format(
+                    subject_id
+                )
+            )
+        if subject_id != "{}_{}".format(sex, tone_class):
+            raise ReconstructionError(
+                "Cross-skin subject ID does not match its labels: {}".format(
+                    subject_id
+                )
+            )
+        source_project = canonical_existing_file(
+            item.get("source_project"),
+            "Cross-skin source project {}".format(subject_id),
+        )
+        skin_asset = canonical_existing_file(
+            item.get("skin_asset"),
+            "Cross-skin asset {}".format(subject_id),
+        )
+        camera_path = canonical_existing_file(
+            item.get("camera_path"),
+            "Cross-skin camera {}".format(subject_id),
+        )
+        expected_source_sha256 = item.get("source_project_sha256")
+        expected_skin_sha256 = item.get("skin_asset_sha256")
+        actual_source_sha256 = sha256_file(source_project)
+        actual_skin_sha256 = sha256_file(skin_asset)
+        if (
+            expected_source_sha256
+            and actual_source_sha256 != expected_source_sha256
+        ):
+            raise ReconstructionError(
+                "Cross-skin source project hash changed: {}".format(subject_id)
+            )
+        if expected_skin_sha256 and actual_skin_sha256 != expected_skin_sha256:
+            raise ReconstructionError(
+                "Cross-skin asset hash changed: {}".format(subject_id)
+            )
+        normalized_subjects.append(
+            {
+                "camera_path": camera_path,
+                "id": subject_id,
+                "sex": sex,
+                "skin_asset": skin_asset,
+                "skin_asset_sha256": actual_skin_sha256,
+                "skin_display_name": str(
+                    item.get("skin_display_name") or os.path.basename(skin_asset)
+                ),
+                "source_project": source_project,
+                "source_project_sha256": actual_source_sha256,
+                "tone_class": tone_class,
+            }
+        )
+
+    started_at = now()
+    report_path = os.path.join(
+        output_dir, "face_material_cross_skin_matrix.json"
+    )
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    progress_path = os.path.join(output_dir, "progress.json")
+    cases = []
+    run_error = None
+    restoration = {
+        "attempted": False,
+        "project": restore_project,
+        "success": False,
+    }
+
+    def mark(subject_id, phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "phase": phase,
+                "schema_version": 1,
+                "subject_id": subject_id,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+
+    try:
+        for index, subject in enumerate(normalized_subjects, 1):
+            subject_id = subject["id"]
+            log(
+                "CROSS SKIN {}/{} {}".format(
+                    index, len(normalized_subjects), subject_id
+                )
+            )
+            case_dir = os.path.join(output_dir, subject_id)
+            os.makedirs(case_dir, exist_ok=False)
+            case = {
+                "id": subject_id,
+                "sex": subject["sex"],
+                "tone_class": subject["tone_class"],
+                "source_project": subject["source_project"],
+                "source_project_sha256": subject["source_project_sha256"],
+                "skin_asset": subject["skin_asset"],
+                "skin_asset_sha256": subject["skin_asset_sha256"],
+                "skin_display_name": subject["skin_display_name"],
+                "views": [],
+                "success": False,
+            }
+            try:
+                mark(subject_id, "load_source_project")
+                source_status, source_dialogs = load_file_with_optional_undo_warning(
+                    subject["source_project"],
+                    "Load cross-skin source {}".format(subject_id),
+                )
+                settle_cc_ui(load_settle_seconds)
+                avatar, avatars = resolve_avatar()
+                if len(avatars) != 1:
+                    raise ReconstructionError(
+                        "Cross-skin {} expected one avatar, found {}".format(
+                            subject_id, len(avatars)
+                        )
+                    )
+                avatar_id = scene_object_id(avatar)
+                vectors_before_skin = capture_vectors(avatar)
+                eye_before_skin = capture_eye_integrity_state(avatar)
+                eye_parts_before_skin = direct_avatar_part_signature(
+                    direct_avatar_part_records(avatar, "eyes")
+                )
+                material_before_skin = avatar_material_fingerprint(avatar)
+
+                mark(subject_id, "load_skin", {"path": subject["skin_asset"]})
+                RLPy.RScene.SelectObject(avatar)
+                skin_status, skin_dialogs = load_file_with_skin_material_dialog(
+                    subject["skin_asset"],
+                    "Load cross-skin asset {}".format(subject_id),
+                )
+                settle_cc_ui(skin_settle_seconds)
+                avatar_after_skin, avatars_after_skin = resolve_avatar()
+                if (
+                    len(avatars_after_skin) != 1
+                    or scene_object_id(avatar_after_skin) != avatar_id
+                ):
+                    raise ReconstructionError(
+                        "Avatar changed while applying cross-skin asset {}".format(
+                            subject_id
+                        )
+                    )
+                avatar = avatar_after_skin
+                material_after_skin = avatar_material_fingerprint(avatar)
+                material_verification = evaluate_skin_material_change(
+                    material_before_skin,
+                    material_after_skin,
+                )
+                vectors_after_skin = capture_vectors(avatar)
+                morph_differences = vector_differences(
+                    vectors_before_skin,
+                    vectors_after_skin,
+                )
+                eye_parts_after_skin = direct_avatar_part_signature(
+                    direct_avatar_part_records(avatar, "eyes")
+                )
+                eye_after_skin = capture_eye_integrity_state(avatar)
+                eye_geometry = compare_neutral_eye_states(
+                    eye_before_skin,
+                    eye_after_skin,
+                    include_world=True,
+                )
+                case["source_load"] = {
+                    "dialogs": source_dialogs,
+                    "status": source_status,
+                }
+                case["skin_load"] = {
+                    "dialogs": skin_dialogs,
+                    "status": skin_status,
+                }
+                case["skin_verification"] = {
+                    "eye_avatar_parts_preserved": (
+                        eye_parts_after_skin == eye_parts_before_skin
+                    ),
+                    "eye_geometry": eye_geometry,
+                    "material": material_verification,
+                    "morph_differences": morph_differences,
+                    "morphs_preserved": (
+                        not morph_differences
+                        and vectors_match(vectors_before_skin, vectors_after_skin)
+                    ),
+                }
+                if material_verification["status"] == "failed":
+                    raise ReconstructionError(material_verification["reason"])
+                if not case["skin_verification"]["morphs_preserved"]:
+                    raise ReconstructionError(
+                        "Cross-skin asset changed Morph weights: {}".format(
+                            subject_id
+                        )
+                    )
+                if not case["skin_verification"][
+                    "eye_avatar_parts_preserved"
+                ]:
+                    raise ReconstructionError(
+                        "Cross-skin asset changed eye AvatarParts: {}".format(
+                            subject_id
+                        )
+                    )
+                if not eye_geometry.get("matches"):
+                    raise ReconstructionError(
+                        "Cross-skin asset changed eye geometry: {}".format(
+                            subject_id
+                        )
+                    )
+
+                for view in normalized_views:
+                    view_id = view["id"]
+                    mark(subject_id, "render_{}".format(view_id))
+                    view_dir = os.path.join(case_dir, view_id)
+                    view_matrix = copy.deepcopy(matrix_template)
+                    view_matrix["camera_path"] = subject["camera_path"]
+                    view_matrix["yaw_degrees"] = view["yaw_degrees"]
+                    view_summary = probe_current_face_material_visual_matrix(
+                        {"face_material_visual_matrix": view_matrix},
+                        view_dir,
+                    )
+                    case["views"].append(
+                        {
+                            "id": view_id,
+                            "matrix_path": view_summary[
+                                "face_material_visual_matrix_path"
+                            ],
+                            "success": bool(view_summary.get("success")),
+                            "summary_path": view_summary["summary_path"],
+                            "yaw_degrees": view["yaw_degrees"],
+                        }
+                    )
+                    if not view_summary.get("success"):
+                        raise ReconstructionError(
+                            "Cross-skin material view failed: {} {}".format(
+                                subject_id, view_id
+                            )
+                        )
+                case["success"] = all(
+                    item.get("success") for item in case["views"]
+                )
+            except Exception as exc:
+                case["error"] = {
+                    "message": str(exc),
+                    "traceback": traceback.format_exc(),
+                    "type": type(exc).__name__,
+                }
+                run_error = case["error"]
+            cases.append(case)
+            write_json(case, os.path.join(case_dir, "result.json"))
+            if run_error is not None:
+                break
+    finally:
+        restoration["attempted"] = True
+        try:
+            mark(None, "restore_project", {"path": restore_project})
+            restore_status, restore_dialogs = load_file_with_optional_undo_warning(
+                restore_project,
+                "Restore project after cross-skin matrix",
+            )
+            settle_cc_ui(load_settle_seconds)
+            restored_avatar, restored_avatars = resolve_avatar()
+            restoration.update(
+                {
+                    "avatar_count": len(restored_avatars),
+                    "avatar_id": scene_object_id(restored_avatar),
+                    "dialogs": restore_dialogs,
+                    "status": restore_status,
+                    "success": len(restored_avatars) == 1,
+                }
+            )
+        except Exception as exc:
+            restoration["error"] = {
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+                "type": type(exc).__name__,
+            }
+            if run_error is None:
+                run_error = restoration["error"]
+
+    success_count = sum(1 for item in cases if item.get("success"))
+    report = {
+        "schema_version": 1,
+        "captured_at": started_at,
+        "diagnostic_mode": "face_material_cross_skin_matrix",
+        "expected_subject_ids": sorted(expected_subject_ids),
+        "subjects": cases,
+        "restoration": restoration,
+        "success": (
+            run_error is None
+            and success_count == len(normalized_subjects)
+            and restoration.get("success")
+        ),
+        "finished_at": now(),
+    }
+    write_json(report, report_path)
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": started_at,
+        "finished_at": report["finished_at"],
+        "requested_count": len(normalized_subjects),
+        "success_count": success_count,
+        "failure_count": len(normalized_subjects) - success_count,
+        "success": report["success"],
+        "diagnostic_mode": "face_material_cross_skin_matrix",
+        "face_material_cross_skin_matrix_path": report_path,
+        "restoration": restoration,
+        "run_error": run_error,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark(None, "complete", {"success": summary["success"]})
+    return summary
+
+
 def remove_base_clothing(avatar, requested_names, allow_missing=False):
     before = avatar_asset_inventory(avatar)
     if not requested_names:
@@ -2997,6 +4557,60 @@ def remove_base_clothing(avatar, requested_names, allow_missing=False):
         "removed_objects": removals,
         "before_inventory": before,
         "after_inventory": after,
+    }
+
+
+def remove_source_accessories_for_outfit_gate(avatar):
+    before = avatar_asset_inventory(avatar)
+    avatar_id = scene_object_id(avatar)
+    accessories = list(avatar.GetAccessories() or [])
+    removals = []
+    for item in accessories:
+        record = {
+            "id": scene_object_id(item),
+            "name": scene_object_name(item),
+            "python_type": type(item).__name__,
+            "collection": "GetAccessories",
+        }
+        record["remove_status"] = checked(
+            "Remove source accessory before outfit gate {}".format(
+                record["name"]
+            ),
+            RLPy.RScene.RemoveObject(item),
+        )
+        removals.append(record)
+        QtWidgets.QApplication.processEvents()
+
+    current_avatars = list(RLPy.RScene.GetAvatars() or [])
+    matches = [
+        candidate
+        for candidate in current_avatars
+        if scene_object_id(candidate) == avatar_id
+    ]
+    if len(matches) != 1:
+        raise ReconstructionError(
+            "Avatar identity changed during source accessory cleanup"
+        )
+    avatar = matches[0]
+    after = avatar_asset_inventory(avatar)
+    remaining_ids = {
+        item["id"]
+        for item in after["objects"]
+        if item["collection"] == "GetAccessories"
+    }
+    failed_removals = [
+        item["id"] for item in removals if item["id"] in remaining_ids
+    ]
+    if failed_removals:
+        raise ReconstructionError(
+            "Source accessory cleanup did not remove objects: {}".format(
+                failed_removals
+            )
+        )
+    return avatar, {
+        "before_inventory": before,
+        "after_inventory": after,
+        "removed_objects": removals,
     }
 
 
@@ -3289,6 +4903,33 @@ def normalized_dialog_text(value):
 UNDO_MANAGER_WARNING_TEXT = (
     "Failed to record undo/redo step. Undo manager will restart."
 )
+EXPORT_LICENSE_BLOCKER_TEXT = (
+    "You must first purchase the content licenses in order to export FBX files."
+)
+FATAL_DIALOG_FILENAME = "fatal_dialog.json"
+
+
+def raise_if_fatal_cc_dialog(output_dir):
+    fatal_path = os.path.join(output_dir, FATAL_DIALOG_FILENAME)
+    if not os.path.isfile(fatal_path):
+        return
+    try:
+        with open(fatal_path, "r", encoding="utf-8-sig") as handle:
+            payload = json.load(handle)
+    except Exception as exc:
+        raise ReconstructionError(
+            "CC recorded a fatal dialog, but its evidence is unreadable: {} ({})"
+            .format(fatal_path, exc)
+        )
+    message = str(payload.get("message") or "unknown fatal CC dialog")
+    raise ReconstructionError(
+        "CC blocked the operation with a fatal dialog: {} Evidence: {}".format(
+            message,
+            fatal_path,
+        )
+    )
+
+
 CHARACTER_PRESET_DIALOG_TITLE = "Apply Character Preset"
 CHARACTER_PRESET_CHECKBOX_TEXTS = (
     "Apply Morph",
@@ -3306,6 +4947,15 @@ SKIN_MATERIAL_CHECKBOX_STATES = (
     ("Expression Wrinkles", False),
     ("Don't show this again", False),
 )
+APPLY_CLOTH_OPTIONS_DIALOG_TITLE = "Apply Cloth Options"
+APPLY_CLOTH_OPTIONS_REQUIRED_TEXT = (
+    "The cloth was not made for this character generation.",
+    "Please select one of the following options:",
+)
+APPLY_CLOTH_OPTIONS_POLICIES = {
+    "keep_cloth_shape": "Keep Cloth Shape",
+    "fit_body_shape": "Fit Body Shape",
+}
 
 
 def cc_dialog_snapshot(widget):
@@ -3353,6 +5003,29 @@ def cc_dialog_snapshot(widget):
         "buttons": button_records,
         "normalized_text": normalized_dialog_text(" ".join(all_text)),
     }
+
+
+def is_known_cc_progress_dialog(widget, snapshot=None):
+    snapshot = snapshot or cc_dialog_snapshot(widget)
+    if type(widget).__name__ != "QProgressDialog":
+        return False
+    if normalized_dialog_text(snapshot["window_title"]) != (
+        normalized_dialog_text("Character Creator 5")
+    ):
+        return False
+    if snapshot["direct_text"]:
+        return False
+    if not any(
+        normalized_dialog_text(text)
+        == normalized_dialog_text("Character Creator 5")
+        for text in snapshot["labels"]
+    ):
+        return False
+    button_texts = {
+        normalized_dialog_text(item["text"])
+        for item in snapshot["buttons"]
+    }
+    return button_texts.issubset({"", "cancel"})
 
 
 def exact_dialog_buttons(
@@ -3412,11 +5085,19 @@ def exact_undo_warning_button(widget, snapshot=None):
 class ExactUndoWarningGuard(object):
     """Dismiss only CC's exact known Undo Manager warning for a whole run."""
 
-    def __init__(self):
+    def __init__(self, output_dir=None):
         self.timer = QtCore.QTimer()
         self.timer.setInterval(100)
         self.timer.timeout.connect(self.inspect)
         self.handled_widgets = set()
+        self.output_dir = output_dir
+        self.native_process = None
+        self.native_stop_path = None
+        self.native_fatal_dialog_path = (
+            os.path.join(output_dir, FATAL_DIALOG_FILENAME)
+            if output_dir
+            else None
+        )
         self.report = {
             "policy": "exact_undo_warning_whole_run",
             "required_text": UNDO_MANAGER_WARNING_TEXT,
@@ -3424,13 +5105,109 @@ class ExactUndoWarningGuard(object):
             "matched_count": 0,
             "clicked_count": 0,
             "dialogs": [],
+            "native_guard": None,
         }
 
     def start(self):
         self.timer.start()
+        if not self.output_dir or not os.path.isfile(
+            UNDO_DIALOG_GUARD_PATH
+        ):
+            return
+        os.makedirs(self.output_dir, exist_ok=True)
+        if (
+            self.native_fatal_dialog_path
+            and os.path.isfile(self.native_fatal_dialog_path)
+        ):
+            os.remove(self.native_fatal_dialog_path)
+        self.native_stop_path = os.path.join(
+            self.output_dir,
+            "_undo_warning_guard.stop",
+        )
+        if os.path.isfile(self.native_stop_path):
+            os.remove(self.native_stop_path)
+        log_path = os.path.join(
+            self.output_dir,
+            "undo_warning_guard_native.jsonl",
+        )
+        result_path = os.path.join(
+            self.output_dir,
+            "validation_result.json",
+        )
+        command = [
+            "powershell.exe",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            UNDO_DIALOG_GUARD_PATH,
+            "-TargetProcessId",
+            str(os.getpid()),
+            "-ResultPath",
+            result_path,
+            "-LogPath",
+            log_path,
+            "-ProgressRoot",
+            self.output_dir,
+            "-StopPath",
+            self.native_stop_path,
+            "-TimeoutSeconds",
+            "43200",
+        ]
+        try:
+            self.native_process = subprocess.Popen(
+                command,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                creationflags=getattr(
+                    subprocess,
+                    "CREATE_NO_WINDOW",
+                    0,
+                ),
+            )
+            self.report["native_guard"] = {
+                "enabled": True,
+                "guard_path": UNDO_DIALOG_GUARD_PATH,
+                "fatal_dialog_path": self.native_fatal_dialog_path,
+                "log_path": log_path,
+                "process_id": self.native_process.pid,
+                "stop_path": self.native_stop_path,
+            }
+        except Exception as exc:
+            self.report["native_guard"] = {
+                "enabled": False,
+                "error_message": str(exc),
+                "error_type": type(exc).__name__,
+                "guard_path": UNDO_DIALOG_GUARD_PATH,
+            }
 
     def stop(self):
         self.timer.stop()
+        if self.native_stop_path:
+            try:
+                with open(self.native_stop_path, "w", encoding="utf-8") as handle:
+                    handle.write(now() + "\n")
+            except Exception as exc:
+                if self.report.get("native_guard") is not None:
+                    self.report["native_guard"]["stop_error"] = str(exc)
+        if self.native_process is not None:
+            deadline = time.time() + 3.0
+            while self.native_process.poll() is None and time.time() < deadline:
+                QtWidgets.QApplication.processEvents()
+                time.sleep(0.05)
+            native_report = self.report.get("native_guard") or {}
+            native_report["exit_code"] = self.native_process.poll()
+            if (
+                self.native_fatal_dialog_path
+                and os.path.isfile(self.native_fatal_dialog_path)
+            ):
+                try:
+                    native_report["fatal_dialog"] = read_json(
+                        self.native_fatal_dialog_path
+                    )
+                except Exception as exc:
+                    native_report["fatal_dialog_read_error"] = str(exc)
 
     def inspect(self):
         self.report["poll_count"] += 1
@@ -3470,14 +5247,37 @@ def load_file_with_known_cc_dialogs(
     require_character_preset=False,
     allow_character_preset=False,
     require_skin_material=False,
+    allow_skin_material=False,
+    character_preset_checkbox_states=None,
 ):
-    if require_character_preset and require_skin_material:
+    if (require_character_preset or allow_character_preset) and (
+        require_skin_material or allow_skin_material
+    ):
         raise ReconstructionError(
-            "Only one required CC dialog policy may be active"
+            "Only one CC dialog policy may be active"
         )
     character_preset_enabled = bool(
         require_character_preset or allow_character_preset
     )
+    if character_preset_checkbox_states is None:
+        character_preset_checkbox_states = {
+            item: True for item in CHARACTER_PRESET_CHECKBOX_TEXTS
+        }
+    else:
+        character_preset_checkbox_states = dict(
+            character_preset_checkbox_states
+        )
+        if set(character_preset_checkbox_states) != set(
+            CHARACTER_PRESET_CHECKBOX_TEXTS
+        ):
+            raise ReconstructionError(
+                "Character preset checkbox policy must define exactly {}"
+                .format(", ".join(CHARACTER_PRESET_CHECKBOX_TEXTS))
+            )
+        character_preset_checkbox_states = {
+            item: bool(character_preset_checkbox_states[item])
+            for item in CHARACTER_PRESET_CHECKBOX_TEXTS
+        }
     report = {
         "policy": (
             "character_preset_exact_dialog"
@@ -3488,7 +5288,11 @@ def load_file_with_known_cc_dialogs(
                 else (
                     "skin_material_exact_dialog"
                     if require_skin_material
-                    else "optional_undo_warning_exact_dialog"
+                    else (
+                        "optional_skin_material_exact_dialog"
+                        if allow_skin_material
+                        else "optional_undo_warning_exact_dialog"
+                    )
                 )
             )
         ),
@@ -3505,11 +5309,17 @@ def load_file_with_known_cc_dialogs(
             "required_checkboxes": list(
                 CHARACTER_PRESET_CHECKBOX_TEXTS
             ),
+            "required_checkbox_states": dict(
+                character_preset_checkbox_states
+            ),
             "target_button": "Apply",
             "matched_count": 0,
             "clicked_count": 0,
         },
         "skin_material": {
+            "allowed": bool(
+                require_skin_material or allow_skin_material
+            ),
             "required": bool(require_skin_material),
             "required_title": SKIN_MATERIAL_DIALOG_TITLE,
             "required_checkbox_states": dict(
@@ -3586,6 +5396,8 @@ def load_file_with_known_cc_dialogs(
 
         for widget, is_active_modal in candidates:
             snapshot = cc_dialog_snapshot(widget)
+            if is_known_cc_progress_dialog(widget, snapshot):
+                continue
             normalized = snapshot["normalized_text"]
             if (
                 is_active_modal
@@ -3658,13 +5470,16 @@ def load_file_with_known_cc_dialogs(
                     for item in CHARACTER_PRESET_CHECKBOX_TEXTS
                 }
                 for checkbox_text in CHARACTER_PRESET_CHECKBOX_TEXTS:
-                    checkbox_matches[checkbox_text][0].setChecked(True)
+                    checkbox_matches[checkbox_text][0].setChecked(
+                        character_preset_checkbox_states[checkbox_text]
+                    )
                 preset_report["checkbox_state_after"] = {
                     item: bool(checkbox_matches[item][0].isChecked())
                     for item in CHARACTER_PRESET_CHECKBOX_TEXTS
                 }
-                if not all(
-                    preset_report["checkbox_state_after"].values()
+                if (
+                    preset_report["checkbox_state_after"]
+                    != character_preset_checkbox_states
                 ):
                     preset_report["configuration_error"] = (
                         "A required checkbox could not be enabled"
@@ -3713,7 +5528,7 @@ def load_file_with_known_cc_dialogs(
             )
             if (
                 exact_skin_material
-                and require_skin_material
+                and (require_skin_material or allow_skin_material)
                 and not skin_material_handled[0]
             ):
                 skin_material_handled[0] = True
@@ -3821,6 +5636,14 @@ def load_file_with_known_cc_dialogs(
         raise ReconstructionError(
             "Skin material load did not resolve the exact dialog"
         )
+    if (
+        allow_skin_material
+        and skin_report["matched_count"]
+        != skin_report["clicked_count"]
+    ):
+        raise ReconstructionError(
+            "Optional skin material dialog was not resolved exactly"
+        )
     return checked(label, raw_status), report
 
 
@@ -3830,6 +5653,305 @@ def load_file_with_optional_undo_warning(path, label):
         label,
         require_character_preset=False,
     )
+
+
+def load_clothing_asset_with_known_dialogs(
+    path,
+    label,
+    cloth_options_policy,
+    record_step=True,
+    load_mode="file",
+):
+    if cloth_options_policy not in APPLY_CLOTH_OPTIONS_POLICIES:
+        raise ReconstructionError(
+            "Unsupported cloth options policy: {}".format(
+                cloth_options_policy
+            )
+        )
+    if not isinstance(record_step, bool):
+        raise ReconstructionError(
+            "record_step must be a boolean for clothing asset loads"
+        )
+    if load_mode not in ("file", "object"):
+        raise ReconstructionError(
+            "Unsupported clothing asset load mode: {}".format(load_mode)
+        )
+
+    target_choice_text = APPLY_CLOTH_OPTIONS_POLICIES[
+        cloth_options_policy
+    ]
+    report = {
+        "policy": "exact_apply_cloth_options_dialog_v1",
+        "path": path,
+        "cloth_options_policy": cloth_options_policy,
+        "record_step": record_step,
+        "load_mode": load_mode,
+        "target_choice": target_choice_text,
+        "undo_warning": {
+            "required_text": UNDO_MANAGER_WARNING_TEXT,
+            "matched_count": 0,
+            "clicked_count": 0,
+        },
+        "cloth_options": {
+            "required_title": APPLY_CLOTH_OPTIONS_DIALOG_TITLE,
+            "required_text": list(APPLY_CLOTH_OPTIONS_REQUIRED_TEXT),
+            "required_choices": dict(APPLY_CLOTH_OPTIONS_POLICIES),
+            "target_button": "OK",
+            "matched_count": 0,
+            "clicked_count": 0,
+        },
+        "poll_count": 0,
+        "observed_dialogs": [],
+        "fatal_unknown_dialog": None,
+    }
+    timer = QtCore.QTimer()
+    timer.setInterval(100)
+    handled_undo_widgets = set()
+    handled_cloth_widgets = set()
+    unknown_poll_counts = {}
+
+    def remember_snapshot(snapshot, is_active_modal):
+        if len(report["observed_dialogs"]) >= 12:
+            return
+        serializable = dict(snapshot)
+        serializable.pop("normalized_text", None)
+        serializable["active_modal"] = bool(is_active_modal)
+        if serializable not in report["observed_dialogs"]:
+            report["observed_dialogs"].append(serializable)
+
+    def cancel_unknown_dialog(widget, snapshot):
+        if report["fatal_unknown_dialog"] is not None:
+            return
+        fatal = dict(snapshot)
+        fatal.pop("normalized_text", None)
+        cancel_buttons = exact_dialog_buttons(
+            widget,
+            "Cancel",
+            checkable=False,
+        )
+        if len(cancel_buttons) == 1:
+            cancel_buttons[0].click()
+            fatal["close_action"] = "exact_cancel_button"
+        else:
+            reject = getattr(widget, "reject", None)
+            if callable(reject):
+                reject()
+                fatal["close_action"] = "reject"
+            else:
+                widget.close()
+                fatal["close_action"] = "close"
+        report["fatal_unknown_dialog"] = fatal
+
+    def choice_buttons(widget, choice_text):
+        target = normalized_dialog_text(choice_text)
+        matches = []
+        for button in widget.findChildren(QtWidgets.QAbstractButton):
+            if (
+                not button.isVisible()
+                or not button.isEnabled()
+                or not button.isCheckable()
+            ):
+                continue
+            text = normalized_dialog_text(button.text())
+            if text == target or text.startswith(target + " "):
+                matches.append(button)
+        return matches
+
+    def inspect_dialogs():
+        report["poll_count"] += 1
+        active = QtWidgets.QApplication.activeModalWidget()
+        candidates = []
+        if active is not None:
+            candidates.append((active, True))
+        for widget in QtWidgets.QApplication.topLevelWidgets():
+            if not widget.isVisible():
+                continue
+            if any(widget is item[0] for item in candidates):
+                continue
+            is_dialog = isinstance(widget, QtWidgets.QDialog)
+            is_modal = False
+            modal_method = getattr(widget, "isModal", None)
+            if callable(modal_method):
+                try:
+                    is_modal = bool(modal_method())
+                except Exception:
+                    is_modal = False
+            if not is_dialog and not is_modal:
+                continue
+            candidates.append((widget, False))
+
+        for widget, is_active_modal in candidates:
+            snapshot = cc_dialog_snapshot(widget)
+            if is_known_cc_progress_dialog(widget, snapshot):
+                continue
+            normalized = snapshot["normalized_text"]
+            if (
+                is_active_modal
+                or normalized_dialog_text(UNDO_MANAGER_WARNING_TEXT)
+                in normalized
+                or normalized_dialog_text(
+                    APPLY_CLOTH_OPTIONS_DIALOG_TITLE
+                ) in normalized
+            ):
+                remember_snapshot(snapshot, is_active_modal)
+
+            widget_key = id(widget)
+            undo_button = exact_undo_warning_button(widget, snapshot)
+            if undo_button is not None:
+                if widget_key not in handled_undo_widgets:
+                    handled_undo_widgets.add(widget_key)
+                    report["undo_warning"]["matched_count"] += 1
+                    undo_button.click()
+                    report["undo_warning"]["clicked_count"] += 1
+                return
+
+            title_matches = normalized_dialog_text(
+                snapshot["window_title"]
+            ) == normalized_dialog_text(APPLY_CLOTH_OPTIONS_DIALOG_TITLE)
+            body_matches = all(
+                normalized_dialog_text(required) in normalized
+                for required in APPLY_CLOTH_OPTIONS_REQUIRED_TEXT
+            )
+            keep_buttons = choice_buttons(widget, "Keep Cloth Shape")
+            fit_buttons = choice_buttons(widget, "Fit Body Shape")
+            ok_buttons = exact_dialog_buttons(
+                widget,
+                "OK",
+                checkable=False,
+            )
+            cancel_buttons = exact_dialog_buttons(
+                widget,
+                "Cancel",
+                checkable=False,
+            )
+            more_buttons = exact_dialog_buttons(
+                widget,
+                "More",
+                checkable=False,
+            )
+            visible_buttons = [
+                button
+                for button in widget.findChildren(
+                    QtWidgets.QAbstractButton
+                )
+                if button.isVisible() and button.isEnabled()
+            ]
+            expected_button_count = (
+                len(keep_buttons)
+                + len(fit_buttons)
+                + len(ok_buttons)
+                + len(cancel_buttons)
+                + len(more_buttons)
+            )
+            exact_cloth_dialog = (
+                title_matches
+                and body_matches
+                and len(keep_buttons) == 1
+                and len(fit_buttons) == 1
+                and len(ok_buttons) == 1
+                and len(cancel_buttons) == 1
+                and len(more_buttons) <= 1
+                and expected_button_count == len(visible_buttons)
+            )
+            if exact_cloth_dialog:
+                if widget_key in handled_cloth_widgets:
+                    return
+                handled_cloth_widgets.add(widget_key)
+                cloth_report = report["cloth_options"]
+                cloth_report["matched_count"] += 1
+                cloth_report["choice_state_before"] = {
+                    "keep_cloth_shape": bool(
+                        keep_buttons[0].isChecked()
+                    ),
+                    "fit_body_shape": bool(
+                        fit_buttons[0].isChecked()
+                    ),
+                }
+                target = (
+                    keep_buttons[0]
+                    if cloth_options_policy == "keep_cloth_shape"
+                    else fit_buttons[0]
+                )
+                target.setChecked(True)
+                QtWidgets.QApplication.processEvents()
+                cloth_report["choice_state_after"] = {
+                    "keep_cloth_shape": bool(
+                        keep_buttons[0].isChecked()
+                    ),
+                    "fit_body_shape": bool(
+                        fit_buttons[0].isChecked()
+                    ),
+                }
+                if not target.isChecked():
+                    cloth_report["configuration_error"] = (
+                        "Target cloth option could not be selected"
+                    )
+                    cancel_buttons[0].click()
+                    return
+                ok_buttons[0].click()
+                cloth_report["clicked_count"] += 1
+                return
+
+            if not is_active_modal:
+                continue
+            unknown_key = (
+                snapshot["window_title"],
+                tuple(snapshot["labels"]),
+                tuple(snapshot["direct_text"]),
+                tuple(item["text"] for item in snapshot["buttons"]),
+            )
+            unknown_poll_counts[unknown_key] = (
+                unknown_poll_counts.get(unknown_key, 0) + 1
+            )
+            if unknown_poll_counts[unknown_key] >= 20:
+                cancel_unknown_dialog(widget, snapshot)
+                return
+
+    timer.timeout.connect(inspect_dialogs)
+    timer.start()
+    try:
+        if load_mode == "object":
+            loaded_object = RLPy.RFileIO.LoadObject(path, record_step)
+            raw_status = None
+            report["loaded_object"] = (
+                {
+                    "id": scene_object_id(loaded_object),
+                    "name": scene_object_name(loaded_object),
+                    "python_type": type(loaded_object).__name__,
+                }
+                if loaded_object is not None
+                else None
+            )
+        else:
+            raw_status = RLPy.RFileIO.LoadFile(path, record_step)
+    finally:
+        timer.stop()
+    report["load_returned"] = True
+
+    if report["fatal_unknown_dialog"] is not None:
+        raise BlockingDialogError(
+            "Unknown CC modal dialog cancelled while loading {}: {}".format(
+                label,
+                json.dumps(
+                    report["fatal_unknown_dialog"],
+                    sort_keys=True,
+                    ensure_ascii=True,
+                ),
+            )
+        )
+    cloth_report = report["cloth_options"]
+    if cloth_report.get("configuration_error"):
+        raise BlockingDialogError(
+            "Apply Cloth Options dialog could not be configured safely"
+        )
+    if (
+        cloth_report["matched_count"]
+        != cloth_report["clicked_count"]
+    ):
+        raise BlockingDialogError(
+            "Apply Cloth Options dialog was not resolved exactly"
+        )
+    return checked(label, raw_status), report
 
 
 def load_file_with_character_preset_dialog(path, label):
@@ -3853,6 +5975,14 @@ def load_file_with_skin_material_dialog(path, label):
         path,
         label,
         require_skin_material=True,
+    )
+
+
+def load_file_with_optional_skin_material_dialog(path, label):
+    return load_file_with_known_cc_dialogs(
+        path,
+        label,
+        allow_skin_material=True,
     )
 
 
@@ -4186,9 +6316,11 @@ def apply_appearance_assets(
         settle_cc_ui(pacing["before_seconds"])
         load_label = "Load appearance {}".format(item["asset_id"])
         if item["slot"] in ("skin", "skin_preset"):
-            status, dialog_policy = load_file_with_skin_material_dialog(
-                item["path"],
-                load_label,
+            status, dialog_policy = (
+                load_file_with_optional_skin_material_dialog(
+                    item["path"],
+                    load_label,
+                )
             )
         elif material_only_dialog:
             status, dialog_policy = load_file_with_material_only_dialog(
@@ -4855,7 +6987,91 @@ def wait_for_rendered_preview(
     )
 
 
+def render_pixel_stream_preview(path, render_time=None):
+    import ctypes
+    from PySide2 import QtGui
+
+    if render_time is None:
+        render_time = RLPy.RGlobal.GetStartTime()
+    if os.path.isfile(path):
+        os.remove(path)
+    original_view_size = current_view_size()
+    enabled = False
+    try:
+        checked(
+            "Set deterministic pixel-stream size",
+            RLPy.RGlobal.SetViewSize(
+                PIXEL_STREAM_PREVIEW_SIZE,
+                PIXEL_STREAM_PREVIEW_SIZE,
+            ),
+        )
+        checked("Set pixel-stream time", RLPy.RGlobal.SetTime(render_time, True))
+        checked(
+            "Enable viewport pixel stream",
+            RLPy.RGlobal.EnablePixelStream(True),
+        )
+        enabled = True
+        try:
+            checked(
+                "Start viewport pixel stream",
+                RLPy.RGlobal.RenderPreview(),
+            )
+        except Exception:
+            pass
+        image = None
+        for unused_index in range(3):
+            checked(
+                "Force viewport update",
+                RLPy.RGlobal.ForceViewportUpdate(),
+            )
+            settle_cc_ui(0.35)
+            captured = RLPy.RGlobal.CapturePixelStream()
+            candidates = (
+                list(captured)
+                if isinstance(captured, (list, tuple))
+                else [captured]
+            )
+            for candidate in candidates:
+                try:
+                    width = int(candidate.width)
+                    height = int(candidate.height)
+                    pointer = int(candidate.buffer_ptr)
+                except Exception:
+                    continue
+                if width <= 0 or height <= 0 or pointer <= 0:
+                    continue
+                raw = ctypes.string_at(pointer, width * height * 4)
+                image = QtGui.QImage(
+                    raw,
+                    width,
+                    height,
+                    width * 4,
+                    QtGui.QImage.Format_ARGB32,
+                ).copy()
+        if image is None or image.isNull():
+            raise ReconstructionError(
+                "Viewport pixel stream returned no convertible frame"
+            )
+        if not image.save(path, "PNG"):
+            raise ReconstructionError(
+                "Unable to save viewport pixel-stream image: {}".format(path)
+            )
+    finally:
+        if enabled:
+            checked(
+                "Disable viewport pixel stream",
+                RLPy.RGlobal.EnablePixelStream(False),
+            )
+        checked(
+            "Restore pixel-stream view size",
+            RLPy.RGlobal.SetViewSize(*original_view_size),
+        )
+        QtWidgets.QApplication.processEvents()
+
+
 def render_preview(path, render_time=None):
+    if PREVIEW_CAPTURE_MODE == "pixel_stream":
+        return render_pixel_stream_preview(path, render_time)
     if render_time is None:
         render_time = RLPy.RGlobal.GetStartTime()
     if os.path.isfile(path):
@@ -4884,8 +7100,8 @@ def render_preview(path, render_time=None):
 
 def normalize_rendered_preview_image(
     path,
-    width=VIEWPORT_PREVIEW_WIDTH,
-    height=VIEWPORT_PREVIEW_HEIGHT,
+    width=None,
+    height=None,
 ):
     from PySide2 import QtGui
 
@@ -4896,8 +7112,8 @@ def normalize_rendered_preview_image(
                 path
             )
         )
-    width = int(width)
-    height = int(height)
+    width = VIEWPORT_PREVIEW_WIDTH if width is None else int(width)
+    height = VIEWPORT_PREVIEW_HEIGHT if height is None else int(height)
     if image.width() == width and image.height() == height:
         return
     scaled = image.scaled(
@@ -6585,8 +8801,13 @@ def render_face_identity_safety_previews(
             if item[0] in requested_pose_ids
         )
 
-    force_avatar_scene_evaluation(avatar)
-    neutral_eye_state_before = capture_eye_integrity_state(avatar)
+    (
+        neutral_eye_state_before,
+        neutral_eye_capture_before,
+    ) = capture_stable_neutral_eye_state(avatar)
+    report["neutral_eye_capture_stabilization_before"] = (
+        neutral_eye_capture_before
+    )
     fps = RLPy.RGlobal.GetFps()
     initial_time = RLPy.RGlobal.GetTime()
     project_start_time = RLPy.RGlobal.GetStartTime()
@@ -6843,7 +9064,13 @@ def render_face_identity_safety_previews(
         raise ReconstructionError(
             "Face identity validation changed the baseline expression clips"
         )
-    neutral_eye_state_after = capture_eye_integrity_state(avatar)
+    (
+        neutral_eye_state_after,
+        neutral_eye_capture_after,
+    ) = capture_stable_neutral_eye_state(avatar)
+    report["neutral_eye_capture_stabilization_after"] = (
+        neutral_eye_capture_after
+    )
     report["neutral_eye_integrity"] = compare_neutral_eye_states(
         neutral_eye_state_before,
         neutral_eye_state_after,
@@ -7714,7 +9941,9 @@ def probe_direct_skin_age_matrix(
     os.makedirs(output_dir, exist_ok=True)
     by_id = dict((item["preset_id"], item) for item in all_presets)
     selected_ids = list(
-        preset_ids or [item["preset_id"] for item in all_presets]
+        preset_ids
+        if preset_ids is not None
+        else [item["preset_id"] for item in all_presets]
     )
     if not selected_ids or len(selected_ids) != len(set(selected_ids)):
         raise ReconstructionError(
@@ -8537,11 +10766,19 @@ def _data_block_probe(block, time):
 
 
 def _capture_eye_bones(skeleton):
+    bones = [
+        bone
+        for bone in list(skeleton.GetSkinBones() or [])
+        if "eye" in str(bone.GetName()).lower()
+    ]
+    # The first bone update can flush a stale root-transform cache. Refresh
+    # every eye bone once before sampling either side.
+    for bone in bones:
+        bone.Update()
+
     eye_bones = []
-    for bone in list(skeleton.GetSkinBones() or []):
+    for bone in bones:
         name = str(bone.GetName())
-        if "eye" not in name.lower():
-            continue
         bone.Update()
         item = {
             "name": name,
@@ -8650,6 +10887,51 @@ def stabilize_neutral_eye_state(
     return actual_state, comparison, records
 
 
+def capture_stable_neutral_eye_state(
+    avatar,
+    attempts=6,
+    settle_seconds=0.5,
+):
+    previous_state = None
+    records = []
+    for attempt_index in range(1, int(attempts) + 1):
+        force_avatar_scene_evaluation(
+            avatar,
+            settle_seconds=settle_seconds,
+        )
+        current_state = capture_eye_integrity_state(avatar)
+        if previous_state is None:
+            records.append(
+                {
+                    "attempt": attempt_index,
+                    "differences": [],
+                    "matches": None,
+                }
+            )
+        else:
+            comparison = compare_neutral_eye_states(
+                previous_state,
+                current_state,
+                include_world=True,
+            )
+            records.append(
+                {
+                    "attempt": attempt_index,
+                    "differences": comparison["differences"],
+                    "matches": comparison["matches"],
+                }
+            )
+            if comparison["matches"]:
+                return current_state, records
+        previous_state = current_state
+    raise ReconstructionError(
+        "Neutral eye state did not stabilize after {} captures: {}".format(
+            attempts,
+            records[-1]["differences"] if records else [],
+        )
+    )
+
+
 def compare_neutral_eye_states(
     before,
     after,
@@ -8657,6 +10939,7 @@ def compare_neutral_eye_states(
     include_world=True,
     include_runtime_ids=True,
     t_pose_tolerance=None,
+    world_translation_tolerance=None,
 ):
     differences = []
     before_signature = eye_integrity_structure_signature(
@@ -8680,6 +10963,13 @@ def compare_neutral_eye_states(
     if float(t_pose_tolerance) < float(tolerance):
         raise ReconstructionError(
             "t_pose_tolerance cannot be smaller than tolerance"
+        )
+    if world_translation_tolerance is None:
+        world_translation_tolerance = max(tolerance, 2e-2)
+    world_translation_tolerance = float(world_translation_tolerance)
+    if world_translation_tolerance < float(tolerance):
+        raise ReconstructionError(
+            "world_translation_tolerance cannot be smaller than tolerance"
         )
     before_weight = before.get("eyeball_move", {}).get("weight")
     after_weight = after.get("eyeball_move", {}).get("weight")
@@ -8764,7 +11054,7 @@ def compare_neutral_eye_states(
                     else None
                 )
                 axis_tolerance = (
-                    max(tolerance, 2e-2)
+                    world_translation_tolerance
                     if path == ("world_transform", "translation")
                     else (
                         float(t_pose_tolerance)
@@ -8796,7 +11086,7 @@ def compare_neutral_eye_states(
         "matches": not differences,
         "t_pose_tolerance": float(t_pose_tolerance),
         "tolerance": tolerance,
-        "world_translation_tolerance": max(tolerance, 2e-2),
+        "world_translation_tolerance": world_translation_tolerance,
     }
 
 
@@ -8891,6 +11181,728 @@ def probe_current_head_preset(library, output_dir):
     }
 
 
+def bodyfit_height_cm(bounds):
+    return float(bounds["maximum"][2] - bounds["minimum"][2])
+
+
+def avatar_motion_inventory(avatar):
+    skeleton = avatar.GetSkeletonComponent()
+    face_component = avatar.GetFaceComponent()
+    return {
+        "skeleton_clip_count": (
+            int(skeleton.GetClipCount()) if skeleton is not None else 0
+        ),
+        "face_clip_count": (
+            int(face_component.GetClipCount())
+            if face_component is not None
+            else 0
+        ),
+    }
+
+
+def clear_avatar_motion(avatar):
+    before = avatar_motion_inventory(avatar)
+    skeleton = avatar.GetSkeletonComponent()
+    face_component = avatar.GetFaceComponent()
+    removed_skeleton_clips = 0
+    removed_face_clips = 0
+    if skeleton is not None:
+        for clip_index in range(
+            int(skeleton.GetClipCount()) - 1,
+            -1,
+            -1,
+        ):
+            checked(
+                "Delete BodyFit skeleton clip {}".format(clip_index),
+                skeleton.DeleteClip(skeleton.GetClip(clip_index)),
+            )
+            removed_skeleton_clips += 1
+            QtWidgets.QApplication.processEvents()
+    if face_component is not None:
+        for clip_index in range(
+            int(face_component.GetClipCount()) - 1,
+            -1,
+            -1,
+        ):
+            checked(
+                "Delete BodyFit face clip {}".format(clip_index),
+                face_component.DeleteClip(face_component.GetClip(clip_index)),
+            )
+            removed_face_clips += 1
+            QtWidgets.QApplication.processEvents()
+    checked(
+        "Evaluate neutral BodyFit timeline",
+        RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+    )
+    after = avatar_motion_inventory(avatar)
+    if after["skeleton_clip_count"] or after["face_clip_count"]:
+        raise ReconstructionError("BodyFit animation cleanup was incomplete")
+    return {
+        "before": before,
+        "after": after,
+        "removed_skeleton_clip_count": removed_skeleton_clips,
+        "removed_face_clip_count": removed_face_clips,
+    }
+
+
+def clear_avatar_skeleton_motion(avatar):
+    before = avatar_motion_inventory(avatar)
+    skeleton = avatar.GetSkeletonComponent()
+    removed_skeleton_clips = 0
+    if skeleton is not None:
+        for clip_index in range(
+            int(skeleton.GetClipCount()) - 1,
+            -1,
+            -1,
+        ):
+            checked(
+                "Delete quality benchmark skeleton clip {}".format(
+                    clip_index
+                ),
+                skeleton.DeleteClip(skeleton.GetClip(clip_index)),
+            )
+            removed_skeleton_clips += 1
+            QtWidgets.QApplication.processEvents()
+    checked(
+        "Evaluate quality benchmark body-neutral timeline",
+        RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+    )
+    after = avatar_motion_inventory(avatar)
+    if after["skeleton_clip_count"]:
+        raise ReconstructionError(
+            "Quality benchmark skeleton animation cleanup was incomplete"
+        )
+    if after["face_clip_count"] != before["face_clip_count"]:
+        raise ReconstructionError(
+            "Quality benchmark changed the existing face clips"
+        )
+    return {
+        "before": before,
+        "after": after,
+        "removed_skeleton_clip_count": removed_skeleton_clips,
+        "removed_face_clip_count": 0,
+        "face_clip_policy": "preserve_existing_facial_profile_clip",
+    }
+
+
+def remove_all_attached_avatar_assets(avatar):
+    before = avatar_asset_inventory(avatar)
+    removed = []
+    seen = set()
+    for getter_name in ("GetClothes", "GetAccessories", "GetHairs"):
+        for scene_object in list(getattr(avatar, getter_name)() or []):
+            object_id = scene_object_id(scene_object)
+            if object_id in seen:
+                continue
+            seen.add(object_id)
+            record = {
+                "collection": getter_name,
+                "id": object_id,
+                "name": scene_object_name(scene_object),
+                "python_type": type(scene_object).__name__,
+            }
+            record["remove_status"] = checked(
+                "Remove BodyFit attached asset {}".format(record["name"]),
+                RLPy.RScene.RemoveObject(scene_object),
+            )
+            removed.append(record)
+            QtWidgets.QApplication.processEvents()
+    after = avatar_asset_inventory(avatar)
+    if after["object_count"]:
+        raise ReconstructionError(
+            "Standard BodyFit still contains clothing, hair, or accessories"
+        )
+    return {"before": before, "after": after, "removed": removed}
+
+
+def avatar_part_inventory(avatar):
+    parts = []
+    try:
+        avatar_parts = list(avatar.GetAvatarParts() or [])
+    except Exception:
+        avatar_parts = []
+    for part in avatar_parts:
+        parts.append(
+            {
+                "avatar_part_type": str(part.GetAvatarPartType()),
+                "id": scene_object_id(part),
+                "name": scene_object_name(part),
+                "python_type": type(part).__name__,
+            }
+        )
+    parts.sort(
+        key=lambda item: (
+            item["avatar_part_type"],
+            item["name"],
+            item["id"],
+        )
+    )
+    return {"part_count": len(parts), "parts": parts}
+
+
+def bodyfit_freeze_file_record(path):
+    return {
+        "bytes": os.path.getsize(path),
+        "path": path,
+        "sha256": sha256_file(path),
+    }
+
+
+def save_bodyfit_project(path, label):
+    path = os.path.realpath(os.path.abspath(path))
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if os.path.isfile(path):
+        raise ReconstructionError(
+            "Refusing to save BodyFit over an existing staging file: {}".format(
+                path
+            )
+        )
+    checked(label, RLPy.RFileIO.SaveProject(path))
+    wait_for_rendered_preview(
+        path,
+        timeout_seconds=600.0,
+        stable_seconds=2.0,
+    )
+    return bodyfit_freeze_file_record(path)
+
+
+def bodyfit_source_targets(vectors):
+    return {
+        classification: [
+            dict(item)
+            for item in vectors["groups"][classification]["entries"]
+        ]
+        for classification in ("body", "junction")
+    }
+
+
+def split_portable_bodyfit_targets(avatar, source_targets):
+    component, catalog, unused_categories = morph_catalog(avatar)
+    portable = {"body": [], "junction": []}
+    unavailable = []
+    for classification in ("body", "junction"):
+        for source in source_targets[classification]:
+            morph_id = source["id"]
+            target = catalog.get(morph_id)
+            if target is None:
+                unavailable.append(
+                    dict(source, unavailable_reason="missing_from_neutral_base")
+                )
+                continue
+            if target["classification"] != classification:
+                unavailable.append(
+                    dict(
+                        source,
+                        neutral_classification=target["classification"],
+                        unavailable_reason="classification_changed",
+                    )
+                )
+                continue
+            bounds = component.GetShapingMorphMinMax(morph_id)
+            portable[classification].append(
+                dict(
+                    source,
+                    categories=list(target["categories"]),
+                    display=target["display"],
+                    minimum=float(bounds.first),
+                    maximum=float(bounds.second),
+                )
+            )
+    return portable, unavailable
+
+
+def validate_standard_bodyfit_state(
+    avatar,
+    expected_targets,
+    expected_head_scale,
+):
+    vectors = capture_vectors(avatar)
+    deltas = {
+        classification: group_delta(
+            expected_targets[classification],
+            vectors["groups"][classification]["entries"],
+        )
+        for classification in ("body", "junction")
+    }
+    component, catalog, unused_categories = morph_catalog(avatar)
+    if BODYFIT_HEAD_SCALE_MORPH_ID not in catalog:
+        raise ReconstructionError("Standard BodyFit has no Head Scale Morph")
+    head_scale = float(
+        component.GetShapingMorphWeight(BODYFIT_HEAD_SCALE_MORPH_ID)
+    )
+    assets = avatar_asset_inventory(avatar)
+    motion = avatar_motion_inventory(avatar)
+    valid = (
+        not deltas["body"]
+        and not deltas["junction"]
+        and abs(head_scale - float(expected_head_scale)) <= 1e-6
+        and assets["object_count"] == 0
+        and motion["skeleton_clip_count"] == 0
+        and motion["face_clip_count"] == 0
+    )
+    return {
+        "asset_inventory": assets,
+        "avatar_part_inventory": avatar_part_inventory(avatar),
+        "body_and_junction_fingerprint_sha256": vectors[
+            "body_and_junction_fingerprint_sha256"
+        ],
+        "deltas": deltas,
+        "head_scale": head_scale,
+        "motion_inventory": motion,
+        "valid": valid,
+        "vectors": vectors,
+    }
+
+
+def install_standard_bodyfit_project(staging_path, formal_path, output_dir):
+    formal_path = os.path.realpath(os.path.abspath(formal_path))
+    if not path_is_within(formal_path, [BODYFIT_STANDARD_PROJECT_ROOT]):
+        raise ReconstructionError(
+            "Formal BodyFit path is outside the approved project root"
+        )
+    require_file_extension(
+        formal_path,
+        ".ccProject",
+        "Formal BodyFit project",
+    )
+    os.makedirs(os.path.dirname(formal_path), exist_ok=True)
+    previous = None
+    if os.path.isfile(formal_path):
+        previous_path = os.path.join(
+            output_dir,
+            "previous_formal_{}".format(os.path.basename(formal_path)),
+        )
+        shutil.copy2(formal_path, previous_path)
+        previous = bodyfit_freeze_file_record(previous_path)
+    temporary = formal_path + ".lance_install_tmp"
+    if os.path.isfile(temporary):
+        os.remove(temporary)
+    try:
+        shutil.copy2(staging_path, temporary)
+        if sha256_file(temporary) != sha256_file(staging_path):
+            raise ReconstructionError("BodyFit staging copy hash mismatch")
+        os.replace(temporary, formal_path)
+    finally:
+        if os.path.isfile(temporary):
+            os.remove(temporary)
+    installed = bodyfit_freeze_file_record(formal_path)
+    if installed["sha256"] != sha256_file(staging_path):
+        raise ReconstructionError("Installed BodyFit hash differs from staging")
+    return {"installed": installed, "previous": previous}
+
+
+def probe_current_scene_bodyfit_freeze(library, output_dir, log):
+    os.makedirs(output_dir, exist_ok=True)
+    config = library.get("current_scene_bodyfit_freeze") or {}
+    if not isinstance(config, dict):
+        raise ReconstructionError(
+            "current_scene_bodyfit_freeze must be an object"
+        )
+    operation = config.get("operation")
+    if operation not in ("capture_only", "standardize_and_install"):
+        raise ReconstructionError("Unsupported BodyFit freeze operation")
+    base_avatar_path = canonical_existing_file(
+        config.get("base_avatar_path"),
+        "BodyFit neutral base",
+    )
+    formal_project_path = os.path.realpath(
+        os.path.abspath(config.get("formal_project_path") or "")
+    )
+    if not path_is_within(
+        formal_project_path,
+        [BODYFIT_STANDARD_PROJECT_ROOT],
+    ):
+        raise ReconstructionError(
+            "Formal BodyFit project path is outside the approved root"
+        )
+    source_head_scale = float(config.get("source_head_scale", 0.0))
+    production_head_scale = float(
+        config.get("production_head_scale", -0.1)
+    )
+    expected_source_fingerprint = config.get(
+        "expected_source_body_and_junction_fingerprint"
+    )
+    allowed_unavailable_ids = set(
+        config.get("allowed_unavailable_source_morph_ids") or []
+    )
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(output_dir, "bodyfit_freeze_report.json")
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    backup_path = os.path.join(output_dir, "current_scene_backup.ccProject")
+    source_preview_path = os.path.join(output_dir, "current_scene.png")
+
+    def mark(phase, extra=None):
+        payload = {
+            "operation": operation,
+            "phase": phase,
+            "schema_version": 1,
+            "updated_at": now(),
+        }
+        if extra:
+            payload.update(extra)
+        write_json(payload, progress_path)
+        log("F05 FREEZE {}".format(phase))
+        QtWidgets.QApplication.processEvents()
+
+    started_at = now()
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Current-scene BodyFit freeze expected exactly one avatar"
+        )
+    RLPy.RScene.SelectObject(avatar)
+    mark("capture_current_scene")
+    source_vectors = capture_vectors(avatar)
+    if (
+        expected_source_fingerprint is not None
+        and source_vectors["body_and_junction_fingerprint_sha256"]
+        != expected_source_fingerprint
+    ):
+        raise ReconstructionError(
+            "Current F05 body fingerprint changed before standardization"
+        )
+    source_targets = bodyfit_source_targets(source_vectors)
+    source_state = {
+        "asset_inventory": avatar_asset_inventory(avatar),
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+        },
+        "avatar_bounds": capture_bounds(avatar),
+        "avatar_part_inventory": avatar_part_inventory(avatar),
+        "motion_inventory": avatar_motion_inventory(avatar),
+        "targets": source_targets,
+        "vectors": source_vectors,
+    }
+    write_json(source_state, os.path.join(output_dir, "current_scene_state.json"))
+    render_preview(source_preview_path)
+    mark("save_current_scene_backup")
+    backup = save_bodyfit_project(
+        backup_path,
+        "Save current F05 scene backup",
+    )
+    report = {
+        "backup": backup,
+        "base_avatar_path": base_avatar_path,
+        "formal_project_path": formal_project_path,
+        "operation": operation,
+        "schema_version": 1,
+        "source_preview": source_preview_path,
+        "source_state": source_state,
+        "started_at": started_at,
+    }
+    write_json(report, report_path)
+
+    if operation == "capture_only":
+        report["finished_at"] = now()
+        report["success"] = True
+        write_json(report, report_path)
+        summary = {
+            "diagnostic_mode": "current_scene_bodyfit_freeze",
+            "failure_count": 0,
+            "finished_at": report["finished_at"],
+            "freeze_report_path": report_path,
+            "operation": operation,
+            "requested_count": 1,
+            "schema_version": 1,
+            "started_at": started_at,
+            "success": True,
+            "success_count": 1,
+            "summary_path": summary_path,
+        }
+        write_json(summary, summary_path)
+        mark("complete")
+        return summary
+
+    formal_install = None
+    formal_replaced = False
+    try:
+        mark("load_neutral_base")
+        avatar, base_load_attempts = load_base(base_avatar_path)
+        if len(list(RLPy.RScene.GetAvatars() or [])) != 1:
+            raise ReconstructionError(
+                "Neutral BodyFit reconstruction expected one avatar"
+        )
+        RLPy.RScene.SelectObject(avatar)
+        asset_cleanup = remove_all_attached_avatar_assets(avatar)
+        base_motion_cleanup = clear_avatar_motion(avatar)
+        neutral_material = avatar_material_fingerprint(avatar)
+        neutral_material_structure = avatar_material_structure(avatar)
+        portable_targets, unavailable = split_portable_bodyfit_targets(
+            avatar,
+            source_targets,
+        )
+        unavailable_ids = set(item["id"] for item in unavailable)
+        if unavailable_ids != allowed_unavailable_ids:
+            raise ReconstructionError(
+                "Unavailable source Morph IDs differ from the approved set: "
+                "actual={} approved={}".format(
+                    sorted(unavailable_ids),
+                    sorted(allowed_unavailable_ids),
+                )
+            )
+
+        mark(
+            "apply_body_targets",
+            {
+                "body_target_count": len(portable_targets["body"]),
+                "junction_target_count": len(portable_targets["junction"]),
+            },
+        )
+        application = apply_bodyfit(
+            avatar,
+            portable_targets["body"],
+            portable_targets["junction"],
+        )
+        head_application = apply_single_morph_weight(
+            avatar,
+            BODYFIT_HEAD_SCALE_MORPH_ID,
+            source_head_scale,
+            "standard BodyFit Head Scale",
+        )
+        force_avatar_scene_evaluation(avatar)
+        motion_cleanup = clear_avatar_motion(avatar)
+        standardized_state = validate_standard_bodyfit_state(
+            avatar,
+            portable_targets,
+            source_head_scale,
+        )
+        write_json(
+            {
+                "asset_cleanup": asset_cleanup,
+                "base_motion_cleanup": base_motion_cleanup,
+                "motion_cleanup": motion_cleanup,
+                "portable_targets": portable_targets,
+                "standardized_state": standardized_state,
+                "unavailable_source_morphs": unavailable,
+            },
+            os.path.join(output_dir, "pre_save_standard_state.json"),
+        )
+        if not standardized_state["valid"]:
+            raise ReconstructionError(
+                "Rebuilt standard BodyFit failed pre-save validation"
+            )
+        standardized_material = avatar_material_fingerprint(avatar)
+        standardized_material_structure = avatar_material_structure(avatar)
+        if (
+            standardized_material_structure["digest"]
+            != neutral_material_structure["digest"]
+        ):
+            raise ReconstructionError(
+                "BodyFit reconstruction changed the neutral material layout"
+            )
+
+        source_bounds = capture_bounds(avatar)
+        source_height = bodyfit_height_cm(source_bounds)
+        source_standard_preview = os.path.join(
+            output_dir,
+            "standard_source_head_scale.png",
+        )
+        render_preview(source_standard_preview)
+        protected_fingerprint = standardized_state[
+            "body_and_junction_fingerprint_sha256"
+        ]
+        mark("measure_production_head_scale")
+        production_application = apply_single_morph_weight(
+            avatar,
+            BODYFIT_HEAD_SCALE_MORPH_ID,
+            production_head_scale,
+            "production BodyFit Head Scale",
+        )
+        force_avatar_scene_evaluation(avatar)
+        production_bounds = capture_bounds(avatar)
+        production_height = bodyfit_height_cm(production_bounds)
+        production_preview = os.path.join(
+            output_dir,
+            "production_head_scale.png",
+        )
+        render_preview(production_preview)
+        production_vectors = capture_vectors(avatar)
+        if production_vectors[
+            "body_and_junction_fingerprint_sha256"
+        ] != protected_fingerprint:
+            raise ReconstructionError(
+                "Production Head Scale changed body or junction Morphs"
+            )
+        restore_head_application = apply_single_morph_weight(
+            avatar,
+            BODYFIT_HEAD_SCALE_MORPH_ID,
+            source_head_scale,
+            "restore source BodyFit Head Scale",
+        )
+        force_avatar_scene_evaluation(avatar)
+        post_measurement_motion_cleanup = clear_avatar_motion(avatar)
+        post_measurement_state = validate_standard_bodyfit_state(
+            avatar,
+            portable_targets,
+            source_head_scale,
+        )
+        if not post_measurement_state["valid"]:
+            raise ReconstructionError(
+                "BodyFit state was not clean after height measurement"
+            )
+
+        staging_path = os.path.join(
+            output_dir,
+            "staging",
+            os.path.basename(formal_project_path),
+        )
+        mark("save_standard_staging_project")
+        staging = save_bodyfit_project(
+            staging_path,
+            "Save standardized F05 staging project",
+        )
+        mark("reload_standard_staging_project")
+        staging_load_status, staging_load_dialogs = (
+            load_file_with_optional_undo_warning(
+                staging_path,
+                "Reload standardized F05 staging project",
+            )
+        )
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "Reloaded standard staging project has multiple avatars"
+            )
+        force_avatar_scene_evaluation(avatar)
+        staging_state = validate_standard_bodyfit_state(
+            avatar,
+            portable_targets,
+            source_head_scale,
+        )
+        staging_bounds = capture_bounds(avatar)
+        if (
+            not staging_state["valid"]
+            or abs(bodyfit_height_cm(staging_bounds) - source_height) > 1e-4
+        ):
+            raise ReconstructionError(
+                "Reloaded standard staging project did not round-trip"
+            )
+
+        mark("install_formal_project")
+        formal_install = install_standard_bodyfit_project(
+            staging_path,
+            formal_project_path,
+            output_dir,
+        )
+        formal_replaced = True
+        mark("reload_formal_project")
+        formal_load_status, formal_load_dialogs = (
+            load_file_with_optional_undo_warning(
+                formal_project_path,
+                "Reload installed formal F05 project",
+            )
+        )
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "Installed formal BodyFit has multiple avatars"
+            )
+        force_avatar_scene_evaluation(avatar)
+        formal_state = validate_standard_bodyfit_state(
+            avatar,
+            portable_targets,
+            source_head_scale,
+        )
+        formal_bounds = capture_bounds(avatar)
+        formal_height = bodyfit_height_cm(formal_bounds)
+        if not formal_state["valid"] or abs(formal_height - source_height) > 1e-4:
+            raise ReconstructionError(
+                "Installed formal BodyFit failed final validation"
+            )
+        formal_preview = os.path.join(output_dir, "formal_project.png")
+        render_preview(formal_preview)
+
+        report.update(
+            {
+                "application": application,
+                "asset_cleanup": asset_cleanup,
+                "base_load_attempts": base_load_attempts,
+                "base_motion_cleanup": base_motion_cleanup,
+                "formal_install": formal_install,
+                "formal_load_dialogs": formal_load_dialogs,
+                "formal_load_status": formal_load_status,
+                "formal_preview": formal_preview,
+                "formal_state": formal_state,
+                "head_application": head_application,
+                "measurements": {
+                    "production": {
+                        "bounds": production_bounds,
+                        "head_scale": production_head_scale,
+                        "height_cm": production_height,
+                        "preview": production_preview,
+                    },
+                    "source": {
+                        "bounds": source_bounds,
+                        "head_scale": source_head_scale,
+                        "height_cm": source_height,
+                        "preview": source_standard_preview,
+                    },
+                },
+                "motion_cleanup": motion_cleanup,
+                "neutral_material_fingerprint": neutral_material,
+                "neutral_material_structure": neutral_material_structure,
+                "portable_targets": portable_targets,
+                "post_measurement_motion_cleanup": (
+                    post_measurement_motion_cleanup
+                ),
+                "post_measurement_state": post_measurement_state,
+                "production_head_application": production_application,
+                "restore_head_application": restore_head_application,
+                "staging": staging,
+                "staging_load_dialogs": staging_load_dialogs,
+                "staging_load_status": staging_load_status,
+                "staging_state": staging_state,
+                "standardized_material_fingerprint": standardized_material,
+                "standardized_material_structure": (
+                    standardized_material_structure
+                ),
+                "standardized_state": standardized_state,
+                "unavailable_source_morphs": unavailable,
+            }
+        )
+    except Exception:
+        if formal_replaced and formal_install and formal_install.get("previous"):
+            previous_path = formal_install["previous"]["path"]
+            restore_temp = formal_project_path + ".lance_restore_tmp"
+            try:
+                shutil.copy2(previous_path, restore_temp)
+                os.replace(restore_temp, formal_project_path)
+            finally:
+                if os.path.isfile(restore_temp):
+                    os.remove(restore_temp)
+        try:
+            load_file_with_optional_undo_warning(
+                backup_path,
+                "Restore current F05 scene after freeze failure",
+            )
+        except Exception:
+            pass
+        raise
+
+    report["finished_at"] = now()
+    report["success"] = True
+    write_json(report, report_path)
+    summary = {
+        "diagnostic_mode": "current_scene_bodyfit_freeze",
+        "failure_count": 0,
+        "finished_at": report["finished_at"],
+        "formal_project": formal_install["installed"],
+        "freeze_report_path": report_path,
+        "measurements": report["measurements"],
+        "operation": operation,
+        "requested_count": 1,
+        "schema_version": 1,
+        "started_at": started_at,
+        "success": True,
+        "success_count": 1,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark("complete")
+    return summary
+
+
 def probe_source_project_load(library, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     probe = library.get("source_project_probe") or {}
@@ -8900,8 +11912,13 @@ def probe_source_project_load(library, output_dir):
         probe.get("path"),
         "Source project probe",
     )
+    source_project_sha256 = sha256_file(source_project)
+    expected_sha256 = probe.get("sha256")
+    if expected_sha256 is not None and expected_sha256 != source_project_sha256:
+        raise ReconstructionError("Source project probe hash changed")
     progress_path = os.path.join(output_dir, "progress.json")
     result_path = os.path.join(output_dir, "source_project_load_result.json")
+    catalog_path = os.path.join(output_dir, "filtered_morph_catalog.json")
 
     def mark_phase(phase):
         write_json(
@@ -8924,6 +11941,19 @@ def probe_source_project_load(library, output_dir):
     QtWidgets.QApplication.processEvents()
     avatar, avatars = resolve_avatar()
     vectors = capture_vectors(avatar)
+    asset_inventory = avatar_asset_inventory(avatar)
+    catalog_terms = probe.get("catalog_terms")
+    catalog_report = None
+    if catalog_terms is not None:
+        catalog_report = capture_filtered_morph_catalog(
+            avatar,
+            catalog_terms,
+        )
+        write_json(catalog_report, catalog_path)
+    source_project_after_sha256 = sha256_file(source_project)
+    source_project_unchanged = (
+        source_project_after_sha256 == source_project_sha256
+    )
     result = {
         "schema_version": 1,
         "run_id": os.path.basename(output_dir),
@@ -8932,23 +11962,378 @@ def probe_source_project_load(library, output_dir):
         "requested_count": 1,
         "success_count": 1,
         "failure_count": 0,
-        "success": True,
+        "success": source_project_unchanged,
         "diagnostic_mode": "source_project_load",
         "source_project": source_project,
+        "source_project_sha256": source_project_sha256,
+        "source_project_after_sha256": source_project_after_sha256,
+        "source_project_unchanged": source_project_unchanged,
         "load_status": load_status,
         "avatar_count": len(avatars),
         "avatar": {
             "name": scene_object_name(avatar),
             "id": scene_object_id(avatar),
         },
+        "asset_inventory": asset_inventory,
         "body_and_junction_fingerprint_sha256": vectors[
             "body_and_junction_fingerprint_sha256"
         ],
+        "morph_catalog": (
+            {
+                "path": catalog_path,
+                "filter_terms": catalog_report["filter_terms"],
+                "matched_morph_count": catalog_report[
+                    "matched_morph_count"
+                ],
+            }
+            if catalog_report is not None
+            else None
+        ),
         "progress_path": progress_path,
         "summary_path": result_path,
     }
     write_json(result, result_path)
     mark_phase("complete")
+    return result
+
+
+def probe_outfit_component_resave(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    probe = library.get("outfit_component_resave_probe") or {}
+    if not isinstance(probe, dict):
+        raise ReconstructionError(
+            "outfit_component_resave_probe must be an object"
+        )
+    source_avatar_path = canonical_existing_file(
+        probe.get("source_avatar"),
+        "Outfit component source avatar",
+    )
+    target_project_path = canonical_existing_file(
+        probe.get("target_project"),
+        "Outfit component target project",
+    )
+    source_object_name = probe.get("source_object_name")
+    output_basename = probe.get("output_basename")
+    if not isinstance(source_object_name, str) or not source_object_name:
+        raise ReconstructionError(
+            "Outfit component source_object_name is invalid"
+        )
+    if (
+        not isinstance(output_basename, str)
+        or not output_basename
+        or any(char in output_basename for char in '<>:"/\\|?*')
+    ):
+        raise ReconstructionError(
+            "Outfit component output_basename is invalid"
+        )
+
+    progress_path = os.path.join(output_dir, "progress.json")
+    result_path = os.path.join(
+        output_dir,
+        "outfit_component_resave_result.json",
+    )
+    def mark_phase(phase, detail=None):
+        write_json(
+            {
+                "schema_version": 1,
+                "updated_at": now(),
+                "phase": phase,
+                "detail": detail,
+            },
+            progress_path,
+        )
+
+    def status_report(status):
+        if status is None:
+            return {"returned": False, "is_error": False}
+        try:
+            is_error = bool(status.IsError())
+        except Exception:
+            is_error = False
+        detail = {"returned": True, "is_error": is_error}
+        try:
+            detail["status_code"] = str(status.GetStatusCode())
+        except Exception:
+            pass
+        return detail
+
+    started_at = now()
+    mark_phase("load_source_avatar", {"path": source_avatar_path})
+    source_load_status = checked(
+        "Load outfit component source avatar",
+        RLPy.RFileIO.LoadFile(source_avatar_path),
+    )
+    source_avatar, source_avatars = resolve_avatar()
+    if len(source_avatars) != 1:
+        raise ReconstructionError(
+            "Outfit component probe expected one source avatar"
+        )
+    matching_objects = [
+        item
+        for item in list(source_avatar.GetClothes() or [])
+        if scene_object_name(item) == source_object_name
+    ]
+    if len(matching_objects) != 1:
+        raise ReconstructionError(
+            "Expected one source cloth named {}, found {}".format(
+                source_object_name,
+                len(matching_objects),
+            )
+        )
+    source_object = matching_objects[0]
+    original_clothe_type = source_object.GetClotheType()
+
+    save_attempt_specs = (
+        {
+            "attempt_id": "component_gloves_component_selected",
+            "save_object": source_object,
+            "save_object_kind": "component",
+            "selected_object": source_object,
+            "selected_object_kind": "component",
+            "clothe_type": original_clothe_type,
+            "save_type": RLPy.ESaveFileType_Gloves,
+            "extension": ".ccGloves",
+        },
+        {
+            "attempt_id": "avatar_gloves_component_selected",
+            "save_object": source_avatar,
+            "save_object_kind": "avatar",
+            "selected_object": source_object,
+            "selected_object_kind": "component",
+            "clothe_type": original_clothe_type,
+            "save_type": RLPy.ESaveFileType_Gloves,
+            "extension": ".ccGloves",
+        },
+        {
+            "attempt_id": "avatar_gloves_avatar_selected",
+            "save_object": source_avatar,
+            "save_object_kind": "avatar",
+            "selected_object": source_avatar,
+            "selected_object_kind": "avatar",
+            "clothe_type": original_clothe_type,
+            "save_type": RLPy.ESaveFileType_Gloves,
+            "extension": ".ccGloves",
+        },
+        {
+            "attempt_id": "component_upper_component_selected",
+            "save_object": source_object,
+            "save_object_kind": "component",
+            "selected_object": source_object,
+            "selected_object_kind": "component",
+            "clothe_type": RLPy.EClotheType_Upper,
+            "save_type": RLPy.ESaveFileType_Upper,
+            "extension": ".ccCloth",
+        },
+        {
+            "attempt_id": "avatar_upper_component_selected",
+            "save_object": source_avatar,
+            "save_object_kind": "avatar",
+            "selected_object": source_object,
+            "selected_object_kind": "component",
+            "clothe_type": RLPy.EClotheType_Upper,
+            "save_type": RLPy.ESaveFileType_Upper,
+            "extension": ".ccCloth",
+        },
+        {
+            "attempt_id": "avatar_upper_avatar_selected",
+            "save_object": source_avatar,
+            "save_object_kind": "avatar",
+            "selected_object": source_avatar,
+            "selected_object_kind": "avatar",
+            "clothe_type": RLPy.EClotheType_Upper,
+            "save_type": RLPy.ESaveFileType_Upper,
+            "extension": ".ccCloth",
+        },
+    )
+    save_attempts = []
+    try:
+        for spec in save_attempt_specs:
+            attempt_path = os.path.join(
+                output_dir,
+                "{}_{}{}".format(
+                    output_basename,
+                    spec["attempt_id"],
+                    spec["extension"],
+                ),
+            )
+            mark_phase(
+                "save_component_attempt",
+                {
+                    "attempt_id": spec["attempt_id"],
+                    "path": attempt_path,
+                },
+            )
+            attempt = {
+                "attempt_id": spec["attempt_id"],
+                "save_object_kind": spec["save_object_kind"],
+                "selected_object_kind": spec["selected_object_kind"],
+                "clothe_type": int(spec["clothe_type"]),
+                "save_type": int(spec["save_type"]),
+                "path": attempt_path,
+            }
+            try:
+                attempt["set_clothe_type_status"] = status_report(
+                    source_object.SetClotheType(spec["clothe_type"])
+                )
+                attempt["clear_selection_status"] = status_report(
+                    RLPy.RScene.ClearSelectObjects()
+                )
+                attempt["select_status"] = status_report(
+                    RLPy.RScene.SelectObject(spec["selected_object"])
+                )
+                save_setting = RLPy.RSaveFileSetting()
+                save_setting.SetSaveType(spec["save_type"])
+                attempt["save_status"] = status_report(
+                    RLPy.RFileIO.SaveFile(
+                        spec["save_object"],
+                        save_setting,
+                        attempt_path,
+                    )
+                )
+                settle_cc_ui(2.0)
+            except Exception as exc:
+                attempt["exception"] = "{}: {}".format(
+                    type(exc).__name__,
+                    exc,
+                )
+            if (
+                os.path.isfile(attempt_path)
+                and os.path.getsize(attempt_path) > 0
+            ):
+                attempt["file"] = {
+                    "path": attempt_path,
+                    "size_bytes": os.path.getsize(attempt_path),
+                    "sha256": sha256_file(attempt_path),
+                }
+            else:
+                attempt["file"] = None
+            save_attempts.append(attempt)
+    finally:
+        restore_type_status = status_report(
+            source_object.SetClotheType(original_clothe_type)
+        )
+        RLPy.RScene.ClearSelectObjects()
+        RLPy.RScene.SelectObject(source_avatar)
+
+    saved_attempts = [item for item in save_attempts if item["file"]]
+    application_attempts = []
+    for saved_attempt in saved_attempts:
+        mark_phase(
+            "apply_saved_component_attempt",
+            {
+                "attempt_id": saved_attempt["attempt_id"],
+                "path": saved_attempt["path"],
+            },
+        )
+        application = {
+            "attempt_id": saved_attempt["attempt_id"],
+            "path": saved_attempt["path"],
+            "success": False,
+        }
+        try:
+            application["target_load_status"] = checked(
+                "Load outfit component target project",
+                RLPy.RFileIO.LoadFile(target_project_path),
+            )
+            target_avatar, target_avatars = resolve_avatar()
+            if len(target_avatars) != 1:
+                raise ReconstructionError(
+                    "Outfit component probe expected one target avatar"
+                )
+            existing_clothing_names = sorted(
+                set(
+                    scene_object_name(item)
+                    for item in list(target_avatar.GetClothes() or [])
+                )
+            )
+            target_avatar, cleanup = remove_base_clothing(
+                target_avatar,
+                existing_clothing_names,
+                allow_missing=False,
+            )
+            before_inventory = avatar_asset_inventory(target_avatar)
+            RLPy.RScene.ClearSelectObjects()
+            RLPy.RScene.SelectObject(target_avatar)
+            apply_status, apply_dialogs = (
+                load_clothing_asset_with_known_dialogs(
+                    saved_attempt["path"],
+                    "Apply resaved outfit component",
+                    "fit_body_shape",
+                    record_step=False,
+                )
+            )
+            settle_cc_ui(4.0)
+            applied_avatar, applied_avatars = resolve_avatar()
+            if len(applied_avatars) != 1:
+                raise ReconstructionError(
+                    "Resaved component changed avatar count"
+                )
+            after_inventory = avatar_asset_inventory(applied_avatar)
+            inventory_changes = _outfit_gate_inventory_changes(
+                before_inventory,
+                after_inventory,
+            )
+            added_clothes = [
+                item
+                for item in inventory_changes["added"]
+                if item["collection"] == "GetClothes"
+            ]
+            application.update(
+                {
+                    "success": len(added_clothes) == 1,
+                    "target_clothing_cleanup": cleanup,
+                    "apply_status": apply_status,
+                    "apply_dialogs": apply_dialogs,
+                    "inventory_before": before_inventory,
+                    "inventory_after": after_inventory,
+                    "inventory_changes": inventory_changes,
+                    "added_clothes": added_clothes,
+                }
+            )
+            if len(added_clothes) != 1:
+                application["error"] = (
+                    "Expected exactly one added cloth object"
+                )
+        except Exception as exc:
+            application["error"] = "{}: {}".format(
+                type(exc).__name__,
+                exc,
+            )
+        application_attempts.append(application)
+
+    viable_attempts = [
+        item for item in application_attempts if item["success"]
+    ]
+    success = bool(viable_attempts)
+
+    result = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": started_at,
+        "finished_at": now(),
+        "requested_count": len(save_attempt_specs),
+        "success_count": len(viable_attempts),
+        "failure_count": len(save_attempt_specs) - len(viable_attempts),
+        "success": success,
+        "diagnostic_mode": "outfit_component_resave",
+        "source_avatar": source_avatar_path,
+        "source_load_status": source_load_status,
+        "source_object": {
+            "name": source_object_name,
+            "python_type": type(source_object).__name__,
+            "original_clothe_type": int(original_clothe_type),
+        },
+        "save_attempts": save_attempts,
+        "restore_type_status": restore_type_status,
+        "target_project": target_project_path,
+        "application_attempts": application_attempts,
+        "viable_attempt_ids": [
+            item["attempt_id"] for item in viable_attempts
+        ],
+        "summary_path": result_path,
+    }
+    write_json(result, result_path)
+    mark_phase("complete", {"success": success})
     return result
 
 
@@ -9106,6 +12491,393 @@ def probe_avatar_preset_save(library, output_dir):
     write_json(result, result_path)
     mark_phase("complete")
     return result
+
+
+def probe_face_prototype_storage(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    probe = library.get("face_prototype_storage_probe") or {}
+    if not isinstance(probe, dict):
+        raise ReconstructionError(
+            "face_prototype_storage_probe must be an object"
+        )
+    source_project = canonical_existing_file(
+        probe.get("source_project"),
+        "Face prototype source project",
+    )
+    neutral_base = canonical_existing_file(
+        probe.get("neutral_base"),
+        "Face prototype neutral base",
+    )
+    target_profile = None
+    if probe.get("target_facial_profile"):
+        target_profile = canonical_existing_file(
+            probe.get("target_facial_profile"),
+            "Face prototype target Facial Profile",
+        )
+    subject_id = str(probe.get("subject_id") or "face_prototype").strip()
+    if (
+        not subject_id
+        or any(char in subject_id for char in '<>:"/\\|?*')
+    ):
+        raise ReconstructionError("Face prototype subject_id is invalid")
+    settle_seconds = float(probe.get("settle_seconds", 8.0))
+    if settle_seconds < 0.0 or settle_seconds > 120.0:
+        raise ReconstructionError(
+            "Face prototype settle_seconds must be from 0 to 120"
+        )
+    supported_mode_ids = {
+        "facial_profile_preset",
+        "avatar_preset_all",
+    }
+    save_mode_ids = probe.get(
+        "save_mode_ids", ["facial_profile_preset"]
+    )
+    if (
+        not isinstance(save_mode_ids, list)
+        or any(item not in supported_mode_ids for item in save_mode_ids)
+        or len(save_mode_ids) != len(set(save_mode_ids))
+    ):
+        raise ReconstructionError(
+            "Face prototype save_mode_ids are invalid"
+        )
+    existing_mode_files = probe.get("existing_mode_files") or {}
+    if (
+        not isinstance(existing_mode_files, dict)
+        or any(item not in supported_mode_ids for item in existing_mode_files)
+    ):
+        raise ReconstructionError(
+            "Face prototype existing_mode_files are invalid"
+        )
+
+    progress_path = os.path.join(output_dir, "progress.json")
+    result_path = os.path.join(
+        output_dir, "face_prototype_storage_report.json"
+    )
+    subject_dir = os.path.join(output_dir, subject_id)
+    os.makedirs(subject_dir, exist_ok=True)
+    source_vectors_path = os.path.join(subject_dir, "source_vectors.json")
+    profile_path = os.path.join(subject_dir, "facial_profile.ccFacialProfile")
+    source_project_record = bodyfit_freeze_file_record(source_project)
+
+    def mark_phase(phase, details=None):
+        payload = {
+            "schema_version": 1,
+            "diagnostic_mode": "face_prototype_storage",
+            "subject_id": subject_id,
+            "updated_at": now(),
+            "phase": phase,
+        }
+        if details:
+            payload["details"] = details
+        write_json(payload, progress_path)
+
+    def profile_summary(avatar):
+        face_component = avatar.GetFaceComponent()
+        profile_component = avatar.GetFacialProfileComponent()
+        if face_component is None or profile_component is None:
+            raise ReconstructionError(
+                "Face prototype avatar has no facial components"
+            )
+        expressions = list(face_component.GetExpressionNames("") or [])
+        return {
+            "expression_set_uid": str(
+                face_component.GetExpressionSetUid()
+            ),
+            "expression_count": len(expressions),
+            "profile_type": str(profile_component.GetProfileType()),
+        }
+
+    def vector_deltas(reference, candidate):
+        return {
+            classification: group_delta(
+                reference["groups"][classification]["entries"],
+                candidate["groups"][classification]["entries"],
+            )
+            for classification in ("body", "junction", "face", "other")
+        }
+
+    started_at = now()
+    report = {
+        "schema_version": 1,
+        "diagnostic_mode": "face_prototype_storage",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "success": False,
+        "source_project": source_project_record,
+        "neutral_base": bodyfit_freeze_file_record(neutral_base),
+        "target_facial_profile": (
+            bodyfit_freeze_file_record(target_profile)
+            if target_profile
+            else None
+        ),
+        "application_policy": {
+            "Apply Morph": True,
+            "Apply Textures": False,
+            "Restore neutral lash strip before application.": True,
+        },
+        "save_mode_ids": list(save_mode_ids),
+        "existing_mode_files": dict(existing_mode_files),
+        "modes": {},
+    }
+    write_json(report, result_path)
+
+    mark_phase("load_source_project")
+    source_load_status, source_dialogs = load_file_with_optional_undo_warning(
+        source_project,
+        "Load face prototype source {}".format(subject_id),
+    )
+    settle_cc_ui(settle_seconds)
+    source_avatar, source_avatars = resolve_avatar()
+    if len(source_avatars) != 1:
+        raise ReconstructionError(
+            "Face prototype storage expected one source avatar"
+        )
+    RLPy.RScene.SelectObject(source_avatar)
+    force_avatar_scene_evaluation(source_avatar)
+    if target_profile:
+        mark_phase("load_target_facial_profile")
+        source_profile_component = (
+            source_avatar.GetFacialProfileComponent()
+        )
+        checked(
+            "Load face prototype target Facial Profile",
+            source_profile_component.LoadProfile(target_profile),
+        )
+        settle_cc_ui(settle_seconds)
+        source_avatar, source_avatars = resolve_avatar()
+        if len(source_avatars) != 1:
+            raise ReconstructionError(
+                "Face prototype Profile load expected one avatar"
+            )
+        RLPy.RScene.SelectObject(source_avatar)
+        force_avatar_scene_evaluation(source_avatar)
+    source_vectors = capture_vectors(source_avatar)
+    write_json(source_vectors, source_vectors_path)
+    source_profile = profile_summary(source_avatar)
+    source_material = avatar_material_fingerprint(source_avatar)
+    source_eye = capture_eye_integrity_state(source_avatar)
+    report["source"] = {
+        "load_status": source_load_status,
+        "dialogs": source_dialogs,
+        "profile": source_profile,
+        "vector_counts": {
+            classification: len(
+                source_vectors["groups"][classification]["entries"]
+            )
+            for classification in ("body", "junction", "face", "other")
+        },
+        "vector_fingerprints": {
+            classification: source_vectors["groups"][classification][
+                "fingerprint_sha256"
+            ]
+            for classification in ("body", "junction", "face", "other")
+        },
+        "material_fingerprint": source_material,
+        "eye_structure_signature": eye_integrity_structure_signature(
+            source_eye
+        ),
+        "vectors": source_vectors_path,
+    }
+
+    mark_phase("save_facial_profile_sidecar")
+    profile_component = source_avatar.GetFacialProfileComponent()
+    checked(
+        "Save face prototype Facial Profile",
+        profile_component.SaveProfile(profile_path),
+    )
+    wait_for_rendered_preview(
+        profile_path,
+        timeout_seconds=300.0,
+        stable_seconds=2.0,
+    )
+    report["facial_profile_sidecar"] = bodyfit_freeze_file_record(
+        profile_path
+    )
+
+    mode_specs = (
+        (
+            "facial_profile_preset",
+            RLPy.ESaveFileType_AvatarPresetFacialProfile,
+            "facial_profile_preset.ccAvatarPreset",
+        ),
+        (
+            "avatar_preset_all",
+            RLPy.ESaveFileType_AvatarPresetAll,
+            "identity_carrier.ccAvatarPreset",
+        ),
+    )
+    saved_modes = []
+    for mode_id, save_type, filename in mode_specs:
+        if mode_id in existing_mode_files:
+            preset_path = canonical_existing_file(
+                existing_mode_files[mode_id],
+                "Existing face prototype {}".format(mode_id),
+            )
+            saved_modes.append(
+                {
+                    "mode_id": mode_id,
+                    "path": preset_path,
+                    "save_status": {
+                        "source": "existing_file",
+                        "returned": False,
+                        "is_error": False,
+                    },
+                    "file": bodyfit_freeze_file_record(preset_path),
+                }
+            )
+            continue
+        if mode_id not in save_mode_ids:
+            continue
+        mark_phase("save_{}".format(mode_id))
+        preset_path = os.path.join(subject_dir, filename)
+        save_setting = RLPy.RSaveFileSetting()
+        save_setting.SetSaveType(save_type)
+        save_status = checked(
+            "Save face prototype {}".format(mode_id),
+            RLPy.RFileIO.SaveFile(
+                source_avatar,
+                save_setting,
+                preset_path,
+            ),
+        )
+        wait_for_rendered_preview(
+            preset_path,
+            timeout_seconds=300.0,
+            stable_seconds=2.0,
+        )
+        saved_modes.append(
+            {
+                "mode_id": mode_id,
+                "path": preset_path,
+                "save_status": save_status,
+                "file": bodyfit_freeze_file_record(preset_path),
+            }
+        )
+
+    checkbox_policy = dict(report["application_policy"])
+    for saved_mode in saved_modes:
+        mode_id = saved_mode["mode_id"]
+        mark_phase("apply_{}_to_neutral".format(mode_id))
+        neutral_avatar, base_attempts = load_base(neutral_base)
+        settle_cc_ui(settle_seconds)
+        RLPy.RScene.SelectObject(neutral_avatar)
+        force_avatar_scene_evaluation(neutral_avatar)
+        neutral_id = scene_object_id(neutral_avatar)
+        baseline_vectors = capture_vectors(neutral_avatar)
+        baseline_profile = profile_summary(neutral_avatar)
+        baseline_material = avatar_material_fingerprint(neutral_avatar)
+        baseline_eye = capture_eye_integrity_state(neutral_avatar)
+        apply_status, apply_dialogs = load_file_with_known_cc_dialogs(
+            saved_mode["path"],
+            "Apply face prototype {}".format(mode_id),
+            allow_character_preset=True,
+            character_preset_checkbox_states=checkbox_policy,
+        )
+        settle_cc_ui(settle_seconds)
+        applied_avatar, applied_avatars = resolve_avatar()
+        if len(applied_avatars) != 1:
+            raise ReconstructionError(
+                "Face prototype application expected one avatar"
+            )
+        RLPy.RScene.SelectObject(applied_avatar)
+        force_avatar_scene_evaluation(applied_avatar)
+        applied_vectors = capture_vectors(applied_avatar)
+        applied_profile = profile_summary(applied_avatar)
+        applied_material = avatar_material_fingerprint(applied_avatar)
+        applied_eye = capture_eye_integrity_state(applied_avatar)
+        source_deltas = vector_deltas(source_vectors, applied_vectors)
+        baseline_deltas = vector_deltas(
+            baseline_vectors, applied_vectors
+        )
+        face_matches_source = not bool(source_deltas["face"])
+        body_matches_source = not bool(
+            source_deltas["body"] or source_deltas["junction"]
+        )
+        face_unchanged_from_baseline = not bool(
+            baseline_deltas["face"]
+        )
+        body_unchanged_from_baseline = not bool(
+            baseline_deltas["body"] or baseline_deltas["junction"]
+        )
+        profile_matches_source = bool(
+            applied_profile["expression_set_uid"]
+            == source_profile["expression_set_uid"]
+            and applied_profile["expression_count"]
+            == source_profile["expression_count"]
+        )
+        report["modes"][mode_id] = {
+            "save_type": (
+                "ESaveFileType_AvatarPresetFacialProfile"
+                if mode_id == "facial_profile_preset"
+                else "ESaveFileType_AvatarPresetAll"
+            ),
+            "file": saved_mode["file"],
+            "save_status": saved_mode["save_status"],
+            "base_load_attempts": base_attempts,
+            "apply_status": apply_status,
+            "apply_dialogs": apply_dialogs,
+            "avatar_object_preserved": bool(
+                scene_object_id(applied_avatar) == neutral_id
+            ),
+            "baseline_profile": baseline_profile,
+            "applied_profile": applied_profile,
+            "profile_matches_source": profile_matches_source,
+            "face_matches_source": face_matches_source,
+            "body_matches_source": body_matches_source,
+            "face_unchanged_from_baseline": face_unchanged_from_baseline,
+            "body_unchanged_from_baseline": body_unchanged_from_baseline,
+            "material_unchanged_from_baseline": bool(
+                applied_material["digest"]
+                == baseline_material["digest"]
+            ),
+            "eye_structure_unchanged_from_baseline": bool(
+                eye_integrity_structure_signature(applied_eye)
+                == eye_integrity_structure_signature(baseline_eye)
+            ),
+            "source_deltas": source_deltas,
+            "baseline_deltas": baseline_deltas,
+        }
+        write_json(report, result_path)
+
+    profile_mode = report["modes"].get("facial_profile_preset")
+    all_mode = report["modes"].get("avatar_preset_all")
+    report["conclusion"] = {
+        "facial_profile_preset_is_identity_carrier": bool(
+            profile_mode
+            and profile_mode["face_matches_source"]
+            and not profile_mode["face_unchanged_from_baseline"]
+        ),
+        "avatar_preset_all_is_identity_carrier": bool(
+            all_mode
+            and all_mode["face_matches_source"]
+            and not all_mode["face_unchanged_from_baseline"]
+        ),
+        "avatar_preset_all_preserves_target_body": bool(
+            all_mode and all_mode["body_unchanged_from_baseline"]
+        ),
+        "facial_profile_sidecar_required": True,
+    }
+    source_project_after = bodyfit_freeze_file_record(source_project)
+    report["source_project_after"] = source_project_after
+    report["source_project_unchanged"] = bool(
+        source_project_after["sha256"] == source_project_record["sha256"]
+        and source_project_after["bytes"] == source_project_record["bytes"]
+    )
+    report["finished_at"] = now()
+    report["success"] = bool(report["source_project_unchanged"])
+    write_json(report, result_path)
+    mark_phase("complete")
+    return {
+        "schema_version": 1,
+        "diagnostic_mode": "face_prototype_storage",
+        "started_at": started_at,
+        "finished_at": report["finished_at"],
+        "success": report["success"],
+        "success_count": 1 if report["success"] else 0,
+        "failure_count": 0 if report["success"] else 1,
+        "report_path": result_path,
+        "summary_path": result_path,
+    }
 
 
 def validate_expected_eye_integrity(
@@ -10023,6 +13795,2139 @@ def probe_face_camera_sweep(library, output_dir):
     }
 
 
+def probe_current_full_body_camera_sweep(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Full-body camera sweep expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    camera_path = canonical_existing_file(
+        library.get("camera_path"),
+        "Full-body camera sweep camera",
+    )
+    lightroom_path = canonical_existing_file(
+        library.get("preview_lightroom"),
+        "Full-body camera sweep Lightroom",
+    )
+    candidates = library.get("framing_candidates")
+    if not isinstance(candidates, list) or not candidates:
+        raise ReconstructionError(
+            "Full-body camera sweep framing candidates are missing"
+        )
+    checked(
+        "Load full-body camera sweep Lightroom",
+        RLPy.RFileIO.LoadFile(lightroom_path),
+    )
+    checked(
+        "Load full-body camera sweep camera",
+        RLPy.RFileIO.LoadFile(camera_path),
+    )
+    settle_cc_ui(1.0)
+    camera = RLPy.RScene.GetCurrentCamera()
+    if camera is None:
+        raise ReconstructionError(
+            "Full-body camera sweep has no active camera"
+        )
+    motion_cleanup = clear_avatar_motion(avatar)
+    baseline_avatar_position = {
+        "x": 0.0,
+        "y": 8.0,
+        "z": 6.0,
+    }
+    set_avatar_position(
+        avatar,
+        position_x=baseline_avatar_position["x"],
+        position_y=baseline_avatar_position["y"],
+        position_z=baseline_avatar_position["z"],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    light_objects = []
+    light_query_errors = []
+    seen_light_ids = set()
+    for constant_name in (
+        "EObjectType_Light",
+        "EObjectType_SpotLight",
+        "EObjectType_PointLight",
+        "EObjectType_DirectionalLight",
+    ):
+        object_type = getattr(RLPy, constant_name, None)
+        if object_type is None:
+            continue
+        try:
+            candidates_for_type = list(
+                RLPy.RScene.FindObjects(object_type) or []
+            )
+        except Exception as exc:
+            light_query_errors.append(
+                {"type": constant_name, "error": str(exc)}
+            )
+            continue
+        for light in candidates_for_type:
+            light_id = scene_object_id(light)
+            if light_id in seen_light_ids:
+                continue
+            seen_light_ids.add(light_id)
+            light_objects.append(light)
+    movable_lights = []
+    skipped_lights = []
+    for light in light_objects:
+        try:
+            position = {
+                "x": _transform_float(light, "Position/PositionX"),
+                "y": _transform_float(light, "Position/PositionY"),
+                "z": _transform_float(light, "Position/PositionZ"),
+            }
+        except Exception as exc:
+            skipped_lights.append(
+                {
+                    "id": scene_object_id(light),
+                    "name": scene_object_name(light),
+                    "python_type": type(light).__name__,
+                    "error": str(exc),
+                }
+            )
+            continue
+        movable_lights.append(
+            {
+                "object": light,
+                "id": scene_object_id(light),
+                "name": scene_object_name(light),
+                "python_type": type(light).__name__,
+                "position": position,
+            }
+        )
+    if not movable_lights:
+        raise ReconstructionError(
+            "Full-body camera sweep found no movable Lightroom lights: {}"
+            .format(light_query_errors + skipped_lights)
+        )
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "diagnostic_mode": "full_body_camera_sweep",
+        "camera_path": camera_path,
+        "preview_lightroom": lightroom_path,
+        "initial_camera": camera_state(camera),
+        "motion_cleanup": motion_cleanup,
+        "baseline_avatar_position": baseline_avatar_position,
+        "movable_lights": [
+            dict(
+                (key, value)
+                for key, value in item.items()
+                if key != "object"
+            )
+            for item in movable_lights
+        ],
+        "skipped_lights": skipped_lights,
+        "light_query_errors": light_query_errors,
+        "candidates": [],
+    }
+    try:
+        for item in candidates:
+            candidate_id = item.get("id")
+            if not isinstance(candidate_id, str) or not candidate_id:
+                raise ReconstructionError(
+                    "Full-body camera sweep candidate has no ID"
+                )
+            avatar_position = {
+                axis: float(item.get(axis, 0.0))
+                for axis in ("x", "y", "z")
+            }
+            offset = {
+                axis: avatar_position[axis] - baseline_avatar_position[axis]
+                for axis in ("x", "y", "z")
+            }
+            set_avatar_position(
+                avatar,
+                position_x=avatar_position["x"],
+                position_y=avatar_position["y"],
+                position_z=avatar_position["z"],
+            )
+            for light_record in movable_lights:
+                base = light_record["position"]
+                set_avatar_position(
+                    light_record["object"],
+                    position_x=base["x"] + offset["x"],
+                    position_y=base["y"] + offset["y"],
+                    position_z=base["z"] + offset["z"],
+                )
+            force_avatar_scene_evaluation(avatar)
+            checked(
+                "Activate full-body sweep camera {}".format(candidate_id),
+                RLPy.RScene.SetCurrentCamera(camera),
+            )
+            image_path = os.path.join(
+                output_dir,
+                "camera_{}.png".format(candidate_id),
+            )
+            render_preview(image_path)
+            report["candidates"].append(
+                {
+                    "id": candidate_id,
+                    "avatar_position": avatar_position,
+                    "light_offset": offset,
+                    "image": image_path,
+                    "camera": camera_state(camera),
+                }
+            )
+    finally:
+        set_avatar_position(
+            avatar,
+            position_x=baseline_avatar_position["x"],
+            position_y=baseline_avatar_position["y"],
+            position_z=baseline_avatar_position["z"],
+        )
+        for light_record in movable_lights:
+            base = light_record["position"]
+            set_avatar_position(
+                light_record["object"],
+                position_x=base["x"],
+                position_y=base["y"],
+                position_z=base["z"],
+            )
+        force_avatar_scene_evaluation(avatar)
+    report_path = os.path.join(output_dir, "camera_sweep.json")
+    write_json(report, report_path)
+    return {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": report["captured_at"],
+        "finished_at": now(),
+        "requested_count": len(report["candidates"]),
+        "success_count": len(report["candidates"]),
+        "failure_count": 0,
+        "success": True,
+        "diagnostic_mode": "full_body_camera_sweep",
+        "camera_sweep_path": report_path,
+        "summary_path": report_path,
+        "scene_policy": "leave_current_scene_motionless_for_next_load",
+    }
+
+
+def probe_current_timeline_state(output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Timeline probe expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    fps = RLPy.RGlobal.GetFps()
+    start_time = RLPy.RGlobal.GetStartTime()
+    end_time = RLPy.RGlobal.GetEndTime()
+    current_time = RLPy.RGlobal.GetTime()
+    return {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": now(),
+        "finished_at": now(),
+        "requested_count": 1,
+        "success_count": 1,
+        "failure_count": 0,
+        "success": True,
+        "diagnostic_mode": "timeline_state",
+        "subject": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+        },
+        "timeline": {
+            "start_frame": int(fps.GetFrameIndex(start_time)),
+            "end_frame": int(fps.GetFrameIndex(end_time)),
+            "current_frame": int(fps.GetFrameIndex(current_time)),
+        },
+        "motion_inventory": avatar_motion_inventory(avatar),
+        "scene_policy": "read_only",
+    }
+
+
+def character_quality_benchmark_artifacts(subject_dir):
+    return {
+        "neutral_front": os.path.join(subject_dir, "neutral_front.png"),
+        "neutral_three_quarter": os.path.join(
+            subject_dir, "neutral_three_quarter.png"
+        ),
+        "neutral_profile": os.path.join(subject_dir, "neutral_profile.png"),
+        "full_body_front": os.path.join(subject_dir, "full_body_front.png"),
+        "facial_pose_validation": os.path.join(
+            subject_dir, "facial_pose_validation.json"
+        ),
+        "face_blink_bilateral_preview": os.path.join(
+            subject_dir, "blink_bilateral_front.png"
+        ),
+        "face_blink_left_preview": os.path.join(
+            subject_dir, "blink_left_front.png"
+        ),
+        "face_blink_right_preview": os.path.join(
+            subject_dir, "blink_right_front.png"
+        ),
+        "face_look_left_preview": os.path.join(
+            subject_dir, "look_left_front.png"
+        ),
+        "face_look_right_preview": os.path.join(
+            subject_dir, "look_right_front.png"
+        ),
+        "face_look_up_preview": os.path.join(
+            subject_dir, "look_up_front.png"
+        ),
+        "face_look_down_preview": os.path.join(
+            subject_dir, "look_down_front.png"
+        ),
+        "face_squint_preview": os.path.join(
+            subject_dir, "squint_bilateral_front.png"
+        ),
+        "face_widen_preview": os.path.join(
+            subject_dir, "widen_bilateral_front.png"
+        ),
+        "face_brow_raise_preview": os.path.join(
+            subject_dir, "brow_raise_front.png"
+        ),
+        "face_brow_down_preview": os.path.join(
+            subject_dir, "brow_down_front.png"
+        ),
+        "face_brow_raise_left_preview": os.path.join(
+            subject_dir, "brow_raise_left_front.png"
+        ),
+        "face_smile_preview": os.path.join(subject_dir, "smile_front.png"),
+        "face_jaw_open_preview": os.path.join(
+            subject_dir, "jaw_open_front.png"
+        ),
+        "face_jaw_open_three_quarter_preview": os.path.join(
+            subject_dir, "jaw_open_three_quarter.png"
+        ),
+        "face_post_pose_neutral_preview": os.path.join(
+            subject_dir, "post_pose_neutral_front.png"
+        ),
+    }
+
+
+def _quality_benchmark_position(value, label):
+    if (
+        not isinstance(value, list)
+        or len(value) != 3
+        or any(
+            isinstance(item, bool) or not isinstance(item, (int, float))
+            for item in value
+        )
+    ):
+        raise ReconstructionError(
+            "{} must contain three numeric coordinates".format(label)
+        )
+    return [float(item) for item in value]
+
+
+def _quality_benchmark_file_record(path):
+    return {
+        "bytes": os.path.getsize(path),
+        "path": path,
+        "sha256": sha256_file(path),
+    }
+
+
+def quality_benchmark_movable_lights():
+    light_objects = []
+    query_errors = []
+    seen_ids = set()
+    for constant_name in (
+        "EObjectType_Light",
+        "EObjectType_SpotLight",
+        "EObjectType_PointLight",
+        "EObjectType_DirectionalLight",
+    ):
+        object_type = getattr(RLPy, constant_name, None)
+        if object_type is None:
+            continue
+        try:
+            objects = list(RLPy.RScene.FindObjects(object_type) or [])
+        except Exception as exc:
+            query_errors.append(
+                {"type": constant_name, "error": str(exc)}
+            )
+            continue
+        for light in objects:
+            light_id = scene_object_id(light)
+            if light_id in seen_ids:
+                continue
+            seen_ids.add(light_id)
+            light_objects.append(light)
+
+    movable = []
+    skipped = []
+    for light in light_objects:
+        try:
+            position = {
+                "x": _transform_float(light, "Position/PositionX"),
+                "y": _transform_float(light, "Position/PositionY"),
+                "z": _transform_float(light, "Position/PositionZ"),
+            }
+        except Exception as exc:
+            skipped.append(
+                {
+                    "id": scene_object_id(light),
+                    "name": scene_object_name(light),
+                    "python_type": type(light).__name__,
+                    "error": str(exc),
+                }
+            )
+            continue
+        movable.append(
+            {
+                "object": light,
+                "id": scene_object_id(light),
+                "name": scene_object_name(light),
+                "python_type": type(light).__name__,
+                "position": position,
+            }
+        )
+    return movable, skipped, query_errors
+
+
+def set_quality_benchmark_light_offset(movable_lights, offset):
+    for light_record in movable_lights:
+        base = light_record["position"]
+        set_avatar_position(
+            light_record["object"],
+            position_x=base["x"] + float(offset["x"]),
+            position_y=base["y"] + float(offset["y"]),
+            position_z=base["z"] + float(offset["z"]),
+        )
+
+
+def probe_character_quality_benchmark_v1(library, output_dir, log):
+    os.makedirs(output_dir, exist_ok=True)
+    benchmark = library.get("quality_benchmark") or {}
+    if not isinstance(benchmark, dict):
+        raise ReconstructionError("quality_benchmark must be an object")
+    subject = benchmark.get("subject") or {}
+    if not isinstance(subject, dict):
+        raise ReconstructionError("quality_benchmark.subject must be an object")
+    subject_id = subject.get("id")
+    if (
+        not isinstance(subject_id, str)
+        or not subject_id
+        or any(char not in "abcdefghijklmnopqrstuvwxyz0123456789_-" for char in subject_id)
+    ):
+        raise ReconstructionError(
+            "quality_benchmark.subject.id must be a lowercase file-safe ID"
+        )
+    source_project = canonical_existing_file(
+        subject.get("source_project"),
+        "Quality benchmark source project",
+    )
+    camera_path = canonical_existing_file(
+        benchmark.get("face_camera"),
+        "Quality benchmark face camera",
+    )
+    lightroom_path = canonical_existing_file(
+        benchmark.get("preview_lightroom"),
+        "Quality benchmark Lightroom",
+    )
+    face_position = _quality_benchmark_position(
+        benchmark.get("face_position", [0.0, 8.0, 6.0]),
+        "quality_benchmark.face_position",
+    )
+    full_body_position = _quality_benchmark_position(
+        benchmark.get("full_body_position", [-600.0, 8.0, 75.0]),
+        "quality_benchmark.full_body_position",
+    )
+    pose_ids = benchmark.get(
+        "pose_ids",
+        ["blink_bilateral_front", "smile_front", "jaw_open_front"],
+    )
+    if (
+        not isinstance(pose_ids, list)
+        or not pose_ids
+        or any(not isinstance(item, str) or not item for item in pose_ids)
+    ):
+        raise ReconstructionError(
+            "quality_benchmark.pose_ids must be a non-empty string list"
+        )
+    load_settle_seconds = float(subject.get("load_settle_seconds", 12.0))
+    if load_settle_seconds < 0.0 or load_settle_seconds > 120.0:
+        raise ReconstructionError(
+            "quality_benchmark load_settle_seconds must be from 0 to 120"
+        )
+
+    subject_dir = os.path.join(output_dir, subject_id)
+    os.makedirs(subject_dir, exist_ok=False)
+    artifacts = character_quality_benchmark_artifacts(subject_dir)
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(output_dir, "subject_benchmark.json")
+    started_at = now()
+
+    def mark_phase(phase, details=None):
+        payload = {
+            "schema_version": 1,
+            "updated_at": now(),
+            "diagnostic_mode": "character_quality_benchmark",
+            "subject_id": subject_id,
+            "phase": phase,
+        }
+        if details:
+            payload["details"] = details
+        write_json(payload, progress_path)
+        log("Quality benchmark {}: {}".format(subject_id, phase))
+        QtWidgets.QApplication.processEvents()
+
+    report = {
+        "schema_version": 1,
+        "diagnostic_mode": "character_quality_benchmark",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "success": False,
+        "conditions": {
+            "preview_capture_mode": PREVIEW_CAPTURE_MODE,
+            "preview_resolution": [
+                VIEWPORT_PREVIEW_WIDTH,
+                VIEWPORT_PREVIEW_HEIGHT,
+            ],
+            "face_camera": camera_path,
+            "preview_lightroom": lightroom_path,
+            "face_position": face_position,
+            "full_body_position": full_body_position,
+            "static_views": {
+                "neutral_front": 90.0,
+                "neutral_three_quarter": 45.0,
+                "neutral_profile": 0.0,
+                "full_body_front": 90.0,
+            },
+            "pose_ids": list(pose_ids),
+        },
+        "source_project": _quality_benchmark_file_record(source_project),
+        "progress_path": progress_path,
+        "summary_path": report_path,
+    }
+    write_json(report, report_path)
+
+    mark_phase("load_source_project", {"path": source_project})
+    load_status, load_dialogs = load_file_with_optional_undo_warning(
+        source_project,
+        "Load quality benchmark source {}".format(subject_id),
+    )
+    settle_cc_ui(load_settle_seconds)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Quality benchmark expected one avatar for {}, found {}".format(
+                subject_id, len(avatars)
+            )
+        )
+    RLPy.RScene.SelectObject(avatar)
+    checked(
+        "Evaluate quality benchmark project start",
+        RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+    )
+    report["source_load"] = {
+        "status": load_status,
+        "dialogs": load_dialogs,
+        "settle_seconds": load_settle_seconds,
+    }
+
+    mark_phase("load_standard_lightroom")
+    checked(
+        "Load quality benchmark Lightroom",
+        RLPy.RFileIO.LoadFile(lightroom_path),
+    )
+    settle_cc_ui(1.0)
+    mark_phase("load_standard_camera")
+    checked(
+        "Load quality benchmark camera",
+        RLPy.RFileIO.LoadFile(camera_path),
+    )
+    settle_cc_ui(1.0)
+    if RLPy.RScene.GetCurrentCamera() is None:
+        raise ReconstructionError("Quality benchmark has no active camera")
+
+    set_avatar_position(
+        avatar,
+        position_x=face_position[0],
+        position_y=face_position[1],
+        position_z=face_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    face_component = avatar.GetFaceComponent()
+    if face_component is None:
+        raise ReconstructionError(
+            "Quality benchmark subject has no Facial Profile: {}".format(
+                subject_id
+            )
+        )
+    mark_phase("capture_subject_inventory")
+    standardized_bounds = capture_bounds(avatar)
+    report["subject"] = {
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+            "python_type": type(avatar).__name__,
+        },
+        "bounds": standardized_bounds,
+        "height_cm": bodyfit_height_cm(standardized_bounds),
+        "asset_inventory": avatar_asset_inventory(avatar),
+        "avatar_part_inventory": avatar_part_inventory(avatar),
+        "motion_inventory": avatar_motion_inventory(avatar),
+        "facial_profile": {
+            "expression_count": len(
+                list(face_component.GetExpressionNames("") or [])
+            ),
+            "expression_clip_count": int(face_component.GetClipCount()),
+            "expression_set_uid": str(face_component.GetExpressionSetUid()),
+        },
+        "material_fingerprint": avatar_material_fingerprint(avatar),
+        "material_structure": avatar_material_structure(avatar),
+        "neutral_eye_state": capture_eye_integrity_state(avatar),
+    }
+    report["camera"] = camera_state(RLPy.RScene.GetCurrentCamera())
+    write_json(report, report_path)
+
+    static_specs = (
+        ("neutral_front", 90.0),
+        ("neutral_three_quarter", 45.0),
+        ("neutral_profile", 0.0),
+    )
+    report["static_captures"] = {}
+    for capture_id, yaw_degrees in static_specs:
+        set_avatar_yaw(avatar, yaw_degrees)
+        mark_phase("render_{}".format(capture_id))
+        render_preview(artifacts[capture_id])
+        report["static_captures"][capture_id] = (
+            _quality_benchmark_file_record(artifacts[capture_id])
+        )
+
+    set_avatar_position(
+        avatar,
+        position_x=full_body_position[0],
+        position_y=full_body_position[1],
+        position_z=full_body_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    mark_phase("render_full_body_front")
+    render_preview(artifacts["full_body_front"])
+    report["static_captures"]["full_body_front"] = (
+        _quality_benchmark_file_record(artifacts["full_body_front"])
+    )
+    set_avatar_position(
+        avatar,
+        position_x=face_position[0],
+        position_y=face_position[1],
+        position_z=face_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    write_json(report, report_path)
+
+    mark_phase("render_expression_matrix")
+    pose_report = render_face_identity_safety_previews(
+        avatar,
+        artifacts,
+        mark_phase,
+        pose_ids=pose_ids,
+    )
+    report["facial_pose_validation"] = {
+        "path": artifacts["facial_pose_validation"],
+        "pose_count": len(pose_report.get("poses") or []),
+        "neutral_eye_integrity": pose_report.get("neutral_eye_integrity"),
+        "snapshot": pose_report.get("snapshot"),
+    }
+    report["dynamic_captures"] = {}
+    for pose in pose_report.get("poses") or []:
+        pose_id = pose["pose_id"]
+        report["dynamic_captures"][pose_id] = (
+            _quality_benchmark_file_record(pose["image"])
+        )
+    report["dynamic_captures"]["post_pose_neutral_front"] = (
+        _quality_benchmark_file_record(
+            artifacts["face_post_pose_neutral_preview"]
+        )
+    )
+    report["finished_at"] = now()
+    report["success"] = True
+    write_json(report, report_path)
+    mark_phase("complete")
+    capture_count = len(report["static_captures"]) + len(
+        report["dynamic_captures"]
+    )
+    return {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "diagnostic_mode": "character_quality_benchmark",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "finished_at": report["finished_at"],
+        "requested_count": capture_count,
+        "success_count": capture_count,
+        "failure_count": 0,
+        "success": True,
+        "subject_benchmark_path": report_path,
+        "summary_path": report_path,
+        "scene_policy": "leave_restored_subject_loaded",
+    }
+
+
+def resolve_quality_benchmark_targets(expression_names):
+    expression_names = list(expression_names or [])
+    teeth = resolve_teeth_expression_targets(expression_names)
+    blink_targets = []
+    required_blink_ids = ("blink_left", "blink_right")
+    for target_id in required_blink_ids:
+        resolved = first_expression_alias(
+            expression_names,
+            EYELASH_EXPRESSION_ALIASES[target_id],
+        )
+        if resolved is None:
+            raise ReconstructionError(
+                "Unable to resolve quality benchmark expression target: {}"
+                .format(target_id)
+            )
+        blink_targets.append(resolved)
+
+    optional_blink_ids = (
+        "blink_corrective_left",
+        "blink_corrective_right",
+        "lash_down_inner_left",
+        "lash_down_outer_left",
+        "lash_down_inner_right",
+        "lash_down_outer_right",
+    )
+    available_optional = []
+    missing_optional = []
+    for target_id in optional_blink_ids:
+        resolved = first_expression_alias(
+            expression_names,
+            EYELASH_EXPRESSION_ALIASES[target_id],
+        )
+        if resolved is None:
+            missing_optional.append(target_id)
+        else:
+            available_optional.append(resolved)
+            blink_targets.append(resolved)
+    return {
+        "blink_bilateral": blink_targets,
+        "blink_correction_mode": (
+            "base_plus_available_correctives"
+            if available_optional
+            else "base_profile_only"
+        ),
+        "available_optional_blink_targets": available_optional,
+        "missing_optional_blink_target_ids": missing_optional,
+        "jaw_open": teeth["jaw_open"],
+        "oral_reveal": teeth["oral_reveal"],
+        "smile": teeth["smile"],
+    }
+
+
+def _quality_benchmark_pose_specs(expression_names):
+    targets = resolve_quality_benchmark_targets(expression_names)
+
+    def uniform_weights(names, value):
+        return dict((name, float(value)) for name in names)
+
+    smile_weights = uniform_weights(targets["smile"], 0.8)
+    smile_weights[targets["jaw_open"]] = 0.18
+    jaw_weights = {targets["jaw_open"]: 0.55}
+    reveal_strengths = {
+        "upper_lip_raise_left": 0.25,
+        "upper_lip_raise_right": 0.25,
+        "lower_lip_depress_left": 0.35,
+        "lower_lip_depress_right": 0.35,
+        "stretch_left": 0.2,
+        "stretch_right": 0.2,
+    }
+    for target_id, expression_name in targets["oral_reveal"].items():
+        jaw_weights[expression_name] = reveal_strengths[target_id]
+    return {
+        "blink_bilateral_front": uniform_weights(
+            targets["blink_bilateral"], 1.0
+        ),
+        "smile_front": smile_weights,
+        "jaw_open_front": jaw_weights,
+    }, targets
+
+
+def profile_upgrade_pose_specs(expression_names):
+    targets = resolve_quality_benchmark_targets(expression_names)
+    support = {}
+    for target_id, aliases in NATURAL_SMILE_SUPPORT_ALIASES.items():
+        resolved = first_expression_alias(expression_names, aliases)
+        if resolved is not None:
+            support[target_id] = resolved
+
+    def smile_pose(smile, cheek, squint, jaw):
+        weights = dict(
+            (name, float(smile)) for name in targets["smile"]
+        )
+        for target_id in ("cheek_raise_left", "cheek_raise_right"):
+            if target_id in support:
+                weights[support[target_id]] = float(cheek)
+        for target_id in ("squint_inner_left", "squint_inner_right"):
+            if target_id in support:
+                weights[support[target_id]] = float(squint)
+        if jaw > 0.0:
+            weights[targets["jaw_open"]] = float(jaw)
+        return weights
+
+    jaw_weights = {targets["jaw_open"]: 0.55}
+    reveal_strengths = {
+        "upper_lip_raise_left": 0.25,
+        "upper_lip_raise_right": 0.25,
+        "lower_lip_depress_left": 0.35,
+        "lower_lip_depress_right": 0.35,
+        "stretch_left": 0.2,
+        "stretch_right": 0.2,
+    }
+    for target_id, expression_name in targets["oral_reveal"].items():
+        jaw_weights[expression_name] = reveal_strengths[target_id]
+
+    targets["natural_smile_support"] = support
+    return {
+        "blink_bilateral_front": dict(
+            (name, 1.0) for name in targets["blink_bilateral"]
+        ),
+        "smile_subtle_front": smile_pose(0.32, 0.12, 0.04, 0.0),
+        "smile_medium_front": smile_pose(0.52, 0.22, 0.08, 0.04),
+        "smile_broad_front": smile_pose(0.72, 0.32, 0.12, 0.10),
+        "jaw_open_front": jaw_weights,
+    }, targets
+
+
+def render_profile_upgrade_pose_matrix(
+    avatar,
+    output_dir,
+    mark_phase,
+    neutral_time,
+    face_position,
+):
+    face_component = avatar.GetFaceComponent()
+    if face_component is None:
+        raise ReconstructionError(
+            "Profile upgrade subject has no face component"
+        )
+    expression_names = list(face_component.GetExpressionNames("") or [])
+    pose_specs, targets = profile_upgrade_pose_specs(expression_names)
+    fps = RLPy.RGlobal.GetFps()
+    interval = RLPy.IndexedFrameTime(0, fps)
+    expression_index = dict(
+        (name, index) for index, name in enumerate(expression_names)
+    )
+    neutral_weights = [0.0] * len(expression_names)
+    checked(
+        "Begin profile upgrade initial neutral editing",
+        face_component.BeginKeyEditing(),
+    )
+    try:
+        checked(
+            "Write profile upgrade initial neutral key",
+            face_component.AddExpressionKeys(
+                neutral_time,
+                expression_names,
+                neutral_weights,
+                interval,
+            ),
+        )
+    finally:
+        checked(
+            "End profile upgrade initial neutral editing",
+            face_component.EndKeyEditing(),
+        )
+    checked(
+        "Evaluate profile upgrade initial neutral",
+        RLPy.RGlobal.SetTime(neutral_time, True),
+    )
+    set_avatar_position(
+        avatar,
+        position_x=face_position[0],
+        position_y=face_position[1],
+        position_z=face_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    neutral_eye_state, neutral_stabilization = (
+        capture_stable_neutral_eye_state(avatar)
+    )
+    report = {
+        "schema_version": 1,
+        "profile": "cc5_hd_tiered_natural_smile_v1",
+        "expression_set_uid": str(face_component.GetExpressionSetUid()),
+        "expression_count": len(expression_names),
+        "available_expression_names": expression_names,
+        "resolved_targets": targets,
+        "neutral_eye_capture_stabilization_before": neutral_stabilization,
+        "poses": [],
+    }
+    for pose_id, target_weights in pose_specs.items():
+        weights = list(neutral_weights)
+        for expression_name, weight in target_weights.items():
+            if expression_name not in expression_index:
+                raise ReconstructionError(
+                    "Profile upgrade expression disappeared: {}".format(
+                        expression_name
+                    )
+                )
+            weights[expression_index[expression_name]] = float(weight)
+        checked(
+            "Begin profile upgrade {} editing".format(pose_id),
+            face_component.BeginKeyEditing(),
+        )
+        try:
+            checked(
+                "Write profile upgrade {} key".format(pose_id),
+                face_component.AddExpressionKeys(
+                    neutral_time,
+                    expression_names,
+                    weights,
+                    interval,
+                ),
+            )
+        finally:
+            checked(
+                "End profile upgrade {} editing".format(pose_id),
+                face_component.EndKeyEditing(),
+            )
+        checked(
+            "Evaluate profile upgrade {}".format(pose_id),
+            RLPy.RGlobal.SetTime(neutral_time, True),
+        )
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, 90.0)
+        force_avatar_scene_evaluation(avatar)
+        image_path = os.path.join(output_dir, "{}.png".format(pose_id))
+        mark_phase("render_{}".format(pose_id))
+        render_preview(image_path, neutral_time)
+        evaluated_names = sorted(target_weights)
+        report["poses"].append(
+            {
+                "pose_id": pose_id,
+                "image": image_path,
+                "target_weights": dict(sorted(target_weights.items())),
+                "evaluated_expression_weights": dict(
+                    zip(
+                        evaluated_names,
+                        expression_weights_at(
+                            face_component,
+                            neutral_time,
+                            evaluated_names,
+                        ),
+                    )
+                ),
+                "capture": _quality_benchmark_file_record(image_path),
+            }
+        )
+
+    checked(
+        "Begin profile upgrade neutral restore editing",
+        face_component.BeginKeyEditing(),
+    )
+    try:
+        checked(
+            "Write profile upgrade neutral restore key",
+            face_component.AddExpressionKeys(
+                neutral_time,
+                expression_names,
+                neutral_weights,
+                interval,
+            ),
+        )
+    finally:
+        checked(
+            "End profile upgrade neutral restore editing",
+            face_component.EndKeyEditing(),
+        )
+    checked(
+        "Evaluate profile upgrade restored neutral",
+        RLPy.RGlobal.SetTime(neutral_time, True),
+    )
+    set_avatar_position(
+        avatar,
+        position_x=face_position[0],
+        position_y=face_position[1],
+        position_z=face_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    neutral_path = os.path.join(output_dir, "post_pose_neutral_front.png")
+    mark_phase("render_post_pose_neutral_front")
+    render_preview(neutral_path, neutral_time)
+    report["post_pose_neutral_capture"] = _quality_benchmark_file_record(
+        neutral_path
+    )
+    neutral_eye_after, neutral_stabilization_after = (
+        capture_stable_neutral_eye_state(avatar)
+    )
+    report["neutral_eye_capture_stabilization_after"] = (
+        neutral_stabilization_after
+    )
+    report["neutral_eye_integrity"] = compare_neutral_eye_states(
+        neutral_eye_state,
+        neutral_eye_after,
+        include_world=True,
+        include_runtime_ids=False,
+        t_pose_tolerance=0.5,
+    )
+    liveness = []
+    for pose in report["poses"]:
+        rmse = rendered_image_rmse(
+            pose["image"],
+            neutral_path,
+        )
+        liveness.append(
+            {
+                "pose_id": pose["pose_id"],
+                "rmse": rmse,
+                "matches": rmse >= FACE_EVIDENCE_MIN_RMSE,
+            }
+        )
+    report["evidence_liveness"] = {
+        "minimum_rmse": FACE_EVIDENCE_MIN_RMSE,
+        "poses": liveness,
+        "status": (
+            "passed"
+            if liveness and all(item["matches"] for item in liveness)
+            else "failed"
+        ),
+    }
+    report_path = os.path.join(output_dir, "facial_pose_validation.json")
+    write_json(report, report_path)
+    if not report["neutral_eye_integrity"]["matches"]:
+        raise ReconstructionError(
+            "Profile upgrade pose matrix changed neutral eye state"
+        )
+    if report["evidence_liveness"]["status"] != "passed":
+        raise ReconstructionError(
+            "Profile upgrade pose evidence did not differ from neutral"
+        )
+    return report
+
+
+def render_quality_benchmark_pose_matrix(
+    avatar,
+    artifacts,
+    mark_phase,
+    neutral_time,
+    expression_names,
+    pose_ids,
+    face_position,
+):
+    face_component = avatar.GetFaceComponent()
+    if face_component is None:
+        raise ReconstructionError(
+            "Quality benchmark character has no face component"
+        )
+    pose_specs, targets = _quality_benchmark_pose_specs(expression_names)
+    unknown_pose_ids = sorted(set(pose_ids) - set(pose_specs))
+    if unknown_pose_ids:
+        raise ReconstructionError(
+            "Unknown quality benchmark pose IDs: {}".format(
+                unknown_pose_ids
+            )
+        )
+    fps = RLPy.RGlobal.GetFps()
+    interval = RLPy.IndexedFrameTime(0, fps)
+    neutral_frame = int(fps.GetFrameIndex(neutral_time))
+    neutral_weights = [0.0] * len(expression_names)
+    expression_index = dict(
+        (name, index) for index, name in enumerate(expression_names)
+    )
+    neutral_eye_state, neutral_eye_stabilization = (
+        capture_stable_neutral_eye_state(avatar)
+    )
+    report = {
+        "schema_version": 1,
+        "profile": "matched_condition_existing_face_clip_v1",
+        "available_expression_names": list(expression_names),
+        "expression_count": len(expression_names),
+        "resolved_targets": targets,
+        "neutral_eye_capture_stabilization_before": (
+            neutral_eye_stabilization
+        ),
+        "neutral_frame": neutral_frame,
+        "poses": [],
+    }
+    pose_artifact_keys = {
+        "blink_bilateral_front": "face_blink_bilateral_preview",
+        "smile_front": "face_smile_preview",
+        "jaw_open_front": "face_jaw_open_preview",
+    }
+    for pose_id in pose_ids:
+        pose_frame = neutral_frame
+        pose_time = neutral_time
+        weights = list(neutral_weights)
+        target_weights = pose_specs[pose_id]
+        for expression_name, weight in target_weights.items():
+            if expression_name not in expression_index:
+                raise ReconstructionError(
+                    "Quality benchmark expression disappeared: {}".format(
+                        expression_name
+                    )
+                )
+            weights[expression_index[expression_name]] = float(weight)
+        checked(
+            "Begin quality benchmark {} editing".format(pose_id),
+            face_component.BeginKeyEditing(),
+        )
+        try:
+            checked(
+                "Write quality benchmark {} key".format(pose_id),
+                face_component.AddExpressionKeys(
+                    pose_time,
+                    expression_names,
+                    weights,
+                    interval,
+                ),
+            )
+        finally:
+            checked(
+                "End quality benchmark {} editing".format(pose_id),
+                face_component.EndKeyEditing(),
+            )
+        checked(
+            "Evaluate quality benchmark {}".format(pose_id),
+            RLPy.RGlobal.SetTime(pose_time, True),
+        )
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, 90.0)
+        force_avatar_scene_evaluation(avatar)
+        image_path = artifacts[pose_artifact_keys[pose_id]]
+        mark_phase("render_quality_benchmark_{}".format(pose_id))
+        render_preview(image_path, pose_time)
+        evaluated_names = sorted(target_weights)
+        report["poses"].append(
+            {
+                "pose_id": pose_id,
+                "frame": pose_frame,
+                "image": image_path,
+                "target_weights": dict(sorted(target_weights.items())),
+                "evaluated_expression_weights": dict(
+                    zip(
+                        evaluated_names,
+                        expression_weights_at(
+                            face_component,
+                            pose_time,
+                            evaluated_names,
+                        ),
+                    )
+                ),
+                "capture": _quality_benchmark_file_record(image_path),
+            }
+        )
+
+    post_neutral_frame = neutral_frame
+    post_neutral_time = neutral_time
+    checked(
+        "Begin quality benchmark neutral restore editing",
+        face_component.BeginKeyEditing(),
+    )
+    try:
+        checked(
+            "Write quality benchmark neutral restore key",
+            face_component.AddExpressionKeys(
+                post_neutral_time,
+                expression_names,
+                neutral_weights,
+                interval,
+            ),
+        )
+    finally:
+        checked(
+            "End quality benchmark neutral restore editing",
+            face_component.EndKeyEditing(),
+        )
+    checked(
+        "Evaluate quality benchmark restored neutral",
+        RLPy.RGlobal.SetTime(post_neutral_time, True),
+    )
+    set_avatar_position(
+        avatar,
+        position_x=face_position[0],
+        position_y=face_position[1],
+        position_z=face_position[2],
+    )
+    set_avatar_yaw(avatar, 90.0)
+    force_avatar_scene_evaluation(avatar)
+    mark_phase("render_quality_benchmark_post_pose_neutral")
+    render_preview(
+        artifacts["face_post_pose_neutral_preview"],
+        post_neutral_time,
+    )
+    report["post_pose_neutral_frame"] = post_neutral_frame
+    report["post_pose_neutral_image"] = artifacts[
+        "face_post_pose_neutral_preview"
+    ]
+    report["post_pose_neutral_capture"] = (
+        _quality_benchmark_file_record(
+            artifacts["face_post_pose_neutral_preview"]
+        )
+    )
+    neutral_eye_state_after, neutral_eye_stabilization_after = (
+        capture_stable_neutral_eye_state(avatar)
+    )
+    report["neutral_eye_capture_stabilization_after"] = (
+        neutral_eye_stabilization_after
+    )
+    report["neutral_eye_integrity"] = compare_neutral_eye_states(
+        neutral_eye_state,
+        neutral_eye_state_after,
+        include_world=True,
+        include_runtime_ids=False,
+        t_pose_tolerance=0.5,
+    )
+    if not report["neutral_eye_integrity"]["matches"]:
+        write_json(report, artifacts["facial_pose_validation"])
+        raise ReconstructionError(
+            "Quality benchmark pose matrix changed neutral eye state"
+        )
+    liveness_records = []
+    for pose_record in report["poses"]:
+        rmse = rendered_image_rmse(
+            pose_record["image"],
+            report["post_pose_neutral_image"],
+        )
+        liveness_records.append(
+            {
+                "pose_id": pose_record["pose_id"],
+                "rmse": rmse,
+                "matches": rmse >= FACE_EVIDENCE_MIN_RMSE,
+            }
+        )
+    report["evidence_liveness"] = {
+        "minimum_rmse": FACE_EVIDENCE_MIN_RMSE,
+        "poses": liveness_records,
+        "reference_image": report["post_pose_neutral_image"],
+        "status": (
+            "passed"
+            if liveness_records
+            and all(item["matches"] for item in liveness_records)
+            else "failed"
+        ),
+    }
+    write_json(report, artifacts["facial_pose_validation"])
+    if report["evidence_liveness"]["status"] != "passed":
+        raise ReconstructionError(
+            "Quality benchmark expression evidence did not differ from neutral"
+        )
+    return report
+
+
+def probe_character_quality_benchmark(library, output_dir, log):
+    os.makedirs(output_dir, exist_ok=True)
+    benchmark = library.get("quality_benchmark") or {}
+    if not isinstance(benchmark, dict):
+        raise ReconstructionError("quality_benchmark must be an object")
+    subject = benchmark.get("subject") or {}
+    if not isinstance(subject, dict):
+        raise ReconstructionError("quality_benchmark.subject must be an object")
+    subject_id = subject.get("id")
+    if (
+        not isinstance(subject_id, str)
+        or not subject_id
+        or any(
+            char not in "abcdefghijklmnopqrstuvwxyz0123456789_-"
+            for char in subject_id
+        )
+    ):
+        raise ReconstructionError(
+            "quality_benchmark.subject.id must be a lowercase file-safe ID"
+        )
+    source_project = canonical_existing_file(
+        subject.get("source_project"),
+        "Quality benchmark source project",
+    )
+    camera_path = canonical_existing_file(
+        benchmark.get("face_camera"),
+        "Quality benchmark face camera",
+    )
+    lightroom_path = canonical_existing_file(
+        benchmark.get("preview_lightroom"),
+        "Quality benchmark Lightroom",
+    )
+    face_position = _quality_benchmark_position(
+        benchmark.get("face_position", [0.0, 8.0, 6.0]),
+        "quality_benchmark.face_position",
+    )
+    full_body_position = _quality_benchmark_position(
+        benchmark.get("full_body_position", [-600.0, 8.0, 75.0]),
+        "quality_benchmark.full_body_position",
+    )
+    pose_ids = benchmark.get(
+        "pose_ids",
+        ["blink_bilateral_front", "smile_front", "jaw_open_front"],
+    )
+    if (
+        not isinstance(pose_ids, list)
+        or not pose_ids
+        or any(not isinstance(item, str) or not item for item in pose_ids)
+    ):
+        raise ReconstructionError(
+            "quality_benchmark.pose_ids must be a non-empty string list"
+        )
+    load_settle_seconds = float(subject.get("load_settle_seconds", 12.0))
+    if load_settle_seconds < 0.0 or load_settle_seconds > 120.0:
+        raise ReconstructionError(
+            "quality_benchmark load_settle_seconds must be from 0 to 120"
+        )
+
+    subject_dir = os.path.join(output_dir, subject_id)
+    os.makedirs(subject_dir, exist_ok=False)
+    artifacts = character_quality_benchmark_artifacts(subject_dir)
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(output_dir, "subject_benchmark.json")
+    snapshot_path = os.path.join(
+        subject_dir, "_quality_benchmark_scene_snapshot.ccProject"
+    )
+    started_at = now()
+
+    def mark_phase(phase, details=None):
+        payload = {
+            "schema_version": 1,
+            "updated_at": now(),
+            "diagnostic_mode": "character_quality_benchmark",
+            "subject_id": subject_id,
+            "phase": phase,
+        }
+        if details:
+            payload["details"] = details
+        write_json(payload, progress_path)
+        log("Quality benchmark {}: {}".format(subject_id, phase))
+        QtWidgets.QApplication.processEvents()
+
+    report = {
+        "schema_version": 1,
+        "diagnostic_mode": "character_quality_benchmark",
+        "benchmark_strategy": "snapshot_existing_face_clip_v4",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "success": False,
+        "conditions": {
+            "preview_capture_mode": PREVIEW_CAPTURE_MODE,
+            "preview_resolution": [
+                VIEWPORT_PREVIEW_WIDTH,
+                VIEWPORT_PREVIEW_HEIGHT,
+            ],
+            "face_camera": camera_path,
+            "preview_lightroom": lightroom_path,
+            "face_position": face_position,
+            "full_body_position": full_body_position,
+            "static_views": {
+                "neutral_front": {"yaw": 90.0, "y_offset": 8.0},
+                "neutral_three_quarter": {"yaw": 45.0, "y_offset": 4.0},
+                "neutral_profile": {"yaw": 0.0, "y_offset": 0.0},
+                "full_body_front": {"yaw": 90.0, "y_offset": 8.0},
+            },
+            "pose_ids": list(pose_ids),
+            "source_motion_policy": (
+                "snapshot_then_clear_body_motion_and_edit_existing_face_clip"
+            ),
+        },
+        "source_project": _quality_benchmark_file_record(source_project),
+        "progress_path": progress_path,
+        "summary_path": report_path,
+        "restoration": {
+            "attempted": False,
+            "restored": False,
+            "snapshot_deleted": False,
+        },
+    }
+    write_json(report, report_path)
+
+    mark_phase("load_source_project", {"path": source_project})
+    load_status, load_dialogs = load_file_with_optional_undo_warning(
+        source_project,
+        "Load quality benchmark source {}".format(subject_id),
+    )
+    settle_cc_ui(load_settle_seconds)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Quality benchmark expected one avatar for {}, found {}".format(
+                subject_id, len(avatars)
+            )
+        )
+    RLPy.RScene.SelectObject(avatar)
+    checked(
+        "Evaluate quality benchmark project start",
+        RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+    )
+    report["source_load"] = {
+        "status": load_status,
+        "dialogs": load_dialogs,
+        "settle_seconds": load_settle_seconds,
+    }
+    report["source_state"] = {
+        "bounds": capture_bounds(avatar),
+        "motion_inventory": avatar_motion_inventory(avatar),
+        "eye_state": capture_eye_integrity_state(avatar),
+    }
+
+    mark_phase("load_standard_lightroom")
+    checked(
+        "Load quality benchmark Lightroom",
+        RLPy.RFileIO.LoadFile(lightroom_path),
+    )
+    settle_cc_ui(1.0)
+    mark_phase("load_standard_camera")
+    checked(
+        "Load quality benchmark camera",
+        RLPy.RFileIO.LoadFile(camera_path),
+    )
+    settle_cc_ui(1.0)
+    if RLPy.RScene.GetCurrentCamera() is None:
+        raise ReconstructionError("Quality benchmark has no active camera")
+    report["camera"] = camera_state(RLPy.RScene.GetCurrentCamera())
+    movable_lights, skipped_lights, light_query_errors = (
+        quality_benchmark_movable_lights()
+    )
+    if not movable_lights:
+        raise ReconstructionError(
+            "Quality benchmark found no movable Lightroom lights: {}"
+            .format(light_query_errors + skipped_lights)
+        )
+    report["lighting"] = {
+        "policy": "translate_movable_lights_with_full_body_subject",
+        "movable_lights": [
+            dict(
+                (key, value)
+                for key, value in item.items()
+                if key != "object"
+            )
+            for item in movable_lights
+        ],
+        "skipped_lights": skipped_lights,
+        "query_errors": light_query_errors,
+    }
+
+    snapshot_saved = False
+    work_finished_at = None
+    try:
+        mark_phase("save_quality_benchmark_snapshot")
+        checked(
+            "Save quality benchmark scene snapshot",
+            RLPy.RFileIO.SaveProject(snapshot_path),
+        )
+        snapshot_stat = wait_for_rendered_preview(
+            snapshot_path,
+            timeout_seconds=600.0,
+            stable_seconds=2.0,
+        )
+        snapshot_saved = True
+        report["snapshot"] = {
+            "path": snapshot_path,
+            "bytes": snapshot_stat,
+            "saved": True,
+        }
+
+        mark_phase("clear_body_motion_preserve_existing_face_clip")
+        face_component = avatar.GetFaceComponent()
+        if face_component is None:
+            raise ReconstructionError(
+                "Quality benchmark subject has no Facial Profile"
+            )
+        project_start_time = RLPy.RGlobal.GetStartTime()
+        baseline_face_clip_count = int(face_component.GetClipCount())
+        if baseline_face_clip_count < 1:
+            raise ReconstructionError(
+                "Quality benchmark requires an existing face clip"
+            )
+        baseline_face_clip = face_component.GetClipByTime(
+            project_start_time
+        )
+        if baseline_face_clip is None or not baseline_face_clip.IsValid():
+            raise ReconstructionError(
+                "Quality benchmark has no face clip at the project start"
+            )
+        motion_cleanup = clear_avatar_skeleton_motion(avatar)
+        expression_names = list(
+            face_component.GetExpressionNames("") or []
+        )
+        if not expression_names:
+            raise ReconstructionError(
+                "Quality benchmark subject has no facial expressions"
+        )
+        fps = RLPy.RGlobal.GetFps()
+        project_start_frame = int(fps.GetFrameIndex(project_start_time))
+        neutral_time = project_start_time
+        checked(
+            "Begin quality benchmark neutral key editing",
+            face_component.BeginKeyEditing(),
+        )
+        try:
+            checked(
+                "Write quality benchmark neutral expression key",
+                face_component.AddExpressionKeys(
+                    neutral_time,
+                    expression_names,
+                    [0.0] * len(expression_names),
+                    RLPy.IndexedFrameTime(0, fps),
+                ),
+            )
+        finally:
+            checked(
+                "End quality benchmark neutral key editing",
+                face_component.EndKeyEditing(),
+            )
+        checked(
+            "Evaluate quality benchmark neutral frame",
+            RLPy.RGlobal.SetTime(neutral_time, True),
+        )
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, 90.0)
+        force_avatar_scene_evaluation(avatar)
+
+        mark_phase("capture_subject_inventory")
+        standardized_bounds = capture_bounds(avatar)
+        report["subject"] = {
+            "avatar": {
+                "id": scene_object_id(avatar),
+                "name": scene_object_name(avatar),
+                "python_type": type(avatar).__name__,
+            },
+            "bounds": standardized_bounds,
+            "height_cm": bodyfit_height_cm(standardized_bounds),
+            "asset_inventory": avatar_asset_inventory(avatar),
+            "avatar_part_inventory": avatar_part_inventory(avatar),
+            "source_motion_cleanup": motion_cleanup,
+            "motion_inventory": avatar_motion_inventory(avatar),
+            "facial_profile": {
+                "expression_count": len(expression_names),
+                "expression_clip_count": int(face_component.GetClipCount()),
+                "baseline_expression_clip_count": (
+                    baseline_face_clip_count
+                ),
+                "capture_frame": project_start_frame,
+                "clip_policy": "edit_existing_clip_then_restore_snapshot",
+                "expression_set_uid": str(
+                    face_component.GetExpressionSetUid()
+                ),
+            },
+            "material_fingerprint": avatar_material_fingerprint(avatar),
+            "material_structure": avatar_material_structure(avatar),
+            "neutral_eye_state": capture_eye_integrity_state(avatar),
+        }
+        write_json(report, report_path)
+
+        report["static_captures"] = {}
+        static_specs = (
+            ("neutral_front", 90.0, 8.0),
+            ("neutral_three_quarter", 45.0, 4.0),
+            ("neutral_profile", 0.0, 0.0),
+        )
+        for capture_id, yaw_degrees, canonical_y in static_specs:
+            view_y = face_position[1] + canonical_y - 8.0
+            set_avatar_position(
+                avatar,
+                position_x=face_position[0],
+                position_y=view_y,
+                position_z=face_position[2],
+            )
+            set_avatar_yaw(avatar, yaw_degrees)
+            force_avatar_scene_evaluation(avatar)
+            mark_phase("render_{}".format(capture_id))
+            render_preview(artifacts[capture_id], neutral_time)
+            report["static_captures"][capture_id] = (
+                _quality_benchmark_file_record(artifacts[capture_id])
+            )
+
+        full_body_light_offset = {
+            "x": full_body_position[0] - face_position[0],
+            "y": full_body_position[1] - face_position[1],
+            "z": full_body_position[2] - face_position[2],
+        }
+        report["lighting"]["full_body_light_offset"] = (
+            full_body_light_offset
+        )
+        try:
+            set_avatar_position(
+                avatar,
+                position_x=full_body_position[0],
+                position_y=full_body_position[1],
+                position_z=full_body_position[2],
+            )
+            set_quality_benchmark_light_offset(
+                movable_lights, full_body_light_offset
+            )
+            set_avatar_yaw(avatar, 90.0)
+            force_avatar_scene_evaluation(avatar)
+            mark_phase("render_full_body_front")
+            render_preview(artifacts["full_body_front"], neutral_time)
+            report["static_captures"]["full_body_front"] = (
+                _quality_benchmark_file_record(
+                    artifacts["full_body_front"]
+                )
+            )
+        finally:
+            set_quality_benchmark_light_offset(
+                movable_lights, {"x": 0.0, "y": 0.0, "z": 0.0}
+            )
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, 90.0)
+        force_avatar_scene_evaluation(avatar)
+        write_json(report, report_path)
+
+        mark_phase("render_expression_matrix")
+        pose_report = render_quality_benchmark_pose_matrix(
+            avatar,
+            artifacts,
+            mark_phase,
+            neutral_time,
+            expression_names,
+            pose_ids,
+            face_position,
+        )
+        report["facial_pose_validation"] = {
+            "path": artifacts["facial_pose_validation"],
+            "pose_count": len(pose_report.get("poses") or []),
+            "neutral_eye_integrity": pose_report.get(
+                "neutral_eye_integrity"
+            ),
+            "evidence_liveness": pose_report.get("evidence_liveness"),
+        }
+        report["dynamic_captures"] = {}
+        for pose in pose_report.get("poses") or []:
+            report["dynamic_captures"][pose["pose_id"]] = pose[
+                "capture"
+            ]
+        report["dynamic_captures"]["post_pose_neutral_front"] = (
+            pose_report["post_pose_neutral_capture"]
+        )
+        work_finished_at = now()
+        write_json(report, report_path)
+    finally:
+        if snapshot_saved:
+            report["restoration"]["attempted"] = True
+            mark_phase("restore_quality_benchmark_snapshot")
+            unused_status, restore_dialogs = (
+                load_file_with_optional_undo_warning(
+                    snapshot_path,
+                    "Restore quality benchmark scene snapshot",
+                )
+            )
+            settle_cc_ui(2.0)
+            restored_avatar, restored_avatars = resolve_avatar()
+            if len(restored_avatars) != 1:
+                raise ReconstructionError(
+                    "Quality benchmark snapshot restore expected one avatar"
+                )
+            force_avatar_scene_evaluation(restored_avatar)
+            restored_eye_state = capture_eye_integrity_state(
+                restored_avatar
+            )
+            restoration_eye_integrity = compare_neutral_eye_states(
+                report["source_state"]["eye_state"],
+                restored_eye_state,
+                include_world=True,
+                include_runtime_ids=False,
+                t_pose_tolerance=0.5,
+            )
+            report["restoration"].update(
+                {
+                    "restored": True,
+                    "dialogs": restore_dialogs,
+                    "eye_integrity": restoration_eye_integrity,
+                }
+            )
+            try:
+                os.remove(snapshot_path)
+            except OSError as exc:
+                report["restoration"]["snapshot_cleanup_error"] = str(exc)
+            else:
+                report["restoration"]["snapshot_deleted"] = True
+            write_json(report, report_path)
+
+    if not report["restoration"].get("restored"):
+        raise ReconstructionError(
+            "Quality benchmark did not restore the source snapshot"
+        )
+    if not report["restoration"]["eye_integrity"]["matches"]:
+        raise ReconstructionError(
+            "Quality benchmark snapshot changed source eye state"
+        )
+    report["finished_at"] = work_finished_at or now()
+    report["success"] = True
+    write_json(report, report_path)
+    mark_phase("complete")
+    capture_count = len(report["static_captures"]) + len(
+        report["dynamic_captures"]
+    )
+    validation_summary_path = os.path.join(
+        output_dir, "validation_result.json"
+    )
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "diagnostic_mode": "character_quality_benchmark",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "finished_at": report["finished_at"],
+        "requested_count": capture_count,
+        "success_count": capture_count,
+        "failure_count": 0,
+        "success": True,
+        "subject_benchmark_path": report_path,
+        "summary_path": validation_summary_path,
+        "scene_policy": "leave_restored_subject_loaded",
+    }
+    write_json(summary, validation_summary_path)
+    return summary
+
+
+def probe_facial_profile_upgrade(library, output_dir, log):
+    os.makedirs(output_dir, exist_ok=True)
+    config = library.get("facial_profile_upgrade") or {}
+    if not isinstance(config, dict):
+        raise ReconstructionError("facial_profile_upgrade must be an object")
+    subject = config.get("subject") or {}
+    if not isinstance(subject, dict):
+        raise ReconstructionError(
+            "facial_profile_upgrade.subject must be an object"
+        )
+    subject_id = subject.get("id")
+    if (
+        not isinstance(subject_id, str)
+        or not subject_id
+        or any(
+            char not in "abcdefghijklmnopqrstuvwxyz0123456789_-"
+            for char in subject_id
+        )
+    ):
+        raise ReconstructionError(
+            "Facial Profile upgrade subject.id must be lowercase file-safe"
+        )
+    source_project = canonical_existing_file(
+        subject.get("source_project"),
+        "Facial Profile upgrade source project",
+    )
+    target_profile = canonical_existing_file(
+        config.get("target_facial_profile"),
+        "Facial Profile upgrade target",
+    )
+    require_file_extension(
+        target_profile,
+        ".ccFacialProfile",
+        "Facial Profile upgrade target",
+    )
+    camera_path = canonical_existing_file(
+        config.get("face_camera"),
+        "Facial Profile upgrade camera",
+    )
+    lightroom_path = canonical_existing_file(
+        config.get("preview_lightroom"),
+        "Facial Profile upgrade Lightroom",
+    )
+    baseline_neutral = canonical_existing_file(
+        config.get("baseline_neutral_image"),
+        "Facial Profile upgrade baseline neutral image",
+    )
+    face_position = _quality_benchmark_position(
+        config.get("face_position", [0.0, 8.0, 6.0]),
+        "facial_profile_upgrade.face_position",
+    )
+    load_settle_seconds = float(subject.get("load_settle_seconds", 20.0))
+    profile_settle_seconds = float(config.get("profile_settle_seconds", 20.0))
+    expected_min_expression_count = int(
+        config.get("expected_min_expression_count", 300)
+    )
+    expected_uid_term = str(config.get("expected_uid_term", "CC5")).lower()
+    subject_dir = os.path.join(output_dir, subject_id)
+    os.makedirs(subject_dir, exist_ok=False)
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(output_dir, "profile_upgrade_report.json")
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    source_profile_path = os.path.join(
+        subject_dir, "source_cc4_extended.ccFacialProfile"
+    )
+    upgraded_profile_path = os.path.join(
+        subject_dir, "derived_cc5_hd.ccFacialProfile"
+    )
+    derived_project_path = os.path.join(
+        subject_dir, "{}_cc5_hd_inspection_v001.ccProject".format(subject_id)
+    )
+    neutral_three_quarter_path = os.path.join(
+        subject_dir, "neutral_three_quarter.png"
+    )
+    started_at = now()
+
+    def mark_phase(phase, details=None):
+        payload = {
+            "schema_version": 1,
+            "diagnostic_mode": "facial_profile_upgrade",
+            "subject_id": subject_id,
+            "updated_at": now(),
+            "phase": phase,
+        }
+        if details:
+            payload["details"] = details
+        write_json(payload, progress_path)
+        log("Facial Profile upgrade {}: {}".format(subject_id, phase))
+        QtWidgets.QApplication.processEvents()
+
+    source_project_record = _quality_benchmark_file_record(source_project)
+    target_profile_record = _quality_benchmark_file_record(target_profile)
+    report = {
+        "schema_version": 1,
+        "diagnostic_mode": "facial_profile_upgrade",
+        "upgrade_mode": "derived_direct_hd_profile_load_with_source_profile_sidecar_v1",
+        "conversion_api_available": False,
+        "subject_id": subject_id,
+        "sex": subject.get("sex"),
+        "started_at": started_at,
+        "success": False,
+        "source_project": source_project_record,
+        "target_facial_profile": target_profile_record,
+        "baseline_neutral_image": _quality_benchmark_file_record(
+            baseline_neutral
+        ),
+        "artifacts": {
+            "source_facial_profile": source_profile_path,
+            "derived_facial_profile": upgraded_profile_path,
+            "derived_project": derived_project_path,
+            "pose_validation": os.path.join(
+                subject_dir, "facial_pose_validation.json"
+            ),
+        },
+        "restoration": {
+            "attempted": False,
+            "derived_project_reloaded": False,
+        },
+    }
+    write_json(report, report_path)
+    derived_saved = False
+    finished_at = None
+    try:
+        mark_phase("load_source_project", {"path": source_project})
+        load_status, load_dialogs = load_file_with_optional_undo_warning(
+            source_project,
+            "Load Facial Profile upgrade source {}".format(subject_id),
+        )
+        settle_cc_ui(load_settle_seconds)
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "Facial Profile upgrade expected one source avatar"
+            )
+        RLPy.RScene.SelectObject(avatar)
+        checked(
+            "Evaluate Facial Profile upgrade source start",
+            RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+        )
+        force_avatar_scene_evaluation(avatar)
+        face_component = avatar.GetFaceComponent()
+        profile_component = avatar.GetFacialProfileComponent()
+        if face_component is None or profile_component is None:
+            raise ReconstructionError(
+                "Facial Profile upgrade source has no facial components"
+            )
+        source_avatar_id = scene_object_id(avatar)
+        source_expression_names = list(
+            face_component.GetExpressionNames("") or []
+        )
+        before_vectors = capture_vectors(avatar)
+        before_eye = capture_eye_integrity_state(avatar)
+        before_material = avatar_material_fingerprint(avatar)
+        before_bounds = capture_bounds(avatar)
+        report["source_load"] = {
+            "status": load_status,
+            "dialogs": load_dialogs,
+            "settle_seconds": load_settle_seconds,
+        }
+        report["before"] = {
+            "avatar_id": source_avatar_id,
+            "expression_set_uid": str(face_component.GetExpressionSetUid()),
+            "expression_count": len(source_expression_names),
+            "profile_type": str(profile_component.GetProfileType()),
+            "bounds": before_bounds,
+            "eye_state": before_eye,
+            "material_fingerprint": before_material,
+        }
+
+        mark_phase("save_source_facial_profile_sidecar")
+        checked(
+            "Save source Facial Profile sidecar",
+            profile_component.SaveProfile(source_profile_path),
+        )
+        wait_for_rendered_preview(
+            source_profile_path,
+            timeout_seconds=300.0,
+            stable_seconds=2.0,
+        )
+        report["source_facial_profile_sidecar"] = (
+            _quality_benchmark_file_record(source_profile_path)
+        )
+
+        mark_phase("load_target_cc5_hd_facial_profile")
+        checked(
+            "Load target CC5 HD Facial Profile",
+            profile_component.LoadProfile(target_profile),
+        )
+        settle_cc_ui(profile_settle_seconds)
+        upgraded_avatar, upgraded_avatars = resolve_avatar()
+        if len(upgraded_avatars) != 1:
+            raise ReconstructionError(
+                "Facial Profile upgrade expected one upgraded avatar"
+            )
+        if scene_object_id(upgraded_avatar) != source_avatar_id:
+            raise ReconstructionError(
+                "Loading CC5 HD Facial Profile replaced the avatar object"
+            )
+        avatar = upgraded_avatar
+        RLPy.RScene.SelectObject(avatar)
+        force_avatar_scene_evaluation(avatar)
+        face_component = avatar.GetFaceComponent()
+        profile_component = avatar.GetFacialProfileComponent()
+        upgraded_expression_names = list(
+            face_component.GetExpressionNames("") or []
+        )
+        after_vectors = capture_vectors(avatar)
+        after_eye = capture_eye_integrity_state(avatar)
+        after_material = avatar_material_fingerprint(avatar)
+        after_bounds = capture_bounds(avatar)
+        morph_delta = {
+            classification: group_delta(
+                before_vectors["groups"][classification]["entries"],
+                after_vectors["groups"][classification]["entries"],
+            )
+            for classification in ("body", "junction", "face", "other")
+        }
+        morphs_unchanged = not any(morph_delta.values())
+        eye_structure_unchanged = (
+            eye_integrity_structure_signature(before_eye)
+            == eye_integrity_structure_signature(after_eye)
+        )
+        material_unchanged = (
+            before_material["digest"] == after_material["digest"]
+        )
+        bounds_max_abs_delta = max(
+            abs(float(before_value) - float(after_value))
+            for key in ("minimum", "maximum", "center")
+            for before_value, after_value in zip(
+                before_bounds[key], after_bounds[key]
+            )
+        )
+        bounds_unchanged = bounds_max_abs_delta <= 0.01
+        upgraded_uid = str(face_component.GetExpressionSetUid())
+        profile_gate = bool(
+            expected_uid_term in upgraded_uid.lower()
+            and len(upgraded_expression_names)
+            >= expected_min_expression_count
+        )
+        report["after"] = {
+            "avatar_id": scene_object_id(avatar),
+            "expression_set_uid": upgraded_uid,
+            "expression_count": len(upgraded_expression_names),
+            "profile_type": str(profile_component.GetProfileType()),
+            "bounds": after_bounds,
+            "eye_state": after_eye,
+            "material_fingerprint": after_material,
+        }
+        report["identity_preservation"] = {
+            "morph_delta": morph_delta,
+            "morphs_unchanged": morphs_unchanged,
+            "eye_structure_unchanged": eye_structure_unchanged,
+            "material_unchanged": material_unchanged,
+            "bounds_unchanged": bounds_unchanged,
+            "bounds_max_abs_delta": bounds_max_abs_delta,
+        }
+        report["profile_gate"] = {
+            "expected_uid_term": expected_uid_term,
+            "expected_min_expression_count": expected_min_expression_count,
+            "matches": profile_gate,
+        }
+        write_json(report, report_path)
+        if not morphs_unchanged:
+            raise ReconstructionError(
+                "CC5 HD Facial Profile load changed static Morph weights"
+            )
+        if not eye_structure_unchanged:
+            raise ReconstructionError(
+                "CC5 HD Facial Profile load changed eye object structure"
+            )
+        if not material_unchanged:
+            raise ReconstructionError(
+                "CC5 HD Facial Profile load changed material assignments"
+            )
+        if not profile_gate:
+            raise ReconstructionError(
+                "Loaded Facial Profile did not satisfy the CC5 HD gate"
+            )
+
+        mark_phase("save_derived_cc5_hd_facial_profile")
+        checked(
+            "Save derived CC5 HD Facial Profile",
+            profile_component.SaveProfile(upgraded_profile_path),
+        )
+        wait_for_rendered_preview(
+            upgraded_profile_path,
+            timeout_seconds=300.0,
+            stable_seconds=2.0,
+        )
+        report["derived_facial_profile"] = (
+            _quality_benchmark_file_record(upgraded_profile_path)
+        )
+
+        mark_phase("save_derived_cc5_hd_project")
+        checked(
+            "Save derived CC5 HD inspection project",
+            RLPy.RFileIO.SaveProject(derived_project_path),
+        )
+        wait_for_rendered_preview(
+            derived_project_path,
+            timeout_seconds=600.0,
+            stable_seconds=2.0,
+        )
+        derived_saved = True
+        report["derived_project"] = _quality_benchmark_file_record(
+            derived_project_path
+        )
+        write_json(report, report_path)
+
+        mark_phase("load_standard_lightroom")
+        checked(
+            "Load Facial Profile upgrade Lightroom",
+            RLPy.RFileIO.LoadFile(lightroom_path),
+        )
+        settle_cc_ui(1.0)
+        mark_phase("load_standard_camera")
+        checked(
+            "Load Facial Profile upgrade camera",
+            RLPy.RFileIO.LoadFile(camera_path),
+        )
+        settle_cc_ui(1.0)
+        neutral_time = RLPy.RGlobal.GetStartTime()
+        mark_phase("render_tiered_pose_matrix")
+        pose_report = render_profile_upgrade_pose_matrix(
+            avatar,
+            subject_dir,
+            mark_phase,
+            neutral_time,
+            face_position,
+        )
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1] - 4.0,
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, 45.0)
+        force_avatar_scene_evaluation(avatar)
+        mark_phase("render_neutral_three_quarter")
+        render_preview(neutral_three_quarter_path, neutral_time)
+        upgraded_neutral = pose_report["post_pose_neutral_capture"]["path"]
+        report["visual_evidence"] = {
+            "neutral_front": pose_report["post_pose_neutral_capture"],
+            "neutral_three_quarter": _quality_benchmark_file_record(
+                neutral_three_quarter_path
+            ),
+            "baseline_neutral_rmse": rendered_image_rmse(
+                baseline_neutral,
+                upgraded_neutral,
+            ),
+            "pose_validation": report["artifacts"]["pose_validation"],
+            "natural_smile_visual_status": "pending_user_review",
+        }
+        report["pose_gate"] = {
+            "neutral_eye_integrity": pose_report["neutral_eye_integrity"],
+            "evidence_liveness": pose_report["evidence_liveness"],
+            "pose_count": len(pose_report["poses"]),
+            "matches": bool(
+                pose_report["neutral_eye_integrity"]["matches"]
+                and pose_report["evidence_liveness"]["status"] == "passed"
+            ),
+        }
+        finished_at = now()
+        write_json(report, report_path)
+    finally:
+        report["restoration"]["attempted"] = True
+        restore_path = derived_project_path if derived_saved else source_project
+        report["restoration"]["path"] = restore_path
+        mark_phase("reload_saved_project", {"path": restore_path})
+        restore_status, restore_dialogs = load_file_with_optional_undo_warning(
+            restore_path,
+            "Reload Facial Profile upgrade saved project",
+        )
+        settle_cc_ui(3.0)
+        restored_avatar, restored_avatars = resolve_avatar()
+        if len(restored_avatars) != 1:
+            raise ReconstructionError(
+                "Facial Profile upgrade restore expected one avatar"
+            )
+        restored_face = restored_avatar.GetFaceComponent()
+        restored_names = list(restored_face.GetExpressionNames("") or [])
+        restored_uid = str(restored_face.GetExpressionSetUid())
+        expected_uid = (
+            report.get("after", {}).get("expression_set_uid")
+            if derived_saved
+            else report.get("before", {}).get("expression_set_uid")
+        )
+        report["restoration"].update(
+            {
+                "status": restore_status,
+                "dialogs": restore_dialogs,
+                "derived_project_reloaded": derived_saved,
+                "expression_set_uid": restored_uid,
+                "expression_count": len(restored_names),
+                "profile_persisted": restored_uid == expected_uid,
+            }
+        )
+        report["source_project_after"] = _quality_benchmark_file_record(
+            source_project
+        )
+        report["source_project_unchanged"] = bool(
+            report["source_project_after"]["sha256"]
+            == source_project_record["sha256"]
+        )
+        write_json(report, report_path)
+
+    if not report["restoration"].get("profile_persisted"):
+        raise ReconstructionError(
+            "Derived Facial Profile did not persist after project reload"
+        )
+    if not report.get("source_project_unchanged"):
+        raise ReconstructionError("Source Headshot project hash changed")
+    if not report.get("pose_gate", {}).get("matches"):
+        raise ReconstructionError("Facial Profile upgrade pose gate failed")
+    report["finished_at"] = finished_at or now()
+    report["success"] = True
+    write_json(report, report_path)
+    mark_phase("complete")
+    summary = {
+        "schema_version": 1,
+        "diagnostic_mode": "facial_profile_upgrade",
+        "subject_id": subject_id,
+        "started_at": started_at,
+        "finished_at": report["finished_at"],
+        "requested_count": 1,
+        "success_count": 1,
+        "failure_count": 0,
+        "success": True,
+        "report_path": report_path,
+        "summary_path": summary_path,
+        "scene_policy": "leave_derived_cc5_hd_project_loaded",
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
 def probe_current_eye_morph_sweep(library, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     avatar, avatars = resolve_avatar()
@@ -10059,6 +15964,7 @@ def probe_current_eye_morph_sweep(library, output_dir):
         },
         "morph": catalog[morph_id],
         "initial_weight": initial_weight,
+        "initial_avatar_bounds": capture_bounds(avatar),
         "subject_z_offset": subject_z_offset,
         "candidates": [],
     }
@@ -10122,6 +16028,872 @@ def probe_current_eye_morph_sweep(library, output_dir):
         "eye_morph_sweep_path": report_path,
         "summary_path": report_path,
     }
+
+
+def vectors_excluding_morph_fingerprint(vectors, excluded_morph_id):
+    return vectors_excluding_morphs_fingerprint(
+        vectors,
+        {excluded_morph_id},
+    )
+
+
+def vectors_excluding_morphs_fingerprint(vectors, excluded_morph_ids):
+    excluded_morph_ids = set(excluded_morph_ids)
+    entries = []
+    for group in (vectors.get("groups") or {}).values():
+        entries.extend(
+            item
+            for item in (group.get("entries") or [])
+            if item.get("id") not in excluded_morph_ids
+        )
+    return vector_fingerprint(entries)
+
+
+def signed_morph_token(value):
+    points = int(round(float(value) * 100.0))
+    if points < 0:
+        return "n{:03d}".format(abs(points))
+    if points > 0:
+        return "p{:03d}".format(points)
+    return "z000"
+
+
+def render_head_scale_review(
+    avatar,
+    review_config,
+    output_dir,
+    report_path,
+    progress_callback=None,
+):
+    morph_id = review_config.get("morph_id")
+    values = review_config.get("values")
+    if not isinstance(morph_id, str) or not morph_id:
+        raise ReconstructionError(
+            "Head Scale review morph_id must be a non-empty string"
+        )
+    if not isinstance(values, list) or not values:
+        raise ReconstructionError(
+            "Head Scale review values must be a non-empty list"
+        )
+    values = [float(value) for value in values]
+    if len(values) != len(set(values)):
+        raise ReconstructionError("Head Scale review values contain duplicates")
+
+    component, catalog, unused_categories = morph_catalog(avatar)
+    if morph_id not in catalog:
+        raise ReconstructionError(
+            "Head Scale review Morph is unavailable: {}".format(morph_id)
+        )
+    bounds = component.GetShapingMorphMinMax(morph_id)
+    minimum = float(bounds.first)
+    maximum = float(bounds.second)
+    for value in values:
+        if value < minimum - 1e-7 or value > maximum + 1e-7:
+            raise ReconstructionError(
+                "Head Scale review target {} is outside [{}, {}]".format(
+                    value,
+                    minimum,
+                    maximum,
+                )
+            )
+
+    os.makedirs(output_dir, exist_ok=True)
+    initial_weight = float(component.GetShapingMorphWeight(morph_id))
+    initial_time = RLPy.RGlobal.GetTime()
+    initial_vectors = capture_vectors(avatar)
+    protected_fingerprint = vectors_excluding_morph_fingerprint(
+        initial_vectors,
+        morph_id,
+    )
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "avatar": {
+            "name": scene_object_name(avatar),
+            "id": scene_object_id(avatar),
+        },
+        "camera": camera_state(RLPy.RScene.GetCurrentCamera()),
+        "face_shape_role": review_config.get("face_shape_role"),
+        "initial_weight": initial_weight,
+        "morph": dict(
+            catalog[morph_id],
+            minimum=minimum,
+            maximum=maximum,
+        ),
+        "protected_morph_fingerprint": protected_fingerprint,
+        "review_groups": list(review_config.get("review_groups") or []),
+        "values": values,
+        "candidates": [],
+    }
+    try:
+        for index, value in enumerate(values):
+            if progress_callback is not None:
+                progress_callback(
+                    "render_head_scale_{}".format(signed_morph_token(value)),
+                    {
+                        "candidate_index": index + 1,
+                        "candidate_count": len(values),
+                        "value": value,
+                    },
+                )
+            application = apply_single_morph_weight(
+                avatar,
+                morph_id,
+                value,
+                "Head Scale review",
+            )
+            force_avatar_scene_evaluation(avatar)
+            image_path = os.path.join(
+                output_dir,
+                "head_scale_{}.png".format(signed_morph_token(value)),
+            )
+            render_preview(image_path, initial_time)
+            candidate_vectors = capture_vectors(avatar)
+            candidate_protected_fingerprint = (
+                vectors_excluding_morph_fingerprint(
+                    candidate_vectors,
+                    morph_id,
+                )
+            )
+            if candidate_protected_fingerprint != protected_fingerprint:
+                raise ReconstructionError(
+                    "Head Scale review changed a protected Morph at {}".format(
+                        value
+                    )
+                )
+            report["candidates"].append(
+                {
+                    "application": application,
+                    "avatar_bounds": capture_bounds(avatar),
+                    "image": image_path,
+                    "protected_morph_fingerprint": (
+                        candidate_protected_fingerprint
+                    ),
+                    "value": value,
+                }
+            )
+    finally:
+        checked(
+            "Restore Head Scale after review",
+            component.SetShapingMorphWeight(morph_id, initial_weight),
+        )
+        checked(
+            "Refresh restored Head Scale after review",
+            RLPy.RGlobal.ObjectModified(
+                avatar, RLPy.EObjectModifiedType_MorphWeight
+            ),
+        )
+        checked(
+            "Restore current time after Head Scale review",
+            RLPy.RGlobal.SetTime(initial_time, True),
+        )
+        QtWidgets.QApplication.processEvents()
+
+    restored_weight = float(component.GetShapingMorphWeight(morph_id))
+    restored_vectors = capture_vectors(avatar)
+    restored_fingerprint = vectors_excluding_morph_fingerprint(
+        restored_vectors,
+        morph_id,
+    )
+    report["restored_weight"] = restored_weight
+    report["restored_vector_fingerprint"] = restored_fingerprint
+    report["restored_exactly"] = bool(
+        abs(restored_weight - initial_weight) <= 1e-6
+        and restored_fingerprint == protected_fingerprint
+    )
+    if not report["restored_exactly"]:
+        raise ReconstructionError(
+            "Head Scale review did not restore the composed character"
+        )
+    write_json(report, report_path)
+    return report
+
+
+def render_neck_morph_review(
+    avatar,
+    review_config,
+    output_dir,
+    report_path,
+    progress_callback=None,
+):
+    head_scale_config = review_config.get("head_scale") or {}
+    head_scale_morph_id = head_scale_config.get("morph_id")
+    if not isinstance(head_scale_morph_id, str) or not head_scale_morph_id:
+        raise ReconstructionError(
+            "Neck review head_scale.morph_id must be a non-empty string"
+        )
+    head_scale_target = float(head_scale_config.get("target"))
+    morph_configs = review_config.get("morphs")
+    if not isinstance(morph_configs, list) or not morph_configs:
+        raise ReconstructionError(
+            "Neck review morphs must be a non-empty list"
+        )
+
+    component, catalog, unused_categories = morph_catalog(avatar)
+    controlled_ids = {head_scale_morph_id}
+    normalized_morphs = []
+    review_ids = set()
+    for item in morph_configs:
+        if not isinstance(item, dict):
+            raise ReconstructionError("Neck review Morph entry must be an object")
+        morph_id = item.get("morph_id")
+        review_id = item.get("review_id")
+        values = item.get("values")
+        if not isinstance(morph_id, str) or not morph_id:
+            raise ReconstructionError("Neck review morph_id is missing")
+        if not isinstance(review_id, str) or not review_id:
+            raise ReconstructionError("Neck review review_id is missing")
+        if review_id in review_ids:
+            raise ReconstructionError(
+                "Neck review review_id is duplicated: {}".format(review_id)
+            )
+        if morph_id in controlled_ids:
+            raise ReconstructionError(
+                "Neck review Morph ID is duplicated: {}".format(morph_id)
+            )
+        if not isinstance(values, list) or not values:
+            raise ReconstructionError(
+                "Neck review values are missing for {}".format(review_id)
+            )
+        values = [float(value) for value in values]
+        if len(values) != len(set(values)):
+            raise ReconstructionError(
+                "Neck review values contain duplicates for {}".format(
+                    review_id
+                )
+            )
+        review_ids.add(review_id)
+        controlled_ids.add(morph_id)
+        normalized_morphs.append(
+            {
+                "morph_id": morph_id,
+                "review_id": review_id,
+                "values": values,
+            }
+        )
+
+    for morph_id in controlled_ids:
+        if morph_id not in catalog:
+            raise ReconstructionError(
+                "Neck review Morph is unavailable: {}".format(morph_id)
+            )
+    head_scale_bounds = component.GetShapingMorphMinMax(
+        head_scale_morph_id
+    )
+    head_scale_minimum = float(head_scale_bounds.first)
+    head_scale_maximum = float(head_scale_bounds.second)
+    if (
+        head_scale_target < head_scale_minimum - 1e-7
+        or head_scale_target > head_scale_maximum + 1e-7
+    ):
+        raise ReconstructionError(
+            "Neck review Head Scale target is outside bounds"
+        )
+
+    for item in normalized_morphs:
+        bounds = component.GetShapingMorphMinMax(item["morph_id"])
+        item["minimum"] = float(bounds.first)
+        item["maximum"] = float(bounds.second)
+        for value in item["values"]:
+            if value < item["minimum"] - 1e-7 or value > item["maximum"] + 1e-7:
+                raise ReconstructionError(
+                    "Neck review target {} for {} is outside [{}, {}]".format(
+                        value,
+                        item["review_id"],
+                        item["minimum"],
+                        item["maximum"],
+                    )
+                )
+
+    views = review_config.get("views") or [
+        {"view_id": "yaw_000", "yaw_degrees": 0.0},
+        {"view_id": "yaw_045", "yaw_degrees": 45.0},
+        {"view_id": "yaw_090", "yaw_degrees": 90.0},
+    ]
+    normalized_views = []
+    view_ids = set()
+    for item in views:
+        view_id = item.get("view_id")
+        if not isinstance(view_id, str) or not view_id:
+            raise ReconstructionError("Neck review view_id is missing")
+        if view_id in view_ids:
+            raise ReconstructionError(
+                "Neck review view_id is duplicated: {}".format(view_id)
+            )
+        view_ids.add(view_id)
+        normalized_views.append(
+            {
+                "view_id": view_id,
+                "yaw_degrees": float(item.get("yaw_degrees")),
+            }
+        )
+
+    save_selected = review_config.get("save_selected_candidate")
+    if save_selected is not None:
+        if not isinstance(save_selected, dict):
+            raise ReconstructionError(
+                "Neck review save_selected_candidate must be an object"
+            )
+        selected_review_id = save_selected.get("review_id")
+        selected_project_path = save_selected.get("project_path")
+        selected_value = save_selected.get("value")
+        if selected_review_id not in review_ids:
+            raise ReconstructionError(
+                "Neck review selected review_id is unavailable: {}".format(
+                    selected_review_id
+                )
+            )
+        if (
+            not isinstance(selected_project_path, str)
+            or not selected_project_path.lower().endswith(".ccproject")
+        ):
+            raise ReconstructionError(
+                "Neck review selected project_path must be a ccProject path"
+            )
+        if (
+            isinstance(selected_value, bool)
+            or not isinstance(selected_value, (int, float))
+            or not math.isfinite(float(selected_value))
+        ):
+            raise ReconstructionError(
+                "Neck review selected value must be finite"
+            )
+        selected_value = float(selected_value)
+        selected_morph = next(
+            item
+            for item in normalized_morphs
+            if item["review_id"] == selected_review_id
+        )
+        if (
+            selected_value < selected_morph["minimum"] - 1e-7
+            or selected_value > selected_morph["maximum"] + 1e-7
+        ):
+            raise ReconstructionError(
+                "Neck review selected value is outside Morph bounds"
+            )
+
+    os.makedirs(output_dir, exist_ok=True)
+    initial_weights = dict(
+        (
+            morph_id,
+            float(component.GetShapingMorphWeight(morph_id)),
+        )
+        for morph_id in controlled_ids
+    )
+    initial_time = RLPy.RGlobal.GetTime()
+    initial_yaw_radians = _transform_float(
+        avatar,
+        "Rotation/RotationZ",
+    )
+    initial_vectors = capture_vectors(avatar)
+    initial_full_fingerprint = vectors_excluding_morphs_fingerprint(
+        initial_vectors,
+        set(),
+    )
+    protected_fingerprint = vectors_excluding_morphs_fingerprint(
+        initial_vectors,
+        controlled_ids,
+    )
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "avatar": {
+            "name": scene_object_name(avatar),
+            "id": scene_object_id(avatar),
+        },
+        "camera": camera_state(RLPy.RScene.GetCurrentCamera()),
+        "controlled_morph_ids": sorted(controlled_ids),
+        "head_scale": {
+            "initial_weight": initial_weights[head_scale_morph_id],
+            "maximum": head_scale_maximum,
+            "minimum": head_scale_minimum,
+            "morph": catalog[head_scale_morph_id],
+            "target": head_scale_target,
+        },
+        "initial_full_fingerprint": initial_full_fingerprint,
+        "initial_yaw_degrees": math.degrees(initial_yaw_radians),
+        "protected_morph_fingerprint": protected_fingerprint,
+        "views": normalized_views,
+        "morphs": [],
+        "saved_selected_candidate": None,
+    }
+    try:
+        report["head_scale"]["application"] = apply_single_morph_weight(
+            avatar,
+            head_scale_morph_id,
+            head_scale_target,
+            "Neck review Head Scale",
+        )
+        for morph_index, item in enumerate(normalized_morphs):
+            morph_id = item["morph_id"]
+            morph_dir = os.path.join(output_dir, item["review_id"])
+            os.makedirs(morph_dir, exist_ok=True)
+            morph_report = {
+                "review_id": item["review_id"],
+                "morph": dict(
+                    catalog[morph_id],
+                    minimum=item["minimum"],
+                    maximum=item["maximum"],
+                ),
+                "initial_weight": initial_weights[morph_id],
+                "values": item["values"],
+                "candidates": [],
+            }
+            report["morphs"].append(morph_report)
+            for value_index, value in enumerate(item["values"]):
+                if progress_callback is not None:
+                    progress_callback(
+                        "render_neck_{}_{}".format(
+                            item["review_id"],
+                            signed_morph_token(value),
+                        ),
+                        {
+                            "morph_index": morph_index + 1,
+                            "morph_count": len(normalized_morphs),
+                            "candidate_index": value_index + 1,
+                            "candidate_count": len(item["values"]),
+                            "value": value,
+                        },
+                    )
+                for reset_id in controlled_ids:
+                    target = initial_weights[reset_id]
+                    if reset_id == head_scale_morph_id:
+                        target = head_scale_target
+                    checked(
+                        "Reset Neck review Morph {}".format(reset_id),
+                        component.SetShapingMorphWeight(reset_id, target),
+                    )
+                checked(
+                    "Refresh reset Neck review Morphs",
+                    RLPy.RGlobal.ObjectModified(
+                        avatar,
+                        RLPy.EObjectModifiedType_MorphWeight,
+                    ),
+                )
+                QtWidgets.QApplication.processEvents()
+                application = apply_single_morph_weight(
+                    avatar,
+                    morph_id,
+                    value,
+                    "Neck review {}".format(item["review_id"]),
+                )
+                force_avatar_scene_evaluation(avatar)
+                rendered_views = {}
+                for view in normalized_views:
+                    set_avatar_yaw(avatar, view["yaw_degrees"])
+                    image_path = os.path.join(
+                        morph_dir,
+                        "{}_{}_{}.png".format(
+                            item["review_id"],
+                            signed_morph_token(value),
+                            view["view_id"],
+                        ),
+                    )
+                    render_preview(image_path, initial_time)
+                    rendered_views[view["view_id"]] = image_path
+                candidate_vectors = capture_vectors(avatar)
+                candidate_protected_fingerprint = (
+                    vectors_excluding_morphs_fingerprint(
+                        candidate_vectors,
+                        controlled_ids,
+                    )
+                )
+                if candidate_protected_fingerprint != protected_fingerprint:
+                    raise ReconstructionError(
+                        "Neck review changed a protected Morph at {} {}".format(
+                            item["review_id"],
+                            value,
+                        )
+                    )
+                morph_report["candidates"].append(
+                    {
+                        "application": application,
+                        "avatar_bounds": capture_bounds(avatar),
+                        "protected_morph_fingerprint": (
+                            candidate_protected_fingerprint
+                        ),
+                        "value": value,
+                        "views": rendered_views,
+                    }
+                )
+        if save_selected is not None:
+            for reset_id in controlled_ids:
+                target = initial_weights[reset_id]
+                if reset_id == head_scale_morph_id:
+                    target = head_scale_target
+                checked(
+                    "Reset selected candidate Morph {}".format(reset_id),
+                    component.SetShapingMorphWeight(reset_id, target),
+                )
+            checked(
+                "Refresh selected candidate Morphs",
+                RLPy.RGlobal.ObjectModified(
+                    avatar,
+                    RLPy.EObjectModifiedType_MorphWeight,
+                ),
+            )
+            selected_application = apply_single_morph_weight(
+                avatar,
+                selected_morph["morph_id"],
+                selected_value,
+                "Selected Neck review candidate",
+            )
+            force_avatar_scene_evaluation(avatar)
+            set_avatar_yaw(avatar, 0.0)
+            selected_preview = os.path.join(
+                output_dir,
+                "selected_{}_{}.png".format(
+                    selected_review_id,
+                    signed_morph_token(selected_value),
+                ),
+            )
+            render_preview(selected_preview, initial_time)
+            project_directory = os.path.dirname(selected_project_path)
+            if project_directory:
+                os.makedirs(project_directory, exist_ok=True)
+            checked(
+                "Save selected Neck review candidate",
+                RLPy.RFileIO.SaveProject(selected_project_path),
+            )
+            project_stat = wait_for_rendered_preview(
+                selected_project_path,
+                timeout_seconds=600.0,
+                stable_seconds=2.0,
+            )
+            report["saved_selected_candidate"] = {
+                "application": selected_application,
+                "avatar_bounds": capture_bounds(avatar),
+                "preview": selected_preview,
+                "project_path": selected_project_path,
+                "project_size": project_stat,
+                "review_id": selected_review_id,
+                "value": selected_value,
+            }
+    finally:
+        for morph_id, initial_weight in initial_weights.items():
+            checked(
+                "Restore Neck review Morph {}".format(morph_id),
+                component.SetShapingMorphWeight(morph_id, initial_weight),
+            )
+        checked(
+            "Refresh restored Neck review Morphs",
+            RLPy.RGlobal.ObjectModified(
+                avatar,
+                RLPy.EObjectModifiedType_MorphWeight,
+            ),
+        )
+        set_avatar_yaw(avatar, math.degrees(initial_yaw_radians))
+        checked(
+            "Restore current time after Neck review",
+            RLPy.RGlobal.SetTime(initial_time, True),
+        )
+        QtWidgets.QApplication.processEvents()
+
+    restored_vectors = capture_vectors(avatar)
+    restored_yaw_radians = _transform_float(
+        avatar,
+        "Rotation/RotationZ",
+    )
+    yaw_delta_radians = math.atan2(
+        math.sin(restored_yaw_radians - initial_yaw_radians),
+        math.cos(restored_yaw_radians - initial_yaw_radians),
+    )
+    restored_full_fingerprint = vectors_excluding_morphs_fingerprint(
+        restored_vectors,
+        set(),
+    )
+    report["restored_weights"] = dict(
+        (
+            morph_id,
+            float(component.GetShapingMorphWeight(morph_id)),
+        )
+        for morph_id in controlled_ids
+    )
+    report["restored_full_fingerprint"] = restored_full_fingerprint
+    report["restored_yaw_degrees"] = math.degrees(restored_yaw_radians)
+    report["yaw_restored_exactly"] = bool(
+        abs(math.degrees(yaw_delta_radians)) <= 1e-5
+    )
+    report["restored_exactly"] = bool(
+        restored_full_fingerprint == initial_full_fingerprint
+        and report["yaw_restored_exactly"]
+        and all(
+            abs(report["restored_weights"][morph_id] - initial_weight)
+            <= 1e-6
+            for morph_id, initial_weight in initial_weights.items()
+        )
+    )
+    if not report["restored_exactly"]:
+        raise ReconstructionError(
+            "Neck review did not restore the composed character"
+        )
+    write_json(report, report_path)
+    return report
+
+
+def probe_current_head_scale_sweep(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Head Scale sweep expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    morph_id = library.get("head_scale_morph_id")
+    values = library.get("head_scale_values")
+    if not isinstance(morph_id, str) or not morph_id:
+        raise ReconstructionError(
+            "head_scale_morph_id must be a non-empty string"
+        )
+    if not isinstance(values, list) or not values:
+        raise ReconstructionError(
+            "head_scale_values must be a non-empty list"
+        )
+    values = [float(value) for value in values]
+    if len(values) != len(set(values)):
+        raise ReconstructionError("head_scale_values contains duplicates")
+
+    component, catalog, unused_categories = morph_catalog(avatar)
+    if morph_id not in catalog:
+        raise ReconstructionError(
+            "Head Scale Morph is unavailable: {}".format(morph_id)
+        )
+    bounds = component.GetShapingMorphMinMax(morph_id)
+    minimum = float(bounds.first)
+    maximum = float(bounds.second)
+    for value in values:
+        if value < minimum - 1e-7 or value > maximum + 1e-7:
+            raise ReconstructionError(
+                "Head Scale target {} is outside [{}, {}]".format(
+                    value,
+                    minimum,
+                    maximum,
+                )
+            )
+
+    initial_weight = float(component.GetShapingMorphWeight(morph_id))
+    initial_time = RLPy.RGlobal.GetTime()
+    initial_vectors = capture_vectors(avatar)
+    protected_fingerprint = vectors_excluding_morph_fingerprint(
+        initial_vectors,
+        morph_id,
+    )
+    initial_image = os.path.join(output_dir, "head_scale_initial.png")
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "avatar": {
+            "name": scene_object_name(avatar),
+            "id": scene_object_id(avatar),
+        },
+        "camera": camera_state(RLPy.RScene.GetCurrentCamera()),
+        "morph": dict(
+            catalog[morph_id],
+            minimum=minimum,
+            maximum=maximum,
+        ),
+        "initial_weight": initial_weight,
+        "initial_image": initial_image,
+        "protected_morph_fingerprint": protected_fingerprint,
+        "candidates": [],
+    }
+    try:
+        render_preview(initial_image, initial_time)
+        for value in values:
+            application = apply_single_morph_weight(
+                avatar,
+                morph_id,
+                value,
+                "Head Scale sweep",
+            )
+            image_path = os.path.join(
+                output_dir,
+                "head_scale_{}.png".format(signed_morph_token(value)),
+            )
+            render_preview(image_path, initial_time)
+            candidate_vectors = capture_vectors(avatar)
+            candidate_protected_fingerprint = (
+                vectors_excluding_morph_fingerprint(
+                    candidate_vectors,
+                    morph_id,
+                )
+            )
+            if candidate_protected_fingerprint != protected_fingerprint:
+                raise ReconstructionError(
+                    "Head Scale sweep changed a protected Morph at {}".format(
+                        value
+                    )
+                )
+            report["candidates"].append(
+                {
+                    "application": application,
+                    "image": image_path,
+                    "protected_morph_fingerprint": (
+                        candidate_protected_fingerprint
+                    ),
+                    "value": value,
+                }
+            )
+    finally:
+        checked(
+            "Restore Head Scale after sweep",
+            component.SetShapingMorphWeight(morph_id, initial_weight),
+        )
+        checked(
+            "Refresh restored Head Scale",
+            RLPy.RGlobal.ObjectModified(
+                avatar, RLPy.EObjectModifiedType_MorphWeight
+            ),
+        )
+        checked(
+            "Restore current time after Head Scale sweep",
+            RLPy.RGlobal.SetTime(initial_time, True),
+        )
+        QtWidgets.QApplication.processEvents()
+
+    restored_weight = float(component.GetShapingMorphWeight(morph_id))
+    restored_vectors = capture_vectors(avatar)
+    report["restored_weight"] = restored_weight
+    report["restored_vector_fingerprint"] = (
+        vectors_excluding_morph_fingerprint(restored_vectors, morph_id)
+    )
+    report["restored_exactly"] = bool(
+        abs(restored_weight - initial_weight) <= 1e-6
+        and report["restored_vector_fingerprint"] == protected_fingerprint
+    )
+    if not report["restored_exactly"]:
+        raise ReconstructionError(
+            "Current character did not restore exactly after Head Scale sweep"
+        )
+
+    report_path = os.path.join(output_dir, "head_scale_sweep.json")
+    write_json(report, report_path)
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": report["captured_at"],
+        "finished_at": now(),
+        "requested_count": len(values),
+        "success_count": len(report["candidates"]),
+        "failure_count": 0,
+        "success": True,
+        "diagnostic_mode": "head_scale_sweep",
+        "head_scale_sweep_path": report_path,
+        "restored_exactly": report["restored_exactly"],
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def apply_current_head_scale(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Head Scale apply expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    morph_id = library.get("head_scale_morph_id")
+    if not isinstance(morph_id, str) or not morph_id:
+        raise ReconstructionError(
+            "head_scale_morph_id must be a non-empty string"
+        )
+    target = float(library.get("head_scale_target"))
+    component, catalog, unused_categories = morph_catalog(avatar)
+    if morph_id not in catalog:
+        raise ReconstructionError(
+            "Head Scale Morph is unavailable: {}".format(morph_id)
+        )
+
+    initial_weight = float(component.GetShapingMorphWeight(morph_id))
+    initial_time = RLPy.RGlobal.GetTime()
+    initial_vectors = capture_vectors(avatar)
+    protected_fingerprint = vectors_excluding_morph_fingerprint(
+        initial_vectors,
+        morph_id,
+    )
+    image_path = os.path.join(
+        output_dir,
+        "head_scale_{}_applied.png".format(signed_morph_token(target)),
+    )
+    applied = False
+    try:
+        application = apply_single_morph_weight(
+            avatar,
+            morph_id,
+            target,
+            "selected Head Scale",
+        )
+        applied = True
+        render_preview(image_path, initial_time)
+        final_vectors = capture_vectors(avatar)
+        final_protected_fingerprint = vectors_excluding_morph_fingerprint(
+            final_vectors,
+            morph_id,
+        )
+        if final_protected_fingerprint != protected_fingerprint:
+            raise ReconstructionError(
+                "Applying selected Head Scale changed a protected Morph"
+            )
+        final_weight = float(component.GetShapingMorphWeight(morph_id))
+        if abs(final_weight - target) > 1e-6:
+            raise ReconstructionError(
+                "Selected Head Scale did not remain at target"
+            )
+    except Exception:
+        if applied:
+            component.SetShapingMorphWeight(morph_id, initial_weight)
+            RLPy.RGlobal.ObjectModified(
+                avatar, RLPy.EObjectModifiedType_MorphWeight
+            )
+            QtWidgets.QApplication.processEvents()
+        raise
+    finally:
+        checked(
+            "Restore current time after Head Scale apply",
+            RLPy.RGlobal.SetTime(initial_time, True),
+        )
+        QtWidgets.QApplication.processEvents()
+
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "avatar": {
+            "name": scene_object_name(avatar),
+            "id": scene_object_id(avatar),
+        },
+        "application": application,
+        "camera": camera_state(RLPy.RScene.GetCurrentCamera()),
+        "final_weight": final_weight,
+        "image": image_path,
+        "initial_weight": initial_weight,
+        "morph": catalog[morph_id],
+        "protected_morph_fingerprint": protected_fingerprint,
+        "protected_morphs_unchanged": True,
+    }
+    report_path = os.path.join(output_dir, "head_scale_apply.json")
+    write_json(report, report_path)
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": report["captured_at"],
+        "finished_at": now(),
+        "requested_count": 1,
+        "success_count": 1,
+        "failure_count": 0,
+        "success": True,
+        "diagnostic_mode": "head_scale_apply",
+        "head_scale_apply_path": report_path,
+        "protected_morphs_unchanged": True,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
 
 
 def apply_current_eye_alignment(library, output_dir):
@@ -10225,10 +16997,47 @@ def validate_preset(
     dynamic_wrinkle_validation = resolve_dynamic_wrinkle_validation(
         appearance_validation_plan
     )
+    face_material_quality_reference = preset.get(
+        "face_material_quality_profile"
+    )
+    if face_material_quality_reference is not None and not isinstance(
+        face_material_quality_reference,
+        dict,
+    ):
+        raise ReconstructionError(
+            "face_material_quality_profile must be an object"
+        )
     render_static_hair_views = render_static_hair_views_enabled(
         appearance_validation_plan
     )
     asset_load_pacing = resolve_asset_load_pacing(preset)
+    head_scale_review_config = preset.get("head_scale_review")
+    if head_scale_review_config is not None and not isinstance(
+        head_scale_review_config,
+        dict,
+    ):
+        raise ReconstructionError("head_scale_review must be an object")
+    neck_morph_review_config = preset.get("neck_morph_review")
+    if neck_morph_review_config is not None and not isinstance(
+        neck_morph_review_config,
+        dict,
+    ):
+        raise ReconstructionError("neck_morph_review must be an object")
+    skip_post_diagnostic_face_validation = preset.get(
+        "skip_post_diagnostic_face_validation",
+        False,
+    )
+    if not isinstance(skip_post_diagnostic_face_validation, bool):
+        raise ReconstructionError(
+            "skip_post_diagnostic_face_validation must be boolean"
+        )
+    if skip_post_diagnostic_face_validation and not (
+        head_scale_review_config is not None
+        or neck_morph_review_config is not None
+    ):
+        raise ReconstructionError(
+            "Post-diagnostic face validation can only be skipped for a review"
+        )
     artifacts = {
         "source_preview": os.path.join(preset_dir, "source_preview.png"),
         "reconstructed_preview": os.path.join(preset_dir, "reconstructed_preview.png"),
@@ -10260,6 +17069,42 @@ def validate_preset(
         "body_catalog": body_catalog_path,
         "face_catalog": face_catalog_path,
     }
+    if face_material_quality_reference is not None:
+        artifacts["face_material_quality_profile"] = os.path.join(
+            preset_dir,
+            "face_material_quality_profile.json",
+        )
+    save_character_project = library.get("save_character_projects", False)
+    if not isinstance(save_character_project, bool):
+        raise ReconstructionError("save_character_projects must be boolean")
+    if save_character_project:
+        artifacts["character_project"] = os.path.join(
+            preset_dir,
+            "{}.ccProject".format(preset["preset_id"]),
+        )
+    if preset.get("bodyfit_proportion_adjustment") is not None:
+        artifacts["bodyfit_proportion_adjustment"] = os.path.join(
+            preset_dir,
+            "bodyfit_proportion_adjustment.json",
+        )
+    if head_scale_review_config is not None:
+        artifacts["head_scale_review"] = os.path.join(
+            preset_dir,
+            "head_scale_review.json",
+        )
+        artifacts["head_scale_review_directory"] = os.path.join(
+            preset_dir,
+            "head_scale_review",
+        )
+    if neck_morph_review_config is not None:
+        artifacts["neck_morph_review"] = os.path.join(
+            preset_dir,
+            "neck_morph_review.json",
+        )
+        artifacts["neck_morph_review_directory"] = os.path.join(
+            preset_dir,
+            "neck_morph_review",
+        )
     if (
         appearance_validation_plan
         and appearance_validation_plan.get("pose_profile")
@@ -10565,6 +17410,7 @@ def validate_preset(
         "face_support_changes_after_identity": None,
         "face_support_preserved_after_identity": None,
         "eye_structure_preserved_after_identity": None,
+        "bodyfit_proportion_adjustment": None,
         "appearance_asset_ids": preset.get("appearance_asset_ids"),
         "appearance_recipe_id": preset.get("appearance_recipe_id"),
         "appearance_validation_plan": appearance_validation_plan,
@@ -10576,6 +17422,11 @@ def validate_preset(
         "face_view_y_offsets": None,
         "scalp_hair_view_y_offsets": None,
         "hair_motion_validation": None,
+        "head_scale_review": None,
+        "neck_morph_review": None,
+        "post_diagnostic_face_validation_skipped": bool(
+            skip_post_diagnostic_face_validation
+        ),
         "facial_pose_validation": None,
         "dynamic_wrinkle_validation": None,
         "eye_integrity": {
@@ -11314,6 +18165,33 @@ def validate_preset(
                     "or eye-bone identity"
                 )
 
+        avatar, proportion_adjustment_result = (
+            apply_bodyfit_proportion_adjustment(
+                avatar,
+                preset,
+                progress_callback=mark_phase,
+            )
+        )
+        if proportion_adjustment_result is not None:
+            result["bodyfit_proportion_adjustment"] = (
+                proportion_adjustment_result
+            )
+            write_json(
+                proportion_adjustment_result,
+                artifacts["bodyfit_proportion_adjustment"],
+            )
+            result["eye_integrity"]["phases"][
+                "after_bodyfit_proportion_adjustment"
+            ] = capture_eye_integrity_state(avatar)
+            if expected_eyeball_move_weight is not None:
+                validate_expected_eye_integrity(
+                    result["eye_integrity"]["phases"][
+                        "after_bodyfit_proportion_adjustment"
+                    ],
+                    expected_eyeball_move_weight,
+                    "BodyFit proportion adjustment",
+                )
+
         face_alignment_bounds = capture_bounds(avatar)
         avatar, facial_assembly_result = apply_facial_assembly(
             avatar,
@@ -11390,6 +18268,54 @@ def validate_preset(
                     "Applying appearance assets changed protected avatar morphs"
                 )
 
+        if face_material_quality_reference is not None:
+            mark_phase(
+                "apply_face_material_quality_profile",
+                {
+                    "profile_id": face_material_quality_reference.get(
+                        "profile_id"
+                    )
+                },
+            )
+            result["face_material_quality_profile"] = (
+                apply_face_material_quality_profile(
+                    avatar,
+                    face_material_quality_reference,
+                )
+            )
+            write_json(
+                result["face_material_quality_profile"],
+                artifacts["face_material_quality_profile"],
+            )
+            result["eye_integrity"]["phases"][
+                "after_face_material_quality_profile"
+            ] = capture_eye_integrity_state(avatar)
+            if expected_eyeball_move_weight is not None:
+                validate_expected_eye_integrity(
+                    result["eye_integrity"]["phases"][
+                        "after_face_material_quality_profile"
+                    ],
+                    expected_eyeball_move_weight,
+                    "face material quality profile",
+                )
+
+        if head_scale_review_config is not None:
+            result["head_scale_review"] = render_head_scale_review(
+                avatar,
+                head_scale_review_config,
+                artifacts["head_scale_review_directory"],
+                artifacts["head_scale_review"],
+                progress_callback=mark_phase,
+            )
+        if neck_morph_review_config is not None:
+            result["neck_morph_review"] = render_neck_morph_review(
+                avatar,
+                neck_morph_review_config,
+                artifacts["neck_morph_review_directory"],
+                artifacts["neck_morph_review"],
+                progress_callback=mark_phase,
+            )
+
         force_avatar_scene_evaluation(avatar)
         result["eye_integrity"]["phases"]["final"] = (
             capture_eye_integrity_state(avatar)
@@ -11418,7 +18344,7 @@ def validate_preset(
                     FACE_IDENTITY_SAFETY_PROFILE,
                 )
             )
-        )
+        ) and not skip_post_diagnostic_face_validation
         if requires_face_validation:
             camera_path = preset.get("face_camera")
             if not isinstance(camera_path, str) or not os.path.isfile(camera_path):
@@ -11693,12 +18619,16 @@ def validate_preset(
             if facial_pose_timeline.get("capture_strategy") == (
                 "facial_profile_start_frame_snapshot_restore_v1"
             ):
-                post_face_validation_expected = (
-                    capture_eye_integrity_state(avatar)
-                )
+                (
+                    post_snapshot_state,
+                    post_snapshot_stabilization,
+                ) = capture_stable_neutral_eye_state(avatar)
                 result["eye_integrity"]["phases"][
                     "post_face_validation_snapshot_restore"
-                ] = post_face_validation_expected
+                ] = post_snapshot_state
+                result["eye_integrity"][
+                    "post_face_validation_snapshot_stabilization"
+                ] = post_snapshot_stabilization
             set_avatar_yaw(avatar, math.degrees(initial_yaw_radians))
             set_avatar_position(
                 avatar,
@@ -11706,20 +18636,66 @@ def validate_preset(
                 position_y=initial_position["y"],
                 position_z=initial_position["z"],
             )
-            (
+            if facial_pose_timeline.get("capture_strategy") == (
+                "facial_profile_start_frame_snapshot_restore_v1"
+            ):
+                post_pose_world_tolerance = float(
+                    (
+                        appearance_validation_plan
+                        or {}
+                    ).get(
+                        "post_pose_eye_world_translation_tolerance_cm",
+                        2e-2,
+                    )
+                )
+                if (
+                    not math.isfinite(post_pose_world_tolerance)
+                    or post_pose_world_tolerance < 2e-2
+                    or post_pose_world_tolerance > 1e-1
+                ):
+                    raise ReconstructionError(
+                        "post-pose eye world tolerance must be from 0.02 to 0.1 cm"
+                    )
+                (
+                    post_face_validation_state,
+                    post_face_validation_attempts,
+                ) = capture_stable_neutral_eye_state(avatar)
+                post_face_validation_comparison = (
+                    compare_neutral_eye_states(
+                        post_face_validation_expected,
+                        post_face_validation_state,
+                        include_world=True,
+                        include_runtime_ids=False,
+                        t_pose_tolerance=0.5,
+                        world_translation_tolerance=(
+                            post_pose_world_tolerance
+                        ),
+                    )
+                )
                 result["eye_integrity"]["phases"][
                     "post_face_validation"
-                ],
+                ] = post_face_validation_state
                 result["eye_integrity"][
                     "post_face_validation_comparison"
-                ],
+                ] = post_face_validation_comparison
                 result["eye_integrity"][
                     "post_face_validation_refresh_attempts"
-                ],
-            ) = stabilize_neutral_eye_state(
-                avatar,
-                post_face_validation_expected,
-            )
+                ] = post_face_validation_attempts
+            else:
+                (
+                    result["eye_integrity"]["phases"][
+                        "post_face_validation"
+                    ],
+                    result["eye_integrity"][
+                        "post_face_validation_comparison"
+                    ],
+                    result["eye_integrity"][
+                        "post_face_validation_refresh_attempts"
+                    ],
+                ) = stabilize_neutral_eye_state(
+                    avatar,
+                    post_face_validation_expected,
+                )
             write_json(result["eye_integrity"], artifacts["eye_integrity"])
             if not result["eye_integrity"][
                 "post_face_validation_comparison"
@@ -11731,6 +18707,12 @@ def validate_preset(
                         ]["differences"]
                     )
                 )
+        if save_character_project:
+            mark_phase("save_character_project")
+            result["character_project"] = save_bodyfit_project(
+                artifacts["character_project"],
+                "Save assembled character project",
+            )
         result["success"] = True
         mark_phase("complete")
     except Exception as exc:
@@ -11805,7 +18787,7 @@ def probe_current_hair_shaders(output_dir):
     }
 
 
-def capture_current_hair_physics(avatar):
+def capture_current_hair_physics(avatar, require_hair=True):
     hair_records = []
     for hair in list(avatar.GetHairs() or []):
         record = {
@@ -11854,7 +18836,7 @@ def capture_current_hair_physics(avatar):
                 "type": type(exc).__name__,
             }
         hair_records.append(record)
-    if not hair_records:
+    if not hair_records and require_hair:
         raise ReconstructionError(
             "Hair physics probe found no RIHair objects"
         )
@@ -11879,6 +18861,7 @@ def capture_current_hair_physics(avatar):
         "global_physics_simulation_loop": bool(
             RLPy.RGlobal.IsPhysicsSimulationLoop()
         ),
+        "hair_required": bool(require_hair),
         "hair_part_count": len(hair_records),
         "hair_parts": hair_records,
         "physics_active_count": sum(
@@ -11958,6 +18941,310 @@ def probe_current_hair_physics(output_dir):
     return read_json(summary_path)
 
 
+def _motion_scene_prop_inventory():
+    getter = getattr(RLPy.RScene, "GetProps", None)
+    if not callable(getter):
+        return {"available": False, "objects": []}
+    try:
+        objects = list(getter() or [])
+    except Exception as exc:
+        return {
+            "available": False,
+            "error": str(exc),
+            "objects": [],
+        }
+    records = [
+        {
+            "id": scene_object_id(item),
+            "name": scene_object_name(item),
+            "python_type": type(item).__name__,
+        }
+        for item in objects
+    ]
+    records.sort(key=lambda item: (item["name"], item["id"]))
+    return {"available": True, "objects": records}
+
+
+def _motion_animated_bone_inventory(skeleton):
+    face_tokens = (
+        "brow",
+        "cheek",
+        "eye",
+        "eyelid",
+        "facial",
+        "jaw",
+        "lip",
+        "mouth",
+        "nose",
+        "teeth",
+        "tongue",
+    )
+    animated = []
+    errors = []
+    for bone in list(skeleton.GetSkinBones() or []):
+        name = str(bone.GetName())
+        try:
+            if skeleton.IsBoneAnimated(bone):
+                animated.append(name)
+        except Exception as exc:
+            if len(errors) < 12:
+                errors.append({"bone": name, "error": str(exc)})
+    animated = sorted(set(animated))
+    facial = [
+        name
+        for name in animated
+        if any(token in name.lower() for token in face_tokens)
+    ]
+    return {
+        "animated_bone_count": len(animated),
+        "animated_bones": animated,
+        "facial_bone_candidate_count": len(facial),
+        "facial_bone_candidates": facial,
+        "read_errors": errors,
+    }
+
+
+def _motion_landmark_priority(name):
+    lowered = str(name).lower()
+    if lowered in ("root", "cc_base_root", "rl_boneroot"):
+        priority = 0
+    elif lowered.endswith("_boneroot") or lowered.endswith("_root"):
+        priority = 1
+    elif "hip" in lowered:
+        priority = 2
+    elif "pelvis" in lowered:
+        priority = 3
+    else:
+        priority = 4
+    return priority, lowered
+
+
+def _motion_landmark_bones(skeleton):
+    candidates = {}
+    for bone in list(skeleton.GetSkinBones() or []):
+        name = str(bone.GetName())
+        lowered = name.lower()
+        if any(token in lowered for token in ("root", "hip", "pelvis")):
+            candidates.setdefault(
+                name,
+                (_motion_landmark_priority(name), name, bone),
+            )
+    ordered = sorted(candidates.values(), key=lambda item: item[0])
+    return [item[2] for item in ordered[:6]]
+
+
+def _capture_motion_landmark_bones(bones):
+    records = []
+    for bone in bones:
+        name = str(bone.GetName())
+        try:
+            bone.Update()
+            records.append(
+                {
+                    "name": name,
+                    "local_transform": _transform_data(
+                        bone.LocalTransform()
+                    ),
+                    "world_transform": _transform_data(
+                        bone.WorldTransform()
+                    ),
+                }
+            )
+        except Exception as exc:
+            records.append({"name": name, "error": str(exc)})
+    return records
+
+
+def _motion_primary_landmark_translation(records):
+    candidates = [
+        item
+        for item in records
+        if item.get("name")
+        and not item.get("error")
+        and isinstance(
+            (item.get("world_transform") or {}).get("translation"),
+            dict,
+        )
+    ]
+    if not candidates:
+        return None
+    candidates.sort(
+        key=lambda item: _motion_landmark_priority(item["name"])
+    )
+    selected = candidates[0]
+    translation = selected["world_transform"]["translation"]
+    return {
+        "name": selected["name"],
+        "translation": dict(
+            (axis, float(translation[axis]))
+            for axis in ("x", "y", "z")
+        ),
+    }
+
+
+def _motion_capture_reference(subject_position, primary_landmark):
+    if isinstance(subject_position, dict) and all(
+        isinstance(subject_position.get(axis), (int, float))
+        for axis in ("x", "y", "z")
+    ):
+        return {
+            "source": "framing_target",
+            "translation": dict(
+                (axis, float(subject_position[axis]))
+                for axis in ("x", "y", "z")
+            ),
+        }
+    return {
+        "source": "first_sample_root",
+        "translation": dict(primary_landmark["translation"]),
+    }
+
+
+def _motion_avatar_transform_values(avatar, time_value):
+    control = avatar.GetControl("Transform")
+    if control is None:
+        raise ReconstructionError(
+            "Motion capture subject has no Transform control"
+        )
+    data_block = control.GetDataBlock()
+    if data_block is None:
+        raise ReconstructionError(
+            "Motion capture subject Transform has no data block"
+        )
+    values = {}
+    for axis, parameter_id in (
+        ("x", "Position/PositionX"),
+        ("y", "Position/PositionY"),
+        ("z", "Position/PositionZ"),
+    ):
+        value = data_block.GetData(parameter_id, time_value)
+        if value is None:
+            raise ReconstructionError(
+                "Motion capture Transform parameter is unavailable: {}".format(
+                    parameter_id
+                )
+            )
+        values[axis] = float(value.ToFloat())
+    return data_block, values
+
+
+def _motion_set_avatar_transform_values(
+    data_block,
+    time_value,
+    values,
+    label,
+):
+    for axis, parameter_id in (
+        ("x", "Position/PositionX"),
+        ("y", "Position/PositionY"),
+        ("z", "Position/PositionZ"),
+    ):
+        checked(
+            "{} {}".format(label, parameter_id),
+            data_block.SetData(
+                parameter_id,
+                time_value,
+                RLPy.RVariant(float(values[axis])),
+            ),
+        )
+    checked(
+        "Refresh {}".format(label),
+        RLPy.RGlobal.SetTime(time_value, True),
+    )
+
+
+def _motion_horizontal_distance(first, last):
+    return math.sqrt(
+        (float(last["x"]) - float(first["x"])) ** 2
+        + (float(last["y"]) - float(first["y"])) ** 2
+    )
+
+
+def _classify_motion_root_evidence(samples):
+    if len(samples) < 2:
+        return {
+            "classification": "insufficient_samples",
+            "evidence_source": None,
+        }
+    first = samples[0]
+    last = samples[-1]
+    first_landmarks = dict(
+        (item.get("name"), item)
+        for item in first.get("landmark_bones") or []
+        if item.get("name") and not item.get("error")
+    )
+    last_landmarks = dict(
+        (item.get("name"), item)
+        for item in last.get("landmark_bones") or []
+        if item.get("name") and not item.get("error")
+    )
+    common = [name for name in first_landmarks if name in last_landmarks]
+    common.sort(key=_motion_landmark_priority)
+    displacement = None
+    evidence_source = None
+    landmark_name = None
+    if common:
+        landmark_name = common[0]
+        first_translation = first_landmarks[landmark_name][
+            "world_transform"
+        ]["translation"]
+        last_translation = last_landmarks[landmark_name][
+            "world_transform"
+        ]["translation"]
+        displacement = _motion_horizontal_distance(
+            first_translation, last_translation
+        )
+        evidence_source = "landmark_bone_world_translation"
+    else:
+        first_bounds = first.get("avatar_bounds") or {}
+        last_bounds = last.get("avatar_bounds") or {}
+        if len(first_bounds.get("center") or []) >= 2 and len(
+            last_bounds.get("center") or []
+        ) >= 2:
+            displacement = math.sqrt(
+                (
+                    float(last_bounds["center"][0])
+                    - float(first_bounds["center"][0])
+                )
+                ** 2
+                + (
+                    float(last_bounds["center"][1])
+                    - float(first_bounds["center"][1])
+                )
+                ** 2
+            )
+            evidence_source = "avatar_bounds_center"
+    if displacement is None:
+        classification = "unavailable"
+    elif displacement >= 15.0:
+        classification = "moving_candidate"
+    elif displacement <= 5.0:
+        classification = "in_place_candidate"
+    else:
+        classification = "ambiguous"
+    return {
+        "classification": classification,
+        "evidence_source": evidence_source,
+        "landmark_bone": landmark_name,
+        "first_to_last_horizontal_distance_cm": displacement,
+        "thresholds_cm": {"in_place_max": 5.0, "moving_min": 15.0},
+    }
+
+
+def _motion_facial_channel_class(face_clip_delta, animated_bones):
+    has_face_clip = int(face_clip_delta) > 0
+    has_facial_bones = int(
+        animated_bones.get("facial_bone_candidate_count", 0)
+    ) > 0
+    if has_face_clip and has_facial_bones:
+        return "mixed_face_clip_and_facial_bones"
+    if has_face_clip:
+        return "face_clip_present"
+    if has_facial_bones:
+        return "facial_bones_present"
+    return "none_detected"
+
+
 def probe_current_hair_motion(library, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     avatar, avatars = resolve_avatar()
@@ -11972,38 +19259,108 @@ def probe_current_hair_motion(library, output_dir):
         probe.get("motion_path"),
         "Hair motion probe",
     )
-    camera_path = canonical_existing_file(
-        probe.get("camera_path"),
-        "Hair motion probe camera",
-    )
-    sample_frames = probe.get("sample_frames") or [
-        0,
-        30,
-        60,
-        90,
-        120,
-    ]
-    if (
-        not isinstance(sample_frames, list)
-        or not sample_frames
-        or any(
-            not isinstance(item, int) or item < 0
-            for item in sample_frames
-        )
-    ):
+    camera_mode = probe.get("camera_mode", "loaded_preset")
+    if camera_mode not in ("loaded_preset", "lightroom_current"):
         raise ReconstructionError(
-            "hair_motion_probe.sample_frames must contain "
-            "non-negative integers"
+            "Unsupported hair motion camera mode: {}".format(camera_mode)
         )
-    sample_frames = sorted(set(sample_frames))
+    camera_path = None
+    if camera_mode == "loaded_preset":
+        camera_path = canonical_existing_file(
+            probe.get("camera_path"),
+            "Hair motion probe camera",
+        )
+    sample_normalized_positions = probe.get(
+        "sample_normalized_positions"
+    )
+    sample_frames = probe.get("sample_frames")
+    sample_interval_frames = probe.get("sample_interval_frames")
+    if sample_normalized_positions is not None:
+        if (
+            not isinstance(sample_normalized_positions, list)
+            or not sample_normalized_positions
+            or any(
+                isinstance(item, bool)
+                or not isinstance(item, (int, float))
+                or not math.isfinite(float(item))
+                or float(item) < 0.0
+                or float(item) > 1.0
+                for item in sample_normalized_positions
+            )
+        ):
+            raise ReconstructionError(
+                "hair_motion_probe.sample_normalized_positions must "
+                "contain values from 0 to 1"
+            )
+        sample_normalized_positions = sorted(
+            set(float(item) for item in sample_normalized_positions)
+        )
+        if sample_frames is not None or sample_interval_frames is not None:
+            raise ReconstructionError(
+                "hair_motion_probe sampling modes are mutually exclusive"
+            )
+    elif sample_interval_frames is not None:
+        if (
+            isinstance(sample_interval_frames, bool)
+            or not isinstance(sample_interval_frames, int)
+            or sample_interval_frames <= 0
+        ):
+            raise ReconstructionError(
+                "hair_motion_probe.sample_interval_frames must be a "
+                "positive integer"
+            )
+        if sample_frames is not None:
+            raise ReconstructionError(
+                "hair_motion_probe sampling modes are mutually exclusive"
+            )
+    else:
+        sample_frames = sample_frames or [0, 30, 60, 90, 120]
+        if (
+            not isinstance(sample_frames, list)
+            or not sample_frames
+            or any(
+                not isinstance(item, int) or item < 0
+                for item in sample_frames
+            )
+        ):
+            raise ReconstructionError(
+                "hair_motion_probe.sample_frames must contain "
+                "non-negative integers"
+            )
+        sample_frames = sorted(set(sample_frames))
     subject_position = probe.get("subject_position") or {}
-    yaw_degrees = float(probe.get("yaw_degrees", 90.0))
+    raw_yaw_degrees = probe.get("yaw_degrees", 90.0)
+    yaw_degrees = (
+        None if raw_yaw_degrees is None else float(raw_yaw_degrees)
+    )
     segment_timeout_seconds = float(
         probe.get("segment_timeout_seconds", 20.0)
     )
     if segment_timeout_seconds <= 0.0:
         raise ReconstructionError(
             "hair_motion_probe.segment_timeout_seconds must be positive"
+        )
+    auto_frame_full_body = probe.get("auto_frame_full_body", False)
+    if not isinstance(auto_frame_full_body, bool):
+        raise ReconstructionError(
+            "hair_motion_probe.auto_frame_full_body must be a boolean"
+        )
+    require_hair_physics = probe.get("require_hair_physics", True)
+    if not isinstance(require_hair_physics, bool):
+        raise ReconstructionError(
+            "hair_motion_probe.require_hair_physics must be a boolean"
+        )
+    follow_root_for_capture = probe.get("follow_root_for_capture", False)
+    if not isinstance(follow_root_for_capture, bool):
+        raise ReconstructionError(
+            "hair_motion_probe.follow_root_for_capture must be a boolean"
+        )
+    align_motion_start_to_source = probe.get(
+        "align_motion_start_to_source", False
+    )
+    if not isinstance(align_motion_start_to_source, bool):
+        raise ReconstructionError(
+            "hair_motion_probe.align_motion_start_to_source must be a boolean"
         )
 
     skeleton = avatar.GetSkeletonComponent()
@@ -12035,22 +19392,30 @@ def probe_current_hair_motion(library, output_dir):
     )
     fps = RLPy.RGlobal.GetFps()
     clip_start = RLPy.IndexedFrameTime(0, fps)
+    initial_scene_props = _motion_scene_prop_inventory()
     report = {
         "avatar": {
             "id": scene_object_id(avatar),
             "name": scene_object_name(avatar),
         },
         "captured_at": now(),
+        "camera_mode": camera_mode,
         "camera_path": camera_path,
+        "fps": float(fps.ToFloat()),
         "initial_hair_physics": capture_current_hair_physics(
-            avatar
+            avatar,
+            require_hair=require_hair_physics,
         ),
+        "initial_scene_props": initial_scene_props,
         "motion_path": motion_path,
         "samples": [],
         "schema_version": 1,
     }
     baseline_clip_count = initial_clip_count
     baseline_face_clip_count = initial_face_clip_count
+    landmark_bones = _motion_landmark_bones(skeleton)
+    source_anchor_landmarks = []
+    source_anchor = None
     try:
         if bool(probe.get("replace_existing_motion_clips", True)):
             for clip_index in range(
@@ -12086,23 +19451,68 @@ def probe_current_hair_motion(library, output_dir):
                 baseline_face_clip_count = int(
                     face_component.GetClipCount()
                 )
-
         checked(
-            "Load hair motion probe camera",
-            RLPy.RFileIO.LoadFile(camera_path),
+            "Set source anchor frame",
+            RLPy.RGlobal.SetTime(clip_start, True),
         )
+        source_anchor_landmarks = _capture_motion_landmark_bones(
+            landmark_bones
+        )
+        source_anchor = _motion_primary_landmark_translation(
+            source_anchor_landmarks
+        )
+        if align_motion_start_to_source and source_anchor is None:
+            raise ReconstructionError(
+                "Motion start alignment has no source root landmark"
+            )
+        report["source_anchor_landmarks"] = source_anchor_landmarks
+
+        if camera_mode == "loaded_preset":
+            camera_status, camera_dialogs = (
+                load_file_with_optional_undo_warning(
+                    camera_path,
+                    "Load hair motion probe camera",
+                )
+            )
+        else:
+            camera_status = {
+                "is_error": False,
+                "returned": True,
+                "status_code": "current_after_lightroom",
+            }
+            camera_dialogs = {
+                "observed_dialogs": [],
+                "policy": "no_camera_file_load",
+            }
         motion_camera = RLPy.RScene.GetCurrentCamera()
         if motion_camera is None:
             raise ReconstructionError(
                 "Hair motion probe has no active camera"
             )
         report["camera"] = camera_state(motion_camera)
+        report["camera_follow_policy"] = {
+            "enabled": follow_root_for_capture,
+            "evidence_captured_before_camera_follow": True,
+            "landmark_priority": "RL_BoneRoot_then_root_then_hip",
+            "method": "temporary_avatar_transform_offset",
+            "subject_transform_restored_after_each_capture": True,
+        }
+        report["camera_load_status"] = camera_status
+        report["camera_load_dialogs"] = camera_dialogs
         RLPy.RScene.SelectObject(avatar)
-        checked(
-            "Load hair motion probe",
-            RLPy.RFileIO.LoadFile(motion_path),
+        props_before_motion = _motion_scene_prop_inventory()
+        motion_status, motion_dialogs = (
+            load_file_with_optional_undo_warning(
+                motion_path,
+                "Load hair motion probe",
+            )
         )
         QtWidgets.QApplication.processEvents()
+        props_after_motion = _motion_scene_prop_inventory()
+        report["motion_load_status"] = motion_status
+        report["motion_load_dialogs"] = motion_dialogs
+        report["scene_props_before_motion"] = props_before_motion
+        report["scene_props_after_motion"] = props_after_motion
         clip_count = int(skeleton.GetClipCount())
         if clip_count <= baseline_clip_count:
             raise ReconstructionError(
@@ -12122,43 +19532,133 @@ def probe_current_hair_motion(library, output_dir):
             raise ReconstructionError(
                 "Hair motion probe clip has no positive length"
             )
-        bounded_frames = sorted(
-            set(
-                min(frame, clip_length_frame)
-                for frame in sample_frames
+        if sample_normalized_positions is not None:
+            bounded_frames = sorted(
+                set(
+                    min(
+                        int(round(position * clip_length_frame)),
+                        clip_length_frame,
+                    )
+                    for position in sample_normalized_positions
+                )
             )
+        elif sample_interval_frames is not None:
+            bounded_frames = list(
+                range(0, clip_length_frame + 1, sample_interval_frames)
+            )
+            if bounded_frames[-1] != clip_length_frame:
+                bounded_frames.append(clip_length_frame)
+        else:
+            bounded_frames = sorted(
+                set(
+                    min(frame, clip_length_frame)
+                    for frame in sample_frames
+                )
+            )
+        animated_bones = _motion_animated_bone_inventory(skeleton)
+        face_clip_count_after_load = (
+            int(face_component.GetClipCount())
+            if face_component is not None
+            else 0
+        )
+        face_clip_delta = (
+            face_clip_count_after_load - baseline_face_clip_count
         )
         report["clip"] = {
             "clip_count_after_load": clip_count,
-            "face_clip_count_after_load": (
-                int(face_component.GetClipCount())
-                if face_component is not None
-                else 0
+            "face_clip_count_after_load": face_clip_count_after_load,
+            "face_clip_delta": face_clip_delta,
+            "animated_bones": animated_bones,
+            "facial_channel_class": _motion_facial_channel_class(
+                face_clip_delta, animated_bones
             ),
             "length_frame": clip_length_frame,
             "load_method": "RFileIO.LoadFile",
             "python_type": type(clip).__name__,
+            "sample_normalized_positions": sample_normalized_positions,
             "sample_frames": bounded_frames,
+            "sample_interval_frames": sample_interval_frames,
         }
+        checked(
+            "Set hair motion start frame for framing",
+            RLPy.RGlobal.SetTime(clip_start, True),
+        )
+        motion_start_alignment = None
+        capture_position = dict(subject_position)
+        if auto_frame_full_body:
+            framing = _outfit_gate_frame_full_body(
+                avatar,
+                motion_camera,
+                yaw_degrees=(
+                    yaw_degrees
+                    if yaw_degrees is not None
+                    else math.degrees(initial_yaw_radians)
+                ),
+            )
+            subject_position = dict(framing["target_position"])
+            capture_position = dict(subject_position)
+            report["framing"] = framing
+        else:
+            report["framing"] = None
+            if align_motion_start_to_source:
+                motion_start_landmarks = _capture_motion_landmark_bones(
+                    landmark_bones
+                )
+                motion_start_anchor = _motion_primary_landmark_translation(
+                    motion_start_landmarks
+                )
+                if motion_start_anchor is None:
+                    raise ReconstructionError(
+                        "Motion start alignment has no motion root landmark"
+                    )
+                offset = dict(
+                    (
+                        axis,
+                        source_anchor["translation"][axis]
+                        - motion_start_anchor["translation"][axis],
+                    )
+                    for axis in ("x", "y", "z")
+                )
+                capture_position = dict(
+                    (
+                        axis,
+                        initial_position[axis] + offset[axis],
+                    )
+                    for axis in ("x", "y", "z")
+                )
+                motion_start_alignment = {
+                    "enabled": True,
+                    "landmark": source_anchor["name"],
+                    "source_translation": dict(
+                        source_anchor["translation"]
+                    ),
+                    "motion_translation_before_alignment": dict(
+                        motion_start_anchor["translation"]
+                    ),
+                    "avatar_transform_offset": offset,
+                    "target_avatar_position": dict(capture_position),
+                }
+        report["motion_start_alignment"] = motion_start_alignment
         set_avatar_position(
             avatar,
             position_x=float(
-                subject_position.get(
+                capture_position.get(
                     "x", initial_position["x"]
                 )
             ),
             position_y=float(
-                subject_position.get(
+                capture_position.get(
                     "y", initial_position["y"]
                 )
             ),
             position_z=float(
-                subject_position.get(
+                capture_position.get(
                     "z", initial_position["z"]
                 )
             ),
         )
-        set_avatar_yaw(avatar, yaw_degrees)
+        if yaw_degrees is not None:
+            set_avatar_yaw(avatar, yaw_degrees)
         checked(
             "Enable hair motion physics simulation loop",
             RLPy.RGlobal.SetPhysicsSimulationLoop(True),
@@ -12180,6 +19680,7 @@ def probe_current_hair_motion(library, output_dir):
             RLPy.RGlobal.SetTime(clip_start, True),
         )
         previous_frame = 0
+        camera_follow_reference = None
         for frame in bounded_frames:
             target_time = RLPy.IndexedFrameTime(frame, fps)
             if frame > previous_frame:
@@ -12216,18 +19717,115 @@ def probe_current_hair_motion(library, output_dir):
                 RLPy.RScene.SetCurrentCamera(motion_camera),
             )
             QtWidgets.QApplication.processEvents()
+            sample_bounds = capture_bounds(avatar)
+            sample_world_transform = _transform_data(
+                avatar.WorldTransform()
+            )
+            sample_landmarks = _capture_motion_landmark_bones(
+                landmark_bones
+            )
+            sample_hair_physics = capture_current_hair_physics(
+                avatar,
+                require_hair=require_hair_physics,
+            )
+            camera_follow = None
+            transform_data_block = None
+            original_transform_values = None
+            if follow_root_for_capture:
+                primary_landmark = (
+                    _motion_primary_landmark_translation(
+                        sample_landmarks
+                    )
+                )
+                if primary_landmark is None:
+                    raise ReconstructionError(
+                        "Hair motion camera follow has no root landmark"
+                    )
+                if camera_follow_reference is None:
+                    camera_follow_reference = _motion_capture_reference(
+                        subject_position if auto_frame_full_body else {},
+                        primary_landmark,
+                    )
+                reference_translation = camera_follow_reference[
+                    "translation"
+                ]
+                current_translation = primary_landmark["translation"]
+                root_delta = dict(
+                    (
+                        axis,
+                        current_translation[axis]
+                        - reference_translation[axis],
+                    )
+                    for axis in ("x", "y", "z")
+                )
+                transform_data_block, original_transform_values = (
+                    _motion_avatar_transform_values(
+                        avatar,
+                        target_time,
+                    )
+                )
+                capture_offset = dict(
+                    (axis, -root_delta[axis])
+                    for axis in ("x", "y", "z")
+                )
+                capture_transform_values = dict(
+                    (
+                        axis,
+                        original_transform_values[axis]
+                        + capture_offset[axis],
+                    )
+                    for axis in ("x", "y", "z")
+                )
+                _motion_set_avatar_transform_values(
+                    transform_data_block,
+                    target_time,
+                    capture_transform_values,
+                    "Offset hair motion capture frame {}".format(frame),
+                )
+                checked(
+                    "Restore hair motion camera at followed frame {}".format(
+                        frame
+                    ),
+                    RLPy.RScene.SetCurrentCamera(motion_camera),
+                )
+                QtWidgets.QApplication.processEvents()
+                camera_follow = {
+                    "capture_offset": capture_offset,
+                    "landmark": primary_landmark["name"],
+                    "reference_source": camera_follow_reference["source"],
+                    "reference_translation": dict(reference_translation),
+                    "root_delta": root_delta,
+                }
             image_path = os.path.join(
                 output_dir,
                 "hair_motion_frame_{:04d}.png".format(frame),
             )
-            render_preview(image_path, target_time)
+            try:
+                render_preview(image_path, target_time)
+            finally:
+                if (
+                    transform_data_block is not None
+                    and original_transform_values is not None
+                ):
+                    _motion_set_avatar_transform_values(
+                        transform_data_block,
+                        target_time,
+                        original_transform_values,
+                        "Restore hair motion subject frame {}".format(frame),
+                    )
+                    QtWidgets.QApplication.processEvents()
             report["samples"].append(
                 {
+                    "avatar_bounds": sample_bounds,
+                    "avatar_world_transform": sample_world_transform,
+                    "camera_follow": camera_follow,
                     "frame": frame,
-                    "hair_physics": capture_current_hair_physics(
-                        avatar
-                    ),
+                    "hair_physics": sample_hair_physics,
                     "image": image_path,
+                    "image_record": _outfit_gate_image_record(
+                        image_path
+                    ),
+                    "landmark_bones": sample_landmarks,
                 }
             )
             previous_frame = frame
@@ -12268,6 +19866,38 @@ def probe_current_hair_motion(library, output_dir):
             RLPy.RScene.SetCurrentCamera(initial_camera)
         QtWidgets.QApplication.processEvents()
 
+    report["root_motion_evidence"] = (
+        _classify_motion_root_evidence(report["samples"])
+    )
+    before_prop_ids = set(
+        item["id"]
+        for item in report.get("scene_props_before_motion", {}).get(
+            "objects", []
+        )
+    )
+    added_props = [
+        item
+        for item in report.get("scene_props_after_motion", {}).get(
+            "objects", []
+        )
+        if item["id"] not in before_prop_ids
+    ]
+    report["hidden_dependency_evidence"] = {
+        "added_scene_props": added_props,
+        "automatic_classification": (
+            "scene_prop_added" if added_props else "none_detected"
+        ),
+        "manual_visual_review_required": True,
+    }
+    report["loop_evidence"] = {
+        "automatic_classification": "pending_visual_review",
+        "first_frame": (
+            report["samples"][0]["frame"] if report["samples"] else None
+        ),
+        "last_frame": (
+            report["samples"][-1]["frame"] if report["samples"] else None
+        ),
+    }
     report["finished_at"] = now()
     report_path = os.path.join(
         output_dir, "hair_motion_probe.json"
@@ -12293,6 +19923,1672 @@ def probe_current_hair_motion(library, output_dir):
         "summary_path": summary_path,
     }
     write_json(summary, summary_path)
+    return summary
+
+
+def _animation_p0_verified_file(record, label):
+    if not isinstance(record, dict):
+        raise ReconstructionError("{} record must be an object".format(label))
+    path = canonical_existing_file(record.get("path"), label)
+    expected_size = record.get("size_bytes", record.get("bytes"))
+    if expected_size is not None and os.path.getsize(path) != int(
+        expected_size
+    ):
+        raise ReconstructionError("{} size changed".format(label))
+    digest = sha256_file(path)
+    expected_digest = record.get("sha256")
+    if expected_digest is not None and digest != expected_digest:
+        raise ReconstructionError("{} SHA-256 changed".format(label))
+    return {
+        "bytes": os.path.getsize(path),
+        "path": path,
+        "sha256": digest,
+    }
+
+
+def run_animation_p0_dynamic_gate(
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "P0 animation actor IDs must be non-empty and unique"
+        )
+    unknown = sorted(set(selected_ids) - set(by_id))
+    if unknown:
+        raise ReconstructionError(
+            "Unknown P0 animation actors: {}".format(unknown)
+        )
+
+    capture_policy = library.get("capture_policy") or {}
+    camera_mode = capture_policy.get("camera_mode", "lightroom_current")
+    if camera_mode not in ("loaded_preset", "lightroom_current"):
+        raise ReconstructionError(
+            "Unsupported P0 animation camera mode: {}".format(camera_mode)
+        )
+    camera_record = None
+    if camera_mode == "loaded_preset":
+        camera_record = _animation_p0_verified_file(
+            library.get("full_body_camera"),
+            "P0 animation full-body camera",
+        )
+    lightroom_record = _animation_p0_verified_file(
+        library.get("lightroom"),
+        "P0 animation Lightroom",
+    )
+    manifest_record = _animation_p0_verified_file(
+        library.get("source_pilot_manifest"),
+        "P0 Pilot manifest",
+    )
+    review_template_record = _animation_p0_verified_file(
+        library.get("source_dynamic_review_template"),
+        "P0 dynamic review template",
+    )
+    pilot_manifest = read_json(manifest_record["path"])
+    review_document = read_json(review_template_record["path"])
+    expected_pilot_id = (
+        library.get("source_pilot_manifest") or {}
+    ).get("pilot_id")
+    if pilot_manifest.get("pilot_id") != expected_pilot_id:
+        raise ReconstructionError("P0 Pilot manifest ID changed")
+    if review_document.get("pilot_id") != expected_pilot_id:
+        raise ReconstructionError("P0 dynamic review ID changed")
+    if review_document.get("status") != "not_started":
+        raise ReconstructionError("P0 dynamic review template is not pristine")
+
+    review_cases = review_document.get("cases") or []
+    review_by_id = dict((item.get("case_id"), item) for item in review_cases)
+    if len(review_by_id) != len(review_cases):
+        raise ReconstructionError(
+            "P0 dynamic review case IDs are invalid or duplicated"
+        )
+    execution_policy = library.get("execution_policy") or {}
+    sample_positions = capture_policy.get("sample_normalized_positions")
+    sample_interval_frames = capture_policy.get("sample_interval_frames")
+    if sample_positions is None and sample_interval_frames is None:
+        sample_positions = [0.0, 0.25, 0.5, 0.75, 1.0]
+    raw_yaw_degrees = capture_policy.get("yaw_degrees")
+    yaw_degrees = (
+        None if raw_yaw_degrees is None else float(raw_yaw_degrees)
+    )
+    auto_frame_full_body = capture_policy.get(
+        "auto_frame_full_body", False
+    )
+    if not isinstance(auto_frame_full_body, bool):
+        raise ReconstructionError(
+            "P0 auto_frame_full_body must be a boolean"
+        )
+    align_motion_start_to_source = capture_policy.get(
+        "align_motion_start_to_source", True
+    )
+    if not isinstance(align_motion_start_to_source, bool):
+        raise ReconstructionError(
+            "P0 align_motion_start_to_source must be a boolean"
+        )
+    segment_timeout_seconds = float(
+        capture_policy.get("segment_timeout_seconds", 45.0)
+    )
+    continue_after_failure = bool(
+        execution_policy.get("continue_after_motion_failure", True)
+    )
+
+    selected_case_count = sum(
+        len(by_id[preset_id].get("motion_cases") or [])
+        for preset_id in selected_ids
+    )
+    if selected_case_count <= 0:
+        raise ReconstructionError("P0 animation gate has no selected cases")
+    selected_case_ids = []
+    for preset_id in selected_ids:
+        for case in by_id[preset_id].get("motion_cases") or []:
+            case_id = case.get("case_id")
+            if not isinstance(case_id, str) or not case_id:
+                raise ReconstructionError("P0 animation case ID is invalid")
+            selected_case_ids.append(case_id)
+            if case_id not in review_by_id:
+                raise ReconstructionError(
+                    "P0 animation review is missing {}".format(case_id)
+                )
+            if case.get("production_status") != "not_approved":
+                raise ReconstructionError(
+                    "P0 animation case inherited production approval"
+                )
+    if len(selected_case_ids) != len(set(selected_case_ids)):
+        raise ReconstructionError("P0 animation case IDs are duplicated")
+
+    started_at = now()
+    progress_path = os.path.join(output_dir, "progress.json")
+    review_output_path = os.path.join(
+        output_dir, "dynamic_review_automation.json"
+    )
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    cases_root = os.path.join(output_dir, "cases")
+    os.makedirs(cases_root, exist_ok=True)
+    results = []
+    actor_results = []
+    completed_case_ids = set()
+
+    def write_checkpoint(phase, active_actor=None, active_case=None):
+        failed = [item for item in results if not item.get("success")]
+        review_status = (
+            "automation_complete_pending_visual_review"
+            if phase == "complete" and not failed
+            else (
+                "automation_complete_with_failures_pending_review"
+                if phase == "complete"
+                else "automation_in_progress"
+            )
+        )
+        review_document["status"] = review_status
+        review_document["automation"] = {
+            "completed_case_count": len(completed_case_ids),
+            "expected_case_count": selected_case_count,
+            "failure_count": len(failed),
+            "finished_at": now() if phase == "complete" else None,
+            "phase": phase,
+            "production_approved_count": 0,
+            "started_at": started_at,
+        }
+        write_json(review_document, review_output_path)
+        summary = {
+            "schema_version": 1,
+            "diagnostic_mode": "animation_p0_dynamic_gate",
+            "library_id": library.get("library_id"),
+            "pilot_id": expected_pilot_id,
+            "started_at": started_at,
+            "finished_at": now() if phase == "complete" else None,
+            "phase": phase,
+            "requested_count": selected_case_count,
+            "success_count": len(results) - len(failed),
+            "failure_count": len(failed),
+            "success": bool(
+                phase == "complete"
+                and not failed
+                and len(results) == selected_case_count
+            ),
+            "production_approved_count": 0,
+            "actor_results": actor_results,
+            "results": results,
+            "review_path": review_output_path,
+            "progress_path": progress_path,
+            "summary_path": summary_path,
+        }
+        write_json(summary, summary_path)
+        write_json(
+            {
+                "schema_version": 1,
+                "updated_at": now(),
+                "phase": phase,
+                "active_actor": active_actor,
+                "active_case": active_case,
+                "completed_case_count": len(completed_case_ids),
+                "expected_case_count": selected_case_count,
+                "failure_count": len(failed),
+            },
+            progress_path,
+        )
+        return summary
+
+    write_checkpoint("initializing")
+    for actor_index, preset_id in enumerate(selected_ids, 1):
+        preset = by_id[preset_id]
+        log(
+            "P0 animation actor {}/{}: {}".format(
+                actor_index, len(selected_ids), preset_id
+            )
+        )
+        source_project = _animation_p0_verified_file(
+            preset.get("source_project"),
+            "P0 actor project {}".format(preset_id),
+        )
+        actor_started_at = now()
+        write_checkpoint("loading_actor", preset_id)
+        source_status, source_dialogs = (
+            load_file_with_optional_undo_warning(
+                source_project["path"],
+                "Load P0 animation actor {}".format(preset_id),
+            )
+        )
+        settle_cc_ui(5.0)
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "P0 actor {} loaded {} avatars".format(
+                    preset_id, len(avatars)
+                )
+            )
+        motion_cleanup = clear_avatar_motion(avatar)
+        lightroom_status, lightroom_dialogs = (
+            load_file_with_optional_undo_warning(
+                lightroom_record["path"],
+                "Load P0 animation Lightroom",
+            )
+        )
+        settle_cc_ui(1.0)
+        actor_result = {
+            "preset_id": preset_id,
+            "sex": preset.get("sex"),
+            "started_at": actor_started_at,
+            "source_project": source_project,
+            "source_load_status": source_status,
+            "source_load_dialogs": source_dialogs,
+            "initial_motion_cleanup": motion_cleanup,
+            "lightroom": lightroom_record,
+            "lightroom_load_status": lightroom_status,
+            "lightroom_load_dialogs": lightroom_dialogs,
+            "case_ids": [],
+        }
+        actor_results.append(actor_result)
+
+        for case_index, case in enumerate(preset.get("motion_cases") or [], 1):
+            case_id = case["case_id"]
+            log(
+                "P0 animation {} {}/{}: {}".format(
+                    preset_id,
+                    case_index,
+                    len(preset.get("motion_cases") or []),
+                    case_id,
+                )
+            )
+            write_checkpoint("running_motion", preset_id, case_id)
+            motion_record = _animation_p0_verified_file(
+                case.get("motion"),
+                "P0 motion {}".format(case_id),
+            )
+            case_dir = os.path.join(cases_root, preset_id, case_id)
+            result = {
+                "case_id": case_id,
+                "motion_id": case.get("motion_id"),
+                "pilot_actor_preset_id": preset_id,
+                "review_family": case.get("review_family"),
+                "source_format": case.get("source_format"),
+                "motion": motion_record,
+                "started_at": now(),
+                "success": False,
+            }
+            review_case = review_by_id[case_id]
+            try:
+                motion_summary = probe_current_hair_motion(
+                    {
+                        "hair_motion_probe": {
+                            "motion_path": motion_record["path"],
+                            "camera_mode": camera_mode,
+                            "camera_path": (
+                                camera_record["path"]
+                                if camera_record is not None
+                                else None
+                            ),
+                            "sample_normalized_positions": sample_positions,
+                            "sample_interval_frames": sample_interval_frames,
+                            "yaw_degrees": yaw_degrees,
+                            "replace_existing_motion_clips": True,
+                            "segment_timeout_seconds": (
+                                segment_timeout_seconds
+                            ),
+                            "auto_frame_full_body": auto_frame_full_body,
+                            "align_motion_start_to_source": (
+                                align_motion_start_to_source
+                            ),
+                            "follow_root_for_capture": True,
+                            "require_hair_physics": False,
+                        }
+                    },
+                    case_dir,
+                )
+                motion_report = read_json(
+                    motion_summary["hair_motion_probe_path"]
+                )
+                if sha256_file(motion_record["path"]) != motion_record["sha256"]:
+                    raise ReconstructionError(
+                        "P0 motion changed while loaded: {}".format(case_id)
+                    )
+                hidden_props = (
+                    motion_report.get("hidden_dependency_evidence", {})
+                    .get("added_scene_props", [])
+                )
+                review_case.update(
+                    {
+                        "load_status": "succeeded",
+                        "motion_length_frames": motion_report["clip"][
+                            "length_frame"
+                        ],
+                        "fps": motion_report.get("fps"),
+                        "loop_class": "pending_visual_review",
+                        "root_motion_class": motion_report.get(
+                            "root_motion_evidence", {}
+                        ).get("classification", "unavailable"),
+                        "facial_channel_class": motion_report["clip"].get(
+                            "facial_channel_class", "unavailable"
+                        ),
+                        "hidden_dependencies": [
+                            {
+                                "type": "scene_prop_added",
+                                "name": item.get("name"),
+                                "object_id": item.get("id"),
+                            }
+                            for item in hidden_props
+                        ],
+                        "visual_decision": "pending",
+                        "notes": [
+                            "Automation evidence only; visual approval is pending."
+                        ],
+                        "automation_evidence": {
+                            "report_path": motion_summary[
+                                "hair_motion_probe_path"
+                            ],
+                            "sample_images": [
+                                item.get("image_record", {}).get(
+                                    "path", item.get("image")
+                                )
+                                for item in motion_report.get("samples") or []
+                            ],
+                            "root_motion_evidence": motion_report.get(
+                                "root_motion_evidence"
+                            ),
+                            "face_clip_delta": motion_report["clip"].get(
+                                "face_clip_delta"
+                            ),
+                            "facial_bone_candidate_count": motion_report[
+                                "clip"
+                            ].get("animated_bones", {}).get(
+                                "facial_bone_candidate_count"
+                            ),
+                        },
+                    }
+                )
+                result.update(
+                    {
+                        "success": True,
+                        "finished_at": now(),
+                        "motion_summary": motion_summary,
+                        "motion_report_path": motion_summary[
+                            "hair_motion_probe_path"
+                        ],
+                    }
+                )
+            except BlockingDialogError:
+                review_case["load_status"] = "blocked_by_dialog"
+                review_case["notes"] = [traceback.format_exc()]
+                result["error"] = {
+                    "type": "BlockingDialogError",
+                    "message": "Known-safe automation could not resolve a dialog",
+                    "traceback": traceback.format_exc(),
+                }
+                result["finished_at"] = now()
+                results.append(result)
+                actor_result["case_ids"].append(case_id)
+                completed_case_ids.add(case_id)
+                write_checkpoint("blocked", preset_id, case_id)
+                raise
+            except Exception as exc:
+                review_case["load_status"] = "failed"
+                review_case["notes"] = [
+                    "{}: {}".format(type(exc).__name__, exc)
+                ]
+                result["error"] = {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                    "traceback": traceback.format_exc(),
+                }
+                result["finished_at"] = now()
+            results.append(result)
+            actor_result["case_ids"].append(case_id)
+            completed_case_ids.add(case_id)
+            write_checkpoint("motion_complete", preset_id, case_id)
+            QtWidgets.QApplication.processEvents()
+            if not result["success"] and not continue_after_failure:
+                return write_checkpoint(
+                    "stopped_after_failure", preset_id, case_id
+                )
+
+        actor_result["finished_at"] = now()
+        actor_result["source_project_unchanged"] = bool(
+            sha256_file(source_project["path"]) == source_project["sha256"]
+        )
+        if not actor_result["source_project_unchanged"]:
+            raise ReconstructionError(
+                "P0 actor source project changed: {}".format(preset_id)
+            )
+        write_checkpoint("actor_complete", preset_id)
+
+    return write_checkpoint("complete")
+
+
+def export_current_rlmotion_fbx(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "rlMotion FBX export expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    payload = library.get("rlmotion_fbx_export") or {}
+    motion_path = canonical_existing_file(
+        payload.get("motion_path"),
+        "rlMotion FBX export",
+    )
+    require_file_extension(
+        motion_path,
+        ".rlmotion",
+        "rlMotion FBX export",
+    )
+    output_filename = payload.get("output_filename")
+    if (
+        not isinstance(output_filename, str)
+        or not output_filename
+        or os.path.basename(output_filename) != output_filename
+        or not output_filename.lower().endswith(".fbx")
+    ):
+        raise ReconstructionError(
+            "rlmotion_fbx_export.output_filename must be a simple .fbx filename"
+        )
+    fbx_path = os.path.join(output_dir, output_filename)
+    if os.path.isfile(fbx_path):
+        os.remove(fbx_path)
+
+    skeleton = avatar.GetSkeletonComponent()
+    if skeleton is None:
+        raise ReconstructionError(
+            "rlMotion FBX export avatar has no skeleton component"
+        )
+    face_component = avatar.GetFaceComponent()
+    initial_clip_count = int(skeleton.GetClipCount())
+    initial_face_clip_count = (
+        int(face_component.GetClipCount())
+        if face_component is not None
+        else 0
+    )
+    if bool(payload.get("require_empty_timeline", True)) and (
+        initial_clip_count != 0 or initial_face_clip_count != 0
+    ):
+        raise ReconstructionError(
+            "rlMotion FBX export requires an empty timeline; found {} body and "
+            "{} face clips".format(
+                initial_clip_count,
+                initial_face_clip_count,
+            )
+        )
+
+    started_at = now()
+    initial_time = RLPy.RGlobal.GetTime()
+    initial_start_time = RLPy.RGlobal.GetStartTime()
+    initial_end_time = RLPy.RGlobal.GetEndTime()
+    fps = RLPy.RGlobal.GetFps()
+    clip_start = RLPy.IndexedFrameTime(0, fps)
+    report = {
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+        },
+        "diagnostic_mode": "rlmotion_fbx_export",
+        "export_path": fbx_path,
+        "motion_path": motion_path,
+        "schema_version": 1,
+        "started_at": started_at,
+    }
+    try:
+        RLPy.RScene.SelectObject(avatar)
+        checked(
+            "Load rlMotion for FBX export",
+            RLPy.RFileIO.LoadFile(motion_path, False),
+        )
+        QtWidgets.QApplication.processEvents()
+        clip_count = int(skeleton.GetClipCount())
+        if clip_count <= initial_clip_count:
+            raise ReconstructionError(
+                "rlMotion FBX export did not add a skeleton clip"
+            )
+        clip = skeleton.GetClip(clip_count - 1)
+        clip_length = clip.GetLength()
+        clip_length_frame = int(fps.GetFrameIndex(clip_length))
+        if clip_length_frame <= 0:
+            clip_length = clip.GetClipLength()
+            clip_length_frame = int(fps.GetFrameIndex(clip_length))
+        if clip_length_frame <= 0:
+            raise ReconstructionError(
+                "rlMotion FBX export clip has no positive length"
+            )
+
+        checked(
+            "Set rlMotion FBX export start time",
+            RLPy.RGlobal.SetStartTime(clip_start),
+        )
+        checked(
+            "Set rlMotion FBX export end time",
+            RLPy.RGlobal.SetEndTime(clip_length),
+        )
+        checked(
+            "Initialize rlMotion FBX export time",
+            RLPy.RGlobal.SetTime(clip_start, True),
+        )
+        license_status = checked(
+            "Check rlMotion FBX export license",
+            RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
+        )
+        raise_if_fatal_cc_dialog(output_dir)
+
+        motion_only = bool(payload.get("motion_only", True))
+        export_option = RLPy.EExportFbxOptions__None
+        export_option |= RLPy.EExportFbxOptions_ExportRootMotion
+        if motion_only:
+            export_option |= RLPy.EExportFbxOptions_RemoveAllMesh
+        else:
+            export_option |= RLPy.EExportFbxOptions_AutoSkinRigidMesh
+        export_option2 = RLPy.EExportFbxOptions2__None
+        export_option2 |= RLPy.EExportFbxOptions2_UnrealEngine4BoneAxis
+        export_option2 |= RLPy.EExportFbxOptions2_UnrealPreset
+        export_option2 |= RLPy.EExportFbxOptions2_UnrealIkBone
+        export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateBoneName
+        export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMaterialName
+        export_option2 |= RLPy.EExportFbxOptions2_RenameTransparencyWithPostFix
+        export_option2 |= RLPy.EExportFbxOptions2_RenameBoneRootToGameType
+        export_option2 |= RLPy.EExportFbxOptions2_RenameBoneToLowerCase
+        export_option2 |= RLPy.EExportFbxOptions2_RenameBoneOnStd
+        export_option2 |= RLPy.EExportFbxOptions2_ResetBoneScale
+        export_option2 |= RLPy.EExportFbxOptions2_ResetSelfillumination
+        export_option2 |= RLPy.EExportFbxOptions2_ExtraWordForUnityAndUnreal
+        ascii_format = bool(payload.get("ascii_format", False))
+        if ascii_format:
+            export_option2 |= RLPy.EExportFbxOptions2_AsciiFormat
+
+        setting = RLPy.RExportFbxSetting()
+        checked(
+            "Enable rlMotion FBX motion export",
+            setting.EnableExportMotion(True),
+        )
+        checked(
+            "Set rlMotion FBX export FPS",
+            setting.SetExportMotionFps(fps),
+        )
+        checked(
+            "Set rlMotion FBX export range",
+            setting.SetExportMotionRange(
+                RLPy.RRangePair(0, clip_length_frame)
+            ),
+        )
+        checked(
+            "Set rlMotion FBX primary options",
+            setting.SetOption(export_option),
+        )
+        checked(
+            "Set rlMotion FBX Unreal options",
+            setting.SetOption2(export_option2),
+        )
+        checked(
+            "Disable rlMotion FBX JSON export",
+            setting.SetOption3(RLPy.EExportFbxOptions3__None),
+        )
+        checked(
+            "Set rlMotion FBX texture size",
+            setting.SetTextureSize(RLPy.EExportTextureSize_Original),
+        )
+        checked(
+            "Set rlMotion FBX texture format",
+            setting.SetTextureFormat(RLPy.EExportTextureFormat_Default),
+        )
+        checked(
+            "Set rlMotion FBX UE5 bone structure",
+            setting.SetUnrealBoneStructure(
+                RLPy.EUnrealBoneStructure_UE5_BoneStructure
+            ),
+        )
+        checked(
+            "Disable basic bind pose in rlMotion FBX export",
+            setting.EnableBasicBindPose(False),
+        )
+        export_status = checked(
+            "Export rlMotion FBX",
+            RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
+        )
+        raise_if_fatal_cc_dialog(output_dir)
+        file_state = wait_for_rendered_preview(
+            fbx_path,
+            timeout_seconds=float(payload.get("export_timeout_seconds", 180.0)),
+            stable_seconds=1.0,
+        )
+        report.update(
+            {
+                "clip": {
+                    "body_clip_count_after_load": clip_count,
+                    "face_clip_count_after_load": (
+                        int(face_component.GetClipCount())
+                        if face_component is not None
+                        else 0
+                    ),
+                    "length_frame": clip_length_frame,
+                },
+                "export": {
+                    "api": "RFileIO.ExportFbxFile(object, path, setting)",
+                    "ascii_format": ascii_format,
+                    "bytes": file_state["bytes"],
+                    "export_root_motion": True,
+                    "license_status": license_status,
+                    "motion_only": motion_only,
+                    "option": int(export_option),
+                    "option2": int(export_option2),
+                    "option3": int(RLPy.EExportFbxOptions3__None),
+                    "sha256": sha256_file(fbx_path),
+                    "status": export_status,
+                    "unreal_bone_structure": "UE5",
+                },
+                "finished_at": now(),
+                "success": True,
+            }
+        )
+    finally:
+        if RLPy.RGlobal.IsPlaying():
+            RLPy.RGlobal.Stop()
+        for clip_index in range(
+            int(skeleton.GetClipCount()) - 1,
+            initial_clip_count - 1,
+            -1,
+        ):
+            skeleton.DeleteClip(skeleton.GetClip(clip_index))
+            QtWidgets.QApplication.processEvents()
+        if face_component is not None:
+            for clip_index in range(
+                int(face_component.GetClipCount()) - 1,
+                initial_face_clip_count - 1,
+                -1,
+            ):
+                face_component.DeleteClip(face_component.GetClip(clip_index))
+                QtWidgets.QApplication.processEvents()
+        RLPy.RGlobal.SetStartTime(initial_start_time)
+        RLPy.RGlobal.SetEndTime(initial_end_time)
+        RLPy.RGlobal.SetTime(initial_time, True)
+        QtWidgets.QApplication.processEvents()
+
+    report_path = os.path.join(output_dir, "rlmotion_fbx_export.json")
+    write_json(report, report_path)
+    summary_path = os.path.join(
+        output_dir, "rlmotion_fbx_export_summary.json"
+    )
+    summary = {
+        "diagnostic_mode": "rlmotion_fbx_export",
+        "export_path": fbx_path,
+        "failure_count": 0,
+        "finished_at": report["finished_at"],
+        "motion_length_frame": report["clip"]["length_frame"],
+        "requested_count": 1,
+        "rlmotion_fbx_export_path": report_path,
+        "schema_version": 1,
+        "started_at": started_at,
+        "success": True,
+        "success_count": 1,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def export_animation_p0_ue_runtime_pilot(library, output_dir, log):
+    """Export two clothed references and their P0 motion-only FBXs."""
+    payload = library.get("animation_p0_ue_export") or {}
+    if not isinstance(payload, dict):
+        raise ReconstructionError(
+            "animation_p0_ue_export must be an object"
+        )
+    work_order_path = canonical_existing_file(
+        payload.get("work_order_path"),
+        "P0 UE runtime export work order",
+    )
+    expected_work_order_sha256 = payload.get("work_order_sha256")
+    if (
+        not isinstance(expected_work_order_sha256, str)
+        or len(expected_work_order_sha256) != 64
+    ):
+        raise ReconstructionError(
+            "animation_p0_ue_export.work_order_sha256 is required"
+        )
+    actual_work_order_sha256 = sha256_file(work_order_path)
+    if actual_work_order_sha256 != expected_work_order_sha256:
+        raise ReconstructionError(
+            "P0 UE runtime export work order hash changed"
+        )
+    work_order = read_json(work_order_path)
+    if work_order.get("status") != "ready_for_cc_export":
+        raise ReconstructionError(
+            "P0 UE runtime work order is not ready for CC export"
+        )
+    target_export_root = os.path.realpath(
+        os.path.abspath((work_order.get("export") or {}).get("root", ""))
+    )
+    staging_output_root = os.path.realpath(
+        os.path.abspath(payload.get("staging_output_root", ""))
+    )
+    if staging_output_root != output_dir:
+        raise ReconstructionError(
+            "P0 UE runtime output must match the configured staging root"
+        )
+
+    actors = work_order.get("actors") or []
+    motions = work_order.get("motions") or []
+    actor_project_overrides = payload.get("actor_project_overrides") or {}
+    if not isinstance(actor_project_overrides, dict):
+        raise ReconstructionError(
+            "animation_p0_ue_export.actor_project_overrides must be an object"
+        )
+    expected_source_timeline = payload.get("expected_source_timeline") or {}
+    if not isinstance(expected_source_timeline, dict):
+        raise ReconstructionError(
+            "animation_p0_ue_export.expected_source_timeline must be an object"
+        )
+    export_names = payload.get("export_names") or {}
+    actor_export_names = export_names.get("actors") or {}
+    motion_export_names = export_names.get("motions") or {}
+    if not isinstance(actor_export_names, dict) or not isinstance(
+        motion_export_names, dict
+    ):
+        raise ReconstructionError(
+            "animation_p0_ue_export.export_names is invalid"
+        )
+    expected_motion_count = int(
+        (work_order.get("scope") or {}).get("motion_count", -1)
+    )
+    if expected_motion_count < 1 or expected_motion_count > 64:
+        raise ReconstructionError(
+            "P0 UE runtime work order has an invalid motion count"
+        )
+    if len(actors) != 2 or len(motions) != expected_motion_count:
+        raise ReconstructionError(
+            "P0 UE runtime export requires two actors and the declared "
+            "motion count"
+        )
+    actor_ids = {
+        actor.get("actor_binding_id")
+        for actor in actors
+        if isinstance(actor, dict)
+    }
+    if len(actor_ids) != 2 or None in actor_ids:
+        raise ReconstructionError("P0 UE runtime actor bindings are invalid")
+    if any(
+        motion.get("actor_binding_id") not in actor_ids
+        for motion in motions
+        if isinstance(motion, dict)
+    ):
+        raise ReconstructionError(
+            "P0 UE runtime motion references an unknown actor"
+        )
+
+    timeout_seconds = float(payload.get("export_timeout_seconds", 900.0))
+    if timeout_seconds < 30.0 or timeout_seconds > 3600.0:
+        raise ReconstructionError(
+            "P0 UE runtime export timeout must be from 30 to 3600 seconds"
+        )
+    started_at = now()
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(
+        output_dir, "p0_ue_runtime_cc_export.json"
+    )
+    summary_path = os.path.join(
+        output_dir, "p0_ue_runtime_cc_export_summary.json"
+    )
+
+    def mark_phase(phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "diagnostic_mode": "animation_p0_ue_runtime_export",
+                "phase": phase,
+                "updated_at": now(),
+                "work_order_id": work_order.get("work_order_id"),
+            },
+            progress_path,
+        )
+
+    def directory_state(path):
+        if not os.path.isdir(path):
+            raise ReconstructionError(
+                "Expected export directory is missing: {}".format(path)
+            )
+        files = []
+        total_bytes = 0
+        for root, _directories, filenames in os.walk(path):
+            for filename in filenames:
+                file_path = os.path.join(root, filename)
+                size = os.path.getsize(file_path)
+                files.append(os.path.relpath(file_path, path))
+                total_bytes += size
+        if not files:
+            raise ReconstructionError(
+                "Expected export directory is empty: {}".format(path)
+            )
+        return {
+            "file_count": len(files),
+            "path": path,
+            "sample_files": sorted(files)[:20],
+            "total_bytes": total_bytes,
+        }
+
+    def unreal_option2(ascii_format=False):
+        option2 = RLPy.EExportFbxOptions2__None
+        option2 |= RLPy.EExportFbxOptions2_UnrealEngine4BoneAxis
+        option2 |= RLPy.EExportFbxOptions2_UnrealPreset
+        option2 |= RLPy.EExportFbxOptions2_UnrealIkBone
+        option2 |= RLPy.EExportFbxOptions2_RenameDuplicateBoneName
+        option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMaterialName
+        option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMorphName
+        option2 |= RLPy.EExportFbxOptions2_RenameTransparencyWithPostFix
+        option2 |= RLPy.EExportFbxOptions2_RenameBoneRootToGameType
+        option2 |= RLPy.EExportFbxOptions2_RenameBoneToLowerCase
+        option2 |= RLPy.EExportFbxOptions2_RenameBoneOnStd
+        option2 |= RLPy.EExportFbxOptions2_RenameMorphInvalidCharacter
+        option2 |= RLPy.EExportFbxOptions2_ResetBoneScale
+        option2 |= RLPy.EExportFbxOptions2_ResetSelfillumination
+        option2 |= RLPy.EExportFbxOptions2_ExtraWordForUnityAndUnreal
+        if ascii_format:
+            option2 |= RLPy.EExportFbxOptions2_AsciiFormat
+        return option2
+
+    def export_reference_character(
+        avatar,
+        actor,
+        actor_root,
+        reference_basename,
+    ):
+        reference_root = os.path.join(actor_root, "reference")
+        os.makedirs(reference_root, exist_ok=False)
+        basename = reference_basename
+        fbx_path = os.path.join(reference_root, basename + ".fbx")
+        json_path = os.path.join(reference_root, basename + ".json")
+
+        export_option = RLPy.EExportFbxOptions__None
+        export_option |= RLPy.EExportFbxOptions_AutoSkinRigidMesh
+        export_option |= RLPy.EExportFbxOptions_TPoseForCreateMorphTargetMesh
+        export_option2 = unreal_option2(False)
+        export_option3 = RLPy.EExportFbxOptions3__None
+        export_option3 |= RLPy.EExportFbxOptions3_ExportJson
+        setting = RLPy.RExportFbxSetting()
+        checked(
+            "Disable P0 reference motion export",
+            setting.EnableExportMotion(False),
+        )
+        checked(
+            "Set P0 reference primary options",
+            setting.SetOption(export_option),
+        )
+        checked(
+            "Set P0 reference Unreal options",
+            setting.SetOption2(export_option2),
+        )
+        checked(
+            "Enable P0 reference Auto Setup JSON",
+            setting.SetOption3(export_option3),
+        )
+        checked(
+            "Set P0 reference texture size",
+            setting.SetTextureSize(RLPy.EExportTextureSize_Original),
+        )
+        checked(
+            "Set P0 reference texture format",
+            setting.SetTextureFormat(RLPy.EExportTextureFormat_Default),
+        )
+        checked(
+            "Set P0 reference UE5 bone structure",
+            setting.SetUnrealBoneStructure(
+                RLPy.EUnrealBoneStructure_UE5_BoneStructure
+            ),
+        )
+        checked(
+            "Disable P0 reference basic bind pose",
+            setting.EnableBasicBindPose(False),
+        )
+        RLPy.RScene.SelectObject(avatar)
+        license_status = checked(
+            "Check P0 reference export license",
+            RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
+        )
+        raise_if_fatal_cc_dialog(output_dir)
+        status = checked(
+            "Export P0 clothed reference character",
+            RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
+        )
+        raise_if_fatal_cc_dialog(output_dir)
+        fbx_state = wait_for_rendered_preview(
+            fbx_path,
+            timeout_seconds=timeout_seconds,
+            stable_seconds=1.0,
+        )
+        json_state = wait_for_rendered_preview(
+            json_path,
+            timeout_seconds=timeout_seconds,
+            stable_seconds=0.5,
+        )
+        return {
+            "fbx": {
+                "bytes": fbx_state["bytes"],
+                "path": fbx_path,
+                "sha256": sha256_file(fbx_path),
+            },
+            "json": {
+                "bytes": json_state["bytes"],
+                "path": json_path,
+                "sha256": sha256_file(json_path),
+            },
+            "fbm": directory_state(
+                os.path.join(reference_root, basename + ".fbm")
+            ),
+            "textures": directory_state(
+                os.path.join(reference_root, "textures")
+            ),
+            "license_status": license_status,
+            "options": {
+                "auto_skin_rigid_mesh": True,
+                "export_json": True,
+                "motion": False,
+                "option": int(export_option),
+                "option2": int(export_option2),
+                "option3": int(export_option3),
+                "unreal_bone_structure": "UE5",
+            },
+            "status": status,
+        }
+
+    def delete_added_clips(
+        skeleton,
+        face_component,
+        initial_body_count,
+        initial_face_count,
+    ):
+        for clip_index in range(
+            int(skeleton.GetClipCount()) - 1,
+            initial_body_count - 1,
+            -1,
+        ):
+            skeleton.DeleteClip(skeleton.GetClip(clip_index))
+            QtWidgets.QApplication.processEvents()
+        if face_component is not None:
+            for clip_index in range(
+                int(face_component.GetClipCount()) - 1,
+                initial_face_count - 1,
+                -1,
+            ):
+                face_component.DeleteClip(
+                    face_component.GetClip(clip_index)
+                )
+                QtWidgets.QApplication.processEvents()
+
+    def export_motion(avatar, motion, actor_root, motion_basename):
+        source = motion.get("source_motion") or {}
+        motion_path = canonical_existing_file(
+            source.get("path"),
+            "P0 motion {}".format(motion.get("case_id")),
+        )
+        extension = os.path.splitext(motion_path)[1].lower()
+        if extension not in (".rlmotion", ".imotion"):
+            raise ReconstructionError(
+                "P0 motion must use .rlmotion or .imotion: {}".format(
+                    motion_path
+                )
+            )
+        if os.path.getsize(motion_path) != int(source.get("bytes", -1)):
+            raise ReconstructionError(
+                "P0 motion size changed: {}".format(motion.get("case_id"))
+            )
+        if sha256_file(motion_path) != source.get("sha256"):
+            raise ReconstructionError(
+                "P0 motion hash changed: {}".format(motion.get("case_id"))
+            )
+
+        motions_root = os.path.join(actor_root, "motions")
+        os.makedirs(motions_root, exist_ok=True)
+        fbx_path = os.path.join(
+            motions_root,
+            "{}_UE5_ASCII.fbx".format(motion_basename),
+        )
+        skeleton = avatar.GetSkeletonComponent()
+        face_component = avatar.GetFaceComponent()
+        if skeleton is None:
+            raise ReconstructionError("P0 export avatar has no skeleton")
+        initial_body_count = int(skeleton.GetClipCount())
+        initial_face_count = (
+            int(face_component.GetClipCount())
+            if face_component is not None
+            else 0
+        )
+        initial_time = RLPy.RGlobal.GetTime()
+        initial_start_time = RLPy.RGlobal.GetStartTime()
+        initial_end_time = RLPy.RGlobal.GetEndTime()
+        fps = RLPy.RGlobal.GetFps()
+        clip_start = RLPy.IndexedFrameTime(0, fps)
+        try:
+            RLPy.RScene.SelectObject(avatar)
+            checked(
+                "Load P0 motion {}".format(motion.get("case_id")),
+                RLPy.RFileIO.LoadFile(motion_path, False),
+            )
+            QtWidgets.QApplication.processEvents()
+            body_count = int(skeleton.GetClipCount())
+            if body_count <= initial_body_count:
+                raise ReconstructionError(
+                    "P0 motion did not add a skeleton clip: {}".format(
+                        motion.get("case_id")
+                    )
+                )
+            clip = skeleton.GetClip(body_count - 1)
+            clip_length = clip.GetLength()
+            clip_length_frame = int(fps.GetFrameIndex(clip_length))
+            if clip_length_frame <= 0:
+                clip_length = clip.GetClipLength()
+                clip_length_frame = int(fps.GetFrameIndex(clip_length))
+            if clip_length_frame <= 0:
+                raise ReconstructionError(
+                    "P0 motion has no positive length: {}".format(
+                        motion.get("case_id")
+                    )
+                )
+            checked(
+                "Set P0 motion start time",
+                RLPy.RGlobal.SetStartTime(clip_start),
+            )
+            checked(
+                "Set P0 motion end time",
+                RLPy.RGlobal.SetEndTime(clip_length),
+            )
+            checked(
+                "Initialize P0 motion time",
+                RLPy.RGlobal.SetTime(clip_start, True),
+            )
+
+            root_policy = (motion.get("root_motion") or {}).get("policy")
+            if root_policy not in (
+                "preserve_source_root_motion",
+                "in_place",
+            ):
+                raise ReconstructionError(
+                    "Unsupported P0 root-motion policy: {}".format(
+                        root_policy
+                    )
+                )
+            export_option = RLPy.EExportFbxOptions__None
+            export_option |= RLPy.EExportFbxOptions_RemoveAllMesh
+            export_option |= RLPy.EExportFbxOptions_ExportRootMotion
+            if root_policy == "in_place":
+                export_option |= RLPy.EExportFbxOptions_ZeroMotionRoot
+            export_option2 = unreal_option2(True)
+            setting = RLPy.RExportFbxSetting()
+            checked(
+                "Enable P0 motion export",
+                setting.EnableExportMotion(True),
+            )
+            checked(
+                "Set P0 motion FPS",
+                setting.SetExportMotionFps(fps),
+            )
+            checked(
+                "Set P0 motion range",
+                setting.SetExportMotionRange(
+                    RLPy.RRangePair(0, clip_length_frame)
+                ),
+            )
+            checked(
+                "Set P0 motion primary options",
+                setting.SetOption(export_option),
+            )
+            checked(
+                "Set P0 motion Unreal options",
+                setting.SetOption2(export_option2),
+            )
+            checked(
+                "Disable P0 motion JSON export",
+                setting.SetOption3(RLPy.EExportFbxOptions3__None),
+            )
+            checked(
+                "Set P0 motion UE5 bone structure",
+                setting.SetUnrealBoneStructure(
+                    RLPy.EUnrealBoneStructure_UE5_BoneStructure
+                ),
+            )
+            checked(
+                "Disable P0 motion basic bind pose",
+                setting.EnableBasicBindPose(False),
+            )
+            license_status = checked(
+                "Check P0 motion export license",
+                RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
+            )
+            raise_if_fatal_cc_dialog(output_dir)
+            status = checked(
+                "Export P0 motion {}".format(motion.get("case_id")),
+                RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
+            )
+            raise_if_fatal_cc_dialog(output_dir)
+            file_state = wait_for_rendered_preview(
+                fbx_path,
+                timeout_seconds=timeout_seconds,
+                stable_seconds=1.0,
+            )
+            return {
+                "actor_binding_id": motion.get("actor_binding_id"),
+                "case_id": motion.get("case_id"),
+                "clip": {
+                    "body_clip_count_after_load": body_count,
+                    "face_clip_count_after_load": (
+                        int(face_component.GetClipCount())
+                        if face_component is not None
+                        else 0
+                    ),
+                    "length_frame": clip_length_frame,
+                },
+                "fbx": {
+                    "bytes": file_state["bytes"],
+                    "path": fbx_path,
+                    "sha256": sha256_file(fbx_path),
+                },
+                "license_status": license_status,
+                "options": {
+                    "ascii_format": True,
+                    "motion_only": True,
+                    "option": int(export_option),
+                    "option2": int(export_option2),
+                    "root_motion_policy": root_policy,
+                    "unreal_bone_structure": "UE5",
+                },
+                "source_motion": source,
+                "status": status,
+            }
+        finally:
+            if RLPy.RGlobal.IsPlaying():
+                RLPy.RGlobal.Stop()
+            delete_added_clips(
+                skeleton,
+                face_component,
+                initial_body_count,
+                initial_face_count,
+            )
+            RLPy.RGlobal.SetStartTime(initial_start_time)
+            RLPy.RGlobal.SetEndTime(initial_end_time)
+            RLPy.RGlobal.SetTime(initial_time, True)
+            QtWidgets.QApplication.processEvents()
+
+    mark_phase("initializing")
+    report = {
+        "actors": [],
+        "diagnostic_mode": "animation_p0_ue_runtime_export",
+        "motions": [],
+        "schema_version": 1,
+        "started_at": started_at,
+        "staging_output_root": output_dir,
+        "target_export_root": target_export_root,
+        "work_order": {
+            "id": work_order.get("work_order_id"),
+            "path": work_order_path,
+            "sha256": actual_work_order_sha256,
+        },
+    }
+    for actor_index, actor in enumerate(actors, 1):
+        actor_id = actor.get("actor_binding_id")
+        source_project = actor.get("source_project") or {}
+        project_path = canonical_existing_file(
+            source_project.get("path"),
+            "P0 actor source project {}".format(actor_id),
+        )
+        if os.path.getsize(project_path) != int(
+            source_project.get("bytes", -1)
+        ):
+            raise ReconstructionError(
+                "P0 actor source project size changed: {}".format(actor_id)
+            )
+        if sha256_file(project_path) != source_project.get("sha256"):
+            raise ReconstructionError(
+                "P0 actor source project hash changed: {}".format(actor_id)
+            )
+        bridge_project = actor_project_overrides.get(actor_id) or {}
+        actor_export_name = actor_export_names.get(actor_id) or {}
+        actor_directory = actor_export_name.get("directory")
+        reference_basename = actor_export_name.get("reference_basename")
+        for value, label in (
+            (actor_directory, "actor directory"),
+            (reference_basename, "reference basename"),
+        ):
+            if (
+                not isinstance(value, str)
+                or not value
+                or os.path.basename(value) != value
+            ):
+                raise ReconstructionError(
+                    "Invalid P0 export {} for {}".format(label, actor_id)
+                )
+        bridge_project_path = canonical_existing_file(
+            bridge_project.get("path"),
+            "P0 actor bridge project {}".format(actor_id),
+        )
+        if os.path.getsize(bridge_project_path) != int(
+            bridge_project.get("bytes", -1)
+        ):
+            raise ReconstructionError(
+                "P0 actor bridge project size changed: {}".format(actor_id)
+            )
+        bridge_project_sha256 = sha256_file(bridge_project_path)
+        if bridge_project_sha256 != bridge_project.get("sha256"):
+            raise ReconstructionError(
+                "P0 actor bridge project hash changed: {}".format(actor_id)
+            )
+        if bridge_project_sha256 != source_project.get("sha256"):
+            raise ReconstructionError(
+                "P0 actor bridge project does not match source: {}".format(
+                    actor_id
+                )
+            )
+        mark_phase(
+            "load_actor",
+            {"actor_binding_id": actor_id, "index": actor_index},
+        )
+        load_status, load_dialogs = load_file_with_optional_undo_warning(
+            bridge_project_path,
+            "Load P0 actor source project {}".format(actor_id),
+        )
+        QtWidgets.QApplication.processEvents()
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "P0 export expected one avatar for {}, found {}".format(
+                    actor_id, len(avatars)
+                )
+            )
+        skeleton = avatar.GetSkeletonComponent()
+        face_component = avatar.GetFaceComponent()
+        if skeleton is None:
+            raise ReconstructionError(
+                "P0 actor has no skeleton: {}".format(actor_id)
+            )
+        body_clip_count = int(skeleton.GetClipCount())
+        face_clip_count = (
+            int(face_component.GetClipCount())
+            if face_component is not None
+            else 0
+        )
+        expected_timeline = expected_source_timeline.get(actor_id) or {}
+        expected_body_count = int(expected_timeline.get("body_clip_count", -1))
+        expected_face_count = int(expected_timeline.get("face_clip_count", -1))
+        if (
+            body_clip_count != expected_body_count
+            or face_clip_count != expected_face_count
+        ):
+            raise ReconstructionError(
+                "P0 actor source timeline differs from the frozen expectation: "
+                "{} body, {} face".format(
+                    body_clip_count,
+                    face_clip_count,
+                )
+            )
+        timeline_cleanup = clear_avatar_motion(avatar)
+        actor_root = os.path.join(output_dir, actor_directory)
+        os.makedirs(actor_root, exist_ok=False)
+        mark_phase("export_reference", {"actor_binding_id": actor_id})
+        reference = export_reference_character(
+            avatar,
+            actor,
+            actor_root,
+            reference_basename,
+        )
+        actor_report = {
+            "actor_binding_id": actor_id,
+            "appearance_recipe_id": actor.get("appearance_recipe_id"),
+            "bodyfit_id": actor.get("bodyfit_id"),
+            "character_id": actor.get("character_id"),
+            "bridge_project": {
+                "bytes": os.path.getsize(bridge_project_path),
+                "path": bridge_project_path,
+                "sha256": bridge_project_sha256,
+            },
+            "load": {"dialogs": load_dialogs, "status": load_status},
+            "reference": reference,
+            "sex": actor.get("sex"),
+            "source_project": source_project,
+            "timeline_cleanup": timeline_cleanup,
+        }
+        report["actors"].append(actor_report)
+        for motion in motions:
+            if motion.get("actor_binding_id") != actor_id:
+                continue
+            mark_phase(
+                "export_motion",
+                {
+                    "actor_binding_id": actor_id,
+                    "case_id": motion.get("case_id"),
+                },
+            )
+            motion_basename = motion_export_names.get(
+                motion.get("case_id")
+            )
+            if (
+                not isinstance(motion_basename, str)
+                or not motion_basename
+                or os.path.basename(motion_basename) != motion_basename
+            ):
+                raise ReconstructionError(
+                    "Invalid P0 motion export basename: {}".format(
+                        motion.get("case_id")
+                    )
+                )
+            report["motions"].append(
+                export_motion(
+                    avatar,
+                    motion,
+                    actor_root,
+                    motion_basename,
+                )
+            )
+        if sha256_file(project_path) != source_project.get("sha256"):
+            raise ReconstructionError(
+                "P0 actor source project changed during export: {}".format(
+                    actor_id
+                )
+            )
+        if sha256_file(bridge_project_path) != bridge_project_sha256:
+            raise ReconstructionError(
+                "P0 actor bridge project changed during export: {}".format(
+                    actor_id
+                )
+            )
+        write_json(report, report_path)
+        log("Completed P0 CC export actor {}".format(actor_id))
+
+    report["finished_at"] = now()
+    report["success"] = True
+    report["status"] = "cc_export_complete_patch_pending"
+    write_json(report, report_path)
+    summary = {
+        "actor_count": len(report["actors"]),
+        "diagnostic_mode": "animation_p0_ue_runtime_export",
+        "failure_count": 0,
+        "finished_at": report["finished_at"],
+        "motion_count": len(report["motions"]),
+        "p0_ue_runtime_cc_export_path": report_path,
+        "requested_count": len(actors) + len(motions),
+        "schema_version": 1,
+        "started_at": started_at,
+        "status": report["status"],
+        "success": True,
+        "success_count": len(report["actors"]) + len(report["motions"]),
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark_phase("complete")
+    return summary
+
+
+def export_elder_morph_pilot(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    payload = library.get("elder_morph_export") or {}
+    if not isinstance(payload, dict):
+        raise ReconstructionError("elder_morph_export must be an object")
+    source_project = canonical_existing_file(
+        payload.get("source_project"),
+        "Elder Morph export source project",
+    )
+    age_morph = payload.get("age_morph") or {}
+    morph_id = age_morph.get("id")
+    morph_display = age_morph.get("display")
+    if not isinstance(morph_id, str) or not morph_id:
+        raise ReconstructionError("elder_morph_export.age_morph.id is required")
+    if not isinstance(morph_display, str) or not morph_display:
+        raise ReconstructionError(
+            "elder_morph_export.age_morph.display is required"
+        )
+
+    export_json = bool(payload.get("export_json", True))
+    ascii_format = bool(payload.get("ascii_format", False))
+    create_morph_target_mesh = bool(
+        payload.get("create_morph_target_mesh", True)
+    )
+    timeout_seconds = float(payload.get("export_timeout_seconds", 600.0))
+    filenames = payload.get("filenames") or {
+        "young": "M02_Young_Base_UE5.fbx",
+        "elder": "M02_Elder_Target_UE5.fbx",
+    }
+    for label in ("young", "elder"):
+        filename = filenames.get(label)
+        if (
+            not isinstance(filename, str)
+            or not filename
+            or os.path.basename(filename) != filename
+            or not filename.lower().endswith(".fbx")
+        ):
+            raise ReconstructionError(
+                "elder_morph_export.filenames.{} must be a simple .fbx filename".format(
+                    label
+                )
+            )
+
+    started_at = now()
+    progress_path = os.path.join(output_dir, "progress.json")
+    report_path = os.path.join(output_dir, "elder_morph_export_pilot.json")
+    summary_path = os.path.join(
+        output_dir, "elder_morph_export_pilot_summary.json"
+    )
+
+    def mark_phase(phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "diagnostic_mode": "elder_morph_export_pilot",
+                "phase": phase,
+                "source_project": source_project,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+
+    mark_phase("load_source_project")
+    load_status, load_dialogs = load_file_with_optional_undo_warning(
+        source_project,
+        "Load Elder Morph export source project",
+    )
+    QtWidgets.QApplication.processEvents()
+    avatar, avatars = resolve_avatar()
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Elder Morph export expected one avatar, found {}".format(
+                len(avatars)
+            )
+        )
+    component, catalog, _categories = morph_catalog(avatar)
+    if morph_id not in catalog:
+        raise ReconstructionError(
+            "Elder Morph is unavailable: {}".format(morph_id)
+        )
+    if catalog[morph_id]["display"] != morph_display:
+        raise ReconstructionError(
+            "Elder Morph display mismatch: expected {}, found {}".format(
+                morph_display,
+                catalog[morph_id]["display"],
+            )
+        )
+
+    initial_weight = float(component.GetShapingMorphWeight(morph_id))
+    report = {
+        "age_morph": {
+            "display": morph_display,
+            "id": morph_id,
+            "initial_weight": initial_weight,
+        },
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+        },
+        "diagnostic_mode": "elder_morph_export_pilot",
+        "exports": [],
+        "load": {
+            "dialogs": load_dialogs,
+            "status": load_status,
+        },
+        "schema_version": 1,
+        "source_project": source_project,
+        "started_at": started_at,
+    }
+
+    try:
+        for label, target_weight in (("young", 0.0), ("elder", 1.0)):
+            mark_phase("apply_{}".format(label))
+            application = set_direct_morph_weight(
+                avatar,
+                morph_id,
+                target_weight,
+                "Full Face Elder {} export".format(label),
+            )
+            fbx_path = os.path.join(output_dir, filenames[label])
+            if os.path.isfile(fbx_path):
+                os.remove(fbx_path)
+            json_path = os.path.splitext(fbx_path)[0] + ".json"
+            if os.path.isfile(json_path):
+                os.remove(json_path)
+
+            export_option = RLPy.EExportFbxOptions__None
+            export_option |= RLPy.EExportFbxOptions_AutoSkinRigidMesh
+            if create_morph_target_mesh:
+                export_option |= (
+                    RLPy.EExportFbxOptions_TPoseForCreateMorphTargetMesh
+                )
+
+            export_option2 = RLPy.EExportFbxOptions2__None
+            export_option2 |= RLPy.EExportFbxOptions2_UnrealEngine4BoneAxis
+            export_option2 |= RLPy.EExportFbxOptions2_UnrealPreset
+            export_option2 |= RLPy.EExportFbxOptions2_UnrealIkBone
+            export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateBoneName
+            export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMaterialName
+            export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMorphName
+            export_option2 |= RLPy.EExportFbxOptions2_RenameTransparencyWithPostFix
+            export_option2 |= RLPy.EExportFbxOptions2_RenameBoneRootToGameType
+            export_option2 |= RLPy.EExportFbxOptions2_RenameBoneToLowerCase
+            export_option2 |= RLPy.EExportFbxOptions2_RenameBoneOnStd
+            export_option2 |= RLPy.EExportFbxOptions2_RenameMorphInvalidCharacter
+            export_option2 |= RLPy.EExportFbxOptions2_ResetBoneScale
+            export_option2 |= RLPy.EExportFbxOptions2_ResetSelfillumination
+            export_option2 |= RLPy.EExportFbxOptions2_ExtraWordForUnityAndUnreal
+            if ascii_format:
+                export_option2 |= RLPy.EExportFbxOptions2_AsciiFormat
+
+            export_option3 = RLPy.EExportFbxOptions3__None
+            if export_json:
+                export_option3 |= RLPy.EExportFbxOptions3_ExportJson
+
+            setting = RLPy.RExportFbxSetting()
+            checked(
+                "Disable {} Elder Morph motion export".format(label),
+                setting.EnableExportMotion(False),
+            )
+            checked(
+                "Set {} Elder Morph primary options".format(label),
+                setting.SetOption(export_option),
+            )
+            checked(
+                "Set {} Elder Morph Unreal options".format(label),
+                setting.SetOption2(export_option2),
+            )
+            checked(
+                "Set {} Elder Morph JSON options".format(label),
+                setting.SetOption3(export_option3),
+            )
+            checked(
+                "Set {} Elder Morph texture size".format(label),
+                setting.SetTextureSize(RLPy.EExportTextureSize_Original),
+            )
+            checked(
+                "Set {} Elder Morph texture format".format(label),
+                setting.SetTextureFormat(RLPy.EExportTextureFormat_Default),
+            )
+            checked(
+                "Set {} Elder Morph UE5 bone structure".format(label),
+                setting.SetUnrealBoneStructure(
+                    RLPy.EUnrealBoneStructure_UE5_BoneStructure
+                ),
+            )
+            checked(
+                "Disable {} Elder Morph basic bind pose".format(label),
+                setting.EnableBasicBindPose(False),
+            )
+
+            RLPy.RScene.SelectObject(avatar)
+            license_status = checked(
+                "Check {} Elder Morph export license".format(label),
+                RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
+            )
+            mark_phase("export_{}".format(label), {"path": fbx_path})
+            export_status = checked(
+                "Export {} Elder Morph FBX".format(label),
+                RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
+            )
+            file_state = wait_for_rendered_preview(
+                fbx_path,
+                timeout_seconds=timeout_seconds,
+                stable_seconds=1.0,
+            )
+            json_state = None
+            if export_json:
+                json_state = wait_for_rendered_preview(
+                    json_path,
+                    timeout_seconds=timeout_seconds,
+                    stable_seconds=0.5,
+                )
+            report["exports"].append(
+                {
+                    "application": application,
+                    "fbx": {
+                        "bytes": file_state["bytes"],
+                        "path": fbx_path,
+                        "sha256": sha256_file(fbx_path),
+                    },
+                    "json": (
+                        {
+                            "bytes": json_state["bytes"],
+                            "path": json_path,
+                            "sha256": sha256_file(json_path),
+                        }
+                        if json_state is not None
+                        else None
+                    ),
+                    "label": label,
+                    "options": {
+                        "ascii_format": ascii_format,
+                        "create_morph_target_mesh": create_morph_target_mesh,
+                        "export_json": export_json,
+                        "option": int(export_option),
+                        "option2": int(export_option2),
+                        "option3": int(export_option3),
+                        "unreal_bone_structure": "UE5",
+                    },
+                    "status": export_status,
+                    "target_weight": target_weight,
+                    "license_status": license_status,
+                }
+            )
+    finally:
+        mark_phase("restore_age_morph")
+        set_direct_morph_weight(
+            avatar,
+            morph_id,
+            initial_weight,
+            "Restore Full Face Elder after export pilot",
+        )
+
+    report["finished_at"] = now()
+    report["success"] = True
+    write_json(report, report_path)
+    summary = {
+        "diagnostic_mode": "elder_morph_export_pilot",
+        "elder_morph_export_pilot_path": report_path,
+        "export_count": len(report["exports"]),
+        "failure_count": 0,
+        "finished_at": report["finished_at"],
+        "requested_count": 2,
+        "schema_version": 1,
+        "started_at": started_at,
+        "success": True,
+        "success_count": len(report["exports"]),
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark_phase("complete")
     return summary
 
 
@@ -12928,6 +22224,3618 @@ def validate_library_document(library):
     return presets
 
 
+def probe_current_facial_profile_api(library, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+    avatars = list(RLPy.RScene.GetAvatars() or [])
+    if len(avatars) != 1:
+        raise ReconstructionError(
+            "Facial Profile API probe expected exactly one avatar, found {}"
+            .format(len(avatars))
+        )
+    avatar = avatars[0]
+    RLPy.RScene.SelectObject(avatar)
+    face_component = avatar.GetFaceComponent()
+    profile_component = avatar.GetFacialProfileComponent()
+    if face_component is None or profile_component is None:
+        raise ReconstructionError(
+            "Current avatar does not expose both face and Facial Profile components"
+        )
+
+    def public_members(value):
+        return sorted(
+            name for name in dir(value) if not name.startswith("_")
+        )
+
+    def member_docs(value, names):
+        docs = {}
+        for name in names:
+            member = getattr(value, name, None)
+            if member is None:
+                continue
+            docs[name] = {
+                "doc": str(getattr(member, "__doc__", None)),
+                "repr": repr(member),
+            }
+        return docs
+
+    expression_names = list(face_component.GetExpressionNames("") or [])
+    report = {
+        "schema_version": 1,
+        "captured_at": now(),
+        "diagnostic_mode": "facial_profile_api_probe",
+        "avatar": {
+            "id": scene_object_id(avatar),
+            "name": scene_object_name(avatar),
+            "python_type": type(avatar).__name__,
+        },
+        "facial_profile": {
+            "expression_count": len(expression_names),
+            "expression_set_uid": str(face_component.GetExpressionSetUid()),
+        },
+        "components": {
+            "face": {
+                "python_type": type(face_component).__name__,
+                "public_members": public_members(face_component),
+            },
+            "facial_profile": {
+                "python_type": type(profile_component).__name__,
+                "public_members": public_members(profile_component),
+                "member_docs": member_docs(
+                    profile_component,
+                    (
+                        "GetProfileType",
+                        "ImportMorphs",
+                        "LoadProfile",
+                        "SaveProfile",
+                    ),
+                ),
+            },
+        },
+        "save_file_type_constants": sorted(
+            name for name in dir(RLPy) if name.startswith("ESaveFileType_")
+        ),
+    }
+    if bool(library.get("save_profile_probe", False)):
+        profile_path = os.path.join(
+            output_dir,
+            "current_source_profile.ccFacialProfile",
+        )
+        try:
+            save_status = checked(
+                "Save current Facial Profile probe",
+                profile_component.SaveProfile(profile_path),
+            )
+            settle_cc_ui(1.0)
+            if not os.path.isfile(profile_path):
+                raise ReconstructionError(
+                    "Facial Profile SaveProfile returned without creating a file"
+                )
+            report["profile_save_probe"] = {
+                "success": True,
+                "status": save_status,
+                "file": bodyfit_freeze_file_record(profile_path),
+            }
+        except Exception as exc:
+            report["profile_save_probe"] = {
+                "success": False,
+                "error": "{}: {}".format(type(exc).__name__, exc),
+                "path": profile_path,
+            }
+    report_path = os.path.join(output_dir, "facial_profile_api_probe.json")
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    write_json(report, report_path)
+    summary = {
+        "schema_version": 1,
+        "diagnostic_mode": "facial_profile_api_probe",
+        "started_at": report["captured_at"],
+        "finished_at": now(),
+        "success": True,
+        "success_count": 1,
+        "failure_count": 0,
+        "report_path": report_path,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def run_head_bodyfit_scale_review_matrix(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    diagnostic_mode = library.get("diagnostic_mode")
+    if diagnostic_mode == "neck_morph_review_matrix":
+        review_label = "Neck Morph"
+        review_token = "neck_morph"
+    elif diagnostic_mode == "bodyfit_proportion_smoke_matrix":
+        review_label = "BodyFit Proportion Smoke"
+        review_token = "bodyfit_proportion_smoke"
+    else:
+        review_label = "Head Scale"
+        review_token = "head_scale"
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "Selected review preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown Head Scale review preset IDs: {}".format(missing)
+        )
+
+    started_at = now()
+    snapshot_path = os.path.join(
+        output_dir,
+        "_current_scene_before_{}_matrix.ccProject".format(review_token),
+    )
+    before_image = os.path.join(
+        output_dir,
+        "_current_scene_before_{}_matrix.png".format(review_token),
+    )
+    restored_image = os.path.join(
+        output_dir,
+        "_current_scene_restored_after_{}_matrix.png".format(review_token),
+    )
+    restoration_path = os.path.join(
+        output_dir,
+        "scene_snapshot_restoration.json",
+    )
+    if os.path.isfile(snapshot_path):
+        os.remove(snapshot_path)
+
+    initial_avatars = list(RLPy.RScene.GetAvatars() or [])
+    if len(initial_avatars) > 1:
+        raise ReconstructionError(
+            "{} review matrix expected at most one initial avatar".format(
+                review_label
+            )
+        )
+    initial_avatar = initial_avatars[0] if initial_avatars else None
+    initial_scene_was_empty = initial_avatar is None
+    initial_vector_fingerprint = None
+    if initial_avatar is not None:
+        RLPy.RScene.SelectObject(initial_avatar)
+        initial_vectors = capture_vectors(initial_avatar)
+        initial_vector_fingerprint = vectors_excluding_morph_fingerprint(
+            initial_vectors,
+            "__no_excluded_morph__",
+        )
+    initial_time = RLPy.RGlobal.GetTime()
+    render_preview(before_image, initial_time)
+    log("Saving current CC scene before {} review matrix".format(review_label))
+    checked(
+        "Save current scene before {} review matrix".format(review_label),
+        RLPy.RFileIO.SaveProject(snapshot_path),
+    )
+    snapshot_stat = wait_for_rendered_preview(
+        snapshot_path,
+        timeout_seconds=600.0,
+        stable_seconds=2.0,
+    )
+    restoration = {
+        "schema_version": 1,
+        "snapshot_path": snapshot_path,
+        "snapshot_size": snapshot_stat,
+        "snapshot_retained": True,
+        "before_image": before_image,
+        "initial_avatar": (
+            {
+                "id": scene_object_id(initial_avatar),
+                "name": scene_object_name(initial_avatar),
+            }
+            if initial_avatar is not None
+            else None
+        ),
+        "initial_scene_was_empty": initial_scene_was_empty,
+        "initial_vector_fingerprint": initial_vector_fingerprint,
+        "restore_attempted": False,
+        "restored": False,
+        "restored_exactly": False,
+    }
+
+    appearance_catalog = load_appearance_catalog(library)
+    body_catalog_paths = {
+        "male": os.path.join(output_dir, "catalogs", "male_body_catalog.json"),
+        "female": os.path.join(
+            output_dir,
+            "catalogs",
+            "female_body_catalog.json",
+        ),
+    }
+    face_catalog_paths = {
+        "male": os.path.join(output_dir, "catalogs", "male_face_catalog.json"),
+        "female": os.path.join(
+            output_dir,
+            "catalogs",
+            "female_face_catalog.json",
+        ),
+    }
+    delay_seconds = max(
+        0.0,
+        float(library.get("inter_case_delay_seconds", 5.0)),
+    )
+    results = []
+    try:
+        for index, preset_id in enumerate(selected_ids):
+            log(
+                "{} REVIEW {}/{} {}".format(
+                    review_label.upper(),
+                    index + 1,
+                    len(selected_ids),
+                    preset_id,
+                )
+            )
+            preset = by_id[preset_id]
+            results.append(
+                validate_preset(
+                    library,
+                    preset,
+                    os.path.join(output_dir, preset_id),
+                    log,
+                    body_catalog_paths.get(preset.get("sex")),
+                    face_catalog_paths.get(preset.get("sex")),
+                    appearance_catalog,
+                )
+            )
+            QtWidgets.QApplication.processEvents()
+            if delay_seconds and index + 1 < len(selected_ids):
+                settle_cc_ui(delay_seconds)
+    finally:
+        restoration["restore_attempted"] = True
+        log(
+            "Restoring current CC scene after {} review matrix".format(
+                review_label
+            )
+        )
+        restore_status, restore_dialogs = load_file_with_optional_undo_warning(
+            snapshot_path,
+            "Restore current scene after {} review matrix".format(
+                review_label
+            ),
+        )
+        settle_cc_ui(3.0)
+        restored_avatars = list(RLPy.RScene.GetAvatars() or [])
+        expected_avatar_count = 0 if initial_scene_was_empty else 1
+        if len(restored_avatars) != expected_avatar_count:
+            restoration["restore_error"] = (
+                "Expected {} avatar(s) after scene snapshot restore".format(
+                    expected_avatar_count
+                )
+            )
+            write_json(restoration, restoration_path)
+            raise ReconstructionError(restoration["restore_error"])
+        restored_avatar = restored_avatars[0] if restored_avatars else None
+        restored_vector_fingerprint = None
+        if restored_avatar is not None:
+            RLPy.RScene.SelectObject(restored_avatar)
+            force_avatar_scene_evaluation(restored_avatar)
+            restored_vectors = capture_vectors(restored_avatar)
+            restored_vector_fingerprint = vectors_excluding_morph_fingerprint(
+                restored_vectors,
+                "__no_excluded_morph__",
+            )
+        render_preview(restored_image, RLPy.RGlobal.GetTime())
+        restoration.update(
+            {
+                "restore_dialogs": restore_dialogs,
+                "restore_status": restore_status,
+                "restored": True,
+                "restored_avatar": (
+                    {
+                        "id": scene_object_id(restored_avatar),
+                        "name": scene_object_name(restored_avatar),
+                    }
+                    if restored_avatar is not None
+                    else None
+                ),
+                "restored_image": restored_image,
+                "restored_vector_fingerprint": (
+                    restored_vector_fingerprint
+                ),
+                "restored_exactly": (
+                    restored_vector_fingerprint
+                    == initial_vector_fingerprint
+                ),
+            }
+        )
+        write_json(restoration, restoration_path)
+        if not restoration["restored_exactly"]:
+            raise ReconstructionError(
+                "Scene snapshot restored with a different Morph fingerprint"
+            )
+
+    failures = [item for item in results if not item.get("success")]
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": started_at,
+        "finished_at": now(),
+        "started_from_library": library_path,
+        "library_id": library.get("library_id"),
+        "diagnostic_mode": diagnostic_mode,
+        "requested_count": len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "failure_count": len(failures),
+        "success": (
+            not failures
+            and len(results) == len(selected_ids)
+            and restoration["restored_exactly"]
+        ),
+        "scene_restoration": restoration,
+        "scene_restoration_path": restoration_path,
+        "body_catalogs": dict(
+            (sex, path)
+            for sex, path in body_catalog_paths.items()
+            if os.path.isfile(path)
+        ),
+        "face_catalogs": dict(
+            (sex, path)
+            for sex, path in face_catalog_paths.items()
+            if os.path.isfile(path)
+        ),
+        "results": results,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def run_bodyfit_height_matrix(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Measure comparable crown-to-sole bounds without rendering images."""
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "BodyFit height preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown BodyFit height preset IDs: {}".format(missing)
+        )
+
+    initial_avatars = list(RLPy.RScene.GetAvatars() or [])
+    if len(initial_avatars) > 1:
+        raise ReconstructionError(
+            "BodyFit height matrix expected at most one initial avatar"
+        )
+    initial_avatar = initial_avatars[0] if initial_avatars else None
+    initial_scene_was_empty = initial_avatar is None
+    initial_vector_fingerprint = None
+    if initial_avatar is not None:
+        RLPy.RScene.SelectObject(initial_avatar)
+        initial_vector_fingerprint = vectors_excluding_morph_fingerprint(
+            capture_vectors(initial_avatar),
+            "__no_excluded_morph__",
+        )
+
+    snapshot_path = os.path.join(
+        output_dir,
+        "_current_scene_before_bodyfit_height_matrix.ccProject",
+    )
+    restoration_path = os.path.join(
+        output_dir,
+        "scene_snapshot_restoration.json",
+    )
+    if os.path.isfile(snapshot_path):
+        os.remove(snapshot_path)
+    checked(
+        "Save current scene before BodyFit height matrix",
+        RLPy.RFileIO.SaveProject(snapshot_path),
+    )
+    snapshot_stat = wait_for_rendered_preview(
+        snapshot_path,
+        timeout_seconds=600.0,
+        stable_seconds=2.0,
+    )
+    restoration = {
+        "schema_version": 1,
+        "snapshot_path": snapshot_path,
+        "snapshot_size": snapshot_stat,
+        "snapshot_retained": True,
+        "initial_scene_was_empty": initial_scene_was_empty,
+        "initial_vector_fingerprint": initial_vector_fingerprint,
+        "restore_attempted": False,
+        "restored": False,
+        "restored_exactly": False,
+    }
+
+    started_at = now()
+    results = []
+    try:
+        for index, preset_id in enumerate(selected_ids):
+            preset = by_id[preset_id]
+            record = {
+                "preset_id": preset_id,
+                "sex": preset.get("sex"),
+                "body_class": preset.get("body_class"),
+                "success": False,
+                "error": None,
+            }
+            try:
+                source = preset.get("source_project")
+                source_path = (
+                    source.get("path")
+                    if isinstance(source, dict)
+                    else source
+                )
+                if not isinstance(source_path, str) or not os.path.isfile(
+                    source_path
+                ):
+                    raise ReconstructionError(
+                        "BodyFit height source project is missing: {}".format(
+                            source_path
+                        )
+                    )
+                expected_sha256 = (
+                    source.get("sha256")
+                    if isinstance(source, dict)
+                    else None
+                )
+                actual_sha256 = sha256_file(source_path)
+                if (
+                    expected_sha256 is not None
+                    and actual_sha256 != expected_sha256
+                ):
+                    raise ReconstructionError(
+                        "BodyFit height source project hash changed"
+                    )
+                log(
+                    "BODYFIT HEIGHT {}/{} {}".format(
+                        index + 1,
+                        len(selected_ids),
+                        preset_id,
+                    )
+                )
+                load_status, load_dialogs = (
+                    load_file_with_optional_undo_warning(
+                        source_path,
+                        "Load BodyFit height source project",
+                    )
+                )
+                settle_cc_ui(1.0)
+                avatar, avatars = resolve_avatar()
+                if len(avatars) != 1:
+                    raise ReconstructionError(
+                        "BodyFit height matrix expected one loaded avatar"
+                    )
+                force_avatar_scene_evaluation(avatar)
+                source_vectors = capture_vectors(avatar)
+                source_vectors_path = os.path.join(
+                    output_dir,
+                    "{}_source_vectors.json".format(preset_id),
+                )
+                write_json(source_vectors, source_vectors_path)
+                source_bounds = capture_bounds(avatar)
+                measurement_morphs = list(
+                    preset.get("measurement_morphs") or []
+                )
+                controlled_ids = []
+                for item in measurement_morphs:
+                    morph_id = item.get("id")
+                    target = item.get("target")
+                    if not isinstance(morph_id, str) or not morph_id:
+                        raise ReconstructionError(
+                            "BodyFit height Morph ID is missing"
+                        )
+                    if morph_id in controlled_ids:
+                        raise ReconstructionError(
+                            "BodyFit height Morph IDs are duplicated"
+                        )
+                    if (
+                        isinstance(target, bool)
+                        or not isinstance(target, (int, float))
+                        or not math.isfinite(float(target))
+                    ):
+                        raise ReconstructionError(
+                            "BodyFit height Morph target must be finite"
+                        )
+                    controlled_ids.append(morph_id)
+                protected_before = vectors_excluding_morphs_fingerprint(
+                    capture_vectors(avatar),
+                    controlled_ids,
+                )
+                applications = []
+                for item in measurement_morphs:
+                    applications.append(
+                        apply_single_morph_weight(
+                            avatar,
+                            item["id"],
+                            item["target"],
+                            "BodyFit height",
+                        )
+                    )
+                force_avatar_scene_evaluation(avatar)
+                measured_bounds = capture_bounds(avatar)
+                protected_after = vectors_excluding_morphs_fingerprint(
+                    capture_vectors(avatar),
+                    controlled_ids,
+                )
+                if protected_after != protected_before:
+                    raise ReconstructionError(
+                        "BodyFit height adjustment changed protected Morphs"
+                    )
+                record.update(
+                    {
+                        "source_project": {
+                            "path": source_path,
+                            "sha256": actual_sha256,
+                            "bytes": os.path.getsize(source_path),
+                        },
+                        "load_status": load_status,
+                        "load_dialogs": load_dialogs,
+                        "source_bounds": source_bounds,
+                        "source_vectors_path": source_vectors_path,
+                        "measurement_morphs": applications,
+                        "measured_bounds": measured_bounds,
+                        "height_cm": float(
+                            measured_bounds["maximum"][2]
+                            - measured_bounds["minimum"][2]
+                        ),
+                        "minimum_z_cm": float(
+                            measured_bounds["minimum"][2]
+                        ),
+                        "maximum_z_cm": float(
+                            measured_bounds["maximum"][2]
+                        ),
+                        "success": True,
+                    }
+                )
+            except Exception as exc:
+                record["error"] = {
+                    "type": type(exc).__name__,
+                    "message": str(exc),
+                    "traceback": traceback.format_exc(),
+                }
+            results.append(record)
+            QtWidgets.QApplication.processEvents()
+    finally:
+        restoration["restore_attempted"] = True
+        restore_status, restore_dialogs = load_file_with_optional_undo_warning(
+            snapshot_path,
+            "Restore current scene after BodyFit height matrix",
+        )
+        settle_cc_ui(3.0)
+        restored_avatars = list(RLPy.RScene.GetAvatars() or [])
+        expected_avatar_count = 0 if initial_scene_was_empty else 1
+        restored_vector_fingerprint = None
+        if len(restored_avatars) == expected_avatar_count and restored_avatars:
+            restored_avatar = restored_avatars[0]
+            RLPy.RScene.SelectObject(restored_avatar)
+            force_avatar_scene_evaluation(restored_avatar)
+            restored_vector_fingerprint = vectors_excluding_morph_fingerprint(
+                capture_vectors(restored_avatar),
+                "__no_excluded_morph__",
+            )
+        restoration.update(
+            {
+                "restore_status": restore_status,
+                "restore_dialogs": restore_dialogs,
+                "restored": len(restored_avatars) == expected_avatar_count,
+                "restored_avatar_count": len(restored_avatars),
+                "restored_vector_fingerprint": restored_vector_fingerprint,
+                "restored_exactly": bool(
+                    len(restored_avatars) == expected_avatar_count
+                    and restored_vector_fingerprint
+                    == initial_vector_fingerprint
+                ),
+            }
+        )
+        write_json(restoration, restoration_path)
+        if not restoration["restored_exactly"]:
+            raise ReconstructionError(
+                "BodyFit height matrix did not restore the initial scene"
+            )
+
+    failures = [item for item in results if not item["success"]]
+    summary_path = os.path.join(output_dir, "bodyfit_height_matrix.json")
+    summary = {
+        "schema_version": 1,
+        "library_id": library.get("library_id"),
+        "diagnostic_mode": "bodyfit_height_matrix",
+        "started_at": started_at,
+        "finished_at": now(),
+        "requested_count": len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "failure_count": len(failures),
+        "success": not failures and len(results) == len(selected_ids),
+        "measurement": (
+            "world-space avatar bounds maximum Z minus minimum Z, in CC cm"
+        ),
+        "results": results,
+        "scene_restoration": restoration,
+        "summary_path": summary_path,
+        "started_from_library": library_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def _targeted_morph_state(component, morph_id):
+    try:
+        bounds = component.GetShapingMorphMinMax(morph_id)
+        weight = float(component.GetShapingMorphWeight(morph_id))
+    except Exception as exc:
+        raise ReconstructionError(
+            "Targeted Morph is unavailable: {} ({})".format(
+                morph_id,
+                exc,
+            )
+        )
+    return {
+        "id": morph_id,
+        "maximum": float(bounds.second),
+        "minimum": float(bounds.first),
+        "weight": weight,
+    }
+
+
+def _prepare_targeted_morph_states(avatar, morph_ids):
+    # CC can report unsigned default bounds until its shaping catalog has been
+    # enumerated after a project load. Prime IDs/names before reading Min/Max.
+    component, catalog, unused_categories = morph_catalog(avatar)
+    missing = sorted(set(morph_ids) - set(catalog))
+    if missing:
+        raise ReconstructionError(
+            "Targeted Morphs are unavailable: {}".format(missing)
+        )
+    return component, dict(
+        (
+            morph_id,
+            _targeted_morph_state(component, morph_id),
+        )
+        for morph_id in sorted(set(morph_ids))
+    )
+
+
+def _apply_targeted_morph_weights(component, avatar, targets, label):
+    states = {}
+    changed = False
+    for morph_id, raw_target in targets.items():
+        target = float(raw_target)
+        state = _targeted_morph_state(component, morph_id)
+        reported_out_of_bounds = (
+            target < state["minimum"] - 1e-7
+            or target > state["maximum"] + 1e-7
+        )
+        signed_embed = morph_id.lower().startswith("cc embed morphs/")
+        bounds_probe_allowed = allows_reported_bounds_probe(morph_id)
+        if reported_out_of_bounds and not bounds_probe_allowed:
+            raise ReconstructionError(
+                "{} target {} for {} is outside [{}, {}]".format(
+                    label,
+                    target,
+                    morph_id,
+                    state["minimum"],
+                    state["maximum"],
+                )
+            )
+        state["reported_out_of_bounds"] = reported_out_of_bounds
+        state["signed_embed_bounds_override"] = (
+            reported_out_of_bounds and signed_embed
+        )
+        state["reported_bounds_override"] = (
+            reported_out_of_bounds and bounds_probe_allowed
+        )
+        if abs(state["weight"] - target) > 1e-7:
+            checked(
+                "Set {} Morph {}".format(label, morph_id),
+                component.SetShapingMorphWeight(morph_id, target),
+            )
+            changed = True
+        states[morph_id] = dict(state, target=target)
+    if changed:
+        checked(
+            "Refresh {} Morphs".format(label),
+            RLPy.RGlobal.ObjectModified(
+                avatar,
+                RLPy.EObjectModifiedType_MorphWeight,
+            ),
+        )
+        checked(
+            "Evaluate {} Morphs".format(label),
+            RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+        )
+        settle_cc_ui(0.35)
+    for morph_id, state in states.items():
+        actual = float(component.GetShapingMorphWeight(morph_id))
+        state["actual"] = actual
+        if abs(actual - state["target"]) > 1e-6:
+            raise ReconstructionError(
+                "{} Morph did not reach target: {}".format(
+                    label,
+                    morph_id,
+                )
+            )
+    return states
+
+
+def run_targeted_bodyfit_height_matrix(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Measure known BodyFit projects without catalog-wide Morph reads."""
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "Targeted height preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown targeted height preset IDs: {}".format(missing)
+        )
+
+    started_at = now()
+    results = []
+    progress_path = os.path.join(output_dir, "progress.json")
+    for index, preset_id in enumerate(selected_ids):
+        preset = by_id[preset_id]
+        record = {
+            "body_class": preset.get("body_class"),
+            "error": None,
+            "preset_id": preset_id,
+            "sex": preset.get("sex"),
+            "success": False,
+        }
+        try:
+            write_json(
+                {
+                    "index": index + 1,
+                    "phase": "load_bodyfit",
+                    "preset_count": len(selected_ids),
+                    "preset_id": preset_id,
+                    "schema_version": 1,
+                    "updated_at": now(),
+                },
+                progress_path,
+            )
+            source = preset.get("source_project")
+            source_path = (
+                source.get("path")
+                if isinstance(source, dict)
+                else source
+            )
+            if not isinstance(source_path, str) or not os.path.isfile(
+                source_path
+            ):
+                raise ReconstructionError(
+                    "Targeted height source project is missing: {}".format(
+                        source_path
+                    )
+                )
+            actual_sha256 = sha256_file(source_path)
+            expected_sha256 = (
+                source.get("sha256") if isinstance(source, dict) else None
+            )
+            if (
+                expected_sha256 is not None
+                and actual_sha256 != expected_sha256
+            ):
+                raise ReconstructionError(
+                    "Targeted height source project hash changed"
+                )
+            log(
+                "TARGETED HEIGHT {}/{} {}".format(
+                    index + 1,
+                    len(selected_ids),
+                    preset_id,
+                )
+            )
+            load_status, load_dialogs = (
+                load_file_with_optional_undo_warning(
+                    source_path,
+                    "Load targeted height source project",
+                )
+            )
+            avatar, avatars = resolve_avatar()
+            if len(avatars) != 1:
+                raise ReconstructionError(
+                    "Targeted height expected one loaded avatar"
+                )
+            RLPy.RScene.SelectObject(avatar)
+            component = avatar.GetAvatarShapingComponent()
+            if component is None:
+                raise ReconstructionError(
+                    "Targeted height avatar has no shaping component"
+                )
+            source_bounds = capture_bounds(avatar)
+            measurement_morphs = list(
+                preset.get("measurement_morphs") or []
+            )
+            morph_ids = [item.get("id") for item in measurement_morphs]
+            if (
+                any(not isinstance(item, str) or not item for item in morph_ids)
+                or len(morph_ids) != len(set(morph_ids))
+            ):
+                raise ReconstructionError(
+                    "Targeted height Morph IDs are invalid or duplicated"
+                )
+            applications = {}
+            measured_bounds = source_bounds
+            restored_exactly = True
+            if measurement_morphs:
+                component, initial_states = _prepare_targeted_morph_states(
+                    avatar,
+                    morph_ids,
+                )
+                targets = dict(
+                    (item["id"], float(item["target"]))
+                    for item in measurement_morphs
+                )
+                applications = _apply_targeted_morph_weights(
+                    component,
+                    avatar,
+                    targets,
+                    "BodyFit height",
+                )
+                measured_bounds = capture_bounds(avatar)
+                restored_targets = dict(
+                    (morph_id, state["weight"])
+                    for morph_id, state in initial_states.items()
+                )
+                _apply_targeted_morph_weights(
+                    component,
+                    avatar,
+                    restored_targets,
+                    "restore BodyFit height",
+                )
+                restored_exactly = all(
+                    abs(
+                        float(component.GetShapingMorphWeight(morph_id))
+                        - target
+                    )
+                    <= 1e-6
+                    for morph_id, target in restored_targets.items()
+                )
+            if not restored_exactly:
+                raise ReconstructionError(
+                    "Targeted height did not restore controlled Morphs"
+                )
+            record.update(
+                {
+                    "height_cm": float(
+                        measured_bounds["maximum"][2]
+                        - measured_bounds["minimum"][2]
+                    ),
+                    "load_dialogs": load_dialogs,
+                    "load_status": load_status,
+                    "measured_bounds": measured_bounds,
+                    "measurement_morphs": [
+                        applications[item["id"]]
+                        for item in measurement_morphs
+                    ],
+                    "restored_exactly": restored_exactly,
+                    "source_bounds": source_bounds,
+                    "source_project": {
+                        "bytes": os.path.getsize(source_path),
+                        "path": source_path,
+                        "sha256": actual_sha256,
+                    },
+                    "success": True,
+                }
+            )
+        except Exception as exc:
+            record["error"] = {
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+                "type": type(exc).__name__,
+            }
+        results.append(record)
+        QtWidgets.QApplication.processEvents()
+
+    failures = [item for item in results if not item["success"]]
+    summary_path = os.path.join(output_dir, "bodyfit_height_matrix.json")
+    summary = {
+        "diagnostic_mode": "targeted_bodyfit_height_matrix",
+        "failure_count": len(failures),
+        "finished_at": now(),
+        "library_id": library.get("library_id"),
+        "measurement_policy": library.get("measurement_policy"),
+        "requested_count": len(selected_ids),
+        "results": results,
+        "scene_policy": "leave_last_source_project_with_morphs_restored",
+        "schema_version": 1,
+        "started_at": started_at,
+        "started_from_library": library_path,
+        "success": not failures and len(results) == len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
+
+
+def run_targeted_morph_visual_matrix(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Render known Morph candidates without reading all Morph weights."""
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "Targeted Morph preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown targeted Morph preset IDs: {}".format(missing)
+        )
+
+    started_at = now()
+    results = []
+    progress_path = os.path.join(output_dir, "progress.json")
+    inter_case_delay_seconds = max(
+        0.0,
+        float(library.get("inter_case_delay_seconds", 0.0)),
+    )
+    review_scene = library.get("targeted_morph_review_scene") or {}
+    if not isinstance(review_scene, dict):
+        raise ReconstructionError(
+            "targeted_morph_review_scene must be an object"
+        )
+    review_lightroom = None
+    review_cameras = {}
+    review_positions = {}
+    review_views = review_scene.get("views")
+    dynamic_pose_review = library.get(
+        "targeted_morph_dynamic_pose_review"
+    )
+    if dynamic_pose_review is None:
+        dynamic_pose_review = {}
+    if not isinstance(dynamic_pose_review, dict):
+        raise ReconstructionError(
+            "targeted_morph_dynamic_pose_review must be an object"
+        )
+    dynamic_pose_enabled = dynamic_pose_review.get("enabled", False)
+    if not isinstance(dynamic_pose_enabled, bool):
+        raise ReconstructionError(
+            "targeted_morph_dynamic_pose_review.enabled must be boolean"
+        )
+    required_dynamic_pose_ids = dynamic_pose_review.get(
+        "required_pose_ids",
+        [],
+    )
+    if dynamic_pose_enabled:
+        if not review_scene:
+            raise ReconstructionError(
+                "Dynamic targeted Morph review requires a review scene"
+            )
+        if (
+            not isinstance(required_dynamic_pose_ids, list)
+            or not required_dynamic_pose_ids
+            or any(
+                not isinstance(item, str) or not item
+                for item in required_dynamic_pose_ids
+            )
+            or len(required_dynamic_pose_ids)
+            != len(set(required_dynamic_pose_ids))
+        ):
+            raise ReconstructionError(
+                "Dynamic targeted Morph required_pose_ids must be unique strings"
+            )
+    if review_scene:
+        review_lightroom = canonical_existing_file(
+            review_scene.get("preview_lightroom"),
+            "Targeted Morph review Lightroom",
+        )
+        raw_cameras = review_scene.get("face_camera_by_sex") or {}
+        raw_positions = review_scene.get("face_position_by_sex") or {}
+        if not isinstance(raw_cameras, dict) or not isinstance(
+            raw_positions, dict
+        ):
+            raise ReconstructionError(
+                "Targeted Morph review cameras and positions must be objects"
+            )
+        for sex in ("female", "male"):
+            review_cameras[sex] = canonical_existing_file(
+                raw_cameras.get(sex),
+                "Targeted Morph {} face camera".format(sex),
+            )
+            review_positions[sex] = _quality_benchmark_position(
+                raw_positions.get(sex),
+                "targeted_morph_review_scene.{}_position".format(sex),
+            )
+        if not isinstance(review_views, list) or not review_views:
+            raise ReconstructionError(
+                "Targeted Morph review views must be a non-empty list"
+            )
+
+    def mark(phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "phase": phase,
+                "schema_version": 1,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+
+    for preset_index, preset_id in enumerate(selected_ids):
+        preset = by_id[preset_id]
+        case_dir = os.path.join(output_dir, preset_id)
+        os.makedirs(case_dir, exist_ok=False)
+        record = {
+            "application": None,
+            "dynamic_pose_reviews": [],
+            "error": None,
+            "head_scale_review": None,
+            "neck_morph_review": None,
+            "preset_id": preset_id,
+            "sex": preset.get("sex"),
+            "success": False,
+        }
+        try:
+            source = preset.get("source_project")
+            source_path = (
+                source.get("path")
+                if isinstance(source, dict)
+                else source
+            )
+            if not isinstance(source_path, str) or not os.path.isfile(
+                source_path
+            ):
+                raise ReconstructionError(
+                    "Targeted Morph source project is missing: {}".format(
+                        source_path
+                    )
+                )
+            actual_sha256 = sha256_file(source_path)
+            expected_sha256 = (
+                source.get("sha256") if isinstance(source, dict) else None
+            )
+            if (
+                expected_sha256 is not None
+                and actual_sha256 != expected_sha256
+            ):
+                raise ReconstructionError(
+                    "Targeted Morph source project hash changed"
+                )
+            mark(
+                "load_source_project",
+                {
+                    "index": preset_index + 1,
+                    "preset_count": len(selected_ids),
+                    "preset_id": preset_id,
+                },
+            )
+            log(
+                "TARGETED MORPH {}/{} {}".format(
+                    preset_index + 1,
+                    len(selected_ids),
+                    preset_id,
+                )
+            )
+            load_status, load_dialogs = (
+                load_file_with_optional_undo_warning(
+                    source_path,
+                    "Load targeted Morph source project",
+                )
+            )
+            avatar, avatars = resolve_avatar()
+            if len(avatars) != 1:
+                raise ReconstructionError(
+                    "Targeted Morph scan expected one loaded avatar"
+                )
+            RLPy.RScene.SelectObject(avatar)
+            if review_scene:
+                sex = preset.get("sex")
+                checked(
+                    "Load targeted Morph review Lightroom",
+                    RLPy.RFileIO.LoadFile(review_lightroom),
+                )
+                settle_cc_ui(1.0)
+                checked(
+                    "Load targeted Morph review camera",
+                    RLPy.RFileIO.LoadFile(review_cameras[sex]),
+                )
+                settle_cc_ui(1.0)
+                review_position = review_positions[sex]
+                set_avatar_position(
+                    avatar,
+                    position_x=review_position[0],
+                    position_y=review_position[1],
+                    position_z=review_position[2],
+                )
+                force_avatar_scene_evaluation(avatar)
+            component = avatar.GetAvatarShapingComponent()
+            if component is None:
+                raise ReconstructionError(
+                    "Targeted Morph avatar has no shaping component"
+                )
+
+            head_review = preset.get("head_scale_review")
+            neck_review = preset.get("neck_morph_review")
+            if bool(head_review) == bool(neck_review):
+                raise ReconstructionError(
+                    "Targeted Morph scan requires exactly one review block"
+                )
+            baseline_targets = {}
+            fixed_targets = []
+            review_specs = []
+            if head_review:
+                review_specs.append(
+                    {
+                        "morph_id": head_review.get("morph_id"),
+                        "review_id": "head_scale",
+                        "values": head_review.get("values"),
+                    }
+                )
+            else:
+                head_scale = neck_review.get("head_scale") or {}
+                head_scale_id = head_scale.get("morph_id")
+                if not isinstance(head_scale_id, str) or not head_scale_id:
+                    raise ReconstructionError(
+                        "Targeted Morph head_scale.morph_id is missing"
+                    )
+                baseline_targets[head_scale_id] = float(
+                    head_scale.get("target")
+                )
+                fixed_morphs = neck_review.get("fixed_morphs") or []
+                if not isinstance(fixed_morphs, list):
+                    raise ReconstructionError(
+                        "Targeted Morph fixed_morphs must be a list"
+                    )
+                for fixed in fixed_morphs:
+                    if not isinstance(fixed, dict):
+                        raise ReconstructionError(
+                            "Targeted Morph fixed Morph must be an object"
+                        )
+                    fixed_id = fixed.get("morph_id")
+                    fixed_target = fixed.get("target")
+                    if not isinstance(fixed_id, str) or not fixed_id:
+                        raise ReconstructionError(
+                            "Targeted Morph fixed morph_id is missing"
+                        )
+                    if fixed_id in baseline_targets:
+                        raise ReconstructionError(
+                            "Targeted Morph fixed ID is duplicated: {}".format(
+                                fixed_id
+                            )
+                        )
+                    if (
+                        isinstance(fixed_target, bool)
+                        or not isinstance(fixed_target, (int, float))
+                        or not math.isfinite(float(fixed_target))
+                    ):
+                        raise ReconstructionError(
+                            "Targeted Morph fixed target must be finite"
+                        )
+                    fixed_target = float(fixed_target)
+                    baseline_targets[fixed_id] = fixed_target
+                    fixed_targets.append(
+                        {
+                            "morph_id": fixed_id,
+                            "target": fixed_target,
+                        }
+                    )
+                review_specs.extend(neck_review.get("morphs") or [])
+            if not review_specs:
+                raise ReconstructionError(
+                    "Targeted Morph review contains no Morph candidates"
+                )
+
+            normalized_specs = []
+            controlled_ids = set(baseline_targets)
+            for item in review_specs:
+                morph_id = item.get("morph_id")
+                review_id = item.get("review_id")
+                values = item.get("values")
+                if not isinstance(morph_id, str) or not morph_id:
+                    raise ReconstructionError(
+                        "Targeted Morph candidate ID is missing"
+                    )
+                if not isinstance(review_id, str) or not review_id:
+                    raise ReconstructionError(
+                        "Targeted Morph review ID is missing"
+                    )
+                if morph_id in controlled_ids:
+                    raise ReconstructionError(
+                        "Targeted Morph ID is duplicated: {}".format(
+                            morph_id
+                        )
+                    )
+                if not isinstance(values, list) or not values:
+                    raise ReconstructionError(
+                        "Targeted Morph values are missing for {}".format(
+                            review_id
+                        )
+                    )
+                values = [float(value) for value in values]
+                if len(values) != len(set(values)):
+                    raise ReconstructionError(
+                        "Targeted Morph values contain duplicates"
+                    )
+                controlled_ids.add(morph_id)
+                normalized_specs.append(
+                    {
+                        "morph_id": morph_id,
+                        "review_id": review_id,
+                        "values": values,
+                    }
+                )
+            if dynamic_pose_enabled and (
+                len(normalized_specs) != 1
+                or len(normalized_specs[0]["values"]) != 1
+            ):
+                raise ReconstructionError(
+                    "Dynamic targeted Morph review requires one candidate per preset"
+                )
+
+            component, initial_states = _prepare_targeted_morph_states(
+                avatar,
+                controlled_ids,
+            )
+            initial_targets = dict(
+                (morph_id, state["weight"])
+                for morph_id, state in initial_states.items()
+            )
+            initial_yaw = _transform_float(
+                avatar,
+                "Rotation/RotationZ",
+            )
+            views = review_views or (
+                neck_review.get("views")
+                if neck_review
+                else None
+            ) or [{"view_id": "yaw_000", "yaw_degrees": 0.0}]
+            review_reports = []
+            flat_candidates = []
+            for morph_index, item in enumerate(normalized_specs):
+                morph_dir = os.path.join(case_dir, item["review_id"])
+                os.makedirs(morph_dir, exist_ok=False)
+                morph_report = {
+                    "candidates": [],
+                    "initial_weight": initial_states[
+                        item["morph_id"]
+                    ]["weight"],
+                    "morph": dict(initial_states[item["morph_id"]]),
+                    "review_id": item["review_id"],
+                    "values": item["values"],
+                }
+                review_reports.append(morph_report)
+                for value_index, value in enumerate(item["values"]):
+                    targets = dict(initial_targets)
+                    targets.update(baseline_targets)
+                    targets[item["morph_id"]] = value
+                    mark(
+                        "render_candidate",
+                        {
+                            "candidate_count": len(item["values"]),
+                            "candidate_index": value_index + 1,
+                            "morph_count": len(normalized_specs),
+                            "morph_index": morph_index + 1,
+                            "preset_id": preset_id,
+                            "review_id": item["review_id"],
+                            "value": value,
+                        },
+                    )
+                    applications = _apply_targeted_morph_weights(
+                        component,
+                        avatar,
+                        targets,
+                        "targeted candidate",
+                    )
+                    if morph_index == 0 and value_index == 0:
+                        # RenderImage can return the pre-load camera frame on
+                        # its first capture. Discard one frame while the first
+                        # candidate is already applied.
+                        warmup_view = views[0]
+                        set_avatar_yaw(
+                            avatar,
+                            float(warmup_view.get("yaw_degrees")),
+                        )
+                        warmup_path = os.path.join(
+                            case_dir,
+                            "_capture_warmup.png",
+                        )
+                        mark(
+                            "warm_preview_capture",
+                            {
+                                "preset_id": preset_id,
+                                "review_id": item["review_id"],
+                                "value": value,
+                            },
+                        )
+                        render_preview(warmup_path)
+                        if os.path.isfile(warmup_path):
+                            os.remove(warmup_path)
+                    rendered_views = {}
+                    for view in views:
+                        view_id = str(view.get("view_id"))
+                        yaw_degrees = float(view.get("yaw_degrees"))
+                        set_avatar_yaw(avatar, yaw_degrees)
+                        image_path = os.path.join(
+                            morph_dir,
+                            "{}_{}_{}.png".format(
+                                item["review_id"],
+                                signed_morph_token(value),
+                                view_id,
+                            ),
+                        )
+                        render_preview(image_path)
+                        rendered_views[view_id] = image_path
+                    dynamic_pose_result = None
+                    if dynamic_pose_enabled:
+                        dynamic_dir = os.path.join(
+                            morph_dir,
+                            "dynamic_pose_review",
+                        )
+                        os.makedirs(dynamic_dir, exist_ok=False)
+
+                        def mark_dynamic_phase(phase, details=None):
+                            detail = {
+                                "preset_id": preset_id,
+                                "review_id": item["review_id"],
+                                "value": value,
+                            }
+                            if details:
+                                detail["pose_details"] = details
+                            mark("dynamic_{}".format(phase), detail)
+
+                        pose_report = render_profile_upgrade_pose_matrix(
+                            avatar,
+                            dynamic_dir,
+                            mark_dynamic_phase,
+                            RLPy.RGlobal.GetStartTime(),
+                            review_positions[preset.get("sex")],
+                        )
+                        observed_pose_ids = [
+                            pose["pose_id"]
+                            for pose in pose_report["poses"]
+                        ]
+                        missing_pose_ids = sorted(
+                            set(required_dynamic_pose_ids)
+                            - set(observed_pose_ids)
+                        )
+                        if missing_pose_ids:
+                            raise ReconstructionError(
+                                "Dynamic targeted Morph poses are missing: {}"
+                                .format(missing_pose_ids)
+                            )
+                        post_dynamic_weights = dict(
+                            (
+                                morph_id,
+                                float(
+                                    component.GetShapingMorphWeight(morph_id)
+                                ),
+                            )
+                            for morph_id in controlled_ids
+                        )
+                        morphs_unchanged = all(
+                            abs(post_dynamic_weights[morph_id] - target)
+                            <= 1e-6
+                            for morph_id, target in targets.items()
+                        )
+                        if not morphs_unchanged:
+                            raise ReconstructionError(
+                                "Dynamic pose review changed controlled Morphs"
+                            )
+                        dynamic_pose_result = {
+                            "evidence_liveness": pose_report[
+                                "evidence_liveness"
+                            ],
+                            "expression_count": pose_report[
+                                "expression_count"
+                            ],
+                            "expression_set_uid": pose_report[
+                                "expression_set_uid"
+                            ],
+                            "morphs_unchanged": morphs_unchanged,
+                            "neutral_eye_integrity": pose_report[
+                                "neutral_eye_integrity"
+                            ],
+                            "observed_pose_ids": observed_pose_ids,
+                            "post_dynamic_weights": post_dynamic_weights,
+                            "report_path": os.path.join(
+                                dynamic_dir,
+                                "facial_pose_validation.json",
+                            ),
+                            "required_pose_ids": list(
+                                required_dynamic_pose_ids
+                            ),
+                        }
+                        record["dynamic_pose_reviews"].append(
+                            dynamic_pose_result
+                        )
+                    bounds = capture_bounds(avatar)
+                    candidate = {
+                        "application": applications[item["morph_id"]],
+                        "avatar_bounds": bounds,
+                        "height_cm": float(
+                            bounds["maximum"][2]
+                            - bounds["minimum"][2]
+                        ),
+                        "value": value,
+                        "views": rendered_views,
+                    }
+                    if dynamic_pose_result is not None:
+                        candidate["dynamic_pose_review"] = (
+                            dynamic_pose_result
+                        )
+                    morph_report["candidates"].append(candidate)
+                    if head_review:
+                        flat_candidates.append(
+                            dict(
+                                candidate,
+                                image=rendered_views[
+                                    next(iter(rendered_views))
+                                ],
+                            )
+                        )
+
+            saved_selected = None
+            save_config = (
+                neck_review.get("save_selected_candidate")
+                if neck_review
+                else None
+            )
+            if save_config:
+                selected_review_id = save_config.get("review_id")
+                selected_spec = next(
+                    (
+                        item
+                        for item in normalized_specs
+                        if item["review_id"] == selected_review_id
+                    ),
+                    None,
+                )
+                if selected_spec is None:
+                    raise ReconstructionError(
+                        "Selected targeted Morph review ID is unavailable"
+                    )
+                selected_value = float(save_config.get("value"))
+                selected_targets = dict(initial_targets)
+                selected_targets.update(baseline_targets)
+                selected_targets[selected_spec["morph_id"]] = (
+                    selected_value
+                )
+                applications = _apply_targeted_morph_weights(
+                    component,
+                    avatar,
+                    selected_targets,
+                    "selected targeted candidate",
+                )
+                selected_project = os.path.realpath(
+                    os.path.abspath(save_config.get("project_path"))
+                )
+                os.makedirs(os.path.dirname(selected_project), exist_ok=True)
+                checked(
+                    "Save selected targeted Morph candidate",
+                    RLPy.RFileIO.SaveProject(selected_project),
+                )
+                project_size = wait_for_rendered_preview(
+                    selected_project,
+                    timeout_seconds=600.0,
+                    stable_seconds=2.0,
+                )
+                selected_bounds = capture_bounds(avatar)
+                saved_selected = {
+                    "application": applications[
+                        selected_spec["morph_id"]
+                    ],
+                    "avatar_bounds": selected_bounds,
+                    "height_cm": float(
+                        selected_bounds["maximum"][2]
+                        - selected_bounds["minimum"][2]
+                    ),
+                    "project_path": selected_project,
+                    "project_sha256": sha256_file(selected_project),
+                    "project_size": project_size,
+                    "review_id": selected_review_id,
+                    "value": selected_value,
+                }
+
+            _apply_targeted_morph_weights(
+                component,
+                avatar,
+                initial_targets,
+                "restore targeted scan",
+            )
+            set_avatar_yaw(avatar, math.degrees(initial_yaw))
+            restored_weights = dict(
+                (
+                    morph_id,
+                    float(component.GetShapingMorphWeight(morph_id)),
+                )
+                for morph_id in controlled_ids
+            )
+            restored_exactly = all(
+                abs(restored_weights[morph_id] - target) <= 1e-6
+                for morph_id, target in initial_targets.items()
+            )
+            if not restored_exactly:
+                raise ReconstructionError(
+                    "Targeted Morph scan did not restore controlled weights"
+                )
+            record["application"] = {
+                "load_dialogs": load_dialogs,
+                "load_status": load_status,
+                "review_scene": (
+                    {
+                        "camera": review_cameras[preset.get("sex")],
+                        "lightroom": review_lightroom,
+                        "position": review_positions[preset.get("sex")],
+                        "views": views,
+                    }
+                    if review_scene
+                    else None
+                ),
+                "source_project": source_path,
+                "source_project_sha256": actual_sha256,
+            }
+            if head_review:
+                record["head_scale_review"] = {
+                    "candidates": flat_candidates,
+                    "initial_weight": initial_states[
+                        normalized_specs[0]["morph_id"]
+                    ]["weight"],
+                    "morph": initial_states[
+                        normalized_specs[0]["morph_id"]
+                    ],
+                    "restored_exactly": restored_exactly,
+                    "restored_weights": restored_weights,
+                }
+            else:
+                record["neck_morph_review"] = {
+                    "controlled_morph_ids": sorted(controlled_ids),
+                    "fixed_morphs": fixed_targets,
+                    "morphs": review_reports,
+                    "restored_exactly": restored_exactly,
+                    "restored_weights": restored_weights,
+                    "saved_selected_candidate": saved_selected,
+                }
+            record["success"] = True
+        except Exception as exc:
+            record["error"] = {
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+                "type": type(exc).__name__,
+            }
+        results.append(record)
+        write_json(record, os.path.join(case_dir, "result.json"))
+        QtWidgets.QApplication.processEvents()
+        if (
+            inter_case_delay_seconds
+            and preset_index + 1 < len(selected_ids)
+        ):
+            settle_cc_ui(inter_case_delay_seconds)
+
+    failures = [item for item in results if not item["success"]]
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "diagnostic_mode": "targeted_morph_visual_matrix",
+        "failure_count": len(failures),
+        "finished_at": now(),
+        "library_id": library.get("library_id"),
+        "requested_count": len(selected_ids),
+        "results": results,
+        "scene_policy": "leave_last_source_project_loaded",
+        "schema_version": 1,
+        "started_at": started_at,
+        "started_from_library": library_path,
+        "success": not failures and len(results) == len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark("completed", {"success": summary["success"]})
+    return summary
+
+
+def run_headshot_project_seed_bodyfit_pilot(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Validate baked Headshot identity projects on canonical BodyFits."""
+    by_id = dict((item["preset_id"], item) for item in all_presets)
+    selection_mode = (
+        "explicit_subset" if preset_ids is not None else "complete_library"
+    )
+    selected_ids = list(
+        preset_ids
+        if preset_ids is not None
+        else [item["preset_id"] for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "Headshot project-seed Pilot IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown Headshot project-seed Pilot IDs: {}".format(missing)
+        )
+    policy = library.get("pilot_policy") or {}
+    if policy.get("pipeline") != "headshot_project_seed_then_bodyfit_v1":
+        raise ReconstructionError("Unexpected Headshot project-seed pipeline")
+    if int(policy.get("case_count", 0)) != len(all_presets):
+        raise ReconstructionError("Headshot project-seed Pilot case count changed")
+    if library.get("save_character_projects") is not True:
+        raise ReconstructionError("Headshot project-seed Pilot must save projects")
+    lightroom_path = canonical_existing_file(
+        library.get("preview_lightroom"),
+        "Headshot project-seed Pilot Lightroom",
+    )
+    inter_case_delay = float(library.get("inter_case_delay_seconds", 0.0))
+    if not math.isfinite(inter_case_delay) or inter_case_delay < 0.0:
+        raise ReconstructionError("Invalid project-seed inter-case delay")
+
+    def file_record(record, label):
+        if not isinstance(record, dict):
+            raise ReconstructionError("{} must be a file record".format(label))
+        path = canonical_existing_file(record.get("path"), label)
+        actual_sha256 = sha256_file(path)
+        expected_sha256 = record.get("sha256")
+        if expected_sha256 is not None and expected_sha256 != actual_sha256:
+            raise ReconstructionError("{} SHA-256 changed".format(label))
+        return {
+            "bytes": os.path.getsize(path),
+            "path": path,
+            "sha256": actual_sha256,
+        }
+
+    def load_project(record, label):
+        status, dialogs = load_file_with_optional_undo_warning(
+            record["path"], label
+        )
+        settle_cc_ui(2.0)
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "{} expected one avatar, found {}".format(label, len(avatars))
+            )
+        RLPy.RScene.SelectObject(avatar)
+        checked(
+            "Evaluate {} start frame".format(label),
+            RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True),
+        )
+        force_avatar_scene_evaluation(avatar)
+        return avatar, {"dialogs": dialogs, "status": status}
+
+    def capture_avatar_transform(avatar):
+        return {
+            "position": {
+                "x": _transform_float(avatar, "Position/PositionX"),
+                "y": _transform_float(avatar, "Position/PositionY"),
+                "z": _transform_float(avatar, "Position/PositionZ"),
+            },
+            "yaw_radians": _transform_float(avatar, "Rotation/RotationZ"),
+        }
+
+    def restore_avatar_transform(avatar, state):
+        set_avatar_position(
+            avatar,
+            position_x=state["position"]["x"],
+            position_y=state["position"]["y"],
+            position_z=state["position"]["z"],
+        )
+        set_avatar_yaw(avatar, math.degrees(state["yaw_radians"]))
+        force_avatar_scene_evaluation(avatar)
+
+    def render_face_view(avatar, camera_path, face_position, yaw, image_path):
+        checked("Load Headshot Pilot face camera", RLPy.RFileIO.LoadFile(camera_path))
+        settle_cc_ui(0.5)
+        set_avatar_position(
+            avatar,
+            position_x=face_position[0],
+            position_y=face_position[1],
+            position_z=face_position[2],
+        )
+        set_avatar_yaw(avatar, yaw)
+        force_avatar_scene_evaluation(avatar)
+        render_preview(image_path)
+
+    def render_full_body_view(
+        avatar,
+        camera_path,
+        face_position,
+        full_body_position,
+        image_path,
+    ):
+        checked("Load Headshot Pilot full-body camera", RLPy.RFileIO.LoadFile(camera_path))
+        settle_cc_ui(0.5)
+        camera = RLPy.RScene.GetCurrentCamera()
+        if camera is None:
+            raise ReconstructionError("Headshot Pilot full-body camera is unavailable")
+        movable_lights, skipped_lights, light_query_errors = (
+            quality_benchmark_movable_lights()
+        )
+        if not movable_lights:
+            raise ReconstructionError(
+                "Headshot Pilot found no movable Lightroom lights: {}".format(
+                    light_query_errors + skipped_lights
+                )
+            )
+        light_offset = {
+            "x": full_body_position[0] - face_position[0],
+            "y": full_body_position[1] - face_position[1],
+            "z": full_body_position[2] - face_position[2],
+        }
+        try:
+            set_avatar_position(
+                avatar,
+                position_x=full_body_position[0],
+                position_y=full_body_position[1],
+                position_z=full_body_position[2],
+            )
+            set_quality_benchmark_light_offset(movable_lights, light_offset)
+            set_avatar_yaw(avatar, 90.0)
+            force_avatar_scene_evaluation(avatar)
+            checked(
+                "Activate Headshot Pilot full-body camera",
+                RLPy.RScene.SetCurrentCamera(camera),
+            )
+            render_preview(image_path)
+        finally:
+            set_quality_benchmark_light_offset(
+                movable_lights,
+                {"x": 0.0, "y": 0.0, "z": 0.0},
+            )
+        return {
+            "camera": camera_state(camera),
+            "lighting": {
+                "light_offset": light_offset,
+                "movable_light_count": len(movable_lights),
+                "policy": "translate_movable_lights_with_full_body_subject",
+                "query_errors": light_query_errors,
+                "skipped_lights": skipped_lights,
+            },
+        }
+
+    started_at = now()
+    progress_path = os.path.join(output_dir, "progress.json")
+    results = []
+
+    def mark(index, preset_id, phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "index": index,
+                "phase": phase,
+                "preset_count": len(selected_ids),
+                "preset_id": preset_id,
+                "schema_version": 1,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+
+    for index, preset_id in enumerate(selected_ids, 1):
+        preset = by_id[preset_id]
+        case_dir = os.path.join(output_dir, preset_id)
+        os.makedirs(case_dir, exist_ok=False)
+        dynamic_dir = os.path.join(case_dir, "dynamic")
+        os.makedirs(dynamic_dir, exist_ok=False)
+        artifacts = {
+            "assembled_face_front": os.path.join(case_dir, "assembled_face_front.png"),
+            "assembled_face_profile": os.path.join(case_dir, "assembled_face_profile.png"),
+            "assembled_face_three_quarter": os.path.join(
+                case_dir, "assembled_face_three_quarter.png"
+            ),
+            "assembled_full_body": os.path.join(case_dir, "assembled_full_body.png"),
+            "bodyfit_reference_full_body": os.path.join(
+                case_dir, "bodyfit_reference_full_body.png"
+            ),
+            "character_project": os.path.join(case_dir, preset_id + ".ccProject"),
+            "dynamic_directory": dynamic_dir,
+            "identity_source_front": os.path.join(case_dir, "identity_source_front.png"),
+            "identity_vectors": os.path.join(case_dir, "identity_vectors.json"),
+            "final_vectors": os.path.join(case_dir, "final_vectors.json"),
+            "reloaded_neutral_front": os.path.join(
+                case_dir, "reloaded_neutral_front.png"
+            ),
+            "reloaded_vectors": os.path.join(case_dir, "reloaded_vectors.json"),
+            "result": os.path.join(case_dir, "result.json"),
+        }
+        record = {
+            "artifacts": artifacts,
+            "bodyfit_id": preset.get("bodyfit_id"),
+            "error": None,
+            "head_profile_id": preset.get("head_profile_id"),
+            "preset_id": preset_id,
+            "prototype_id": preset.get("prototype_id"),
+            "sex": preset.get("sex"),
+            "success": False,
+        }
+        try:
+            mark(index, preset_id, "validate_inputs")
+            identity_record = file_record(
+                preset.get("source_project"), "Headshot identity project"
+            )
+            bodyfit_record = file_record(
+                preset.get("bodyfit_reference_project"),
+                "BodyFit reference project",
+            )
+            profile_record = file_record(
+                preset.get("source_facial_profile"),
+                "Canonical Headshot Facial Profile",
+            )
+            prototype_record = file_record(
+                preset.get("prototype_manifest"), "Headshot prototype manifest"
+            )
+            camera_path = canonical_existing_file(
+                preset.get("face_camera"), "Headshot Pilot face camera"
+            )
+            face_position = preset.get("face_position")
+            if (
+                not isinstance(face_position, list)
+                or len(face_position) != 3
+                or any(not isinstance(value, (int, float)) for value in face_position)
+            ):
+                raise ReconstructionError("Headshot Pilot face position is invalid")
+            face_position = [float(value) for value in face_position]
+            full_body_position = preset.get("full_body_position")
+            if (
+                not isinstance(full_body_position, list)
+                or len(full_body_position) != 3
+                or any(
+                    not isinstance(value, (int, float))
+                    for value in full_body_position
+                )
+            ):
+                raise ReconstructionError(
+                    "Headshot Pilot full-body position is invalid"
+                )
+            full_body_position = [float(value) for value in full_body_position]
+            assembly = preset.get("project_seed_assembly") or {}
+            if assembly.get("pipeline") != "headshot_project_seed_then_bodyfit_v1":
+                raise ReconstructionError("Headshot assembly contract changed")
+            head_target_items = assembly.get("head_shape_targets") or []
+            head_targets = {}
+            for item in head_target_items:
+                morph_id = item.get("id")
+                if not isinstance(morph_id, str) or not morph_id:
+                    raise ReconstructionError("Headshot profile Morph ID is invalid")
+                if morph_id in head_targets:
+                    raise ReconstructionError("Duplicate Headshot profile Morph")
+                head_targets[morph_id] = float(item["target"])
+            if len(head_targets) != 7:
+                raise ReconstructionError("Canonical Headshot profile must own seven Morphs")
+
+            target_body_ids = {
+                item["id"] for item in preset.get("target_body_morphs") or []
+            }
+            target_junction_ids = {
+                item["id"] for item in preset.get("target_junction_morphs") or []
+            }
+            proportion_targets = {
+                item["id"]: float(item["target"])
+                for item in (
+                    preset.get("bodyfit_proportion_adjustment") or {}
+                ).get("targets", [])
+            }
+            controlled_ids = set(head_targets) | set(proportion_targets)
+
+            mark(index, preset_id, "load_bodyfit_reference")
+            bodyfit_avatar, bodyfit_load = load_project(
+                bodyfit_record, "Load BodyFit reference project"
+            )
+            bodyfit_vectors = capture_vectors(bodyfit_avatar)
+            bodyfit_delta = {
+                "body": group_delta(
+                    preset["target_body_morphs"],
+                    bodyfit_vectors["groups"]["body"]["entries"],
+                ),
+                "junction": group_delta(
+                    preset["target_junction_morphs"],
+                    bodyfit_vectors["groups"]["junction"]["entries"],
+                ),
+            }
+            if any(bodyfit_delta.values()):
+                raise ReconstructionError("BodyFit reference no longer matches its vector")
+            if (
+                bodyfit_vectors["body_and_junction_fingerprint_sha256"]
+                != preset["body_and_junction_fingerprint"]
+            ):
+                raise ReconstructionError("BodyFit reference fingerprint changed")
+            bodyfit_motion_cleanup = clear_avatar_motion(bodyfit_avatar)
+            checked("Load project-seed Pilot Lightroom", RLPy.RFileIO.LoadFile(lightroom_path))
+            settle_cc_ui(0.75)
+            bodyfit_full_body_capture = render_full_body_view(
+                bodyfit_avatar,
+                camera_path,
+                face_position,
+                full_body_position,
+                artifacts["bodyfit_reference_full_body"],
+            )
+
+            mark(index, preset_id, "load_identity_project")
+            avatar, identity_load = load_project(
+                identity_record, "Load Headshot identity project"
+            )
+            identity_motion_cleanup = clear_avatar_motion(avatar)
+            checked("Load identity Pilot Lightroom", RLPy.RFileIO.LoadFile(lightroom_path))
+            settle_cc_ui(0.75)
+            identity_transform = capture_avatar_transform(avatar)
+            identity_vectors = capture_vectors(avatar)
+            identity_bounds = capture_bounds(avatar)
+            identity_eye = capture_eye_integrity_state(avatar)
+            identity_material = avatar_material_fingerprint(avatar)
+            write_json(identity_vectors, artifacts["identity_vectors"])
+            unowned_identity_body = unowned_entries(
+                identity_vectors,
+                target_body_ids | target_junction_ids,
+                ("body", "junction"),
+            )
+            if unowned_identity_body:
+                raise ReconstructionError(
+                    "Headshot identity contains unregistered Body/Junction Morphs"
+                )
+            render_face_view(
+                avatar,
+                camera_path,
+                face_position,
+                90.0,
+                artifacts["identity_source_front"],
+            )
+            restore_avatar_transform(avatar, identity_transform)
+
+            mark(index, preset_id, "apply_bodyfit")
+            body_application = apply_bodyfit(
+                avatar,
+                preset["target_body_morphs"],
+                preset["target_junction_morphs"],
+            )
+            after_body = capture_vectors(avatar)
+            after_body_eye = capture_eye_integrity_state(avatar)
+            if group_delta(
+                preset["target_body_morphs"],
+                after_body["groups"]["body"]["entries"],
+            ) or group_delta(
+                preset["target_junction_morphs"],
+                after_body["groups"]["junction"]["entries"],
+            ):
+                raise ReconstructionError("Project-seed BodyFit targets did not round-trip")
+            if (
+                after_body["body_and_junction_fingerprint_sha256"]
+                != preset["body_and_junction_fingerprint"]
+            ):
+                raise ReconstructionError("Project-seed BodyFit fingerprint mismatch")
+            body_face_delta = {
+                classification: group_delta(
+                    identity_vectors["groups"][classification]["entries"],
+                    after_body["groups"][classification]["entries"],
+                )
+                for classification in ("face", "other")
+            }
+            if any(body_face_delta.values()):
+                raise ReconstructionError("Applying BodyFit changed Headshot identity Morphs")
+            if eye_integrity_structure_signature(identity_eye) != (
+                eye_integrity_structure_signature(after_body_eye)
+            ):
+                raise ReconstructionError("Applying BodyFit changed eye structure")
+
+            mark(index, preset_id, "load_canonical_facial_profile")
+            before_profile = capture_vectors(avatar)
+            before_profile_eye = capture_eye_integrity_state(avatar)
+            profile_component = avatar.GetFacialProfileComponent()
+            if profile_component is None:
+                raise ReconstructionError("Headshot identity has no Facial Profile component")
+            checked(
+                "Load canonical Headshot Facial Profile",
+                profile_component.LoadProfile(profile_record["path"]),
+            )
+            settle_cc_ui(2.0)
+            avatar_after_profile, profile_avatars = resolve_avatar()
+            if len(profile_avatars) != 1 or scene_object_id(avatar_after_profile) != scene_object_id(avatar):
+                raise ReconstructionError("Facial Profile load replaced the Headshot avatar")
+            avatar = avatar_after_profile
+            force_avatar_scene_evaluation(avatar)
+            after_profile = capture_vectors(avatar)
+            after_profile_eye = capture_eye_integrity_state(avatar)
+            profile_delta = {
+                classification: group_delta(
+                    before_profile["groups"][classification]["entries"],
+                    after_profile["groups"][classification]["entries"],
+                )
+                for classification in ("body", "junction", "face", "other")
+            }
+            if any(profile_delta.values()):
+                raise ReconstructionError("Facial Profile changed static Morphs")
+            if eye_integrity_structure_signature(before_profile_eye) != (
+                eye_integrity_structure_signature(after_profile_eye)
+            ):
+                raise ReconstructionError("Facial Profile changed eye structure")
+            face_component = avatar.GetFaceComponent()
+            expression_uid = str(face_component.GetExpressionSetUid())
+            expression_count = len(list(face_component.GetExpressionNames("") or []))
+            if expression_uid != assembly["expected_expression_set_uid"]:
+                raise ReconstructionError("Unexpected Facial Profile expression set")
+            if expression_count != int(assembly["expected_expression_count"]):
+                raise ReconstructionError("Unexpected Facial Profile expression count")
+
+            mark(index, preset_id, "apply_head_profile")
+            component, unused_initial_head_states = _prepare_targeted_morph_states(
+                avatar, list(head_targets)
+            )
+            before_head_unowned = unowned_entries(
+                after_profile,
+                controlled_ids,
+                ("body", "junction", "face", "other"),
+            )
+            head_application = _apply_targeted_morph_weights(
+                component, avatar, head_targets, "canonical Headshot profile"
+            )
+            after_head = capture_vectors(avatar)
+            after_head_unowned = unowned_entries(
+                after_head,
+                controlled_ids,
+                ("body", "junction", "face", "other"),
+            )
+            if group_delta(before_head_unowned, after_head_unowned):
+                raise ReconstructionError("Head profile changed unowned Morphs")
+
+            mark(index, preset_id, "apply_bodyfit_proportions")
+            avatar, proportion_application = apply_bodyfit_proportion_adjustment(
+                avatar,
+                preset,
+                progress_callback=lambda phase, detail=None: mark(
+                    index, preset_id, phase, detail
+                ),
+            )
+            if proportion_application is None:
+                raise ReconstructionError("BodyFit proportion decision was not applied")
+            final_vectors = capture_vectors(avatar)
+            final_eye, final_eye_stabilization = capture_stable_neutral_eye_state(
+                avatar
+            )
+            final_material = avatar_material_fingerprint(avatar)
+            final_bounds = capture_bounds(avatar)
+            write_json(final_vectors, artifacts["final_vectors"])
+            if final_vectors["body_and_junction_fingerprint_sha256"] != (
+                preset["body_and_junction_fingerprint"]
+            ):
+                raise ReconstructionError("Final BodyFit fingerprint changed")
+            final_component, unused_states = _prepare_targeted_morph_states(
+                avatar, list(controlled_ids)
+            )
+            controlled_targets = dict(head_targets)
+            controlled_targets.update(proportion_targets)
+            final_controlled = {}
+            for morph_id, target in controlled_targets.items():
+                actual = float(final_component.GetShapingMorphWeight(morph_id))
+                final_controlled[morph_id] = {"actual": actual, "target": target}
+                if abs(actual - target) > 1e-6:
+                    raise ReconstructionError(
+                        "Final controlled Morph differs: {}".format(morph_id)
+                    )
+            final_unowned = unowned_entries(
+                final_vectors,
+                controlled_ids,
+                ("face", "other"),
+            )
+            after_body_unowned = unowned_entries(
+                after_body,
+                controlled_ids,
+                ("face", "other"),
+            )
+            if group_delta(after_body_unowned, final_unowned):
+                raise ReconstructionError("Final assembly changed unowned identity Morphs")
+            if eye_integrity_structure_signature(identity_eye) != (
+                eye_integrity_structure_signature(final_eye)
+            ):
+                raise ReconstructionError("Final assembly changed eye structure")
+            if identity_material["digest"] != final_material["digest"]:
+                raise ReconstructionError("Final assembly changed identity materials")
+
+            mark(index, preset_id, "render_assembled_full_body")
+            assembled_transform = capture_avatar_transform(avatar)
+            assembled_full_body_capture = render_full_body_view(
+                avatar,
+                camera_path,
+                face_position,
+                full_body_position,
+                artifacts["assembled_full_body"],
+            )
+            restore_avatar_transform(avatar, assembled_transform)
+
+            mark(index, preset_id, "render_assembled_face_views")
+            render_face_view(
+                avatar, camera_path, face_position, 90.0, artifacts["assembled_face_front"]
+            )
+            render_face_view(
+                avatar,
+                camera_path,
+                face_position,
+                45.0,
+                artifacts["assembled_face_three_quarter"],
+            )
+            render_face_view(
+                avatar, camera_path, face_position, 0.0, artifacts["assembled_face_profile"]
+            )
+            restore_avatar_transform(avatar, assembled_transform)
+
+            mark(index, preset_id, "save_clean_assembled_project")
+            project_record = save_bodyfit_project(
+                artifacts["character_project"],
+                "Save Headshot project-seed BodyFit Pilot",
+            )
+
+            mark(index, preset_id, "run_dynamic_pose_gate")
+            checked("Load dynamic Pilot face camera", RLPy.RFileIO.LoadFile(camera_path))
+            dynamic_report = render_profile_upgrade_pose_matrix(
+                avatar,
+                dynamic_dir,
+                lambda phase, detail=None: mark(index, preset_id, phase, detail),
+                RLPy.RGlobal.GetStartTime(),
+                face_position,
+            )
+            restore_avatar_transform(avatar, assembled_transform)
+
+            mark(index, preset_id, "reload_saved_project")
+            reloaded_avatar, reload_status = load_project(
+                project_record, "Reload Headshot project-seed Pilot project"
+            )
+            reloaded_vectors = capture_vectors(reloaded_avatar)
+            (
+                reloaded_eye,
+                reloaded_eye_stabilization,
+            ) = capture_stable_neutral_eye_state(reloaded_avatar)
+            reloaded_material = avatar_material_fingerprint(reloaded_avatar)
+            write_json(reloaded_vectors, artifacts["reloaded_vectors"])
+            reloaded_face_component = reloaded_avatar.GetFaceComponent()
+            reloaded_uid = str(reloaded_face_component.GetExpressionSetUid())
+            reloaded_expression_count = len(
+                list(reloaded_face_component.GetExpressionNames("") or [])
+            )
+            reload_delta = {
+                classification: group_delta(
+                    final_vectors["groups"][classification]["entries"],
+                    reloaded_vectors["groups"][classification]["entries"],
+                )
+                for classification in ("body", "junction", "face", "other")
+            }
+            if any(reload_delta.values()):
+                raise ReconstructionError("Saved Pilot project did not preserve Morphs")
+            if reloaded_uid != expression_uid or reloaded_expression_count != expression_count:
+                raise ReconstructionError("Saved Pilot project did not preserve Facial Profile")
+            reload_eye_comparison = compare_neutral_eye_states(
+                final_eye,
+                reloaded_eye,
+                include_runtime_ids=False,
+                t_pose_tolerance=0.5,
+            )
+            if not reload_eye_comparison["matches"]:
+                raise ReconstructionError(
+                    "Saved Pilot project did not preserve eye state: {}".format(
+                        reload_eye_comparison["differences"]
+                    )
+                )
+            if final_material["digest"] != reloaded_material["digest"]:
+                raise ReconstructionError("Saved Pilot project did not preserve materials")
+            reloaded_transform = capture_avatar_transform(reloaded_avatar)
+            checked("Reload Pilot Lightroom", RLPy.RFileIO.LoadFile(lightroom_path))
+            render_face_view(
+                reloaded_avatar,
+                camera_path,
+                face_position,
+                90.0,
+                artifacts["reloaded_neutral_front"],
+            )
+            restore_avatar_transform(reloaded_avatar, reloaded_transform)
+
+            record.update(
+                {
+                    "assembly": {
+                        "body_application": body_application,
+                        "body_face_delta": body_face_delta,
+                        "controlled_morphs": final_controlled,
+                        "head_application": head_application,
+                        "profile_delta": profile_delta,
+                        "proportion_application": proportion_application,
+                    },
+                    "bodyfit_reference": {
+                        "camera": bodyfit_full_body_capture["camera"],
+                        "lighting": bodyfit_full_body_capture["lighting"],
+                        "load": bodyfit_load,
+                        "motion_cleanup": bodyfit_motion_cleanup,
+                        "project": bodyfit_record,
+                    },
+                    "dynamic_pose_gate": {
+                        "evidence_liveness": dynamic_report["evidence_liveness"],
+                        "expression_count": dynamic_report["expression_count"],
+                        "expression_set_uid": dynamic_report["expression_set_uid"],
+                        "neutral_eye_integrity": dynamic_report["neutral_eye_integrity"],
+                        "pose_count": len(dynamic_report["poses"]),
+                        "report_path": os.path.join(
+                            dynamic_dir, "facial_pose_validation.json"
+                        ),
+                    },
+                    "final": {
+                        "bounds": final_bounds,
+                        "eye_structure_preserved": True,
+                        "eye_stabilization": final_eye_stabilization,
+                        "material_preserved": True,
+                    },
+                    "identity_source": {
+                        "bounds": identity_bounds,
+                        "load": identity_load,
+                        "motion_cleanup": identity_motion_cleanup,
+                        "project": identity_record,
+                        "prototype_manifest": prototype_record,
+                    },
+                    "reload": {
+                        "expression_count": reloaded_expression_count,
+                        "expression_set_uid": reloaded_uid,
+                        "load": reload_status,
+                        "morph_delta": reload_delta,
+                        "eye_comparison": reload_eye_comparison,
+                        "eye_stabilization": reloaded_eye_stabilization,
+                        "passed": True,
+                    },
+                    "rendering": {
+                        "assembled_full_body_camera": (
+                            assembled_full_body_capture["camera"]
+                        ),
+                        "assembled_full_body_lighting": (
+                            assembled_full_body_capture["lighting"]
+                        ),
+                        "face_camera": camera_path,
+                        "face_position": face_position,
+                        "full_body_position": full_body_position,
+                        "lightroom": lightroom_path,
+                    },
+                    "saved_project": project_record,
+                    "source_facial_profile": profile_record,
+                    "success": True,
+                }
+            )
+        except Exception as exc:
+            record["error"] = {
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+                "type": type(exc).__name__,
+            }
+            log("FAILED {}: {}".format(preset_id, exc))
+        write_json(record, artifacts["result"])
+        results.append(record)
+        mark(index, preset_id, "case_complete", {"success": record["success"]})
+        QtWidgets.QApplication.processEvents()
+        if inter_case_delay and index < len(selected_ids):
+            settle_cc_ui(inter_case_delay)
+
+    failures = [item for item in results if not item["success"]]
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    summary = {
+        "diagnostic_mode": "headshot_project_seed_bodyfit_pilot",
+        "failure_count": len(failures),
+        "finished_at": now(),
+        "library_id": library.get("library_id"),
+        "library_case_count": len(all_presets),
+        "pilot_policy": policy,
+        "requested_count": len(selected_ids),
+        "results": results,
+        "scene_policy": "leave_last_saved_pilot_project_reloaded",
+        "schema_version": 1,
+        "selection_mode": selection_mode,
+        "started_at": started_at,
+        "started_from_library": library_path,
+        "success": not failures and len(results) == len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    mark(len(selected_ids), None, "completed", {"success": summary["success"]})
+    return summary
+
+
+def _outfit_gate_verified_file(record, label, cache):
+    if not isinstance(record, dict):
+        raise ReconstructionError("{} must be a file record".format(label))
+    path = canonical_existing_file(record.get("path"), label)
+    expected_size = record.get("size_bytes")
+    expected_sha256 = record.get("sha256")
+    if (
+        isinstance(expected_size, bool)
+        or not isinstance(expected_size, int)
+        or expected_size <= 0
+    ):
+        raise ReconstructionError("{} has no valid size_bytes".format(label))
+    if (
+        not isinstance(expected_sha256, str)
+        or len(expected_sha256) != 64
+    ):
+        raise ReconstructionError("{} has no valid SHA-256".format(label))
+    actual_size = os.path.getsize(path)
+    if actual_size != expected_size:
+        raise ReconstructionError(
+            "{} size changed: expected {}, found {}".format(
+                label,
+                expected_size,
+                actual_size,
+            )
+        )
+    cache_key = (path, actual_size, expected_sha256)
+    actual_sha256 = cache.get(cache_key)
+    if actual_sha256 is None:
+        actual_sha256 = sha256_file(path)
+        cache[cache_key] = actual_sha256
+    if actual_sha256 != expected_sha256:
+        raise ReconstructionError("{} SHA-256 changed".format(label))
+    return {
+        "bytes": actual_size,
+        "path": path,
+        "sha256": actual_sha256,
+    }
+
+
+def _outfit_gate_inventory_changes(before, after):
+    before_by_id = dict(
+        (item["id"], item) for item in before.get("objects", [])
+    )
+    after_by_id = dict(
+        (item["id"], item) for item in after.get("objects", [])
+    )
+    before_ids = set(before_by_id)
+    after_ids = set(after_by_id)
+    changed_ids = sorted(
+        item_id
+        for item_id in before_ids & after_ids
+        if before_by_id[item_id] != after_by_id[item_id]
+    )
+    return {
+        "added": [after_by_id[item_id] for item_id in sorted(after_ids - before_ids)],
+        "removed": [before_by_id[item_id] for item_id in sorted(before_ids - after_ids)],
+        "changed": [
+            {
+                "before": before_by_id[item_id],
+                "after": after_by_id[item_id],
+            }
+            for item_id in changed_ids
+        ],
+    }
+
+
+def _outfit_gate_inventory_signature(inventory):
+    return sorted(
+        [
+            {
+                "collection": item.get("collection"),
+                "name": item.get("name"),
+                "python_type": item.get("python_type"),
+            }
+            for item in inventory.get("objects", [])
+        ],
+        key=lambda item: (
+            str(item.get("collection")),
+            str(item.get("name")),
+            str(item.get("python_type")),
+        ),
+    )
+
+
+def _outfit_gate_image_record(path):
+    from PySide2 import QtGui
+
+    image = QtGui.QImage(path)
+    if image.isNull():
+        raise ReconstructionError(
+            "Outfit gate rendered an unreadable image: {}".format(path)
+        )
+    if (
+        image.width() != VIEWPORT_PREVIEW_WIDTH
+        or image.height() != VIEWPORT_PREVIEW_HEIGHT
+    ):
+        raise ReconstructionError(
+            "Outfit gate image dimensions changed: {}x{}".format(
+                image.width(),
+                image.height(),
+            )
+        )
+    if os.path.getsize(path) < 4096:
+        raise ReconstructionError(
+            "Outfit gate rendered an implausibly small image: {}".format(path)
+        )
+    return {
+        "bytes": os.path.getsize(path),
+        "height": image.height(),
+        "path": path,
+        "sha256": sha256_file(path),
+        "width": image.width(),
+    }
+
+
+def _outfit_gate_bounds_center_error(
+    before_center,
+    after_center,
+    source_position,
+    target_position,
+    target_center,
+    bounds_space=None,
+):
+    intended_shift = float(target_position) - float(source_position)
+    observed_shift = float(after_center) - float(before_center)
+    if bounds_space is None:
+        tolerance = max(1.0, abs(intended_shift) * 0.05)
+        bounds_space = (
+            "world_space"
+            if abs(observed_shift - intended_shift) <= tolerance
+            else "object_space"
+        )
+    if bounds_space == "world_space":
+        error = float(after_center) - float(target_center)
+    elif bounds_space == "object_space":
+        error = (
+            float(after_center)
+            + float(target_position)
+            - float(target_center)
+        )
+    else:
+        raise ValueError("Unsupported bounds space: {}".format(bounds_space))
+    return {
+        "bounds_space": bounds_space,
+        "center_error": error,
+        "intended_shift": intended_shift,
+        "observed_shift": observed_shift,
+    }
+
+
+def _outfit_gate_frame_full_body(avatar, camera, yaw_degrees=90.0):
+    if camera is None:
+        raise ReconstructionError("Outfit gate has no active camera")
+    set_avatar_yaw(avatar, yaw_degrees)
+    force_avatar_scene_evaluation(avatar)
+    before_bounds = capture_bounds(avatar)
+    current_position = {
+        "x": _transform_float(avatar, "Position/PositionX"),
+        "y": _transform_float(avatar, "Position/PositionY"),
+        "z": _transform_float(avatar, "Position/PositionZ"),
+    }
+    camera_record = camera_state(camera)
+    camera_position = (
+        (camera_record or {})
+        .get("world_transform", {})
+        .get("translation")
+    )
+    if not isinstance(camera_position, dict) or any(
+        axis not in camera_position for axis in ("x", "y", "z")
+    ):
+        raise ReconstructionError(
+            "Outfit gate camera has no readable world translation"
+        )
+    camera_position = dict(
+        (axis, float(camera_position[axis]))
+        for axis in ("x", "y", "z")
+    )
+    height = (
+        before_bounds["maximum"][2]
+        - before_bounds["minimum"][2]
+    )
+    width = (
+        before_bounds["maximum"][1]
+        - before_bounds["minimum"][1]
+    )
+    if height <= 0.0 or width <= 0.0:
+        raise ReconstructionError(
+            "Outfit gate received invalid avatar bounds"
+        )
+    framing_scale = max(height / 185.0, width / 190.0, 0.80)
+    framing_scale = min(framing_scale, 1.50)
+    camera_distance = 715.0 * framing_scale
+    target_center = {
+        "z": camera_position["z"] - 16.5,
+    }
+    target_position = {
+        "x": camera_position["x"] - camera_distance,
+        "y": 8.0,
+        "z": target_center["z"] - before_bounds["center"][2],
+    }
+    center_corrections = []
+    bounds_space = None
+    for attempt in range(1, 4):
+        set_avatar_position(
+            avatar,
+            position_x=target_position["x"],
+            position_y=target_position["y"],
+            position_z=target_position["z"],
+        )
+        force_avatar_scene_evaluation(avatar)
+        after_bounds = capture_bounds(avatar)
+        center_measurement = _outfit_gate_bounds_center_error(
+            before_bounds["center"][2],
+            after_bounds["center"][2],
+            current_position["z"],
+            target_position["z"],
+            target_center["z"],
+            bounds_space=bounds_space,
+        )
+        bounds_space = center_measurement["bounds_space"]
+        center_error = {
+            "z": center_measurement["center_error"],
+        }
+        center_corrections.append(
+            {
+                "attempt": attempt,
+                "bounds_space": bounds_space,
+                "center_error": dict(center_error),
+                "intended_shift": center_measurement["intended_shift"],
+                "observed_shift": center_measurement["observed_shift"],
+                "target_position": dict(target_position),
+            }
+        )
+        if abs(center_error["z"]) <= 1.0:
+            break
+        target_position["z"] -= center_error["z"]
+    else:
+        raise ReconstructionError(
+            "Outfit gate could not center the avatar after three "
+            "corrections: {}".format(center_error)
+        )
+    return {
+        "after_bounds": after_bounds,
+        "before_bounds": before_bounds,
+        "camera_distance": camera_distance,
+        "camera_position": camera_position,
+        "bounds_space": bounds_space,
+        "center_error": center_error,
+        "center_corrections": center_corrections,
+        "framing_scale": framing_scale,
+        "height": height,
+        "yaw_degrees": float(yaw_degrees),
+        "source_position": current_position,
+        "target_center": target_center,
+        "target_position": target_position,
+        "width": width,
+    }
+
+
+def _outfit_gate_directory_state(path):
+    if not os.path.isdir(path):
+        raise ReconstructionError(
+            "Expected outfit export directory is missing: {}".format(path)
+        )
+    files = []
+    total_bytes = 0
+    for root, _directories, filenames in os.walk(path):
+        for filename in filenames:
+            file_path = os.path.join(root, filename)
+            size = os.path.getsize(file_path)
+            files.append(os.path.relpath(file_path, path))
+            total_bytes += size
+    if not files:
+        raise ReconstructionError(
+            "Expected outfit export directory is empty: {}".format(path)
+        )
+    return {
+        "file_count": len(files),
+        "path": path,
+        "sample_files": sorted(files)[:20],
+        "total_bytes": total_bytes,
+    }
+
+
+def _outfit_gate_optional_directory_state(path):
+    if not os.path.isdir(path):
+        return {
+            "file_count": 0,
+            "path": path,
+            "present": False,
+            "sample_files": [],
+            "total_bytes": 0,
+        }
+    state = _outfit_gate_directory_state(path)
+    state["present"] = True
+    return state
+
+
+def _outfit_gate_export_reference_character(
+    avatar,
+    export_root,
+    export_basename,
+    diagnostic_output_dir,
+    timeout_seconds,
+):
+    if os.path.exists(export_root):
+        raise ReconstructionError(
+            "First-batch export root already exists: {}".format(export_root)
+        )
+    attempt_root = "{}.partial_{}_{}".format(
+        export_root,
+        os.getpid(),
+        int(time.time() * 1000),
+    )
+    os.makedirs(attempt_root, exist_ok=False)
+    fbx_path = os.path.join(attempt_root, export_basename + ".fbx")
+    json_path = os.path.join(attempt_root, export_basename + ".json")
+
+    export_option = RLPy.EExportFbxOptions__None
+    export_option |= RLPy.EExportFbxOptions_AutoSkinRigidMesh
+    export_option |= RLPy.EExportFbxOptions_TPoseForCreateMorphTargetMesh
+    export_option2 = RLPy.EExportFbxOptions2__None
+    export_option2 |= RLPy.EExportFbxOptions2_UnrealEngine4BoneAxis
+    export_option2 |= RLPy.EExportFbxOptions2_UnrealPreset
+    export_option2 |= RLPy.EExportFbxOptions2_UnrealIkBone
+    export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateBoneName
+    export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMaterialName
+    export_option2 |= RLPy.EExportFbxOptions2_RenameDuplicateMorphName
+    export_option2 |= RLPy.EExportFbxOptions2_RenameTransparencyWithPostFix
+    export_option2 |= RLPy.EExportFbxOptions2_RenameBoneRootToGameType
+    export_option2 |= RLPy.EExportFbxOptions2_RenameBoneToLowerCase
+    export_option2 |= RLPy.EExportFbxOptions2_RenameBoneOnStd
+    export_option2 |= RLPy.EExportFbxOptions2_RenameMorphInvalidCharacter
+    export_option2 |= RLPy.EExportFbxOptions2_ResetBoneScale
+    export_option2 |= RLPy.EExportFbxOptions2_ResetSelfillumination
+    export_option2 |= RLPy.EExportFbxOptions2_ExtraWordForUnityAndUnreal
+    export_option3 = RLPy.EExportFbxOptions3__None
+    export_option3 |= RLPy.EExportFbxOptions3_ExportJson
+
+    setting = RLPy.RExportFbxSetting()
+    checked(
+        "Disable first-batch reference motion export",
+        setting.EnableExportMotion(False),
+    )
+    checked(
+        "Set first-batch reference primary options",
+        setting.SetOption(export_option),
+    )
+    checked(
+        "Set first-batch reference Unreal options",
+        setting.SetOption2(export_option2),
+    )
+    checked(
+        "Enable first-batch Auto Setup JSON",
+        setting.SetOption3(export_option3),
+    )
+    checked(
+        "Set first-batch reference texture size",
+        setting.SetTextureSize(RLPy.EExportTextureSize_Original),
+    )
+    checked(
+        "Set first-batch reference texture format",
+        setting.SetTextureFormat(RLPy.EExportTextureFormat_Default),
+    )
+    checked(
+        "Set first-batch reference UE5 bone structure",
+        setting.SetUnrealBoneStructure(
+            RLPy.EUnrealBoneStructure_UE5_BoneStructure
+        ),
+    )
+    checked(
+        "Disable first-batch reference basic bind pose",
+        setting.EnableBasicBindPose(False),
+    )
+    RLPy.RScene.SelectObject(avatar)
+    license_status = checked(
+        "Check first-batch reference export license",
+        RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
+    )
+    raise_if_fatal_cc_dialog(diagnostic_output_dir)
+    status = checked(
+        "Export first-batch FullReference character",
+        RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
+    )
+    raise_if_fatal_cc_dialog(diagnostic_output_dir)
+    fbx_state = wait_for_rendered_preview(
+        fbx_path,
+        timeout_seconds=timeout_seconds,
+        stable_seconds=1.0,
+    )
+    json_state = wait_for_rendered_preview(
+        json_path,
+        timeout_seconds=timeout_seconds,
+        stable_seconds=0.5,
+    )
+    os.replace(attempt_root, export_root)
+    fbx_path = os.path.join(export_root, export_basename + ".fbx")
+    json_path = os.path.join(export_root, export_basename + ".json")
+    return {
+        "fbx": {
+            "bytes": fbx_state["bytes"],
+            "path": fbx_path,
+            "sha256": sha256_file(fbx_path),
+        },
+        "fbm": _outfit_gate_directory_state(
+            os.path.join(export_root, export_basename + ".fbm")
+        ),
+        "json": {
+            "bytes": json_state["bytes"],
+            "path": json_path,
+            "sha256": sha256_file(json_path),
+        },
+        "license_status": license_status,
+        "options": {
+            "auto_skin_rigid_mesh": True,
+            "export_json": True,
+            "motion": False,
+            "option": int(export_option),
+            "option2": int(export_option2),
+            "option3": int(export_option3),
+            "unreal_bone_structure": "UE5",
+        },
+        "status": status,
+        # CC creates this directory only when exported assets reference
+        # auxiliary files such as cloth-physics weight maps.
+        "textures": _outfit_gate_optional_directory_state(
+            os.path.join(export_root, "textures")
+        ),
+    }
+
+
+def _outfit_gate_case(
+    preset,
+    case_dir,
+    camera_path,
+    lightroom_path,
+    execution_policy,
+    verified_file_cache,
+    log,
+    diagnostic_mode="outfit_compatibility_gate",
+):
+    os.makedirs(case_dir, exist_ok=False)
+    images_dir = os.path.join(case_dir, "images")
+    os.makedirs(images_dir, exist_ok=False)
+    result_path = os.path.join(case_dir, "result.json")
+    progress_path = os.path.join(case_dir, "progress.json")
+    result = {
+        "bodyfit_id": preset.get("bodyfit_id"),
+        "case_id": preset.get("case_id"),
+        "diagnostic_mode": diagnostic_mode,
+        "error": None,
+        "finished_at": None,
+        "look_id": preset.get("look_id"),
+        "preset_id": preset.get("preset_id"),
+        "result_path": result_path,
+        "schema_version": 1,
+        "sex": preset.get("sex"),
+        "started_at": now(),
+        "subject_id": preset.get("subject_id"),
+        "success": False,
+    }
+    write_json(result, result_path)
+
+    def mark(phase, detail=None):
+        write_json(
+            {
+                "detail": detail,
+                "phase": phase,
+                "preset_id": preset.get("preset_id"),
+                "schema_version": 1,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+        log("Outfit gate {}: {}".format(preset.get("preset_id"), phase))
+        QtWidgets.QApplication.processEvents()
+
+    try:
+        preset_id = preset.get("preset_id")
+        if not isinstance(preset_id, str) or not preset_id:
+            raise ReconstructionError("Outfit gate case has no preset_id")
+        source_record = _outfit_gate_verified_file(
+            preset.get("source_project"),
+            "Outfit gate source project {}".format(preset_id),
+            verified_file_cache,
+        )
+        selected_assets = preset.get("selected_assets")
+        if not isinstance(selected_assets, list) or not selected_assets:
+            raise ReconstructionError(
+                "Outfit gate case has no selected assets: {}".format(
+                    preset_id
+                )
+            )
+        capture_views = preset.get("capture_views")
+        if not isinstance(capture_views, list) or not capture_views:
+            raise ReconstructionError(
+                "Outfit gate case has no capture views: {}".format(
+                    preset_id
+                )
+            )
+        view_ids = [item.get("view_id") for item in capture_views]
+        if (
+            len(view_ids) != len(set(view_ids))
+            or any(not isinstance(item, str) or not item for item in view_ids)
+        ):
+            raise ReconstructionError(
+                "Outfit gate capture view IDs are invalid"
+            )
+
+        mark("load_source_project", {"path": source_record["path"]})
+        source_status, source_dialogs = load_file_with_optional_undo_warning(
+            source_record["path"],
+            "Load outfit gate source project {}".format(preset_id),
+        )
+        settle_cc_ui(
+            float(
+                execution_policy.get(
+                    "project_load_settle_seconds",
+                    20.0,
+                )
+            )
+        )
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "Outfit gate expected one avatar, found {}".format(
+                    len(avatars)
+                )
+            )
+        avatar_id = scene_object_id(avatar)
+        RLPy.RScene.SelectObject(avatar)
+        result["source_project"] = source_record
+        result["source_load"] = {
+            "dialogs": source_dialogs,
+            "status": source_status,
+        }
+
+        mark("clear_motion")
+        result["motion_cleanup"] = clear_avatar_motion(avatar)
+        force_avatar_scene_evaluation(avatar)
+        source_inventory = avatar_asset_inventory(avatar)
+        source_hairs = [
+            item
+            for item in source_inventory["objects"]
+            if item["collection"] == "GetHairs"
+        ]
+
+        mark("remove_existing_clothing")
+        clothing_names = sorted(
+            set(
+                scene_object_name(item)
+                for item in list(avatar.GetClothes() or [])
+            )
+        )
+        avatar, cleanup = remove_base_clothing(
+            avatar,
+            clothing_names,
+            allow_missing=False,
+        )
+        result["clothing_cleanup"] = cleanup
+        if scene_object_id(avatar) != avatar_id:
+            raise ReconstructionError(
+                "Avatar identity changed during outfit cleanup"
+            )
+
+        remove_source_accessories = bool(
+            execution_policy.get("remove_source_accessories", True)
+        )
+        mark(
+            "remove_source_accessories",
+            {"enabled": remove_source_accessories},
+        )
+        if remove_source_accessories:
+            avatar, accessory_cleanup = (
+                remove_source_accessories_for_outfit_gate(avatar)
+            )
+        else:
+            accessory_inventory = avatar_asset_inventory(avatar)
+            accessory_cleanup = {
+                "before_inventory": accessory_inventory,
+                "after_inventory": accessory_inventory,
+                "removed_objects": [],
+            }
+        accessory_cleanup["enabled"] = remove_source_accessories
+        result["source_accessory_cleanup"] = accessory_cleanup
+        if scene_object_id(avatar) != avatar_id:
+            raise ReconstructionError(
+                "Avatar identity changed during source accessory cleanup"
+            )
+
+        result["asset_applications"] = []
+        applied_asset_object_owners = {}
+        static_application_evidence = preset.get(
+            "source_static_application_order"
+        ) or {}
+        allowed_required_asset_replacements = (
+            static_application_evidence.get(
+                "allowed_required_asset_replacements"
+            )
+            or []
+        )
+        record_asset_load_undo = execution_policy.get(
+            "record_asset_load_undo",
+            True,
+        )
+        if not isinstance(record_asset_load_undo, bool):
+            raise ReconstructionError(
+                "Outfit gate record_asset_load_undo must be a boolean"
+            )
+        for asset_index, asset in enumerate(selected_assets, 1):
+            if not isinstance(asset, dict):
+                raise ReconstructionError(
+                    "Outfit gate selected asset must be an object"
+                )
+            asset_id = asset.get("asset_id")
+            slot = asset.get("slot")
+            policy = asset.get("cloth_options_policy")
+            if not isinstance(asset_id, str) or not asset_id:
+                raise ReconstructionError(
+                    "Outfit gate selected asset has no asset_id"
+                )
+            if policy not in APPLY_CLOTH_OPTIONS_POLICIES:
+                raise ReconstructionError(
+                    "Outfit gate asset has invalid cloth policy: {}".format(
+                        asset_id
+                    )
+                )
+            file_record = _outfit_gate_verified_file(
+                asset,
+                "Outfit gate asset {}".format(asset_id),
+                verified_file_cache,
+            )
+            load_mode = asset.get(
+                "load_mode",
+                execution_policy.get("asset_load_mode", "file"),
+            )
+            if load_mode not in ("file", "object"):
+                raise ReconstructionError(
+                    "Outfit gate asset has invalid load mode: {}".format(
+                        asset_id
+                    )
+                )
+            before = avatar_asset_inventory(avatar)
+            before_seconds = float(
+                execution_policy.get("asset_load_before_seconds", 1.5)
+            )
+            after_seconds = float(
+                execution_policy.get("asset_load_after_seconds", 4.0)
+            )
+            if slot == "coats":
+                after_seconds = float(
+                    execution_policy.get(
+                        "coats_load_after_seconds",
+                        after_seconds,
+                    )
+                )
+            mark(
+                "apply_asset",
+                {
+                    "asset_count": len(selected_assets),
+                    "asset_id": asset_id,
+                    "asset_index": asset_index,
+                    "slot": slot,
+                },
+            )
+            settle_cc_ui(before_seconds)
+            selected_before_reset = [
+                {
+                    "id": scene_object_id(item),
+                    "name": scene_object_name(item),
+                    "python_type": type(item).__name__,
+                }
+                for item in list(RLPy.RScene.GetSelectedObjects() or [])
+            ]
+            clear_selection_status = checked(
+                "Clear selection before outfit asset load",
+                RLPy.RScene.ClearSelectObjects(),
+            )
+            select_avatar_status = checked(
+                "Select avatar before outfit asset load",
+                RLPy.RScene.SelectObject(avatar),
+            )
+            selected_after_reset = [
+                {
+                    "id": scene_object_id(item),
+                    "name": scene_object_name(item),
+                    "python_type": type(item).__name__,
+                }
+                for item in list(RLPy.RScene.GetSelectedObjects() or [])
+            ]
+            status, dialogs = load_clothing_asset_with_known_dialogs(
+                file_record["path"],
+                "Apply outfit gate asset {}".format(asset_id),
+                policy,
+                record_step=record_asset_load_undo,
+                load_mode=load_mode,
+            )
+            settle_cc_ui(after_seconds)
+            current_avatar, current_avatars = resolve_avatar()
+            if len(current_avatars) != 1:
+                raise ReconstructionError(
+                    "Outfit asset load changed avatar count"
+                )
+            if scene_object_id(current_avatar) != avatar_id:
+                raise ReconstructionError(
+                    "Outfit asset load changed avatar identity"
+                )
+            avatar = current_avatar
+            after = avatar_asset_inventory(avatar)
+            changes = _outfit_gate_inventory_changes(before, after)
+            if not any(changes.values()):
+                raise ReconstructionError(
+                    "Outfit asset produced no scene inventory change: {}"
+                    .format(asset_id)
+                )
+            removed_previously_applied_assets = []
+            for removed in changes["removed"]:
+                owner = applied_asset_object_owners.get(removed["id"])
+                if owner is not None:
+                    removed_previously_applied_assets.append(
+                        {
+                            "object": removed,
+                            "owner_asset_id": owner["asset_id"],
+                            "owner_slot": owner["slot"],
+                        }
+                    )
+            application_record = {
+                "asset": file_record,
+                "asset_id": asset_id,
+                "cloth_options_policy": policy,
+                "dialogs": dialogs,
+                "inventory_after": after,
+                "inventory_before": before,
+                "inventory_changes": changes,
+                "removed_previously_applied_assets": (
+                    removed_previously_applied_assets
+                ),
+                "allowed_required_asset_replacements": [],
+                "selection_reset": {
+                    "clear_status": clear_selection_status,
+                    "select_avatar_status": select_avatar_status,
+                    "selected_after": selected_after_reset,
+                    "selected_before": selected_before_reset,
+                },
+                "slot": slot,
+                "status": status,
+            }
+            result["asset_applications"].append(application_record)
+            if removed_previously_applied_assets:
+                unexpected_replacements = []
+                for replacement in removed_previously_applied_assets:
+                    observed = {
+                        "removing_asset_id": asset_id,
+                        "removed_owner_asset_id": replacement[
+                            "owner_asset_id"
+                        ],
+                        "removed_owner_slot": replacement["owner_slot"],
+                        "object_collection": replacement["object"].get(
+                            "collection"
+                        ),
+                        "object_name": replacement["object"].get("name"),
+                    }
+                    if observed in allowed_required_asset_replacements:
+                        application_record[
+                            "allowed_required_asset_replacements"
+                        ].append(observed)
+                    else:
+                        unexpected_replacements.append(replacement)
+                if unexpected_replacements:
+                    raise ReconstructionError(
+                        "Outfit asset {} in slot {} removed a previously "
+                        "applied required asset outside frozen static "
+                        "evidence: {}".format(
+                            asset_id,
+                            slot,
+                            unexpected_replacements,
+                        )
+                    )
+            for added in changes["added"]:
+                applied_asset_object_owners[added["id"]] = {
+                    "asset_id": asset_id,
+                    "slot": slot,
+                }
+
+        assembled_inventory = avatar_asset_inventory(avatar)
+        assembled_hairs = [
+            item
+            for item in assembled_inventory["objects"]
+            if item["collection"] == "GetHairs"
+        ]
+        result["preserved_source_hair"] = assembled_hairs == source_hairs
+        if not result["preserved_source_hair"]:
+            raise ReconstructionError(
+                "Outfit assembly changed the source scalp-hair inventory"
+            )
+        result["assembled_inventory"] = assembled_inventory
+        expected_assembled_inventory = static_application_evidence.get(
+            "expected_assembled_inventory"
+        )
+        if expected_assembled_inventory is not None:
+            actual_inventory_signature = _outfit_gate_inventory_signature(
+                assembled_inventory
+            )
+            result["static_inventory_comparison"] = {
+                "actual": actual_inventory_signature,
+                "expected": expected_assembled_inventory,
+                "matches": (
+                    actual_inventory_signature
+                    == expected_assembled_inventory
+                ),
+            }
+            if actual_inventory_signature != expected_assembled_inventory:
+                raise ReconstructionError(
+                    "Final outfit inventory differs from frozen static "
+                    "evidence"
+                )
+
+        production_output = preset.get("production_output")
+        if production_output is not None:
+            if not isinstance(production_output, dict):
+                raise ReconstructionError(
+                    "Outfit gate production_output must be an object"
+                )
+            project_path = os.path.realpath(
+                os.path.abspath(production_output.get("project_path", ""))
+            )
+            export_root = os.path.realpath(
+                os.path.abspath(production_output.get("export_root", ""))
+            )
+            export_basename = production_output.get("export_basename")
+            if not project_path.lower().endswith(".ccproject"):
+                raise ReconstructionError(
+                    "First-batch project_path must end in .ccProject"
+                )
+            if (
+                not isinstance(export_basename, str)
+                or not export_basename
+                or os.path.basename(export_basename) != export_basename
+            ):
+                raise ReconstructionError(
+                    "First-batch export_basename is invalid"
+                )
+            if os.path.exists(project_path):
+                raise ReconstructionError(
+                    "First-batch project already exists: {}".format(
+                        project_path
+                    )
+                )
+            timeout_seconds = float(
+                production_output.get("export_timeout_seconds", 900.0)
+            )
+            if timeout_seconds < 30.0 or timeout_seconds > 3600.0:
+                raise ReconstructionError(
+                    "First-batch export timeout must be from 30 to 3600 seconds"
+                )
+            os.makedirs(os.path.dirname(project_path), exist_ok=True)
+            mark("save_production_project", {"path": project_path})
+            result["production_project"] = save_bodyfit_project(
+                project_path,
+                "Save first-batch assembled Look",
+            )
+            set_avatar_yaw(avatar, 90.0)
+            force_avatar_scene_evaluation(avatar, settle_seconds=0.5)
+            mark(
+                "export_production_reference",
+                {
+                    "export_basename": export_basename,
+                    "export_root": export_root,
+                },
+            )
+            result["production_export"] = (
+                _outfit_gate_export_reference_character(
+                    avatar,
+                    export_root,
+                    export_basename,
+                    case_dir,
+                    timeout_seconds,
+                )
+            )
+            skip_preview_capture = production_output.get(
+                "skip_preview_capture",
+                False,
+            )
+            if not isinstance(skip_preview_capture, bool):
+                raise ReconstructionError(
+                    "First-batch skip_preview_capture must be boolean"
+                )
+            if skip_preview_capture:
+                result["captures"] = []
+                result["motion_capture_count"] = 0
+                result["motion_stress_validations"] = []
+                result["finished_at"] = now()
+                result["success"] = True
+                mark(
+                    "complete",
+                    {
+                        "preview_capture_skipped": True,
+                        "success": True,
+                    },
+                )
+                write_json(result, result_path)
+                return result
+
+        mark("load_standard_lightroom")
+        lightroom_status, lightroom_dialogs = (
+            load_file_with_optional_undo_warning(
+                lightroom_path,
+                "Load outfit gate Lightroom",
+            )
+        )
+        settle_cc_ui(1.0)
+        movable_lights, skipped_lights, light_query_errors = (
+            quality_benchmark_movable_lights()
+        )
+        if not movable_lights:
+            raise ReconstructionError(
+                "Outfit gate found no movable Lightroom lights: {}".format(
+                    light_query_errors + skipped_lights
+                )
+            )
+
+        mark("load_standard_camera")
+        camera_status, camera_dialogs = load_file_with_optional_undo_warning(
+            camera_path,
+            "Load outfit gate full-body camera",
+        )
+        settle_cc_ui(1.0)
+        camera = RLPy.RScene.GetCurrentCamera()
+        if camera is None:
+            raise ReconstructionError(
+                "Outfit gate full-body camera is unavailable"
+            )
+        framing = _outfit_gate_frame_full_body(avatar, camera)
+        reference_position = {"x": 0.0, "y": 8.0, "z": 6.0}
+        light_offset = {
+            axis: framing["target_position"][axis]
+            - reference_position[axis]
+            for axis in ("x", "y", "z")
+        }
+        set_quality_benchmark_light_offset(movable_lights, light_offset)
+        result["capture_setup"] = {
+            "camera": camera_state(camera),
+            "camera_dialogs": camera_dialogs,
+            "camera_status": camera_status,
+            "framing": framing,
+            "lighting": {
+                "light_offset": light_offset,
+                "movable_light_count": len(movable_lights),
+                "query_errors": light_query_errors,
+                "skipped_lights": skipped_lights,
+            },
+            "lightroom_dialogs": lightroom_dialogs,
+            "lightroom_status": lightroom_status,
+        }
+
+        result["captures"] = []
+        for view in capture_views:
+            yaw_offset = view.get("yaw_degrees")
+            if (
+                isinstance(yaw_offset, bool)
+                or not isinstance(yaw_offset, (int, float))
+                or not math.isfinite(float(yaw_offset))
+            ):
+                raise ReconstructionError(
+                    "Outfit gate view has invalid yaw"
+                )
+            view_id = view["view_id"]
+            actual_yaw = 90.0 + float(yaw_offset)
+            mark(
+                "render_view",
+                {"actual_yaw": actual_yaw, "view_id": view_id},
+            )
+            set_avatar_yaw(avatar, actual_yaw)
+            force_avatar_scene_evaluation(avatar, settle_seconds=0.5)
+            checked(
+                "Activate outfit gate camera",
+                RLPy.RScene.SetCurrentCamera(camera),
+            )
+            image_path = os.path.join(images_dir, view_id + ".png")
+            render_preview(image_path)
+            result["captures"].append(
+                {
+                    "actual_yaw_degrees": actual_yaw,
+                    "avatar_bounds": capture_bounds(avatar),
+                    "image": _outfit_gate_image_record(image_path),
+                    "requested_yaw_degrees": float(yaw_offset),
+                    "view_id": view_id,
+                }
+            )
+
+        motion_stress_profiles = preset.get("motion_stress_profiles") or []
+        if diagnostic_mode == "outfit_motion_stress_gate":
+            if not isinstance(motion_stress_profiles, list) or not motion_stress_profiles:
+                raise ReconstructionError(
+                    "Outfit motion-stress case has no motion profiles"
+                )
+        elif motion_stress_profiles:
+            raise ReconstructionError(
+                "Static outfit gate cannot contain motion-stress profiles"
+            )
+        result["motion_stress_validations"] = []
+        seen_motion_profile_ids = set()
+        for motion_index, motion_profile in enumerate(
+            motion_stress_profiles,
+            1,
+        ):
+            if not isinstance(motion_profile, dict):
+                raise ReconstructionError(
+                    "Outfit motion-stress profile must be an object"
+                )
+            profile_id = motion_profile.get("profile_id")
+            if (
+                not isinstance(profile_id, str)
+                or not profile_id
+                or profile_id in seen_motion_profile_ids
+                or os.path.basename(profile_id) != profile_id
+            ):
+                raise ReconstructionError(
+                    "Outfit motion-stress profile ID is invalid"
+                )
+            seen_motion_profile_ids.add(profile_id)
+            motion_record = _outfit_gate_verified_file(
+                motion_profile.get("motion"),
+                "Outfit motion-stress profile {}".format(profile_id),
+                verified_file_cache,
+            )
+            probe = dict(motion_profile)
+            probe.pop("motion", None)
+            probe.pop("profile_id", None)
+            probe["motion_path"] = motion_record["path"]
+            probe["camera_path"] = camera_path
+            probe["subject_position"] = dict(framing["target_position"])
+            motion_dir = os.path.join(
+                case_dir,
+                "motion_stress",
+                profile_id,
+            )
+            mark(
+                "motion_stress_profile",
+                {
+                    "profile_count": len(motion_stress_profiles),
+                    "profile_id": profile_id,
+                    "profile_index": motion_index,
+                },
+            )
+            motion_summary = probe_current_hair_motion(
+                {"hair_motion_probe": probe},
+                motion_dir,
+            )
+            motion_report = read_json(
+                motion_summary["hair_motion_probe_path"]
+            )
+            samples = motion_report.get("samples") or []
+            requested_samples = motion_profile.get(
+                "sample_normalized_positions"
+            )
+            if requested_samples is None:
+                requested_samples = motion_profile.get("sample_frames") or []
+            expected_samples = len(sorted(set(requested_samples)))
+            if expected_samples and len(samples) != expected_samples:
+                raise ReconstructionError(
+                    "Outfit motion-stress sample count changed for {}: "
+                    "{} != {}".format(
+                        profile_id,
+                        len(samples),
+                        expected_samples,
+                    )
+                )
+            result["motion_stress_validations"].append(
+                {
+                    "motion": motion_record,
+                    "profile_id": profile_id,
+                    "purpose": motion_profile.get("purpose"),
+                    "sample_count": len(samples),
+                    "samples": samples,
+                    "summary": motion_summary,
+                }
+            )
+        result["motion_capture_count"] = sum(
+            item["sample_count"]
+            for item in result["motion_stress_validations"]
+        )
+
+        expected_image_count = int(
+            preset.get("expected_image_count", len(capture_views))
+        )
+        if len(result["captures"]) != expected_image_count:
+            raise ReconstructionError(
+                "Outfit gate capture count changed"
+            )
+        result["finished_at"] = now()
+        result["success"] = True
+        mark("complete", {"success": True})
+    except BlockingDialogError as exc:
+        result["error"] = {
+            "message": str(exc),
+            "traceback": traceback.format_exc(),
+            "type": type(exc).__name__,
+        }
+        result["finished_at"] = now()
+        write_json(result, result_path)
+        mark("blocked_by_unknown_dialog", result["error"])
+        raise
+    except Exception as exc:
+        result["error"] = {
+            "message": str(exc),
+            "traceback": traceback.format_exc(),
+            "type": type(exc).__name__,
+        }
+        result["finished_at"] = now()
+        mark("failed", result["error"])
+    write_json(result, result_path)
+    return result
+
+
+def run_outfit_compatibility_gate(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    diagnostic_mode = library.get(
+        "diagnostic_mode",
+        "outfit_compatibility_gate",
+    )
+    by_id = dict((item.get("preset_id"), item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item.get("preset_id") for item in all_presets]
+    )
+    if (
+        not selected_ids
+        or len(selected_ids) != len(set(selected_ids))
+        or any(not isinstance(item, str) or not item for item in selected_ids)
+    ):
+        raise ReconstructionError(
+            "Outfit gate preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown outfit gate preset IDs: {}".format(missing)
+        )
+    camera_path = canonical_existing_file(
+        library.get("full_body_camera"),
+        "Outfit gate full-body camera",
+    )
+    lightroom_path = canonical_existing_file(
+        library.get("preview_lightroom"),
+        "Outfit gate Lightroom",
+    )
+    execution_policy = library.get("execution_policy") or {}
+    if not isinstance(execution_policy, dict):
+        raise ReconstructionError(
+            "Outfit gate execution_policy must be an object"
+        )
+    if execution_policy.get("stop_on_blocking_dialog") is not True:
+        raise ReconstructionError(
+            "Outfit gate must stop on an unknown blocking dialog"
+        )
+    if execution_policy.get("checkpoint_after_each_case") is not True:
+        raise ReconstructionError(
+            "Outfit gate must checkpoint after every case"
+        )
+
+    started_at = now()
+    cases_root = os.path.join(output_dir, "cases")
+    os.makedirs(cases_root, exist_ok=False)
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    progress_path = os.path.join(output_dir, "progress.json")
+    results = []
+    verified_file_cache = {}
+
+    def checkpoint(index, preset_id, phase, blocked=False):
+        failures = [item for item in results if not item.get("success")]
+        result_index = [
+            {
+                "bodyfit_id": item.get("bodyfit_id"),
+                "capture_count": len(item.get("captures") or []),
+                "case_id": item.get("case_id"),
+                "error": item.get("error"),
+                "finished_at": item.get("finished_at"),
+                "look_id": item.get("look_id"),
+                "motion_capture_count": int(
+                    item.get("motion_capture_count", 0)
+                ),
+                "preset_id": item.get("preset_id"),
+                "result_path": item.get("result_path"),
+                "sex": item.get("sex"),
+                "success": bool(item.get("success")),
+            }
+            for item in results
+        ]
+        summary = {
+            "blocked": bool(blocked),
+            "completed_count": len(results),
+            "diagnostic_mode": diagnostic_mode,
+            "expected_image_count": sum(
+                len(item.get("captures") or []) for item in results
+            ),
+            "motion_image_count": sum(
+                int(item.get("motion_capture_count", 0))
+                for item in results
+            ),
+            "failure_count": len(failures),
+            "finished_at": now() if phase in ("complete", "blocked") else None,
+            "library_case_count": len(all_presets),
+            "library_id": library.get("library_id"),
+            "phase": phase,
+            "requested_count": len(selected_ids),
+            "results": result_index,
+            "run_id": os.path.basename(output_dir),
+            "schema_version": 1,
+            "started_at": started_at,
+            "started_from_library": library_path,
+            "success": (
+                phase == "complete"
+                and not failures
+                and len(results) == len(selected_ids)
+            ),
+            "success_count": len(results) - len(failures),
+            "summary_path": summary_path,
+        }
+        write_json(summary, summary_path)
+        write_json(
+            {
+                "blocked": bool(blocked),
+                "completed_count": len(results),
+                "index": index,
+                "phase": phase,
+                "preset_count": len(selected_ids),
+                "preset_id": preset_id,
+                "schema_version": 1,
+                "updated_at": now(),
+            },
+            progress_path,
+        )
+        return summary
+
+    checkpoint(0, None, "initializing")
+    for index, preset_id in enumerate(selected_ids, 1):
+        checkpoint(index, preset_id, "case_start")
+        preset = by_id[preset_id]
+        case_directory_name = preset.get(
+            "output_directory_name",
+            preset_id,
+        )
+        if (
+            not isinstance(case_directory_name, str)
+            or not case_directory_name
+            or os.path.basename(case_directory_name)
+            != case_directory_name
+        ):
+            raise ReconstructionError(
+                "Outfit gate output directory name is invalid"
+            )
+        try:
+            result = _outfit_gate_case(
+                preset,
+                os.path.join(cases_root, case_directory_name),
+                camera_path,
+                lightroom_path,
+                execution_policy,
+                verified_file_cache,
+                log,
+                diagnostic_mode,
+            )
+        except BlockingDialogError:
+            checkpoint(index, preset_id, "blocked", blocked=True)
+            raise
+        results.append(result)
+        checkpoint(index, preset_id, "case_complete")
+        QtWidgets.QApplication.processEvents()
+
+    return checkpoint(len(selected_ids), None, "complete")
+
+
 def _run_library_without_dialog_guard(
     library_path,
     output_dir,
@@ -12942,13 +25850,162 @@ def _run_library_without_dialog_guard(
         raise ReconstructionError("Output directory exists and is not empty")
     os.makedirs(output_dir, exist_ok=True)
     library = read_json(library_path)
+    global PREVIEW_CAPTURE_MODE
+    global VIEWPORT_PREVIEW_WIDTH
+    global VIEWPORT_PREVIEW_HEIGHT
+    PREVIEW_CAPTURE_MODE = library.get(
+        "preview_capture_mode",
+        "render_image",
+    )
+    if PREVIEW_CAPTURE_MODE not in ("render_image", "pixel_stream"):
+        raise ReconstructionError(
+            "Unsupported preview_capture_mode: {}".format(
+                PREVIEW_CAPTURE_MODE
+            )
+        )
+    preview_resolution = library.get(
+        "preview_resolution",
+        [
+            DEFAULT_VIEWPORT_PREVIEW_WIDTH,
+            DEFAULT_VIEWPORT_PREVIEW_HEIGHT,
+        ],
+    )
+    if (
+        not isinstance(preview_resolution, list)
+        or len(preview_resolution) != 2
+        or any(
+            isinstance(item, bool) or not isinstance(item, int)
+            for item in preview_resolution
+        )
+        or any(item < 320 or item > 4096 for item in preview_resolution)
+    ):
+        raise ReconstructionError(
+            "preview_resolution must contain two integers from 320 to 4096"
+        )
+    VIEWPORT_PREVIEW_WIDTH = int(preview_resolution[0])
+    VIEWPORT_PREVIEW_HEIGHT = int(preview_resolution[1])
     all_presets = validate_library_document(library)
+    if library.get("diagnostic_mode") == "resource_release_probe":
+        log("Releasing disposable CC scene and Python/Qt cache resources")
+        return probe_resource_release(library, output_dir, log)
+    if library.get("diagnostic_mode") in (
+        "outfit_compatibility_gate",
+        "outfit_motion_stress_gate",
+    ):
+        if library.get("diagnostic_mode") == "outfit_motion_stress_gate":
+            log("Running the outfit motion-stress gate")
+        else:
+            log("Running the full outfit compatibility gate")
+        return run_outfit_compatibility_gate(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") == "animation_p0_dynamic_gate":
+        log("Running the RM-09 P0 animation dynamic Pilot gate")
+        return run_animation_p0_dynamic_gate(
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") == "current_scene_bodyfit_freeze":
+        log("Capturing or standardizing the current F05 BodyFit scene")
+        return probe_current_scene_bodyfit_freeze(
+            library,
+            output_dir,
+            log,
+        )
+    if library.get("diagnostic_mode") == (
+        "targeted_bodyfit_height_matrix"
+    ):
+        log("Measuring BodyFit heights with targeted Morph reads")
+        return run_targeted_bodyfit_height_matrix(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") == "targeted_morph_visual_matrix":
+        log("Running the lightweight targeted Morph visual matrix")
+        return run_targeted_morph_visual_matrix(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") == (
+        "headshot_project_seed_bodyfit_pilot"
+    ):
+        log("Running the Headshot project-seed plus average BodyFit Pilot")
+        return run_headshot_project_seed_bodyfit_pilot(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") == "bodyfit_height_matrix":
+        log("Measuring BodyFit world-space heights without rendering")
+        return run_bodyfit_height_matrix(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
+    if library.get("diagnostic_mode") in (
+        "head_bodyfit_scale_review_matrix",
+        "neck_morph_review_matrix",
+        "bodyfit_proportion_smoke_matrix",
+    ):
+        if library.get("diagnostic_mode") == (
+            "bodyfit_proportion_smoke_matrix"
+        ):
+            log("Running the preserved-scene BodyFit proportion smoke matrix")
+        elif library.get("diagnostic_mode") == "neck_morph_review_matrix":
+            log("Running the preserved-scene Neck Morph review matrix")
+        else:
+            log("Running the preserved-scene Head Scale review matrix")
+        return run_head_bodyfit_scale_review_matrix(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
     if library.get("diagnostic_mode") == "source_project_load":
         log("Loading one source project without face or appearance operations")
         return probe_source_project_load(library, output_dir)
+    if library.get("diagnostic_mode") == "outfit_component_resave":
+        log("Resaving one source outfit component as generic ccCloth")
+        return probe_outfit_component_resave(library, output_dir)
+    if library.get("diagnostic_mode") == "character_quality_benchmark":
+        log("Rendering one matched-condition character quality benchmark")
+        return probe_character_quality_benchmark(library, output_dir, log)
+    if library.get("diagnostic_mode") == "facial_profile_upgrade":
+        log("Creating and validating one derived CC5 HD Facial Profile project")
+        return probe_facial_profile_upgrade(library, output_dir, log)
+    if library.get("diagnostic_mode") == "facial_profile_api_probe":
+        log("Inspecting the current Facial Profile API without changing the scene")
+        return probe_current_facial_profile_api(library, output_dir)
     if library.get("diagnostic_mode") == "avatar_preset_save":
         log("Saving and reapplying one AvatarPresetAll pilot")
         return probe_avatar_preset_save(library, output_dir)
+    if library.get("diagnostic_mode") == "face_prototype_storage":
+        log("Comparing face prototype storage modes on a neutral avatar")
+        return probe_face_prototype_storage(library, output_dir)
     if library.get("diagnostic_mode") == "eye_state":
         log("Capturing current eye state without replacing the scene")
         return probe_current_eye_state(output_dir)
@@ -12976,6 +26033,12 @@ def _run_library_without_dialog_guard(
     if library.get("diagnostic_mode") == "eye_morph_sweep":
         log("Rendering a reversible eye morph sweep on the current scene")
         return probe_current_eye_morph_sweep(library, output_dir)
+    if library.get("diagnostic_mode") == "head_scale_sweep":
+        log("Rendering a reversible Head Scale sweep on the current scene")
+        return probe_current_head_scale_sweep(library, output_dir)
+    if library.get("diagnostic_mode") == "head_scale_apply":
+        log("Applying one selected Head Scale to the current scene")
+        return apply_current_head_scale(library, output_dir)
     if library.get("diagnostic_mode") == "eye_morph_apply":
         log("Applying one eye alignment correction to the current scene")
         return apply_current_eye_alignment(library, output_dir)
@@ -12991,12 +26054,32 @@ def _run_library_without_dialog_guard(
     if library.get("diagnostic_mode") == "hair_shader_probe":
         log("Capturing current scalp-hair, brow, and beard shader signatures")
         return probe_current_hair_shaders(output_dir)
+    if library.get("diagnostic_mode") == "face_material_parameter_probe":
+        log("Reading current eye, tearline, and skin material parameters")
+        return probe_current_face_material_parameters(output_dir)
+    if library.get("diagnostic_mode") == "face_material_visual_matrix":
+        log("Rendering a reversible eye and skin material matrix")
+        return probe_current_face_material_visual_matrix(library, output_dir)
+    if library.get("diagnostic_mode") == "face_material_cross_skin_matrix":
+        log("Rendering the four-subject eye and skin material gate")
+        return probe_face_material_cross_skin_matrix(library, output_dir, log)
     if library.get("diagnostic_mode") == "hair_physics_probe":
         log("Capturing current scalp-hair physics state")
         return probe_current_hair_physics(output_dir)
     if library.get("diagnostic_mode") == "hair_motion_probe":
         log("Playing one official motion with scalp-hair physics")
         return probe_current_hair_motion(library, output_dir)
+    if library.get("diagnostic_mode") == "rlmotion_fbx_export":
+        log("Exporting one rlMotion as a motion-only UE5 FBX")
+        return export_current_rlmotion_fbx(library, output_dir)
+    if library.get("diagnostic_mode") == "animation_p0_ue_runtime_export":
+        log("Exporting clothed P0 references and UE5 animation FBXs")
+        return export_animation_p0_ue_runtime_pilot(
+            library, output_dir, log
+        )
+    if library.get("diagnostic_mode") == "elder_morph_export_pilot":
+        log("Exporting young and Elder UE5 FBX snapshots from one M02 project")
+        return export_elder_morph_pilot(library, output_dir)
     if library.get("diagnostic_mode") == "hair_pigmentation_apply":
         log(
             "Applying and verifying shared scalp-hair, brow, and "
@@ -13105,7 +26188,7 @@ def _run_library_without_dialog_guard(
 
 
 def run_library(library_path, output_dir, log, preset_ids=None):
-    undo_guard = ExactUndoWarningGuard()
+    undo_guard = ExactUndoWarningGuard(output_dir)
     undo_guard.start()
     try:
         summary = _run_library_without_dialog_guard(

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>动作 5 秒窗口选择</title>
+    <link rel="stylesheet" href="./assets/action-window-review.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">First Data Batch</p>
+        <h1>动作 5 秒窗口选择</h1>
+      </div>
+      <div class="progress-block" aria-label="确认进度">
+        <strong id="progressText">0 / 0</strong>
+        <div class="progress-track"><span id="progressBar"></span></div>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="queue" aria-label="动作列表">
+        <div class="queue-tabs" role="group" aria-label="按性别筛选">
+          <button type="button" data-filter="all" aria-pressed="true">全部</button>
+          <button type="button" data-filter="female" aria-pressed="false">女性</button>
+          <button type="button" data-filter="male" aria-pressed="false">男性</button>
+        </div>
+        <div id="caseList" class="case-list"></div>
+      </aside>
+
+      <section class="review" aria-live="polite">
+        <div class="review-heading">
+          <div>
+            <span id="caseMeta"></span>
+            <h2 id="caseTitle">正在加载</h2>
+          </div>
+          <output id="currentTime">00:00.00</output>
+        </div>
+
+        <video id="previewVideo" controls preload="auto"></video>
+
+        <div class="window-panel">
+          <div class="window-readout">
+            <label for="windowStart">选定窗口</label>
+            <strong id="windowRange">00:00.00 - 00:05.00</strong>
+          </div>
+
+          <input id="windowStart" type="range" min="0" max="0" step="0.1" value="0" />
+
+          <div class="precision-row">
+            <label for="windowStartNumber">起点（秒）</label>
+            <input id="windowStartNumber" type="number" min="0" max="0" step="0.1" value="0" inputmode="decimal" />
+            <button id="setFromCurrent" type="button">使用当前播放时间</button>
+            <button id="resetRecommended" type="button">恢复推荐起点</button>
+          </div>
+
+          <p id="paddingNotice" class="padding-notice" hidden></p>
+
+          <div class="commands">
+            <button id="previewWindow" type="button" class="primary">预览这 5 秒</button>
+            <button id="confirmWindow" type="button">确认当前区间</button>
+            <button id="confirmAndNext" type="button">确认并到下一项</button>
+          </div>
+        </div>
+
+        <footer class="review-footer">
+          <button id="previousCase" type="button">上一项</button>
+          <span id="saveState">尚未确认</span>
+          <button id="nextCase" type="button">下一项</button>
+          <button id="exportJson" type="button" class="export">导出选择 JSON</button>
+        </footer>
+      </section>
+    </main>
+
+    <script type="module" src="./assets/action-window-review.js"></script>
+  </body>
+</html>

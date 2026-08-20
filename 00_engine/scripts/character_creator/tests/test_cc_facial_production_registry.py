@@ -143,6 +143,7 @@ class FacialProductionRegistryTests(unittest.TestCase):
                 "bodyfit_project",
                 "primary_head_preset",
                 "local_face_morphs",
+                "bodyfit_proportion_adjustment",
                 "skin",
                 "age_morph",
                 "dynamic_wrinkle_profile",
@@ -153,10 +154,21 @@ class FacialProductionRegistryTests(unittest.TestCase):
                 "facial_hair",
                 "scalp_hair",
                 "shared_hair_pigmentation",
+                "face_material_quality_profile",
                 "quality_assurance",
             ],
             self.registry["assembly_order"],
         )
+
+    def test_face_material_quality_profile_is_hash_locked_and_approved(self):
+        reference = self.registry["face_material_quality_profile"]
+        path = pathlib.Path(reference["path"])
+        self.assertTrue(path.is_file())
+        with path.open("r", encoding="utf-8") as handle:
+            profile = json.load(handle)
+        self.assertEqual(reference["profile_id"], profile["profile_id"])
+        self.assertEqual(reference["required_status"], profile["status"])
+        self.assertEqual(reference["sha256"], SUBJECT.sha256_file(str(path)))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_p0_animation_lighting_scout_start_aligned_20260818_v1",
+  "generated_at": "2026-08-18T12:22:45+08:00",
+  "status": "pending_cc_dynamic_review",
+  "diagnostic_mode": "animation_p0_dynamic_gate",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1024,
+    1024
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "full_body_camera": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "size_bytes": 170269,
+    "sha256": "5b2cfd0442fc3a84332cfb69867d2095d55a39cab0bf1868a93ed23c77b43925"
+  },
+  "lightroom": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "size_bytes": 2503182,
+    "sha256": "d7c645aea807772300e5c3649a8ef5cad1b2e97b6e1a1cb18f399f8e4e8af8b3"
+  },
+  "source_pilot_manifest": {
+    "pilot_id": "cc_p0_animation_dynamic_pilot_20260817_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_pilot\\pilot_20260817_v1\\pilot_manifest.json",
+    "size_bytes": 23897,
+    "sha256": "84340a73d29ee99b353e89ad4f6139db56f5fdb49efe1c0028e1c5230f48d1ac"
+  },
+  "source_dynamic_review_template": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_pilot\\pilot_20260817_v1\\dynamic_review.json",
+    "size_bytes": 7366,
+    "sha256": "0d5fcd00f2e6d38cc450d429ea826b3e9b70e22c64755056249c7bbc700a81b3"
+  },
+  "source_bodyfit_library": {
+    "library_id": "adult_body_fits_v2",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_preset_library_v2.json",
+    "size_bytes": 51270,
+    "sha256": "fea30205f5909e05af6bf742f7a2c916a2468fbbb526f3fedede74eb8d498f64"
+  },
+  "capture_policy": {
+    "sample_normalized_positions": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "camera_mode": "lightroom_current",
+    "yaw_degrees": null,
+    "auto_frame_full_body": false,
+    "align_motion_start_to_source": true,
+    "framing": "preserve_lightroom_camera_and_source_transform",
+    "physics_simulation": true,
+    "segment_timeout_seconds": 45.0
+  },
+  "execution_policy": {
+    "load_each_actor_project_once": true,
+    "replace_existing_motion_clips": true,
+    "continue_after_motion_failure": true,
+    "checkpoint_after_each_motion": true,
+    "stop_on_blocking_dialog": true,
+    "production_approval_from_automation": false
+  },
+  "scope_policy": {
+    "pilot_membership_is_not_production_approval": true,
+    "actor_sex_is_not_a_permanent_motion_restriction": true,
+    "loop_requires_visual_review": true,
+    "hidden_prop_dependency_requires_visual_review": true
+  },
+  "counts": {
+    "actor_count": 1,
+    "motion_case_count": 1,
+    "sample_count_per_motion": 5,
+    "expected_image_count": 5,
+    "by_actor": {
+      "M02_Average": 1
+    },
+    "by_source_format": {
+      ".rlmotion": 1
+    },
+    "production_approved_count": 0
+  },
+  "presets": [
+    {
+      "preset_id": "M02_Average",
+      "sex": "male",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "size_bytes": 293943153,
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "motion_cases": [
+        {
+          "case_id": "p0_009_city_walk_normal_m",
+          "motion_id": "motion-p0-package-city-life-zip-8e90dfad7168-city-16b9abed42ec",
+          "filename": "Walk_Normal_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "locomotion_normal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_pilot\\pilot_20260817_v1\\motions\\09_p0_009_city_walk_normal_m.rlmotion",
+            "size_bytes": 1517715,
+            "sha256": "34671a2d7f477451876187d19abc957e33b081fba82af0b3fa3959b8851fdd1f"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        }
+      ]
+    }
+  ]
+}

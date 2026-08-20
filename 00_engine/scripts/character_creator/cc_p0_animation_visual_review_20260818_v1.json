@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "decision_id": "cc_p0_animation_visual_review_20260818_v1",
+  "recorded_at": "2026-08-18T19:01:51+08:00",
+  "review_scope": {
+    "gate_manifest": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_p0_animation_dynamic_gate_20260818_v3.json",
+      "sha256": "15de4ac9af39bf6836bd22e15193d4e966e0e01ebd3f35e1cd88b3a45b612070"
+    },
+    "source_validations": [
+      {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_dynamic_gate\\run_20260818_v8_lit_review\\validation_result.json",
+        "sha256": "718ed8b9b8f9b449561d880cbf7a77e91d02e2d7aefe384b425c3289b2061727"
+      },
+      {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_lighting_scout\\start_aligned_20260818_v1\\validation_result.json",
+        "sha256": "4f5dbc82e105a6122c09a902c762877068fcb97887484a2438fb5ef863ead686"
+      }
+    ],
+    "motion_count": 16,
+    "image_count": 80,
+    "review_method": "user_full_portal_review",
+    "reviewed_motion_count": 16
+  },
+  "user_visual_review": {
+    "overall_status": "all_16_visual_quality_accepted",
+    "observation": "The user reported reviewing all Pilot motions and finding no unnatural behavior.",
+    "accepted_case_ids": [
+      "p0_001_city_walk_normal_f",
+      "p0_002_city_walk_hurry_f",
+      "p0_003_city_walk_wander_f",
+      "p0_004_legacy_stand_idle_f",
+      "p0_005_legacy_walk_loop_f",
+      "p0_006_legacy_jog_loop_f",
+      "p0_007_legacy_stretch_f",
+      "p0_008_legacy_catch_breath_f",
+      "p0_009_city_walk_normal_m",
+      "p0_010_city_walk_hurry_m",
+      "p0_011_city_walk_wander_m",
+      "p0_012_signal_halt",
+      "p0_013_signal_forward",
+      "p0_014_signal_understood",
+      "p0_015_signal_you",
+      "p0_016_signal_me"
+    ]
+  },
+  "scope_boundary": {
+    "is_full_pilot_visual_quality_review": true,
+    "has_per_motion_written_notes": false,
+    "closes_visual_quality_waiting_state": true,
+    "allows_candidate_registry_work_to_start": true,
+    "assigns_loop_or_reuse_policy": false,
+    "approves_motions_as_production_assets": false,
+    "approves_ue_export_or_runtime_use": false
+  },
+  "next_stage": {
+    "roadmap_id": "RM-09",
+    "status": "ready",
+    "name": "p0_candidate_registry_and_policy_assignment"
+  },
+  "notes": [
+    "This record preserves the user's full-set visual-quality result without inventing per-motion written notes.",
+    "All 16 motions remain outside the production pool until loop intent, reuse policy, and candidate-registry metadata are assigned."
+  ]
+}

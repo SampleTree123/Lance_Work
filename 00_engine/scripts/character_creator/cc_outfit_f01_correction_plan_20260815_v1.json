@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "plan_id": "cc_outfit_f01_accessory_correction_plan_20260815_v1",
+  "status": "smoke_passed_corrections_canceled_by_user",
+  "generated_at": "2026-08-15T08:51:02+08:00",
+  "decision_at": "2026-08-15T10:16:00+08:00",
+  "decision": "Preserve the 18 historical images; apply the verified cleanup only to future cases.",
+  "gate_manifest": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_outfit_compatibility_gate_20260815_v1.json",
+  "validation_checkpoints": [
+    "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_execution_v1\\validation_result.json",
+    "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_chunks_v1\\chunk_01\\validation_result.json"
+  ],
+  "bodyfit_id": "F01_Lean",
+  "cause": "detached Double Bubble Braids source accessory geometry",
+  "affected_case_count": 18,
+  "affected_preset_ids": [
+    "female_bikini_ruana__default__F01_Lean",
+    "female_dress_collection__full_body__F01_Lean",
+    "female_dress_collection__shirt_with_skirt__F01_Lean",
+    "female_elise__default__F01_Lean",
+    "female_jumpsuits_accessories__default__F01_Lean",
+    "female_misaki__default__F01_Lean",
+    "female_pretty_dresses__pants__F01_Lean",
+    "female_pretty_dresses__skirts__F01_Lean",
+    "female_rugged_trendy__default__F01_Lean",
+    "female_shirts_pants_a_i__default__F01_Lean",
+    "female_streetwear_collection__full_body__F01_Lean",
+    "female_streetwear_collection__pants_with_casual_jacket__F01_Lean",
+    "female_streetwear_collection__pants_with_shirt__F01_Lean",
+    "female_streetwear_collection__pants_with_warrior_cloak__F01_Lean",
+    "female_streetwear_collection__pants_with_windbreaker__F01_Lean",
+    "female_streetwear_collection__skirt_with_shirt__F01_Lean",
+    "female_summer_girl_four_colors__default__F01_Lean",
+    "female_workout_color_outfits__default__F01_Lean"
+  ],
+  "safety_policy": {
+    "smoke_must_pass_before_corrections": true,
+    "restart_cc_offline_before_smoke": true,
+    "restart_cc_offline_before_every_correction_chunk": true,
+    "agent_must_not_restart_cc": true,
+    "cases_per_chunk": 5,
+    "existing_machine_passes_remain_historical_only": false,
+    "correction_chunks_canceled_by_user": true,
+    "do_not_execute_correction_chunks": true
+  },
+  "smoke": {
+    "status": "passed",
+    "preset_id": "female_dress_collection__shirt_with_skirt__F01_Lean",
+    "manifest_path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\smoke.json",
+    "output_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\smoke",
+    "job_id": "outfit_gate_20260815_f01_fix_v1_smoke",
+    "expected_image_count": 5,
+    "validation_result": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\smoke\\validation_result.json",
+    "verified_cleanup": {
+      "removed_accessory": "Double Bubble Braids",
+      "preserved_get_hairs_count": 3,
+      "right_profile_detached_geometry_absent": true,
+      "undo_warning_count": 0
+    },
+    "command": [
+      "python",
+      "D:\\UE\\Lance_Work\\00_engine\\character_creator_bridge\\cc_bridge_client.py",
+      "validate-bodies",
+      "--library-file",
+      "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\smoke.json",
+      "--output-dir",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\smoke",
+      "--confirm-scene-replace",
+      "--auto-dismiss-undo-warning",
+      "--job-id",
+      "outfit_gate_20260815_f01_fix_v1_smoke",
+      "--timeout",
+      "21600"
+    ]
+  },
+  "correction_chunks": [
+    {
+      "chunk_id": "chunk_01",
+      "status": "canceled_by_user_do_not_execute",
+      "case_count": 5,
+      "expected_image_count": 25,
+      "preset_ids": [
+        "female_bikini_ruana__default__F01_Lean",
+        "female_dress_collection__full_body__F01_Lean",
+        "female_dress_collection__shirt_with_skirt__F01_Lean",
+        "female_elise__default__F01_Lean",
+        "female_jumpsuits_accessories__default__F01_Lean"
+      ],
+      "manifest_path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_01.json",
+      "output_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_01",
+      "job_id": "outfit_gate_20260815_f01_fix_v1_chunk_01",
+      "requires_offline_cc_restart_before_run": true,
+      "command": [
+        "python",
+        "D:\\UE\\Lance_Work\\00_engine\\character_creator_bridge\\cc_bridge_client.py",
+        "validate-bodies",
+        "--library-file",
+        "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_01.json",
+        "--output-dir",
+        "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_01",
+        "--confirm-scene-replace",
+        "--auto-dismiss-undo-warning",
+        "--job-id",
+        "outfit_gate_20260815_f01_fix_v1_chunk_01",
+        "--timeout",
+        "21600"
+      ]
+    },
+    {
+      "chunk_id": "chunk_02",
+      "status": "canceled_by_user_do_not_execute",
+      "case_count": 5,
+      "expected_image_count": 25,
+      "preset_ids": [
+        "female_misaki__default__F01_Lean",
+        "female_pretty_dresses__pants__F01_Lean",
+        "female_pretty_dresses__skirts__F01_Lean",
+        "female_rugged_trendy__default__F01_Lean",
+        "female_shirts_pants_a_i__default__F01_Lean"
+      ],
+      "manifest_path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_02.json",
+      "output_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_02",
+      "job_id": "outfit_gate_20260815_f01_fix_v1_chunk_02",
+      "requires_offline_cc_restart_before_run": true,
+      "command": [
+        "python",
+        "D:\\UE\\Lance_Work\\00_engine\\character_creator_bridge\\cc_bridge_client.py",
+        "validate-bodies",
+        "--library-file",
+        "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_02.json",
+        "--output-dir",
+        "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_02",
+        "--confirm-scene-replace",
+        "--auto-dismiss-undo-warning",
+        "--job-id",
+        "outfit_gate_20260815_f01_fix_v1_chunk_02",
+        "--timeout",
+        "21600"
+      ]
+    },
+    {
+      "chunk_id": "chunk_03",
+      "status": "canceled_by_user_do_not_execute",
+      "case_count": 5,
+      "expected_image_count": 25,
+      "preset_ids": [
+        "female_streetwear_collection__full_body__F01_Lean",
+        "female_streetwear_collection__pants_with_casual_jacket__F01_Lean",
+        "female_streetwear_collection__pants_with_shirt__F01_Lean",
+        "female_streetwear_collection__pants_with_warrior_cloak__F01_Lean",
+        "female_streetwear_collection__pants_with_windbreaker__F01_Lean"
+      ],
+      "manifest_path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_03.json",
+      "output_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_03",
+      "job_id": "outfit_gate_20260815_f01_fix_v1_chunk_03",
+      "requires_offline_cc_restart_before_run": true,
+      "command": [
+        "python",
+        "D:\\UE\\Lance_Work\\00_engine\\character_creator_bridge\\cc_bridge_client.py",
+        "validate-bodies",
+        "--library-file",
+        "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_03.json",
+        "--output-dir",
+        "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_03",
+        "--confirm-scene-replace",
+        "--auto-dismiss-undo-warning",
+        "--job-id",
+        "outfit_gate_20260815_f01_fix_v1_chunk_03",
+        "--timeout",
+        "21600"
+      ]
+    },
+    {
+      "chunk_id": "chunk_04",
+      "status": "canceled_by_user_do_not_execute",
+      "case_count": 3,
+      "expected_image_count": 15,
+      "preset_ids": [
+        "female_streetwear_collection__skirt_with_shirt__F01_Lean",
+        "female_summer_girl_four_colors__default__F01_Lean",
+        "female_workout_color_outfits__default__F01_Lean"
+      ],
+      "manifest_path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_04.json",
+      "output_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_04",
+      "job_id": "outfit_gate_20260815_f01_fix_v1_chunk_04",
+      "requires_offline_cc_restart_before_run": true,
+      "command": [
+        "python",
+        "D:\\UE\\Lance_Work\\00_engine\\character_creator_bridge\\cc_bridge_client.py",
+        "validate-bodies",
+        "--library-file",
+        "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_f01_correction_20260815_v1\\chunk_04.json",
+        "--output-dir",
+        "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\run_20260815_f01_fix_v1\\chunk_04",
+        "--confirm-scene-replace",
+        "--auto-dismiss-undo-warning",
+        "--job-id",
+        "outfit_gate_20260815_f01_fix_v1_chunk_04",
+        "--timeout",
+        "21600"
+      ]
+    }
+  ]
+}

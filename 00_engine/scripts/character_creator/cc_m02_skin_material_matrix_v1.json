@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_m02_skin_material_matrix_v1",
+  "diagnostic_mode": "face_material_visual_matrix",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1536,
+    1536
+  ],
+  "face_material_visual_matrix": {
+    "camera_path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "restore_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "face_position": [
+      0.0,
+      8.0,
+      6.0
+    ],
+    "yaw_degrees": 90.0,
+    "light_settle_seconds": 1.0,
+    "lights": [
+      {
+        "id": "default_cc5",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom"
+      },
+      {
+        "id": "bright_control",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Bright.ccLightroom"
+      }
+    ],
+    "profiles": [
+      {
+        "id": "skin_00_baseline",
+        "label": "Unmodified M02 head skin",
+        "changes": []
+      },
+      {
+        "id": "skin_01_micro_detail",
+        "label": "Strengthen pore-scale normals and roughness variation",
+        "changes": [
+          {
+            "domain": "skin_head",
+            "parameter": "MicroNormal Strength",
+            "value": 0.65
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Micro Roughness Scale",
+            "value": 0.08
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Original Roughness Strength",
+            "value": 1.0
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Cavity Strength",
+            "value": 0.24
+          }
+        ]
+      },
+      {
+        "id": "skin_02_regional_response",
+        "label": "Introduce restrained regional roughness and specular contrast",
+        "changes": [
+          {
+            "domain": "skin_head",
+            "parameter": "Forehead Roughness Scale",
+            "value": 0.04
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Cheek Roughness Scale",
+            "value": 0.06
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Chin Roughness Scale",
+            "value": 0.04
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Nose Roughness Scale",
+            "value": -0.03
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Mouth Roughness Scale",
+            "value": 0.06
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "_Specular",
+            "value": 0.55
+          }
+        ]
+      },
+      {
+        "id": "skin_03_sss_control",
+        "label": "Reduce broad subsurface spread while preserving skin color",
+        "changes": [
+          {
+            "domain": "skin_head",
+            "parameter": "SSS Distribution",
+            "value": 0.35
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "SSS Radius",
+            "value": 1.25
+          }
+        ]
+      },
+      {
+        "id": "skin_04_balanced_combined",
+        "label": "Combined conservative skin response",
+        "changes": [
+          {
+            "domain": "skin_head",
+            "parameter": "MicroNormal Strength",
+            "value": 0.65
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Micro Roughness Scale",
+            "value": 0.08
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Original Roughness Strength",
+            "value": 1.0
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Cavity Strength",
+            "value": 0.24
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Forehead Roughness Scale",
+            "value": 0.04
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Cheek Roughness Scale",
+            "value": 0.06
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Chin Roughness Scale",
+            "value": 0.04
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Nose Roughness Scale",
+            "value": -0.03
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Mouth Roughness Scale",
+            "value": 0.06
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "_Specular",
+            "value": 0.55
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "SSS Distribution",
+            "value": 0.35
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "SSS Radius",
+            "value": 1.25
+          }
+        ]
+      }
+    ]
+  },
+  "presets": [
+    {
+      "preset_id": "diagnostic_placeholder",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject"
+      }
+    }
+  ]
+}

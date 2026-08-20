@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lance.local/schemas/outfit_family_v1.schema.json",
+  "title": "Lance Character Creator Outfit Family",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "family_id",
+    "display_name",
+    "sex",
+    "assembly_mode",
+    "rules_status",
+    "rules_exhaustive",
+    "assets",
+    "assembly",
+    "footwear_policy",
+    "constraints",
+    "traceability"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "family_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sex": {
+      "enum": ["female", "male"]
+    },
+    "assembly_mode": {
+      "enum": ["explicit_looks", "slot_groups", "locked_bundle"]
+    },
+    "rules_status": {
+      "const": "confirmed"
+    },
+    "rules_exhaustive": {
+      "const": true
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_id",
+          "display_name",
+          "path",
+          "slot",
+          "file_extension",
+          "size_bytes",
+          "sha256"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9._-]+$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "slot": {
+            "enum": ["coats", "shirts", "pants", "skirts", "full_body", "shoes", "family_accessory"]
+          },
+          "file_extension": {
+            "type": "string",
+            "minLength": 1
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "semantic_slot_override": {
+            "type": "boolean"
+          },
+          "locked_bundle_member": {
+            "type": "boolean"
+          },
+          "component_scope": {
+            "const": "family_local"
+          }
+        }
+      }
+    },
+    "assembly": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["looks"],
+          "properties": {
+            "looks": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["look_id", "required_assets", "optional_assets", "optional_asset_policy"],
+                "properties": {
+                  "look_id": {"type": "string", "minLength": 1},
+                  "required_assets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+                  "optional_assets": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "optional_asset_policy": {"const": "independent_subset"}
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["groups"],
+          "properties": {
+            "groups": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["group_id", "required_slots", "optional_slots", "slot_pools"],
+                "properties": {
+                  "group_id": {"type": "string", "minLength": 1},
+                  "required_slots": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {"enum": ["coats", "shirts", "pants", "skirts", "full_body", "shoes"]}
+                  },
+                  "optional_slots": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {"enum": ["coats", "shirts", "pants", "skirts", "full_body", "shoes"]}
+                  },
+                  "slot_pools": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "propertyNames": {"enum": ["coats", "shirts", "pants", "skirts", "full_body", "shoes"]},
+                    "additionalProperties": {
+                      "type": "array",
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "items": {"type": "string"}
+                    }
+                  },
+                  "required_assets": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "optional_assets": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "optional_asset_policy": {"const": "independent_subset"}
+                },
+                "dependentRequired": {
+                  "required_assets": ["optional_assets", "optional_asset_policy"],
+                  "optional_assets": ["required_assets", "optional_asset_policy"],
+                  "optional_asset_policy": ["required_assets", "optional_assets"]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bundle"],
+          "properties": {
+            "bundle": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["bundle_id", "required_assets"],
+              "properties": {
+                "bundle_id": {"type": "string", "minLength": 1},
+                "required_assets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "footwear_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "allowed_shared_shoe_ids",
+        "default_shared_shoe_id",
+        "allow_barefoot",
+        "shared_inventory_ref"
+      ],
+      "properties": {
+        "mode": {
+          "enum": ["native_pool", "shared_pool", "integrated_footwear", "barefoot_only"]
+        },
+        "allowed_shared_shoe_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[FM][0-9]{3}$"
+          }
+        },
+        "default_shared_shoe_id": {
+          "type": ["string", "null"],
+          "pattern": "^[FM][0-9]{3}$"
+        },
+        "allow_barefoot": {
+          "type": "boolean"
+        },
+        "shared_inventory_ref": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["library_id", "revision_id"],
+              "properties": {
+                "library_id": {"type": "string", "minLength": 1},
+                "revision_id": {"type": "string", "minLength": 1}
+              }
+            }
+          ]
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allow_cross_family_components",
+        "family_accessories_cross_family",
+        "full_body_exclusive_with",
+        "pants_skirts_mutually_exclusive"
+      ],
+      "properties": {
+        "allow_cross_family_components": {
+          "const": false
+        },
+        "family_accessories_cross_family": {
+          "const": false
+        },
+        "full_body_exclusive_with": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "coats"},
+            {"const": "shirts"},
+            {"const": "pants"},
+            {"const": "skirts"}
+          ],
+          "items": false
+        },
+        "pants_skirts_mutually_exclusive": {
+          "const": true
+        }
+      }
+    },
+    "traceability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family_directory", "generated_at", "generator"],
+      "properties": {
+        "family_directory": {
+          "type": "string",
+          "minLength": 1
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "generator": {
+          "const": "cc_build_confirmed_outfit_family_json_v1.py"
+        }
+      }
+    }
+  }
+}

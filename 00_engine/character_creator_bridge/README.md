@@ -1,5 +1,8 @@
 # Character Creator Local Bridge
 
+> Document role: `operational_reference`. Current character-factory state and
+> authority map: [`CHARACTER_FACTORY_MASTER_SPEC.md`](../../20_planning/data_design/character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md).
+
 This directory contains the offline automation boundary between an external
 agent and Character Creator 5.
 
@@ -32,7 +35,8 @@ accepts arbitrary Python source.
 3. Wait for a fresh heartbeat.
 4. Submit `ping` and verify a successful terminal result.
 5. Submit `scene_summary` and verify RLPy access.
-6. Submit one `apply_face_recipe_preview` job and inspect its artifacts.
+6. Use `apply_face_recipe_preview` only for legacy `target_face_morphs` requests;
+   current Face V3 manifests use the full-character execution path.
 7. Submit `validate_bodyfit_library` to load each hash-locked canonical
    BodyFit project and compare its Body/Junction fingerprint with the library.
 
@@ -45,12 +49,18 @@ are observed but never closed.
 
 ## BodyFit source projects
 
-`cc_body_preset_library_v1.json` is the runtime source for the eight adult
-BodyFit presets. Each hash-locked `.ccProject` is the canonical runtime body
-entry point. The library stores body and junction Morph vectors for drift
+`cc_body_preset_library_v2.json` is the runtime source for ten adult BodyFit
+presets: the original eight plus `M05_Short_Average` and
+`F05_Short_Average`. Each hash-locked `.ccProject` is the canonical runtime
+body entry point. The library stores body and junction Morph vectors for drift
 detection and auditing, not for rebuilding the body from a neutral avatar.
 After loading a BodyFit project, the selected primary head preset and face
 identity recipe replace its initial face state.
 
-The bridge remains `prototype-only` until all eight source projects pass the
-body, face, eye, and interrupted-job recovery checks after a clean CC restart.
+The bridge is the validated local automation boundary. `validate-bodies` also
+dispatches compatible full-character manifests through the current RLPy
+executor; the command name is retained technical debt, not a claim that only
+body validation occurs. Individual character features may still be pilot-only;
+production status is owned by machine registries and the master specification
+rather than by bridge availability. Detailed operations are documented in
+[`BRIDGE_OPERATIONS.md`](../../20_planning/data_design/character_creator/full_process/bridge_details/BRIDGE_OPERATIONS.md).

@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "registry_id": "cc5_unreal_animation_channels_v1",
+  "updated_at": "2026-08-04T00:00:00+08:00",
+  "target": {
+    "character_id": "M02_Average_Pilot",
+    "engine": "Unreal Engine 5.8",
+    "skeleton": "/Game/Vendor/Reallusion/CC5/Characters/M02_Average/FullReference/CC_M02_Average_Pilot_UE58_Skeleton.CC_M02_Average_Pilot_UE58_Skeleton"
+  },
+  "enums": {
+    "facial_channels": [
+      "none",
+      "curves",
+      "bones",
+      "hybrid"
+    ],
+    "reuse_policy": {
+      "replaceable": "Body motion has no facial channels and may use an approved reusable Face clip.",
+      "paired": "Body and Face assets must be selected as one registered pair.",
+      "locked": "Embedded facial content must remain attached to the source animation."
+    }
+  },
+  "runtime": {
+    "production_anim_blueprint": "/Game/DataMake/Animations/CC5/Pilot/ABP_DM_M02_BodyFaceLayer_v003.ABP_DM_M02_BodyFaceLayer_v003",
+    "neutral_control_anim_blueprint": "/Game/DataMake/Animations/CC5/Pilot/ABP_DM_M02_BodyFaceLayer_v003_ControlNeutral.ABP_DM_M02_BodyFaceLayer_v003_ControlNeutral",
+    "layer_mode": "layered_blend_per_bone",
+    "branch_filter_root": "cc_base_facialbone",
+    "branch_filter_depth": 1,
+    "head_neck_excluded": [
+      "neck_01",
+      "neck_02",
+      "head"
+    ],
+    "eye_drive": {
+      "mode": "rig_logic_curves",
+      "post_process_anim_blueprint": "/Game/Vendor/Reallusion/CC5/Characters/M02_Average/FullReference/Post_Process/CC_M02_Average_Pilot_UE58_ABP_RL_Rig_Logic.CC_M02_Average_Pilot_UE58_ABP_RL_Rig_Logic_C",
+      "rule": "Do not directly layer cc_base_l_eye or cc_base_r_eye tracks; eyeLook curves own the final eye pose."
+    }
+  },
+  "body_motions": [
+    {
+      "animation_id": "audience_source",
+      "asset": "/Game/Vendor/Reallusion/CC5/Animations/Pilot/A_CC_Audience_F_01_Pilot.A_CC_Audience_F_01_Pilot",
+      "role": "source_body_motion",
+      "facial_channels": "none",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "production_status": "source_only"
+    },
+    {
+      "animation_id": "walk_wander_source",
+      "asset": "/Game/Vendor/Reallusion/CC5/Animations/Pilot/A_CC_Walk_Wander_M_Pilot.A_CC_Walk_Wander_M_Pilot",
+      "role": "source_body_motion",
+      "facial_channels": "bones",
+      "reuse_policy": "locked",
+      "paired_face_clip_id": null,
+      "embedded_face_bones": [
+        "cc_base_facialbone",
+        "cc_base_jawroot",
+        "cc_base_l_eye",
+        "cc_base_r_eye",
+        "cc_base_teeth01",
+        "cc_base_teeth02",
+        "cc_base_tongue01",
+        "cc_base_tongue02",
+        "cc_base_tongue03",
+        "cc_base_upperjaw"
+      ],
+      "production_status": "source_only_use_body_only_derivative_for_recombination"
+    },
+    {
+      "animation_id": "audience_body_only_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/A_CC_Audience_F_01_BodyOnly_v001.A_CC_Audience_F_01_BodyOnly_v001",
+      "role": "body_only",
+      "facial_channels": "none",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "approved_face_clip_ids": [
+        "face_neutral_v001",
+        "face_natural_blink_v001",
+        "face_blink_gaze_v001",
+        "face_subtle_smile_v001",
+        "face_hybrid_support_v001"
+      ],
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "walk_wander_body_only_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/A_CC_Walk_Wander_M_BodyOnly_v001.A_CC_Walk_Wander_M_BodyOnly_v001",
+      "role": "body_only",
+      "facial_channels": "none",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "approved_face_clip_ids": [
+        "face_neutral_v001",
+        "face_natural_blink_v001",
+        "face_blink_gaze_v001",
+        "face_subtle_smile_v001",
+        "face_hybrid_support_v001"
+      ],
+      "production_status": "approved_pilot"
+    }
+  ],
+  "face_clips": [
+    {
+      "animation_id": "face_neutral_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_Neutral_Loop_v001.A_DM_M02_Face_Neutral_Loop_v001",
+      "role": "face_only",
+      "facial_channels": "none",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "face_natural_blink_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_NaturalBlink_Loop_v001.A_DM_M02_Face_NaturalBlink_Loop_v001",
+      "role": "face_only",
+      "facial_channels": "curves",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "curve_names": [
+        "CTRL_expressions_eyeBlinkL",
+        "CTRL_expressions_eyeBlinkR"
+      ],
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "face_blink_gaze_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_BlinkGaze_Loop_v001.A_DM_M02_Face_BlinkGaze_Loop_v001",
+      "role": "face_only",
+      "facial_channels": "curves",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "curve_names": [
+        "CTRL_expressions_eyeBlinkL",
+        "CTRL_expressions_eyeBlinkR",
+        "CTRL_expressions_eyeLookLeftL",
+        "CTRL_expressions_eyeLookLeftR",
+        "CTRL_expressions_eyeLookRightL",
+        "CTRL_expressions_eyeLookRightR"
+      ],
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "face_subtle_smile_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_SubtleSmile_Loop_v001.A_DM_M02_Face_SubtleSmile_Loop_v001",
+      "role": "face_only",
+      "facial_channels": "curves",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "curve_names": [
+        "CTRL_expressions_mouthCornerPullL",
+        "CTRL_expressions_mouthCornerPullR"
+      ],
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "face_hybrid_support_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_HybridSupport_Loop_v001.A_DM_M02_Face_HybridSupport_Loop_v001",
+      "role": "face_only",
+      "facial_channels": "hybrid",
+      "reuse_policy": "replaceable",
+      "paired_face_clip_id": null,
+      "bone_tracks": [
+        "cc_base_facialbone",
+        "cc_base_jawroot",
+        "cc_base_upperjaw",
+        "cc_base_teeth01",
+        "cc_base_teeth02",
+        "cc_base_tongue01",
+        "cc_base_tongue02",
+        "cc_base_tongue03"
+      ],
+      "curve_names": [
+        "CTRL_expressions_eyeBlinkL",
+        "CTRL_expressions_eyeBlinkR",
+        "CTRL_expressions_jawOpen",
+        "CTRL_expressions_mouthLowerLipDepressL",
+        "CTRL_expressions_mouthLowerLipDepressR",
+        "CTRL_expressions_mouthUpperLipRaiseL",
+        "CTRL_expressions_mouthUpperLipRaiseR",
+        "CTRL_expressions_mouthCornerPullL",
+        "CTRL_expressions_mouthCornerPullR",
+        "CTRL_expressions_eyeLookRightL",
+        "CTRL_expressions_eyeLookRightR"
+      ],
+      "eye_bone_tracks_excluded": [
+        "cc_base_l_eye",
+        "cc_base_r_eye"
+      ],
+      "approved_body_motion_ids": [
+        "audience_body_only_v001",
+        "walk_wander_body_only_v001"
+      ],
+      "production_status": "approved_pilot"
+    },
+    {
+      "animation_id": "face_jaw_open_curve_test_v001",
+      "asset": "/Game/DataMake/Animations/CC5/Pilot/Face/A_DM_M02_Face_JawOpen_Test_v001.A_DM_M02_Face_JawOpen_Test_v001",
+      "role": "diagnostic_face_only",
+      "facial_channels": "curves",
+      "reuse_policy": "locked",
+      "paired_face_clip_id": null,
+      "curve_names": [
+        "CTRL_expressions_jawOpen"
+      ],
+      "production_status": "test_only_incomplete_without_support_bones"
+    }
+  ],
+  "validation": {
+    "status": "passed",
+    "matrix": "2_body_motions_x_5_face_states",
+    "report": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\m02_face_hybrid_review_v003\\pie_review.json",
+    "contact_sheet": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\m02_face_hybrid_review_v003\\m02_face_hybrid_pie_contact_sheet.png",
+    "required_component_count": 20,
+    "required_follower_count": 19,
+    "main_level_saved": false
+  }
+}

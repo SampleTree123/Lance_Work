@@ -1,0 +1,480 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_p0_offline_review_batch_01_20260818_v1",
+  "generated_at": "2026-08-18T23:19:34+08:00",
+  "status": "pending_cc_dynamic_review",
+  "diagnostic_mode": "animation_p0_dynamic_gate",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1024,
+    1024
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "full_body_camera": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "size_bytes": 170269,
+    "sha256": "5b2cfd0442fc3a84332cfb69867d2095d55a39cab0bf1868a93ed23c77b43925"
+  },
+  "lightroom": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "size_bytes": 2503182,
+    "sha256": "d7c645aea807772300e5c3649a8ef5cad1b2e97b6e1a1cb18f399f8e4e8af8b3"
+  },
+  "source_pilot_manifest": {
+    "pilot_id": "cc_p0_offline_review_batch_01_20260818_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\pilot_manifest.json",
+    "size_bytes": 27284,
+    "sha256": "dba3dfa37f4a534d3c0c5eb77f7e908dea12196b9ee90f6c66debd928c5f11be"
+  },
+  "source_dynamic_review_template": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\dynamic_review.json",
+    "size_bytes": 8322,
+    "sha256": "c5ecfce276c863e252f30642551c05bd6e56a96d7e297cbd318973932a669e83"
+  },
+  "source_bodyfit_library": {
+    "library_id": "cc_p0_offline_review_clothed_actors_20260818_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\config\\clothed_actor_library.json",
+    "size_bytes": 8577,
+    "sha256": "7422c84882b6d9eb31da2e1a2f732468fdab6620ebdbe11f67a2eaeb3bea7f2c"
+  },
+  "capture_policy": {
+    "sample_normalized_positions": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "camera_mode": "lightroom_current",
+    "yaw_degrees": null,
+    "auto_frame_full_body": false,
+    "align_motion_start_to_source": true,
+    "framing": "preserve_lightroom_camera_and_source_transform",
+    "physics_simulation": true,
+    "segment_timeout_seconds": 45.0
+  },
+  "execution_policy": {
+    "load_each_actor_project_once": true,
+    "replace_existing_motion_clips": true,
+    "continue_after_motion_failure": true,
+    "checkpoint_after_each_motion": true,
+    "stop_on_blocking_dialog": true,
+    "production_approval_from_automation": false
+  },
+  "scope_policy": {
+    "pilot_membership_is_not_production_approval": true,
+    "actor_sex_is_not_a_permanent_motion_restriction": true,
+    "loop_requires_visual_review": true,
+    "hidden_prop_dependency_requires_visual_review": true
+  },
+  "counts": {
+    "actor_count": 2,
+    "motion_case_count": 18,
+    "sample_count_per_motion": 5,
+    "expected_image_count": 90,
+    "by_actor": {
+      "F02_Average": 9,
+      "M02_Average": 9
+    },
+    "by_source_format": {
+      ".imotion": 9,
+      ".rlmotion": 9
+    },
+    "production_approved_count": 0
+  },
+  "presets": [
+    {
+      "preset_id": "F02_Average",
+      "sex": "female",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "size_bytes": 266523309,
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\F02_Average_Clothed.ccProject",
+        "bytes": 176901912,
+        "sha256": "18d05437e8defdf0ccf86b39cd7b32b440e41b04c7241108afc6e91e2f7d0d85",
+        "size_bytes": 176901912
+      },
+      "motion_cases": [
+        {
+          "case_id": "p0r_001_runhello-end_0ae5f7",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-d685a10ae5f7",
+          "filename": "RunHello_End.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "gesture_signal",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\01_p0r_001_runhello-end_0ae5f7.imotion",
+            "size_bytes": 816564,
+            "sha256": "1f15e8a9872e2b0437de89c813d223b986903f819feb7871a8e7c3e7a8af10e2"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_003_runhello-loop_ff3cb9",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-db196eff3cb9",
+          "filename": "RunHello_Loop.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "gesture_signal",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\03_p0r_003_runhello-loop_ff3cb9.imotion",
+            "size_bytes": 565300,
+            "sha256": "035030e5c6534abe5aa2cf7d353c302530a3310b720dad0f2526f56319d0246b"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_005_runhello-start_776596",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-c23804776596",
+          "filename": "RunHello_Start.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "gesture_signal",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\05_p0r_005_runhello-start_776596.imotion",
+            "size_bytes": 737620,
+            "sha256": "23224224271cea23bcdc0a911719d533ea37776d23c84265477ee51c1f71c4a6"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_007_jog-end_2b38d6",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-c414c22b38d6",
+          "filename": "Jog_End.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\07_p0r_007_jog-end_2b38d6.imotion",
+            "size_bytes": 813412,
+            "sha256": "bef5a3002befea808494060219d30d94071595027a06ffd029c4b3cbe70d7876"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_009_jog-start_134337",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-8dc7b9134337",
+          "filename": "Jog_Start.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\09_p0r_009_jog-start_134337.imotion",
+            "size_bytes": 734852,
+            "sha256": "02060bfe57a6e999d34ef47ffa40b6920d78be66a734fe811ae30c5085a1e8fd"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_011_run-end_b1f7c4",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-84050ab1f7c4",
+          "filename": "Run_End.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\11_p0r_011_run-end_b1f7c4.imotion",
+            "size_bytes": 1121028,
+            "sha256": "39e6be47283fddc00a09a52e07caf8f00070ac8aa42f7eb423a268130f276e65"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_013_run-loop_d2b3ae",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-b02c82d2b3ae",
+          "filename": "Run_Loop.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\13_p0r_013_run-loop_d2b3ae.imotion",
+            "size_bytes": 385100,
+            "sha256": "011d4f0d0bc262242dfc20b924ba7b7f2f57d2962975b8be367e591f2dff31f9"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_015_run-start_654576",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-3a2cac654576",
+          "filename": "Run_Start.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\15_p0r_015_run-start_654576.imotion",
+            "size_bytes": 1061476,
+            "sha256": "9844219c8d7b0a2f097dcb1f9c5f0881f2539456ebbd2c23c4b09f67884617dc"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_017_runtouch-end_99daec",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-b0f68399daec",
+          "filename": "RunTouch_End.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy_compatible",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\17_p0r_017_runtouch-end_99daec.imotion",
+            "size_bytes": 831684,
+            "sha256": "f6a315a13d356ddd59e4ee24e8b6b2d6e80817e94cb8df5fe4c6e6fa1fefce1c"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        }
+      ]
+    },
+    {
+      "preset_id": "M02_Average",
+      "sex": "male",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "size_bytes": 293943153,
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\M02_Average_Clothed.ccProject",
+        "bytes": 205953512,
+        "sha256": "756da33f825eecba2e56aa8a248c770cdffcacdc9538192eb52326598500af48",
+        "size_bytes": 205953512
+      },
+      "motion_cases": [
+        {
+          "case_id": "p0r_002_03-walk-to-stand-idle_583757",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-98eee0583757",
+          "filename": "03 - Walk to Stand Idle.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "idle_pose",
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\02_p0r_002_03-walk-to-stand-idle_583757.rlmotion",
+            "size_bytes": 202398,
+            "sha256": "19dec7971cc0a536631745a17fd6c56d250b200fa9b6b03bba2841cc1e8c13a5"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_004_02-stand-walk-loop_faf83b",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-59a640faf83b",
+          "filename": "02 - Stand Walk Loop.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "locomotion",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "locomotion",
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\04_p0r_004_02-stand-walk-loop_faf83b.rlmotion",
+            "size_bytes": 192700,
+            "sha256": "310dc34c82d6f454039469c01fcc457934568590222060ede06fde451019ef11"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_006_01-stand-idle_7e7453",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-3908a57e7453",
+          "filename": "01 - Stand Idle.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "idle_pose",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "idle_pose",
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\06_p0r_006_01-stand-idle_7e7453.rlmotion",
+            "size_bytes": 172477,
+            "sha256": "467059a919f57109e7625d27f49cedd68910a3300a57742964135c24199ec521"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_008_waiting-stand-m_839881",
+          "motion_id": "motion-p0-package-city-life-zip-8e90dfad7168-city-a36298839881",
+          "filename": "Waiting_Stand_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "idle_pose",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "idle_pose",
+            "transit"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\08_p0r_008_waiting-stand-m_839881.rlmotion",
+            "size_bytes": 3345158,
+            "sha256": "ab770d8a6f5a6f2d2e799bca6f3e3c5c54f3000f24ecf8c6c08a663e049f9944"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_010_05-freeze_814fee",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-fb8d8b814fee",
+          "filename": "05 - Freeze.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "gesture_signal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\10_p0r_010_05-freeze_814fee.rlmotion",
+            "size_bytes": 311558,
+            "sha256": "ccfc395caa2f940563ebd562a14ef02b43773fea82796dacfb21cc5cd5fa12f8"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_012_07-double-time_dbe8fd",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-0b52aadbe8fd",
+          "filename": "07 - Double-Time.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "gesture_signal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\12_p0r_012_07-double-time_dbe8fd.rlmotion",
+            "size_bytes": 321883,
+            "sha256": "e3e95b95bbe8f8731956a5ff5575238c699f1921d78de6ad498c730a37d1bca6"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_014_08-head-count_18177e",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-0f309a18177e",
+          "filename": "08 - Head Count.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "gesture_signal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\14_p0r_014_08-head-count_18177e.rlmotion",
+            "size_bytes": 286177,
+            "sha256": "a47d283f0df2ecdc4080609dd54b2239a0fe00a878e66a894787450d0a9e9734"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_016_09-rally-point_47ac7c",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-1f518247ac7c",
+          "filename": "09 - Rally Point.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "gesture_signal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\16_p0r_016_09-rally-point_47ac7c.rlmotion",
+            "size_bytes": 280853,
+            "sha256": "6fa105960901ba2acbd57aca99930ebb95cbc05a2dad81e405842166089b3c36"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        },
+        {
+          "case_id": "p0r_018_10-enemy-contact_395739",
+          "motion_id": "motion-p0-package-hand-signals-zip-302c56ac6f45-h-7136bc395739",
+          "filename": "10 - Enemy Contact.rlmotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "gesture_signal",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "gesture_signal"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\animation_p0_offline_review\\source_batches_20260818_v1\\batches\\batch_01\\motions\\18_p0r_018_10-enemy-contact_395739.rlmotion",
+            "size_bytes": 224694,
+            "sha256": "445ee40451445ce5efa53a77644f190f759337a878b86b78ff529e34462b005e"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved"
+        }
+      ]
+    }
+  ]
+}

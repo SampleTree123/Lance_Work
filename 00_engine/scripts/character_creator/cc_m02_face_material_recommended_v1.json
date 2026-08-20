@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_m02_face_material_recommended_v1",
+  "diagnostic_mode": "face_material_visual_matrix",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1536,
+    1536
+  ],
+  "face_material_visual_matrix": {
+    "camera_path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "restore_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "face_position": [
+      0.0,
+      8.0,
+      6.0
+    ],
+    "yaw_degrees": 90.0,
+    "light_settle_seconds": 1.0,
+    "lights": [
+      {
+        "id": "default_cc5",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom"
+      },
+      {
+        "id": "bright_control",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Bright.ccLightroom"
+      }
+    ],
+    "profiles": [
+      {
+        "id": "quality_00_baseline",
+        "label": "Unmodified M02 eye and head-skin materials",
+        "changes": []
+      },
+      {
+        "id": "quality_01_recommended",
+        "label": "Conservative eye response and micro-detail profile",
+        "changes": [
+          {
+            "domain": "cornea",
+            "parameter": "ScleraBrightness",
+            "value": 0.5
+          },
+          {
+            "domain": "cornea",
+            "parameter": "Sclera Roughness",
+            "value": 0.32
+          },
+          {
+            "domain": "cornea",
+            "parameter": "Specular Scale",
+            "value": 0.7
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "MicroNormal Strength",
+            "value": 0.65
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Micro Roughness Scale",
+            "value": 0.08
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Original Roughness Strength",
+            "value": 1.0
+          },
+          {
+            "domain": "skin_head",
+            "parameter": "Cavity Strength",
+            "value": 0.24
+          }
+        ]
+      }
+    ]
+  },
+  "presets": [
+    {
+      "preset_id": "diagnostic_placeholder",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject"
+      }
+    }
+  ]
+}

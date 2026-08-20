@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "state_id": "cc_outfit_motion_stress_execution_state_20260816_v1",
+  "updated_at": "2026-08-17T18:03:37+08:00",
+  "status": "complete_user_spot_check_accepted",
+  "scope": {
+    "gate_manifest": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_outfit_motion_stress_gate_20260816_v3.json",
+    "gate_sha256": "47214a3bd430cc8bcc34f70ec53d337a82179c84b0177a895d0c75e8053c6b3e",
+    "chunk_root": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\outfit_motion_stress_chunks_20260816_v3",
+    "formal_results_root": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1",
+    "expected_look_count": 53,
+    "expected_reference_image_count": 53,
+    "expected_motion_image_count": 530,
+    "expected_total_image_count": 583,
+    "motions_are_diagnostic_not_production_pool": true
+  },
+  "validated_smoke": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\pilot_20260816_v1\\smoke_04",
+    "case_count": 1,
+    "reference_image_count": 1,
+    "motion_image_count": 10,
+    "machine_failure_count": 0,
+    "undo_warning_count": 0,
+    "portal_builder_smoke": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\pilot_20260816_v1\\smoke_04\\portal_build_v1\\runs\\2026-08-16-outfit-motion-stress-gate-v1\\run.json"
+  },
+  "formal_progress": {
+    "completed_chunk_count": 27,
+    "completed_case_count": 53,
+    "completed_chunks": [
+      "chunk_01.json",
+      "chunk_02.json",
+      "chunk_03.json",
+      "chunk_04.json",
+      "chunk_05.json",
+      "chunk_06.json",
+      "chunk_07.json",
+      "chunk_08.json",
+      "chunk_09.json",
+      "chunk_10.json",
+      "chunk_11.json",
+      "chunk_12.json",
+      "chunk_13.json",
+      "chunk_14.json",
+      "chunk_15.json",
+      "chunk_16.json",
+      "chunk_17.json",
+      "chunk_18.json",
+      "chunk_19.json",
+      "chunk_20.json",
+      "chunk_21.json",
+      "chunk_22.json",
+      "chunk_23.json",
+      "chunk_24.json",
+      "chunk_25.json",
+      "chunk_26.json",
+      "chunk_27.json"
+    ],
+    "successful_retry_paths": [
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1\\retry_elise_v3",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1\\chunk_22_retry_second",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1\\retry_inventory_chunk01_v3",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1\\retry_inventory_chunk02_v3",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\run_20260816_v1\\retry_checkpoint_streetscape_v3"
+    ],
+    "next_chunk": null,
+    "remaining_chunk_count": 0,
+    "remaining_case_count": 0,
+    "machine_failure_count": 0,
+    "inventory_match_count": 53,
+    "reference_image_count": 53,
+    "motion_image_count": 530,
+    "total_image_count": 583,
+    "portal_run": "D:\\UE\\Lance_Work\\00_engine\\visualization_portal\\runs\\2026-08-16-outfit-motion-stress-gate-v1\\run.json",
+    "visual_review_status": "accepted_by_user_spot_check",
+    "visual_review_scope": "sampled_not_exhaustive",
+    "visual_review_decision": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_outfit_motion_visual_review_20260817_v1.json"
+  },
+  "resource_gate": {
+    "observed_at": "2026-08-17T00:33:25+08:00",
+    "cc_pid": 39160,
+    "cc_private_memory_gib": 14.58,
+    "available_physical_memory_mib": 11460,
+    "commit_usage_percent": 62.71,
+    "gpu_free_memory_mib": 5048,
+    "soft_limits": {
+      "cc_private_memory_gib": 24,
+      "minimum_available_physical_memory_gib": 8,
+      "commit_usage_percent": 75,
+      "minimum_gpu_free_memory_mib": 2048
+    },
+    "release_probe": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\resource_release_probe\\run_20260817_motion_final_v1\\resource_release_report.json",
+    "release_probe_success": true,
+    "recovered_above_all_soft_limits": true,
+    "blocking_metric": null,
+    "required_action": null
+  },
+  "resume": {
+    "preconditions": [
+      "Character Creator was restarted by the user under the offline-license workflow.",
+      "The bridge heartbeat is healthy and idle.",
+      "CC private memory, physical availability, commit usage, and GPU free memory are all above their soft safety boundaries."
+    ],
+    "first_command": null,
+    "publish_command": "python D:\\UE\\Lance_Work\\00_engine\\visualization_portal\\tools\\build_outfit_motion_stress_run.py",
+    "register_command": "python D:\\UE\\Lance_Work\\00_engine\\visualization_portal\\tools\\register_run.py D:\\UE\\Lance_Work\\00_engine\\visualization_portal\\runs\\2026-08-16-outfit-motion-stress-gate-v1\\run.json --replace"
+  },
+  "next_stage_boundary": {
+    "production_animation_pool_status": "ready_not_started",
+    "start_condition": "The user reviews and accepts or annotates the motion-stress portal results.",
+    "start_condition_satisfied": true,
+    "satisfaction_basis": "The user reported a spot-check with no issue found on 2026-08-17; no per-Look exhaustive signoff is claimed.",
+    "remaining_limits": [
+      "The diagnostic motions are not production animation assets.",
+      "Hair/headwear intersections remain deferred and still block final production approval.",
+      "All-ten-BodyFit and UE runtime clothing gates remain incomplete."
+    ]
+  }
+}

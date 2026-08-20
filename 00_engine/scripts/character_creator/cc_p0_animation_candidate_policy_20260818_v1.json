@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "policy_id": "cc_p0_animation_candidate_policy_20260818_v1",
+  "source_pilot_id": "cc_p0_animation_dynamic_pilot_20260817_v1",
+  "status": "policy_assigned_pending_registry_build",
+  "policy_boundary": {
+    "visual_quality_is_inherited_only_from_hash_locked_user_decision": true,
+    "loop_candidates_require_ue_seam_validation": true,
+    "one_shot_clips_do_not_require_loop_seam_validation": true,
+    "none_detected_facial_channels_map_to_replaceable": true,
+    "sex_preference_is_not_a_hard_runtime_restriction": true,
+    "production_approval_is_never_granted_by_this_policy": true
+  },
+  "cases": [
+    {
+      "case_id": "p0_001_city_walk_normal_f",
+      "motion_role": "locomotion_walk_normal",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_002_city_walk_hurry_f",
+      "motion_role": "locomotion_walk_hurry",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_003_city_walk_wander_f",
+      "motion_role": "locomotion_walk_wander",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_004_legacy_stand_idle_f",
+      "motion_role": "idle_standing",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "loop_candidate",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_loop_seam_validation_pending", "legacy_imotion_source"]
+    },
+    {
+      "case_id": "p0_005_legacy_walk_loop_f",
+      "motion_role": "locomotion_walk_loop",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "loop_candidate",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_loop_seam_validation_pending", "legacy_imotion_source"]
+    },
+    {
+      "case_id": "p0_006_legacy_jog_loop_f",
+      "motion_role": "locomotion_jog_loop",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "loop_candidate",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_loop_seam_validation_pending", "legacy_imotion_source"]
+    },
+    {
+      "case_id": "p0_007_legacy_stretch_f",
+      "motion_role": "exercise_stretch",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["legacy_imotion_source"]
+    },
+    {
+      "case_id": "p0_008_legacy_catch_breath_f",
+      "motion_role": "exercise_recovery_traversal",
+      "sex_preference": "female_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending", "legacy_imotion_source", "large_source_root_displacement"]
+    },
+    {
+      "case_id": "p0_009_city_walk_normal_m",
+      "motion_role": "locomotion_walk_normal",
+      "sex_preference": "male_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_010_city_walk_hurry_m",
+      "motion_role": "locomotion_walk_hurry",
+      "sex_preference": "male_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_011_city_walk_wander_m",
+      "motion_role": "locomotion_walk_wander",
+      "sex_preference": "male_preferred",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "preserve_source_root_motion",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": ["ue_root_motion_extraction_pending"]
+    },
+    {
+      "case_id": "p0_012_signal_halt",
+      "motion_role": "gesture_stop",
+      "sex_preference": "unisex",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": []
+    },
+    {
+      "case_id": "p0_013_signal_forward",
+      "motion_role": "gesture_direction",
+      "sex_preference": "unisex",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": []
+    },
+    {
+      "case_id": "p0_014_signal_understood",
+      "motion_role": "gesture_acknowledgement",
+      "sex_preference": "unisex",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": []
+    },
+    {
+      "case_id": "p0_015_signal_you",
+      "motion_role": "gesture_reference_other",
+      "sex_preference": "unisex",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": []
+    },
+    {
+      "case_id": "p0_016_signal_me",
+      "motion_role": "gesture_reference_self",
+      "sex_preference": "unisex",
+      "temporal_usage": "one_shot",
+      "root_motion_policy": "in_place",
+      "facial_reuse_policy": "replaceable",
+      "known_limits": []
+    }
+  ]
+}

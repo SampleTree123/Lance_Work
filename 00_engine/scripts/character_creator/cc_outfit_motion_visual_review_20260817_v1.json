@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "decision_id": "cc_outfit_motion_visual_review_20260817_v1",
+  "recorded_at": "2026-08-17T18:03:37+08:00",
+  "review_scope": {
+    "gate_manifest": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_outfit_motion_stress_gate_20260816_v3.json",
+      "sha256": "47214a3bd430cc8bcc34f70ec53d337a82179c84b0177a895d0c75e8053c6b3e"
+    },
+    "cumulative_review_index": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_motion_stress_gate\\cumulative_review_20260816_v1\\reviewed_index_20260817_v1.json",
+      "sha256": "e9c9ac1162566704bcaca0a174796160bf09929d4af02dbcfb0aa065e4353b61"
+    },
+    "look_count": 53,
+    "static_reference_count": 53,
+    "motion_image_count": 530,
+    "total_image_count": 583,
+    "review_method": "user_spot_check",
+    "reviewed_look_count": null
+  },
+  "user_visual_review": {
+    "motion_stress_status": "accepted_by_spot_check",
+    "observation": "The user reported spot-checking the published results and finding no issues.",
+    "overall_status": "motion_stress_accepted_by_spot_check"
+  },
+  "scope_boundary": {
+    "is_exhaustive_per_look_signoff": false,
+    "closes_motion_stress_waiting_state": true,
+    "allows_production_animation_pool_work_to_start": true,
+    "approves_diagnostic_motions_as_production_assets": false,
+    "approves_all_ten_bodyfits": false,
+    "approves_ue_runtime_switching": false,
+    "approves_final_outfit_production": false,
+    "hair_headwear_known_issue_remains_deferred": true
+  },
+  "next_stage": {
+    "roadmap_id": "RM-09",
+    "status": "ready_not_started",
+    "name": "production_animation_asset_pool"
+  },
+  "notes": [
+    "This record preserves the user's reported spot-check result; it does not invent per-Look review decisions.",
+    "The Walk and Full Body Calibration clips remain diagnostic probes and are not automatically admitted to the production animation pool.",
+    "Hair intersections with head wraps, hoods, high collars, and similar geometry remain a separate deferred issue that blocks final production approval."
+  ]
+}

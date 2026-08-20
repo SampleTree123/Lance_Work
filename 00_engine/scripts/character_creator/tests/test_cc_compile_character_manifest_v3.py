@@ -59,6 +59,22 @@ class CharacterManifestV3Tests(unittest.TestCase):
             "appearance_recipe_id": "none",
             "validation_preset_id": "none",
         }
+        bodyfit_proportion_adjustment = {
+            "application_order": ["head_scale", "neck_height"],
+            "decision_set_id": "adult_head_bodyfit_scale_v1",
+            "targets": [
+                {
+                    "id": "head_scale",
+                    "role": "head_scale",
+                    "target": 0.1,
+                },
+                {
+                    "id": "neck_height",
+                    "role": "neck_height",
+                    "target": -0.2,
+                },
+            ],
+        }
 
         result = SUBJECT.compiled_character(
             {"character_id": "CHAR_0001"},
@@ -66,6 +82,9 @@ class CharacterManifestV3Tests(unittest.TestCase):
             face,
             appearance,
             {},
+            bodyfit_proportion_adjustment=(
+                bodyfit_proportion_adjustment
+            ),
         )
 
         self.assertEqual(
@@ -88,6 +107,14 @@ class CharacterManifestV3Tests(unittest.TestCase):
         )
         self.assertNotIn("target_face_morphs", result)
         self.assertNotIn("target_face_fingerprint", result)
+        self.assertEqual(
+            result["bodyfit_proportion_adjustment"],
+            bodyfit_proportion_adjustment,
+        )
+        self.assertIsNot(
+            result["bodyfit_proportion_adjustment"],
+            bodyfit_proportion_adjustment,
+        )
 
 
 if __name__ == "__main__":

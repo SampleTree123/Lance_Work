@@ -126,6 +126,75 @@ class IntegrationSummaryTests(unittest.TestCase):
             ] = False
             self.assertFalse(MODULE.facial_profile_pass(result))
 
+    def test_bodyfit_proportion_requires_exact_targets_and_artifact(self):
+        with tempfile.TemporaryDirectory() as directory:
+            artifact = os.path.join(
+                directory,
+                "bodyfit_proportion_adjustment.json",
+            )
+            with open(artifact, "wb") as handle:
+                handle.write(b"{}")
+            expected = {
+                "application_order": ["head_scale", "neck_height"],
+                "decision_set_id": "adult_head_bodyfit_scale_v1",
+                "targets": [
+                    {
+                        "id": "head_scale",
+                        "role": "head_scale",
+                        "target": 0.1,
+                    },
+                    {
+                        "id": "neck_height",
+                        "role": "neck_height",
+                        "target": -0.2,
+                    },
+                ],
+            }
+            result = {
+                "artifacts": {
+                    "bodyfit_proportion_adjustment": artifact,
+                },
+                "bodyfit_proportion_adjustment": {
+                    "application_order": [
+                        "head_scale",
+                        "neck_height",
+                    ],
+                    "applications": [
+                        {
+                            "actual": 0.1,
+                            "id": "head_scale",
+                            "role": "head_scale",
+                            "target": 0.1,
+                        },
+                        {
+                            "actual": -0.2,
+                            "id": "neck_height",
+                            "role": "neck_height",
+                            "target": -0.2,
+                        },
+                    ],
+                    "canonical_order_verified": True,
+                    "decision_set_id": "adult_head_bodyfit_scale_v1",
+                    "eye_structure_preserved": True,
+                    "protected_morphs_unchanged": True,
+                    "targets_match": True,
+                },
+            }
+            preset = {"bodyfit_proportion_adjustment": expected}
+
+            self.assertTrue(
+                MODULE.bodyfit_proportion_pass(result, preset)
+            )
+            result["bodyfit_proportion_adjustment"]["applications"][1][
+                "actual"
+            ] = -0.1
+            self.assertFalse(
+                MODULE.bodyfit_proportion_pass(result, preset)
+            )
+
+    def test_bodyfit_proportion_accepts_legacy_absence(self):
+        self.assertTrue(MODULE.bodyfit_proportion_pass({}, {}))
+
     def test_pigmentation_checks_every_present_hair_domain(self):
         targets = {
             "RootColor": [0.1, 0.2, 0.3],

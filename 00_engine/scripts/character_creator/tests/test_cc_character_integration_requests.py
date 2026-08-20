@@ -210,6 +210,39 @@ class CharacterIntegrationRequestTests(unittest.TestCase):
                 for item in first_document["presets"]
             )
         )
+        expected_proportions = {
+            "F01_Lean": (-0.2, -0.4),
+            "F02_Average": (0.1, 0.0),
+            "F03_Athletic": (0.1, 0.0),
+            "F04_Heavy": (0.3, 0.0),
+            "M01_Lean": (-0.1, -0.2),
+            "M02_Average": (0.0, 0.0),
+            "M03_Athletic": (0.1, -0.2),
+            "M04_Heavy": (0.3, 0.0),
+        }
+        for preset in first_document["presets"]:
+            adjustment = preset["bodyfit_proportion_adjustment"]
+            self.assertEqual(
+                adjustment["application_order"],
+                ["head_scale", "neck_height"],
+            )
+            self.assertEqual(
+                tuple(
+                    item["target"] for item in adjustment["targets"]
+                ),
+                expected_proportions[preset["bodyfit_id"]],
+            )
+            self.assertEqual(
+                [item["role"] for item in adjustment["targets"]],
+                ["head_scale", "neck_height"],
+            )
+
+        self.assertEqual(
+            first_document["bodyfit_proportion_decisions"][
+                "decision_set_id"
+            ],
+            "adult_head_bodyfit_scale_v1",
+        )
 
 
 if __name__ == "__main__":

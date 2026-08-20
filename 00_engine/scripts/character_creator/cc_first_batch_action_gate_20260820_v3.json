@@ -1,0 +1,409 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_first_batch_actions_12_20260820_v3",
+  "generated_at": "2026-08-20T20:38:03+08:00",
+  "status": "pending_cc_dynamic_review",
+  "diagnostic_mode": "animation_p0_dynamic_gate",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1024,
+    1024
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "full_body_camera": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "size_bytes": 170269,
+    "sha256": "5b2cfd0442fc3a84332cfb69867d2095d55a39cab0bf1868a93ed23c77b43925"
+  },
+  "lightroom": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "size_bytes": 2503182,
+    "sha256": "d7c645aea807772300e5c3649a8ef5cad1b2e97b6e1a1cb18f399f8e4e8af8b3"
+  },
+  "source_pilot_manifest": {
+    "pilot_id": "cc_first_batch_actions_12_20260820_v3",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_selection\\selection_20260820_v3\\pilot_manifest.json",
+    "size_bytes": 20015,
+    "sha256": "07621c483d3231ffef7c08243239fe2cf559ced9f156ec85f4eace5675575107"
+  },
+  "source_dynamic_review_template": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_selection\\selection_20260820_v3\\dynamic_review.json",
+    "size_bytes": 5595,
+    "sha256": "905364f5512298e9daa51f19eddd1a33a7f41b4aaa282729a60a28574c8c5d49"
+  },
+  "source_bodyfit_library": {
+    "library_id": "cc_first_batch_clothed_review_actors_20260820_v3",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_selection\\selection_20260820_v3\\clothed_actor_library.json",
+    "size_bytes": 8442,
+    "sha256": "475296fc28ca0203c07f4854928f83480ae5eb533fbc5463f82542e22fb7c43b"
+  },
+  "capture_policy": {
+    "sample_normalized_positions": [
+      0.0,
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "camera_mode": "lightroom_current",
+    "yaw_degrees": null,
+    "auto_frame_full_body": false,
+    "align_motion_start_to_source": true,
+    "framing": "preserve_lightroom_camera_and_source_transform",
+    "physics_simulation": true,
+    "segment_timeout_seconds": 45.0,
+    "follow_root_for_capture": true
+  },
+  "execution_policy": {
+    "load_each_actor_project_once": true,
+    "replace_existing_motion_clips": true,
+    "continue_after_motion_failure": true,
+    "checkpoint_after_each_motion": true,
+    "stop_on_blocking_dialog": true,
+    "production_approval_from_automation": false
+  },
+  "scope_policy": {
+    "pilot_membership_is_not_production_approval": true,
+    "actor_sex_is_not_a_permanent_motion_restriction": true,
+    "loop_requires_visual_review": true,
+    "hidden_prop_dependency_requires_visual_review": true
+  },
+  "counts": {
+    "actor_count": 2,
+    "motion_case_count": 12,
+    "sample_count_per_motion": 5,
+    "expected_image_count": 60,
+    "by_actor": {
+      "F02_Average": 6,
+      "M02_Average": 6
+    },
+    "by_source_format": {
+      ".imotion": 2,
+      ".rlmotion": 10
+    },
+    "production_approved_count": 0
+  },
+  "presets": [
+    {
+      "preset_id": "F02_Average",
+      "sex": "female",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "size_bytes": 266523309,
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\F02_Average_Clothed.ccProject",
+        "size_bytes": 176901912,
+        "sha256": "18d05437e8defdf0ccf86b39cd7b32b440e41b04c7241108afc6e91e2f7d0d85"
+      },
+      "motion_cases": [
+        {
+          "case_id": "act_f01_argument_bossy",
+          "motion_id": "motion-p0-package-conversation-zip-eecf20752e65-c-60de2e878f08",
+          "filename": "Argument_Bossy_F.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "argument_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "conversation"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\01_act_f01_argument_bossy.rlMotion",
+            "size_bytes": 6668772,
+            "sha256": "210dc40d5cc396fc4d40ceb96d93768321683524aca05f41bb090d3878313d1d"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F01_ARGUMENT_BOSSY",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_f02_catch_breath",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-e743a24f675d",
+          "filename": "CatchBreath.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy",
+          "review_family": "self_recovery",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\02_act_f02_catch_breath.iMotion",
+            "size_bytes": 3236580,
+            "sha256": "5daa09b8bf15fa9a1f9e85e8f74a79b61ea13b45f7d817c222a1e02d19cc649d"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F02_CATCH_BREATH",
+          "source_review_bucket": "standalone_first",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_f03_audience_01",
+          "motion_id": "motion-p0-package-audience-motion-pack-vfxmed-rar-b3d119f308a8",
+          "filename": "Audience F 01.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "audience_reaction",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "unclassified"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\03_act_f03_audience_01.rlMotion",
+            "size_bytes": 323397,
+            "sha256": "3d4d13666834e718ff88f23d05e1f196744f35b48d12269f183a9e1e368349fd"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F03_AUDIENCE_01",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_f04_audience_09",
+          "motion_id": "motion-p0-package-audience-motion-pack-vfxmed-rar-ee4874673532",
+          "filename": "Audience F 09.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "audience_reaction",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "unclassified"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\04_act_f04_audience_09.rlMotion",
+            "size_bytes": 265238,
+            "sha256": "9439c30eee93a52098b1d4b3886fe00c7f1a35d1200518d096cb7c85fadce6d9"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F04_AUDIENCE_09",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_f05_tie_shoes",
+          "motion_id": "motion-p0-package-female-casual-moves-zip-cc73b48-ac11db00e892",
+          "filename": "TieShoes.iMotion",
+          "source_format": ".imotion",
+          "format_generation": "legacy",
+          "review_family": "self_interaction",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "exercise_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\05_act_f05_tie_shoes.iMotion",
+            "size_bytes": 1965412,
+            "sha256": "d8cc8354824d800a93b26ba84b1e4930771c27a48e2154d4382d1f9a83f14acf"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F05_TIE_SHOES",
+          "source_review_bucket": "standalone_first",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_f06_elevator_greeting",
+          "motion_id": "motion-p0-package-office-work-working-zip-5b7f319-07d2d36a3157",
+          "filename": "Elevator_Greeting_F.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "greeting_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "conversation",
+            "daily_task"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\06_act_f06_elevator_greeting.rlMotion",
+            "size_bytes": 661134,
+            "sha256": "465627fc1a5fed552afb95f645b614e5a9ae06ad3d8f1bffe76886021c2190aa"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F06_ELEVATOR_GREETING",
+          "source_review_bucket": "dependency_review_later",
+          "user_selected": true,
+          "required_prop_reported": false
+        }
+      ]
+    },
+    {
+      "preset_id": "M02_Average",
+      "sex": "male",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "size_bytes": 293943153,
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\M02_Average_Clothed.ccProject",
+        "size_bytes": 205953512,
+        "sha256": "756da33f825eecba2e56aa8a248c770cdffcacdc9538192eb52326598500af48"
+      },
+      "motion_cases": [
+        {
+          "case_id": "act_m01_argument_surrender",
+          "motion_id": "motion-p0-package-conversation-zip-eecf20752e65-c-6b737fc33405",
+          "filename": "Argument_Surrender_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "argument_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "conversation"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\07_act_m01_argument_surrender.rlMotion",
+            "size_bytes": 7428696,
+            "sha256": "6ae9c39509097ace4d5fc8afa79765405126c4b3d47e21e6a9d5b2a064783e6e"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M01_ARGUMENT_SURRENDER",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m02_audience_01",
+          "motion_id": "motion-p0-package-audience-motion-pack-vfxmed-rar-ceb89ee445d8",
+          "filename": "Audience M 01.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "audience_reaction",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "unclassified"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\08_act_m02_audience_01.rlMotion",
+            "size_bytes": 383310,
+            "sha256": "8849db2962f14ea709a51ee88c9616999f41a0a448f3b10be2337c7eb1d47068"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M02_AUDIENCE_01",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m03_audience_12",
+          "motion_id": "motion-p0-package-audience-motion-pack-vfxmed-rar-8fd4e2591a68",
+          "filename": "Audience M 12.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "audience_reaction",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "unclassified"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\09_act_m03_audience_12.rlMotion",
+            "size_bytes": 225357,
+            "sha256": "b441c1145bb9d0d13809ed3c278d7ee86c5e3110e21202fa3f5e87f7b8ec0747"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M03_AUDIENCE_12",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m04_living_room_swing",
+          "motion_id": "motion-p0-package-home-life-zip-e2d8818dd382-home-523a1797771a",
+          "filename": "LivingRoom_Swing_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "dance_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "unclassified"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\10_act_m04_living_room_swing.rlMotion",
+            "size_bytes": 2683613,
+            "sha256": "ae7c8921870eb5f947bb0a903d38c3bce8728e0a9388c9f2d0630149656f3577"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M04_LIVING_ROOM_SWING",
+          "source_review_bucket": "dependency_review_later",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m05_elevator_greeting",
+          "motion_id": "motion-p0-package-office-work-working-zip-5b7f319-70ef4c40694d",
+          "filename": "Elevator_Greeting_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "greeting_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "conversation",
+            "daily_task"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\11_act_m05_elevator_greeting.rlMotion",
+            "size_bytes": 738607,
+            "sha256": "08921767c689c8a6f14ff261c3f06a15c4a4c154ff81264d5aa3b0ea281a63c3"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M05_ELEVATOR_GREETING",
+          "source_review_bucket": "dependency_review_later",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m06_moving_argument_decline",
+          "motion_id": "motion-p0-package-conversation-zip-eecf20752e65-c-3a75b141342e",
+          "filename": "MovingArgument_Decline_M.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "argument_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "conversation"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260820_v3\\motions\\12_act_m06_moving_argument_decline.rlMotion",
+            "size_bytes": 7133424,
+            "sha256": "c0d8e696349e87156cafbafa3719780e97568cf5d1b7db5ee0e3ee84af0d641e"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M06_MOVING_ARGUMENT_DECLINE",
+          "source_review_bucket": "contextual_standalone_review",
+          "user_selected": true,
+          "required_prop_reported": false
+        }
+      ]
+    }
+  ],
+  "selection_override": {
+    "authority": "user",
+    "source_review_buckets": {
+      "contextual_standalone_review": 7,
+      "dependency_review_later": 3,
+      "standalone_first": 2
+    },
+    "reported_required_prop_count": 0,
+    "dynamic_gate_still_required": true,
+    "production_approval_granted": false
+  }
+}

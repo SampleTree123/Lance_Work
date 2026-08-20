@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "prototype_id": "M_HS_005",
+  "sex": "male",
+  "status": "candidate_cc5_hd_rm05c_machine_pass_source_mapped_visual_pending",
+  "identity_representation": {
+    "mode": "baked_geometry_project",
+    "nonzero_shaping_morph_count": null,
+    "measurement_status": "not_recorded_in_rm05c_batch",
+    "slider_vector_reconstruction_authoritative": false,
+    "reason": "The Headshot identity is baked into character geometry and cannot be reconstructed from the shaping slider vector alone. The exact nonzero slider count was not persisted by the RM-05C inspection."
+  },
+  "canonical_assets": {
+    "identity_project": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_005\\identity_cc5_hd.ccProject",
+      "bytes": 107526039,
+      "sha256": "0c51219b807b1deb7829e774d661e3c79be4368e3a4bcd172c7d363b77d1fa28"
+    },
+    "facial_profile": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_005\\facial_profile_cc5_hd.ccFacialProfile",
+      "bytes": 2934183,
+      "sha256": "17f9f42b76554106de23380e328ed3092049d6b5bfdb05c2781b838a53148ffe"
+    },
+    "rollback_facial_profile": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_005\\source_cc4_extended.ccFacialProfile",
+      "bytes": 1970909,
+      "sha256": "b06c0eb49976871d0afaebc868d8b7aab39fdf7e87c883e6f29923aa3e82f203"
+    },
+    "source_reference": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_005\\source_reference.jpg",
+      "bytes": 1612447,
+      "sha256": "335a225a68cdedefb9446f3f3834c282aefa90403a05e97b6ad243d7d9cb2435"
+    }
+  },
+  "source_reference_match": {
+    "original_path": "D:\\UE\\CFD-WM-229-129-N.jpg",
+    "confirmation_status": "mapped_by_filename_and_visual_identity_match_pending_user_acceptance",
+    "mapping_method": "filename_classification_plus_agent_visual_identity_match",
+    "mapped_at": "2026-08-10",
+    "required_before_visual_acceptance": true
+  },
+  "frozen_source": {
+    "project_path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\RL_CC3_Plus Male5.ccProject",
+    "project_bytes": 106493182,
+    "project_sha256": "727676e40ce249e418b5e3778c4a9b3653561b0412ed5f1666548d33fa9ea29b"
+  },
+  "profile_upgrade": {
+    "mode": "derived_direct_hd_profile_load_with_source_profile_sidecar_v1",
+    "source_uid": "CC4 Extended",
+    "source_expression_count": 160,
+    "derived_uid": "CC5 MetaHuman",
+    "derived_expression_count": 379,
+    "target_path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral M.ccFacialProfile",
+    "target_sha256": "05e5c8991456d8cfdbe45157a467866531359ebe31f933e066b0c69d2fd96a1b"
+  },
+  "validation": {
+    "machine_status": "passed",
+    "visual_status": "pending_user_review",
+    "static_morphs_unchanged": true,
+    "material_assignments_unchanged": true,
+    "eye_structure_unchanged": true,
+    "neutral_eye_integrity": true,
+    "profile_persisted_after_reload": true,
+    "source_project_unchanged": true,
+    "bounds_max_abs_delta": 0.0002422332763671875,
+    "inspection_result_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_project_inspection\\male5_20260810_v1\\validation_result.json",
+    "inspection_result_sha256": "65300a06c0142b018ffa05b5020197ac2e5e7f520dff7e751141fbc6c3c6c05a",
+    "report_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_profile_upgrade\\male5_20260810_v1\\profile_upgrade_report.json",
+    "report_sha256": "6b3a127d229b5c084c18f540917ed5203af241d209e0cfca7be8f3e6e4211ffd"
+  },
+  "assembly_contract": {
+    "pipeline": "headshot_project_seed_then_bodyfit_v1",
+    "implemented": false,
+    "pilot_runtime_available": true,
+    "prototype_bodyfit_pilot_validated": false,
+    "required_order": [
+      "load_identity_project",
+      "verify_identity_project_sha256",
+      "apply_same_sex_bodyfit_body_and_junction_morphs",
+      "reconcile_eye_and_teeth_actor_parts",
+      "load_canonical_facial_profile",
+      "apply_safe_local_face_morphs",
+      "apply_bodyfit_head_scale_and_neck_height",
+      "apply_skin_and_appearance_assets",
+      "run_dynamic_face_and_full_character_validation"
+    ],
+    "production_blockers": [
+      "user_visual_review_pending",
+      "prototype_specific_bodyfit_pilot_not_run",
+      "production_recipe_integration_pending",
+      "rm06_face_recipe_validation_pending",
+      "shaping_morph_count_measurement_pending",
+      "headshot_production_migration_deferred_until_after_clothing_animation"
+    ]
+  }
+}

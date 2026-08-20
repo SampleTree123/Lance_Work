@@ -1,0 +1,442 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_headshot_project_seed_bodyfit_pilot_v1",
+  "diagnostic_mode": "headshot_project_seed_bodyfit_pilot",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    1536,
+    1536
+  ],
+  "inter_case_delay_seconds": 6.0,
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "save_character_projects": true,
+  "pilot_policy": {
+    "pipeline": "headshot_project_seed_then_bodyfit_v1",
+    "scope": "one_average_bodyfit_per_sex_with_H00",
+    "profile_id": "H00_BASELINE",
+    "bodyfit_ids": [
+      "F02_Average",
+      "M02_Average"
+    ],
+    "case_count": 2,
+    "requires_saved_project_reload": true,
+    "requires_dynamic_pose_gate": true,
+    "production_approved": false,
+    "full_body_capture_mode": "standardized_avatar_offset_with_sex_face_camera"
+  },
+  "source_authorities": {
+    "head_profile_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_headshot_skull_profile_library_v1.json",
+    "bodyfit_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_preset_library_v2.json",
+    "proportion_decisions": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_head_bodyfit_scale_decisions_v1.json"
+  },
+  "presets": [
+    {
+      "preset_id": "F_HS_002_H00_BASELINE_F02_Average",
+      "character_id": "F_HS_002_H00_BASELINE_F02_Average",
+      "sex": "female",
+      "prototype_id": "F_HS_002",
+      "bodyfit_id": "F02_Average",
+      "head_profile_id": "H00_BASELINE",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\identity_cc5_hd.ccProject",
+        "sha256": "0ae7d9b3ef7d5f5fcd17f4fab848870a813b9d0bc155db589269eca3f665e638",
+        "bytes": 105462663
+      },
+      "prototype_manifest": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\prototype.json",
+        "sha256": "4e86f9752df8067d9a60969a25b43d81ab4b7c5df22564c9c8e4546346fdd327"
+      },
+      "source_facial_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\facial_profile_cc5_hd.ccFacialProfile",
+        "bytes": 2792965,
+        "sha256": "f1417a948221541f7374271225e3aeffbaecc5bb55a09a8725fc32c9b85a416c"
+      },
+      "bodyfit_reference_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_junction_morphs": [],
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.1,
+            "ui_value": 10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "implicit_neutral",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "project_seed_assembly": {
+        "pipeline": "headshot_project_seed_then_bodyfit_v1",
+        "head_shape_profile": {
+          "id": "H00_BASELINE",
+          "label": "Baseline",
+          "head_width": 0.0,
+          "head_depth": 0.0,
+          "skull_height": 0.0,
+          "skull_width": 0.0,
+          "skull_depth": 0.0,
+          "skull_back_depth": 0.0,
+          "skull_peak": 0.0,
+          "source_candidate_id": "C00_BASELINE"
+        },
+        "head_shape_targets": [
+          {
+            "axis": "head_width",
+            "id": "2019-08-13-15-33-14_head width",
+            "target": 0.0
+          },
+          {
+            "axis": "head_depth",
+            "id": "2019-08-13-16-00-36_head depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_height",
+            "id": "2019-08-13-15-25-44_skull height",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_width",
+            "id": "2019-08-13-15-26-49_skull width",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_depth",
+            "id": "2019-08-13-15-27-43_skull depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_back_depth",
+            "id": "2019-08-21-13-57-18_skull back depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_peak",
+            "id": "2019-08-21-14-02-10_skull peak",
+            "target": 0.0
+          }
+        ],
+        "canonical_facial_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\F_HS_002\\facial_profile_cc5_hd.ccFacialProfile",
+          "bytes": 2792965,
+          "sha256": "f1417a948221541f7374271225e3aeffbaecc5bb55a09a8725fc32c9b85a416c"
+        },
+        "expected_expression_set_uid": "CC5 MetaHuman",
+        "expected_expression_count": 379,
+        "reconcile_actor_parts_mode": "preserve_identity_project_eye_and_teeth_verify_unchanged",
+        "safe_local_face_morphs": []
+      },
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_position": [
+        0.0,
+        8.0,
+        6.0
+      ],
+      "full_body_position": [
+        -600.0,
+        8.0,
+        75.0
+      ],
+      "review_status": "project-seed-bodyfit-pilot"
+    },
+    {
+      "preset_id": "M_HS_002_H00_BASELINE_M02_Average",
+      "character_id": "M_HS_002_H00_BASELINE_M02_Average",
+      "sex": "male",
+      "prototype_id": "M_HS_002",
+      "bodyfit_id": "M02_Average",
+      "head_profile_id": "H00_BASELINE",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\identity_cc5_hd.ccProject",
+        "sha256": "62f263c8f30a34ce7fa82c5c4a395ccd9c9bc012df992e615b885ee78370a4d4",
+        "bytes": 107068699
+      },
+      "prototype_manifest": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\prototype.json",
+        "sha256": "3efd9d73c79725f7d8f2708a4bd462fdb560e1a8a344e706286ede227caf8feb"
+      },
+      "source_facial_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\facial_profile_cc5_hd.ccFacialProfile",
+        "bytes": 2913587,
+        "sha256": "a66f87b0af672cc3eb1a966d13de578f0e0238299b09f0cf8e86358775e522b4"
+      },
+      "bodyfit_reference_project": {
+        "bytes": 35708143,
+        "modified_at": "2026-08-12T09:45:21+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.0,
+            "ui_value": 0
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "implicit_neutral",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "project_seed_assembly": {
+        "pipeline": "headshot_project_seed_then_bodyfit_v1",
+        "head_shape_profile": {
+          "id": "H00_BASELINE",
+          "label": "Baseline",
+          "head_width": 0.0,
+          "head_depth": 0.0,
+          "skull_height": 0.0,
+          "skull_width": 0.0,
+          "skull_depth": 0.0,
+          "skull_back_depth": 0.0,
+          "skull_peak": 0.0,
+          "source_candidate_id": "C00_BASELINE"
+        },
+        "head_shape_targets": [
+          {
+            "axis": "head_width",
+            "id": "2019-08-13-15-33-14_head width",
+            "target": 0.0
+          },
+          {
+            "axis": "head_depth",
+            "id": "2019-08-13-16-00-36_head depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_height",
+            "id": "2019-08-13-15-25-44_skull height",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_width",
+            "id": "2019-08-13-15-26-49_skull width",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_depth",
+            "id": "2019-08-13-15-27-43_skull depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_back_depth",
+            "id": "2019-08-21-13-57-18_skull back depth",
+            "target": 0.0
+          },
+          {
+            "axis": "skull_peak",
+            "id": "2019-08-21-14-02-10_skull peak",
+            "target": 0.0
+          }
+        ],
+        "canonical_facial_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\face_prototypes\\v1\\M_HS_002\\facial_profile_cc5_hd.ccFacialProfile",
+          "bytes": 2913587,
+          "sha256": "a66f87b0af672cc3eb1a966d13de578f0e0238299b09f0cf8e86358775e522b4"
+        },
+        "expected_expression_set_uid": "CC5 MetaHuman",
+        "expected_expression_count": 379,
+        "reconcile_actor_parts_mode": "preserve_identity_project_eye_and_teeth_verify_unchanged",
+        "safe_local_face_morphs": []
+      },
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_position": [
+        0.0,
+        8.0,
+        6.0
+      ],
+      "full_body_position": [
+        -600.0,
+        8.0,
+        75.0
+      ],
+      "review_status": "project-seed-bodyfit-pilot"
+    }
+  ]
+}

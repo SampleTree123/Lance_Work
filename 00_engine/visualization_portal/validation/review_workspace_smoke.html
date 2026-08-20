@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Review Workspace Smoke</title>
+  <link rel="stylesheet" href="../assets/styles.css?v=20260818f">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="brand">
+        <span class="brand__mark">LV</span>
+        <span class="brand__text"><strong>Lance Visual Review</strong><small>离线动画候选审查</small></span>
+      </div>
+      <div class="header-status"><span class="header-status__dot"></span><span>界面验证</span></div>
+    </div>
+  </header>
+  <main id="app" class="app-shell" tabindex="-1"></main>
+  <script type="module">
+    import { renderReviewWorkspace } from "../assets/review-workspace.js?v=20260818c";
+
+    const response = await fetch("../runs/2026-08-17-cc-animation-p0-dynamic-gate-v1/run.json", { cache: "no-store" });
+    const source = await response.json();
+    const groups = Object.fromEntries(Object.entries(source.groups).slice(0, 5));
+    const run = {
+      ...source,
+      id: "2026-08-18-review-workspace-smoke-v1",
+      title: "P0 动画离线审查工作区",
+      summary: "使用五个现有动作验证离线筛选、自动保存和决定导出界面。",
+      status: "pending_review",
+      groups,
+      review: {
+        schema_version: 1,
+        mode: "candidate_review",
+        review_id: "cc-animation-offline-review-smoke-v1",
+        source_fingerprint: "smoke:existing-five",
+        export_filename: "cc_animation_offline_review_smoke.json",
+        image_order: ["t000_f0000", "t025_f0056", "t050_f0113", "t075_f0170", "t100_f0226"],
+      },
+    };
+    const app = document.querySelector("#app");
+    renderReviewWorkspace(run, {
+      app,
+      navigateHome: () => {},
+      openImage: (url) => window.open(url, "_blank", "noopener"),
+      formatDate: (value) => new Intl.DateTimeFormat("zh-CN", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value)),
+      statusPill: () => '<span class="status-pill status-pill--pending_review">等待审查</span>',
+      metricStrip: (metrics) => (metrics ?? []).slice(0, 4).map((item) => `<div class="metric"><span>${item.label}</span><strong>${item.value}</strong></div>`).join(""),
+      artifactList: () => "",
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "policy_id": "cc_headshot_skull_safe_ranges_v1",
+  "status": "human_visual_approved",
+  "approved_at": "2026-08-09",
+  "scope": {
+    "identity_system": "headshot_project_seed",
+    "evidence_prototypes": [
+      "F_HS_002",
+      "M_HS_002"
+    ],
+    "sexes": [
+      "female",
+      "male"
+    ],
+    "application": "single_axis_identity_variation",
+    "multi_axis_composition": "pending_validation"
+  },
+  "source_evidence": {
+    "portal_run_id": "2026-08-09-headshot-skull-axis-sweep-v2",
+    "scan_manifest": "cc_headshot_skull_axis_sweep_v2.json",
+    "case_count": 30,
+    "image_count": 90,
+    "human_review_result": "six ranges accepted as scanned; skull back depth narrowed"
+  },
+  "axes": [
+    {
+      "axis_id": "HEAD_WIDTH",
+      "label": "Head Width",
+      "parameter_key": "head_width",
+      "morph_id": "2019-08-13-15-33-14_head width",
+      "minimum": -0.65,
+      "maximum": 0.65,
+      "reviewed_minimum": -0.65,
+      "reviewed_maximum": 0.65,
+      "decision": "accepted_as_scanned"
+    },
+    {
+      "axis_id": "HEAD_DEPTH",
+      "label": "Head Depth",
+      "parameter_key": "head_depth",
+      "morph_id": "2019-08-13-16-00-36_head depth",
+      "minimum": -0.6,
+      "maximum": 0.6,
+      "reviewed_minimum": -0.6,
+      "reviewed_maximum": 0.6,
+      "decision": "accepted_as_scanned"
+    },
+    {
+      "axis_id": "SKULL_HEIGHT",
+      "label": "Skull Height",
+      "parameter_key": "skull_height",
+      "morph_id": "2019-08-13-15-25-44_skull height",
+      "minimum": -0.65,
+      "maximum": 0.65,
+      "reviewed_minimum": -0.65,
+      "reviewed_maximum": 0.65,
+      "decision": "accepted_as_scanned"
+    },
+    {
+      "axis_id": "SKULL_WIDTH",
+      "label": "Skull Width",
+      "parameter_key": "skull_width",
+      "morph_id": "2019-08-13-15-26-49_skull width",
+      "minimum": -0.65,
+      "maximum": 0.65,
+      "reviewed_minimum": -0.65,
+      "reviewed_maximum": 0.65,
+      "decision": "accepted_as_scanned"
+    },
+    {
+      "axis_id": "SKULL_DEPTH",
+      "label": "Skull Depth",
+      "parameter_key": "skull_depth",
+      "morph_id": "2019-08-13-15-27-43_skull depth",
+      "minimum": -0.6,
+      "maximum": 0.6,
+      "reviewed_minimum": -0.6,
+      "reviewed_maximum": 0.6,
+      "decision": "accepted_as_scanned"
+    },
+    {
+      "axis_id": "SKULL_BACK_DEPTH",
+      "label": "Skull Back Depth",
+      "parameter_key": "skull_back_depth",
+      "morph_id": "2019-08-21-13-57-18_skull back depth",
+      "minimum": -0.5,
+      "maximum": 0.5,
+      "reviewed_minimum": -0.7,
+      "reviewed_maximum": 0.7,
+      "decision": "narrowed_after_human_review",
+      "rationale": "The reviewed endpoints were less reliable than the other axes; clamp production sampling to +/-0.50."
+    },
+    {
+      "axis_id": "SKULL_PEAK",
+      "label": "Skull Peak",
+      "parameter_key": "skull_peak",
+      "morph_id": "2019-08-21-14-02-10_skull peak",
+      "minimum": -0.55,
+      "maximum": 0.55,
+      "reviewed_minimum": -0.55,
+      "reviewed_maximum": 0.55,
+      "decision": "accepted_as_scanned"
+    }
+  ],
+  "composition_policy": {
+    "clamp_values_to_axis_range": true,
+    "single_axis_ranges_approved": true,
+    "multi_axis_extreme_combinations_approved": false,
+    "require_composition_pilot": true,
+    "maximum_canonical_profiles": 4,
+    "neutral_profile_included_in_budget": true,
+    "profile_layout": "H00_neutral_plus_up_to_three_validated_variants",
+    "sex_strategy": "shared_recipe_ids_validated_on_female_and_male",
+    "production_sampling": "select_validated_profile_id_only"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_redsoul_gloves_extension_alias_probe_20260816_v2",
+  "diagnostic_mode": "outfit_compatibility_gate",
+  "status": "diagnostic_only",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [1024, 1024],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "full_body_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+  "execution_policy": {
+    "reload_source_project_before_each_case": true,
+    "remove_existing_clothing_before_apply": true,
+    "remove_source_accessories": true,
+    "preserve_identity_hair_and_face_components": true,
+    "record_asset_load_undo": false,
+    "stop_on_blocking_dialog": true,
+    "continue_after_visual_or_load_failure": true,
+    "checkpoint_after_each_case": true,
+    "project_load_settle_seconds": 20.0,
+    "asset_load_before_seconds": 1.5,
+    "asset_load_after_seconds": 4.0,
+    "coats_load_after_seconds": 6.0
+  },
+  "presets": [
+    {
+      "preset_id": "control_known_good_gloves__M01_Lean",
+      "case_id": "diagnostic.gloves.control::M01_Lean",
+      "output_directory_name": "control_known_good_gloves__M01_Lean",
+      "look_id": "diagnostic.gloves.control",
+      "subject_id": "OUTFIT_M01_LEAN",
+      "sex": "male",
+      "bodyfit_id": "M01_Lean",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\_AutomationStaging\\OutfitGate20260815\\CCSHOW_M01_LEAN_001.ccProject",
+        "size_bytes": 247225957,
+        "sha256": "3feab0941d5fd33329fd90092118bb4d6deed0c347b986620007e9138dd064f5"
+      },
+      "selected_assets": [
+        {
+          "asset_id": "diagnostic.gloves.control.hivewire",
+          "display_name": "Hivewire Gloves ccCloth Extension Alias",
+          "slot": "family_accessory",
+          "source": "diagnostic_control",
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\_probe_assets\\Hivewire_Gloves_extension_alias.ccCloth",
+          "size_bytes": 4111807,
+          "sha256": "6198b159c7216f974f799ae182216dd6317b6679b2ae697fbfe687db670e9134",
+          "cloth_options_policy": "fit_body_shape",
+          "load_mode": "file"
+        }
+      ],
+      "capture_views": [
+        {
+          "view_id": "front",
+          "yaw_degrees": 0.0
+        }
+      ],
+      "expected_image_count": 1
+    },
+    {
+      "preset_id": "target_redsoul_gloves_only__M01_Lean",
+      "case_id": "diagnostic.gloves.redsoul::M01_Lean",
+      "output_directory_name": "target_redsoul_gloves_only__M01_Lean",
+      "look_id": "diagnostic.gloves.redsoul",
+      "subject_id": "OUTFIT_M01_LEAN",
+      "sex": "male",
+      "bodyfit_id": "M01_Lean",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\_AutomationStaging\\OutfitGate20260815\\CCSHOW_M01_LEAN_001.ccProject",
+        "size_bytes": 247225957,
+        "sha256": "3feab0941d5fd33329fd90092118bb4d6deed0c347b986620007e9138dd064f5"
+      },
+      "selected_assets": [
+        {
+          "asset_id": "diagnostic.gloves.redsoul",
+          "display_name": "SHSV_S02MA Gloves ccCloth Extension Alias",
+          "slot": "family_accessory",
+          "source": "diagnostic_target",
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\_probe_assets\\SHSV_S02MA_gloves_extension_alias.ccCloth",
+          "size_bytes": 22819257,
+          "sha256": "ee5472b654601dc717c535a344749004af6d6965ab5eda435a5aa9c8fbb3fc7e",
+          "cloth_options_policy": "fit_body_shape",
+          "load_mode": "file"
+        }
+      ],
+      "capture_views": [
+        {
+          "view_id": "front",
+          "yaw_degrees": 0.0
+        }
+      ],
+      "expected_image_count": 1
+    }
+  ]
+}

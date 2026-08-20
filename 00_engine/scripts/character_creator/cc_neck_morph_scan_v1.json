@@ -1,0 +1,143 @@
+{
+  "affected_bodyfits": [
+    {
+      "bodyfit_id": "F01_Lean",
+      "requested_correction": "shorter",
+      "selected_ui_value": -40,
+      "selected_weight": -0.4,
+      "source_junction_nonzero_count": 0
+    },
+    {
+      "bodyfit_id": "M01_Lean",
+      "requested_correction": "shorter",
+      "selected_ui_value": -20,
+      "selected_weight": -0.2,
+      "source_junction_nonzero_count": 0
+    },
+    {
+      "bodyfit_id": "M03_Athletic",
+      "requested_correction": "slightly_shorter",
+      "selected_ui_value": -20,
+      "selected_weight": -0.2,
+      "source_junction_nonzero_count": 0
+    }
+  ],
+  "catalog": {
+    "catalog_id": "cc5_body_and_junction_morph_catalog_v1",
+    "common_morph_count": 384,
+    "female_morph_count": 384,
+    "junction_morph_count": 36,
+    "male_morph_count": 384,
+    "metadata_conflict_count": 0,
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_morph_catalog_v1.json"
+  },
+  "diagnostic_candidates": [
+    {
+      "category": "Actor/Headshot/Neck/General",
+      "display": "Neck Height",
+      "id": "2019-08-30-20-14-55_neck height",
+      "maximum": 0.5,
+      "metadata_source": "runtime_on_composed_f01",
+      "minimum": -1.0,
+      "policy": "approved_for_fixed_per_bodyfit_shortening_after_face_assembly",
+      "runtime_bounds_verified": true
+    },
+    {
+      "category": "Actor/Body/Shoulder/General",
+      "display": "Shoulder Top Height A",
+      "id": "2018-07-20-11-24-13_shoulder top adjust",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "policy": "fallback_visual_shortening_candidate"
+    },
+    {
+      "category": "Actor/Body/Shoulder/General",
+      "display": "Shoulder Top Height B",
+      "id": "2018-09-25-18-34-43_shoulder top peak",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "policy": "fallback_visual_shortening_candidate"
+    }
+  ],
+  "excluded_families": [
+    {
+      "family": "Actor/Headshot/Neck/Rotate",
+      "reason": "pose and alignment controls, not structural neck shortening"
+    },
+    {
+      "family": "Actor/Headshot/Neck/Detail",
+      "reason": "surface shape controls such as front curve, double chin, and Adams apple"
+    },
+    {
+      "family": "Actor/HD Body/*/Neck",
+      "reason": "sex- and archetype-specific macro components that would change body identity"
+    },
+    {
+      "family": "Actor/HD Body/*/Clavicle",
+      "reason": "archetype-specific upper-trunk shape, not a universal length control"
+    }
+  ],
+  "observations": [
+    "The three affected source bodyfits have no nonzero junction morphs before face assembly.",
+    "The three affected composed characters also have no nonzero junction morphs after face assembly.",
+    "The long-neck appearance is therefore inherited from the selected Body Shape and Body Ratio macros.",
+    "The runtime catalog exposes Neck Length only in the non-negative range 0.0 to 1.0, so its shortening direction must be proven visually before production use.",
+    "The F01 endpoint test verified that embedded Neck Length 0.0 to 1.0 lengthens the neck and cannot satisfy the shortening requirement.",
+    "The composed F01 runtime reports Headshot Neck Height bounds of -1.0 to 0.5, which supersede the older combined-catalog bounds for this diagnostic.",
+    "The F01 focus test verified that Headshot Neck Height -1.0 to 0.0 shortens the neck monotonically; each -0.2 step lowers total avatar height by approximately 0.62 cm.",
+    "The F01 focus test restored all controlled Morphs, all protected Morphs, avatar yaw, and the original scene exactly.",
+    "Headshot contains overlapping neck controls and must not be mixed with the embedded Actor neck controls without an explicit policy."
+  ],
+  "primary_candidates": [
+    {
+      "category": "Actor/Head/Neck/General",
+      "display": "Neck Length",
+      "id": "cc embed morphs/embed_torso109",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "policy": "rejected_for_shortening_positive_values_lengthen",
+      "supported_sexes": [
+        "female",
+        "male"
+      ]
+    },
+    {
+      "category": "Actor/Head/Neck/General",
+      "display": "Neck Scale",
+      "id": "cc embed morphs/embed_torso110",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "policy": "optional_thickness_and_transition_correction_only",
+      "supported_sexes": [
+        "female",
+        "male"
+      ]
+    }
+  ],
+  "recommended_strategy": {
+    "application_order": [
+      "bodyfit",
+      "face_identity_and_support",
+      "head_scale",
+      "fixed_bodyfit_neck_height",
+      "optional_neck_scale_transition_correction",
+      "appearance_assets"
+    ],
+    "calibration_policy": "one fixed Neck Height value per affected bodyfit; never randomize this correction",
+    "controlled_morph_id": "2019-08-30-20-14-55_neck height",
+    "f01_human_review_range": [
+      -0.2,
+      -0.6
+    ],
+    "fallback_policy": "Only test shoulder height controls if Neck Height cannot produce a natural shoulder-to-neck transition.",
+    "headshot_overlap_policy": "Do not combine this control with other Headshot neck Morphs unless a separate paired calibration is validated.",
+    "optional_transition_morph_id": "cc embed morphs/embed_torso110",
+    "verification_artifacts": [
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\neck_morph_review_f01_headshot_focus_v1_20260801_01\\review\\index.json",
+      "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\neck_bodyfit_review_matrix_v1_20260801_01\\review\\index.json"
+    ]
+  },
+  "scan_id": "adult_bodyfit_neck_morph_scan_v1",
+  "schema_version": 1,
+  "status": "bodyfit_neck_calibration_complete"
+}

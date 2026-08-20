@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "validation_id": "cc_headshot_project_seed_bodyfit_pilot_validation_v1",
+  "validated_at": "2026-08-10",
+  "status": "machine_and_user_visual_passed_pilot_accepted",
+  "pipeline": "headshot_project_seed_then_bodyfit_v1",
+  "scope": {
+    "case_count": 2,
+    "profile_id": "H00_BASELINE",
+    "prototype_ids": [
+      "F_HS_002",
+      "M_HS_002"
+    ],
+    "bodyfit_ids": [
+      "F02_Average",
+      "M02_Average"
+    ],
+    "preset_ids": [
+      "F_HS_002_H00_BASELINE_F02_Average",
+      "M_HS_002_H00_BASELINE_M02_Average"
+    ]
+  },
+  "assembly_order": [
+    "load_baked_headshot_identity_project",
+    "verify_cc5_hd_facial_profile",
+    "capture_identity_and_neutral_eye_state",
+    "apply_canonical_bodyfit_body_and_junction_morphs",
+    "apply_canonical_head_profile",
+    "apply_head_scale_then_neck_height",
+    "verify_protected_face_and_eye_state",
+    "save_and_reload_character_project",
+    "run_dynamic_facial_gate"
+  ],
+  "machine_gates": {
+    "complete_run": "2/2 passed",
+    "complete_run_metadata": "v4 predates selection_mode/library_case_count summary fields; completeness is established by requested_count=2, two successful result IDs, and pilot_policy.case_count=2",
+    "canonical_bodyfit_targets_match": "2/2 passed",
+    "canonical_application_order_verified": "2/2 passed",
+    "protected_morphs_unchanged": "2/2 passed",
+    "material_preserved": "2/2 passed",
+    "eye_structure_preserved": "2/2 passed",
+    "saved_project_reload": "2/2 passed",
+    "reload_morph_delta_empty": "2/2 passed",
+    "reload_eye_comparison": "2/2 passed",
+    "expression_set_uid": "CC5 MetaHuman",
+    "expression_count": 379,
+    "dynamic_pose_count_per_case": 5,
+    "dynamic_pose_evidence_liveness": "2/2 passed",
+    "neutral_eye_integrity": "2/2 passed",
+    "undo_guard_clicks": 0
+  },
+  "lighting_capture": {
+    "status": "passed",
+    "policy": "translate_movable_lights_with_full_body_subject",
+    "female": {
+      "case_result": "passed",
+      "top_level_request": "failed_after_case_completion_due_fixed_summary_scope_defect"
+    },
+    "male": {
+      "case_result": "passed",
+      "top_level_request": "passed_explicit_subset"
+    },
+    "authority_note": "Corrected lighting captures are visual derivatives. The complete 2/2 v4 run remains the machine-validation authority."
+  },
+  "agent_visual_precheck": {
+    "status": "passed_no_obvious_intersection",
+    "checked": [
+      "bodyfit_reference_vs_assembled_full_body",
+      "identity_continuity_front_three_quarter_profile",
+      "bilateral_eyelid_closure",
+      "three_smile_strengths",
+      "lip_and_teeth_intersection",
+      "jaw_open",
+      "saved_project_reload",
+      "post_pose_neutral_restoration"
+    ],
+    "does_not_replace_user_review": true
+  },
+  "user_visual_review": {
+    "status": "accepted",
+    "accepted_at": "2026-08-10",
+    "decision_source": "User reviewed the registered portal run and explicitly stated that no problems were found and the Pilot can pass.",
+    "scope": [
+      "female_and_male_body_proportions",
+      "head_to_body_fit",
+      "identity_continuity",
+      "eye_and_eyelid_geometry",
+      "lip_teeth_and_jaw_geometry",
+      "saved_project_reload_consistency"
+    ]
+  },
+  "artifacts": {
+    "complete_machine_validation": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_project_seed_bodyfit_pilot\\run_20260810_v4\\validation_result.json",
+      "sha256": "ac28952205f41977893d8dc3065ba45f294738eef3250956f7422a81e8ca3b72"
+    },
+    "female_lit_case_result": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_project_seed_bodyfit_pilot\\run_20260810_v5_female_lit\\F_HS_002_H00_BASELINE_F02_Average\\result.json",
+      "sha256": "f52ed110ce2b8541698ec8002ce6dd90599051b491002ac18c0c11707b68137a"
+    },
+    "female_lit_failed_parent_request": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\results\\headshot_project_seed_bodyfit_20260810_v5_female_lit.json",
+      "sha256": "48221fb5f581e3858a8191564e92e7cc886778234c5b153d924d3a2f8a1057c5"
+    },
+    "male_lit_validation": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_project_seed_bodyfit_pilot\\run_20260810_v5_male_lit\\validation_result.json",
+      "sha256": "1c46edf29b47276103dcea4d58bd209cb613d0f10edc9dcff6010e677babb2a4"
+    },
+    "review_index": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_project_seed_bodyfit_pilot\\review_20260810_v1\\index.json",
+      "sha256": "5fe3bbf98e7dc3e4645b73d3076380ad77e39b89f4a2f17b803e9c0d6c5fccdb"
+    },
+    "portal_run_id": "2026-08-10-headshot-project-seed-bodyfit-pilot-v1"
+  },
+  "remaining_gates": [
+    "rm05c_identity_pool_scale_comparison",
+    "rm06_face_recipe_validation",
+    "production_recipe_integration"
+  ],
+  "pilot_approved": true,
+  "production_approved": false
+}

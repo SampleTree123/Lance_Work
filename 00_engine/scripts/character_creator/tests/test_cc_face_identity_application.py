@@ -122,6 +122,70 @@ def neutral_eye_state(local_scale=0.875, world_z=165.0):
 
 
 class NeutralEyeStateTests(unittest.TestCase):
+    def test_eye_bone_capture_refreshes_all_bones_before_sampling(self):
+        class DelayedEyeBone:
+            def __init__(self):
+                self.update_count = 0
+
+            def GetName(self):
+                return "CC_Base_L_Eye"
+
+            def GetID(self):
+                return "left_eye"
+
+            def Update(self):
+                self.update_count += 1
+
+            def LocalTransform(self):
+                return {"kind": "local"}
+
+            def BasisTransform(self):
+                return {"kind": "basis"}
+
+            def WorldTransform(self):
+                return {
+                    "kind": "world",
+                    "translation": {
+                        "x": (
+                            6.43
+                            if self.update_count >= 2
+                            else -6.43
+                        )
+                    },
+                }
+
+        class DelayedEyeSkeleton:
+            def __init__(self, bone):
+                self.bone = bone
+
+            def GetSkinBones(self):
+                return [self.bone]
+
+            def GetBoneTPosePosition(self, bone):
+                return {"x": 1.0, "y": 2.0, "z": 3.0}
+
+            def IsBoneAnimated(self, bone):
+                return False
+
+        bone = DelayedEyeBone()
+        original_transform = SUBJECT._transform_data
+        original_vector = SUBJECT._vector3_data
+        SUBJECT._transform_data = lambda value: value
+        SUBJECT._vector3_data = lambda value: value
+        try:
+            records = SUBJECT._capture_eye_bones(
+                DelayedEyeSkeleton(bone)
+            )
+        finally:
+            SUBJECT._transform_data = original_transform
+            SUBJECT._vector3_data = original_vector
+
+        self.assertEqual(2, bone.update_count)
+        self.assertEqual(
+            6.43,
+            records[0]["world_transform"]["translation"]["x"],
+        )
+
     def test_identical_states_match(self):
         state = neutral_eye_state()
         result = SUBJECT.compare_neutral_eye_states(state, state)
@@ -368,6 +432,31 @@ class TransformEvaluationTests(unittest.TestCase):
         self.assertEqual([False, True], [
             item["matches"] for item in records
         ])
+
+    def test_stable_eye_capture_requires_two_matching_samples(self):
+        stale = neutral_eye_state(world_z=170.0)
+        stable = neutral_eye_state(world_z=165.0)
+        states = iter((stale, stable, stable))
+        original_force = SUBJECT.force_avatar_scene_evaluation
+        original_capture = SUBJECT.capture_eye_integrity_state
+        SUBJECT.force_avatar_scene_evaluation = (
+            lambda avatar, settle_seconds=1.0: None
+        )
+        SUBJECT.capture_eye_integrity_state = lambda avatar: next(states)
+        try:
+            actual, records = SUBJECT.capture_stable_neutral_eye_state(
+                object(),
+                attempts=4,
+            )
+        finally:
+            SUBJECT.force_avatar_scene_evaluation = original_force
+            SUBJECT.capture_eye_integrity_state = original_capture
+
+        self.assertEqual(stable, actual)
+        self.assertEqual(
+            [None, False, True],
+            [item["matches"] for item in records],
+        )
 
     def test_face_pose_validation_uses_project_start_frame(self):
         timeline = SUBJECT.face_identity_validation_timeline(0, 0)
@@ -1345,6 +1434,113 @@ class FaceIdentityApplicationTests(unittest.TestCase):
         self.assertEqual(len(targets["gaze_down"]), 2)
         self.assertEqual(len(targets["squint_bilateral"]), 2)
         self.assertEqual(len(targets["smile"]), 2)
+
+    def test_quality_benchmark_supports_cc4_extended_base_blinks(self):
+        targets = SUBJECT.resolve_quality_benchmark_targets(
+            [
+                "Eye_Blink_L",
+                "Eye_Blink_R",
+                "Mouth_Corner_Pull_L",
+                "Mouth_Corner_Pull_R",
+                "Jaw_Open",
+            ]
+        )
+
+        self.assertEqual(
+            ["Eye_Blink_L", "Eye_Blink_R"],
+            targets["blink_bilateral"],
+        )
+        self.assertEqual(
+            "base_profile_only",
+            targets["blink_correction_mode"],
+        )
+        self.assertEqual(6, len(targets["missing_optional_blink_target_ids"]))
+
+    def test_quality_benchmark_uses_available_cc5_blink_corrections(self):
+        targets = SUBJECT.resolve_quality_benchmark_targets(
+            [
+                "Eye_Blink_L",
+                "Eye_Blink_R",
+                "C_BlinkL",
+                "C_BlinkR",
+                "Eyelashes_Down_IN_L",
+                "Eyelashes_Down_OUT_L",
+                "Eyelashes_Down_IN_R",
+                "Eyelashes_Down_OUT_R",
+                "Mouth_Corner_Pull_L",
+                "Mouth_Corner_Pull_R",
+                "Jaw_Open",
+            ]
+        )
+
+        self.assertEqual(8, len(targets["blink_bilateral"]))
+        self.assertEqual(
+            "base_plus_available_correctives",
+            targets["blink_correction_mode"],
+        )
+        self.assertEqual([], targets["missing_optional_blink_target_ids"])
+
+    def test_profile_upgrade_builds_tiered_supported_smiles(self):
+        pose_specs, targets = SUBJECT.profile_upgrade_pose_specs(
+            [
+                "Eye_Blink_L",
+                "Eye_Blink_R",
+                "C_BlinkL",
+                "C_BlinkR",
+                "Eyelashes_Down_IN_L",
+                "Eyelashes_Down_OUT_L",
+                "Eyelashes_Down_IN_R",
+                "Eyelashes_Down_OUT_R",
+                "Eye_Cheek_Raise_L",
+                "Eye_Cheek_Raise_R",
+                "Eye_Squint_Inner_L",
+                "Eye_Squint_Inner_R",
+                "Mouth_Corner_Pull_L",
+                "Mouth_Corner_Pull_R",
+                "Jaw_Open",
+            ]
+        )
+
+        self.assertEqual(
+            {
+                "cheek_raise_left": "Eye_Cheek_Raise_L",
+                "cheek_raise_right": "Eye_Cheek_Raise_R",
+                "squint_inner_left": "Eye_Squint_Inner_L",
+                "squint_inner_right": "Eye_Squint_Inner_R",
+            },
+            targets["natural_smile_support"],
+        )
+        subtle = pose_specs["smile_subtle_front"]
+        medium = pose_specs["smile_medium_front"]
+        broad = pose_specs["smile_broad_front"]
+        self.assertNotIn("Jaw_Open", subtle)
+        self.assertEqual(0.04, medium["Jaw_Open"])
+        self.assertEqual(0.10, broad["Jaw_Open"])
+        self.assertLess(
+            subtle["Mouth_Corner_Pull_L"],
+            medium["Mouth_Corner_Pull_L"],
+        )
+        self.assertLess(
+            medium["Mouth_Corner_Pull_L"],
+            broad["Mouth_Corner_Pull_L"],
+        )
+
+    def test_profile_upgrade_smiles_remain_valid_without_optional_support(self):
+        pose_specs, targets = SUBJECT.profile_upgrade_pose_specs(
+            [
+                "Eye_Blink_L",
+                "Eye_Blink_R",
+                "Mouth_Corner_Pull_L",
+                "Mouth_Corner_Pull_R",
+                "Jaw_Open",
+            ]
+        )
+
+        self.assertEqual({}, targets["natural_smile_support"])
+        self.assertEqual(
+            {"Mouth_Corner_Pull_L", "Mouth_Corner_Pull_R"},
+            set(pose_specs["smile_subtle_front"]),
+        )
 
     def test_vector_filter_includes_owned_entries_from_all_groups(self):
         vectors = {

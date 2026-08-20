@@ -179,16 +179,17 @@ def eye_integrity_pass(case_result):
         return False
     expected_weight = report.get("expected_weight")
     phases = report.get("phases") or {}
-    required_phases = (
+    required_phases = [
         "source_project",
         "after_body",
         "after_head_preset",
         "after_primary_support",
         "after_facial_profile",
         "after_face_identity",
-        "after_facial_assembly",
-        "final",
-    )
+    ]
+    if case_result.get("bodyfit_proportion_adjustment") is not None:
+        required_phases.append("after_bodyfit_proportion_adjustment")
+    required_phases.extend(("after_facial_assembly", "final"))
     for phase_id in required_phases:
         phase = phases.get(phase_id) or {}
         eyeball_move = phase.get("eyeball_move") or {}
@@ -238,6 +239,49 @@ def facial_profile_pass(case_result):
         )
         is True
         and complete_file(artifacts.get("facial_profile_vectors"))
+    )
+
+
+def bodyfit_proportion_pass(case_result, preset):
+    expected = preset.get("bodyfit_proportion_adjustment")
+    actual = case_result.get("bodyfit_proportion_adjustment")
+    if expected is None:
+        return actual is None
+    if not isinstance(actual, dict):
+        return False
+    if (
+        actual.get("canonical_order_verified") is not True
+        or actual.get("protected_morphs_unchanged") is not True
+        or actual.get("eye_structure_preserved") is not True
+        or actual.get("targets_match") is not True
+        or actual.get("decision_set_id")
+        != expected.get("decision_set_id")
+        or actual.get("application_order")
+        != expected.get("application_order")
+    ):
+        return False
+    expected_targets = expected.get("targets") or []
+    applications = actual.get("applications") or []
+    if len(applications) != len(expected_targets):
+        return False
+    for application, target in zip(applications, expected_targets):
+        if (
+            application.get("role") != target.get("role")
+            or application.get("id") != target.get("id")
+            or not close_number(
+                application.get("target"),
+                target.get("target"),
+            )
+            or not close_number(
+                application.get("actual"),
+                target.get("target"),
+            )
+        ):
+            return False
+    return complete_file(
+        (case_result.get("artifacts") or {}).get(
+            "bodyfit_proportion_adjustment"
+        )
     )
 
 
@@ -456,6 +500,10 @@ def summarize_case(case_result, preset):
         "assembly_policy": assembly_policy_pass(case_result, preset),
         "body_unchanged_after_face": (
             case_result.get("body_unchanged_after_face") is True
+        ),
+        "bodyfit_proportion_adjustment": bodyfit_proportion_pass(
+            case_result,
+            preset,
         ),
         "case_success": case_result.get("success") is True,
         "eye_integrity": eye_integrity_pass(case_result),

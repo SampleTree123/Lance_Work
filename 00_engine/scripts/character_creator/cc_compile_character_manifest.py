@@ -10,7 +10,7 @@ import sys
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_BODY_LIBRARY = os.path.join(SCRIPT_DIR, "cc_body_preset_library_v1.json")
+DEFAULT_BODY_LIBRARY = os.path.join(SCRIPT_DIR, "cc_body_preset_library_v2.json")
 DEFAULT_FACE_LIBRARY = os.path.join(
     SCRIPT_DIR, "cc_face_recipes_v3_200.json"
 )
@@ -22,6 +22,9 @@ DEFAULT_CATALOG = os.path.join(
 )
 DEFAULT_FACIAL_REGISTRY = os.path.join(
     SCRIPT_DIR, "cc_facial_production_registry_v1.json"
+)
+DEFAULT_BODYFIT_PROPORTION_DECISIONS = os.path.join(
+    SCRIPT_DIR, "cc_head_bodyfit_scale_decisions_v1.json"
 )
 DEFAULT_REQUESTS = os.path.join(
     SCRIPT_DIR, "cc_character_manifest_requests_pilot_v1.json"
@@ -44,6 +47,11 @@ FACIAL_ASSEMBLY_ORDER = (
     "facial_hair",
     "scalp_hair",
     "shared_hair_pigmentation",
+    "face_material_quality_profile",
+)
+BODYFIT_PROPORTION_APPLICATION_ORDER = (
+    "head_scale",
+    "neck_height",
 )
 FACE_CAMERAS = {
     "female": (
@@ -341,6 +349,176 @@ def indexed(items, key, label):
     return result
 
 
+def finite_weight(value, label, minimum, maximum):
+    if (
+        isinstance(value, bool)
+        or not isinstance(value, (int, float))
+        or not float("-inf") < float(value) < float("inf")
+    ):
+        raise CompileError("{} must be a finite number".format(label))
+    value = float(value)
+    if value < minimum or value > maximum:
+        raise CompileError(
+            "{} is outside [{}, {}]".format(label, minimum, maximum)
+        )
+    return value
+
+
+def proportion_morph_metadata(decisions, field, label):
+    metadata = decisions.get(field)
+    if not isinstance(metadata, dict):
+        raise CompileError("{} metadata is missing".format(label))
+    morph_id = metadata.get("id")
+    display = metadata.get("display")
+    weight_scale = metadata.get("script_weight_scale")
+    ui_scale = metadata.get("ui_value_scale")
+    if (
+        not isinstance(morph_id, str)
+        or not morph_id
+        or not isinstance(display, str)
+        or not display
+        or isinstance(weight_scale, bool)
+        or not isinstance(weight_scale, (int, float))
+        or float(weight_scale) <= 0.0
+        or isinstance(ui_scale, bool)
+        or not isinstance(ui_scale, (int, float))
+        or float(ui_scale) <= 0.0
+    ):
+        raise CompileError("{} metadata is invalid".format(label))
+    return {
+        "display": display,
+        "id": morph_id,
+        "script_weight_scale": float(weight_scale),
+        "ui_value_scale": float(ui_scale),
+    }
+
+
+def compile_bodyfit_proportion_adjustments(decisions, bodies):
+    if not isinstance(decisions, dict):
+        raise CompileError("BodyFit proportion decisions must be an object")
+    if int(decisions.get("schema_version", -1)) != 1:
+        raise CompileError("Unsupported BodyFit proportion decision schema")
+    if decisions.get("status") != (
+        "head_and_neck_bodyfit_adjustments_selected"
+    ):
+        raise CompileError("BodyFit proportion decisions are not final")
+    decision_set_id = decisions.get("decision_set_id")
+    if not isinstance(decision_set_id, str) or not decision_set_id:
+        raise CompileError("BodyFit proportion decision_set_id is missing")
+    head = proportion_morph_metadata(
+        decisions,
+        "head_scale_morph",
+        "Head Scale",
+    )
+    neck = proportion_morph_metadata(
+        decisions,
+        "neck_height_morph",
+        "Neck Height",
+    )
+    if head["id"] == neck["id"]:
+        raise CompileError("Head Scale and Neck Height Morph IDs collide")
+
+    selections = indexed(
+        decisions.get("selections") or [],
+        "bodyfit_id",
+        "BodyFit proportion selections",
+    )
+    if set(selections) != set(bodies):
+        raise CompileError(
+            "BodyFit proportion selections do not cover the BodyFit library"
+        )
+    adjustments = {}
+    for bodyfit_id in sorted(bodies):
+        selection = selections[bodyfit_id]
+        if selection.get("status") != "selected":
+            raise CompileError(
+                "BodyFit proportion selection is not final: {}".format(
+                    bodyfit_id
+                )
+            )
+        head_weight = finite_weight(
+            selection.get("head_scale_weight"),
+            "{} Head Scale".format(bodyfit_id),
+            -1.0,
+            1.0,
+        )
+        head_ui = finite_weight(
+            selection.get("ui_value"),
+            "{} Head Scale UI value".format(bodyfit_id),
+            -100.0,
+            100.0,
+        )
+        if abs(head_ui * head["script_weight_scale"] - head_weight) > 1e-7:
+            raise CompileError(
+                "{} Head Scale UI and weight differ".format(bodyfit_id)
+            )
+
+        neck_selection = selection.get("neck_adjustment")
+        if neck_selection is None:
+            neck_weight = 0.0
+            neck_ui = 0.0
+            neck_status = "not_required"
+        else:
+            if not isinstance(neck_selection, dict):
+                raise CompileError(
+                    "{} neck_adjustment must be an object".format(bodyfit_id)
+                )
+            if (
+                neck_selection.get("status") != "selected"
+                or neck_selection.get("morph_id") != neck["id"]
+            ):
+                raise CompileError(
+                    "{} Neck Height selection is not final".format(bodyfit_id)
+                )
+            neck_weight = finite_weight(
+                neck_selection.get("weight"),
+                "{} Neck Height".format(bodyfit_id),
+                -1.0,
+                0.5,
+            )
+            neck_ui = finite_weight(
+                neck_selection.get("ui_value"),
+                "{} Neck Height UI value".format(bodyfit_id),
+                -100.0,
+                50.0,
+            )
+            if (
+                abs(
+                    neck_ui * neck["script_weight_scale"] - neck_weight
+                )
+                > 1e-7
+            ):
+                raise CompileError(
+                    "{} Neck Height UI and weight differ".format(bodyfit_id)
+                )
+            neck_status = "selected"
+
+        adjustments[bodyfit_id] = {
+            "application_order": list(
+                BODYFIT_PROPORTION_APPLICATION_ORDER
+            ),
+            "decision_set_id": decision_set_id,
+            "targets": [
+                {
+                    "display": head["display"],
+                    "id": head["id"],
+                    "role": "head_scale",
+                    "target": head_weight,
+                    "ui_value": int(round(head_ui)),
+                },
+                {
+                    "display": neck["display"],
+                    "id": neck["id"],
+                    "role": "neck_height",
+                    "selection_status": neck_status,
+                    "target": neck_weight,
+                    "ui_value": int(round(neck_ui)),
+                },
+            ],
+        }
+    return adjustments
+
+
 def stable_choice(items, seed, namespace):
     if not items:
         raise CompileError("stable_choice received no items")
@@ -509,6 +687,30 @@ def compile_facial_components(
 ):
     if int(registry.get("schema_version", -1)) != 1:
         raise CompileError("Unsupported facial registry schema")
+    quality_reference = registry.get("face_material_quality_profile") or {}
+    if not isinstance(quality_reference, dict):
+        raise CompileError("Facial material quality reference must be an object")
+    quality_path = canonical_path(
+        quality_reference.get("path"),
+        "Facial material quality profile",
+    )
+    quality_profile = read_json(quality_path)
+    quality_profile_id = quality_reference.get("profile_id")
+    required_quality_status = quality_reference.get("required_status")
+    if quality_profile.get("profile_id") != quality_profile_id:
+        raise CompileError("Facial material quality profile ID changed")
+    if quality_profile.get("status") != required_quality_status:
+        raise CompileError("Facial material quality profile status changed")
+    actual_quality_sha256 = sha256_file(quality_path)
+    expected_quality_sha256 = quality_reference.get("sha256")
+    if expected_quality_sha256 != actual_quality_sha256:
+        raise CompileError("Facial material quality profile hash changed")
+    compiled_quality_reference = {
+        "path": quality_path,
+        "profile_id": quality_profile_id,
+        "required_status": required_quality_status,
+        "sha256": actual_quality_sha256,
+    }
     specification = request.get("facial_components") or {}
     if not isinstance(specification, dict):
         request_error(
@@ -855,6 +1057,7 @@ def compile_facial_components(
         "eyebrow_asset_id": eyebrows["asset_id"],
         "eyelash_asset_id": eyelashes["asset_id"],
         "eye_asset_id": eyes["asset_id"],
+        "face_material_quality_profile": compiled_quality_reference,
         "facial_hair_asset_id": (
             facial_hair["asset_id"] if facial_hair is not None else None
         ),
@@ -1117,6 +1320,7 @@ def compiled_character(
     face,
     appearance,
     catalog,
+    bodyfit_proportion_adjustment=None,
     facial_components=None,
 ):
     character_id = request["character_id"]
@@ -1186,6 +1390,10 @@ def compiled_character(
         },
         "source_request": copy.deepcopy(request),
     }
+    if bodyfit_proportion_adjustment is not None:
+        result["bodyfit_proportion_adjustment"] = copy.deepcopy(
+            bodyfit_proportion_adjustment
+        )
     if v3_face:
         local_morphs = face.get("local_morphs")
         if local_morphs is None:
@@ -1277,6 +1485,9 @@ def compiled_character(
         result["dynamic_wrinkle_profile_id"] = facial_components[
             "dynamic_wrinkle_profile"
         ]["asset_id"]
+        result["face_material_quality_profile"] = copy.deepcopy(
+            facial_components["face_material_quality_profile"]
+        )
         result["appearance_validation_plan"] = {
             "asset_load_pacing": {
                 "default_after_seconds": 2.0,
@@ -1347,6 +1558,9 @@ def compiled_character(
             "hair_color": copy.deepcopy(
                 facial_components["hair_color"]
             ),
+            "face_material_quality_profile": copy.deepcopy(
+                facial_components["face_material_quality_profile"]
+            ),
         }
     return result
 
@@ -1359,6 +1573,7 @@ def compile_document(
     catalog_document,
     sources,
     facial_registry=None,
+    proportion_decisions=None,
 ):
     if int(requests.get("schema_version", -1)) != 1:
         raise CompileError("Unsupported request schema")
@@ -1395,6 +1610,14 @@ def compile_document(
         body_library.get("presets") or [],
         "preset_id",
         "BodyFit library",
+    )
+    proportion_adjustments = (
+        compile_bodyfit_proportion_adjustments(
+            proportion_decisions,
+            bodies,
+        )
+        if proportion_decisions is not None
+        else {}
     )
     face_items = (
         face_library.get("recipes")
@@ -1464,6 +1687,9 @@ def compile_document(
                 face,
                 appearance,
                 catalog,
+                bodyfit_proportion_adjustment=(
+                    proportion_adjustments.get(bodyfit_id)
+                ),
                 facial_components=facial_components,
             )
             compiled.append(character)
@@ -1479,6 +1705,12 @@ def compile_document(
                     "appearance_validation_preset_id": appearance[
                         "validation_preset_id"
                     ],
+                    "bodyfit_proportion_decision_set_id": (
+                        character.get(
+                            "bodyfit_proportion_adjustment",
+                            {},
+                        ).get("decision_set_id")
+                    ),
                     "appearance_asset_ids": appearance[
                         "appearance_asset_ids"
                     ],
@@ -1537,6 +1769,18 @@ def compile_document(
             if facial_registry is not None
             else None
         ),
+        "bodyfit_proportion_decisions": (
+            {
+                "decision_set_id": proportion_decisions.get(
+                    "decision_set_id"
+                ),
+                "path": sources.get(
+                    "bodyfit_proportion_decisions"
+                ),
+            }
+            if proportion_decisions is not None
+            else None
+        ),
         "sources": {
             key: {
                 "path": path,
@@ -1566,6 +1810,7 @@ def compile_manifest(
     catalog_path,
     output_path,
     facial_registry_path=DEFAULT_FACIAL_REGISTRY,
+    proportion_decisions_path=DEFAULT_BODYFIT_PROPORTION_DECISIONS,
 ):
     sources = {
         "requests": canonical_path(requests_path, "Request manifest"),
@@ -1580,6 +1825,11 @@ def compile_manifest(
         sources["facial_registry"] = canonical_path(
             facial_registry_path, "Facial production registry"
         )
+    if proportion_decisions_path is not None:
+        sources["bodyfit_proportion_decisions"] = canonical_path(
+            proportion_decisions_path,
+            "BodyFit proportion decisions",
+        )
     output_path = os.path.realpath(os.path.abspath(output_path))
     result = compile_document(
         read_json(sources["requests"]),
@@ -1591,6 +1841,11 @@ def compile_manifest(
         facial_registry=(
             read_json(sources["facial_registry"])
             if "facial_registry" in sources
+            else None
+        ),
+        proportion_decisions=(
+            read_json(sources["bodyfit_proportion_decisions"])
+            if "bodyfit_proportion_decisions" in sources
             else None
         ),
     )
@@ -1618,6 +1873,10 @@ def main():
         "--facial-registry",
         default=DEFAULT_FACIAL_REGISTRY,
     )
+    parser.add_argument(
+        "--bodyfit-proportion-decisions",
+        default=DEFAULT_BODYFIT_PROPORTION_DECISIONS,
+    )
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     args = parser.parse_args()
     try:
@@ -1629,6 +1888,7 @@ def main():
             args.catalog,
             args.output,
             args.facial_registry,
+            args.bodyfit_proportion_decisions,
         )
         print(json.dumps(result, indent=2, sort_keys=True, ensure_ascii=True))
         return 0 if result["success"] else 3

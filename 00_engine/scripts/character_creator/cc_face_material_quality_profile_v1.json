@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "profile_id": "cc_face_material_quality_v1",
+  "status": "production_approved",
+  "validated_subject": "M02_Average",
+  "validated_subjects": [
+    {
+      "class": "female_light",
+      "skin": "Age18-NancyStevens_2k"
+    },
+    {
+      "class": "female_dark",
+      "skin": "Age20-AlexisRogers_2k"
+    },
+    {
+      "class": "male_light",
+      "skin": "Age19-SamuelWalters_2k"
+    },
+    {
+      "class": "male_dark",
+      "skin": "Age18-ThomasReed_2k"
+    }
+  ],
+  "source_project": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\character_showcase_10_20260803_01\\chunk_m02\\CCSHOW_M02_AVERAGE_001\\CCSHOW_M02_AVERAGE_001.ccProject",
+  "application_order": "after_skin_and_eye_asset_application_before_save_and_export",
+  "lighting_controls": [
+    {
+      "id": "default_cc5",
+      "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+      "role": "production_reference"
+    },
+    {
+      "id": "bright_control",
+      "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Bright.ccLightroom",
+      "role": "broad_front_material_control",
+      "known_bias": "warm"
+    }
+  ],
+  "recommended_changes": [
+    {
+      "domain": "cornea",
+      "parameter": "ScleraBrightness",
+      "baseline_value": 0.65,
+      "recommended_value": 0.5,
+      "applies_to": "left_and_right_cornea"
+    },
+    {
+      "domain": "cornea",
+      "parameter": "Sclera Roughness",
+      "baseline_value": 0.2,
+      "recommended_value": 0.32,
+      "applies_to": "left_and_right_cornea"
+    },
+    {
+      "domain": "cornea",
+      "parameter": "Specular Scale",
+      "baseline_value": 0.8,
+      "recommended_value": 0.7,
+      "applies_to": "left_and_right_cornea"
+    },
+    {
+      "domain": "skin_head",
+      "parameter": "MicroNormal Strength",
+      "baseline_value": 0.5,
+      "recommended_value": 0.65,
+      "applies_to": "head_skin_only"
+    },
+    {
+      "domain": "skin_head",
+      "parameter": "Micro Roughness Scale",
+      "baseline_value": 0.05,
+      "recommended_value": 0.08,
+      "applies_to": "head_skin_only"
+    },
+    {
+      "domain": "skin_head",
+      "parameter": "Original Roughness Strength",
+      "baseline_value": 0.85,
+      "recommended_value": 1.0,
+      "applies_to": "head_skin_only"
+    },
+    {
+      "domain": "skin_head",
+      "parameter": "Cavity Strength",
+      "baseline_value": 0.2,
+      "recommended_value": 0.24,
+      "applies_to": "head_skin_only"
+    }
+  ],
+  "deferred_changes": [
+    {
+      "group": "iris_wetline_contact",
+      "reason": "The first matrix produced a color shift but no decisive quality gain at the standard camera distance."
+    },
+    {
+      "group": "regional_roughness_and_specular",
+      "reason": "The response is skin- and lighting-dependent and was not clearly better on M02."
+    },
+    {
+      "group": "sss_distribution_and_radius",
+      "reason": "The visual gain was too small to justify a global change without cross-skin validation."
+    }
+  ],
+  "implementation": {
+    "mode": "automatic_manifest_application",
+    "manifest_field": "face_material_quality_profile",
+    "application_policy": "fail_if_profile_or_material_parameter_drift_is_detected",
+    "persistence": "apply_after_final_skin_and_eye_assets_before_preview_save_and_export"
+  },
+  "validation": {
+    "parameter_probe": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\m02_face_material_parameter_probe_20260805_01\\face_material_parameters.json",
+    "light_scout": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\m02_face_material_light_scout_20260805_01\\face_material_visual_matrix.json",
+    "eye_matrix": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\m02_eye_material_matrix_20260805_01\\face_material_visual_matrix.json",
+    "skin_matrix": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\m02_skin_material_matrix_20260805_01\\face_material_visual_matrix.json",
+    "recommended_matrix": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\m02_face_material_recommended_20260805_01\\face_material_visual_matrix.json",
+    "recommended_capture_count": 4,
+    "cross_skin_matrix": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\face_material_cross_skin_20260805_retry01\\face_material_cross_skin_matrix.json",
+    "cross_skin_report": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\face_material_cross_skin_20260805_retry01\\STAGE_5A_CROSS_SKIN_VALIDATION_REPORT.md",
+    "cross_skin_subject_count": 4,
+    "cross_skin_view_count": 8,
+    "cross_skin_capture_count": 32,
+    "touched_material_parameter_count": 10,
+    "material_restoration_mismatch_count": 0,
+    "eye_integrity_restored": true,
+    "undo_warning_count": 0
+  },
+  "promotion_gate": {
+    "user_visual_review_required": false,
+    "user_visual_review_status": "accepted_2026-08-05",
+    "cross_skin_validation_required": true,
+    "cross_skin_validation_status": "passed_2026-08-05",
+    "minimum_cross_skin_set": [
+      "female_light",
+      "female_dark",
+      "male_light",
+      "male_dark"
+    ],
+    "production_profile_status": "approved_2026-08-05",
+    "do_not_overwrite_skin_identity_color": true,
+    "do_not_apply_deferred_groups_globally": true
+  }
+}

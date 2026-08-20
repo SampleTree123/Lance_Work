@@ -1,0 +1,4523 @@
+{
+  "appearance_catalog": {
+    "catalog_id": "cc_appearance_assets_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json"
+  },
+  "body_application_mode": "source_project",
+  "bodyfit_proportion_decisions": {
+    "decision_set_id": "adult_head_bodyfit_scale_v1",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_head_bodyfit_scale_decisions_v1.json"
+  },
+  "character_count": 10,
+  "expected_eyeball_move_weight": 0.0,
+  "face_resources": {
+    "identity_policy": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_identity_policy_v1.json",
+    "seed_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_seed_library_v1.json"
+  },
+  "facial_registry": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_production_registry_v1.json",
+    "registry_id": "cc5_adult_facial_production_registry_v1"
+  },
+  "generated_at": "2026-08-05T19:48:27+08:00",
+  "library_id": "cc_character_showcase_10_20260803_v1",
+  "presets": [
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_606a02cbab1c",
+        "CCAPP_LOWER_1eae3e6af10d",
+        "CCAPP_FOOTWEAR_0519f43f261d"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_606a02cbab1c",
+            "display_name": "Rolled sleeves shirt_A3",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_1eae3e6af10d",
+            "display_name": "Slim fit pants",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_0519f43f261d",
+            "display_name": "Canvas Shoes",
+            "sex_hint": "unknown",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPMAT_M01_LEAN_0001"
+      },
+      "appearance_recipe_id": "M_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 175.70965576171875,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPMAT_M01_LEAN_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "5029c529465946100d9bbaa1afd4b89997ad0dadefd2690b368bfe6450ea62be",
+      "body_class": "lean",
+      "bodyfit_id": "M01_Lean",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": -0.1,
+            "ui_value": -10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "selected",
+            "target": -0.2,
+            "ui_value": -20
+          }
+        ]
+      },
+      "character_id": "CCSHOW_M01_LEAN_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_20fe8f283ceb",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_3a70849f2967",
+      "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M01_Aaron",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "MFACEV3_0017",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_06f3f3d5548b",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_3a70849f2967",
+          "CCAPP_EYELASHES_02f64ae2a2fa",
+          "CCAPP_EYES_20fe8f283ceb",
+          "CCAPP_SCALP_HAIR_2461bc8be8a1"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#38241A",
+          "highlight_a_srgb": "#4E3426",
+          "highlight_b_srgb": "#1A0F0B",
+          "root_srgb": "#120A07"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "very_dark_brown",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 0.800000011920929,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": 0.26392671871046647,
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "region": "brow",
+          "weight": 0.26392671871046647
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": -0.20012724801290355,
+          "display": "Cheek Bone Scale",
+          "id": "cc embed morphs/embed_cheek1",
+          "region": "cheek",
+          "weight": -0.20012724801290355
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "delta": -0.2179904107498984,
+          "display": "Chin Depth A",
+          "id": "cc embed morphs/embed_jaw4",
+          "region": "jaw",
+          "weight": -0.2179904107498984
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Tip"
+          ],
+          "delta": -0.23052796779451562,
+          "display": "Nose Tip Height",
+          "id": "cc embed morphs/embed_nose6",
+          "region": "nose",
+          "weight": -0.23052796779451562
+        }
+      ],
+      "local_morph_fingerprint": "f00c3e8dc8d604f31194240a8cbd1c703a93362930e9f7b917bd4ac7e604edb8",
+      "pigmentation_profile_id": "african_high_pigment",
+      "preset_id": "CCSHOW_M01_LEAN_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_2461bc8be8a1",
+      "scalp_hair_display_name": "Messy Curly with Braids",
+      "scalp_hair_female_presentation_score": 0.5,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "braid",
+      "sex": "male",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "M01_Lean",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_M01_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_06f3f3d5548b",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_606a02cbab1c",
+        "CCAPP_LOWER_1eae3e6af10d",
+        "CCAPP_FOOTWEAR_0519f43f261d",
+        "CCAPP_SCALP_HAIR_e35e3b631851"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Aaron.ccFacialProfile",
+        "policy_binding": "seed_override",
+        "sha256": "5bf149138cf45276bc468ad85cfde68442c8c513dd9018c29bb1c149491794c8"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\HD Aaron.ccAvatarPreset",
+        "sha256": "56ba2fc8ac834ad48f44f5c87ef2a368cfec70b027ed66c49fafccdb2fde0267"
+      },
+      "source_project": {
+        "bytes": 38254549,
+        "modified_at": "2026-07-20T18:49:32+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M01_Lean.ccProject",
+        "sha256": "ed159783273064ce6473eba4926df4b72519c4a6e70be8bb5d8f8bf67c97adaf"
+      },
+      "source_request": {
+        "bodyfit_id": "M01_Lean",
+        "character_id": "CCSHOW_M01_LEAN_001",
+        "face_recipe_id": "MFACEV3_0017",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_20fe8f283ceb",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_3a70849f2967",
+          "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_2461bc8be8a1",
+          "skin_asset_id": "CCAPP_SKIN_06f3f3d5548b",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Slim_Body Shape",
+          "id": "2025-08-14-14-40-34_asian male_body details",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.28999999165534973
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Skinny_Body Shape",
+          "id": "2025-08-14-15-27-39_male skinny_body details",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.4300000071525574
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Slim_Body Ratio",
+          "id": "2025-08-20-16-41-46_ha male slim_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.28999999165534973
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Skinny_Body Ratio",
+          "id": "2025-08-21-19-19-34_ha male skinny_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.4300000071525574
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a2558111a204",
+            "display_name": "Basic T-shirts",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_943cd9856c2f",
+            "display_name": "Jeans_Rivets",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_41930b837785",
+            "display_name": "Canvas Shoes_A1",
+            "sex_hint": "unknown",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPV2_M_AVERAGE_0001"
+      },
+      "appearance_recipe_id": "M_CASUAL_02",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 175.70965576171875,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPV2_M_AVERAGE_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "ffb6ba534f768cdf3d4df2d03433b735c8f88c7ea21cf3266b28e5e7023085a9",
+      "body_class": "average",
+      "bodyfit_id": "M02_Average",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.0,
+            "ui_value": 0
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_M02_AVERAGE_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_4ea86aadfe2f",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_50134d472bf5",
+      "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M04_Male_A",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "MFACEV3_0006",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_775551e3644c",
+          "CCAPP_TEETH_b67a818a4484",
+          "CCAPP_EYEBROWS_50134d472bf5",
+          "CCAPP_EYELASHES_6afb64efe09b",
+          "CCAPP_EYES_4ea86aadfe2f",
+          "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+          "CCAPP_SCALP_HAIR_11247b134aef"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#181512",
+          "highlight_a_srgb": "#2A2723",
+          "highlight_b_srgb": "#080706",
+          "root_srgb": "#060504"
+        }
+      },
+      "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "black",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.4099999964237213,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": -0.18757473944604913,
+          "display": "Brow Depth",
+          "id": "cc embed morphs/embed_brow1",
+          "region": "brow",
+          "weight": 0.22242525697767218
+        },
+        {
+          "baseline_weight": 0.15000000596046448,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.14078205605505956,
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "region": "cheek",
+          "weight": 0.29078206201552403
+        },
+        {
+          "baseline_weight": 0.6000000238418579,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": -0.3130291264955585,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.28697089734629944
+        },
+        {
+          "baseline_weight": -1.2999999523162842,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "delta": 0.39999995231628416,
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "region": "jaw",
+          "weight": -0.9
+        },
+        {
+          "baseline_weight": -0.25999999046325684,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Ridge"
+          ],
+          "delta": -0.3199526290061482,
+          "display": "Nose Ridge Upper Depth",
+          "id": "cc embed morphs/embed_nose1",
+          "region": "nose",
+          "weight": -0.579952619469405
+        }
+      ],
+      "local_morph_fingerprint": "d066d64df93bb813f1467da94e605a0b07d505ebb324c4bfb43dd11bfe91e375",
+      "pigmentation_profile_id": "african_high_pigment",
+      "preset_id": "CCSHOW_M02_AVERAGE_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_11247b134aef",
+      "scalp_hair_display_name": "Side-swept Mullet",
+      "scalp_hair_female_presentation_score": 0.4,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "mullet",
+      "sex": "male",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "M02_Average",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_M02_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_775551e3644c",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785",
+        "CCAPP_SCALP_HAIR_1f2fbbc9c352"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral M.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "05e5c8991456d8cfdbe45157a467866531359ebe31f933e066b0c69d2fd96a1b"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Male_A.ccAvatarPreset",
+        "sha256": "ffe15425ce3b281c03c32332645f5534b233a7e4ba26509e77415b5917675d36"
+      },
+      "source_project": {
+        "bytes": 35662791,
+        "modified_at": "2026-07-20T23:33:25+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "sha256": "0cd6b730d34a835ef29a7b0702cab31049b2cf299e673b2433ef17914226e3de"
+      },
+      "source_request": {
+        "bodyfit_id": "M02_Average",
+        "character_id": "CCSHOW_M02_AVERAGE_001",
+        "face_recipe_id": "MFACEV3_0006",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_4ea86aadfe2f",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_50134d472bf5",
+          "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+          "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_11247b134aef",
+          "skin_asset_id": "CCAPP_SKIN_775551e3644c",
+          "teeth_asset_id": "CCAPP_TEETH_b67a818a4484"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_b67a818a4484",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a2558111a204",
+            "display_name": "Basic T-shirts",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_943cd9856c2f",
+            "display_name": "Jeans_Rivets",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_41930b837785",
+            "display_name": "Canvas Shoes_A1",
+            "sex_hint": "unknown",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPV2MAT_M03_ATHLETIC_0001"
+      },
+      "appearance_recipe_id": "M_CASUAL_02",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 175.70965576171875,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPV2MAT_M03_ATHLETIC_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "13552e534a16f95a9e9a9bc1c4b5f80b20c758e72f572270f838f47945bc337c",
+      "body_class": "athletic",
+      "bodyfit_id": "M03_Athletic",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.1,
+            "ui_value": 10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "selected",
+            "target": -0.2,
+            "ui_value": -20
+          }
+        ]
+      },
+      "character_id": "CCSHOW_M03_ATHLETIC_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_91523528133b",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_b0452965f1a4",
+      "eyelash_asset_id": "CCAPP_EYELASHES_93227c69530c",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M07_Male_D",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "MFACEV3_0016",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_af0404d88ad7",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_b0452965f1a4",
+          "CCAPP_EYELASHES_93227c69530c",
+          "CCAPP_EYES_91523528133b",
+          "CCAPP_SCALP_HAIR_da75aba22424"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#181512",
+          "highlight_a_srgb": "#2A2723",
+          "highlight_b_srgb": "#080706",
+          "root_srgb": "#060504"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "black",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": -0.1670504979851099,
+          "display": "Brow Height",
+          "id": "cc embed morphs/embed_brow2",
+          "region": "brow",
+          "weight": -0.1670504979851099
+        },
+        {
+          "baseline_weight": 0.699999988079071,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.20000001192092898,
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "region": "cheek",
+          "weight": 0.9
+        },
+        {
+          "baseline_weight": 0.36000001430511475,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": -0.13335030614601665,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.2266497081590981
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "delta": -0.27599915614067927,
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "region": "jaw",
+          "weight": -0.27599915614067927
+        },
+        {
+          "baseline_weight": 0.18000000715255737,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": -0.31520154211461626,
+          "display": "Nose Width",
+          "id": "cc embed morphs/embed_nose7",
+          "region": "nose",
+          "weight": -0.1352015349620589
+        }
+      ],
+      "local_morph_fingerprint": "2150e598cabde5268a0164d74880894f9ea2dd9132ed61ff0b65231d6c19ad71",
+      "pigmentation_profile_id": "asian_high_pigment",
+      "preset_id": "CCSHOW_M03_ATHLETIC_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_da75aba22424",
+      "scalp_hair_display_name": "Curly Fringe Undercut",
+      "scalp_hair_female_presentation_score": 0.4,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "undercut",
+      "sex": "male",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "M03_Athletic",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_M03_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_af0404d88ad7",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785",
+        "CCAPP_SCALP_HAIR_1f2fbbc9c352"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral M.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "05e5c8991456d8cfdbe45157a467866531359ebe31f933e066b0c69d2fd96a1b"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Male_D.ccAvatarPreset",
+        "sha256": "9bdd70040e38658d7d64028fde3cc852d9a856618dbe1c4444a33fbd9a7309d2"
+      },
+      "source_project": {
+        "bytes": 35781716,
+        "modified_at": "2026-07-21T00:37:50+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M03_Athletic.ccProject",
+        "sha256": "be5896b27bd3dd658b4dcc4723ebcfa9c9ec484a186264993636394c6d38ff92"
+      },
+      "source_request": {
+        "bodyfit_id": "M03_Athletic",
+        "character_id": "CCSHOW_M03_ATHLETIC_001",
+        "face_recipe_id": "MFACEV3_0016",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_91523528133b",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_b0452965f1a4",
+          "eyelash_asset_id": "CCAPP_EYELASHES_93227c69530c",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_da75aba22424",
+          "skin_asset_id": "CCAPP_SKIN_af0404d88ad7",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Athletic_Body Shape",
+          "id": "2025-08-20-13-55-25_ha male athletic_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.8500000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Athletic_Body Ratio",
+          "id": "2025-08-20-19-08-44_ratio_0820_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.8500000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Bodybuilder_Body Ratio",
+          "id": "2025-08-21-18-39-07_ha male bodybuilder_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Bodybuilder_Body Shape",
+          "id": "2025-08-21-18-40-51_ha male bodybuilder_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.15000000596046448
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_606a02cbab1c",
+        "CCAPP_LOWER_1eae3e6af10d",
+        "CCAPP_FOOTWEAR_0519f43f261d"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_606a02cbab1c",
+            "display_name": "Rolled sleeves shirt_A3",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_1eae3e6af10d",
+            "display_name": "Slim fit pants",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_0519f43f261d",
+            "display_name": "Canvas Shoes",
+            "sex_hint": "unknown",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPMAT_M04_HEAVY_0001"
+      },
+      "appearance_recipe_id": "M_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 175.70965576171875,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPMAT_M04_HEAVY_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "43a0a055bf0aab50d504dad50aaa16a71d43d67d117821bf9d08fd3843846a67",
+      "body_class": "heavy",
+      "bodyfit_id": "M04_Heavy",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.3,
+            "ui_value": 30
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_M04_HEAVY_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_dffdc3acba51",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_4bc5d6fa62ed",
+      "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M01_Aaron",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "MFACEV3_0024",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_06f3f3d5548b",
+          "CCAPP_TEETH_b67a818a4484",
+          "CCAPP_EYEBROWS_4bc5d6fa62ed",
+          "CCAPP_EYELASHES_02f64ae2a2fa",
+          "CCAPP_EYES_dffdc3acba51",
+          "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+          "CCAPP_SCALP_HAIR_ae5d445ab5d2"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#181512",
+          "highlight_a_srgb": "#2A2723",
+          "highlight_b_srgb": "#080706",
+          "root_srgb": "#060504"
+        }
+      },
+      "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "black",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": -0.2663553818728971,
+          "display": "Brow Height",
+          "id": "cc embed morphs/embed_brow2",
+          "region": "brow",
+          "weight": -0.2663553818728971
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.12951844680088126,
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "region": "cheek",
+          "weight": 0.12951844680088126
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.3176436521664344,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.3176436521664344
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "delta": 0.22984830764501385,
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "region": "jaw",
+          "weight": 0.22984830764501385
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": 0.27473649846849546,
+          "display": "Nose Width",
+          "id": "cc embed morphs/embed_nose7",
+          "region": "nose",
+          "weight": 0.27473649846849546
+        }
+      ],
+      "local_morph_fingerprint": "abb580a51773529ab6a3ad85643c644f09f9d8cea2243aa96ebc8ff44387f248",
+      "pigmentation_profile_id": "african_high_pigment",
+      "preset_id": "CCSHOW_M04_HEAVY_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_ae5d445ab5d2",
+      "scalp_hair_display_name": "Back-swept Top",
+      "scalp_hair_female_presentation_score": 0.35,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "medium_or_swept",
+      "sex": "male",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "M04_Heavy",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_M04_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_06f3f3d5548b",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_606a02cbab1c",
+        "CCAPP_LOWER_1eae3e6af10d",
+        "CCAPP_FOOTWEAR_0519f43f261d",
+        "CCAPP_SCALP_HAIR_e35e3b631851"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Aaron.ccFacialProfile",
+        "policy_binding": "seed_override",
+        "sha256": "5bf149138cf45276bc468ad85cfde68442c8c513dd9018c29bb1c149491794c8"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\HD Aaron.ccAvatarPreset",
+        "sha256": "56ba2fc8ac834ad48f44f5c87ef2a368cfec70b027ed66c49fafccdb2fde0267"
+      },
+      "source_project": {
+        "bytes": 38164841,
+        "modified_at": "2026-07-20T23:24:16+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M04_Heavy.ccProject",
+        "sha256": "9f1e7371e467d0a8892138d8a7a2ac8fb2e9d3a73139065be4fcc02630adabde"
+      },
+      "source_request": {
+        "bodyfit_id": "M04_Heavy",
+        "character_id": "CCSHOW_M04_HEAVY_001",
+        "face_recipe_id": "MFACEV3_0024",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_dffdc3acba51",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_4bc5d6fa62ed",
+          "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+          "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_edbfa9f846a1",
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_ae5d445ab5d2",
+          "skin_asset_id": "CCAPP_SKIN_06f3f3d5548b",
+          "teeth_asset_id": "CCAPP_TEETH_b67a818a4484"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Heavy_Body Ratio",
+          "id": "2025-08-21-12-12-00_ha male heavy_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.6000000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Heavy_Body Shape",
+          "id": "2025-08-21-12-32-07_ha male heavy_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.6000000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC4 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC4 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "CC4 Kevin_Body Shape",
+          "id": "2025-08-22-10-34-26_kevin_body shape_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC4 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC4 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "CC4 Kevin_Body Ratio",
+          "id": "2025-08-22-10-44-16_kevin_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.30000001192092896
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_b67a818a4484",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a2558111a204",
+            "display_name": "Basic T-shirts",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_943cd9856c2f",
+            "display_name": "Jeans_Rivets",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_41930b837785",
+            "display_name": "Canvas Shoes_A1",
+            "sex_hint": "unknown",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPV2_M_AVERAGE_0001"
+      },
+      "appearance_recipe_id": "M_CASUAL_02",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 175.70965576171875,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPV2_M_AVERAGE_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "body_and_junction_fingerprint": "a90503c9771ea732db097c51aaa873a314d1047aed15900e0f99116e9445ca9a",
+      "body_class": "short_average",
+      "bodyfit_id": "M05_Short_Average",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.0,
+            "ui_value": 0
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_M05_SHORT_AVERAGE_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_M",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_6ccfc11f058d",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_7b88bea88499",
+      "eyelash_asset_id": "CCAPP_EYELASHES_6dc5d354d85f",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "M05_Male_B",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "MFACEV3_0005",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_91c37389e2f4",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_7b88bea88499",
+          "CCAPP_EYELASHES_6dc5d354d85f",
+          "CCAPP_EYES_6ccfc11f058d",
+          "CCAPP_FACIAL_HAIR_eedcb805b235",
+          "CCAPP_SCALP_HAIR_7a93f1a1f61c"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_M",
+          "display_name": "HD Neutral M 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral M 2K.rlWrinkle",
+          "sex": "male",
+          "sha256": "1b27ccfd034e82c21fb334f6be14d84b83350c26e2a954ac2cef3bba0041af66",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#987057",
+          "highlight_a_srgb": "#B08A6A",
+          "highlight_b_srgb": "#5F402F",
+          "root_srgb": "#493023"
+        }
+      },
+      "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_eedcb805b235",
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "light_brown",
+      "hair_color_mode": "natural_rare",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.8100000023841858,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.08999999761581423,
+          "display": "Cheek Bone Height",
+          "id": "cc embed morphs/embed_cheek3",
+          "region": "cheek",
+          "weight": 0.9
+        },
+        {
+          "baseline_weight": 1.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "delta": -0.3170150228400045,
+          "display": "Ear Angle Out",
+          "id": "cc embed morphs/embed_ear2",
+          "region": "ear",
+          "weight": 0.6829849771599955
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.20206713483309624,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.20206713483309624
+        },
+        {
+          "baseline_weight": 1.5,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "delta": -0.6,
+          "display": "Chin Depth A",
+          "id": "cc embed morphs/embed_jaw4",
+          "region": "jaw",
+          "weight": 0.9
+        },
+        {
+          "baseline_weight": -0.5600000023841858,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": 0.169428428568012,
+          "display": "Nose Height",
+          "id": "cc embed morphs/embed_nose4",
+          "region": "nose",
+          "weight": -0.3905715738161738
+        }
+      ],
+      "local_morph_fingerprint": "cf6922b4fb9c0bf772bd57ba2f94a96e0f931e37e07bb8aca04eac1433f68639",
+      "pigmentation_profile_id": "middle_east_medium_high_pigment",
+      "preset_id": "CCSHOW_M05_SHORT_AVERAGE_001",
+      "review_status": "showcase-pending-short-bodyfit-appearance-review",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_7a93f1a1f61c",
+      "scalp_hair_display_name": "Top knot long ponytail",
+      "scalp_hair_female_presentation_score": 0.45,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "ponytail",
+      "sex": "male",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "M02_Average",
+        "appearance_requires_visual_review": true,
+        "donor_character_id": "CCINT_M02_MIDDLE",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_91c37389e2f4",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a2558111a204",
+        "CCAPP_LOWER_943cd9856c2f",
+        "CCAPP_FOOTWEAR_41930b837785",
+        "CCAPP_SCALP_HAIR_1f2fbbc9c352"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral M.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "05e5c8991456d8cfdbe45157a467866531359ebe31f933e066b0c69d2fd96a1b"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Male_B.ccAvatarPreset",
+        "sha256": "dbcada1e198699a9e82da11620ca5be5a01291823a5385be285b43002038fd76"
+      },
+      "source_project": {
+        "bytes": 35850758,
+        "modified_at": "2026-08-02T22:01:10+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M05_Short_Average.ccProject",
+        "sha256": "f4bad8465cf57a406cd444e21d1275ef53449eceeed216d15d43f0d4af9cc452"
+      },
+      "source_request": {
+        "bodyfit_id": "M05_Short_Average",
+        "character_id": "CCSHOW_M05_SHORT_AVERAGE_001",
+        "face_recipe_id": "MFACEV3_0005",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_6ccfc11f058d",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_7b88bea88499",
+          "eyelash_asset_id": "CCAPP_EYELASHES_6dc5d354d85f",
+          "facial_hair_asset_id": "CCAPP_FACIAL_HAIR_eedcb805b235",
+          "hair_color_mode": "natural_rare",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_7a93f1a1f61c",
+          "skin_asset_id": "CCAPP_SKIN_91c37389e2f4",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Character Scale A",
+          "id": "2018-09-14-22-07-28_character scale",
+          "weight": -0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Gibro_Body Ratio",
+          "id": "2025-08-15-16-46-49_gibro_body ratio_body",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Ratio",
+          "id": "2025-08-19-21-43-59_hd neutral m_body ratio_body",
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Neutral M_Body Shape",
+          "id": "2025-08-20-09-11-56_hd neutral m_body shape_body",
+          "weight": 0.699999988079071
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Shape",
+          "id": "2025-08-20-12-35-37_ha male drudge_body shape",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Male Drudge_Body Ratio",
+          "id": "2025-08-21-19-56-22_ha male drudge_body ratio",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "weight": 0.15000000596046448
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Leg",
+            "Actor/Body/Leg/General"
+          ],
+          "classification": "body",
+          "display": "Leg Length",
+          "id": "cc embed morphs/embed_leg1",
+          "weight": 0.20000000298023224
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Leg",
+            "Actor/Body/Leg/Thigh"
+          ],
+          "classification": "body",
+          "display": "Thigh Length",
+          "id": "cc embed morphs/embed_leg4",
+          "weight": -0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Leg",
+            "Actor/Body/Leg/Lower Leg"
+          ],
+          "classification": "body",
+          "display": "Lower Leg Length",
+          "id": "cc embed morphs/embed_leg5",
+          "weight": -0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Chest",
+            "Actor/Body/Chest/General"
+          ],
+          "classification": "body",
+          "display": "Chest Height",
+          "id": "cc embed morphs/embed_torso112",
+          "weight": 0.6000000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Hip",
+            "Actor/Body/Hip/General"
+          ],
+          "classification": "body",
+          "display": "Hip Length A",
+          "id": "cc embed morphs/embed_torso4",
+          "weight": -1.0
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a01db1de456d",
+            "display_name": "Camisole",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_4d09bb43ecc8",
+            "display_name": "Denim shorts",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_02f412dc0b08",
+            "display_name": "Boots_F",
+            "sex_hint": "female",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPMAT_F01_LEAN_0001"
+      },
+      "appearance_recipe_id": "F_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 166.9602508544922,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPMAT_F01_LEAN_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "b589f8ed59f20f500e5a55788e3dd178d421b03ce8562f807a270b97abdd3683",
+      "body_class": "lean",
+      "bodyfit_id": "F01_Lean",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": -0.2,
+            "ui_value": -20
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "selected",
+            "target": -0.4,
+            "ui_value": -40
+          }
+        ]
+      },
+      "character_id": "CCSHOW_F01_LEAN_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_20fe8f283ceb",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_07eee7d6450c",
+      "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F01_Ariana",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "FFACEV3_0003",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_033119270011",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_07eee7d6450c",
+          "CCAPP_EYELASHES_6afb64efe09b",
+          "CCAPP_EYES_20fe8f283ceb",
+          "CCAPP_SCALP_HAIR_05f349f557ea"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#987057",
+          "highlight_a_srgb": "#B08A6A",
+          "highlight_b_srgb": "#5F402F",
+          "root_srgb": "#493023"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "light_brown",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.699999988079071
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": 0.2780544760922105,
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "region": "brow",
+          "weight": 0.2780544760922105
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.3168439343859698,
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "region": "cheek",
+          "weight": 0.3168439343859698
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.17518649020921462,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.17518649020921462
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "delta": 0.1664434126945203,
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "region": "jaw",
+          "weight": 0.1664434126945203
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/Tip"
+          ],
+          "delta": -0.16666692073544082,
+          "display": "Nose Tip Height",
+          "id": "cc embed morphs/embed_nose6",
+          "region": "nose",
+          "weight": -0.16666692073544082
+        }
+      ],
+      "local_morph_fingerprint": "d564a96167abb19e4d3f71166348804b5070fd3632146cdcc2dcdd841f13892c",
+      "pigmentation_profile_id": "caucasian_broad_pigment",
+      "preset_id": "CCSHOW_F01_LEAN_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_05f349f557ea",
+      "scalp_hair_display_name": "Double bubble braids",
+      "scalp_hair_female_presentation_score": 0.9,
+      "scalp_hair_presentation_label": "female_primary",
+      "scalp_hair_silhouette_family": "braid",
+      "sex": "female",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "F01_Lean",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_F01_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_033119270011",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08",
+        "CCAPP_SCALP_HAIR_87a1fb5adae2"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Ariana.ccFacialProfile",
+        "policy_binding": "seed_override",
+        "sha256": "7914414fac339aa3d9b06968537ce9de6d0a794cf3b230041c77de0cc642b37e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\HD Ariana.ccAvatarPreset",
+        "sha256": "7fc84c33cb306f41f61b8bf9b00f81e8e8849d7873a0f04269e372145a8cd134"
+      },
+      "source_project": {
+        "bytes": 37757955,
+        "modified_at": "2026-07-20T23:27:31+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F01_Lean.ccProject",
+        "sha256": "a1e7731575eaabbcc4b9d687eba32e2963aa5c7df0cf8b95ff5444601559357d"
+      },
+      "source_request": {
+        "bodyfit_id": "F01_Lean",
+        "character_id": "CCSHOW_F01_LEAN_001",
+        "face_recipe_id": "FFACEV3_0003",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_20fe8f283ceb",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_07eee7d6450c",
+          "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_05f349f557ea",
+          "skin_asset_id": "CCAPP_SKIN_033119270011",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Slim_Body Shape",
+          "id": "2025-08-09-16-48-15_female asian_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.9700000286102295
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Slim_Body Ratio",
+          "id": "2025-08-09-16-57-37_asian female_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.9700000286102295
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Ariana_Body Shape",
+          "id": "2025-08-14-15-50-35_ariana_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Ariana_Body Ratio",
+          "id": "2025-08-14-15-52-15_ariana_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Thin",
+          "id": "cc embed morphs/embed_full_body5",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.4099999964237213
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a01db1de456d",
+            "display_name": "Camisole",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_4d09bb43ecc8",
+            "display_name": "Denim shorts",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_02f412dc0b08",
+            "display_name": "Boots_F",
+            "sex_hint": "female",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPV1_F_AVERAGE_0001"
+      },
+      "appearance_recipe_id": "F_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 166.9602508544922,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPV1_F_AVERAGE_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "57c8fc1753d7c040abbc278ca3ff4cae9ac65960503a6652a23b3feae08ba05a",
+      "body_class": "average",
+      "bodyfit_id": "F02_Average",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.1,
+            "ui_value": 10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_F02_AVERAGE_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_4ea86aadfe2f",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_8c5b74b64118",
+      "eyelash_asset_id": "CCAPP_EYELASHES_93227c69530c",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F04_Female_A",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "FFACEV3_0008",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_4532cf5e146e",
+          "CCAPP_TEETH_b67a818a4484",
+          "CCAPP_EYEBROWS_8c5b74b64118",
+          "CCAPP_EYELASHES_93227c69530c",
+          "CCAPP_EYES_4ea86aadfe2f",
+          "CCAPP_SCALP_HAIR_37764c8be0d9"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#292521",
+          "highlight_a_srgb": "#3B3732",
+          "highlight_b_srgb": "#12100E",
+          "root_srgb": "#0E0C0A"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "soft_black",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 0.800000011920929,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": 0.3178704417304611,
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "region": "brow",
+          "weight": 0.3178704417304611
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": 0.22176998436624398,
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "region": "cheek",
+          "weight": 0.22176998436624398
+        },
+        {
+          "baseline_weight": -0.9100000262260437,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.17661888929858838,
+          "display": "Forehead Curve",
+          "id": "cc embed morphs/embed_forehead1",
+          "region": "forehead",
+          "weight": -0.7333811369274553
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "delta": 0.14173937922992091,
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "region": "jaw",
+          "weight": 0.14173937922992091
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": 0.19121547525243524,
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "region": "nose",
+          "weight": 0.19121547525243524
+        }
+      ],
+      "local_morph_fingerprint": "979c45e42bf869b8b498d12f238461e1a2712fa853841149f781f161bc9a52ae",
+      "pigmentation_profile_id": "asian_high_pigment",
+      "preset_id": "CCSHOW_F02_AVERAGE_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_37764c8be0d9",
+      "scalp_hair_display_name": "Side Clip Long Hair",
+      "scalp_hair_female_presentation_score": 0.85,
+      "scalp_hair_presentation_label": "female_primary",
+      "scalp_hair_silhouette_family": "long_loose",
+      "sex": "female",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "F02_Average",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_F02_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_4532cf5e146e",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08",
+        "CCAPP_SCALP_HAIR_87a1fb5adae2"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral F.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "87fa3627f88ae98f903a6ae0a1f92a25dedd9a8128641f3510f51008bd1a320e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Female_A.ccAvatarPreset",
+        "sha256": "95b4dd4c79d42598c51e2c2ce8c54ff2f5230f6353cb07aeedd27feafb646108"
+      },
+      "source_project": {
+        "bytes": 35755303,
+        "modified_at": "2026-07-21T00:36:58+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "source_request": {
+        "bodyfit_id": "F02_Average",
+        "character_id": "CCSHOW_F02_AVERAGE_001",
+        "face_recipe_id": "FFACEV3_0008",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_4ea86aadfe2f",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_8c5b74b64118",
+          "eyelash_asset_id": "CCAPP_EYELASHES_93227c69530c",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_37764c8be0d9",
+          "skin_asset_id": "CCAPP_SKIN_4532cf5e146e",
+          "teeth_asset_id": "CCAPP_TEETH_b67a818a4484"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_b67a818a4484",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a01db1de456d",
+            "display_name": "Camisole",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_4d09bb43ecc8",
+            "display_name": "Denim shorts",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_02f412dc0b08",
+            "display_name": "Boots_F",
+            "sex_hint": "female",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPMAT_F03_ATHLETIC_0001"
+      },
+      "appearance_recipe_id": "F_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 166.9602508544922,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPMAT_F03_ATHLETIC_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "720c2748cc64c4aa696b59f8d2c6dfb9d5f700e6f2f867e6d0f797a30dc5ab33",
+      "body_class": "athletic",
+      "bodyfit_id": "F03_Athletic",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.1,
+            "ui_value": 10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_F03_ATHLETIC_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_91523528133b",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_07eee7d6450c",
+      "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F07_Female_D",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "FFACEV3_0001",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_837cbb355d84",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_07eee7d6450c",
+          "CCAPP_EYELASHES_02f64ae2a2fa",
+          "CCAPP_EYES_91523528133b",
+          "CCAPP_SCALP_HAIR_1adcb4e56e15"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#181512",
+          "highlight_a_srgb": "#2A2723",
+          "highlight_b_srgb": "#080706",
+          "root_srgb": "#060504"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "black",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.49000000953674316,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.699999988079071
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": -0.2734978958336708,
+          "display": "Brow Angle",
+          "id": "cc embed morphs/embed_brow3",
+          "region": "brow",
+          "weight": 0.21650211370307237
+        },
+        {
+          "baseline_weight": 0.8799999952316284,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Cheek",
+            "Actor/Head/Cheek/General"
+          ],
+          "delta": -0.2507786029052177,
+          "display": "Cheek Hollow",
+          "id": "cc embed morphs/embed_cheek2",
+          "region": "cheek",
+          "weight": 0.6292213923264107
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/Detail"
+          ],
+          "delta": -0.2859648554363189,
+          "display": "Earlobe Define",
+          "id": "cc embed morphs/embed_ear1",
+          "region": "ear",
+          "weight": -0.2859648554363189
+        },
+        {
+          "baseline_weight": 0.4399999976158142,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "delta": -0.30378299657137214,
+          "display": "Jaw Corner Height",
+          "id": "cc embed morphs/embed_jaw2",
+          "region": "jaw",
+          "weight": 0.13621700104444207
+        },
+        {
+          "baseline_weight": -0.7300000190734863,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": -0.1699999809265137,
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "region": "nose",
+          "weight": -0.9
+        }
+      ],
+      "local_morph_fingerprint": "310c08a479f0a2a86421236175d8f32376eea3cf1b4d99cfc26849c6c3bf14a0",
+      "pigmentation_profile_id": "middle_east_medium_high_pigment",
+      "preset_id": "CCSHOW_F03_ATHLETIC_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_1adcb4e56e15",
+      "scalp_hair_display_name": "Short middle part",
+      "scalp_hair_female_presentation_score": 0.9,
+      "scalp_hair_presentation_label": "female_primary",
+      "scalp_hair_silhouette_family": "short",
+      "sex": "female",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "F03_Athletic",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_F03_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_837cbb355d84",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08",
+        "CCAPP_SCALP_HAIR_87a1fb5adae2"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral F.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "87fa3627f88ae98f903a6ae0a1f92a25dedd9a8128641f3510f51008bd1a320e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Female_D.ccAvatarPreset",
+        "sha256": "c3283217e548d4469ce26cd0c2e2a196051a9539d61a6a18235f6a1a5680c2f6"
+      },
+      "source_project": {
+        "bytes": 35847667,
+        "modified_at": "2026-07-20T23:35:11+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F03_Athletic.ccProject",
+        "sha256": "f466ce1012867af1e35f989f083ca764b86b6d91a9f6be273eaa24ec79d05129"
+      },
+      "source_request": {
+        "bodyfit_id": "F03_Athletic",
+        "character_id": "CCSHOW_F03_ATHLETIC_001",
+        "face_recipe_id": "FFACEV3_0001",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_91523528133b",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_07eee7d6450c",
+          "eyelash_asset_id": "CCAPP_EYELASHES_02f64ae2a2fa",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_1adcb4e56e15",
+          "skin_asset_id": "CCAPP_SKIN_837cbb355d84",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Athletic_Body Ratio",
+          "id": "2025-08-14-17-20-34_female athletic_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Athletic_Body Shape",
+          "id": "2025-08-14-17-23-04_female athletic_body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Thin",
+          "id": "cc embed morphs/embed_full_body5",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Muscular A",
+          "id": "cc embed morphs/embed_full_body6",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.5899999737739563
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a01db1de456d",
+            "display_name": "Camisole",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_4d09bb43ecc8",
+            "display_name": "Denim shorts",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_02f412dc0b08",
+            "display_name": "Boots_F",
+            "sex_hint": "female",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPMAT_F04_HEAVY_0001"
+      },
+      "appearance_recipe_id": "F_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 166.9602508544922,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPMAT_F04_HEAVY_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "8dd812416e8faaecc331dc82d73e72facedc15b0a843d729fcbabdc93e231bfa",
+      "body_class": "heavy",
+      "bodyfit_id": "F04_Heavy",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": 0.3,
+            "ui_value": 30
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_F04_HEAVY_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_dffdc3acba51",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_8c5b74b64118",
+      "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F02_Camila",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "FFACEV3_0032",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_d1a9a8957b59",
+          "CCAPP_TEETH_b67a818a4484",
+          "CCAPP_EYEBROWS_8c5b74b64118",
+          "CCAPP_EYELASHES_6afb64efe09b",
+          "CCAPP_EYES_dffdc3acba51",
+          "CCAPP_SCALP_HAIR_0ea77b9317c9"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#38241A",
+          "highlight_a_srgb": "#4E3426",
+          "highlight_b_srgb": "#1A0F0B",
+          "root_srgb": "#120A07"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "very_dark_brown",
+      "hair_color_mode": "natural_common",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 0.800000011920929,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Brow",
+            "Actor/Head/Brow/General"
+          ],
+          "delta": 0.14910081475093573,
+          "display": "Brow Lower",
+          "id": "cc embed morphs/embed_brow5",
+          "region": "brow",
+          "weight": 0.14910081475093573
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.2256194688645136,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.2256194688645136
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Jaw",
+            "Actor/Head/Jaw/General"
+          ],
+          "delta": 0.254606074828705,
+          "display": "Jaw  Scale",
+          "id": "cc embed morphs/embed_jaw3",
+          "region": "jaw",
+          "weight": 0.254606074828705
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": 0.22523881459343376,
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "region": "nose",
+          "weight": 0.22523881459343376
+        }
+      ],
+      "local_morph_fingerprint": "f45670f4b76a0999480900120c71d46b84434695125e673580766e39b4f4e4f5",
+      "pigmentation_profile_id": "middle_east_medium_high_pigment",
+      "preset_id": "CCSHOW_F04_HEAVY_001",
+      "review_status": "showcase-reviewed-source-appearance",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_0ea77b9317c9",
+      "scalp_hair_display_name": "Side swept braid",
+      "scalp_hair_female_presentation_score": 0.85,
+      "scalp_hair_presentation_label": "female_primary",
+      "scalp_hair_silhouette_family": "braid",
+      "sex": "female",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "F04_Heavy",
+        "appearance_requires_visual_review": false,
+        "donor_character_id": "CCINT_F04_YOUNG",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_d1a9a8957b59",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08",
+        "CCAPP_SCALP_HAIR_87a1fb5adae2"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral F.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "87fa3627f88ae98f903a6ae0a1f92a25dedd9a8128641f3510f51008bd1a320e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC4 Camila.ccAvatarPreset",
+        "sha256": "fd635659a65ed96e1d25f25eec151e45f9b86ab966099c1eef928fd7e8e4d2ce"
+      },
+      "source_project": {
+        "bytes": 38249586,
+        "modified_at": "2026-07-20T23:32:53+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F04_Heavy.ccProject",
+        "sha256": "1729d45ab06a68f9df6de5d84976101f7b2a2c417366de4740dab6c7d182fca3"
+      },
+      "source_request": {
+        "bodyfit_id": "F04_Heavy",
+        "character_id": "CCSHOW_F04_HEAVY_001",
+        "face_recipe_id": "FFACEV3_0032",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_dffdc3acba51",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_8c5b74b64118",
+          "eyelash_asset_id": "CCAPP_EYELASHES_6afb64efe09b",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_common",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_0ea77b9317c9",
+          "skin_asset_id": "CCAPP_SKIN_d1a9a8957b59",
+          "teeth_asset_id": "CCAPP_TEETH_b67a818a4484"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.1899999976158142
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.1899999976158142
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Heavy_Body Shape",
+          "id": "2025-08-20-18-26-40_ha female heavy body shape",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.550000011920929
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Heavy_Body Ratio",
+          "id": "2025-08-21-16-38-01_ha female heavy_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.550000011920929
+        }
+      ],
+      "target_junction_morphs": [],
+      "teeth_asset_id": "CCAPP_TEETH_b67a818a4484",
+      "visible_gray_fraction": 0.0
+    },
+    {
+      "age_label": "young",
+      "appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08"
+      ],
+      "appearance_recipe": {
+        "assets": [
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_UPPER_a01db1de456d",
+            "display_name": "Camisole",
+            "sex_hint": "unknown",
+            "slot": "upper"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_LOWER_4d09bb43ecc8",
+            "display_name": "Denim shorts",
+            "sex_hint": "unknown",
+            "slot": "lower"
+          },
+          {
+            "asset_form": "asset",
+            "asset_id": "CCAPP_FOOTWEAR_02f412dc0b08",
+            "display_name": "Boots_F",
+            "sex_hint": "female",
+            "slot": "footwear"
+          }
+        ],
+        "validated_preset_id": "APPV1_F_AVERAGE_0001"
+      },
+      "appearance_recipe_id": "F_CASUAL_01",
+      "appearance_validation_plan": {
+        "asset_load_pacing": {
+          "default_after_seconds": 2.0,
+          "default_before_seconds": 1.0,
+          "slots": {
+            "facial_hair": {
+              "after_seconds": 8.0,
+              "before_seconds": 4.0
+            },
+            "scalp_hair": {
+              "after_seconds": 12.0,
+              "before_seconds": 8.0
+            },
+            "skin": {
+              "after_seconds": 10.0,
+              "before_seconds": 4.0
+            }
+          }
+        },
+        "domain": "face_identity",
+        "face_camera_reference_top_z": 166.9602508544922,
+        "integrated_facial_assembly_validation": {
+          "render_static_hair_views": true,
+          "required_invariants": [
+            "body_and_junction_unchanged",
+            "face_identity_matches_recipe",
+            "eye_geometry_preserved",
+            "eye_support_preserved",
+            "hair_pigmentation_shared"
+          ]
+        },
+        "pose_profile": "face_identity_safety_v1",
+        "post_pose_eye_world_translation_tolerance_cm": 0.05,
+        "required_views": [
+          "reconstructed_preview",
+          "face_front",
+          "face_three_quarter",
+          "face_profile",
+          "hair_rear_three_quarter",
+          "hair_rear",
+          "face_blink_bilateral_front",
+          "face_blink_left_front",
+          "face_look_left_front",
+          "face_look_right_front",
+          "face_look_up_front",
+          "face_look_down_front",
+          "face_squint_front",
+          "face_widen_front",
+          "face_brow_raise_front",
+          "face_brow_down_front",
+          "face_smile_front",
+          "face_jaw_open_front",
+          "face_jaw_open_three_quarter"
+        ],
+        "verification_mode": "integrated_facial_assembly"
+      },
+      "appearance_validation_preset_id": "APPV1_F_AVERAGE_0001",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "6499fc31c4fd7ced7efcb87aadd9740be99e73c9d5f0fe6fdb4eec04dd372d52",
+      "body_class": "short_average",
+      "bodyfit_id": "F05_Short_Average",
+      "bodyfit_proportion_adjustment": {
+        "application_order": [
+          "head_scale",
+          "neck_height"
+        ],
+        "decision_set_id": "adult_head_bodyfit_scale_v1",
+        "targets": [
+          {
+            "display": "Head Scale",
+            "id": "cc embed morphs/embed_full_head9",
+            "role": "head_scale",
+            "target": -0.1,
+            "ui_value": -10
+          },
+          {
+            "display": "Neck Height",
+            "id": "2019-08-30-20-14-55_neck height",
+            "role": "neck_height",
+            "selection_status": "not_required",
+            "target": 0.0,
+            "ui_value": 0
+          }
+        ]
+      },
+      "character_id": "CCSHOW_F05_SHORT_AVERAGE_001",
+      "dynamic_wrinkle_profile_id": "CCWRINKLE_NEUTRAL_2K_F",
+      "dynamic_wrinkle_strength": 1.0,
+      "eye_asset_id": "CCAPP_EYES_6ccfc11f058d",
+      "eyebrow_asset_id": "CCAPP_EYEBROWS_ca66c0635795",
+      "eyelash_asset_id": "CCAPP_EYELASHES_c8325645905f",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F05_Female_B",
+        "strength_tier": "normal"
+      },
+      "face_material_quality_profile": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+        "profile_id": "cc_face_material_quality_v1",
+        "required_status": "production_approved",
+        "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+      },
+      "face_recipe_id": "FFACEV3_0005",
+      "facial_assembly": {
+        "age_morph_id": "2025-07-04-15-29-03_pack_old_man_face",
+        "application_order": [
+          "skin",
+          "age_morph",
+          "dynamic_wrinkle_profile",
+          "teeth",
+          "eyebrows",
+          "eyelashes",
+          "eyes_material_only",
+          "facial_hair",
+          "scalp_hair",
+          "shared_hair_pigmentation",
+          "face_material_quality_profile"
+        ],
+        "asset_ids": [
+          "CCAPP_SKIN_7c2a7233ca20",
+          "CCAPP_TEETH_4a7877c8220c",
+          "CCAPP_EYEBROWS_ca66c0635795",
+          "CCAPP_EYELASHES_c8325645905f",
+          "CCAPP_EYES_6ccfc11f058d",
+          "CCAPP_SCALP_HAIR_1dba4c39b4ff"
+        ],
+        "dynamic_wrinkle_profile": {
+          "application_mode": "inherit_neutral_bodyfit_profile_set_strength",
+          "asset_id": "CCWRINKLE_NEUTRAL_2K_F",
+          "display_name": "HD Neutral F 2K",
+          "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Expression Wrinkles\\CC5 2K\\HD Neutral F 2K.rlWrinkle",
+          "sex": "female",
+          "sha256": "b12f5852303e7983b63dc9f0862b973d2087140929c588b881d93995ff4209ff",
+          "source_asset_reference_only": true,
+          "validated_age_labels": [
+            "young",
+            "middle",
+            "older"
+          ],
+          "validation_evidence": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_dynamic_wrinkle_age_automation_summary_v1.json",
+          "validation_status": "approved_age_matrix"
+        },
+        "face_material_quality_profile": {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_material_quality_profile_v1.json",
+          "profile_id": "cc_face_material_quality_v1",
+          "required_status": "production_approved",
+          "sha256": "f0aa6e5ab1bb62eb609e127655d4674299d9e1f52d46cb0068579f6e1c7796ee"
+        },
+        "hair_color": {
+          "end_srgb": "#513323",
+          "highlight_a_srgb": "#6C4933",
+          "highlight_b_srgb": "#2C1A12",
+          "root_srgb": "#20110C"
+        }
+      },
+      "facial_hair_asset_id": null,
+      "full_face_elder_weight": 0.0,
+      "gray_fraction": 0.0,
+      "hair_color_id": "dark_brown",
+      "hair_color_mode": "natural_rare",
+      "hair_presentation_mode": "default",
+      "local_face_morphs": [
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Ear",
+            "Actor/Head/Ear/General"
+          ],
+          "delta": -0.18312720917170403,
+          "display": "Ear Scale",
+          "id": "cc embed morphs/embed_ear5",
+          "region": "ear",
+          "weight": -0.18312720917170403
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": 0.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Forehead",
+            "Actor/Head/Forehead/General"
+          ],
+          "delta": 0.3108276954534647,
+          "display": "Forehead Temple Width",
+          "id": "cc embed morphs/embed_forehead2",
+          "region": "forehead",
+          "weight": 0.3108276954534647
+        },
+        {
+          "baseline_weight": 0.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -0.5
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Chin",
+            "Actor/Head/Chin/General"
+          ],
+          "delta": -0.31723091912135315,
+          "display": "Chin Width",
+          "id": "cc embed morphs/embed_jaw1",
+          "region": "jaw",
+          "weight": -0.31723091912135315
+        },
+        {
+          "baseline_weight": 1.0,
+          "bounds": {
+            "maximum": 1.0,
+            "minimum": -1.0
+          },
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Nose",
+            "Actor/Head/Nose/General"
+          ],
+          "delta": -0.09999999999999998,
+          "display": "Nose Depth",
+          "id": "cc embed morphs/embed_nose3",
+          "region": "nose",
+          "weight": 0.9
+        }
+      ],
+      "local_morph_fingerprint": "b9d4cc2e044293342be9f479742e63eaa81d0b86e1b58dd8cb65055ff54f39df",
+      "pigmentation_profile_id": "african_high_pigment",
+      "preset_id": "CCSHOW_F05_SHORT_AVERAGE_001",
+      "review_status": "showcase-pending-short-bodyfit-appearance-review",
+      "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_1dba4c39b4ff",
+      "scalp_hair_display_name": "Messy Curly",
+      "scalp_hair_female_presentation_score": 0.5,
+      "scalp_hair_presentation_label": "unisex",
+      "scalp_hair_silhouette_family": "medium_or_swept",
+      "sex": "female",
+      "showcase_provenance": {
+        "appearance_bodyfit_inheritance": "F02_Average",
+        "appearance_requires_visual_review": true,
+        "donor_character_id": "CCINT_F02_MIDDLE",
+        "unaged_showcase": true
+      },
+      "skin_asset_id": "CCAPP_SKIN_7c2a7233ca20",
+      "source_appearance_asset_ids": [
+        "CCAPP_UPPER_a01db1de456d",
+        "CCAPP_LOWER_4d09bb43ecc8",
+        "CCAPP_FOOTWEAR_02f412dc0b08",
+        "CCAPP_SCALP_HAIR_87a1fb5adae2"
+      ],
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral F.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "87fa3627f88ae98f903a6ae0a1f92a25dedd9a8128641f3510f51008bd1a320e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC3+\\Female_B.ccAvatarPreset",
+        "sha256": "5191931f7f1dc62fcda9b207ea45f2a6207d85ee9b598a6ef74d4ac85156631b"
+      },
+      "source_project": {
+        "bytes": 43597670,
+        "modified_at": "2026-08-02T21:51:29+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F05_Short_Average.ccProject",
+        "sha256": "809390d318e5310a4eb3941dd29b8fd8f5e0ab2e9c839e1a547d50ee89daab7d"
+      },
+      "source_request": {
+        "bodyfit_id": "F05_Short_Average",
+        "character_id": "CCSHOW_F05_SHORT_AVERAGE_001",
+        "face_recipe_id": "FFACEV3_0005",
+        "facial_components": {
+          "age_label": "young",
+          "eye_asset_id": "CCAPP_EYES_6ccfc11f058d",
+          "eyebrow_asset_id": "CCAPP_EYEBROWS_ca66c0635795",
+          "eyelash_asset_id": "CCAPP_EYELASHES_c8325645905f",
+          "facial_hair_asset_id": null,
+          "hair_color_mode": "natural_rare",
+          "hair_presentation_mode": "default",
+          "scalp_hair_asset_id": "CCAPP_SCALP_HAIR_1dba4c39b4ff",
+          "skin_asset_id": "CCAPP_SKIN_7c2a7233ca20",
+          "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c"
+        }
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Shoulder",
+            "Actor/Body/Shoulder/General"
+          ],
+          "classification": "body",
+          "display": "Shoulder Top Height B",
+          "id": "2018-09-25-18-34-43_shoulder top peak",
+          "weight": 0.25
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Shape",
+          "id": "2025-08-09-16-25-17_female black_body details_body",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Plump_Body Ratio",
+          "id": "2025-08-09-16-30-48_female black_body ratio_body",
+          "weight": 0.5099999904632568
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Ratio",
+          "id": "2025-08-14-17-21-18_female fit_body ratio",
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Fit_Body Shape",
+          "id": "2025-08-14-17-22-13_female fit_body shape",
+          "weight": 0.49000000953674316
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Mila_Body Ratio",
+          "id": "2025-08-15-19-53-01_mila",
+          "weight": 1.0
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Arm",
+            "Actor/Body/Arm/General"
+          ],
+          "classification": "body",
+          "display": "Arm Length",
+          "id": "cc embed morphs/embed_arm1",
+          "weight": -0.25
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Shoulder",
+            "Actor/Body/Shoulder/General"
+          ],
+          "classification": "body",
+          "display": "Shoulder Scale",
+          "id": "cc embed morphs/embed_arm101",
+          "weight": 0.6000000238418579
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Fat B",
+          "id": "cc embed morphs/embed_full_body3",
+          "weight": 0.019999999552965164
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Leg",
+            "Actor/Body/Leg/General"
+          ],
+          "classification": "body",
+          "display": "Leg Length",
+          "id": "cc embed morphs/embed_leg1",
+          "weight": -0.05000000074505806
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Leg",
+            "Actor/Body/Leg/Thigh"
+          ],
+          "classification": "body",
+          "display": "Thigh Scale",
+          "id": "cc embed morphs/embed_leg3",
+          "weight": -0.4000000059604645
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Chest",
+            "Actor/Body/Chest/General"
+          ],
+          "classification": "body",
+          "display": "Chest Depth",
+          "id": "cc embed morphs/embed_torso103",
+          "weight": -0.5
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Chest",
+            "Actor/Body/Chest/General"
+          ],
+          "classification": "body",
+          "display": "Chest Scale",
+          "id": "cc embed morphs/embed_torso104",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Chest",
+            "Actor/Body/Chest/General"
+          ],
+          "classification": "body",
+          "display": "Chest Height",
+          "id": "cc embed morphs/embed_torso112",
+          "weight": 0.10000000149011612
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Waist",
+            "Actor/Body/Waist/General"
+          ],
+          "classification": "body",
+          "display": "Abdomen Scale",
+          "id": "cc embed morphs/embed_torso113",
+          "weight": 0.30000001192092896
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Chest",
+            "Actor/Body/Chest/Pectoral"
+          ],
+          "classification": "body",
+          "display": "Pectoral Height",
+          "id": "cc embed morphs/embed_torso115",
+          "weight": 0.20000000298023224
+        }
+      ],
+      "target_junction_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Neck",
+            "Actor/Head/Neck/General"
+          ],
+          "classification": "junction",
+          "display": "Neck Length",
+          "id": "cc embed morphs/embed_torso109",
+          "weight": -0.4000000059604645
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Head",
+            "Actor/Head/Neck",
+            "Actor/Head/Neck/General"
+          ],
+          "classification": "junction",
+          "display": "Neck Scale",
+          "id": "cc embed morphs/embed_torso110",
+          "weight": 0.699999988079071
+        }
+      ],
+      "teeth_asset_id": "CCAPP_TEETH_4a7877c8220c",
+      "visible_gray_fraction": 0.0
+    }
+  ],
+  "preview_capture_mode": "render_image",
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "preview_resolution": [
+    1024,
+    1024
+  ],
+  "request_results": [
+    {
+      "bodyfit_id": "M01_Lean",
+      "character_id": "CCSHOW_M01_LEAN_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "M02_Average",
+      "character_id": "CCSHOW_M02_AVERAGE_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "M03_Athletic",
+      "character_id": "CCSHOW_M03_ATHLETIC_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "M04_Heavy",
+      "character_id": "CCSHOW_M04_HEAVY_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "M05_Short_Average",
+      "character_id": "CCSHOW_M05_SHORT_AVERAGE_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "F01_Lean",
+      "character_id": "CCSHOW_F01_LEAN_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "F02_Average",
+      "character_id": "CCSHOW_F02_AVERAGE_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "F03_Athletic",
+      "character_id": "CCSHOW_F03_ATHLETIC_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "F04_Heavy",
+      "character_id": "CCSHOW_F04_HEAVY_001",
+      "success": true
+    },
+    {
+      "bodyfit_id": "F05_Short_Average",
+      "character_id": "CCSHOW_F05_SHORT_AVERAGE_001",
+      "success": true
+    }
+  ],
+  "requested_character_count": 10,
+  "save_character_projects": true,
+  "schema_version": 1,
+  "seed": 20260728,
+  "selection_policy": {
+    "age_overlay": "disabled",
+    "face_recipe_uniqueness": "required",
+    "method": "deterministic_one_character_per_bodyfit",
+    "short_bodyfit_appearance": "same-sex-average-donor-pending-review"
+  },
+  "showcase_design": {
+    "age_cross_product": false,
+    "character_count": 10,
+    "characters_per_bodyfit": 1,
+    "dynamic_pose_evidence": true,
+    "pixel_stream_resolution": [
+      1024,
+      1024
+    ],
+    "project_saved_per_character": true,
+    "short_bodyfit_appearance_review_required": true
+  },
+  "sources": {
+    "body_library": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_body_preset_library_v2.json",
+      "sha256": "38f9317da5479ced7c785c03aaf0f9c064ca6fd225411f350d07238b7655f39d"
+    },
+    "bodyfit_proportion_decisions": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_head_bodyfit_scale_decisions_v1.json",
+      "sha256": "74bda6a4100311e76ed07174bde0091531e9a5884be2c59dae808bc9e7154310"
+    },
+    "catalog": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_asset_catalog_v1.json",
+      "sha256": "b4db5b9a8ccd9a75317d79efc4695f4a48ce3f5e41a163c17fe604c228931be2"
+    },
+    "compatibility_registry": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_appearance_compatibility_v1.json",
+      "sha256": "a7d65d703d11f90fe2b8caa23ee68df8c6248aaffc87d10d4252114989d902f1"
+    },
+    "face_library": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_recipes_v3_200.json",
+      "sha256": "b93609e909ac6e126ef341ebc69bff1a9d50025fb84edc129448e6f0dbca827e"
+    },
+    "facial_registry": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_facial_production_registry_v1.json",
+      "sha256": "e1c9cf4bd6903a689ca16d733fd7166f642136da0756e52b51310930429abc50"
+    },
+    "requests": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_character_integration_requests_v1.json",
+      "sha256": "e3f0e664886eea37fc54690a3f1ea7664b690cb293b598cd8c82b44540dc2ed1"
+    },
+    "showcase_source_manifest": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_character_integration_manifest_v1.json",
+      "sha256": "d1a03c13497a9170e275d5918ab6ff07b35478aa17cef285bd26aa0ab5ab65e0"
+    }
+  },
+  "status": "showcase-ready-pending-visual-review",
+  "success": true
+}

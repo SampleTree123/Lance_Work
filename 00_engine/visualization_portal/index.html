@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Lance Visual Review</title>
+  <link rel="stylesheet" href="./assets/styles.css?v=20260818f">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <button class="brand" id="homeButton" type="button" aria-label="返回结果主页" title="返回结果主页">
+        <span class="brand__mark" aria-hidden="true">LV</span>
+        <span class="brand__text">
+          <strong>Lance Visual Review</strong>
+          <small>实验结果审查台</small>
+        </span>
+      </button>
+      <div class="header-status">
+        <span class="header-status__dot" aria-hidden="true"></span>
+        <span id="registryStatus">正在读取记录</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="app" class="app-shell" tabindex="-1">
+    <section class="loading-state" aria-live="polite">
+      <span class="loading-state__bar" aria-hidden="true"></span>
+      <p>正在加载可视化结果...</p>
+    </section>
+  </main>
+
+  <dialog id="imageDialog" class="image-dialog">
+    <div class="image-dialog__toolbar">
+      <p id="dialogCaption">图片预览</p>
+      <div class="image-dialog__tools">
+        <button id="dialogZoomOut" class="icon-button" type="button" aria-label="缩小图片" title="缩小">−</button>
+        <button id="dialogZoomIn" class="icon-button" type="button" aria-label="放大图片" title="放大">+</button>
+        <button id="dialogZoomFit" class="icon-button icon-button--fit" type="button" aria-label="图片适合窗口" title="适合窗口">适合</button>
+        <output id="dialogZoomValue" class="image-dialog__zoom-value" aria-live="polite">100%</output>
+        <button id="dialogClose" class="icon-button" type="button" aria-label="关闭图片预览" title="关闭">×</button>
+      </div>
+    </div>
+    <div id="dialogCanvas" class="image-dialog__canvas">
+      <div id="dialogStage" class="image-dialog__stage">
+        <img id="dialogImage" src="" alt="" draggable="false">
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./assets/app.js?v=20260818f"></script>
+</body>
+</html>

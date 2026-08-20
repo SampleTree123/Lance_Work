@@ -13,8 +13,8 @@
 2. **编辑原子类型表（edit taxonomy）** —— 一次"编辑"有哪些类型（全部都要实现）。
 3. **数据组织：配置图 + 沿游走渲染** —— 数据怎么存，才能让"多轮链"成为训练侧的事（关键决策）。
 4. **多样性矩阵（diversity matrix）** —— 各因子覆盖多少、怎么覆盖。
-5. **统一样本 schema**（[`schema/`](./schema/README.md)）—— 当前先占位，MVP 后收敛正式字段。
-6. **采样与多轮链**（[`sampling/`](./sampling/README.md)）—— 随机游走、链长、回退/成环一致性。
+5. **统一样本 schema**（[`schema/`](./schema/README.md)）—— 第一批 Unreal 配置图 V1 已冻结，MVP 后再扩为跨来源正式 schema。
+6. **采样与多轮链**（[`sampling/`](./sampling/README.md)）—— 第一批 3–5 轮链、回退/成环、覆盖和去重规范已冻结。
 
 运行环境、存储和风险登记在 [`../implementation/`](../implementation/README.md)。当前执行来源是 [`../../00_engine/`](../../00_engine/README.md)；真实视频和大模型生成来源先放在 [`source_notes/`](./source_notes/README.md) 中作为规划。
 
@@ -95,13 +95,13 @@
 - **两条已锁定的核心决策（2026-06-19）**：
   1. E1–E11 全部要实现、渐进推进、不分必做可选；复合编辑在范围但以单因子边为图元。
   2. 数据 = **配置图**（确定性渲染节点 + 原子编辑边 + **端点复用**），沿**随机游走**渲染；多轮链=训练侧路径采样。**端点复用是后期补不回来的硬约束。**
-- **下一步**：
-  1. MVP 后把 `00_engine/scripts/README.md` 里的 schema v0 迁到 [`schema/`](./schema/README.md)。
-  2. 把"至少三次编辑链"和"回退/成环一致性"写进 [`sampling/`](./sampling/README.md)。
+- **当前实现入口**：
+  1. 第一批字段见 [`schema/CONFIG_GRAPH_SCHEMA_V1.md`](./schema/CONFIG_GRAPH_SCHEMA_V1.md)。
+  2. 第一批链规则见 [`sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md`](./sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md)。
 - **依赖**：100角色/100服装等"可实现性"取决于 UE 调研与 MVP 实测结果；UE5.6 调研已保留在 [`../../00_engine/unreal/pipeline_research_memo.md`](../../00_engine/unreal/pipeline_research_memo.md)，当前执行目标以 UE5.8 相关部署文档为准。
 
 # 近期新增
 
-- [Character Creator 角色生成与变体设计](./character_creator/README.md)：CC5 自动化、BodyFit/HeadFit、角色池、UE runtime pair 与插件验证方案。
+- [Character Creator 角色工厂总规范](./character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md)：CC5 自动化、10 BodyFit、面部/外观、导出、UE 模块化、当前状态和恢复入口。文档地图见 [角色工厂 full_process](./character_creator/full_process/README.md)。
 
 ---

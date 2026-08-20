@@ -116,6 +116,45 @@ Binaries/
 *.ubulk
 *.uexp
 
+# Reallusion/Character Creator binary assets. Keep registries, manifests, and
+# scripts in Git; transfer these source/runtime binaries with an asset bundle.
+*.ccProject
+*.ccproject
+*.ccAvatar
+*.ccavatar
+*.ccCloth
+*.cccloth
+*.ccShoes
+*.ccshoes
+*.ccEye
+*.cceye
+*.ccTeeth
+*.ccteeth
+*.ccSkin
+*.ccskin
+*.ccFacialProfile
+*.ccfacialprofile
+*.rlHair
+*.rlhair
+*.rlMotion
+*.rlmotion
+*.iMotion
+*.imotion
+
+# Generated local visual-review state and completed execution chunks.
+00_engine/visualization_portal/runs/
+00_engine/visualization_portal/data/
+00_engine/visualization_portal/validation/*.png
+00_engine/visualization_portal/*.log
+00_engine/visualization_portal/*.pid
+00_engine/scripts/character_creator/outfit_compatibility_chunks_*/
+00_engine/scripts/character_creator/outfit_motion_stress_chunks_*/
+00_engine/scripts/character_creator/outfit_f01_correction_*/
+00_engine/assets/character_creator/face_prototypes/**/*.png
+00_engine/assets/character_creator/face_prototypes/**/*.jpg
+00_engine/assets/character_creator/face_prototypes/**/*.jpeg
+/tmprtn3anch/
+
 # OS/editor noise
 .DS_Store
 Thumbs.db

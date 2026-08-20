@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "validation_id": "cc_headshot_skull_profile_validation_v1",
+  "validated_at": "2026-08-09",
+  "status": "machine_and_user_dynamic_passed_bodyfit_pilot_accepted",
+  "selection_id": "cc_headshot_skull_profile_selection_v1",
+  "canonical_profile_ids": [
+    "H00_BASELINE",
+    "H01_LONG_DEEP",
+    "H02_LOW_FLAT",
+    "H03_NARROW_SHALLOW"
+  ],
+  "evidence_scope": {
+    "prototypes": [
+      "F_HS_002",
+      "M_HS_002"
+    ],
+    "sexes": [
+      "female",
+      "male"
+    ],
+    "case_count": 8,
+    "static_views_per_case": 3,
+    "dynamic_poses_per_case": 5,
+    "restored_neutral_per_case": 1,
+    "dynamic_pose_count": 40,
+    "raw_image_count": 72
+  },
+  "machine_gates": {
+    "successful_cases": "8/8",
+    "expression_set_uid": "CC5 MetaHuman",
+    "expression_count": 379,
+    "required_pose_ids": [
+      "blink_bilateral_front",
+      "smile_subtle_front",
+      "smile_medium_front",
+      "smile_broad_front",
+      "jaw_open_front"
+    ],
+    "pose_evidence_liveness": "8/8 passed",
+    "neutral_eye_integrity": "8/8 passed",
+    "controlled_morphs_unchanged_during_pose": "8/8 passed",
+    "controlled_morphs_restored_after_case": "8/8 passed",
+    "undo_guard_clicks": 0
+  },
+  "agent_visual_precheck": {
+    "status": "passed_no_obvious_intersection",
+    "checked": [
+      "bilateral_eyelid_closure",
+      "three_smile_strengths",
+      "lip_and_teeth_intersection",
+      "jaw_open",
+      "restored_neutral"
+    ],
+    "does_not_replace_user_review": true
+  },
+  "user_visual_review": {
+    "status": "accepted",
+    "accepted_at": "2026-08-09",
+    "scope": [
+      "bilateral_eyelid_closure",
+      "three_smile_strengths",
+      "lip_and_teeth_intersection",
+      "jaw_open",
+      "restored_neutral",
+      "female_and_male_profiles"
+    ]
+  },
+  "artifacts": {
+    "executed_manifest": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_skull_profile_dynamic_gate\\review_20260809_v1\\executed_manifest.json",
+      "sha256": "932b5ff4076273f6a1c013210e51af4d71672dd1d8133f94c168f0d53d90ddcf"
+    },
+    "female_result": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_skull_profile_dynamic_gate\\female_20260809_v1\\validation_result.json",
+      "sha256": "1b684b9e91a0a444696d760289d693175462512375e3b7c65c41c49ca6c747c9"
+    },
+    "male_result": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_skull_profile_dynamic_gate\\male_20260809_v1\\validation_result.json",
+      "sha256": "f0a09b1f8c8ca9a4d28d2321b440cf9779ab09319ccd909f71de4051b7ab973f"
+    },
+    "review_index": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\headshot_skull_profile_dynamic_gate\\review_20260809_v1\\index.json",
+      "sha256": "01ec1162e6c8045775c38bcc1566fbc0a71b321b97166b8018da0d9b46e3b2f4"
+    },
+    "portal_run_id": "2026-08-09-headshot-skull-profile-dynamic-gate-v1"
+  },
+  "downstream_validation": {
+    "validation_id": "cc_headshot_project_seed_bodyfit_pilot_validation_v1",
+    "status": "machine_and_user_visual_passed_pilot_accepted"
+  },
+  "remaining_gates": [
+    "rm05c_identity_pool_scale_comparison",
+    "rm06_face_recipe_validation",
+    "production_recipe_integration"
+  ],
+  "production_approved": false
+}

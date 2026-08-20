@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "decision_id": "cc_outfit_visual_review_20260816_v1",
+  "recorded_at": "2026-08-16T12:35:00+08:00",
+  "review_scope": {
+    "gate_manifest": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_outfit_compatibility_gate_20260816_v3.json",
+      "sha256": "01bfdeaacd95cd2d2c6c2f7dc1dbe78017ea9a1050fa8a96d6d6f9305c871630"
+    },
+    "cumulative_review_index": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\outfit_compatibility_gate\\cumulative_review_20260815_v1\\reviewed_index_20260816_v1.json",
+      "sha256": "c281e4b8f28dd8261405e6a1f1d3b8ab1ca224fc5e02118a228d212398d79797"
+    },
+    "case_count": 159,
+    "look_count": 53,
+    "image_count": 795,
+    "bodyfits_per_look": 3,
+    "views_per_case": 5
+  },
+  "user_visual_review": {
+    "clothing_body_static_status": "accepted",
+    "clothing_body_static_observation": "No obvious clothing-to-body or clothing-to-clothing penetration was found in the published static review.",
+    "hair_headwear_status": "deferred_known_issue",
+    "hair_headwear_observation": "Some hairstyles can intersect head wraps, hoods, high collars, or other head-adjacent garment geometry.",
+    "motion_stress_status": "pending",
+    "overall_status": "static_visual_accepted_dynamic_pending"
+  },
+  "deferred_policy": {
+    "blocks_current_motion_stress_gate": false,
+    "blocks_final_production_approval": true,
+    "temporary_rule": "Record hair/headwear intersections separately from garment-body failures. Do not modify source assets during the current end-to-end pipeline smoke.",
+    "planned_resolution": [
+      "classify outfit head occupancy",
+      "select only compatible compact or hat-safe HairStyleSets",
+      "hide scalp hair for full head covers when no compatible style exists",
+      "register dedicated variants only where replacement or hiding is insufficient"
+    ]
+  },
+  "next_gate": "outfit_motion_stress_v1",
+  "notes": [
+    "This decision accepts only the published static garment/body evidence.",
+    "It does not approve motion compatibility, all slot combinations, all ten BodyFits, UE runtime switching, or final production use.",
+    "The motions used by the next gate are diagnostic loads and do not constitute the production animation pool."
+  ]
+}

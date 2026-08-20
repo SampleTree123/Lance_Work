@@ -1,0 +1,181 @@
+{
+  "body_application_mode": "source_project",
+  "diagnostic_mode": "neck_morph_review_matrix",
+  "expected_eyeball_move_weight": 0.0,
+  "face_resources": {
+    "identity_policy": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_identity_policy_v1.json",
+    "identity_policy_id": "adult_face_identity_policy_v1",
+    "identity_policy_sha256": "bc6a7a1ec67df0a11ac85670eb869aa7bb02a985b371c3fce8ab62dcb1c4630f",
+    "seed_library": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_face_seed_library_v1.json",
+    "seed_library_id": "adult_face_seeds_v1",
+    "seed_library_sha256": "616f492fe338206e620f9c1301b516e1c8182531ed36929063ec000441ba3481"
+  },
+  "generated_at": "2026-08-01T14:58:51.862127+08:00",
+  "inter_case_delay_seconds": 5.0,
+  "library_id": "adult_f01_neck_height_focus_v1",
+  "matrix": {
+    "bodyfit_id": "F01_Lean",
+    "focus": true,
+    "purpose": "neck_morph_direction_and_visual_shortening_review",
+    "smoke": false
+  },
+  "pipeline": "complete_primary_face_plus_local_morphs_v1",
+  "presets": [
+    {
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "body_and_junction_fingerprint": "b589f8ed59f20f500e5a55788e3dd178d421b03ce8562f807a270b97abdd3683",
+      "body_class": "lean",
+      "bodyfit_id": "F01_Lean",
+      "character_id": "NECK_F01_HEIGHT_FOCUS",
+      "face_camera": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Female L.ccCam",
+      "face_generation": {
+        "pipeline": "complete_primary_face_plus_local_morphs_v1",
+        "primary_seed_id": "F02_Camila",
+        "strength_tier": "baseline"
+      },
+      "face_recipe_id": "V3BASE_F02_Camila",
+      "face_shape_role": "sex_reference",
+      "local_face_morphs": [],
+      "local_morph_fingerprint": "96c7de921ccce39d0198870cd75ca177f7fa7b73a8c305e1fa3fdde7cb033994",
+      "neck_morph_review": {
+        "head_scale": {
+          "morph_id": "cc embed morphs/embed_full_head9",
+          "target": -0.2
+        },
+        "morphs": [
+          {
+            "morph_id": "2019-08-30-20-14-55_neck height",
+            "review_id": "headshot_neck_height",
+            "values": [
+              -1.0,
+              -0.8,
+              -0.6,
+              -0.4,
+              -0.2,
+              0.0
+            ]
+          }
+        ],
+        "views": [
+          {
+            "view_id": "yaw_000",
+            "yaw_degrees": 0.0
+          },
+          {
+            "view_id": "yaw_045",
+            "yaw_degrees": 45.0
+          },
+          {
+            "view_id": "yaw_090",
+            "yaw_degrees": 90.0
+          }
+        ]
+      },
+      "preset_id": "NECK_F01_HEIGHT_FOCUS",
+      "reference_face_preset_id": "V3BASE_F02_Camila",
+      "review_groups": [
+        "bodyfit_matrix"
+      ],
+      "review_status": "pending-human-neck-morph-review",
+      "sex": "female",
+      "skip_post_diagnostic_face_validation": true,
+      "source_facial_profile": {
+        "application_mode": "selected_avatar_content_load",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Facial Profile\\Custom Profile\\CC5 HD\\HD Neutral F.ccFacialProfile",
+        "policy_binding": "default_by_sex",
+        "sha256": "87fa3627f88ae98f903a6ae0a1f92a25dedd9a8128641f3510f51008bd1a320e"
+      },
+      "source_head_preset": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Avatar Preset\\Head Morph\\CC4 Camila.ccAvatarPreset",
+        "sha256": "fd635659a65ed96e1d25f25eec151e45f9b86ab966099c1eef928fd7e8e4d2ce"
+      },
+      "source_project": {
+        "bytes": 37757955,
+        "modified_at": "2026-07-20T23:27:31+08:00",
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F01_Lean.ccProject",
+        "sha256": "a1e7731575eaabbcc4b9d687eba32e2963aa5c7df0cf8b95ff5444601559357d"
+      },
+      "target_body_morphs": [
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HA Female Slim_Body Shape",
+          "id": "2025-08-09-16-48-15_female asian_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.9700000286102295
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/HD Human Anatomy Set",
+            "Actor/HD Body/HD Human Anatomy Set/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HA Female Slim_Body Ratio",
+          "id": "2025-08-09-16-57-37_asian female_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.9700000286102295
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Shape"
+          ],
+          "classification": "body",
+          "display": "HD Ariana_Body Shape",
+          "id": "2025-08-14-15-50-35_ariana_body details_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/HD Body",
+            "Actor/HD Body/CC Embed Morphs",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters",
+            "Actor/HD Body/CC Embed Morphs/CC5 Characters/Body Ratio"
+          ],
+          "classification": "body",
+          "display": "HD Ariana_Body Ratio",
+          "id": "2025-08-14-15-52-15_ariana_body ratio_body",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.019999999552965164
+        },
+        {
+          "categories": [
+            "Actor",
+            "Actor/Body",
+            "Actor/Body/Full Body",
+            "Actor/Body/Full Body/General"
+          ],
+          "classification": "body",
+          "display": "Body Thin",
+          "id": "cc embed morphs/embed_full_body5",
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "weight": 0.4099999964237213
+        }
+      ],
+      "target_junction_morphs": []
+    }
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "schema_version": 1,
+  "status": "diagnostic-ready"
+}

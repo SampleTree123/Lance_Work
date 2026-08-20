@@ -10,6 +10,8 @@ param(
 
     [string]$ProgressRoot,
 
+    [string]$StopPath,
+
     [int]$TimeoutSeconds = 1800,
 
     [int]$PollMilliseconds = 150,
@@ -20,7 +22,11 @@ param(
 $ErrorActionPreference = "Stop"
 $expectedWindowTitle = "Character Creator 5"
 $expectedMessage = "Failed to record undo/redo step. Undo manager will restart."
+$fatalExportLicenseMessage = (
+    "You must first purchase the content licenses in order to export FBX files."
+)
 $dismissalCount = 0
+$fatalDialogCount = 0
 $startedAt = Get-Date
 $deadline = $startedAt.AddSeconds($TimeoutSeconds)
 $observedUnmatchedWindows = @{}
@@ -151,6 +157,51 @@ function Read-CurrentProgress {
     }
 }
 
+function Write-FatalDialog {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Collections.IDictionary]$Record
+    )
+
+    if (-not $ProgressRoot) {
+        return $null
+    }
+    New-Item -ItemType Directory -Path $ProgressRoot -Force | Out-Null
+    $fatalPath = Join-Path $ProgressRoot "fatal_dialog.json"
+    $temporaryPath = "$fatalPath.tmp.$PID"
+    $Record | ConvertTo-Json -Depth 8 |
+        Set-Content -LiteralPath $temporaryPath -Encoding UTF8
+    Move-Item -LiteralPath $temporaryPath -Destination $fatalPath -Force
+    return $fatalPath
+}
+
+function Test-ResultTerminal {
+    if (-not (Test-Path -LiteralPath $ResultPath -PathType Leaf)) {
+        return $false
+    }
+    try {
+        $result = Get-Content -LiteralPath $ResultPath -Raw -Encoding UTF8 |
+            ConvertFrom-Json
+        $status = [string]$result.status
+        if (
+            $status.ToLowerInvariant() -in @(
+                "succeeded",
+                "failed",
+                "rejected",
+                "cancelled",
+                "canceled"
+            )
+        ) {
+            return $true
+        }
+        $phase = [string]$result.phase
+        return $phase.ToLowerInvariant() -in @("complete", "blocked", "failed")
+    }
+    catch {
+        return $false
+    }
+}
+
 function Get-Descendants {
     param(
         [Parameter(Mandatory = $true)]
@@ -170,12 +221,20 @@ Write-GuardEvent -Event "started" -Data @{
     poll_milliseconds = $PollMilliseconds
     expected_window_title = $expectedWindowTitle
     expected_message = $expectedMessage
+    fatal_export_license_message = $fatalExportLicenseMessage
 }
 
 try {
     while ((Get-Date) -lt $deadline) {
-        if (Test-Path -LiteralPath $ResultPath) {
-            Write-GuardEvent -Event "result_observed" -Data @{
+        if ($StopPath -and (Test-Path -LiteralPath $StopPath)) {
+            Write-GuardEvent -Event "stop_signal_observed" -Data @{
+                dismissal_count = $dismissalCount
+                stop_path = $StopPath
+            }
+            break
+        }
+        if (Test-ResultTerminal) {
+            Write-GuardEvent -Event "terminal_result_observed" -Data @{
                 dismissal_count = $dismissalCount
             }
             break
@@ -225,10 +284,7 @@ try {
                         $element -and
                         $element.Current.ControlType -eq
                             [System.Windows.Automation.ControlType]::Window -and
-                        $element.Current.ClassName -in @(
-                            "QMessageBox",
-                            "QDialog"
-                        )
+                        $element.Current.Name -eq $expectedWindowTitle
                     ) {
                         $handleKey = [string]$nativeHandle.ToInt64()
                         if (-not $seenDialogHandles.ContainsKey($handleKey)) {
@@ -252,6 +308,7 @@ try {
                 $nativeHandle = [int]$window.Current.NativeWindowHandle
                 $descendants = Get-Descendants -Window $window
                 $messageMatches = @()
+                $fatalExportLicenseMatches = @()
                 $actionButtons = @()
                 $controlSnapshot = @()
                 foreach ($element in $descendants) {
@@ -263,6 +320,13 @@ try {
                             [System.Windows.Automation.ControlType]::Text
                     ) {
                         $messageMatches += $element
+                    }
+                    if (
+                        $name -eq $fatalExportLicenseMessage -and
+                        $controlType -eq
+                            [System.Windows.Automation.ControlType]::Text
+                    ) {
+                        $fatalExportLicenseMatches += $element
                     }
                     if (
                         $controlType -eq
@@ -284,11 +348,53 @@ try {
 
                 $exactUndoWarning = (
                     $window.Current.Name -eq $expectedWindowTitle -and
-                    $window.Current.ClassName -eq "QMessageBox" -and
                     $messageMatches.Count -eq 1 -and
                     $actionButtons.Count -eq 1 -and
                     $actionButtons[0].Current.Name -eq "OK"
                 )
+                $buttonNames = @(
+                    $actionButtons | ForEach-Object { $_.Current.Name }
+                )
+                $exactFatalExportLicenseDialog = (
+                    $window.Current.Name -eq $expectedWindowTitle -and
+                    $window.Current.ClassName -eq "QMessageBox" -and
+                    $fatalExportLicenseMatches.Count -eq 1 -and
+                    $actionButtons.Count -eq 2 -and
+                    $buttonNames -contains "OK" -and
+                    $buttonNames -contains "Buy"
+                )
+                if ($exactFatalExportLicenseDialog) {
+                    $okButton = $actionButtons |
+                        Where-Object { $_.Current.Name -eq "OK" } |
+                        Select-Object -First 1
+                    $progress = Read-CurrentProgress
+                    $fatalDialogCount += 1
+                    $fatalRecord = [ordered]@{
+                        schema_version = 1
+                        recorded_at = (Get-Date).ToString("o")
+                        event = "export_license_blocker"
+                        message = $fatalExportLicenseMessage
+                        target_process_id = $TargetProcessId
+                        native_window_handle = $nativeHandle
+                        window_title = $window.Current.Name
+                        window_class_name = $window.Current.ClassName
+                        action_button_names = $buttonNames
+                        progress = $progress
+                    }
+                    $fatalPath = Write-FatalDialog -Record $fatalRecord
+                    $invokePattern = $okButton.GetCurrentPattern(
+                        [System.Windows.Automation.InvokePattern]::Pattern
+                    )
+                    $invokePattern.Invoke()
+                    Write-GuardEvent -Event "dismissed_fatal_export_license_dialog" -Data @{
+                        fatal_dialog_count = $fatalDialogCount
+                        fatal_dialog_path = $fatalPath
+                        native_window_handle = $nativeHandle
+                        progress = $progress
+                    }
+                    Start-Sleep -Milliseconds 300
+                    continue
+                }
                 if (-not $exactUndoWarning) {
                     $snapshotKey = [string]$nativeHandle
                     if (-not $observedUnmatchedWindows.ContainsKey($snapshotKey)) {
@@ -299,11 +405,7 @@ try {
                             window_class_name = $window.Current.ClassName
                             exact_message_count = $messageMatches.Count
                             action_button_count = $actionButtons.Count
-                            action_button_names = @(
-                                $actionButtons | ForEach-Object {
-                                    $_.Current.Name
-                                }
-                            )
+                            action_button_names = $buttonNames
                             controls = $controlSnapshot
                         }
                     }

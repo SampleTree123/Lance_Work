@@ -1,0 +1,42 @@
+{
+  "body_library": "cc_body_preset_library_v1.json",
+  "bodyfit_reference_faces": {
+    "female": "V3BASE_F02_Camila",
+    "male": "V3BASE_M02_Kevin"
+  },
+  "face_baseline_library": "cc_face_quality_batch_v3_validation.json",
+  "face_variation": {
+    "bodyfit_id": "M04_Heavy",
+    "faces": [
+      {
+        "face_preset_id": "V3BASE_M02_Kevin",
+        "role": "average"
+      },
+      {
+        "face_preset_id": "V3BASE_M09_Male_F",
+        "role": "narrow_long"
+      },
+      {
+        "face_preset_id": "V3BASE_M08_Male_E",
+        "role": "broad_round"
+      }
+    ]
+  },
+  "head_scale_morph_id": "cc embed morphs/embed_full_head9",
+  "head_scale_values": [
+    -0.4,
+    -0.3,
+    -0.2,
+    -0.1,
+    0.0,
+    0.1,
+    0.2,
+    0.3,
+    0.35,
+    0.4
+  ],
+  "inter_case_delay_seconds": 5.0,
+  "output": "cc_head_bodyfit_scale_review_matrix_v1.json",
+  "pipeline_library": "cc_head_bodyfit_scale_pilot_v1.json",
+  "schema_version": 1
+}

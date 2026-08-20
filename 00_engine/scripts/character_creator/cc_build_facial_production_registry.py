@@ -74,6 +74,7 @@ COMPONENT_ORDER = (
     "bodyfit_project",
     "primary_head_preset",
     "local_face_morphs",
+    "bodyfit_proportion_adjustment",
     "skin",
     "age_morph",
     "dynamic_wrinkle_profile",
@@ -84,6 +85,7 @@ COMPONENT_ORDER = (
     "facial_hair",
     "scalp_hair",
     "shared_hair_pigmentation",
+    "face_material_quality_profile",
     "quality_assurance",
 )
 
@@ -500,6 +502,31 @@ def build(config_path=DEFAULT_CONFIG, output_path=DEFAULT_OUTPUT):
     config = read_json(paths["config"])
     if int(config.get("schema_version", -1)) != 1:
         raise RegistryError("Unsupported registry config schema")
+    quality_config = config.get("face_material_quality_profile") or {}
+    if not isinstance(quality_config, dict):
+        raise RegistryError("Face material quality profile must be an object")
+    quality_path = resolved_file(
+        quality_config.get("path"),
+        "Face material quality profile",
+    )
+    quality_profile = read_json(quality_path)
+    quality_profile_id = quality_config.get("profile_id")
+    required_quality_status = quality_config.get("required_status")
+    if quality_profile.get("profile_id") != quality_profile_id:
+        raise RegistryError("Face material quality profile ID changed")
+    if quality_profile.get("status") != required_quality_status:
+        raise RegistryError(
+            "Face material quality profile is not production approved"
+        )
+    if not quality_profile.get("recommended_changes"):
+        raise RegistryError("Face material quality profile has no changes")
+    paths["face_material_quality_profile"] = quality_path
+    quality_reference = {
+        "path": quality_path,
+        "profile_id": quality_profile_id,
+        "required_status": required_quality_status,
+        "sha256": sha256_file(quality_path),
+    }
     mode_weights = config.get("hair_color_mode_weights") or {}
     validate_distribution(mode_weights, "Hair color modes")
     age_distribution = config.get("age_distribution") or {}
@@ -806,6 +833,7 @@ def build(config_path=DEFAULT_CONFIG, output_path=DEFAULT_OUTPUT):
                 "replace_teeth_avatar_part",
             ),
         },
+        "face_material_quality_profile": quality_reference,
         "generated_at": now(),
         "pigmentation": {
             "dyed_color_ids": list(DYED_COLOR_IDS),
