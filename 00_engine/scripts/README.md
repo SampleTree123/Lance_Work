@@ -1,136 +1,70 @@
-# scripts —— 渲染与自动化 / 流水线打通
+# 00_engine/scripts：执行代码入口
 
-> 父层：[`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
-> 本层放 **UE5.8 目标环境下的自动化脚本、渲染配置、GT 导出、sidecar**。当前唯一目标：**把整条流水线打通（MVP 最小闭环）**。
+本目录保存可复现的 CC、UE、配置图和文档校验代码。当前第一批执行顺序由 [`FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md`](../../20_planning/data_design/character_creator/full_process/planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) 定义；本页只说明代码位于哪里及其成熟度。
 
-版权暂缓仅限内部原型；所有临时资产必须标为 `prototype-only`，不得进入发布/训练数据。
+## 子目录
 
-## 内容说明（规划，随实现补充）
+| 路径 | 内容 | 当前用途 |
+| --- | --- | --- |
+| [`character_creator/`](./character_creator/README.md) | CC5 角色、服装、动作、导出与验证脚本 | 生成 8 身份、16 Look、12 动作冻结输入 |
+| [`unreal/`](./unreal/README.md) | UE 资产导入、表情、动作分层和运行时验证 | 完成 Pilot；继续做动作/Look 门禁与场景模板 |
+| [`dataset/`](./dataset/README.md) | 配置图与多轮链生成 | 已通过合成输入测试，真实 UE ID 待补 |
+| [`documentation/`](./documentation/README.md) | 文档图、链接和结构检查 | 提交前必须运行 |
 
-| 文件 | 职责 | 状态 |
-|------|------|------|
-| `README.md` | 本文件：MVP 闭环定义、脚本架构、对齐 checklist、样本 schema v0 | 当前 |
-| `ue_env.sh` | UE 5.8 用户态运行环境：项目内 `HOME`、DDC、tmp、本地补库 `LD_LIBRARY_PATH` | 已写 |
-| `run_ue_cmd.sh` | `UnrealEditor-Cmd` 包装入口，默认追加 `-ddc=NoZenLocalFallback` | 已写 |
-| `run_mvp_python_smoke.sh` | MVPProject Python commandlet smoke；支持 `nullrhi` / `renderoffscreen` | 已写 |
-| `run_mcp_generate_client_config.sh` | 用 UE 控制台命令生成/刷新 MCP client config；会临时关闭 auto-start 避免只生成配置时占用端口 | 已写 |
-| `render_pair.py` | 主入口：给定 `(base_config, edit)` 渲一对前后视频 + GT + sidecar | 待写 |
-| `factors.py` | 每个因子的“读/改”接口（统一签名，便于扩到 E1-E11） | 待写 |
-| `passes.py` | 配置 GT passes + 多层 EXR 输出 | 待写 |
-| `sidecar.py` | 写样本 JSON（统一样本 schema） | 待写 |
-| `walk.py` | MVP 之后随机游走批量生成“节点+边”，保证端点复用 | 待写 |
+根目录 shell 脚本用于 Linux UE 环境：
 
-参考：
+- `ue_env.sh`：统一 UE 环境变量；
+- `run_ue_cmd.sh`：用户态 UE 命令包装；
+- `run_mvp_python_smoke.sh`：最小 Python commandlet smoke；
+- `run_mcp_generate_client_config.sh`：生成 MCP 客户端配置。
 
-- 集群部署与 smoke test：[`../unreal/cluster_deploy_and_mvp.md`](../unreal/cluster_deploy_and_mvp.md)。
-- UE harness 调研：[`../../10_research/tool_surveys/unreal_harness_survey.md`](../../10_research/tool_surveys/unreal_harness_survey.md)。
-- 数据 schema 归档位置：[`../../20_planning/data_design/schema/`](../../20_planning/data_design/schema/README.md)。
+## 第一批关键实现
 
-## 1. “打通”的定义（MVP 验收标准）
+### Character Creator
 
-一个脚本能自动产出 1 对像素级对齐的前后编辑配对 + GT + sidecar，且未改动区域逐像素差接近 0。跑通这一条，整条数据范式（配置图 / 对齐 / 自动指令 / GT）就验证了。
+- `character_creator/cc_build_first_batch_identity_library_v1.py`：建立首批 8 身份冻结库；
+- `character_creator/cc_build_first_batch_full_reference_looks_v2.py`：建立并审计 16 个 FullReference Look；
+- `character_creator/cc_build_first_batch_action_gate_v3.py`：首批 12 动作的 CC 门禁；
+- `character_creator/cc_ingest_first_batch_action_window_selection_v1.py`：接收人工选择的 5 秒窗口；
+- `character_creator/cc_build_first_batch_action_ue_export_v1.py`：准备 Motion FBX 导出任务；
+- `character_creator/cc_first_batch_action_registry_20260820_v3.json`：当前 12 动作权威注册表；
+- `character_creator/cc_first_batch_full_reference_looks_20260820_v2.json`：当前 16 Look 权威配置。
 
-## 2. MVP 最简场景
+### Unreal Engine
 
-- 1 角色（绑 UE5 Manny/Quinn 骨架）+ 1 个 in-place 循环动作（避 root-motion 批量导出 bug）。
-- 1 环境 + 1 固定相机 + 1 光照。
-- 第一类编辑建议 E8 光照、E5 道具可见性、E6 配饰可见性或 E11 表情。
-- 原型资产用最省力的组合即可，但必须记录来源并标 `prototype-only`；进入发布/训练数据前必须替换为合规资产。
+- `unreal/first_batch_expression_profile_20260820_v1.json`：Happy/Angry/Sad 表情配置；
+- `unreal/ue_build_first_batch_expression_library.py`：创建 UE 表情曲线资产；
+- `unreal/ue_build_first_batch_expression_composition.py`：构建身体动作与面部表情组合；
+- `unreal/run_first_batch_expression_review.py`：运行首批表情审查；
+- `unreal/ue_import_cc5_rlmotion_pilot.py`：CC 动作导入 Pilot；
+- `unreal/ue_validate_p0_runtime_motions.py`：运行时动作门禁。
 
-## 3. 闭环步骤
+### 配置图
 
-1. 加载关卡 + Sequencer，固定帧率、起始帧和时长。
-2. 配置 MoviePipeline：AA=None + 空间采样，启用 WorldDepth / MotionVectors 等 GT passes，多层 EXR 输出，设 warm-up 帧。
-3. 渲染配置 `C` -> `video_in` + GT passes。
-4. Python 只改一个因子，其余一切不动。
-5. 渲染 `C'` -> `video_out` + GT passes。
-6. 写 sidecar JSON：改动因子、前后参数、自动指令、各文件路径、相机内外参。
-7. 做对齐 sanity check。E8 光照是全局变化，改用深度/几何一致性校验。
+- `dataset/build_first_batch_config_graph_v1.py`：确定性生成节点、原子边、3–5 轮链和渲染作业；
+- schema：[`CONFIG_GRAPH_SCHEMA_V1.md`](../../20_planning/data_design/schema/CONFIG_GRAPH_SCHEMA_V1.md)；
+- 采样：[`MULTI_ROUND_CHAIN_SAMPLING_V1.md`](../../20_planning/data_design/sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md)。
 
-## 4. 脚本架构（建议）
+完整的代码、JSON、证据和 UE 资产映射以 [`IMPLEMENTATION_INDEX.md`](../../20_planning/data_design/character_creator/full_process/reference/IMPLEMENTATION_INDEX.md) 为准。
 
-UE 命令统一通过包装脚本运行：
+## 尚未实现或未贯通
 
-```bash
-00_engine/scripts/run_ue_cmd.sh <UE arguments>
+以下内容不能因为存在 Pilot 就视为生产完成：
+
+1. 12 个 Motion FBX 的完整导出和 UE 批量门禁；
+2. 16 个 FullReference Look 的正式 UE 批量导入；
+3. 固定场景、角色锚点、两台相机、灯光和 Sequence；
+4. 唯一节点的 MRQ/MRG 渲染执行器；
+5. sidecar、SHA-256、重试、断点恢复和交付验证；
+6. 本地完整链和服务器 10 节点基准。
+
+不要恢复旧 README 中尚未实现的 `render_pair.py`、`factors.py`、`passes.py` 等占位接口；生产实现应以当前 schema、Sprint 和实际 UE 资产为准。
+
+## 校验
+
+```powershell
+python 00_engine/scripts/documentation/check_character_factory_docs.py --json
+python -m pytest 00_engine/scripts/documentation/tests 00_engine/visualization_portal/tests 00_engine/scripts/dataset/tests -q
 ```
 
-不要裸跑 `00_engine/unreal/UE_5.8/Engine/Binaries/Linux/UnrealEditor-Cmd`，否则会漏掉本地 `libgbm`、项目内 `HOME` 和 DDC 配置。登录节点只用 `-NullRHI` 做轻量检查；真正渲染 smoke test 放到 GPU 节点。
-
-当前短生命周期 smoke 入口：
-
-```bash
-# 已在 GPU allocation 内时
-00_engine/scripts/run_mvp_python_smoke.sh nullrhi
-00_engine/scripts/run_mvp_python_smoke.sh renderoffscreen
-
-# 从登录节点复用已有 Slurm allocation
-srun --jobid=<JOBID> --overlap -n1 bash -lc 'cd /scratch/prj0000000275/jcy/xks/DataMake; 00_engine/scripts/run_mvp_python_smoke.sh nullrhi'
-```
-
-UE 对 `.uproject` 相对路径解析不稳定，脚本内部统一使用绝对路径。`-run=pythonscript` commandlet 会短生命周期退出，但它通常选择 Null RHI；真实 Vulkan/H200 初始化需要用渲染路径或专门 RHI smoke 日志确认。
-
-MCP client config 生成入口：
-
-```bash
-00_engine/scripts/run_mcp_generate_client_config.sh
-```
-
-MCP/Codex 详细配置见 [`../unreal/mcp_agent_setup.md`](../unreal/mcp_agent_setup.md)。Agent 只能作为编辑器辅助入口，生产数据生成逻辑仍要落到这里的脚本和 sidecar。
-
-```text
-render_pair(base_config, edit) ->
-  set_scene(base_config)          # factors.py: 摆好角色/服装/动作/场景/相机/光照
-  render(C)  -> video_in, gt_in   # passes.py + MoviePipeline
-  apply_edit(edit)                # factors.py: 只动一个因子
-  render(C') -> video_out, gt_out
-  write_sidecar(...)              # sidecar.py
-```
-
-- `factors.py` 统一接口：`set_light / swap_outfit / swap_anim / swap_identity / swap_env / toggle_prop / toggle_accessory / set_camera / set_expression`。
-- 每个 factor 接口都成对提供 `read_*` 与 `apply_*`，保证 sidecar 能记录前后值。
-- 无头批渲：`UnrealEditor-Cmd Proj.uproject Map -game -RenderOffscreen -unattended -log -stdout ...`。
-
-## 5. 确定性 / 对齐 checklist
-
-- [ ] AA=None，仅空间采样。
-- [ ] 固定帧率、起始帧、时长、相机、console vars。
-- [ ] warm-up 帧足够。
-- [ ] 动作用 in-place 循环。
-- [ ] 道具增删用 visibility toggle，不 spawn/destroy。
-- [ ] 未改动区域逐像素差 sanity check；E8 光照改用深度/几何一致性校验。
-
-## 6. 统一样本 schema v0（草案）
-
-稳定后迁入 [`../../20_planning/data_design/schema/`](../../20_planning/data_design/schema/README.md)。
-
-```json
-{
-  "pair_id": "w001_s03_E8",
-  "walk_id": "w001",
-  "step": 3,
-  "factor_changed": "E8_light",
-  "instruction": "把光照改成日落",
-  "video_in": "00_engine/outputs/mvp/w001/s02.mp4",
-  "video_out": "00_engine/outputs/mvp/w001/s03.mp4",
-  "gt_in": {"depth": "...", "motion": "...", "seg": "..."},
-  "gt_out": {"depth": "...", "motion": "...", "seg": "..."},
-  "camera": {"intrinsics": {}, "extrinsics": {}},
-  "fps": 24,
-  "frames": 96,
-  "config_in": {"identity": "...", "outfit": "...", "anim": "...", "env": "...", "light": "noon"},
-  "config_out": {"identity": "...", "outfit": "...", "anim": "...", "env": "...", "light": "sunset"},
-  "assets": [{"id": "...", "license": "prototype-only"}]
-}
-```
-
-关键：`video_out` 作为下一条边的 `video_in` 文件被直接复用，多轮链由 `walk.py` 在图上取子路径得到。
-
-## Agent 备忘
-
-- 当前主线就是这里：把 MVP 跑通 = 项目当前最高优先。
-- 动手写脚本前先用 `00_engine/scripts/run_ue_cmd.sh` 确认 UE5.8 能在当前节点跑 Python/MoviePipeline。
-- 写脚本时优先 MRQ 跑通，MRG 作为更复杂输出图和多 pass 方案的升级路径。
-- MCP/agent 只用于检查资产、关卡、Sequencer 和原型脚本；生产逻辑必须固化到可审计的 Python/MRQ/MRG 脚本和 sidecar。
-- 版权：原型资产可先服务内部管线验证，但必须标 `prototype-only`；进入发布集的资产再回 [`../../20_planning/compliance/`](../../20_planning/compliance/README.md) 收口。
-- MVP 之后：写 `walk.py` 做随机游走批量，验证端点复用与多轮链抽取。
+CC 全测试包含少量只能在 CC 内置 Python/PySide2 环境收集的测试；普通系统 Python 中应按测试说明排除这些 UI 专用模块。

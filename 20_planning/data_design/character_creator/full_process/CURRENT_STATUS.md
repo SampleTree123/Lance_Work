@@ -32,7 +32,7 @@
 | 节点 | `16 Looks × 6 sex-compatible Actions × 4 states = 384` | schema 与确定性生成器已实现并通过测试；身份/服装真实源已冻结，动作窗口与场景源待补齐 |
 | 链 | 3–5 轮；目标 4,000，最低 3,000 | 4,000 链确定性生成、原子边、回退/闭环和覆盖检查已通过测试；真实冻结源待补齐 |
 | 输出 | 节点媒体、sidecar、哈希、配置图、链和报告 | WF-09 待实现 |
-| 服务器 | Linux/NVIDIA + UE 5.8 Editor 离屏运行 | 待 10 节点基准 |
+| 服务器 | Git 代码/文档/配置已于 2026-08-20 同步；Linux/NVIDIA + UE 5.8 Editor 离屏运行 | 环境预检、二进制资产包、项目 smoke 与 10 节点基准待完成 |
 
 完整冻结范围、日程和降级顺序只在 Sprint 文档维护。
 
@@ -65,7 +65,7 @@ FullReference 直接 Morph 路线必须禁用角色组件的 Post Process Bluepr
 3. 在单场景中固定安全角色锚点、两台相机、灯光和 Sequence 模板。
 4. 用真实冻结资产填充配置图源，生成 384 节点、原子边、4,000 条链与渲染作业。
 5. 实现唯一节点渲染、sidecar、哈希、失败重试和交付验证，并在本地跑通一条 3–5 轮完整链。
-6. 在服务器完成 UE 5.8/插件/Vulkan/大小写路径预检和 10 节点基准。
+6. 服务器先完成不依赖资产包的环境预检；项目与二进制资产同步后，再完成插件/大小写路径项目 smoke 和 10 节点基准。
 7. 按实测速度完成 384、288 或 192 节点档位，并交付至少 3,000 条有效链。
 
 这些项目的顺序和退出条件见 [Sprint](./planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md)，不能从旧实验日志推断。
@@ -89,11 +89,11 @@ FullReference 直接 Morph 路线必须禁用角色组件的 Post Process Bluepr
 | 本周做什么 | [第一批数据 Sprint](./planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) |
 | 配置图字段 | [Config Graph Schema V1](../../schema/CONFIG_GRAPH_SCHEMA_V1.md) |
 | 3–5 轮链如何采样 | [Multi-round Sampling V1](../../sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md) |
-| 服务器怎么预检和渲染 | [Server Runbook](../../../implementation/FIRST_BATCH_SERVER_RUNBOOK.md) |
+| 服务器怎么预检和渲染 | [Server Runbook](../../../implementation/FIRST_BATCH_SERVER_RUNBOOK.md) / [Executable Preflight](../../../implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh) |
 | 当前代码/JSON/UE 资产 | [Implementation Index](./reference/IMPLEMENTATION_INDEX.md) |
 | 后续而非本周工作 | [Roadmap](./planning/ROADMAP.md) / [Backlog](./planning/BACKLOG.md) |
 | 已完成过程与证据 | [Milestone](./history/MILESTONE_LOG.md) / [周报](./history/reports/WEEKLY_REPORT_2026-08-13_TO_2026-08-19.md) |
 
 ## 7. 唯一下一步
 
-先完成三种表情的动态视觉签字，并生成 `required_exports.json`。随后把已审计的 16 个 FullReference Look 导入 UE，完成已冻结 12 个动作的 Motion FBX 导出/导入门禁；通过后固定场景、角色锚点、两台相机与 Sequence。场景 ID 未冻结前，不开始全量节点渲染或服务器上传。
+先完成三种表情的动态视觉签字，并生成 `required_exports.json`。随后把已审计的 16 个 FullReference Look 导入 UE，完成已冻结 12 个动作的 Motion FBX 导出/导入门禁；通过后固定场景、角色锚点、两台相机与 Sequence。服务器可并行执行 `FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only`，但场景 ID、本地完整链和资产 manifest 未冻结前，不上传生产资产包或开始全量节点渲染。

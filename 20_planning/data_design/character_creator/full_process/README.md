@@ -7,7 +7,7 @@
 > 上级入口：[`../README.md`](../README.md)
 > 上游：无
 > 下游：[`CHARACTER_FACTORY_MASTER_SPEC.md`](./CHARACTER_FACTORY_MASTER_SPEC.md) 与日期化汇报入口
-> 最近核验：2026-08-19
+> 最近核验：2026-08-20
 
 从 [`CHARACTER_FACTORY_MASTER_SPEC.md`](./CHARACTER_FACTORY_MASTER_SPEC.md) 开始。它说明完整生命周期、当前边界、十个阶段、验证位置和全部子文档。
 
@@ -24,6 +24,7 @@
 | 查失败恢复 | [Recovery Runbook](./validation/RECOVERY_RUNBOOK.md) |
 | 查下一阶段开发 | [Roadmap](./planning/ROADMAP.md) |
 | 执行本周第一批数据任务 | [第一批数据 Sprint](./planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) |
+| 在服务器执行环境/项目预检 | [Server Runbook](../../../implementation/FIRST_BATCH_SERVER_RUNBOOK.md) / [Executable Preflight](../../../implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh) |
 | 查看本周汇报材料 | [2026-08-13 至 2026-08-19 周报](./history/reports/WEEKLY_REPORT_2026-08-13_TO_2026-08-19.md) |
 | 查历史决定或旧原文 | [ADR](./decisions/README.md) / [History](./history/README.md) |
 

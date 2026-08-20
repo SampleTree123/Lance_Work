@@ -1,119 +1,105 @@
-# DataMake —— 多轮视频编辑数据集构建工作区
+# Lance_Work / DataMake
 
-> 新会话先读 [`HANDOFF.md`](./HANDOFF.md)，再读 [`AGENTS.md`](./AGENTS.md)。
+用于构建 **Unreal Engine 多轮视频编辑数据集** 的工作仓库。项目当前不训练模型，重点是把 Character Creator 角色资产、Unreal Engine 场景与确定性配置图连接成可审计的数据生产流水线。
 
-## 1. 项目定位
+> 新会话先读 [`HANDOFF.md`](./HANDOFF.md)，项目规则见 [`AGENTS.md`](./AGENTS.md)。Character Creator 与 UE 主流程从 [`CHARACTER_FACTORY_MASTER_SPEC.md`](./20_planning/data_design/character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md) 进入。
 
-DataMake 用于**多轮视频编辑模型的数据集构建**，不负责模型训练。目标样本形态是：
+## 数据模型
 
-```text
-video_in + instruction -> video_out
-video_0 -> video_1 -> video_2 -> ...
-```
-
-当前主攻来源是 **Unreal Engine 合成视频数据**。真实视频和大模型生成来源保留为后续规划；Lance/BAGEL 等外部模型验证用于判断现有能力和反推数据需求。
-
-## 2. 核心数据模型
-
-把一个镜头建模为配置：
+一个视频节点由确定性配置 `C` 生成：
 
 ```text
-C = {角色, 服装, 动作, 表情, 场景, 道具/配饰, 相机, 光照, 天气/特效, 风格}
+C = {identity, body_fit, outfit, action, expression, scene, camera, lighting}
 render(C) -> video
 ```
 
-- 节点：确定性渲染的视频。
-- 边：一次原子编辑 `C -> C'`，通常只改一个因子。
-- 单轮样本：`(render(C), instruction, render(C'))`。
-- 多轮样本：配置图上的路径 `C0 -> C1 -> C2 -> ...`。
-- 硬约束：**端点复用**。一条边的 `video_out` 必须就是下一条边的 `video_in` 文件。
-
-详细设计见 [`20_planning/data_design/`](./20_planning/data_design/README.md)。
-
-## 3. 当前目录结构
+一次原子编辑只改变一个主要因素：
 
 ```text
-DataMake/
-├── README.md
-├── HANDOFF.md
-├── AGENTS.md
-├── .gitignore
-├── 00_engine/                  # 引擎合成：UE、资产、脚本、工程、输出、缓存
-│   ├── README.md
-│   ├── unreal/
-│   ├── runtime/
-│   ├── assets/
-│   ├── scripts/
-│   ├── projects/
-│   ├── outputs/
-│   └── cache/
-├── 10_research/                # 学习资料、外部项目、工具调研、模型能力验证
-│   ├── README.md
-│   ├── study/
-│   ├── tool_surveys/
-│   └── model_experiments/
-└── 20_planning/                # 数据设计、实施计划、合规、讨论记录
-    ├── README.md
-    ├── data_design/
-    ├── implementation/
-    ├── compliance/
-    └── discussions/
+video_0 -> video_1 -> video_2 -> ...
 ```
 
-## 4. 当前主线
+每条边形成 `(video_in, instruction, video_out)`；上一轮的 `video_out` 必须直接复用为下一轮的 `video_in`，不能重复渲染替代。
 
-1. **UE MVP**：在 [`00_engine/scripts/`](./00_engine/scripts/README.md) 打通一对前后编辑配对：`render(C) -> edit -> render(C') -> GT -> sidecar`。
-2. **Lance 验证**：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 公开视频连续单轮测试已跑完；contextual v2 真多轮原型已完成 current-only 三轮测试；full-conversation multi-turn chat A 方案已完成 GPU smoke，`steps=12` 结果很差，复跑 `steps=30` 后明显改善但蓝项圈仍不稳定，记录见 [`10_research/model_experiments/lance/reports/full_conversation_multiturn_chat_smoke.md`](./10_research/model_experiments/lance/reports/full_conversation_multiturn_chat_smoke.md)。
-3. **schema 收敛**：MVP 后把样本 schema v0 迁到 [`20_planning/data_design/schema/`](./20_planning/data_design/schema/README.md)。
-4. **采样策略**：把三轮编辑链、回退/成环一致性写入 [`20_planning/data_design/sampling/`](./20_planning/data_design/sampling/README.md)。
-5. **资产存储与台账**：本地只保留预览子集，服务器保留当前批次工作副本，长期素材/冷存储层待正式规模生产前确认；台账 schema 见 [`00_engine/assets/asset_ledger_schema.md`](./00_engine/assets/asset_ledger_schema.md)。
-6. **本地资产准备**：用户本地 UE Editor 负责找素材、导入、绑定、调材质和人工预览；服务器负责接收整理好的工作副本并脚本化渲染。流程见 [`20_planning/implementation/local_asset_workflow.md`](./20_planning/implementation/local_asset_workflow.md)。
+## 当前状态
 
-## 5. 目录规则
+状态日期：**2026-08-20**。当前唯一活动目标是在 **2026-08-26** 前完成第一批可交付样例。
 
-- 顶层只保留三类长期工作：`00_engine/`、`10_research/`、`20_planning/`。
-- 每个长期目录必须有 `README.md`；越往子目录越具体。
-- 文档正文默认中文，文件名默认英文。
-- 外部事实要带日期；UE 版本、许可证、模型权重、服务器环境执行前重新核实。
-- 大文件、模型权重、UE 安装、缓存和输出不进 Git。路径约定见 [`20_planning/implementation/storage.md`](./20_planning/implementation/storage.md)。
-- 讨论放在 [`20_planning/discussions/`](./20_planning/discussions/README.md)，稳定结论必须回写正式文档和本文件决策日志。
+| 项目 | 当前状态 |
+| --- | --- |
+| 目标规模 | 目标 4,000 条、最低 3,000 条多轮链；每条 3–5 次原子编辑 |
+| 配置图 | `16 Looks × 6 同性动作 × 4 相机/表情状态 = 384` 个唯一节点 |
+| 身份与体型 | `F02_Average`、`M02_Average`；每性别 4 个身份，共 8 个 |
+| 服装 | 每性别 4 套；16 个 FullReference Look 已保存、导出并通过 `16/16` 审计 |
+| 动作 | 女性 6 条、男性 6 条；12 个 5 秒窗口已由用户确认并冻结 |
+| 表情 | Happy、Angry、Sad；UE 机器门禁 `6/6` 案例、`18/18` 图通过，动态人工签字待完成 |
+| 配置生成 | 已能确定性生成 384 节点和 4,000 条 3–5 轮链；真实场景与 UE 资产 ID 尚待补齐 |
+| UE | CC→UE FullReference、身体/面部分层和 Elder Morph 已通过 Pilot |
+| 服务器 | 代码、配置和文档已同步 GitHub；二进制资产包、项目 smoke、10 节点基准待完成 |
 
-## 6. 决策日志
+女性 O04 已冻结为 `YogaPants_B + CasualJacket_C + Pump Heel_B`。本批不等待十体型、Headshot 身份迁移、通用模块化换装、三发型、道具池或全部动画完成。
 
-| 日期 | 决策 | 理由 |
-|------|------|------|
-| 2026-07-31 | **CC5 Face V3 当前生产边界收口**：每个完整角色使用一个完整主面部和对应 Facial Profile，只随机化 28 个非眼部、非口部局部 Morph；新版第 0 帧快照取证已通过 `CCINT_F01_YOUNG` 的 `15/15` 姿态回归，24 角色新动态证据仍待分块重跑 | 旧 360 张动态文件实际多为第 0 帧中性图，不能作为视觉证据；当前流程加入预热、同场景中性基准、RMSE 活性、眼位稳定采样和快照恢复门禁 |
-| 2026-07-27 | **CC5 成人面部生产入口冻结为 Face V3**：每个角色先加载一个同性交付的完整 Head Preset；当时允许 35 个非口部 `role=local` Morph，并移除 `F09_Female_F`、整头 macro 和口部二次随机化。2026-07-31 再冻结 7 个眼部 Morph，当前生产子集收缩为 28 个；稳定库仍保留 200 条确定性配方 | 数值隔离本身无法发现满幅微笑时的下排牙齿穿出；历史 25 例矩阵用于保留该阶段结论，当前完整角色验收边界以 2026-07-31 记录和 Character Creator 状态文档为准 |
-| 2026-07-26 | **CC5 成人面部生产统一采用“完整主面部原型 + 白名单局部 Morph”**：旧 Face V2.1 暂停作为生产入口；年龄只用面部 `Full Face Elder`，身体体型不随年龄变化；皮肤从青年 2K 完整皮肤池选择；眼球只换材质；静态 `Face Wrinkle F/M`、专门老年皮肤、疤痕和额外皮肤细节层暂不纳入 | 旧流程虽通过静态预览，但眨眼诊断暴露眼球、眼睑和表情支撑状态可能未完整继承；单一路径能保留完整面部依赖，并用一个年龄参数降低组合复杂度 |
-| 2026-07-08 | **采用本地资产准备、服务器批量渲染的分工**：Git 只保存文档、脚本、配置、台账和 manifest；本地 UE Editor 用于找素材、导入、绑定、调材质和人工预览；服务器接收当前批次工作副本后跑脚本化渲染；UE `Content/`、`.uasset`、`.umap` 和资产包不进 Git | 服务器纯 Xvnc 不适合作为稳定完整 UE Editor GUI；本地更适合交互整理资产，服务器更适合确定性批渲；同时避免远程 Git 被大二进制污染 |
-| 2026-07-08 | **Lance full-conversation multi-turn chat A 方案已完成 GPU smoke**：参考 `Jayce-Ping/Lance@8b002b5` 新增 conversation engine 入口；历史 prompt 保留为独立 user turns，不拼入最新 prompt；视觉侧仍采用 DataMake v2 的旧视觉 VIT-only、最新视觉唯一 VAE direct source 策略；job `102622` 三轮生成成功；`steps=12` 质量差，复跑 `steps=30` 后主体保持明显改善但狗颜色和蓝项圈仍不稳定 | 代码路径成立，可以继续用于混合任务对话研究；质量对比应使用 `steps=30`，当前 Lance 多轮视频编辑默认路径仍是 contextual v2 role-aware + current-only |
-| 2026-07-08 | **资产存储改为三层策略**：本地 Laptop 4080/约 400G 只作交互预览层；服务器 DataMake `/scratch` 只作生产工作层；完整资产包、历史版本和正式结果需要长期素材/冷存储层，位置待正式规模生产前确认；新增资产台账 schema | 100+ 角色、多动作、多场景会迅速超过本地和当前工作盘的舒适容量；Git 只保存台账、脚本、配置、hash 和许可证记录，不保存资产本体 |
-| 2026-07-08 | **纯 Xvnc 已证明可连但不适合作为完整 UE Editor GUI**：Windows VNC Viewer 通过 reverse tunnel 连接到 GPU 节点 Xvnc 成功，只显示 xterm；UE Editor 可初始化 H200/Vulkan 和项目 map，但在编辑器 UI 后期 SIGSEGV | 远程图形链路本身成立，失败边界在纯用户态 Xvnc 缺少完整 NVIDIA GLX/桌面栈；服务器继续定位为脚本化 UE、MCP/offscreen/MRQ 生产环境，人工图形编辑主要放本地 |
-| 2026-07-07 | **用户态 TurboVNC 远程桌面支线已最小跑通**：TurboVNC 3.3 解包到 `00_engine/remote_desktop/`，补齐 `libXfont2`、`xkbcomp`、`xsetroot`；登录节点和 GPU job `101190` / `8FS9B74` 上 `Xvnc + xterm` 可监听 localhost；UE Editor 已确认能进入 H200/Vulkan 初始化 | 在无法联系管理员、集群未暴露 DCV/VNC/xpra module 的情况下，先验证普通用户能否自建远程桌面；UE 5.8 对当前 NVIDIA driver `565.57` 会弹出 bad-driver warning，交互预览脚本用 `r.WarnOfBadDrivers=0` 临时跳过；后续人工 VNC 结论见 2026-07-08 记录，生产数据管线仍以无头脚本为准 |
-| 2026-07-07 | **UE MCP/Codex Linux 环境已配置**：`MVPProject` 启用 `ModelContextProtocol`、`Terminal`、`EditorToolset`；`bAutoStartServer=True`；DataMake 根目录 `.codex/config.toml` 作为 Codex canonical MCP 配置；已生成 `.mcp.json`、Cursor、VSCode、Gemini、Codex client config；非沙箱验证确认 MCP listener 可绑定 `127.0.0.1:8000/mcp` | 对齐用户 Windows 下的 UE agent 配置；Codex 可作为编辑器辅助和原型探索入口，并可覆盖未来多个 UE project；生产数据流水线仍用可审计的 UE Python/MRQ/MRG 脚本 |
-| 2026-07-07 | **UE GPU/Python smoke 通过**：在 Slurm job `99943` / node `8FS9B74` 上确认 H200 driver `565.57.01`；UE 日志确认 `rhiname="Vulkan"`、`gpu="NVIDIA H200"`；新增 `MVPProject` 和 `run_mvp_python_smoke.sh`，`nullrhi` / `renderoffscreen` Python commandlet 均 `status=0` | 证明 UE Installed Build、用户态补库、项目内 DDC/HOME、Python 插件和短生命周期自动化入口可用；后续真正像素渲染仍需 MRQ/MRG 或 map/game smoke |
-| 2026-07-07 | **UE 5.8 用户态运行环境已补齐**：`libgbm.so.1` 通过项目内 `00_engine/runtime/ubuntu2204-libs/` 解决；UE 命令统一走 `00_engine/scripts/run_ue_cmd.sh`，设置项目内 `HOME`/DDC/tmp/runtime libs，并默认使用 `-ddc=NoZenLocalFallback` | 用户没有 sudo；集群登录节点不适合写真实 home，也不适合启动 UE 5.8 的 ZenLocal DDC 服务；包装脚本让后续 GPU smoke 和批渲入口稳定 |
-| 2026-07-06 | **UE 5.8 Linux Installed Build 已下载并解压**：zip 38G，解压目录 73G，版本为 UE 5.8.0 changelist 55116800 | Installed Build 路线无需源码编译，适合当前 MVP |
-| 2026-07-05 | **Lance contextual v2 改为 role-aware 结构并完成 GPU 验证**：历史视频只进 VIT，最新视频作为唯一 clean VAE source；完整 current-only 三轮重跑效果最好，turn3 小目标项圈仍不精确；prompt 默认改为 `current-only` | BAGEL 多图 interleave 启发了“历史作为 clean context”的方向，但 Lance 当前 `video_edit` 需要保持 `ref_source == noise` 的 VAE 对齐；v2 修复了 v1 all-source 的结构错误；长文本复述历史会干扰当前局部编辑 |
-| 2026-07-03 | **Lance contextual v1 turn1/turn2 已重跑，视觉质量失败**：`contextual_smoke_v1_01` 证明真多轮 interleave 链路可执行，但抽帧显示 turn1 主体漂移、turn2 场景重绘严重 | Lance 可作为外部失败基线，不适合继续在当前公开视频上堆 turn3 |
-| 2026-07-03 | **Lance contextual 多轮 config 采用轻量原型路线**：新增 `contextual_video_edit.py`，用 `text -> video -> history videos...` 的 interleave config 让 Lance 模板生成“视频在前、文本在后”的实际 prompt，目标视频由 Lance 数据层自动追加 | Lance 现有数据层能打包多个历史视频条件并只生成一个目标视频；后续需通过输入预处理控制真实帧数和尺寸 |
-| 2026-07-03 | **Lance batch8 连续单轮测试跑完**：已下载视频分支权重，建立 `xks_lance`，跑通 `video_edit` smoke test，并完成 batch8 中 8 个领域的三次连续单轮调用；2 个损坏源视频已用 clean 版补跑。该结果不是 Lance 真多轮编辑结论 | Lance 当前只确认单轮/连续单轮运行路径；多轮结论需改用 contextual config 重新测试 |
-| 2026-07-03 | **HF cache 采用现有 scratch 全局路径**：继续使用 `/scratch/prj0000000275/jcy/.cache/huggingface`，Lance 可运行权重目录放在项目 `lance/models/Lance/` | 避免重复下载已有 HF cache；模型引用仍保持项目内稳定路径 |
-| 2026-07-01 | **UE agent/MCP 采用边界**：UE 5.8 官方 MCP 插件可作为 Codex/Claude/Cursor 等 MCP-capable agent 的编辑器辅助入口；生产数据流水线仍以 UE Python + Automation Test Framework + MRQ/MRG 自建薄 harness 为核心 | UE 5.8 的 MCP 插件是官方 Experimental agent 控制层，但配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
-| 2026-07-01 | **目录收敛为三大主分支**：`00_engine/`、`10_research/`、`20_planning/` | 后续主要工作围绕引擎合成、外部资料/模型验证、讨论与实施计划三类展开；更贴合当前协作方式 |
-| 2026-06-29 | **建立长期文档工作区** | 将零散规划整理为可接手、可 review、可持续更新的项目文档 |
-| 2026-06-28 | **建立本地 Git 基线**：当前目录是本地 Git 仓库，分支 `main`；文档、规划和规则进入版本控制，大文件由 `.gitignore` 排除 | 后续会持续改文档、脚本和实验计划，需要可回滚、可 diff、可 review |
-| 2026-06-28 | **UE harness 采用策略**：生产流水线不依赖第三方 MCP/agent 工具；使用 UE 官方 Python + Automation Test Framework + MRQ/MRG 自建薄 harness | 配置图、确定性渲染、端点复用和 sidecar 必须由可审计脚本保证 |
-| 2026-06-28 | **存储改为单目录工作区**：管理员确认不能使用 `/local`；UE、DDC、模型验证权重/cache 和少量输出都放在当前 DataMake 下 | 当前 `/scratch` 空间足够 MVP 和单模型验证；网络盘小文件 I/O 较慢但可接受 |
-| 2026-06-28 | **Codex 接手文档治理**：新增 `AGENTS.md`，用 `HANDOFF.md` 承载可移植上下文 | 后续主要由 Codex 协助，需要稳定项目规则 |
-| 2026-06-19 | **数据组织为配置图**：确定性渲染节点 + 原子编辑边 + 端点复用 + 随机游走 | 让多轮链成为训练侧路径采样，避免重复渲染完整链 |
-| 2026-06-19 | **E1-E11 全部在范围**，动作拆为 E3 肢体动作与 E11 面部表情 | 编辑 taxonomy 要覆盖目标能力；表情机制不同且容易对齐 |
-| 2026-06-19 | **当前主攻 UE 5.8 引擎合成**，真实视频和大模型生成后续展开 | 引擎合成能提供其他来源拿不到的精确配对监督 |
+权威状态以 [`CURRENT_STATUS.md`](./20_planning/data_design/character_creator/full_process/CURRENT_STATUS.md) 为准；本周冻结范围和退出条件以 [`FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md`](./20_planning/data_design/character_creator/full_process/planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) 为准。
 
-## Agent 备忘
+## 当前执行顺序
 
-- 当前执行入口：[`HANDOFF.md`](./HANDOFF.md)。
-- 当前 MVP 入口：[`00_engine/scripts/README.md`](./00_engine/scripts/README.md)。
-- 本地 clone 后找素材前，先读 [`20_planning/implementation/local_asset_workflow.md`](./20_planning/implementation/local_asset_workflow.md) 和 [`00_engine/assets/asset_ledger_schema.md`](./00_engine/assets/asset_ledger_schema.md)。
-- Lance 视频分支权重已下载，`xks_lance` 可用；后续继续用 `10_research/model_experiments/lance/scripts/run_video_edit.sh` 做真实视频基线验证。
-- 提交前先看 `git status --short`，不要把 UE 安装、缓存、输出、模型权重或大型资产加入版本控制。
+1. 完成三种表情的动态视觉签字。
+2. 导出并在 UE 中门禁 12 个 Motion FBX。
+3. 将 16 个 FullReference Look 批量导入正式 UE 项目。
+4. 固定单场景、安全角色锚点、两台相机、灯光和 Sequence。
+5. 用真实资产生成配置图、节点作业和 4,000 条编辑链。
+6. 跑通本地一条完整 3–5 轮链，包括 sidecar、哈希和失败恢复。
+7. 同步二进制资产到服务器，执行环境/项目预检和 10 节点基准，再决定 384、288 或 192 节点档位。
+
+## 文档入口
+
+| 想了解什么 | 入口 |
+| --- | --- |
+| 当前可用能力与唯一下一步 | [`CURRENT_STATUS.md`](./20_planning/data_design/character_creator/full_process/CURRENT_STATUS.md) |
+| 本周目标、冻结项和降级规则 | [`FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md`](./20_planning/data_design/character_creator/full_process/planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) |
+| CC 角色工厂完整主流程 | [`CHARACTER_FACTORY_MASTER_SPEC.md`](./20_planning/data_design/character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md) |
+| 代码、配置、JSON 和 UE 资产索引 | [`IMPLEMENTATION_INDEX.md`](./20_planning/data_design/character_creator/full_process/reference/IMPLEMENTATION_INDEX.md) |
+| 配置图字段 | [`CONFIG_GRAPH_SCHEMA_V1.md`](./20_planning/data_design/schema/CONFIG_GRAPH_SCHEMA_V1.md) |
+| 3–5 轮链采样规则 | [`MULTI_ROUND_CHAIN_SAMPLING_V1.md`](./20_planning/data_design/sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md) |
+| 服务器执行说明 | [`FIRST_BATCH_SERVER_RUNBOOK.md`](./20_planning/implementation/FIRST_BATCH_SERVER_RUNBOOK.md) |
+| 服务器自动预检 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh) |
+| 引擎、脚本和产物目录 | [`00_engine/README.md`](./00_engine/README.md) |
+| 历史里程碑与证据 | [`MILESTONE_LOG.md`](./20_planning/data_design/character_creator/full_process/history/MILESTONE_LOG.md) |
+
+## 仓库结构
+
+```text
+Lance_Work/
+├── 00_engine/      # CC/UE 自动化、项目配置、轻量输出和验证工具
+├── 10_research/    # 外部模型与工具研究；Lance 实验属于此分支
+├── 20_planning/    # 数据设计、当前 Sprint、运行手册、合规与历史决策
+├── README.md       # GitHub 总入口
+├── HANDOFF.md      # 新会话和服务器接手入口
+└── AGENTS.md       # 协作与维护规则
+```
+
+## Git 与资产边界
+
+Git 保存代码、Markdown、JSON 配置、manifest、哈希和小型验证证据。以下内容不进入仓库：
+
+- Character Creator 二进制资产与项目，如 `.ccProject`、`.ccAvatar`、`.ccCloth`、`.rlHair`、`.rlMotion`；
+- Unreal Engine 的大型 `Content/`、`.uasset`、`.umap`、DDC、缓存和渲染输出；
+- 原始人物照片、模型权重和可再生成的大型可视化产物。
+
+这些资产通过独立资产包同步，并按 manifest/hash 与 Git 配置关联。详细约束见 [`storage.md`](./20_planning/implementation/storage.md) 和 [`local_asset_workflow.md`](./20_planning/implementation/local_asset_workflow.md)。
+
+## 快速校验
+
+```powershell
+python 00_engine/scripts/documentation/check_character_factory_docs.py --json
+python -m pytest 00_engine/scripts/documentation/tests 00_engine/visualization_portal/tests 00_engine/scripts/dataset/tests -q
+git status --short
+```
+
+服务器预检：
+
+```bash
+bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
+```
+
+Lance/BAGEL 等模型能力验证仍保留在 [`10_research/model_experiments/`](./10_research/model_experiments/README.md)，但不阻塞当前第一批 UE 数据生产。

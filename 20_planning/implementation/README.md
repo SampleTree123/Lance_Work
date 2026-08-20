@@ -16,6 +16,13 @@
 | [`FIRST_BATCH_SERVER_RUNBOOK.md`](./FIRST_BATCH_SERVER_RUNBOOK.md) | 第一批数据的 Linux/UE 5.8 同步、预检、10 节点基准、批量渲染与重试边界 | 当前计划 |
 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./FIRST_BATCH_SERVER_PREFLIGHT.sh) | 第一批数据服务器的可执行预检；采集 Linux/NVIDIA/Vulkan/UE 5.8 证据，并在项目已上传时执行插件检查和两次离屏启动 smoke | 当前可执行入口 |
 
+## 当前服务器同步状态（2026-08-20）
+
+- GitHub `main` 已包含当前代码、文档、JSON 配置、manifest 与轻量证据。
+- CC/UE 二进制资产、正式 UE `Content/` 和项目工作副本不通过 Git 分发，仍需按资产 manifest 独立上传。
+- 资产包未上传时，可先运行 `FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only`。
+- 项目上传后必须继续执行项目插件/大小写路径检查、两次离屏 smoke 和 10 节点基准；环境预检通过不等于生产门禁通过。
+
 ## 维护规则
 
 - 这里记录“在哪里运行、东西放哪、有什么风险”，不要把具体数据 schema 写在这里。
