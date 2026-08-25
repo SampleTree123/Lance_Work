@@ -388,6 +388,7 @@ export function renderReviewWorkspace(run, helpers) {
     const images = candidateImages(candidate, run.review?.image_order ?? []);
     if (!images.some(([key]) => key === activeImageKey)) activeImageKey = images[0]?.[0] ?? null;
     const activeImage = images.find(([key]) => key === activeImageKey)?.[1] ?? "";
+    const video = String(candidate.video ?? "");
     const visible = filteredCandidates();
     const visibleIndex = visible.findIndex((entry) => entry.id === candidate.id);
     detail.innerHTML = `
@@ -404,9 +405,13 @@ export function renderReviewWorkspace(run, helpers) {
         </div>
       </div>
       <div class="review-media">
-        <button type="button" class="review-media__main" id="reviewMainImage" aria-label="打开当前关键帧大图">
-          <img src="${escapeHtml(activeImage)}" alt="${escapeHtml(candidate.label)} ${escapeHtml(activeImageKey)}">
-        </button>
+        ${video ? `
+          <div class="review-media__main review-media__main--video">
+            <video class="review-media__video" src="${escapeHtml(video)}" poster="${escapeHtml(activeImage)}" controls autoplay loop muted playsinline preload="metadata"></video>
+          </div>` : `
+          <button type="button" class="review-media__main" id="reviewMainImage" aria-label="打开当前关键帧大图">
+            <img src="${escapeHtml(activeImage)}" alt="${escapeHtml(candidate.label)} ${escapeHtml(activeImageKey)}">
+          </button>`}
         <div class="review-timeline" aria-label="动作关键帧">
           ${images.map(([key, url]) => `
             <button type="button" data-image-key="${escapeHtml(key)}" aria-pressed="${key === activeImageKey}" title="${escapeHtml(key)}">
@@ -435,6 +440,12 @@ export function renderReviewWorkspace(run, helpers) {
 
     detail.querySelectorAll("[data-image-key]").forEach((button) => {
       button.addEventListener("click", () => {
+        if (video) {
+          const key = button.dataset.imageKey;
+          const image = images.find(([imageKey]) => imageKey === key)?.[1];
+          if (image) openImage(image, `${candidate.label} · ${key}`);
+          return;
+        }
         activeImageKey = button.dataset.imageKey;
         renderDetail();
       });

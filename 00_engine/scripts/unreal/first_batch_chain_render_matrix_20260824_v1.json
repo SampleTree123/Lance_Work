@@ -1,0 +1,552 @@
+{
+  "schema_version": "first_batch_local_render_matrix_v1",
+  "matrix_id": "first_batch_chain_visual_smoke_20260824_v1",
+  "matrix_role": "representative_chain_visual_smoke",
+  "status": "frozen_for_local_render",
+  "source_manifest_id": "first_batch_source_20260824_v1",
+  "sampling_spec_version": "multi_round_v1_20260824",
+  "sources": {
+    "graph_dir": "D:\\UE\\Lance_Work\\00_engine\\outputs\\first_batch_dataset\\graph_20260824_v1",
+    "base_matrix": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\first_batch_local_render_matrix_20260824_v1.json",
+    "chain_candidates": "D:\\UE\\Lance_Work\\00_engine\\outputs\\first_batch_dataset\\graph_20260824_v1\\review_10\\ue_render_candidates.json"
+  },
+  "unreal": {
+    "project_name": "datatry_02",
+    "source_map_package": "/Game/DataMake/Scenes/TokyoStylized/L_DM_TokyoStylized",
+    "staging_map_package": "/Game/DataMake/Scenes/TokyoStylized/L_DM_TokyoStylized_FirstBatchRender_v001",
+    "staging_map_object": "/Game/DataMake/Scenes/TokyoStylized/L_DM_TokyoStylized_FirstBatchRender_v001.L_DM_TokyoStylized_FirstBatchRender_v001",
+    "source_sequence_package": "/Game/DataMake/Sequences/firstweek",
+    "workspace_sequence_package": "/Game/DataMake/Sequences/FirstBatch/Automation/LS_DM_FirstBatch_RenderWorkspace_v001",
+    "workspace_sequence_object": "/Game/DataMake/Sequences/FirstBatch/Automation/LS_DM_FirstBatch_RenderWorkspace_v001.LS_DM_FirstBatch_RenderWorkspace_v001",
+    "render_preset": "/Game/DataMake/Render/Presets/MRQ_DM_FirstBatch_1440p30_PNG_v001"
+  },
+  "render": {
+    "resolution": [
+      2560,
+      1440
+    ],
+    "fps": 30,
+    "duration_seconds": 5,
+    "frame_count": 150,
+    "image_sequence": "png",
+    "video_codec": "h264"
+  },
+  "coverage": {
+    "chain_count": 2,
+    "chain_ids": [
+      "c_00357ead2876662a",
+      "c_4bb8ec92365d8f42"
+    ],
+    "path_node_reference_count": 11,
+    "unique_node_count": 9,
+    "domain_counts": {
+      "female_v1": 5,
+      "male_v1": 4
+    },
+    "checks": {
+      "exactly_two_candidate_chains": true,
+      "all_candidate_nodes_resolved": true,
+      "render_each_unique_node_once": true,
+      "both_compatibility_domains_present": true,
+      "all_samples_happy_only": true,
+      "all_samples_are_150_frames": true,
+      "all_runtime_bindings_resolved": true
+    }
+  },
+  "chains": [
+    {
+      "chain_id": "c_00357ead2876662a",
+      "selection_reason": "female_v1:progressive_shortest_length_4",
+      "node_ids": [
+        "n_09ec591c5362fe4c",
+        "n_a9450f49b5f6fc93",
+        "n_c5a786477f2e3035",
+        "n_2a99c2651f6fdac3",
+        "n_dea318016863e9de"
+      ]
+    },
+    {
+      "chain_id": "c_4bb8ec92365d8f42",
+      "selection_reason": "male_v1:freeform_returns_to_start_length_5",
+      "node_ids": [
+        "n_51c2d9f2c76ca68b",
+        "n_6f78ce8958472909",
+        "n_a3e75fbc9dead9e4",
+        "n_3f852ab412ca20ea",
+        "n_a3e75fbc9dead9e4",
+        "n_51c2d9f2c76ca68b"
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "sample_id": "CHAIN_NODE_01_n_09ec591c5362fe4c",
+      "graph_node_id": "n_09ec591c5362fe4c",
+      "chain_memberships": [
+        {
+          "chain_id": "c_00357ead2876662a",
+          "node_position": 0,
+          "selection_reason": "female_v1:progressive_shortest_length_4"
+        }
+      ],
+      "look_id": "F_ID04_O02",
+      "graph_look_id": "f_id04_o02",
+      "sex": "female",
+      "compatibility_domain_id": "female_v1",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id04",
+      "outfit_id": "f_o02",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O02/CC_FB_F_ID04_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O02/CC_FB_F_ID04_O02_Blueprint_LiveLink.CC_FB_F_ID04_O02_Blueprint_LiveLink_C",
+      "action_id": "ACT_F05_TIE_SHOES",
+      "graph_action_id": "act_f05_tie_shoes",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F05/A_DM_F05_TIE_SHOES_Happy_Composite_v001",
+      "camera_id": "far",
+      "camera_section_index": 1,
+      "start_frame_inclusive": 150,
+      "end_frame_exclusive": 300,
+      "output_relative_directory": "n_09ec591c5362fe4c",
+      "expected_media_uri": "media/nodes/n_09ec591c5362fe4c/video.mp4",
+      "node_config": {
+        "action_id": "act_f05_tie_shoes",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "f02_average",
+        "camera_id": "far",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "f_id04",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "f_o02",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "female"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_02_n_a9450f49b5f6fc93",
+      "graph_node_id": "n_a9450f49b5f6fc93",
+      "chain_memberships": [
+        {
+          "chain_id": "c_00357ead2876662a",
+          "node_position": 1,
+          "selection_reason": "female_v1:progressive_shortest_length_4"
+        }
+      ],
+      "look_id": "F_ID02_O02",
+      "graph_look_id": "f_id02_o02",
+      "sex": "female",
+      "compatibility_domain_id": "female_v1",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o02",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink.CC_FB_F_ID02_O02_Blueprint_LiveLink_C",
+      "action_id": "ACT_F05_TIE_SHOES",
+      "graph_action_id": "act_f05_tie_shoes",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F05/A_DM_F05_TIE_SHOES_Happy_Composite_v001",
+      "camera_id": "far",
+      "camera_section_index": 1,
+      "start_frame_inclusive": 150,
+      "end_frame_exclusive": 300,
+      "output_relative_directory": "n_a9450f49b5f6fc93",
+      "expected_media_uri": "media/nodes/n_a9450f49b5f6fc93/video.mp4",
+      "node_config": {
+        "action_id": "act_f05_tie_shoes",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "f02_average",
+        "camera_id": "far",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "f_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "f_o02",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "female"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_03_n_c5a786477f2e3035",
+      "graph_node_id": "n_c5a786477f2e3035",
+      "chain_memberships": [
+        {
+          "chain_id": "c_00357ead2876662a",
+          "node_position": 2,
+          "selection_reason": "female_v1:progressive_shortest_length_4"
+        }
+      ],
+      "look_id": "F_ID02_O02",
+      "graph_look_id": "f_id02_o02",
+      "sex": "female",
+      "compatibility_domain_id": "female_v1",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o02",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink.CC_FB_F_ID02_O02_Blueprint_LiveLink_C",
+      "action_id": "ACT_F03_AUDIENCE_01",
+      "graph_action_id": "act_f03_audience_01",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F03/A_DM_F03_AUDIENCE_01_Happy_Composite_v001",
+      "camera_id": "far",
+      "camera_section_index": 1,
+      "start_frame_inclusive": 150,
+      "end_frame_exclusive": 300,
+      "output_relative_directory": "n_c5a786477f2e3035",
+      "expected_media_uri": "media/nodes/n_c5a786477f2e3035/video.mp4",
+      "node_config": {
+        "action_id": "act_f03_audience_01",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "f02_average",
+        "camera_id": "far",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "f_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "f_o02",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "female"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_04_n_2a99c2651f6fdac3",
+      "graph_node_id": "n_2a99c2651f6fdac3",
+      "chain_memberships": [
+        {
+          "chain_id": "c_00357ead2876662a",
+          "node_position": 3,
+          "selection_reason": "female_v1:progressive_shortest_length_4"
+        }
+      ],
+      "look_id": "F_ID02_O02",
+      "graph_look_id": "f_id02_o02",
+      "sex": "female",
+      "compatibility_domain_id": "female_v1",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o02",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink.CC_FB_F_ID02_O02_Blueprint_LiveLink_C",
+      "action_id": "ACT_F03_AUDIENCE_01",
+      "graph_action_id": "act_f03_audience_01",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F03/A_DM_F03_AUDIENCE_01_Happy_Composite_v001",
+      "camera_id": "high",
+      "camera_section_index": 2,
+      "start_frame_inclusive": 300,
+      "end_frame_exclusive": 450,
+      "output_relative_directory": "n_2a99c2651f6fdac3",
+      "expected_media_uri": "media/nodes/n_2a99c2651f6fdac3/video.mp4",
+      "node_config": {
+        "action_id": "act_f03_audience_01",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "f02_average",
+        "camera_id": "high",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "f_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "f_o02",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "female"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_05_n_dea318016863e9de",
+      "graph_node_id": "n_dea318016863e9de",
+      "chain_memberships": [
+        {
+          "chain_id": "c_00357ead2876662a",
+          "node_position": 4,
+          "selection_reason": "female_v1:progressive_shortest_length_4"
+        }
+      ],
+      "look_id": "F_ID02_O03",
+      "graph_look_id": "f_id02_o03",
+      "sex": "female",
+      "compatibility_domain_id": "female_v1",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o03",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O03/CC_FB_F_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O03/CC_FB_F_ID02_O03_Blueprint_LiveLink.CC_FB_F_ID02_O03_Blueprint_LiveLink_C",
+      "action_id": "ACT_F03_AUDIENCE_01",
+      "graph_action_id": "act_f03_audience_01",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F03/A_DM_F03_AUDIENCE_01_Happy_Composite_v001",
+      "camera_id": "high",
+      "camera_section_index": 2,
+      "start_frame_inclusive": 300,
+      "end_frame_exclusive": 450,
+      "output_relative_directory": "n_dea318016863e9de",
+      "expected_media_uri": "media/nodes/n_dea318016863e9de/video.mp4",
+      "node_config": {
+        "action_id": "act_f03_audience_01",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "f02_average",
+        "camera_id": "high",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "f_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "f_o03",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "female"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_06_n_51c2d9f2c76ca68b",
+      "graph_node_id": "n_51c2d9f2c76ca68b",
+      "chain_memberships": [
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 0,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        },
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 5,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        }
+      ],
+      "look_id": "M_ID02_O03",
+      "graph_look_id": "m_id02_o03",
+      "sex": "male",
+      "compatibility_domain_id": "male_v1",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o03",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink.CC_FB_M_ID02_O03_Blueprint_LiveLink_C",
+      "action_id": "ACT_M04_LIVING_ROOM_SWING",
+      "graph_action_id": "act_m04_living_room_swing",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M04/A_DM_M04_LIVING_ROOM_SWING_Happy_Composite_v001",
+      "camera_id": "near",
+      "camera_section_index": 0,
+      "start_frame_inclusive": 0,
+      "end_frame_exclusive": 150,
+      "output_relative_directory": "n_51c2d9f2c76ca68b",
+      "expected_media_uri": "media/nodes/n_51c2d9f2c76ca68b/video.mp4",
+      "node_config": {
+        "action_id": "act_m04_living_room_swing",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "m02_average",
+        "camera_id": "near",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "m_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "m_o03",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "male"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_07_n_6f78ce8958472909",
+      "graph_node_id": "n_6f78ce8958472909",
+      "chain_memberships": [
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 1,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        }
+      ],
+      "look_id": "M_ID02_O03",
+      "graph_look_id": "m_id02_o03",
+      "sex": "male",
+      "compatibility_domain_id": "male_v1",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o03",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink.CC_FB_M_ID02_O03_Blueprint_LiveLink_C",
+      "action_id": "ACT_M04_LIVING_ROOM_SWING",
+      "graph_action_id": "act_m04_living_room_swing",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M04/A_DM_M04_LIVING_ROOM_SWING_Happy_Composite_v001",
+      "camera_id": "far",
+      "camera_section_index": 1,
+      "start_frame_inclusive": 150,
+      "end_frame_exclusive": 300,
+      "output_relative_directory": "n_6f78ce8958472909",
+      "expected_media_uri": "media/nodes/n_6f78ce8958472909/video.mp4",
+      "node_config": {
+        "action_id": "act_m04_living_room_swing",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "m02_average",
+        "camera_id": "far",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "m_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "m_o03",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "male"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_08_n_a3e75fbc9dead9e4",
+      "graph_node_id": "n_a3e75fbc9dead9e4",
+      "chain_memberships": [
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 2,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        },
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 4,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        }
+      ],
+      "look_id": "M_ID02_O03",
+      "graph_look_id": "m_id02_o03",
+      "sex": "male",
+      "compatibility_domain_id": "male_v1",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o03",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink.CC_FB_M_ID02_O03_Blueprint_LiveLink_C",
+      "action_id": "ACT_M04_LIVING_ROOM_SWING",
+      "graph_action_id": "act_m04_living_room_swing",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M04/A_DM_M04_LIVING_ROOM_SWING_Happy_Composite_v001",
+      "camera_id": "high",
+      "camera_section_index": 2,
+      "start_frame_inclusive": 300,
+      "end_frame_exclusive": 450,
+      "output_relative_directory": "n_a3e75fbc9dead9e4",
+      "expected_media_uri": "media/nodes/n_a3e75fbc9dead9e4/video.mp4",
+      "node_config": {
+        "action_id": "act_m04_living_room_swing",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "m02_average",
+        "camera_id": "high",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "m_id02",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "m_o03",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "male"
+      }
+    },
+    {
+      "sample_id": "CHAIN_NODE_09_n_3f852ab412ca20ea",
+      "graph_node_id": "n_3f852ab412ca20ea",
+      "chain_memberships": [
+        {
+          "chain_id": "c_4bb8ec92365d8f42",
+          "node_position": 3,
+          "selection_reason": "male_v1:freeform_returns_to_start_length_5"
+        }
+      ],
+      "look_id": "M_ID01_O03",
+      "graph_look_id": "m_id01_o03",
+      "sex": "male",
+      "compatibility_domain_id": "male_v1",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id01",
+      "outfit_id": "m_o03",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O03/CC_FB_M_ID01_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O03/CC_FB_M_ID01_O03_Blueprint_LiveLink.CC_FB_M_ID01_O03_Blueprint_LiveLink_C",
+      "action_id": "ACT_M04_LIVING_ROOM_SWING",
+      "graph_action_id": "act_m04_living_room_swing",
+      "expression_id": "happy",
+      "expression_is_editable_feature": false,
+      "composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M04/A_DM_M04_LIVING_ROOM_SWING_Happy_Composite_v001",
+      "camera_id": "high",
+      "camera_section_index": 2,
+      "start_frame_inclusive": 300,
+      "end_frame_exclusive": 450,
+      "output_relative_directory": "n_3f852ab412ca20ea",
+      "expected_media_uri": "media/nodes/n_3f852ab412ca20ea/video.mp4",
+      "node_config": {
+        "action_id": "act_m04_living_room_swing",
+        "anchor_id": "first_batch_actor_anchor_v1",
+        "bodyfit_id": "m02_average",
+        "camera_id": "high",
+        "duration_frames": 150,
+        "expression_id": "happy",
+        "fps": 30,
+        "frame_start": 0,
+        "identity_id": "m_id01",
+        "lighting_id": "tokyo_stylized_lighting_v1",
+        "outfit_id": "m_o03",
+        "resolution": {
+          "height": 1440,
+          "width": 2560
+        },
+        "scene_id": "tokyo_stylized_v1",
+        "seed": 0,
+        "sex": "male"
+      }
+    }
+  ]
+}

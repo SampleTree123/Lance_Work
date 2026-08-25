@@ -7,9 +7,11 @@ import json
 import unreal
 
 
+TARGET = str(globals().get("DM_FIRST_BATCH_EXPRESSION_TARGET", "legacy"))
+actor_ids = ("FB_F", "FB_M") if TARGET == "canonical" else ("F02", "M02")
 labels = {
     f"DM_FBEXP_{actor_id}_{expression_id.title()}"
-    for actor_id in ("F02", "M02")
+    for actor_id in actor_ids
     for expression_id in ("happy", "angry", "sad")
 }
 actor_subsystem = unreal.get_editor_subsystem(unreal.EditorActorSubsystem)

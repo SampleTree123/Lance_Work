@@ -26,6 +26,15 @@ V3_REVIEW_ROOT = (
     / "first_batch_action_full_preview"
     / "review_20260820_v3_5s"
 )
+V4_REVIEW_ROOT = (
+    LANCE_ROOT
+    / "00_engine"
+    / "outputs"
+    / "character_creator_bridge"
+    / "artifacts"
+    / "first_batch_action_replacements"
+    / "review_20260821_v4_5s_full"
+)
 
 
 class ActionWindowReviewTests(unittest.TestCase):
@@ -99,6 +108,43 @@ class ActionWindowReviewTests(unittest.TestCase):
             set(manifest["reuse_provenance"]["newly_captured_action_ids"]),
             {"ACT_F02_CATCH_BREATH", "ACT_M04_LIVING_ROOM_SWING"},
         )
+        for decision in seed["selections"]:
+            case = cases[decision["action_id"]]
+            self.assertTrue(decision["confirmed"])
+            self.assertEqual(decision["case_id"], case["case_id"])
+            self.assertEqual(decision["source_filename"], case["source_filename"])
+            self.assertEqual(decision["source_video_sha256"], case["video"]["sha256"])
+
+    def test_v4_review_reuses_nine_windows_and_leaves_three_replacements_pending(self) -> None:
+        manifest = json.loads(
+            (V4_REVIEW_ROOT / "action_window_manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        seed = json.loads(
+            (V4_REVIEW_ROOT / "action_window_seed_selection.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        cases = {item["action_id"]: item for item in manifest["cases"]}
+
+        self.assertEqual(
+            manifest["review_id"],
+            "first_batch_action_windows_20260821_v4_5s",
+        )
+        self.assertEqual(len(cases), 12)
+        self.assertEqual(seed["confirmed_count"], 9)
+        self.assertEqual(len(seed["selections"]), 9)
+        self.assertEqual(
+            set(manifest["reuse_provenance"]["newly_captured_action_ids"]),
+            {
+                "ACT_F01_SEXY_DANCE",
+                "ACT_M01_BATTLE_DANCE",
+                "ACT_M06_CHEER_HANDS_STEP_DANCE",
+            },
+        )
+        for action_id, case in cases.items():
+            self.assertTrue(Path(case["video"]["path"]).is_file(), action_id)
         for decision in seed["selections"]:
             case = cases[decision["action_id"]]
             self.assertTrue(decision["confirmed"])

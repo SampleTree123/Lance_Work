@@ -164,6 +164,7 @@ def collect_local_urls(run: dict[str, Any]) -> list[str]:
         urls.extend(str(value) for value in group.get("comparisons", {}).values())
         for case in group.get("cases", []):
             urls.extend(str(value) for value in case.get("images", {}).values())
+            urls.append(str(case.get("video", "")))
     urls.extend(str(item.get("url", "")) for item in run.get("artifacts", []))
     return sorted({url for url in urls if url.startswith("/")})
 

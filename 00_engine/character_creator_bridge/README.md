@@ -1,7 +1,7 @@
 # Character Creator Local Bridge
 
 > Document role: `operational_reference`. Current character-factory state and
-> authority map: [`CHARACTER_FACTORY_MASTER_SPEC.md`](../../20_planning/data_design/character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md).
+> authority map: [`full_process/README.md`](../../20_planning/data_design/character_creator/full_process/README.md).
 
 This directory contains the offline automation boundary between an external
 agent and Character Creator 5.
@@ -61,6 +61,6 @@ The bridge is the validated local automation boundary. `validate-bodies` also
 dispatches compatible full-character manifests through the current RLPy
 executor; the command name is retained technical debt, not a claim that only
 body validation occurs. Individual character features may still be pilot-only;
-production status is owned by machine registries and the master specification
+production status is owned by machine registries and the current status documents
 rather than by bridge availability. Detailed operations are documented in
-[`BRIDGE_OPERATIONS.md`](../../20_planning/data_design/character_creator/full_process/bridge_details/BRIDGE_OPERATIONS.md).
+[`CC_BRIDGE_OPERATIONS.md`](../../20_planning/data_design/character_creator/full_process/technical/bridge/CC_BRIDGE_OPERATIONS.md).

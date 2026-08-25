@@ -1,0 +1,389 @@
+{
+  "schema_version": "video_edit_prompt_catalog_v1",
+  "prompt_layer_version": "first_batch_zh_en_v2_20260824",
+  "primary_language": "zh-CN",
+  "languages": [
+    "zh-CN",
+    "en"
+  ],
+  "identity_grounding": {
+    "mode": "visible_description_and_paired_target_video",
+    "target_specificity": "identity_specific_visible_description",
+    "description_catalog_version": "first_batch_identity_descriptions_zh_en_v1_20260824",
+    "note": "Each identity edit names visible facial, hair, and facial-hair traits; the paired target video remains the pixel-level target. Internal identity IDs must never appear in model-facing text."
+  },
+  "identity_description_catalog": {
+    "schema_version": "first_batch_identity_description_catalog_v1",
+    "catalog_version": "first_batch_identity_descriptions_zh_en_v1_20260824",
+    "source_capture": {
+      "summary_uri": "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/identity_reference_capture_summary.json",
+      "summary_sha256": "7cd5ffd675dcff55a495bb19880a1b590aca91d9abfc8084f56e64c76490faaf",
+      "views": [
+        "front",
+        "turn_minus_45",
+        "turn_plus_45"
+      ],
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    "description_policy": {
+      "scope": "visible appearance only",
+      "included": [
+        "face shape",
+        "visible skin tone and texture",
+        "eyes and eyebrows",
+        "nose and lips",
+        "hair",
+        "facial hair",
+        "stable visible marks"
+      ],
+      "excluded_inferences": [
+        "ethnicity",
+        "nationality",
+        "personality",
+        "occupation",
+        "health"
+      ],
+      "hair_policy": "Hair and facial hair are part of the current identity presentation and change with an E1 identity edit.",
+      "review_status": "pending_user_review"
+    },
+    "identities": {
+      "f_id01": {
+        "sex": "female",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID01/F_ID01__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID01/F_ID01__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID01/F_ID01__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位浅暖肤色、鼻梁和双颊带淡雀斑的成年女性，脸型修长偏椭圆，眼睛呈深灰绿色，鼻梁细长，嘴唇饱满，留浅灰棕色长发、厚齐刘海和双高发髻",
+          "en": "an adult woman with light warm skin, faint freckles across her nose and cheeks, a long oval face, dark gray-green eyes, a slim long nose, full lips, and long ash-brown hair with blunt bangs and two high buns"
+        },
+        "full_description": {
+          "zh-CN": "她具有修长的椭圆脸和柔和收窄的下颌，浅暖肤色上可见鼻梁与双颊雀斑。眼睛较大、略显下垂，呈深灰绿色，并伴有轻微眼下阴影；鼻梁细长、鼻尖圆润，双唇宽而饱满。浅灰棕色长发配厚齐刘海、双高发髻和两侧垂发，是最醒目的身份特征。",
+          "en": "She has a long oval face with a softly tapered jaw and light warm skin with freckles across the nose and cheeks. Her relatively large, slightly downturned dark gray-green eyes have mild under-eye shadows; the nose is slim and long with a rounded tip, and the lips are broad and full. Long ash-brown hair with blunt bangs, two high buns, and long side lengths is her strongest visual identifier."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长椭圆脸，柔和收窄的下颌", "en": "long oval face with a softly tapered jaw"},
+          "skin": {"zh-CN": "浅暖肤色，鼻梁和双颊有淡雀斑", "en": "light warm skin with faint freckles across the nose and cheeks"},
+          "eyes": {"zh-CN": "较大、略下垂的深灰绿色眼睛，带轻微眼下阴影", "en": "relatively large, slightly downturned dark gray-green eyes with mild under-eye shadows"},
+          "nose": {"zh-CN": "细长鼻梁和圆润鼻尖", "en": "slim long nose with a rounded tip"},
+          "lips": {"zh-CN": "宽而饱满的嘴唇", "en": "broad full lips"},
+          "hair": {"zh-CN": "浅灰棕色长发，厚齐刘海、双高发髻和两侧垂发", "en": "long ash-brown hair with blunt bangs, two high buns, and long side lengths"},
+          "facial_hair": {"zh-CN": "无", "en": "none"},
+          "marks": {"zh-CN": "面中部淡雀斑", "en": "faint central-face freckles"}
+        }
+      },
+      "f_id02": {
+        "sex": "female",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID02/F_ID02__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID02/F_ID02__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID02/F_ID02__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位浅暖肤色的成年女性，脸型偏菱形、颧骨清晰且下巴收窄，眼睛狭长呈棕色，鼻梁直而窄，嘴唇中等，留深色侧分长发，一侧贴头、另一侧呈长波浪，嘴角旁有一颗小痣",
+          "en": "an adult woman with light warm skin, a diamond-leaning face with defined cheekbones and a narrow chin, narrow brown eyes, a straight slim nose, medium lips, long dark side-parted hair swept close on one side and wavy on the other, and a small mole beside her mouth"
+        },
+        "full_description": {
+          "zh-CN": "她的脸型偏菱形，颧骨清晰，下颌线向较窄的下巴收拢，肤色浅而偏暖。棕色眼睛狭长，眉毛较细且上扬；鼻梁直而窄，嘴唇厚度中等。深色长发采用深侧分，一侧紧贴头部，另一侧形成长波浪；嘴角旁的小痣提供了稳定辨识点。",
+          "en": "She has a diamond-leaning face with defined cheekbones, a jaw that narrows toward the chin, and light warm skin. Her brown eyes are narrow, the eyebrows are slim and raised, the nose is straight and narrow, and the lips are medium in fullness. Long dark hair has a deep side part, swept close on one side and falling in long waves on the other; a small mole beside the mouth is a stable distinguishing mark."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "偏菱形，颧骨清晰，下巴较窄", "en": "diamond-leaning face with defined cheekbones and a narrow chin"},
+          "skin": {"zh-CN": "浅暖肤色，面颊轻微泛红", "en": "light warm skin with mild cheek redness"},
+          "eyes": {"zh-CN": "狭长棕色眼睛", "en": "narrow brown eyes"},
+          "nose": {"zh-CN": "直而窄的鼻梁", "en": "straight slim nose"},
+          "lips": {"zh-CN": "厚度中等的嘴唇", "en": "medium-full lips"},
+          "hair": {"zh-CN": "深色长发深侧分，一侧贴头、另一侧呈长波浪", "en": "long dark hair with a deep side part, close-swept on one side and wavy on the other"},
+          "facial_hair": {"zh-CN": "无", "en": "none"},
+          "marks": {"zh-CN": "嘴角旁一颗小痣", "en": "a small mole beside the mouth"}
+        }
+      },
+      "f_id03": {
+        "sex": "female",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID03/F_ID03__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID03/F_ID03__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID03/F_ID03__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位中等暖棕肤色的成年女性，脸型宽圆偏椭圆、双颊饱满，下颌较宽且下巴圆润，眼睛呈浅蓝灰色，鼻头较宽圆，嘴唇饱满，留黑色短波波头、短刘海和向外翻卷的发尾",
+          "en": "an adult woman with medium warm-brown skin, a broad rounded oval face with full cheeks, a wide jaw and rounded chin, light blue-gray eyes, a broad rounded nose, full lips, and a short black bob with short bangs and outward-curled ends"
+        },
+        "full_description": {
+          "zh-CN": "她具有宽圆偏椭圆的脸型、饱满双颊、较宽下颌和圆润下巴，中等暖棕肤色可见自然纹理和少量面颊斑点。浅蓝灰色眼睛呈杏仁形，眉毛浓密并明显上扬；鼻头宽圆，双唇饱满。黑色短波波头配短刘海和向外翻卷的发尾，使整体轮廓非常明确。",
+          "en": "She has a broad rounded oval face with full cheeks, a wide jaw, and a rounded chin. Her medium warm-brown skin shows natural texture and a few cheek marks. Light blue-gray almond-shaped eyes sit beneath thick, strongly arched eyebrows; the nose has a broad rounded tip and the lips are full. A short black bob with short bangs and outward-curled ends gives her a distinct silhouette."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "宽圆偏椭圆，双颊饱满，下颌较宽，下巴圆润", "en": "broad rounded oval face with full cheeks, a wide jaw, and a rounded chin"},
+          "skin": {"zh-CN": "中等暖棕肤色，可见自然纹理和少量面颊斑点", "en": "medium warm-brown skin with natural texture and a few cheek marks"},
+          "eyes": {"zh-CN": "浅蓝灰色杏仁眼，眉毛浓密上扬", "en": "light blue-gray almond-shaped eyes with thick arched eyebrows"},
+          "nose": {"zh-CN": "较宽且圆润的鼻头", "en": "broad rounded nose tip"},
+          "lips": {"zh-CN": "饱满嘴唇，下唇略厚", "en": "full lips with a slightly fuller lower lip"},
+          "hair": {"zh-CN": "黑色短波波头，短刘海，发尾向外翻卷", "en": "short black bob with short bangs and outward-curled ends"},
+          "facial_hair": {"zh-CN": "无", "en": "none"},
+          "marks": {"zh-CN": "面颊少量斑点和自然肤质", "en": "a few cheek marks and visible natural skin texture"}
+        }
+      },
+      "f_id04": {
+        "sex": "female",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID04/F_ID04__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID04/F_ID04__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/F_ID04/F_ID04__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位中等暖褐肤色的成年女性，脸型修长且轮廓分明，颧骨较高、下颌收窄，眼睛呈浅灰蓝色，鼻梁高而直，嘴唇轮廓清晰，留深棕色松散侧辫和额前碎发，颈前有一颗明显小痣",
+          "en": "an adult woman with medium warm-brown skin, a long defined face with high cheekbones and a tapered jaw, light gray-blue eyes, a high straight nose, clearly shaped lips, dark-brown hair in a loose side braid with wispy strands, and a distinct mole on the front of her neck"
+        },
+        "full_description": {
+          "zh-CN": "她的脸型修长且骨骼轮廓清晰，颧骨较高，下颌向窄而略方的下巴收拢，肤色为中等暖褐色。浅灰蓝色眼睛较狭长并带明显眼下阴影；鼻梁高直、侧面突出，嘴唇轮廓清晰且上唇较薄。深棕色头发松散编成侧辫，额前留有碎发，颈前小痣是稳定辨识点。",
+          "en": "She has a long, well-defined face with high cheekbones and a jaw that tapers toward a narrow, slightly squared chin, set against medium warm-brown skin. Her light gray-blue eyes are narrow with visible under-eye shadows; the nose has a high straight bridge and a projected profile, and the lips are clearly shaped with a thinner upper lip. Dark-brown hair is gathered into a loose side braid with wispy front strands, and a mole on the front of the neck is a stable identifier."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长、轮廓分明，颧骨较高，下颌收窄", "en": "long defined face with high cheekbones and a tapered jaw"},
+          "skin": {"zh-CN": "中等暖褐肤色", "en": "medium warm-brown skin"},
+          "eyes": {"zh-CN": "狭长浅灰蓝色眼睛，眼下阴影明显", "en": "narrow light gray-blue eyes with visible under-eye shadows"},
+          "nose": {"zh-CN": "高而直、侧面较突出的鼻梁", "en": "high straight nose with a projected profile"},
+          "lips": {"zh-CN": "轮廓清晰，上唇较薄", "en": "clearly shaped lips with a thinner upper lip"},
+          "hair": {"zh-CN": "深棕色松散侧辫和额前碎发", "en": "dark-brown hair in a loose side braid with wispy front strands"},
+          "facial_hair": {"zh-CN": "无", "en": "none"},
+          "marks": {"zh-CN": "颈前一颗明显小痣", "en": "a distinct mole on the front of the neck"}
+        }
+      },
+      "m_id01": {
+        "sex": "male",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID01/M_ID01__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID01/M_ID01__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID01/M_ID01__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位深棕肤色的成年男性，脸型修长偏椭圆，下颌圆钝，眼睛较大呈灰蓝色，鼻梁长且鼻头较宽，嘴唇中等偏饱满，面部无胡须，留蓬松的浅灰棕色中长卷发和额前卷曲刘海",
+          "en": "an adult man with deep-brown skin, a long oval face with a rounded jaw, relatively large gray-blue eyes, a long nose with a broad tip, medium-full lips, a clean-shaven face, and voluminous medium-length ash-brown curls falling over the forehead"
+        },
+        "full_description": {
+          "zh-CN": "他具有修长偏椭圆的脸型、圆钝下颌和深棕肤色，面部可见自然纹理。灰蓝色眼睛较大并带眼下阴影；鼻梁较长、鼻头宽圆，嘴唇中等偏饱满。面部无胡须，蓬松的浅灰棕色中长卷发覆盖额前，并带有侧面编发细节，是最显著的身份特征。",
+          "en": "He has a long oval face with a rounded jaw, deep-brown skin, and visible natural texture. His gray-blue eyes are relatively large with under-eye shadows; the nose is long with a broad rounded tip and the lips are medium-full. He is clean-shaven, while voluminous medium-length ash-brown curls fall across the forehead and include a small braided side detail, forming his strongest identifier."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长椭圆脸，圆钝下颌", "en": "long oval face with a rounded jaw"},
+          "skin": {"zh-CN": "深棕肤色，可见自然纹理", "en": "deep-brown skin with visible natural texture"},
+          "eyes": {"zh-CN": "较大的灰蓝色眼睛，带眼下阴影", "en": "relatively large gray-blue eyes with under-eye shadows"},
+          "nose": {"zh-CN": "鼻梁较长，鼻头宽圆", "en": "long nose with a broad rounded tip"},
+          "lips": {"zh-CN": "中等偏饱满的嘴唇", "en": "medium-full lips"},
+          "hair": {"zh-CN": "蓬松浅灰棕色中长卷发，额前卷曲刘海和侧面编发细节", "en": "voluminous medium-length ash-brown curls with a curled fringe and a small braided side detail"},
+          "facial_hair": {"zh-CN": "无胡须", "en": "clean-shaven"},
+          "marks": {"zh-CN": "无明显独立标记", "en": "no prominent isolated mark"}
+        }
+      },
+      "m_id02": {
+        "sex": "male",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID02/M_ID02__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID02/M_ID02__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID02/M_ID02__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位深棕肤色的成年男性，脸型修长偏长方、下颌宽而有棱角，眼睛狭长呈灰绿色，眉毛浓密，鼻梁高且鼻头宽，留浓密完整的深色络腮胡和胡须，深色中长发从侧面向后梳",
+          "en": "an adult man with deep-brown skin, a long rectangular face and broad angular jaw, narrow gray-green eyes, thick eyebrows, a high nose with a broad tip, a dense full dark beard and mustache, and medium-length dark hair swept back from a side part"
+        },
+        "full_description": {
+          "zh-CN": "他的脸型修长偏长方，下颌宽而有棱角，深棕肤色上可见明显毛孔和少量斑点。灰绿色眼睛较狭长，眉毛浓密平直；鼻梁高且轮廓突出，鼻头较宽。浓密完整的深色络腮胡与胡须包围嘴部和下颌，深色中长发由侧分向后梳理。",
+          "en": "He has a long rectangular face with a broad angular jaw and deep-brown skin showing visible pores and a few small marks. His gray-green eyes are narrow beneath thick straight eyebrows; the nose is high and prominent with a broad tip. A dense full dark beard and mustache frame the mouth and jaw, while medium-length dark hair is swept back from a side part."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长偏长方，下颌宽而有棱角", "en": "long rectangular face with a broad angular jaw"},
+          "skin": {"zh-CN": "深棕肤色，可见毛孔和少量斑点", "en": "deep-brown skin with visible pores and a few small marks"},
+          "eyes": {"zh-CN": "狭长灰绿色眼睛，浓密平直眉毛", "en": "narrow gray-green eyes with thick straight eyebrows"},
+          "nose": {"zh-CN": "高而突出的鼻梁，较宽鼻头", "en": "high prominent nose with a broad tip"},
+          "lips": {"zh-CN": "中等嘴唇，大部分被胡须围绕", "en": "medium lips largely framed by facial hair"},
+          "hair": {"zh-CN": "深色中长发，侧分后梳", "en": "medium-length dark hair swept back from a side part"},
+          "facial_hair": {"zh-CN": "浓密完整的深色络腮胡和胡须", "en": "dense full dark beard and mustache"},
+          "marks": {"zh-CN": "额头和面颊少量细小斑点", "en": "a few small marks on the forehead and cheeks"}
+        }
+      },
+      "m_id03": {
+        "sex": "male",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID03/M_ID03__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID03/M_ID03__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID03/M_ID03__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位浅暖肤色的成年男性，脸型修长偏长方、下颌宽且下巴较方，眼睛呈浅蓝灰色，鼻梁长而突出，嘴唇中等，面部无胡须，留浓密黑色卷发顶和两侧渐短的发型，下唇下方有一颗小痣",
+          "en": "an adult man with light warm skin, a long rectangular face with a broad jaw and squared chin, light blue-gray eyes, a long prominent nose, medium lips, a clean-shaven face, dense black curls on top with closely faded sides, and a small mole below the lower lip"
+        },
+        "full_description": {
+          "zh-CN": "他的脸型修长偏长方，下颌宽、下巴较方，浅暖肤色上可见细小雀斑和自然纹理。浅蓝灰色眼睛位于较低平的眉毛下方；鼻梁长且突出，嘴唇厚度中等。面部无胡须，顶部是浓密黑色卷发、两侧渐短，下唇下方的小痣提供了稳定辨识点。",
+          "en": "He has a long rectangular face with a broad jaw and squared chin, plus light warm skin with fine freckles and natural texture. Light blue-gray eyes sit beneath relatively low, straight eyebrows; the nose is long and prominent and the lips are medium in fullness. He is clean-shaven, with dense black curls on top and closely faded sides, and a small mole below the lower lip provides a stable distinguishing mark."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长偏长方，下颌宽，下巴较方", "en": "long rectangular face with a broad jaw and squared chin"},
+          "skin": {"zh-CN": "浅暖肤色，有细小雀斑和自然纹理", "en": "light warm skin with fine freckles and natural texture"},
+          "eyes": {"zh-CN": "浅蓝灰色眼睛，眉毛较低平", "en": "light blue-gray eyes beneath relatively low straight eyebrows"},
+          "nose": {"zh-CN": "长而突出的鼻梁", "en": "long prominent nose"},
+          "lips": {"zh-CN": "厚度中等的嘴唇", "en": "medium-full lips"},
+          "hair": {"zh-CN": "顶部浓密黑色卷发，两侧渐短", "en": "dense black curls on top with closely faded sides"},
+          "facial_hair": {"zh-CN": "无胡须", "en": "clean-shaven"},
+          "marks": {"zh-CN": "下唇下方一颗小痣", "en": "a small mole below the lower lip"}
+        }
+      },
+      "m_id04": {
+        "sex": "male",
+        "reference_images": [
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID04/M_ID04__front.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID04/M_ID04__turn_minus_45.png",
+          "workspace://00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001/M_ID04/M_ID04__turn_plus_45.png"
+        ],
+        "prompt_target": {
+          "zh-CN": "一位深棕肤色的成年男性，脸型修长且轮廓分明，下颌宽而有棱角，眼睛较大呈浅灰绿色，鼻梁长而直，留修整整齐的深色络腮胡和胡须，深色头发顶部蓬松后梳、两侧渐短，眉毛上有明显断口",
+          "en": "an adult man with deep-brown skin, a long defined face and broad angular jaw, relatively large light gray-green eyes, a long straight nose, a neatly shaped dark full beard and mustache, dark hair swept into a voluminous top with faded sides, and visible notches in one eyebrow"
+        },
+        "full_description": {
+          "zh-CN": "他的脸型修长且轮廓分明，下颌宽而有棱角，肤色为深棕色。浅灰绿色眼睛相对较大，眉毛浓密，其中一侧带明显断口；鼻梁长而直，侧面轮廓突出。深色络腮胡和胡须修整整齐，深色头发顶部蓬松后梳、两侧渐短，与另一位有胡须的男性形成清晰区分。",
+          "en": "He has a long, well-defined face with a broad angular jaw and deep-brown skin. His light gray-green eyes are relatively large beneath thick eyebrows, with visible notches in one brow; the nose is long, straight, and prominent in profile. A neatly shaped dark full beard and mustache frame the lower face, while dark hair is swept into a voluminous top with faded sides, clearly separating him from the other bearded male identity."
+        },
+        "visible_attributes": {
+          "face_shape": {"zh-CN": "修长、轮廓分明，下颌宽而有棱角", "en": "long defined face with a broad angular jaw"},
+          "skin": {"zh-CN": "深棕肤色", "en": "deep-brown skin"},
+          "eyes": {"zh-CN": "较大的浅灰绿色眼睛，浓眉一侧有断口", "en": "relatively large light gray-green eyes with notches in one thick eyebrow"},
+          "nose": {"zh-CN": "长而直、侧面突出的鼻梁", "en": "long straight nose with a prominent profile"},
+          "lips": {"zh-CN": "中等嘴唇，被胡须围绕", "en": "medium lips framed by facial hair"},
+          "hair": {"zh-CN": "深色头发顶部蓬松后梳，两侧渐短", "en": "dark hair swept into a voluminous top with faded sides"},
+          "facial_hair": {"zh-CN": "修整整齐的深色完整络腮胡和胡须", "en": "neatly shaped dark full beard and mustache"},
+          "marks": {"zh-CN": "一侧眉毛有明显断口", "en": "visible notches in one eyebrow"}
+        }
+      }
+    }
+  },
+  "labels": {
+    "identity": {
+      "f_id01": {"zh-CN": "一位浅暖肤色、鼻梁和双颊带淡雀斑的成年女性，脸型修长偏椭圆，眼睛呈深灰绿色，鼻梁细长，嘴唇饱满，留浅灰棕色长发、厚齐刘海和双高发髻", "en": "an adult woman with light warm skin, faint freckles across her nose and cheeks, a long oval face, dark gray-green eyes, a slim long nose, full lips, and long ash-brown hair with blunt bangs and two high buns"},
+      "f_id02": {"zh-CN": "一位浅暖肤色的成年女性，脸型偏菱形、颧骨清晰且下巴收窄，眼睛狭长呈棕色，鼻梁直而窄，嘴唇中等，留深色侧分长发，一侧贴头、另一侧呈长波浪，嘴角旁有一颗小痣", "en": "an adult woman with light warm skin, a diamond-leaning face with defined cheekbones and a narrow chin, narrow brown eyes, a straight slim nose, medium lips, long dark side-parted hair swept close on one side and wavy on the other, and a small mole beside her mouth"},
+      "f_id03": {"zh-CN": "一位中等暖棕肤色的成年女性，脸型宽圆偏椭圆、双颊饱满，下颌较宽且下巴圆润，眼睛呈浅蓝灰色，鼻头较宽圆，嘴唇饱满，留黑色短波波头、短刘海和向外翻卷的发尾", "en": "an adult woman with medium warm-brown skin, a broad rounded oval face with full cheeks, a wide jaw and rounded chin, light blue-gray eyes, a broad rounded nose, full lips, and a short black bob with short bangs and outward-curled ends"},
+      "f_id04": {"zh-CN": "一位中等暖褐肤色的成年女性，脸型修长且轮廓分明，颧骨较高、下颌收窄，眼睛呈浅灰蓝色，鼻梁高而直，嘴唇轮廓清晰，留深棕色松散侧辫和额前碎发，颈前有一颗明显小痣", "en": "an adult woman with medium warm-brown skin, a long defined face with high cheekbones and a tapered jaw, light gray-blue eyes, a high straight nose, clearly shaped lips, dark-brown hair in a loose side braid with wispy strands, and a distinct mole on the front of her neck"},
+      "m_id01": {"zh-CN": "一位深棕肤色的成年男性，脸型修长偏椭圆，下颌圆钝，眼睛较大呈灰蓝色，鼻梁长且鼻头较宽，嘴唇中等偏饱满，面部无胡须，留蓬松的浅灰棕色中长卷发和额前卷曲刘海", "en": "an adult man with deep-brown skin, a long oval face with a rounded jaw, relatively large gray-blue eyes, a long nose with a broad tip, medium-full lips, a clean-shaven face, and voluminous medium-length ash-brown curls falling over the forehead"},
+      "m_id02": {"zh-CN": "一位深棕肤色的成年男性，脸型修长偏长方、下颌宽而有棱角，眼睛狭长呈灰绿色，眉毛浓密，鼻梁高且鼻头宽，留浓密完整的深色络腮胡和胡须，深色中长发从侧面向后梳", "en": "an adult man with deep-brown skin, a long rectangular face and broad angular jaw, narrow gray-green eyes, thick eyebrows, a high nose with a broad tip, a dense full dark beard and mustache, and medium-length dark hair swept back from a side part"},
+      "m_id03": {"zh-CN": "一位浅暖肤色的成年男性，脸型修长偏长方、下颌宽且下巴较方，眼睛呈浅蓝灰色，鼻梁长而突出，嘴唇中等，面部无胡须，留浓密黑色卷发顶和两侧渐短的发型，下唇下方有一颗小痣", "en": "an adult man with light warm skin, a long rectangular face with a broad jaw and squared chin, light blue-gray eyes, a long prominent nose, medium lips, a clean-shaven face, dense black curls on top with closely faded sides, and a small mole below the lower lip"},
+      "m_id04": {"zh-CN": "一位深棕肤色的成年男性，脸型修长且轮廓分明，下颌宽而有棱角，眼睛较大呈浅灰绿色，鼻梁长而直，留修整整齐的深色络腮胡和胡须，深色头发顶部蓬松后梳、两侧渐短，眉毛上有明显断口", "en": "an adult man with deep-brown skin, a long defined face and broad angular jaw, relatively large light gray-green eyes, a long straight nose, a neatly shaped dark full beard and mustache, dark hair swept into a voluminous top with faded sides, and visible notches in one eyebrow"}
+    },
+    "outfit": {
+      "f_o01": {"zh-CN": "女式夏日休闲装", "en": "a women's summer casual outfit"},
+      "f_o02": {"zh-CN": "女式连身裤套装", "en": "a women's jumpsuit outfit"},
+      "f_o03": {"zh-CN": "女式连衣裙", "en": "a women's dress"},
+      "f_o04": {"zh-CN": "女式街头休闲装", "en": "a women's streetwear outfit"},
+      "m_o01": {"zh-CN": "男式休闲装", "en": "a men's casual outfit"},
+      "m_o02": {"zh-CN": "男式都市休闲装", "en": "a men's urban casual outfit"},
+      "m_o03": {"zh-CN": "男式白领结礼服", "en": "a men's white-tie formal outfit"},
+      "m_o04": {"zh-CN": "二十世纪二十年代男装", "en": "a 1920s-inspired men's outfit"}
+    },
+    "action": {
+      "act_f01_sexy_dance": {"zh-CN": "跳一段舒展的舞蹈", "en": "perform a flowing dance"},
+      "act_f02_catch_breath": {"zh-CN": "做喘气恢复动作", "en": "catch her breath and recover"},
+      "act_f03_audience_01": {"zh-CN": "做出观看表演时的回应动作", "en": "react as an audience member"},
+      "act_f05_tie_shoes": {"zh-CN": "俯身系鞋带", "en": "bend down and tie her shoes"},
+      "act_f06_elevator_greeting": {"zh-CN": "挥手打招呼", "en": "wave in greeting"},
+      "act_m01_battle_dance": {"zh-CN": "跳一段战斗风格舞蹈", "en": "perform a battle-style dance"},
+      "act_m02_audience_01": {"zh-CN": "做出观看表演时的回应动作", "en": "react as an audience member"},
+      "act_m04_living_room_swing": {"zh-CN": "跳一段摇摆舞", "en": "perform a swing dance"},
+      "act_m05_elevator_greeting": {"zh-CN": "挥手打招呼", "en": "wave in greeting"},
+      "act_m06_cheer_hands_step_dance": {"zh-CN": "做挥手踏步的欢呼舞蹈", "en": "perform a cheering step dance with raised hands"}
+    },
+    "camera": {
+      "near": {"zh-CN": "近景正面镜头", "en": "a close frontal shot"},
+      "far": {"zh-CN": "远景正面镜头", "en": "a wide frontal shot"},
+      "high": {"zh-CN": "高位俯视镜头", "en": "a high-angle shot"},
+      "side": {"zh-CN": "侧面镜头", "en": "a side-view shot"}
+    },
+    "axis": {
+      "identity_id": {"zh-CN": "人物身份", "en": "the person"},
+      "outfit_id": {"zh-CN": "服装", "en": "the outfit"},
+      "action_id": {"zh-CN": "身体动作", "en": "the body action"},
+      "camera_id": {"zh-CN": "镜头", "en": "the camera view"}
+    }
+  },
+  "templates": {
+    "E1": {
+      "direct": {
+        "zh-CN": [
+          "将画面中的人物替换为{target}，保持服装、动作、表情、场景和镜头不变。",
+          "把人物换成{target}，其余视觉内容保持不变。",
+          "仅更换画面中的人物身份，改为{target}。"
+        ],
+        "en": [
+          "Replace the person in the video with {target}, while keeping the outfit, action, expression, scene, and camera unchanged.",
+          "Change the person to {target} and leave all other visual content unchanged.",
+          "Only change the person's identity, replacing them with {target}."
+        ]
+      }
+    },
+    "E2": {
+      "direct": {
+        "zh-CN": [
+          "将人物的服装换成{target}，保持人物、动作、表情、场景和镜头不变。",
+          "把当前服装替换为{target}，不要改变其他内容。",
+          "仅修改人物穿着，让人物换上{target}。"
+        ],
+        "en": [
+          "Change the person's clothing to {target}, while keeping the person, action, expression, scene, and camera unchanged.",
+          "Replace the current clothing with {target} and do not change anything else.",
+          "Only edit the clothing so the person is wearing {target}."
+        ]
+      }
+    },
+    "E3": {
+      "direct": {
+        "zh-CN": [
+          "让人物{target}，保持人物身份、服装、表情、场景和镜头不变。",
+          "将人物的身体动作改为“{target}”，不要改变其他视觉属性。",
+          "仅修改人物动作，使人物{target}。"
+        ],
+        "en": [
+          "Make the person {target}, while keeping the identity, outfit, expression, scene, and camera unchanged.",
+          "Replace the body motion so the person will {target}, without changing any other visual attribute.",
+          "Only change the action and have the person {target}."
+        ]
+      }
+    },
+    "E7": {
+      "direct": {
+        "zh-CN": [
+          "将镜头切换为{target}，保持人物、服装、动作、表情和场景不变。",
+          "把当前视角改为{target}，不要修改画面中的其他内容。",
+          "仅改变拍摄视角，使用{target}。"
+        ],
+        "en": [
+          "Switch the camera to {target}, while keeping the person, outfit, action, expression, and scene unchanged.",
+          "Change the current viewpoint to {target} and do not alter anything else in the video.",
+          "Only change the camera viewpoint and use {target}."
+        ]
+      }
+    },
+    "history": {
+      "restore_initial": {
+        "zh-CN": [
+          "将{axis}恢复到视频最初的状态，其他内容保持不变。",
+          "把{axis}改回初始状态，不要调整其余内容。"
+        ],
+        "en": [
+          "Restore {axis} to its original state from the beginning of the video and keep everything else unchanged.",
+          "Change {axis} back to its initial state without altering anything else."
+        ]
+      },
+      "restore_round": {
+        "zh-CN": [
+          "将{axis}恢复到第 {round} 轮编辑后的状态，其他内容保持不变。",
+          "把{axis}改回第 {round} 轮完成时的样子，不要调整其余内容。"
+        ],
+        "en": [
+          "Restore {axis} to its state after edit round {round}, while keeping everything else unchanged.",
+          "Change {axis} back to how it looked after round {round} without altering anything else."
+        ]
+      }
+    }
+  }
+}

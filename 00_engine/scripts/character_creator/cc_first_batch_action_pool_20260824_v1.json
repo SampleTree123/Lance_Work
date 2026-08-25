@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "pool_id": "first_batch_action_pool_20260824_v1",
+  "status": "frozen_for_first_batch_local_and_server_render",
+  "source_registry": "cc_first_batch_action_registry_20260821_v4.json",
+  "source_windows": "outputs/character_creator_bridge/artifacts/first_batch_action_window_selection/frozen_20260821_v4/frozen_action_windows.json",
+  "active_actions": {
+    "female": [
+      "ACT_F01_SEXY_DANCE",
+      "ACT_F02_CATCH_BREATH",
+      "ACT_F03_AUDIENCE_01",
+      "ACT_F05_TIE_SHOES",
+      "ACT_F06_ELEVATOR_GREETING"
+    ],
+    "male": [
+      "ACT_M01_BATTLE_DANCE",
+      "ACT_M02_AUDIENCE_01",
+      "ACT_M04_LIVING_ROOM_SWING",
+      "ACT_M05_ELEVATOR_GREETING",
+      "ACT_M06_CHEER_HANDS_STEP_DANCE"
+    ]
+  },
+  "excluded_actions": [
+    {
+      "action_id": "ACT_F04_AUDIENCE_09",
+      "sex": "female",
+      "reason": "removed_from_first_batch_by_user_20260824"
+    },
+    {
+      "action_id": "ACT_M03_AUDIENCE_12",
+      "sex": "male",
+      "reason": "removed_from_first_batch_by_user_20260824"
+    }
+  ],
+  "root_motion_policy": {
+    "default": "preserve_source_root_motion",
+    "overrides": {
+      "ACT_F02_CATCH_BREATH": {
+        "policy": "approved_in_place_override",
+        "ue_asset": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/InPlaceCandidates/A_DM_F02_CATCH_BREATH_InPlaceCandidate_v001"
+      }
+    }
+  },
+  "expression_policy": {
+    "rendered_variation": true,
+    "editable_feature": false,
+    "config_field": "expression_id",
+    "edit_axis": null,
+    "approved_expression_ids": [
+      "happy",
+      "angry",
+      "sad"
+    ]
+  }
+}

@@ -141,6 +141,29 @@ class ActionWindowSelectionTests(unittest.TestCase):
             self.assertEqual(frozen["status"], "frozen_ready_for_cc_export")
             self.assertEqual(len(frozen["actions"]), 12)
 
+    def test_accepts_replacement_window_registry_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture = self.make_fixture(Path(temporary))
+            registry = json.loads(fixture["registry"].read_text(encoding="utf-8"))
+            registry["status"] = (
+                "frozen_pending_replacement_window_and_ue_validation"
+            )
+            fixture["registry"].write_text(json.dumps(registry), encoding="utf-8")
+
+            summary = self.freeze(fixture)
+
+            self.assertEqual(summary["action_count"], 12)
+
+    def test_rejects_unfrozen_registry_status(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            fixture = self.make_fixture(Path(temporary))
+            registry = json.loads(fixture["registry"].read_text(encoding="utf-8"))
+            registry["status"] = "draft"
+            fixture["registry"].write_text(json.dumps(registry), encoding="utf-8")
+
+            with self.assertRaises(SUBJECT.ActionWindowSelectionError):
+                self.freeze(fixture)
+
     def test_rejects_unconfirmed_selection(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             fixture = self.make_fixture(Path(temporary))

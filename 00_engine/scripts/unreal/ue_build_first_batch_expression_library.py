@@ -1,4 +1,4 @@
-"""Build 3-second curve-only Happy/Angry/Sad clips for F02 and M02."""
+"""Build 3-second curve-only Happy/Angry/Sad clips for review skeletons."""
 
 from __future__ import annotations
 
@@ -8,13 +8,51 @@ from pathlib import Path
 import unreal
 
 
+TARGET = str(globals().get("DM_FIRST_BATCH_EXPRESSION_TARGET", "legacy"))
 CONFIG_PATH = Path(
     r"D:\UE\Lance_Work\00_engine\scripts\unreal"
     r"\first_batch_expression_profile_20260820_v1.json"
 )
-REPORT_PATH = Path(
-    r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
-    r"\first_batch_expressions_20260820_v1\build_report.json"
+if TARGET == "canonical":
+    REPORT_PATH = Path(
+        r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
+        r"\first_batch_day2_20260822_v1\canonical_expression_build.json"
+    )
+else:
+    REPORT_PATH = Path(
+        r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
+        r"\first_batch_expressions_20260820_v1\build_report.json"
+    )
+
+CANONICAL_ACTORS = (
+    {
+        "actor_id": "FB_F",
+        "mesh": (
+            "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O01/"
+            "CC_FB_F_ID01_O01"
+        ),
+        "source_animation": (
+            "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/"
+            "A_DM_F03_AUDIENCE_01_BodyOnly_v001"
+        ),
+        "target_folder": (
+            "/Game/DataMake/Animations/CC5/FirstDataBatch/Expressions/FB_F"
+        ),
+    },
+    {
+        "actor_id": "FB_M",
+        "mesh": (
+            "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O01/"
+            "CC_FB_M_ID01_O01"
+        ),
+        "source_animation": (
+            "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/BodyOnly/"
+            "A_DM_M02_AUDIENCE_01_BodyOnly_v001"
+        ),
+        "target_folder": (
+            "/Game/DataMake/Animations/CC5/FirstDataBatch/Expressions/FB_M"
+        ),
+    },
 )
 
 
@@ -41,42 +79,61 @@ def merged_curves(config, expression):
         raise RuntimeError(
             f"Expression overrides common curves: {sorted(overlap)}"
         )
-    result.update(expression["curves"])
+    multiplier = float(config.get("expression_strength_multiplier", 1.0))
+    result.update(
+        {
+            name: {
+                "times": list(keys["times"]),
+                "values": [
+                    min(1.0, max(0.0, float(value) * multiplier))
+                    for value in keys["values"]
+                ],
+            }
+            for name, keys in expression["curves"].items()
+        }
+    )
     return result
 
 
 def build_clip(config, actor, expression, mesh, source, skeleton):
     name = f"A_DM_{actor['actor_id']}_Face_{expression['asset_suffix']}"
     path = f"{actor['target_folder']}/{name}"
-    if unreal.EditorAssetLibrary.does_asset_exist(path):
-        raise RuntimeError(f"Refusing to overwrite expression clip: {path}")
-    target = unreal.EditorAssetLibrary.duplicate_asset(
-        source.get_path_name().split(".", 1)[0], path
-    )
-    if not isinstance(target, unreal.AnimSequence):
-        raise RuntimeError(f"Unable to duplicate expression source: {path}")
-
-    controller = target.controller
-    model = target.data_model_interface
-    if controller is None or model is None:
-        raise RuntimeError(f"Animation controller/model unavailable: {path}")
-    controller.open_bracket("Create first-batch expression clip", False)
-    try:
-        for track_name in list(model.get_bone_track_names()):
-            if not controller.remove_bone_track(track_name, False):
-                raise RuntimeError(f"Unable to remove bone track: {track_name}")
-        controller.remove_all_attributes(False)
-        controller.set_frame_rate(
-            unreal.FrameRate(config["animation_sample_fps"], 1), False
-        )
-        controller.set_number_of_frames(
-            unreal.FrameNumber(config["frame_count"]), False
-        )
-    finally:
-        controller.close_bracket(False)
-    unreal.AnimationLibrary.remove_all_curve_data(target)
-
+    reused_existing = False
     curves = merged_curves(config, expression)
+    if unreal.EditorAssetLibrary.does_asset_exist(path):
+        if TARGET != "canonical":
+            raise RuntimeError(f"Refusing to overwrite expression clip: {path}")
+        target = unreal.load_asset(path)
+        reused_existing = True
+    else:
+        target = unreal.EditorAssetLibrary.duplicate_asset(
+            source.get_path_name().split(".", 1)[0], path
+        )
+        if not isinstance(target, unreal.AnimSequence):
+            raise RuntimeError(f"Unable to duplicate expression source: {path}")
+
+        controller = target.controller
+        model = target.data_model_interface
+        if controller is None or model is None:
+            raise RuntimeError(f"Animation controller/model unavailable: {path}")
+        controller.open_bracket("Create first-batch expression clip", False)
+        try:
+            for track_name in list(model.get_bone_track_names()):
+                if not controller.remove_bone_track(track_name, False):
+                    raise RuntimeError(f"Unable to remove bone track: {track_name}")
+            controller.remove_all_attributes(False)
+            controller.set_frame_rate(
+                unreal.FrameRate(config["animation_sample_fps"], 1), False
+            )
+            controller.set_number_of_frames(
+                unreal.FrameNumber(config["frame_count"]), False
+            )
+        finally:
+            controller.close_bracket(False)
+        unreal.AnimationLibrary.remove_all_curve_data(target)
+
+    if not isinstance(target, unreal.AnimSequence):
+        raise RuntimeError(f"Expression clip is not an AnimSequence: {path}")
     available_morphs = {
         str(name) for name in mesh.get_all_morph_target_names()
     }
@@ -85,6 +142,7 @@ def build_clip(config, actor, expression, mesh, source, skeleton):
         raise RuntimeError(
             f"{actor['actor_id']} mesh lacks expression Morphs: {missing}"
         )
+    unreal.AnimationLibrary.remove_all_curve_data(target)
     for curve_name, keys in curves.items():
         curve = unreal.Name(curve_name)
         unreal.AnimationLibrary.add_curve(
@@ -142,6 +200,7 @@ def build_clip(config, actor, expression, mesh, source, skeleton):
     return {
         "actor_id": actor["actor_id"],
         "expression_id": expression["expression_id"],
+        "reused_existing": reused_existing,
         "asset": target.get_path_name(),
         "skeleton": skeleton.get_path_name(),
         "bone_track_count": 0,
@@ -160,6 +219,8 @@ def build_clip(config, actor, expression, mesh, source, skeleton):
 
 
 config = load_config()
+if TARGET == "canonical":
+    config["actors"] = list(CANONICAL_ACTORS)
 records = []
 for actor in config["actors"]:
     mesh = load_required(actor["mesh"], unreal.SkeletalMesh, "mesh")
@@ -184,8 +245,16 @@ for actor in config["actors"]:
 report = {
     "schema_version": 1,
     "profile_id": config["profile_id"],
-    "runtime_scope": "full_reference_direct_morph",
+    "target": TARGET,
+    "runtime_scope": (
+        "first_batch_canonical_full_reference_direct_morph"
+        if TARGET == "canonical"
+        else "full_reference_direct_morph"
+    ),
     "post_process_policy": "disable_on_full_reference_component",
+    "expression_strength_multiplier": config.get(
+        "expression_strength_multiplier", 1.0
+    ),
     "records": records,
     "counts": {
         "actors": len(config["actors"]),

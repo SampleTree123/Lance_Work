@@ -55,11 +55,17 @@ def refresh_component(component):
 
 
 config = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-animation_path = config["animation_path"]
-normalized_time = float(config.get("normalized_time", 0.5))
+animation_path = str(
+    globals().get("DM_M02_STAGE_ANIMATION_PATH", config["animation_path"])
+)
+normalized_time = float(
+    globals().get("DM_M02_STAGE_NORMALIZED_TIME", config.get("normalized_time", 0.5))
+)
 morph_name = str(config.get("morph_name", DEFAULT_MORPH))
 morph_weight = float(config.get("morph_weight", 1.0))
 morph_mode = str(config.get("morph_mode", "broadcast"))
+play_in_editor = bool(globals().get("DM_M02_STAGE_PLAY", False))
+loop_animation = bool(globals().get("DM_M02_STAGE_LOOP", True))
 
 if not 0.0 <= normalized_time <= 1.0:
     raise RuntimeError("normalized_time must be between 0 and 1")
@@ -92,7 +98,9 @@ if body is None:
     raise RuntimeError("Spawned modular actor has no Body component")
 
 sample_time = animation.get_play_length() * normalized_time
-body.override_animation_data(animation, False, False, sample_time, 1.0)
+body.override_animation_data(
+    animation, loop_animation, play_in_editor, sample_time, 1.0
+)
 
 # OverrideAnimationData survives this Blueprint's editor-side reconstruction.
 components = list(actor.get_components_by_class(unreal.SkeletalMeshComponent))
@@ -139,6 +147,8 @@ report = {
     "play_length_seconds": animation.get_play_length(),
     "normalized_time": normalized_time,
     "sample_time_seconds": sample_time,
+    "play_in_editor": play_in_editor,
+    "loop_animation": loop_animation,
     "component_count": len(components),
     "followers_without_body_leader": [
         item["name"] for item in followers if item["leader"] != "Body"

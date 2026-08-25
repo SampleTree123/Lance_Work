@@ -25,7 +25,7 @@
 - **单轮**：`f(视频_in, 指令) → 视频_out`。
 - **多轮**：`视频_0 --指令_1--> 视频_1 --指令_2--> 视频_2 --…`，在上一轮产物上继续编辑。
 - **训练样本**最小单元 = `(视频_in, 指令文本, 视频_out)`；多轮样本 = 这种单元串成的链。
-- **指令文本**当前不急于产出（可由"已知改了哪个因子"自动模板化 / 大模型改写生成）。
+- **指令文本**必须由已知原子边派生，不能先写文本再反推配置。第一批已生成 4,000 个 Dialog 和 15,000 个双语 Turn；媒体 URI 在 `WF-80/WF-90` 完成后解析并验收。
 
 ## 2. 编辑原子类型表（edit taxonomy）
 
@@ -102,6 +102,6 @@
 
 # 近期新增
 
-- [Character Creator 角色工厂总规范](./character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md)：CC5 自动化、10 BodyFit、面部/外观、导出、UE 模块化、当前状态和恢复入口。文档地图见 [角色工厂 full_process](./character_creator/full_process/README.md)。
+- [Character Factory 生产系统](./character_creator/full_process/README.md)：从 CC5 角色、UE 运行时与场景，到配置图、渲染和数据集发布的唯一主入口。
 
 ---

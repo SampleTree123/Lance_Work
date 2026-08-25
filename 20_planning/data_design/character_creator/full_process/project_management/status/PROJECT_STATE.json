@@ -1,0 +1,88 @@
+{
+  "schema_version": 2,
+  "updated_at": "2026-08-25T20:33:47+08:00",
+  "documentation_version": "character_factory_docs_v3_independent_subsystems",
+  "current_plan_id": "PLAN-2026-08-FIRST-DATA-BATCH",
+  "active_batch_id": "BATCH-001-FIRST-DATA",
+  "active_workflow_id": "WF-80",
+  "project_phase": "first_batch_server_preflight_pending",
+  "workflow_status": {
+    "WF-00": "local_validated_server_pending",
+    "WF-10": "batch_spec_accepted",
+    "WF-20": "first_batch_matrix_frozen",
+    "WF-30": "first_batch_cc_assets_accepted",
+    "WF-40": "first_batch_ue_reference_accepted",
+    "WF-50": "first_batch_performance_accepted",
+    "WF-60": "first_batch_sequence_accepted",
+    "WF-70": "first_batch_job_graph_accepted",
+    "WF-80": "formal_executor_local_accepted_server_benchmark_pending",
+    "WF-90": "pending"
+  },
+  "validation_status": {
+    "VAL-ENV-01": [
+      {"scope": "local_capability", "status": "passed"},
+      {"scope": "current_application_session", "status": "expired"}
+    ],
+    "VAL-BRIDGE-01": [{"scope": "current_cc_session", "status": "expired"}],
+    "VAL-SPEC-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-MATRIX-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-CC-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-CC-02": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed_with_accepted_risk"}],
+    "VAL-TRANSFER-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-UE-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed_with_accepted_risk"}],
+    "VAL-UE-02": [{"scope": "BATCH-001-FIRST-DATA", "status": "not_applicable"}],
+    "VAL-UE-03": [{"scope": "BATCH-001-FIRST-DATA", "status": "not_applicable"}],
+    "VAL-SCENE-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-GRAPH-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "passed"}],
+    "VAL-TEXT-01": [{"scope": "structure", "status": "passed"}],
+    "VAL-RENDER-01": [
+      {"scope": "representative_local", "status": "passed"},
+      {
+        "scope": "formal_executor_local_smoke",
+        "status": "passed",
+        "evidence": "%OUTPUT_ROOT%/unreal_render/first_batch_formal_executor_smoke_20260825_v003"
+      },
+      {"scope": "formal_640_nodes", "status": "pending"}
+    ],
+    "VAL-SERVER-01": [{"scope": "target_server", "status": "pending"}],
+    "VAL-RELEASE-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "pending"}],
+    "VAL-DOC-01": [{
+      "scope": "documentation_formal_render_executor_closure_2026-08-25",
+      "status": "passed",
+      "evidence": "%OUTPUT_ROOT%/documentation_audit/documentation_rebuild_20260825_v3"
+    }]
+  },
+  "current_outputs": {
+    "OUT-WF00-SESSION": null,
+    "OUT-WF10-BATCH-SPEC": "project_management/status/batches/BATCH-001-FIRST-DATA.md",
+    "OUT-WF20-ASSET-MATRIX": "00_engine/scripts/dataset/first_batch_required_exports_20260824_v3.json",
+    "OUT-WF30-CC-ASSETS": "%CC_EXPORT_ROOT%/first_data_batch_20260820_v1/projects",
+    "OUT-WF40-TRANSFER-BUNDLE": "%CC_EXPORT_ROOT%/first_data_batch_20260820_v1/full_reference",
+    "OUT-WF50-RUNTIME-ACCEPTANCE": "00_engine/outputs/unreal_render/first_batch_32look_matrix_20260824_v002",
+    "OUT-WF60-SEQUENCE-TEMPLATE": "/Game/DataMake/Sequences/FirstBatch/Automation/LS_DM_FirstBatch_RenderWorkspace_v001",
+    "OUT-WF70-JOB-GRAPH": "00_engine/outputs/first_batch_dataset/graph_20260824_v1",
+    "OUT-WF80-NODE-MEDIA": "00_engine/outputs/unreal_render/first_batch_formal_executor_smoke_20260825_v003",
+    "OUT-WF90-DATASET-RELEASE": null
+  },
+  "active_batch_facts": {
+    "looks": 32,
+    "identities": 8,
+    "outfits_per_sex": 4,
+    "actions": 10,
+    "actions_per_look": 5,
+    "cameras": 4,
+    "production_expressions": [
+      "Happy"
+    ],
+    "nodes": 640,
+    "atomic_edges": 8320,
+    "chains": 4000,
+    "prompt_turns": 15000,
+    "duration_seconds": 5,
+    "fps": 30,
+    "width": 2560,
+    "height": 1440
+  },
+  "next_action": "Commit and sync the frozen Git state plus the UE project and binary assets, then run the target-server preflight, two project smoke launches, and a deterministic 10-node benchmark with the formal render-job executor.",
+  "blocking_issues": []
+}

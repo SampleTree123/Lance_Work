@@ -39,6 +39,8 @@ env/
 00_engine/projects/*/*.sln
 00_engine/outputs/*
 !00_engine/outputs/README.md
+!00_engine/outputs/RETENTION_POLICY.json
+!00_engine/outputs/OUTPUT_INVENTORY.json
 00_engine/logs/
 
 # Asset staging. Track manifests and notes, not raw asset packs.
@@ -154,6 +156,11 @@ Binaries/
 00_engine/assets/character_creator/face_prototypes/**/*.jpg
 00_engine/assets/character_creator/face_prototypes/**/*.jpeg
 /tmprtn3anch/
+
+# Local native-tool build products; track source/build scripts only.
+/00_engine/tools/fbx_motion_normalizer/bin/
+/00_engine/tools/fbx_motion_normalizer/*.obj
+/00_engine/tools/fbx_motion_normalizer/*.pdb
 
 # OS/editor noise
 .DS_Store

@@ -12,6 +12,7 @@ sys.path.insert(0, str(TOOLS_DIR))
 
 from portal_registry import (  # noqa: E402
     PortalDataError,
+    collect_local_urls,
     register_run,
     validate_local_assets,
     validate_run,
@@ -133,6 +134,11 @@ class RegistryTests(unittest.TestCase):
         self.assertIn("localStorage", review_source)
         self.assertIn("downloadJson", review_source)
         self.assertIn("applyImportedState", review_source)
+
+    def test_candidate_video_is_included_in_local_asset_validation(self) -> None:
+        run = sample_run("2026-08-20-video", "2026-08-20T23:00:00+08:00")
+        run["groups"]["female"]["cases"][0]["video"] = "/outputs/review.mp4"
+        self.assertIn("/outputs/review.mp4", collect_local_urls(run))
 
     def test_candidate_review_rejects_duplicate_case_ids(self) -> None:
         run = sample_run("2026-08-18-review-dup", "2026-08-18T23:00:00+08:00")

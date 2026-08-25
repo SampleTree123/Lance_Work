@@ -1,70 +1,58 @@
-# 00_engine/scripts：执行代码入口
+# `00_engine/scripts` 实现代码入口
 
-本目录保存可复现的 CC、UE、配置图和文档校验代码。当前第一批执行顺序由 [`FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md`](../../20_planning/data_design/character_creator/full_process/planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md) 定义；本页只说明代码位于哪里及其成熟度。
+本目录保存 Character Creator、Unreal Engine、数据图和文档维护代码。它是实现目录，不是项目状态或生产顺序的权威入口。
+
+开始执行前按以下路径定位：
+
+```text
+full_process/README.md
+  -> workflow/WF-*.md
+  -> technical/<domain>/*.md
+  -> 本目录中的脚本/配置/测试
+```
+
+当前阶段、活动批次、冻结数量和唯一下一步只从 [`PROJECT_STATUS.md`](../../20_planning/data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md) 获取。
 
 ## 子目录
 
-| 路径 | 内容 | 当前用途 |
+| 路径 | 主要实现 | Technical 所有者 |
 | --- | --- | --- |
-| [`character_creator/`](./character_creator/README.md) | CC5 角色、服装、动作、导出与验证脚本 | 生成 8 身份、16 Look、12 动作冻结输入 |
-| [`unreal/`](./unreal/README.md) | UE 资产导入、表情、动作分层和运行时验证 | 完成 Pilot；继续做动作/Look 门禁与场景模板 |
-| [`dataset/`](./dataset/README.md) | 配置图与多轮链生成 | 已通过合成输入测试，真实 UE ID 待补 |
-| [`documentation/`](./documentation/README.md) | 文档图、链接和结构检查 | 提交前必须运行 |
+| [`character_creator/`](./character_creator/README.md) | CC 角色、服装、动作、导出与视觉验证 | [CC 技术索引](../../20_planning/data_design/character_creator/full_process/technical/character_creator/README.md) |
+| [`unreal/`](./unreal/README.md) | UE 导入、运行时、动画/表情、Sequence 和渲染 | [UE 技术索引](../../20_planning/data_design/character_creator/full_process/technical/unreal/README.md) |
+| [`dataset/`](./dataset/README.md) | 配置图、原子边、链、Prompt 和作业清单 | [Dataset 技术索引](../../20_planning/data_design/character_creator/full_process/technical/dataset/README.md) |
+| [`documentation/`](./documentation/README.md) | 文档目录、输出盘点与结构审计 | [文档验证](../../20_planning/data_design/character_creator/full_process/technical/validation/DOCUMENTATION_VALIDATION.md) |
 
-根目录 shell 脚本用于 Linux UE 环境：
+根目录 shell 脚本提供 Linux/服务器侧 UE 环境和命令包装，其运行边界见 [服务器执行](../../20_planning/data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)。
 
-- `ue_env.sh`：统一 UE 环境变量；
-- `run_ue_cmd.sh`：用户态 UE 命令包装；
-- `run_mvp_python_smoke.sh`：最小 Python commandlet smoke；
-- `run_mcp_generate_client_config.sh`：生成 MCP 客户端配置。
+## 脚本生命周期
 
-## 第一批关键实现
+全部 `.py/.ps1/.sh/.cmd` 的机器目录为：
 
-### Character Creator
+```text
+00_engine/scripts/SCRIPT_CATALOG.json
+```
 
-- `character_creator/cc_build_first_batch_identity_library_v1.py`：建立首批 8 身份冻结库；
-- `character_creator/cc_build_first_batch_full_reference_looks_v2.py`：建立并审计 16 个 FullReference Look；
-- `character_creator/cc_build_first_batch_action_gate_v3.py`：首批 12 动作的 CC 门禁；
-- `character_creator/cc_ingest_first_batch_action_window_selection_v1.py`：接收人工选择的 5 秒窗口；
-- `character_creator/cc_build_first_batch_action_ue_export_v1.py`：准备 Motion FBX 导出任务；
-- `character_creator/cc_first_batch_action_registry_20260820_v3.json`：当前 12 动作权威注册表；
-- `character_creator/cc_first_batch_full_reference_looks_20260820_v2.json`：当前 16 Look 权威配置。
+Catalog 记录路径、SHA-256、生命周期、活动批次标记和 Technical owner。`production` 才是当前正式实现；`validated_pilot` 只在登记范围内有效；`experimental` 不能作为生产入口。不要仅根据文件名或较新的时间戳选择脚本。
 
-### Unreal Engine
+重新生成：
 
-- `unreal/first_batch_expression_profile_20260820_v1.json`：Happy/Angry/Sad 表情配置；
-- `unreal/ue_build_first_batch_expression_library.py`：创建 UE 表情曲线资产；
-- `unreal/ue_build_first_batch_expression_composition.py`：构建身体动作与面部表情组合；
-- `unreal/run_first_batch_expression_review.py`：运行首批表情审查；
-- `unreal/ue_import_cc5_rlmotion_pilot.py`：CC 动作导入 Pilot；
-- `unreal/ue_validate_p0_runtime_motions.py`：运行时动作门禁。
+```powershell
+python 00_engine/scripts/documentation/build_script_lifecycle_catalog.py
+```
 
-### 配置图
-
-- `dataset/build_first_batch_config_graph_v1.py`：确定性生成节点、原子边、3–5 轮链和渲染作业；
-- schema：[`CONFIG_GRAPH_SCHEMA_V1.md`](../../20_planning/data_design/schema/CONFIG_GRAPH_SCHEMA_V1.md)；
-- 采样：[`MULTI_ROUND_CHAIN_SAMPLING_V1.md`](../../20_planning/data_design/sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md)。
-
-完整的代码、JSON、证据和 UE 资产映射以 [`IMPLEMENTATION_INDEX.md`](../../20_planning/data_design/character_creator/full_process/reference/IMPLEMENTATION_INDEX.md) 为准。
-
-## 尚未实现或未贯通
-
-以下内容不能因为存在 Pilot 就视为生产完成：
-
-1. 12 个 Motion FBX 的完整导出和 UE 批量门禁；
-2. 16 个 FullReference Look 的正式 UE 批量导入；
-3. 固定场景、角色锚点、两台相机、灯光和 Sequence；
-4. 唯一节点的 MRQ/MRG 渲染执行器；
-5. sidecar、SHA-256、重试、断点恢复和交付验证；
-6. 本地完整链和服务器 10 节点基准。
-
-不要恢复旧 README 中尚未实现的 `render_pair.py`、`factors.py`、`passes.py` 等占位接口；生产实现应以当前 schema、Sprint 和实际 UE 资产为准。
+规则见 [脚本生命周期与所有权](../../20_planning/data_design/character_creator/full_process/technical/implementation/SCRIPT_LIFECYCLE.md)。
 
 ## 校验
 
 ```powershell
+python 00_engine/scripts/documentation/build_script_lifecycle_catalog.py
+python 00_engine/scripts/documentation/build_output_inventory.py
 python 00_engine/scripts/documentation/check_character_factory_docs.py --json
-python -m pytest 00_engine/scripts/documentation/tests 00_engine/visualization_portal/tests 00_engine/scripts/dataset/tests -q
+
+python -m pytest `
+  00_engine/scripts/documentation/tests `
+  00_engine/scripts/dataset/tests `
+  00_engine/scripts/unreal/tests -q
 ```
 
-CC 全测试包含少量只能在 CC 内置 Python/PySide2 环境收集的测试；普通系统 Python 中应按测试说明排除这些 UI 专用模块。
+需要 CC 内置 Python、PySide2、UE Editor/MCP、二进制资产或服务器环境的测试不能由普通系统 Python 替代。无法运行时记录准确边界，不把未执行写成通过。

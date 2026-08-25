@@ -43,6 +43,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--command", help="Literal Python command to execute in Unreal")
     parser.add_argument("--engine-root", type=Path, default=DEFAULT_ENGINE_ROOT)
     parser.add_argument("--discovery-timeout", type=float, default=12.0)
+    parser.add_argument(
+        "--interactive",
+        action="store_true",
+        help="Allow Unreal modal UI during execution instead of unattended mode",
+    )
     args = parser.parse_args()
     if bool(args.script) == bool(args.command):
         parser.error("Specify exactly one of --script or --command")
@@ -85,7 +90,7 @@ def main() -> int:
         session.open_command_connection(node["node_id"])
         result = session.run_command(
             payload,
-            unattended=True,
+            unattended=not args.interactive,
             exec_mode=remote_execution.MODE_EXEC_FILE,
             raise_on_failure=False,
         )

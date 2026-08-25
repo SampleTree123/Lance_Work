@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_first_batch_action_full_preview_20260821_v4_delta",
+  "generated_at": "2026-08-21T09:47:08+08:00",
+  "status": "replacement_full_preview_capture_planned",
+  "diagnostic_mode": "animation_p0_dynamic_gate",
+  "preview_capture_mode": "render_image",
+  "preview_resolution": [
+    640,
+    640
+  ],
+  "preview_lightroom": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+  "full_body_camera": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Camera\\Headshot Ref\\Ref Cam Male L.ccCam",
+    "size_bytes": 170269,
+    "sha256": "5b2cfd0442fc3a84332cfb69867d2095d55a39cab0bf1868a93ed23c77b43925"
+  },
+  "lightroom": {
+    "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Stage\\Light Room\\Default\\Default_CC5.ccLightroom",
+    "size_bytes": 2503182,
+    "sha256": "d7c645aea807772300e5c3649a8ef5cad1b2e97b6e1a1cb18f399f8e4e8af8b3"
+  },
+  "source_pilot_manifest": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260821_v4\\pilot_manifest.json",
+    "size_bytes": 4810,
+    "sha256": "e109e84bd5c11f7f3bca9a3f397e8e976f4d9cbd9589d8dad405242f58431b03",
+    "pilot_id": "cc_first_batch_action_replacements_20260821_v4"
+  },
+  "source_dynamic_review_template": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260821_v4\\dynamic_review.json",
+    "size_bytes": 1592,
+    "sha256": "0df65824e85f1548294664e6c953f384a2ce40277e4143d5b2faacd4fedd4287"
+  },
+  "source_bodyfit_library": {
+    "library_id": "cc_first_batch_clothed_review_actors_20260820_v3",
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_selection\\selection_20260820_v3\\clothed_actor_library.json",
+    "size_bytes": 8442,
+    "sha256": "475296fc28ca0203c07f4854928f83480ae5eb533fbc5463f82542e22fb7c43b"
+  },
+  "capture_policy": {
+    "camera_mode": "lightroom_current",
+    "yaw_degrees": null,
+    "auto_frame_full_body": false,
+    "align_motion_start_to_source": true,
+    "framing": "preserve_lightroom_camera_and_source_transform",
+    "physics_simulation": true,
+    "segment_timeout_seconds": 60.0,
+    "follow_root_for_capture": true,
+    "sample_interval_frames": 6,
+    "preview_fps": 10.0
+  },
+  "execution_policy": {
+    "load_each_actor_project_once": true,
+    "replace_existing_motion_clips": true,
+    "continue_after_motion_failure": true,
+    "checkpoint_after_each_motion": true,
+    "stop_on_blocking_dialog": true,
+    "production_approval_from_automation": false
+  },
+  "scope_policy": {
+    "pilot_membership_is_not_production_approval": true,
+    "actor_sex_is_not_a_permanent_motion_restriction": true,
+    "loop_requires_visual_review": true,
+    "hidden_prop_dependency_requires_visual_review": true
+  },
+  "counts": {
+    "actor_count": 2,
+    "motion_case_count": 3,
+    "sample_count_per_motion": null,
+    "expected_image_count": null,
+    "by_actor": {
+      "F02_Average": 1,
+      "M02_Average": 2
+    },
+    "by_source_format": {
+      ".rlmotion": 3
+    },
+    "production_approved_count": 0,
+    "case_count": 3,
+    "preview_fps": 10.0
+  },
+  "presets": [
+    {
+      "preset_id": "F02_Average",
+      "sex": "female",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar",
+        "size_bytes": 266523309,
+        "sha256": "0218eba5e090bd9f70ad4bb5780a8c1eb767c48749dc0ac40c4d291068e752cb"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\F02_Average_Clothed.ccProject",
+        "size_bytes": 176901912,
+        "sha256": "18d05437e8defdf0ccf86b39cd7b32b440e41b04c7241108afc6e91e2f7d0d85"
+      },
+      "motion_cases": [
+        {
+          "case_id": "act_f01_sexy_dance",
+          "motion_id": "motion-p0-user-replacement-6b280b2c74a1",
+          "filename": "Sexy Dance.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "dance_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "dance_gesture"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260821_v4\\motions\\01_act_f01_sexy_dance.rlMotion",
+            "size_bytes": 1140449,
+            "sha256": "6b280b2c74a1266163381fa1ec36f1eafb9497d7802e6a5ae0c5f830fb512de2"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_F01_SEXY_DANCE",
+          "source_review_bucket": "user_replacement",
+          "user_selected": true,
+          "required_prop_reported": false
+        }
+      ]
+    },
+    {
+      "preset_id": "M02_Average",
+      "sex": "male",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar",
+        "size_bytes": 293943153,
+        "sha256": "9ff7e5bfc2b35b4d353e590b95b8c42db9f03ab4bb5fc1f81c3692695698d8f4"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\p0_offline_review_20260818_v1\\M02_Average_Clothed.ccProject",
+        "size_bytes": 205953512,
+        "sha256": "756da33f825eecba2e56aa8a248c770cdffcacdc9538192eb52326598500af48"
+      },
+      "motion_cases": [
+        {
+          "case_id": "act_m01_battle_dance",
+          "motion_id": "motion-p0-user-replacement-a1b888117b31",
+          "filename": "Battle Dance.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "dance_gesture",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "dance_gesture"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260821_v4\\motions\\07_act_m01_battle_dance.rlMotion",
+            "size_bytes": 1166239,
+            "sha256": "a1b888117b31f59123ef183baae7a34b030e1b4056f514258d9e55ff48e603c9"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M01_BATTLE_DANCE",
+          "source_review_bucket": "user_replacement",
+          "user_selected": true,
+          "required_prop_reported": false
+        },
+        {
+          "case_id": "act_m06_cheer_hands_step_dance",
+          "motion_id": "motion-p0-user-replacement-64e68cf7dcd4",
+          "filename": "Cheer Hands & Step Dance.rlMotion",
+          "source_format": ".rlmotion",
+          "format_generation": "current",
+          "review_family": "celebration_dance",
+          "loop_hint": "unknown",
+          "semantic_tags": [
+            "celebration_dance"
+          ],
+          "motion": {
+            "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\runtime_assets\\first_batch_actions_20260821_v4\\motions\\12_act_m06_cheer_hands_step_dance.rlMotion",
+            "size_bytes": 1614646,
+            "sha256": "64e68cf7dcd43353c7198f5e25f8b8bd7f84e3f07f9a7dfaeb890d31e626ad65"
+          },
+          "review_status": "pending_cc_dynamic_review",
+          "production_status": "not_approved",
+          "action_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+          "source_review_bucket": "user_replacement",
+          "user_selected": true,
+          "required_prop_reported": false
+        }
+      ]
+    }
+  ],
+  "selection_override": {
+    "authority": "user",
+    "source_review_buckets": {
+      "user_replacement": 3
+    },
+    "reported_required_prop_count": 0,
+    "dynamic_gate_still_required": true,
+    "production_approval_granted": false
+  },
+  "subset_case_ids": [
+    "act_f01_sexy_dance",
+    "act_m01_battle_dance",
+    "act_m06_cheer_hands_step_dance"
+  ],
+  "source_action_registry": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_first_batch_action_registry_20260821_v4.json",
+    "size_bytes": 22563,
+    "sha256": "42eee282e5f8665992c4f7c01f14567f9f5710e97b33b743194c621adc57d1e9"
+  }
+}

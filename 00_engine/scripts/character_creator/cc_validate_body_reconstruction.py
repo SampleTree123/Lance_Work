@@ -20363,6 +20363,39 @@ def run_animation_p0_dynamic_gate(
 
 def export_current_rlmotion_fbx(library, output_dir):
     os.makedirs(output_dir, exist_ok=True)
+    payload = library.get("rlmotion_fbx_export") or {}
+    source_project = payload.get("source_project") or {}
+    source_project_path = None
+    source_project_sha256 = None
+    source_project_load = None
+    if source_project:
+        if not isinstance(source_project, dict):
+            raise ReconstructionError(
+                "rlmotion_fbx_export.source_project must be an object"
+            )
+        source_project_path = canonical_existing_file(
+            source_project.get("path"),
+            "rlMotion FBX carrier project",
+        )
+        expected_bytes = source_project.get("bytes")
+        if expected_bytes is not None and os.path.getsize(source_project_path) != int(
+            expected_bytes
+        ):
+            raise ReconstructionError("rlMotion FBX carrier project size changed")
+        source_project_sha256 = sha256_file(source_project_path)
+        expected_sha256 = source_project.get("sha256")
+        if expected_sha256 and source_project_sha256 != expected_sha256:
+            raise ReconstructionError("rlMotion FBX carrier project hash changed")
+        load_status, load_dialogs = load_file_with_optional_undo_warning(
+            source_project_path,
+            "Load rlMotion FBX carrier project",
+        )
+        source_project_load = {
+            "dialogs": load_dialogs,
+            "status": load_status,
+        }
+        QtWidgets.QApplication.processEvents()
+
     avatar, avatars = resolve_avatar()
     if len(avatars) != 1:
         raise ReconstructionError(
@@ -20370,7 +20403,6 @@ def export_current_rlmotion_fbx(library, output_dir):
                 len(avatars)
             )
         )
-    payload = library.get("rlmotion_fbx_export") or {}
     motion_path = canonical_existing_file(
         payload.get("motion_path"),
         "rlMotion FBX export",
@@ -20406,6 +20438,26 @@ def export_current_rlmotion_fbx(library, output_dir):
         if face_component is not None
         else 0
     )
+    cleared_timeline = {
+        "body_clip_count": 0,
+        "face_clip_count": 0,
+    }
+    if bool(payload.get("clear_existing_timeline", False)):
+        for clip_index in range(initial_clip_count - 1, -1, -1):
+            skeleton.DeleteClip(skeleton.GetClip(clip_index))
+            cleared_timeline["body_clip_count"] += 1
+            QtWidgets.QApplication.processEvents()
+        if face_component is not None:
+            for clip_index in range(initial_face_clip_count - 1, -1, -1):
+                face_component.DeleteClip(face_component.GetClip(clip_index))
+                cleared_timeline["face_clip_count"] += 1
+                QtWidgets.QApplication.processEvents()
+        initial_clip_count = int(skeleton.GetClipCount())
+        initial_face_clip_count = (
+            int(face_component.GetClipCount())
+            if face_component is not None
+            else 0
+        )
     if bool(payload.get("require_empty_timeline", True)) and (
         initial_clip_count != 0 or initial_face_clip_count != 0
     ):
@@ -20431,7 +20483,18 @@ def export_current_rlmotion_fbx(library, output_dir):
         "diagnostic_mode": "rlmotion_fbx_export",
         "export_path": fbx_path,
         "motion_path": motion_path,
+        "timeline_cleanup": cleared_timeline,
         "schema_version": 1,
+        "source_project": (
+            {
+                "bytes": os.path.getsize(source_project_path),
+                "load": source_project_load,
+                "path": source_project_path,
+                "sha256": source_project_sha256,
+            }
+            if source_project_path
+            else None
+        ),
         "started_at": started_at,
     }
     try:
@@ -20605,6 +20668,9 @@ def export_current_rlmotion_fbx(library, output_dir):
         RLPy.RGlobal.SetEndTime(initial_end_time)
         RLPy.RGlobal.SetTime(initial_time, True)
         QtWidgets.QApplication.processEvents()
+
+    if source_project_path and sha256_file(source_project_path) != source_project_sha256:
+        raise ReconstructionError("rlMotion FBX carrier project changed during export")
 
     report_path = os.path.join(output_dir, "rlmotion_fbx_export.json")
     write_json(report, report_path)
@@ -22222,6 +22288,283 @@ def validate_library_document(library):
     if len(ids) != len(set(ids)):
         raise ReconstructionError("BodyFit preset IDs are not unique")
     return presets
+
+
+def run_first_batch_identity_reference_capture(
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Render deterministic neutral identity portraits from frozen projects."""
+    capture = library.get("identity_reference_capture") or {}
+    if not isinstance(capture, dict):
+        raise ReconstructionError(
+            "identity_reference_capture must be an object"
+        )
+
+    camera_path = canonical_existing_file(
+        capture.get("camera_path"),
+        "Identity reference camera",
+    )
+    lightroom_path = canonical_existing_file(
+        capture.get("lightroom_path"),
+        "Identity reference Lightroom",
+    )
+    base_position = capture.get("avatar_position") or {}
+    if not isinstance(base_position, dict):
+        raise ReconstructionError(
+            "identity_reference_capture.avatar_position must be an object"
+        )
+    base_position = dict(
+        (axis, float(base_position.get(axis, 0.0)))
+        for axis in ("x", "y", "z")
+    )
+    position_by_sex = capture.get("avatar_position_by_sex") or {}
+    if not isinstance(position_by_sex, dict):
+        raise ReconstructionError(
+            "identity_reference_capture.avatar_position_by_sex must be an object"
+        )
+
+    views = capture.get("views")
+    if not isinstance(views, list) or not views:
+        raise ReconstructionError(
+            "identity_reference_capture.views must be a non-empty list"
+        )
+    normalized_views = []
+    seen_view_ids = set()
+    for item in views:
+        if not isinstance(item, dict):
+            raise ReconstructionError(
+                "Every identity reference view must be an object"
+            )
+        view_id = item.get("view_id")
+        if not isinstance(view_id, str) or not view_id:
+            raise ReconstructionError(
+                "Every identity reference view requires view_id"
+            )
+        if view_id in seen_view_ids:
+            raise ReconstructionError(
+                "Duplicate identity reference view_id: {}".format(view_id)
+            )
+        seen_view_ids.add(view_id)
+        position_offset = item.get("avatar_position_offset") or {}
+        if not isinstance(position_offset, dict):
+            raise ReconstructionError(
+                "Identity reference view {} avatar_position_offset must be an object".format(
+                    view_id
+                )
+            )
+        normalized_views.append(
+            {
+                "view_id": view_id,
+                "yaw_degrees": float(item.get("yaw_degrees")),
+                "avatar_position_offset": dict(
+                    (
+                        axis,
+                        float(position_offset.get(axis, 0.0)),
+                    )
+                    for axis in ("x", "y", "z")
+                ),
+            }
+        )
+
+    by_id = dict((item.get("preset_id"), item) for item in all_presets)
+    selected_ids = list(
+        preset_ids or [item.get("preset_id") for item in all_presets]
+    )
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError(
+            "Identity reference preset IDs must be non-empty and unique"
+        )
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError(
+            "Unknown identity reference preset IDs: {}".format(missing)
+        )
+
+    started_at = now()
+    results = []
+    for preset_id in selected_ids:
+        preset = by_id[preset_id]
+        sex = preset.get("sex")
+        sex_position = position_by_sex.get(sex) or {}
+        if not isinstance(sex_position, dict):
+            raise ReconstructionError(
+                "Identity position override for {} must be an object".format(
+                    sex
+                )
+            )
+        position = dict(
+            (
+                axis,
+                float(sex_position.get(axis, base_position[axis])),
+            )
+            for axis in ("x", "y", "z")
+        )
+        source_record = preset.get("source_project") or {}
+        source_project = canonical_existing_file(
+            source_record.get("path"),
+            "Identity reference source project {}".format(preset_id),
+        )
+        expected_sha256 = source_record.get("sha256")
+        actual_sha256 = sha256_file(source_project)
+        if expected_sha256 and actual_sha256 != expected_sha256:
+            raise ReconstructionError(
+                "Identity source project hash changed for {}".format(
+                    preset_id
+                )
+            )
+
+        log("Loading frozen identity project {}".format(preset_id))
+        load_status, load_dialogs = load_file_with_optional_undo_warning(
+            source_project,
+            "Load frozen identity project {}".format(preset_id),
+        )
+        settle_cc_ui(float(capture.get("project_settle_seconds", 3.0)))
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError(
+                "Identity {} loaded {} avatars; expected one".format(
+                    preset_id, len(avatars)
+                )
+            )
+        motion_cleanup = clear_avatar_motion(avatar)
+        clothing_names = sorted(
+            set(
+                scene_object_name(item)
+                for item in list(avatar.GetClothes() or [])
+            )
+        )
+        avatar, clothing_cleanup = remove_base_clothing(
+            avatar,
+            clothing_names,
+        )
+        avatar, accessory_cleanup = (
+            remove_source_accessories_for_outfit_gate(avatar)
+        )
+        set_avatar_position(
+            avatar,
+            position_x=position["x"],
+            position_y=position["y"],
+            position_z=position["z"],
+        )
+        force_avatar_scene_evaluation(avatar)
+
+        checked(
+            "Load identity reference Lightroom",
+            RLPy.RFileIO.LoadFile(lightroom_path),
+        )
+        checked(
+            "Load identity reference camera",
+            RLPy.RFileIO.LoadFile(camera_path),
+        )
+        settle_cc_ui(float(capture.get("stage_settle_seconds", 1.5)))
+        camera = RLPy.RScene.GetCurrentCamera()
+        if camera is None:
+            raise ReconstructionError(
+                "Identity reference camera did not become active"
+            )
+
+        identity_dir = os.path.join(output_dir, preset_id)
+        os.makedirs(identity_dir, exist_ok=True)
+        view_results = []
+        for view in normalized_views:
+            view_position = dict(
+                (
+                    axis,
+                    position[axis]
+                    + view["avatar_position_offset"][axis],
+                )
+                for axis in ("x", "y", "z")
+            )
+            set_avatar_position(
+                avatar,
+                position_x=view_position["x"],
+                position_y=view_position["y"],
+                position_z=view_position["z"],
+            )
+            set_avatar_yaw(avatar, view["yaw_degrees"])
+            force_avatar_scene_evaluation(
+                avatar,
+                settle_seconds=float(
+                    capture.get("view_settle_seconds", 1.0)
+                ),
+            )
+            image_path = os.path.join(
+                identity_dir,
+                "{}__{}.png".format(preset_id, view["view_id"]),
+            )
+            log(
+                "Rendering {} {} at yaw {}".format(
+                    preset_id,
+                    view["view_id"],
+                    view["yaw_degrees"],
+                )
+            )
+            render_preview(image_path, RLPy.RGlobal.GetStartTime())
+            view_results.append(
+                {
+                    "view_id": view["view_id"],
+                    "yaw_degrees": view["yaw_degrees"],
+                    "avatar_position": view_position,
+                    "avatar_position_offset": view[
+                        "avatar_position_offset"
+                    ],
+                    "image": {
+                        "path": image_path,
+                        "bytes": os.path.getsize(image_path),
+                        "sha256": sha256_file(image_path),
+                    },
+                    "avatar_bounds": capture_bounds(avatar),
+                    "camera": camera_state(camera),
+                }
+            )
+
+        results.append(
+            {
+                "preset_id": preset_id,
+                "sex": sex,
+                "source_project": {
+                    "path": source_project,
+                    "sha256": actual_sha256,
+                },
+                "load_status": load_status,
+                "load_dialogs": load_dialogs,
+                "avatar_position": position,
+                "motion_cleanup": motion_cleanup,
+                "clothing_cleanup": clothing_cleanup,
+                "accessory_cleanup": accessory_cleanup,
+                "camera_path": camera_path,
+                "lightroom_path": lightroom_path,
+                "views": view_results,
+            }
+        )
+
+    summary_path = os.path.join(
+        output_dir,
+        "identity_reference_capture_summary.json",
+    )
+    summary = {
+        "schema_version": 1,
+        "diagnostic_mode": "first_batch_identity_reference_capture",
+        "started_at": started_at,
+        "finished_at": now(),
+        "success": True,
+        "requested_count": len(selected_ids),
+        "success_count": len(results),
+        "failure_count": 0,
+        "preview_resolution": [
+            VIEWPORT_PREVIEW_WIDTH,
+            VIEWPORT_PREVIEW_HEIGHT,
+        ],
+        "render_contract": capture.get("render_contract") or {},
+        "results": results,
+        "summary_path": summary_path,
+    }
+    write_json(summary, summary_path)
+    return summary
 
 
 def probe_current_facial_profile_api(library, output_dir):
@@ -25888,6 +26231,17 @@ def _run_library_without_dialog_guard(
     if library.get("diagnostic_mode") == "resource_release_probe":
         log("Releasing disposable CC scene and Python/Qt cache resources")
         return probe_resource_release(library, output_dir, log)
+    if library.get("diagnostic_mode") == (
+        "first_batch_identity_reference_capture"
+    ):
+        log("Rendering frozen first-batch identity reference portraits")
+        return run_first_batch_identity_reference_capture(
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
     if library.get("diagnostic_mode") in (
         "outfit_compatibility_gate",
         "outfit_motion_stress_gate",

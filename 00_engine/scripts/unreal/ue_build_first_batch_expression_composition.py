@@ -10,12 +10,21 @@ import unreal
 from editor_toolset.toolsets.blueprint import BlueprintTools
 
 
-ANIMATION_ROOT = "/Game/DataMake/Animations/CC5/FirstBatchExpressions"
-CHARACTER_ROOT = "/Game/DataMake/Characters/FirstBatchExpressionReview"
-REPORT_PATH = Path(
-    r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
-    r"\first_batch_expressions_20260820_v1\runtime_composition_build.json"
-)
+TARGET = str(globals().get("DM_FIRST_BATCH_EXPRESSION_TARGET", "legacy"))
+if TARGET == "canonical":
+    ANIMATION_ROOT = "/Game/DataMake/Animations/CC5/FirstDataBatch/Expressions"
+    CHARACTER_ROOT = "/Game/DataMake/Characters/FirstDataBatch/ExpressionReview"
+    REPORT_PATH = Path(
+        r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
+        r"\first_batch_day2_20260822_v1\canonical_expression_composition.json"
+    )
+else:
+    ANIMATION_ROOT = "/Game/DataMake/Animations/CC5/FirstBatchExpressions"
+    CHARACTER_ROOT = "/Game/DataMake/Characters/FirstBatchExpressionReview"
+    REPORT_PATH = Path(
+        r"D:\UE\Lance_Work\00_engine\outputs\unreal_character_import"
+        r"\first_batch_expressions_20260820_v1\runtime_composition_build.json"
+    )
 EXPRESSION_PAIR_VARIABLE = "ExpressionPairIndex"
 EXPRESSION_VARIANT_VARIABLE = "ExpressionVariantIndex"
 
@@ -41,12 +50,56 @@ ACTORS = {
         ),
     },
 }
+if TARGET == "canonical":
+    ACTORS = {
+        "FB_F": {
+            "mesh": (
+                "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O01/"
+                "CC_FB_F_ID01_O01"
+            ),
+            "body_animation": (
+                "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/"
+                "A_DM_F03_AUDIENCE_01_BodyOnly_v001"
+            ),
+        },
+        "FB_M": {
+            "mesh": (
+                "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O01/"
+                "CC_FB_M_ID01_O01"
+            ),
+            "body_animation": (
+                "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/BodyOnly/"
+                "A_DM_M02_AUDIENCE_01_BodyOnly_v001"
+            ),
+        },
+    }
 
 EXPRESSIONS = (
     ("happy", "Happy_SubtleDynamic_v001"),
     ("angry", "Angry_SubtleDynamic_v001"),
     ("sad", "Sad_SubtleDynamic_v001"),
 )
+
+if TARGET == "canonical":
+    # Wrappers reference AnimBlueprints, so remove them in dependency order.
+    for actor_id in ACTORS:
+        wrapper_path = (
+            f"{CHARACTER_ROOT}/{actor_id}/"
+            f"BP_DM_{actor_id}_FirstBatchExpressionReview_v001"
+        )
+        if unreal.EditorAssetLibrary.does_asset_exist(wrapper_path):
+            if not unreal.EditorAssetLibrary.delete_asset(wrapper_path):
+                raise RuntimeError(f"Unable to replace wrapper: {wrapper_path}")
+    for actor_id in ACTORS:
+        blueprint_path = (
+            f"{ANIMATION_ROOT}/{actor_id}/"
+            f"ABP_DM_{actor_id}_FirstBatchExpressionReview_v001"
+        )
+        if unreal.EditorAssetLibrary.does_asset_exist(blueprint_path):
+            if not unreal.EditorAssetLibrary.delete_asset(blueprint_path):
+                raise RuntimeError(
+                    f"Unable to replace AnimBlueprint: {blueprint_path}"
+                )
 
 
 def get_data(handle):
@@ -186,7 +239,8 @@ def build_anim_blueprint(actor_id, mesh, body_animation, expression_assets):
     name = f"ABP_DM_{actor_id}_FirstBatchExpressionReview_v001"
     path = f"{folder}/{name}"
     if unreal.EditorAssetLibrary.does_asset_exist(path):
-        raise RuntimeError(f"Refusing to overwrite existing AnimBlueprint: {path}")
+        if TARGET != "canonical" or not unreal.EditorAssetLibrary.delete_asset(path):
+            raise RuntimeError(f"Refusing to overwrite existing AnimBlueprint: {path}")
 
     skeleton = body_animation.get_editor_property("skeleton")
     factory = unreal.AnimBlueprintFactory()
@@ -333,7 +387,8 @@ def build_wrapper(actor_id, mesh, anim_blueprint):
     name = f"BP_DM_{actor_id}_FirstBatchExpressionReview_v001"
     path = f"{folder}/{name}"
     if unreal.EditorAssetLibrary.does_asset_exist(path):
-        raise RuntimeError(f"Refusing to overwrite existing wrapper: {path}")
+        if TARGET != "canonical" or not unreal.EditorAssetLibrary.delete_asset(path):
+            raise RuntimeError(f"Refusing to overwrite existing wrapper: {path}")
 
     factory = unreal.BlueprintFactory()
     factory.set_editor_property("parent_class", unreal.Actor)
@@ -451,7 +506,12 @@ for actor_id, actor_spec in ACTORS.items():
 
 report = {
     "schema_version": 1,
-    "runtime_scope": "full_reference_body_plus_direct_morph_expression",
+    "target": TARGET,
+    "runtime_scope": (
+        "first_batch_canonical_body_plus_direct_morph_expression"
+        if TARGET == "canonical"
+        else "full_reference_body_plus_direct_morph_expression"
+    ),
     "selectors": [EXPRESSION_PAIR_VARIABLE, EXPRESSION_VARIANT_VARIABLE],
     "records": records,
     "actor_count": len(records),

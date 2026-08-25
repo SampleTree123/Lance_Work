@@ -64,6 +64,9 @@ def build(
     delta_manifest: dict,
     previous_selection: dict,
     duration: float,
+    expected_reused: int = 10,
+    expected_captured: int = 2,
+    review_id: str = "first_batch_action_windows_20260820_v3_5s",
 ) -> tuple[dict, dict]:
     previous_actions = {
         item["filename"]: item for item in previous_registry.get("actions") or []
@@ -111,13 +114,17 @@ def build(
         case["source_filename"] = Path(action["runtime_file"]["path"]).name
         cases.append(apply_window_policy(case, duration))
 
-    if len(cases) != 12 or len(reused) != 10 or len(captured) != 2:
+    if (
+        len(cases) != expected_reused + expected_captured
+        or len(reused) != expected_reused
+        or len(captured) != expected_captured
+    ):
         raise ValueError(
-            "expected 12 cases (10 reused, 2 captured); "
+            f"expected {expected_reused + expected_captured} cases "
+            f"({expected_reused} reused, {expected_captured} captured); "
             f"got total={len(cases)}, reused={len(reused)}, captured={len(captured)}"
         )
 
-    review_id = "first_batch_action_windows_20260820_v3_5s"
     manifest = {
         "schema_version": 2,
         "review_id": review_id,
@@ -154,6 +161,12 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--seed-output", type=Path, required=True)
     parser.add_argument("--window-duration-seconds", type=float, default=5.0)
+    parser.add_argument("--expected-reused", type=int, default=10)
+    parser.add_argument("--expected-captured", type=int, default=2)
+    parser.add_argument(
+        "--review-id",
+        default="first_batch_action_windows_20260820_v3_5s",
+    )
     args = parser.parse_args()
     if args.window_duration_seconds <= 0.0:
         parser.error("--window-duration-seconds must be positive")
@@ -164,6 +177,9 @@ def main() -> int:
         read_json(args.delta_manifest),
         read_json(args.previous_selection),
         float(args.window_duration_seconds),
+        args.expected_reused,
+        args.expected_captured,
+        args.review_id,
     )
     write_json(args.output, manifest)
     write_json(args.seed_output, seed)

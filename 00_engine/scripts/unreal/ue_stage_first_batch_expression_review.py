@@ -7,6 +7,7 @@ import json
 import unreal
 
 
+TARGET = str(globals().get("DM_FIRST_BATCH_EXPRESSION_TARGET", "legacy"))
 CHARACTERS = {
     "F02": (
         "/Game/DataMake/Characters/FirstBatchExpressionReview/F02/"
@@ -17,6 +18,14 @@ CHARACTERS = {
         "BP_DM_M02_FirstBatchExpressionReview_v001"
     ),
 }
+if TARGET == "canonical":
+    CHARACTERS = {
+        actor_id: (
+            f"/Game/DataMake/Characters/FirstDataBatch/ExpressionReview/{actor_id}/"
+            f"BP_DM_{actor_id}_FirstBatchExpressionReview_v001"
+        )
+        for actor_id in ("FB_F", "FB_M")
+    }
 EXPRESSIONS = ("happy", "angry", "sad")
 ACTOR_SPECS = tuple(
     {
@@ -32,7 +41,7 @@ ACTOR_SPECS = tuple(
             0.0,
         ),
     }
-    for actor_cursor, actor_id in enumerate(("F02", "M02"))
+    for actor_cursor, actor_id in enumerate(tuple(CHARACTERS))
     for expression_index, expression_id in enumerate(EXPRESSIONS)
 )
 STALE_LABELS = {item["label"] for item in ACTOR_SPECS}
@@ -105,6 +114,7 @@ print(
     "DM_FIRST_BATCH_EXPRESSION_STAGE="
     + json.dumps(
         {
+            "target": TARGET,
             "actor_count": len(staged),
             "actors": staged,
             "removed": removed,

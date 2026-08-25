@@ -1,17 +1,21 @@
-# Character Creator 脚本与机器配置
+# Character Creator 实现目录
 
-本目录保存当前 Character Creator 角色工厂的系统 Python 生成器、CC/RLPy 执行器和机器 JSON。它不是人类流程总入口。
+本目录保存 CC 系统 Python 生成器、RLPy Payload、Registry、审查配置和测试。人类流程从 [CC 技术索引](../../../20_planning/data_design/character_creator/full_process/technical/character_creator/README.md) 进入。
 
-当前文档：
+## 运行边界
 
-- 总规范：[`CHARACTER_FACTORY_MASTER_SPEC.md`](../../../20_planning/data_design/character_creator/full_process/CHARACTER_FACTORY_MASTER_SPEC.md)
-- 逐步实现索引：[`IMPLEMENTATION_INDEX.md`](../../../20_planning/data_design/character_creator/full_process/reference/IMPLEMENTATION_INDEX.md)
-- CC 装配 Runbook：[`CHARACTER_ASSEMBLY_RUNBOOK.md`](../../../20_planning/data_design/character_creator/full_process/cc_details/CHARACTER_ASSEMBLY_RUNBOOK.md)
-- 验证与恢复：[`VALIDATION_AND_RECOVERY.md`](../../../20_planning/data_design/character_creator/full_process/validation/VALIDATION_AND_RECOVERY.md)
+- 普通生成器、编译器、汇总器和 Registry 审计可由系统 Python 运行。
+- 导入 `RLPy` 的脚本只能由 Character Creator 内置 Python 或受控 Bridge 执行。
+- `runtime_staging/<run_id>` 是 Bridge 临时输入，不进入 Git 或长期证据。
+- 源 CC 项目与资产库默认只读；规范项目、导出 Bundle 和证据写入对应 Technical 规定的目标。
+- 名字包含 `probe/pilot/review` 的脚本不能仅凭存在升级为生产入口。
 
-运行边界：
+## 选择入口
 
-- 生成器、编译器、汇总器和联系表可以在系统 Python 中运行。
-- 导入 `RLPy` 的文件只能由 Character Creator 内 Python 或 Bridge 插件加载。
-- `runtime_staging/<run_id>` 是按需生成的 Bridge 输入暂存区，不应提交 Git。
-- 精确配置以当前 registry 和 library JSON 为准；历史 probe 文件不得作为默认入口。
+- BodyFit、Identity、Headshot 与年龄：[BODYFIT_IDENTITY_AGE.md](../../../20_planning/data_design/character_creator/full_process/technical/character_creator/BODYFIT_IDENTITY_AGE.md)
+- 皮肤、眼睛、眉毛、睫毛、牙齿、胡须与头发：[APPEARANCE_ASSETS.md](../../../20_planning/data_design/character_creator/full_process/technical/character_creator/APPEARANCE_ASSETS.md)
+- 服装与鞋池：[OUTFIT_SYSTEM.md](../../../20_planning/data_design/character_creator/full_process/technical/character_creator/OUTFIT_SYSTEM.md)
+- 角色组装、验收和 Bundle：[ASSEMBLY_AND_ACCEPTANCE.md](../../../20_planning/data_design/character_creator/full_process/technical/character_creator/ASSEMBLY_AND_ACCEPTANCE.md)
+- Bridge 操作：[CC_BRIDGE_OPERATIONS.md](../../../20_planning/data_design/character_creator/full_process/technical/bridge/CC_BRIDGE_OPERATIONS.md)
+
+完整脚本生命周期和 owner 由 `../SCRIPT_CATALOG.json` 提供；当前批次精确矩阵由 Batch Status 和 Registry 提供，不在本页复制。

@@ -1,0 +1,1106 @@
+{
+  "schema_version": "config_graph_v1",
+  "manifest_type": "first_batch_source_manifest",
+  "sampling_spec_version": "multi_round_v1_20260824",
+  "source_manifest_id": "first_batch_source_20260824_v1",
+  "batch_id": "first_data_batch_20260820_v1",
+  "status": "frozen",
+  "release_status": "candidate_pending_chain_render_validation",
+  "production_mode": "full_pool",
+  "expected_domain_count": 2,
+  "expected_nodes": 640,
+  "expected_chains": 4000,
+  "expected_render_jobs": 640,
+  "input_manifest_sha256": "e5f3b4af77c597e78d3801d1260e41b854e4898355e36b13173f513f74c13c15",
+  "input_manifests": {
+    "required_exports": {
+      "source_ref": "repo://00_engine/scripts/dataset/first_batch_required_exports_20260824_v3.json",
+      "sha256": "ae852a45ce1f0707792007ee3fc5f46f299b65c354cb5e8fcba4a2477697fad2"
+    },
+    "local_render_matrix": {
+      "source_ref": "repo://00_engine/scripts/unreal/first_batch_local_render_matrix_20260824_v1.json",
+      "sha256": "3b265fcd4f10b239b556b4088ff382e134a32318d1c4e32b42fa93393c481cca"
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "act_f01_sexy_dance",
+      "asset_type": "action",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/female/A_F01_SEXY_DANCE.fbx",
+      "content_sha256": "5f134d93b72d3199b57ad096b9ff2850ca3e2b81aa9bda65ec5932d9430d5fff",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_F01_SEXY_DANCE",
+        "semantic_family": "dance_gesture",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 1.6,
+          "source_end_seconds": 6.6,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F01/A_DM_F01_SEXY_DANCE_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_f02_catch_breath",
+      "asset_type": "action",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/female/A_F02_CATCH_BREATH.fbx",
+      "content_sha256": "e97f809aa1435709b6645db9ab77647527aee77f376ea2e508b061c0dbb58389",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_F02_CATCH_BREATH",
+        "semantic_family": "self_recovery",
+        "root_motion_policy": "approved_in_place_override",
+        "root_motion_override_asset": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/InPlaceCandidates/A_DM_F02_CATCH_BREATH_InPlaceCandidate_v001",
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 0.0,
+          "source_end_seconds": 5.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F02/A_DM_F02_CATCH_BREATH_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_f03_audience_01",
+      "asset_type": "action",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/female/A_F03_AUDIENCE_01.fbx",
+      "content_sha256": "04877b7da091bbf2b80637c7c5e23b55aea6ecf87d7c98143914a986f3bbf463",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_F03_AUDIENCE_01",
+        "semantic_family": "audience_reaction",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 0.0,
+          "source_end_seconds": 4.516667,
+          "source_duration_seconds": 4.516667,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.483333,
+          "padding_policy": "blend_to_subtle_idle_at_both_ends"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F03/A_DM_F03_AUDIENCE_01_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_f05_tie_shoes",
+      "asset_type": "action",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/female/A_F05_TIE_SHOES.fbx",
+      "content_sha256": "9e1a34798a7868e67355b9e1500ebbd9a6841ce704f2d1195786bdc254f30180",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_F05_TIE_SHOES",
+        "semantic_family": "self_interaction",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 2.4,
+          "source_end_seconds": 7.4,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F05/A_DM_F05_TIE_SHOES_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_f06_elevator_greeting",
+      "asset_type": "action",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/female/A_F06_ELEVATOR_GREETING.fbx",
+      "content_sha256": "681e6231cf6c7fce8745f39be92c8110582c1b12f6447dd19a58be6302a50e2d",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_F06_ELEVATOR_GREETING",
+        "semantic_family": "greeting_gesture",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 1.0,
+          "source_end_seconds": 6.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/Composites/F06/A_DM_F06_ELEVATOR_GREETING_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_m01_battle_dance",
+      "asset_type": "action",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/male/A_M01_BATTLE_DANCE.fbx",
+      "content_sha256": "b267e6d5e4765171a7fe275ec9f28811aec987c8d9770337159836d8bdeaa222",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_M01_BATTLE_DANCE",
+        "semantic_family": "dance_gesture",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 0.0,
+          "source_end_seconds": 5.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M01/A_DM_M01_BATTLE_DANCE_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_m02_audience_01",
+      "asset_type": "action",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/male/A_M02_AUDIENCE_01.fbx",
+      "content_sha256": "3d84adb79bbc3d27e3393ca5cdc73101d5cc729ef54f5fbd65733a64887b3a64",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_M02_AUDIENCE_01",
+        "semantic_family": "audience_reaction",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 0.0,
+          "source_end_seconds": 3.4,
+          "source_duration_seconds": 3.4,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 1.6,
+          "padding_policy": "blend_to_subtle_idle_at_both_ends"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M02/A_DM_M02_AUDIENCE_01_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_m04_living_room_swing",
+      "asset_type": "action",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/male/A_M04_LIVING_ROOM_SWING.fbx",
+      "content_sha256": "faf2e8561dbb7a90db7498431ec8b87a64f06ab491a3c9dba36446262462ce81",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_M04_LIVING_ROOM_SWING",
+        "semantic_family": "dance_gesture",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 0.0,
+          "source_end_seconds": 5.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M04/A_DM_M04_LIVING_ROOM_SWING_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_m05_elevator_greeting",
+      "asset_type": "action",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/male/A_M05_ELEVATOR_GREETING.fbx",
+      "content_sha256": "93ddbb77d3091a05572b8bcf499417be5be71b454c73492a0641f98194537257",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_M05_ELEVATOR_GREETING",
+        "semantic_family": "greeting_gesture",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 1.0,
+          "source_end_seconds": 6.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M05/A_DM_M05_ELEVATOR_GREETING_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "act_m06_cheer_hands_step_dance",
+      "asset_type": "action",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/motions/male/A_M06_CHEER_HANDS_STEP_DANCE.fbx",
+      "content_sha256": "71aa16154df10aa8a6760c51a77cf756b0711ebcfbed653922a7815ba865cb02",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_action_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "semantic_family": "celebration_dance",
+        "root_motion_policy": "preserve_source_root_motion",
+        "root_motion_override_asset": null,
+        "face_policy": "replaceable",
+        "window": {
+          "start_seconds": 3.0,
+          "source_end_seconds": 8.0,
+          "source_duration_seconds": 5.0,
+          "production_duration_seconds": 5.0,
+          "padding_required_seconds": 0.0,
+          "padding_policy": "none"
+        },
+        "happy_composite_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/Composites/M06/A_DM_M06_CHEER_HANDS_STEP_DANCE_Happy_Composite_v001"
+      }
+    },
+    {
+      "asset_id": "f02_average",
+      "asset_type": "bodyfit",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/bodyfits/f02_average",
+      "content_sha256": "5b57b077030144d9620fdead214b2718294597688363bcbdc0bcf0ffd58241ee",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_id01",
+      "asset_type": "identity",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/f_id01",
+      "content_sha256": "64c9613e75b7005826f34689b0d1a49fc40929fbbba33405fc5dbf0dae9c59f3",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_id02",
+      "asset_type": "identity",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/f_id02",
+      "content_sha256": "ba94acbd395f1513d0deef7cc3112ddb5a3f292b23874e353a6afe6e2b5707cb",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_id03",
+      "asset_type": "identity",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/f_id03",
+      "content_sha256": "0e1103ca5455a4ccbc121ffa6b6908c942a8926e3e540156dc3169145f89ec1b",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_id04",
+      "asset_type": "identity",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/f_id04",
+      "content_sha256": "16959f0d591cb7c7084b5869bf2153b9d0d7350cf14571a09aceaa1abe9a0fd0",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_o01",
+      "asset_type": "outfit",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/f_o01",
+      "content_sha256": "63e1cfb654a004f0a907a69a93a1ad20d01f66e2a0500f69a336bc6487f7661c",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_o02",
+      "asset_type": "outfit",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/f_o02",
+      "content_sha256": "32f1bfda3a0eeb0a9e9a58a77bd35bc44f2871d5c0e65cb9dc253fe0ff8e4f54",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_o03",
+      "asset_type": "outfit",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/f_o03",
+      "content_sha256": "0490d1edde634f2303352203c2dc80bfe1509255654aa02e6588de66c9d7aae3",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "f_o04",
+      "asset_type": "outfit",
+      "sex_compatibility": "female",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/f_o04",
+      "content_sha256": "228c0b3c190701543490b8c20ac90bf174eb365458f5c47101478d27dcdd9540",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "far",
+      "asset_type": "camera",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/sequences/firstweek/cameras/far",
+      "content_sha256": "b5bbc71e42f85d3eada998ca37baf6ae948d5bec269182e7acc30514de161544",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_sequence": "/Game/DataMake/Sequences/firstweek",
+        "section_index": 1
+      }
+    },
+    {
+      "asset_id": "first_batch_actor_anchor_v1",
+      "asset_type": "anchor",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/scene/tokyo_stylized/actor_anchor_v1",
+      "content_sha256": "2f3783dd898497f5065790d28f3581305cbfb29d21b07aba9184fe00353e461e",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {}
+    },
+    {
+      "asset_id": "happy",
+      "asset_type": "expression",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/expressions/happy",
+      "content_sha256": "5c97e62406b3912e4ce8ce19e9d10171abdf27585c3b34d026705dac0e1fbec2",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "unreal_assets": {
+          "F02": "/Game/DataMake/Animations/CC5/FirstBatchExpressions/F02/A_DM_F02_Happy_SubtleDynamic_v001",
+          "M02": "/Game/DataMake/Animations/CC5/FirstBatchExpressions/M02/A_DM_M02_Happy_SubtleDynamic_v001"
+        },
+        "asset_suffix": "Happy_SubtleDynamic_v001",
+        "fixed_for_first_batch": true
+      }
+    },
+    {
+      "asset_id": "high",
+      "asset_type": "camera",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/sequences/firstweek/cameras/high",
+      "content_sha256": "cf4a59ebb6a0294abed47857585ab70604f656f7bc1027d135365d9f040d7f48",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_sequence": "/Game/DataMake/Sequences/firstweek",
+        "section_index": 2
+      }
+    },
+    {
+      "asset_id": "m02_average",
+      "asset_type": "bodyfit",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/bodyfits/m02_average",
+      "content_sha256": "eb3622486879d2b9adafc717934eedaebf9ed6a7e3855fdefbe8844743ea7dfb",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_id01",
+      "asset_type": "identity",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/m_id01",
+      "content_sha256": "bba7266ffd2479de97bff2ffab9bfca5eae73a4f8241e1a365c230cf3a089dbc",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_id02",
+      "asset_type": "identity",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/m_id02",
+      "content_sha256": "a6b7d92ee9674571c70983f7aeb8ba48ab538a664e93fc2b807cb3f7cd45544d",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_id03",
+      "asset_type": "identity",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/m_id03",
+      "content_sha256": "3efd0ec237e70495db0f85f208c05ba7a87098ef63b4f3ee7af8be20c298bd39",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_id04",
+      "asset_type": "identity",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/identities/m_id04",
+      "content_sha256": "a92b09719dd5103b5523fe53145a4f76d20f8ff28938410cf11db5cfa93fd1be",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_o01",
+      "asset_type": "outfit",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/m_o01",
+      "content_sha256": "13e2bc8e6ecc8e6153b00a411bf368a3d6080bc5536d19a07a2c817f29a6d233",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_o02",
+      "asset_type": "outfit",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/m_o02",
+      "content_sha256": "b00dad4023d7662654c65d5c54df16c6a9316da89cb24417ed4cb5e4e787f330",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_o03",
+      "asset_type": "outfit",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/m_o03",
+      "content_sha256": "fd6f74be8e31ca5547789c9a78854003945f25c646dc16d96d65182f1730654e",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "m_o04",
+      "asset_type": "outfit",
+      "sex_compatibility": "male",
+      "source_ref": "bundle://first_data_batch_20260820_v1/outfits/m_o04",
+      "content_sha256": "9380df7395272644b7704e2d3ef0956c11d96b2b3e6f4dc6c591fd0940a29a2e",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "baked_into_full_reference_looks": true
+      }
+    },
+    {
+      "asset_id": "mrq_1440p30_5s_v1",
+      "asset_type": "render_profile",
+      "sex_compatibility": "unisex",
+      "source_ref": "/Game/DataMake/Render/Presets/MRQ_DM_FirstBatch_1440p30_PNG_v001",
+      "content_sha256": "735d01367f72055bd53eae5a30f7572ff21d0cea8825bc9a2c48525779f0473f",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "image_sequence": "png",
+        "video_codec": "h264"
+      }
+    },
+    {
+      "asset_id": "near",
+      "asset_type": "camera",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/sequences/firstweek/cameras/near",
+      "content_sha256": "6c663d8a84418c694573ccf82240c64762eb7d8afe3728c4f6fb431f9c46585b",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_sequence": "/Game/DataMake/Sequences/firstweek",
+        "section_index": 0
+      }
+    },
+    {
+      "asset_id": "side",
+      "asset_type": "camera",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/sequences/firstweek/cameras/side",
+      "content_sha256": "c5213026acc9f55b3a4323c173e3f8746dc0bb0787764dc336ca257aa70e1843",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {
+        "source_sequence": "/Game/DataMake/Sequences/firstweek",
+        "section_index": 3
+      }
+    },
+    {
+      "asset_id": "tokyo_stylized_lighting_v1",
+      "asset_type": "lighting",
+      "sex_compatibility": "unisex",
+      "source_ref": "bundle://first_data_batch_20260820_v1/scene/tokyo_stylized/lighting_v1",
+      "content_sha256": "d1419db3b75a6641c66bc4b3e053f513e4b8921cf22b5128e0800fb9447ffbcf",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {}
+    },
+    {
+      "asset_id": "tokyo_stylized_v1",
+      "asset_type": "scene",
+      "sex_compatibility": "unisex",
+      "source_ref": "/Game/DataMake/Scenes/TokyoStylized/L_DM_TokyoStylized_FirstBatchRender_v001",
+      "content_sha256": "4968ca37eed46bbf45c6c6576e3d1eb46ad93b682d1ade211c170c4fce9ca276",
+      "version": "20260824_v1",
+      "status": "validated",
+      "constraints": {}
+    }
+  ],
+  "looks": [
+    {
+      "look_id": "f_id01_o01",
+      "source_look_id": "F_ID01_O01",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id01",
+      "outfit_id": "f_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID01_O01/CC_FB_F_ID01_O01.fbx",
+      "content_sha256": "708676e045e1b418852709bfe28c8598bbfc3cb32d3375d2bfa78793dbe449d6",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O01/CC_FB_F_ID01_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O01/CC_FB_F_ID01_O01_Blueprint_LiveLink.CC_FB_F_ID01_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.summer_girl_four_colors::default"
+    },
+    {
+      "look_id": "f_id01_o02",
+      "source_look_id": "F_ID01_O02",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id01",
+      "outfit_id": "f_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID01_O02/CC_FB_F_ID01_O02.fbx",
+      "content_sha256": "980d541ab2c1a52402e9d63a8749b16d6732198d123f77e01a9876a32b56877b",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O02/CC_FB_F_ID01_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O02/CC_FB_F_ID01_O02_Blueprint_LiveLink.CC_FB_F_ID01_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.jumpsuits_accessories::default"
+    },
+    {
+      "look_id": "f_id01_o03",
+      "source_look_id": "F_ID01_O03",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id01",
+      "outfit_id": "f_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID01_O03/CC_FB_F_ID01_O03.fbx",
+      "content_sha256": "0718d89dbf128dc6bff55df628c47187c4d5dd8f929133457343317f26463ca7",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O03/CC_FB_F_ID01_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O03/CC_FB_F_ID01_O03_Blueprint_LiveLink.CC_FB_F_ID01_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.dress_collection::full_body"
+    },
+    {
+      "look_id": "f_id01_o04",
+      "source_look_id": "F_ID01_O04",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id01",
+      "outfit_id": "f_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID01_O04/CC_FB_F_ID01_O04.fbx",
+      "content_sha256": "07056d1e3ed6cc5e00bd4cb45b599d2dbebc1a212d194924ac672f78c9516b9f",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O04/CC_FB_F_ID01_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID01_O04/CC_FB_F_ID01_O04_Blueprint_LiveLink.CC_FB_F_ID01_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.streetwear_collection::pants_with_windbreaker"
+    },
+    {
+      "look_id": "f_id02_o01",
+      "source_look_id": "F_ID02_O01",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID02_O01/CC_FB_F_ID02_O01.fbx",
+      "content_sha256": "d3c0d125ce7c1e073559f190b0084da0ecee639e7edb2bb4bffef7fcbee82df7",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O01/CC_FB_F_ID02_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O01/CC_FB_F_ID02_O01_Blueprint_LiveLink.CC_FB_F_ID02_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.summer_girl_four_colors::default"
+    },
+    {
+      "look_id": "f_id02_o02",
+      "source_look_id": "F_ID02_O02",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID02_O02/CC_FB_F_ID02_O02.fbx",
+      "content_sha256": "d34e25d464809c436e9404d85a0964e0b200b81a99208c0095ad67563ffb4e0a",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O02/CC_FB_F_ID02_O02_Blueprint_LiveLink.CC_FB_F_ID02_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.jumpsuits_accessories::default"
+    },
+    {
+      "look_id": "f_id02_o03",
+      "source_look_id": "F_ID02_O03",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID02_O03/CC_FB_F_ID02_O03.fbx",
+      "content_sha256": "f1860c6eb1124027059048271c51c355be92cdcf3ac6387e0dac9a883a7fec00",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O03/CC_FB_F_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O03/CC_FB_F_ID02_O03_Blueprint_LiveLink.CC_FB_F_ID02_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.dress_collection::full_body"
+    },
+    {
+      "look_id": "f_id02_o04",
+      "source_look_id": "F_ID02_O04",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id02",
+      "outfit_id": "f_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID02_O04/CC_FB_F_ID02_O04.fbx",
+      "content_sha256": "ed716da469f77374a55d23fe40ea0cd0a3a5f6c193578a567927bafba68ac8b0",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O04/CC_FB_F_ID02_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID02_O04/CC_FB_F_ID02_O04_Blueprint_LiveLink.CC_FB_F_ID02_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.streetwear_collection::pants_with_windbreaker"
+    },
+    {
+      "look_id": "f_id03_o01",
+      "source_look_id": "F_ID03_O01",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id03",
+      "outfit_id": "f_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID03_O01/CC_FB_F_ID03_O01.fbx",
+      "content_sha256": "0a8636ea2e23de2a372871713c4f36f8e5f360b6170d5ead167d0a8dbedb3b3e",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O01/CC_FB_F_ID03_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O01/CC_FB_F_ID03_O01_Blueprint_LiveLink.CC_FB_F_ID03_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.summer_girl_four_colors::default"
+    },
+    {
+      "look_id": "f_id03_o02",
+      "source_look_id": "F_ID03_O02",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id03",
+      "outfit_id": "f_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID03_O02/CC_FB_F_ID03_O02.fbx",
+      "content_sha256": "440e1a8d0c188625e1cc9b740a85a127979bdd1e1086557bece0d76b4cdf440a",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O02/CC_FB_F_ID03_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O02/CC_FB_F_ID03_O02_Blueprint_LiveLink.CC_FB_F_ID03_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.jumpsuits_accessories::default"
+    },
+    {
+      "look_id": "f_id03_o03",
+      "source_look_id": "F_ID03_O03",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id03",
+      "outfit_id": "f_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID03_O03/CC_FB_F_ID03_O03.fbx",
+      "content_sha256": "76c1053f1d700db3915c67c138d7cdd2d9a8b120212e921e764b03c43e4134ed",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O03/CC_FB_F_ID03_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O03/CC_FB_F_ID03_O03_Blueprint_LiveLink.CC_FB_F_ID03_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.dress_collection::full_body"
+    },
+    {
+      "look_id": "f_id03_o04",
+      "source_look_id": "F_ID03_O04",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id03",
+      "outfit_id": "f_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID03_O04/CC_FB_F_ID03_O04.fbx",
+      "content_sha256": "754295d9f48371bbb2923e7e28c4b729276e5cd67eaccb686abff4508e56ac13",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O04/CC_FB_F_ID03_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID03_O04/CC_FB_F_ID03_O04_Blueprint_LiveLink.CC_FB_F_ID03_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.streetwear_collection::pants_with_windbreaker"
+    },
+    {
+      "look_id": "f_id04_o01",
+      "source_look_id": "F_ID04_O01",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id04",
+      "outfit_id": "f_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID04_O01/CC_FB_F_ID04_O01.fbx",
+      "content_sha256": "3a8a66960d8ed22c2ab38c3d5d5b5720e315688b0eda18ba7d26f6d043e70266",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O01/CC_FB_F_ID04_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O01/CC_FB_F_ID04_O01_Blueprint_LiveLink.CC_FB_F_ID04_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.summer_girl_four_colors::default"
+    },
+    {
+      "look_id": "f_id04_o02",
+      "source_look_id": "F_ID04_O02",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id04",
+      "outfit_id": "f_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID04_O02/CC_FB_F_ID04_O02.fbx",
+      "content_sha256": "917cd306aa46853af748b1c662391051ef78b774690b93b9764aa336a541ccc9",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O02/CC_FB_F_ID04_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O02/CC_FB_F_ID04_O02_Blueprint_LiveLink.CC_FB_F_ID04_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.jumpsuits_accessories::default"
+    },
+    {
+      "look_id": "f_id04_o03",
+      "source_look_id": "F_ID04_O03",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id04",
+      "outfit_id": "f_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID04_O03/CC_FB_F_ID04_O03.fbx",
+      "content_sha256": "2645300397b3671fa43fc2ec7ede54bd4975600fe6d8f75251d463bed4321905",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O03/CC_FB_F_ID04_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O03/CC_FB_F_ID04_O03_Blueprint_LiveLink.CC_FB_F_ID04_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.dress_collection::full_body"
+    },
+    {
+      "look_id": "f_id04_o04",
+      "source_look_id": "F_ID04_O04",
+      "sex": "female",
+      "bodyfit_id": "f02_average",
+      "identity_id": "f_id04",
+      "outfit_id": "f_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/F_ID04_O04/CC_FB_F_ID04_O04.fbx",
+      "content_sha256": "ea162af22a8e5055331033af1382c62a03dc03be3afa2788720aa4147ec33df4",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O04/CC_FB_F_ID04_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/F_ID04_O04/CC_FB_F_ID04_O04_Blueprint_LiveLink.CC_FB_F_ID04_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "female.streetwear_collection::pants_with_windbreaker"
+    },
+    {
+      "look_id": "m_id01_o01",
+      "source_look_id": "M_ID01_O01",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id01",
+      "outfit_id": "m_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID01_O01/CC_FB_M_ID01_O01.fbx",
+      "content_sha256": "3d7d818ed9f06fd8e9a393aae2ecb5a7cdb5c7e08a41e8219ae02cbf76b15464",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O01/CC_FB_M_ID01_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O01/CC_FB_M_ID01_O01_Blueprint_LiveLink.CC_FB_M_ID01_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.casual_01_04::default"
+    },
+    {
+      "look_id": "m_id01_o02",
+      "source_look_id": "M_ID01_O02",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id01",
+      "outfit_id": "m_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID01_O02/CC_FB_M_ID01_O02.fbx",
+      "content_sha256": "82955976b7fca46f3c76d25bbc73e4c742fea7167a828a0593abf16a02028551",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O02/CC_FB_M_ID01_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O02/CC_FB_M_ID01_O02_Blueprint_LiveLink.CC_FB_M_ID01_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.dash::default"
+    },
+    {
+      "look_id": "m_id01_o03",
+      "source_look_id": "M_ID01_O03",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id01",
+      "outfit_id": "m_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID01_O03/CC_FB_M_ID01_O03.fbx",
+      "content_sha256": "65d592cc71ae317ae630269b45b62d56b4ce420df0a7710fca3cd4024da22ab8",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O03/CC_FB_M_ID01_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O03/CC_FB_M_ID01_O03_Blueprint_LiveLink.CC_FB_M_ID01_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.white_tie::default"
+    },
+    {
+      "look_id": "m_id01_o04",
+      "source_look_id": "M_ID01_O04",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id01",
+      "outfit_id": "m_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID01_O04/CC_FB_M_ID01_O04.fbx",
+      "content_sha256": "99bba0e6eac0e4e36d6e044fb9bac30f5bf1d455363575dfcf19bfa7b803bf3e",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O04/CC_FB_M_ID01_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID01_O04/CC_FB_M_ID01_O04_Blueprint_LiveLink.CC_FB_M_ID01_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.1920s_collection::separates"
+    },
+    {
+      "look_id": "m_id02_o01",
+      "source_look_id": "M_ID02_O01",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID02_O01/CC_FB_M_ID02_O01.fbx",
+      "content_sha256": "604a0a12e28b7e97cb58d3325a6a6a1917b97c03eeda6bea7c5e2821b67f1cf6",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O01/CC_FB_M_ID02_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O01/CC_FB_M_ID02_O01_Blueprint_LiveLink.CC_FB_M_ID02_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.casual_01_04::default"
+    },
+    {
+      "look_id": "m_id02_o02",
+      "source_look_id": "M_ID02_O02",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID02_O02/CC_FB_M_ID02_O02.fbx",
+      "content_sha256": "d41abbf229ba7a1ad602ab32685770e5269f76c29e9e59123085f7a55034feea",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O02/CC_FB_M_ID02_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O02/CC_FB_M_ID02_O02_Blueprint_LiveLink.CC_FB_M_ID02_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.dash::default"
+    },
+    {
+      "look_id": "m_id02_o03",
+      "source_look_id": "M_ID02_O03",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID02_O03/CC_FB_M_ID02_O03.fbx",
+      "content_sha256": "0f99880d069cb6fb6916d1672ad53a678b68a7b6b44797dfe35c78a269a1aaa9",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O03/CC_FB_M_ID02_O03_Blueprint_LiveLink.CC_FB_M_ID02_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.white_tie::default"
+    },
+    {
+      "look_id": "m_id02_o04",
+      "source_look_id": "M_ID02_O04",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id02",
+      "outfit_id": "m_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID02_O04/CC_FB_M_ID02_O04.fbx",
+      "content_sha256": "d5a141303072f0902c15a1da61be214cb09789dd04c9111718a8e7498c84a172",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O04/CC_FB_M_ID02_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID02_O04/CC_FB_M_ID02_O04_Blueprint_LiveLink.CC_FB_M_ID02_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.1920s_collection::separates"
+    },
+    {
+      "look_id": "m_id03_o01",
+      "source_look_id": "M_ID03_O01",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id03",
+      "outfit_id": "m_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID03_O01/CC_FB_M_ID03_O01.fbx",
+      "content_sha256": "3fa3309ed817c0d269343e59e353429201a0239dfcc2f110a2f826b07a084063",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O01/CC_FB_M_ID03_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O01/CC_FB_M_ID03_O01_Blueprint_LiveLink.CC_FB_M_ID03_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.casual_01_04::default"
+    },
+    {
+      "look_id": "m_id03_o02",
+      "source_look_id": "M_ID03_O02",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id03",
+      "outfit_id": "m_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID03_O02/CC_FB_M_ID03_O02.fbx",
+      "content_sha256": "22a16b314a9916ff6bcb0ef05a976a1ad0704962b36d66319fd050bedbca4df5",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O02/CC_FB_M_ID03_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O02/CC_FB_M_ID03_O02_Blueprint_LiveLink.CC_FB_M_ID03_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.dash::default"
+    },
+    {
+      "look_id": "m_id03_o03",
+      "source_look_id": "M_ID03_O03",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id03",
+      "outfit_id": "m_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID03_O03/CC_FB_M_ID03_O03.fbx",
+      "content_sha256": "14704792497379851645a51a3e6250fd2e063edcdc174a0cb80cccfcfb822e07",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O03/CC_FB_M_ID03_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O03/CC_FB_M_ID03_O03_Blueprint_LiveLink.CC_FB_M_ID03_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.white_tie::default"
+    },
+    {
+      "look_id": "m_id03_o04",
+      "source_look_id": "M_ID03_O04",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id03",
+      "outfit_id": "m_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID03_O04/CC_FB_M_ID03_O04.fbx",
+      "content_sha256": "6b69ca1d31ac5bd60edb1b87acd932eb2d1b2d1f94eb1cb3e223ab214578b900",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O04/CC_FB_M_ID03_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID03_O04/CC_FB_M_ID03_O04_Blueprint_LiveLink.CC_FB_M_ID03_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.1920s_collection::separates"
+    },
+    {
+      "look_id": "m_id04_o01",
+      "source_look_id": "M_ID04_O01",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id04",
+      "outfit_id": "m_o01",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID04_O01/CC_FB_M_ID04_O01.fbx",
+      "content_sha256": "6ec8d8b4ee71f05442f475770a740f085ec9d549344dbcc65ed21a06e5af2fb1",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O01/CC_FB_M_ID04_O01_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O01/CC_FB_M_ID04_O01_Blueprint_LiveLink.CC_FB_M_ID04_O01_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.casual_01_04::default"
+    },
+    {
+      "look_id": "m_id04_o02",
+      "source_look_id": "M_ID04_O02",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id04",
+      "outfit_id": "m_o02",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID04_O02/CC_FB_M_ID04_O02.fbx",
+      "content_sha256": "59a9476fb54259adf31b6d78f53dfe4f990f75d4dbcf3a02467f3fd50a299162",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O02/CC_FB_M_ID04_O02_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O02/CC_FB_M_ID04_O02_Blueprint_LiveLink.CC_FB_M_ID04_O02_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.dash::default"
+    },
+    {
+      "look_id": "m_id04_o03",
+      "source_look_id": "M_ID04_O03",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id04",
+      "outfit_id": "m_o03",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID04_O03/CC_FB_M_ID04_O03.fbx",
+      "content_sha256": "046c16c0ceacde76f5d653cca88673a07fd7aaebbee39a97e952e37dd02277a3",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O03/CC_FB_M_ID04_O03_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O03/CC_FB_M_ID04_O03_Blueprint_LiveLink.CC_FB_M_ID04_O03_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.white_tie::default"
+    },
+    {
+      "look_id": "m_id04_o04",
+      "source_look_id": "M_ID04_O04",
+      "sex": "male",
+      "bodyfit_id": "m02_average",
+      "identity_id": "m_id04",
+      "outfit_id": "m_o04",
+      "source_ref": "bundle://first_data_batch_20260820_v1/full_reference/M_ID04_O04/CC_FB_M_ID04_O04.fbx",
+      "content_sha256": "72e18c56ea536c8ea140894a289043405f5e376c15b24b67e16d85d33a4eb00e",
+      "character_blueprint": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O04/CC_FB_M_ID04_O04_Blueprint_LiveLink",
+      "character_blueprint_class": "/Game/Vendor/Reallusion/CC5/FirstDataBatch/Looks/M_ID04_O04/CC_FB_M_ID04_O04_Blueprint_LiveLink.CC_FB_M_ID04_O04_Blueprint_LiveLink_C",
+      "source_validated_look_id": "male.1920s_collection::separates"
+    }
+  ],
+  "actions_by_sex": {
+    "female": [
+      "act_f01_sexy_dance",
+      "act_f02_catch_breath",
+      "act_f03_audience_01",
+      "act_f05_tie_shoes",
+      "act_f06_elevator_greeting"
+    ],
+    "male": [
+      "act_m01_battle_dance",
+      "act_m02_audience_01",
+      "act_m04_living_room_swing",
+      "act_m05_elevator_greeting",
+      "act_m06_cheer_hands_step_dance"
+    ]
+  },
+  "expression_ids": [
+    "happy"
+  ],
+  "expression_policy": {
+    "fixed_expression_id": "happy",
+    "editable_feature": false,
+    "edit_axis": null
+  },
+  "scene_binding": {
+    "scene_id": "tokyo_stylized_v1",
+    "lighting_id": "tokyo_stylized_lighting_v1",
+    "anchor_id": "first_batch_actor_anchor_v1",
+    "camera_ids": {
+      "near": "near",
+      "far": "far",
+      "high": "high",
+      "side": "side"
+    }
+  },
+  "render_profile": {
+    "render_profile_id": "mrq_1440p30_5s_v1",
+    "fps": 30,
+    "frame_start": 0,
+    "duration_frames": 150,
+    "resolution": {
+      "width": 2560,
+      "height": 1440
+    },
+    "sequence_asset": "/Game/DataMake/Sequences/FirstBatch/Automation/LS_DM_FirstBatch_RenderWorkspace_v001",
+    "seed": 0
+  },
+  "chain_plan": {
+    "quota_matrix": {
+      "female_v1": {
+        "progressive_shortest": {
+          "3": 500,
+          "4": 500,
+          "5": 0
+        },
+        "freeform_walk": {
+          "3": 334,
+          "4": 333,
+          "5": 333
+        }
+      },
+      "male_v1": {
+        "progressive_shortest": {
+          "3": 500,
+          "4": 500,
+          "5": 0
+        },
+        "freeform_walk": {
+          "3": 333,
+          "4": 333,
+          "5": 334
+        }
+      }
+    },
+    "sampler_seed": 20260824,
+    "axis_target_shares": {
+      "E1": 0.25,
+      "E2": 0.25,
+      "E3": 0.25,
+      "E7": 0.25
+    },
+    "axis_share_tolerance": 0.02
+  }
+}

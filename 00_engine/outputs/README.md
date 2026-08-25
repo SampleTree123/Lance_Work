@@ -1,20 +1,20 @@
-# outputs —— 引擎验证输出
+# Character Factory 运行输出
 
-> 父层：[`../README.md`](../README.md)。
+本目录保存本地生产、验证、审查和诊断产物；默认被 Git 排除。目录名或文件年龄不决定保留等级，也不能据此删除。
 
-本目录用于放 UE smoke test、MVP 小规模渲染、GT passes、sidecar 和对齐检查结果。实际输出由 `.gitignore` 排除。
+权威规则：
 
-当前建议：
+- [输出契约目录](../../20_planning/data_design/character_creator/full_process/technical/output/OUTPUT_CONTRACTS.md)：`OUT-*`、存储类别和 Run Root。
+- [输出盘点与保留](../../20_planning/data_design/character_creator/full_process/technical/output/INVENTORY_AND_RETENTION.md)：登记、盘点和清理前置条件。
+- `RETENTION_POLICY.json`：人工审查的 owner 与保留规则。
+- `OUTPUT_INVENTORY.json`：由 Builder 生成的当前盘点。
 
-```text
-00_engine/outputs/mvp/
+每个新运行使用唯一 `run_id`，至少保留 `manifest.json`、输入锁、结果/状态、日志和适用证据。稳定结论回写 Workflow/Batch Status；输出目录本身不是当前状态权威。
+
+重建盘点：
+
+```powershell
+python 00_engine/scripts/documentation/build_output_inventory.py
 ```
 
-输出只用于阶段验证；稳定结论、失败模式和关键指标要回写到对应文档，不依赖输出目录长期保存。
-
-Character Creator 与 UE 角色 Pilot 的输出组织、保留规则和权威边界见：
-
-- [`EXTERNAL_DIRECTORIES.md`](../../20_planning/data_design/character_creator/full_process/reference/EXTERNAL_DIRECTORIES.md)
-- [`VALIDATION_AND_RECOVERY.md`](../../20_planning/data_design/character_creator/full_process/validation/VALIDATION_AND_RECOVERY.md)
-
-每次运行使用唯一 `run_id`，至少保留 request/manifest、result、机器报告和视觉证据；不要用新运行覆盖旧证据。
+`unclassified` 默认受保护。只有经过替代关系、Manifest、Status 引用和绝对路径复核的 `superseded/disposable` 项，才可进入独立审批的清理操作。

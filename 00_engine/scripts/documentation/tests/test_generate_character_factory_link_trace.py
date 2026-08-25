@@ -9,7 +9,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from generate_character_factory_link_trace import generate  # noqa: E402
+from generate_character_factory_link_trace import generate, is_archive_snapshot  # noqa: E402
 
 
 def write(path: Path, text: str) -> None:
@@ -18,6 +18,17 @@ def write(path: Path, text: str) -> None:
 
 
 class DocumentationLinkTraceTests(unittest.TestCase):
+    def test_supported_archive_namespaces_are_recognized(self):
+        for relative in (
+            "history/legacy_fixture/OLD.md",
+            "history/pre_lifecycle_fixture/OLD.md",
+            "history/pre_chain_fixture/OLD.md",
+        ):
+            with self.subTest(relative=relative):
+                self.assertTrue(is_archive_snapshot(relative))
+
+        self.assertFalse(is_archive_snapshot("history/README.md"))
+
     def test_multiple_mentions_and_backlink_are_rendered(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

@@ -1,33 +1,24 @@
-# First-Batch Dataset Tools
+# Dataset 确定性生成工具
 
-This directory contains deterministic builders for the first multi-round edit
-dataset. Runtime assets remain in their owning CC/UE registries; these tools
-only freeze logical references and generate portable manifests.
+本目录保存配置源、节点/边/链、Prompt、Render Jobs 和审查包的确定性生成器。完整语义和执行顺序见 [Dataset 技术索引](../../../20_planning/data_design/character_creator/full_process/technical/dataset/README.md)。
 
-## Config graph builder
+## 主要阶段
 
-```powershell
-python build_first_batch_config_graph_v1.py `
-  --source first_batch_graph_source_20260820_v1.json `
-  --output-dir ..\..\outputs\first_batch_dataset\graph_20260820_v1
-```
+1. `build_first_batch_graph_source_v1.py`：从已验收 Registry 生成冻结图源。
+2. `build_first_batch_config_graph_v1.py`：生成并验证 assets、domains、nodes、atomic edges、chains 和 render jobs。
+3. `build_first_batch_prompt_layer_v1.py`：在不修改图的前提下生成模型文本层。
+4. `build_first_batch_chain_review_v1.py`：生成可读代表链与视觉 Smoke 候选。
 
-The source manifest must already be `frozen`. Every asset needs a stable ID,
-portable `source_ref`, SHA-256 lock, version, compatibility, and validated or
-frozen status. Missing identities, outfits, scene bindings, cameras, lighting,
-anchors, or expressions are hard failures.
+准确参数、Schema、输出和当前限制见：
 
-Outputs:
+- [CONFIG_GRAPH_AND_CHAINS.md](../../../20_planning/data_design/character_creator/full_process/technical/dataset/CONFIG_GRAPH_AND_CHAINS.md)
+- [PROMPT_LAYER.md](../../../20_planning/data_design/character_creator/full_process/technical/dataset/PROMPT_LAYER.md)
 
-- `assets.json`
-- `required_exports.json`
-- `nodes.jsonl`
-- `edges.jsonl`
-- `chains.jsonl`
-- `render_jobs.jsonl`
-- `build_report.json`
+## 规则
 
-The current first-batch contract is 16 sparse FullReference Looks, six actions
-per sex, four camera/expression states per compatible Look/action pair, and 384
-unique render nodes. The default chain plan emits 4,000 deterministic 3--5
-step chains with progressive, rollback, and closed-cycle classes.
+- 工具只冻结逻辑引用，不拥有 CC/UE 二进制资产。
+- `chains.jsonl.instructions` 是内部审计字段，不是模型 Prompt 权威。
+- 输出版本不可原地覆盖；输入 Registry 或 Schema 变化必须生成新版本并重新 Gate。
+- 当前批次数量、兼容域和冻结值由 Batch Status 与图源 JSON 维护，不在本页复制。
+
+完整脚本生命周期和 owner 由 `../SCRIPT_CATALOG.json` 提供。

@@ -26,7 +26,7 @@ class FirstBatchExpressionProfileTests(unittest.TestCase):
 
     def test_curve_keys_cover_exact_three_second_clip(self):
         self.assertEqual(3.0, self.profile["duration_seconds"])
-        self.assertEqual(24, self.profile["render_fps"])
+        self.assertEqual(30, self.profile["render_fps"])
         self.assertEqual(60, self.profile["animation_sample_fps"])
         self.assertEqual(180, self.profile["frame_count"])
         curve_groups = [self.profile["common_curves"]]

@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-25",
+  "default_retention": "unclassified",
+  "policy": "No output may be deleted solely because it is old. A path must be classified, have an owner, and satisfy the replacement/evidence rule in full_process/GOVERNANCE.md before cleanup.",
+  "retention_classes": {
+    "authoritative": "Current production input, accepted dataset state, or irreplaceable manifest. Do not delete before an accepted migration.",
+    "retained_evidence": "Evidence supporting a Gate, incident conclusion, or human acceptance. Delete only after replacement evidence is accepted.",
+    "superseded": "Completely replaced by a mapped newer version. Eligible for reviewed cleanup.",
+    "disposable": "Rebuildable cache or temporary output that does not support current traceability.",
+    "unclassified": "Ownership has not been reviewed. Do not delete."
+  },
+  "ownership_rules": [
+    {
+      "path_prefix": "README.md",
+      "workflow": "global",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "Output-root navigation is governed by the output inventory and retention contract."
+    },
+    {
+      "path_prefix": "documentation_audit",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Documentation subsystem audits, regression results and accepted maintenance evidence."
+    },
+    {
+      "path_prefix": "character_creator_body_preset_validation",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "BodyFit reconstruction and fingerprint validation outputs."
+    },
+    {
+      "path_prefix": "character_creator_bridge",
+      "workflow": "WF-30",
+      "owner_document": "technical/bridge/CC_BRIDGE_OPERATIONS.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "CC Bridge queues, results, logs, review runs and component validation outputs."
+    },
+    {
+      "path_prefix": "character_creator_content_acquisition",
+      "workflow": "WF-20",
+      "owner_document": "technical/character_creator/APPEARANCE_ASSETS.md",
+      "output_contract_id": "OUT-WF20-ASSET-MATRIX",
+      "reason": "Character Creator content acquisition audit outputs."
+    },
+    {
+      "path_prefix": "character_creator_content_migration",
+      "workflow": "WF-20",
+      "owner_document": "technical/character_creator/APPEARANCE_ASSETS.md",
+      "output_contract_id": "OUT-WF20-ASSET-MATRIX",
+      "reason": "Character Creator content migration and indexing audit outputs."
+    },
+    {
+      "path_prefix": "character_creator_face_recipes",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Version-1 face recipe and identity construction outputs."
+    },
+    {
+      "path_prefix": "character_creator_face_recipes_v2_1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Version-2.1 face recipe and identity construction outputs."
+    },
+    {
+      "path_prefix": "character_creator_face_recipes_v3",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Version-3 face recipe and identity construction outputs."
+    },
+    {
+      "path_prefix": "character_creator_face_seed_validation",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Face seed and blend validation outputs."
+    },
+    {
+      "path_prefix": "eyebrow_runner_boot.stderr.log",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/APPEARANCE_ASSETS.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Historical eyebrow validation runner diagnostics."
+    },
+    {
+      "path_prefix": "eyebrow_runner_boot.stdout.log",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/APPEARANCE_ASSETS.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Historical eyebrow validation runner diagnostics."
+    },
+    {
+      "path_prefix": "first_batch_dataset",
+      "workflow": "WF-70",
+      "owner_document": "technical/dataset/CONFIG_GRAPH_AND_CHAINS.md",
+      "output_contract_id": "OUT-WF70-JOB-GRAPH",
+      "reason": "Configuration graph, chain, prompt and render-job outputs."
+    },
+    {
+      "path_prefix": "unreal_character_import",
+      "workflow": "WF-40/WF-50/WF-60",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-GLOBAL-VALIDATION-EVIDENCE",
+      "reason": "UE import, runtime, animation, scene and diagnostic outputs; specific retained runs override this owner."
+    },
+    {
+      "path_prefix": "unreal_render",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Local and production render outputs."
+    }
+  ],
+  "rules": [
+    {
+      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v1",
+      "retention": "superseded",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Superseded by documentation_rebuild_20260825_v2 after exact Workflow implementation and output-role contracts were added."
+    },
+    {
+      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v2",
+      "retention": "superseded",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Superseded by documentation_rebuild_20260825_v3 after formal Render Job implementation, WF-80 status, plan and output-governance closure."
+    },
+    {
+      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v3",
+      "retention": "retained_evidence",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Accepted documentation audit after formal Render Job executor implementation, local Gate evidence, R07 closure and server-next-step reconciliation."
+    },
+    {
+      "path_prefix": "first_batch_dataset/graph_20260824_v1",
+      "retention": "authoritative",
+      "workflow": "WF-70",
+      "owner_document": "technical/dataset/CONFIG_GRAPH_AND_CHAINS.md",
+      "output_contract_id": "OUT-WF70-JOB-GRAPH",
+      "reason": "Accepted first-batch graph, chains, render jobs, review sample, and current v2 prompt layer; superseded prompt v1 was reviewed and removed on 2026-08-25."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001",
+      "retention": "authoritative",
+      "workflow": "WF-70",
+      "owner_document": "technical/dataset/PROMPT_LAYER.md",
+      "output_contract_id": "OUT-WF70-JOB-GRAPH",
+      "reason": "Accepted eight-identity reference images used by the prompt layer."
+    },
+    {
+      "path_prefix": "unreal_render/first_batch_32look_matrix_20260824_v002",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Accepted 32-Look local visual matrix."
+    },
+    {
+      "path_prefix": "unreal_render/first_batch_chain_visual_smoke_20260824_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Accepted chain-level local render smoke evidence."
+    },
+    {
+      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v001",
+      "retention": "disposable",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Failed pre-media probe from the corrected attempt-directory ownership defect; no accepted node media was produced."
+    },
+    {
+      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v002",
+      "retention": "superseded",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Superseded by v003 after the portable transitive input lock and resume behavior were finalized."
+    },
+    {
+      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v003",
+      "retention": "retained_evidence",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Accepted local formal-executor evidence: two real nodes rendered and accepted, then reused by SHA-validated resume without rerendering."
+    },
+    {
+      "path_prefix": "unreal_character_import/first_batch_day2_20260822_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Day-2 runtime validation evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/first_batch_day3_20260823_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Accepted scene, camera, and sequence evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/first_batch_render_audit_20260824_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-80",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "output_contract_id": "OUT-WF80-NODE-MEDIA",
+      "reason": "Current local render asset audit."
+    },
+    {
+      "path_prefix": "unreal_character_import/first_batch_full_reference_expansion_20260822_v2",
+      "retention": "retained_evidence",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_FULLREFERENCE.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Accepted 32-Look FullReference expansion evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/first_batch_motions_20260822_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/transfer/MOTION_TRANSFER.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Accepted first-batch motion import evidence."
+    }
+  ]
+}

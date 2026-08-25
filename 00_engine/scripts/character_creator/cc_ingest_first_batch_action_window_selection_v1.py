@@ -35,6 +35,10 @@ DEFAULT_OUTPUT = (
 EXPECTED_ACTION_COUNT = 12
 EXPECTED_WINDOW_SECONDS = 5.0
 TIME_TOLERANCE = 0.001
+ACCEPTED_REGISTRY_STATUSES = {
+    "frozen_pending_cc_and_ue_validation",
+    "frozen_pending_replacement_window_and_ue_validation",
+}
 
 
 class ActionWindowSelectionError(RuntimeError):
@@ -140,7 +144,7 @@ def freeze_action_windows(
         raise ActionWindowSelectionError("Selection review_id does not match manifest")
     if selection.get("complete") is not True:
         raise ActionWindowSelectionError("Selection is incomplete")
-    if registry.get("status") != "frozen_pending_cc_and_ue_validation":
+    if registry.get("status") not in ACCEPTED_REGISTRY_STATUSES:
         raise ActionWindowSelectionError("Action registry is not frozen")
 
     window_seconds = number(manifest.get("window_duration_seconds"), "manifest window")

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "library_id": "cc_first_batch_action_ue_export_20260820_v3",
+  "diagnostic_mode": "animation_p0_ue_runtime_export",
+  "presets": [
+    {
+      "preset_id": "CCSHOW_F02_AVERAGE_001",
+      "sex": "female",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral F.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes\\_bridge_inputs\\p0_ue_runtime_pilot_20260818_v1\\CCSHOW_F02_AVERAGE_001.ccProject",
+        "bytes": 176901912,
+        "sha256": "18d05437e8defdf0ccf86b39cd7b32b440e41b04c7241108afc6e91e2f7d0d85"
+      }
+    },
+    {
+      "preset_id": "CCSHOW_M02_AVERAGE_001",
+      "sex": "male",
+      "base_avatar": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Templates\\Actor\\Character\\_Mixer Ready\\Base\\_HD Neutral M.ccAvatar"
+      },
+      "source_project": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes\\_bridge_inputs\\p0_ue_runtime_pilot_20260818_v1\\CCSHOW_M02_AVERAGE_001.ccProject",
+        "bytes": 205953512,
+        "sha256": "756da33f825eecba2e56aa8a248c770cdffcacdc9538192eb52326598500af48"
+      }
+    }
+  ],
+  "animation_p0_ue_export": {
+    "work_order_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_ue_export\\work_order_20260820_v3\\work_order.json",
+    "work_order_sha256": "bd45bded6f4cb5409fb9cc9bb91480afd63efab0d5a55ddb504ad38e9d8e159e",
+    "staging_output_root": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\first_batch_action_ue_export\\staging_20260820_v3",
+    "actor_project_overrides": {
+      "p0_female_clothed": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes\\_bridge_inputs\\p0_ue_runtime_pilot_20260818_v1\\CCSHOW_F02_AVERAGE_001.ccProject",
+        "bytes": 176901912,
+        "sha256": "18d05437e8defdf0ccf86b39cd7b32b440e41b04c7241108afc6e91e2f7d0d85"
+      },
+      "p0_male_clothed": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_face_recipes\\_bridge_inputs\\p0_ue_runtime_pilot_20260818_v1\\CCSHOW_M02_AVERAGE_001.ccProject",
+        "bytes": 205953512,
+        "sha256": "756da33f825eecba2e56aa8a248c770cdffcacdc9538192eb52326598500af48"
+      }
+    },
+    "expected_source_timeline": {
+      "p0_female_clothed": {
+        "body_clip_count": 1,
+        "face_clip_count": 1
+      },
+      "p0_male_clothed": {
+        "body_clip_count": 1,
+        "face_clip_count": 1
+      }
+    },
+    "export_names": {
+      "actors": {
+        "p0_female_clothed": {
+          "directory": "female",
+          "reference_basename": "F02_FirstBatchReference"
+        },
+        "p0_male_clothed": {
+          "directory": "male",
+          "reference_basename": "M02_FirstBatchReference"
+        }
+      },
+      "motions": {
+        "act_f01_argument_bossy": "A_F01_ARGUMENT_BOSSY",
+        "act_f02_catch_breath": "A_F02_CATCH_BREATH",
+        "act_f03_audience_01": "A_F03_AUDIENCE_01",
+        "act_f04_audience_09": "A_F04_AUDIENCE_09",
+        "act_f05_tie_shoes": "A_F05_TIE_SHOES",
+        "act_f06_elevator_greeting": "A_F06_ELEVATOR_GREETING",
+        "act_m01_argument_surrender": "A_M01_ARGUMENT_SURRENDER",
+        "act_m02_audience_01": "A_M02_AUDIENCE_01",
+        "act_m03_audience_12": "A_M03_AUDIENCE_12",
+        "act_m04_living_room_swing": "A_M04_LIVING_ROOM_SWING",
+        "act_m05_elevator_greeting": "A_M05_ELEVATOR_GREETING",
+        "act_m06_moving_argument_decline": "A_M06_MOVING_ARGUMENT_DECLINE"
+      }
+    },
+    "export_timeout_seconds": 900.0
+  }
+}

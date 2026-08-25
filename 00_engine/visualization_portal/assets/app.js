@@ -1,4 +1,4 @@
-import { disposeReviewWorkspace, renderReviewWorkspace } from "./review-workspace.js?v=20260818c";
+import { disposeReviewWorkspace, renderReviewWorkspace } from "./review-workspace.js?v=20260820a";
 
 const app = document.querySelector("#app");
 const registryStatus = document.querySelector("#registryStatus");

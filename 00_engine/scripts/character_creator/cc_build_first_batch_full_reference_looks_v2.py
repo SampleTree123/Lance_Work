@@ -180,6 +180,8 @@ def build(
     identity_root,
     export_root,
     verify_identity_projects=True,
+    identity_outfit_map=None,
+    document_id="cc_first_batch_full_reference_looks_20260820_v2",
 ):
     identity_library_path = canonical_path(identity_library_path)
     outfit_gate_path = canonical_path(outfit_gate_path)
@@ -217,6 +219,7 @@ def build(
                 )
             source_by_look[(sex, outfit_id)] = candidates[0]
 
+    identity_outfit_map = identity_outfit_map or RING
     presets = []
     look_rows = []
     for identity_id in sorted(identity_by_id):
@@ -227,7 +230,7 @@ def build(
                 "Identity has invalid sex: {}".format(identity_id)
             )
         suffix = identity_id[-2:]
-        if suffix not in RING:
+        if suffix not in identity_outfit_map:
             raise FirstBatchLookBuildError(
                 "Identity cannot be mapped into the ring: {}".format(identity_id)
             )
@@ -237,7 +240,7 @@ def build(
         identity_project_record = source_record(
             identity_project, verify=verify_identity_projects
         )
-        for outfit_id in RING[suffix]:
+        for outfit_id in identity_outfit_map[suffix]:
             source = source_by_look[(sex, outfit_id)]
             selected_assets, outfit_override_id = apply_asset_overrides(
                 sex, outfit_id, source["selected_assets"]
@@ -292,8 +295,16 @@ def build(
                 }
             )
 
-    if len(presets) != 16 or len({item["look_id"] for item in presets}) != 16:
-        raise FirstBatchLookBuildError("First-batch ring must produce 16 Looks")
+    expected_look_count = sum(
+        len(identity_outfit_map[item["preset_id"][-2:]]) for item in identity_rows
+    )
+    if (
+        len(presets) != expected_look_count
+        or len({item["look_id"] for item in presets}) != expected_look_count
+    ):
+        raise FirstBatchLookBuildError(
+            "First-batch matrix must produce {} Looks".format(expected_look_count)
+        )
 
     execution_policy = copy.deepcopy(outfit_gate.get("execution_policy") or {})
     execution_policy.update(
@@ -320,16 +331,16 @@ def build(
         },
         "counts": {
             "identity_count": 8,
-            "look_count": 16,
-            "looks_per_identity": 2,
+            "look_count": expected_look_count,
+            "looks_per_identity": expected_look_count // 8,
             "outfit_count": 8,
         },
         "diagnostic_mode": "outfit_compatibility_gate",
         "execution_policy": execution_policy,
         "full_body_camera": outfit_gate["full_body_camera"],
         "generated_at": now(),
-        "gate_id": "cc_first_batch_full_reference_looks_20260820_v2",
-        "library_id": "cc_first_batch_full_reference_looks_20260820_v2",
+        "gate_id": document_id,
+        "library_id": document_id,
         "look_rows": look_rows,
         "presets": presets,
         "preview_lightroom": outfit_gate["preview_lightroom"],

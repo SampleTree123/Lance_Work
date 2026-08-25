@@ -17,7 +17,7 @@ MASTER_NAME = "CHARACTER_FACTORY_MASTER_SPEC.md"
 TRACE_RELATIVE = Path("reference/DOCUMENT_LINK_TRACE.md")
 LINK_PATTERN = re.compile(r"(?<!!)\[([^\]]*)\]\(([^)]+)\)")
 ARCHIVE_PART_PATTERN = re.compile(
-    r"^history/(?:legacy_|pre_lifecycle_)[^/]+/", re.IGNORECASE
+    r"^history/(?:legacy_|pre_lifecycle_|pre_chain_)[^/]+/", re.IGNORECASE
 )
 ARCHIVE_ROW_PATTERN = re.compile(
     r"^\|\s*`([^`]+)`\s*\|\s*(\d+)\s*\|\s*`([0-9A-Fa-f]{64})`\s*\|\s*$",

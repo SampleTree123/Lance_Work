@@ -14,7 +14,7 @@
 #
 # Environment-only run before the project is uploaded:
 #   UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
-#   bash FIRST_BATCH_SERVER_PREFLIGHT.sh
+#   bash FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
 #
 # Optional overrides:
 #   REPORT_ROOT=/data/reports/lance_preflight_001
@@ -33,17 +33,47 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
+ENVIRONMENT_ONLY=0
+POSITIONAL_ARGS=()
+while (($#)); do
+  case "$1" in
+    --environment-only)
+      ENVIRONMENT_ONLY=1
+      shift
+      ;;
+    --)
+      shift
+      while (($#)); do
+        POSITIONAL_ARGS+=("$1")
+        shift
+      done
+      ;;
+    -*)
+      printf 'Unknown option: %s\n' "$1" >&2
+      exit 3
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1")
+      shift
+      ;;
+  esac
+done
+
 EXPECTED_UE_VERSION="${EXPECTED_UE_VERSION:-5.8}"
 EXPECTED_PROJECT_NAME="${EXPECTED_PROJECT_NAME:-datatry_02}"
 EXPECTED_RL_PLUGIN_VERSION="${EXPECTED_RL_PLUGIN_VERSION:-2.03}"
 MIN_FREE_GB="${MIN_FREE_GB:-100}"
 UE_TIMEOUT_SEC="${UE_TIMEOUT_SEC:-1800}"
 
-UE_EDITOR="${UE_EDITOR:-${1:-}}"
-UPROJECT="${UPROJECT:-${2:-}}"
+UE_EDITOR="${UE_EDITOR:-${POSITIONAL_ARGS[0]:-}}"
+if ((ENVIRONMENT_ONLY)); then
+  UPROJECT=""
+else
+  UPROJECT="${UPROJECT:-${POSITIONAL_ARGS[1]:-}}"
+fi
 STAMP="$(date +%Y%m%d_%H%M%S)"
 REPORT_BASE="${HOME:-$PWD}"
-REPORT_ROOT="${REPORT_ROOT:-${3:-$REPORT_BASE/lance_server_preflight_$STAMP}}"
+REPORT_ROOT="${REPORT_ROOT:-${POSITIONAL_ARGS[2]:-$REPORT_BASE/lance_server_preflight_$STAMP}}"
 
 mkdir -p "$REPORT_ROOT"/{system,project,logs,temp,outputs}
 STATUS_TSV="$REPORT_ROOT/status.tsv"
@@ -409,4 +439,3 @@ echo "Final verdict: $VERDICT"
 echo "Summary: $SUMMARY_MD"
 echo "Return the complete report directory for review."
 exit "$EXIT_CODE"
-

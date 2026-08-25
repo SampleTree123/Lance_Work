@@ -4,6 +4,8 @@
 
 本目录放稳定设计、实施约束、合规和讨论记录。它回答“为什么这样做、按什么规则做、有哪些风险”，不放大文件和运行产物。
 
+当前 Character Factory 生产系统的唯一主入口是 [`data_design/character_creator/full_process/README.md`](./data_design/character_creator/full_process/README.md)；动态进度和唯一下一步由其[项目状态](./data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md)维护。
+
 ## 目录说明
 
 | 路径 | 内容 |

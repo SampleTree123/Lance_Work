@@ -74,6 +74,31 @@ class FirstBatchActionExportBuilderTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        windows = root / "windows.json"
+        windows.write_text(
+            json.dumps(
+                {
+                    "status": "frozen_ready_for_cc_export",
+                    "actions": [
+                        {
+                            "action_id": action["action_id"],
+                            "case_id": action["action_id"].lower(),
+                            "source_motion": action["runtime_file"],
+                            "window": {
+                                "start_seconds": 0.0,
+                                "source_end_seconds": 5.0,
+                                "source_duration_seconds": 5.0,
+                                "production_duration_seconds": 5.0,
+                                "padding_required_seconds": 0.0,
+                                "padding_policy": "none",
+                            },
+                        }
+                        for action in registry_actions
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
         bridge = root / "bridge"
         bridge.mkdir()
         actors = []
@@ -98,6 +123,7 @@ class FirstBatchActionExportBuilderTests(unittest.TestCase):
         return {
             "registry": registry,
             "review": review,
+            "windows": windows,
             "actors": actor_work,
             "bridge": bridge,
             "work": root / "work_order.json",
@@ -116,6 +142,7 @@ class FirstBatchActionExportBuilderTests(unittest.TestCase):
             fixture["config"],
             fixture["staging"],
             fixture["final"],
+            fixture["windows"],
         )
 
     def test_builds_two_actor_twelve_motion_export(self):
@@ -129,6 +156,10 @@ class FirstBatchActionExportBuilderTests(unittest.TestCase):
             self.assertEqual(2, work["scope"]["root_motion_counts"]["moving_candidate"])
             self.assertEqual(12, len(config["animation_p0_ue_export"]["export_names"]["motions"]))
             self.assertEqual("not_approved", work["production_status"])
+            self.assertEqual(
+                "frozen_five_second_window", work["motions"][0]["temporal_usage"]
+            )
+            self.assertEqual(5.0, work["motions"][0]["window"]["production_duration_seconds"])
 
     def test_rejects_hidden_dependency(self):
         with tempfile.TemporaryDirectory() as raw:
@@ -144,6 +175,45 @@ class FirstBatchActionExportBuilderTests(unittest.TestCase):
             fixture = self.make_fixture(Path(raw))
             registry = json.loads(fixture["registry"].read_text(encoding="utf-8"))
             Path(registry["actions"][0]["runtime_file"]["path"]).write_bytes(b"drift")
+            with self.assertRaises(SUBJECT.FirstBatchActionExportBuildError):
+                self.build(fixture)
+
+    def test_merges_successful_delta_review(self):
+        with tempfile.TemporaryDirectory() as raw:
+            fixture = self.make_fixture(Path(raw))
+            base = json.loads(fixture["review"].read_text(encoding="utf-8"))
+            replaced = base["cases"][0]
+            base["cases"][0] = {"case_id": replaced["case_id"], "load_status": "not_run"}
+            fixture["review"].write_text(json.dumps(base), encoding="utf-8")
+            delta = Path(raw) / "delta.json"
+            delta.write_text(
+                json.dumps(
+                    {
+                        "status": "automation_complete_pending_visual_review",
+                        "cases": [replaced],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            result = SUBJECT.build_first_batch_action_export(
+                fixture["registry"],
+                [fixture["review"], delta],
+                fixture["actors"],
+                fixture["bridge"],
+                fixture["work"],
+                fixture["config"],
+                fixture["staging"],
+                fixture["final"],
+                fixture["windows"],
+            )
+            self.assertEqual(12, result["motion_count"])
+
+    def test_rejects_frozen_window_source_drift(self):
+        with tempfile.TemporaryDirectory() as raw:
+            fixture = self.make_fixture(Path(raw))
+            windows = json.loads(fixture["windows"].read_text(encoding="utf-8"))
+            windows["actions"][0]["source_motion"]["sha256"] = "0" * 64
+            fixture["windows"].write_text(json.dumps(windows), encoding="utf-8")
             with self.assertRaises(SUBJECT.FirstBatchActionExportBuildError):
                 self.build(fixture)
 

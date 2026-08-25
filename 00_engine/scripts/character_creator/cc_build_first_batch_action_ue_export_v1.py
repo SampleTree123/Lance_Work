@@ -7,18 +7,32 @@ from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Sequence
 
 
 SCRIPT_ROOT = Path(__file__).resolve().parent
 ENGINE_ROOT = SCRIPT_ROOT.parents[1]
 ARTIFACT_ROOT = ENGINE_ROOT / "outputs" / "character_creator_bridge" / "artifacts"
-DEFAULT_REGISTRY = SCRIPT_ROOT / "cc_first_batch_action_registry_20260820_v1.json"
-DEFAULT_DYNAMIC_REVIEW = (
+DEFAULT_REGISTRY = SCRIPT_ROOT / "cc_first_batch_action_registry_20260820_v3.json"
+DEFAULT_DYNAMIC_REVIEWS = (
     ARTIFACT_ROOT
-    / "first_batch_action_selection"
-    / "dynamic_run_20260820_v1"
-    / "dynamic_review_automation.json"
+    / "first_batch_action_full_preview"
+    / "capture_20260820_v1"
+    / "dynamic_review_automation.json",
+    ARTIFACT_ROOT
+    / "first_batch_action_full_preview"
+    / "capture_20260820_v2_delta"
+    / "dynamic_review_automation.json",
+    ARTIFACT_ROOT
+    / "first_batch_action_full_preview"
+    / "capture_20260820_v3_delta"
+    / "dynamic_review_automation.json",
+)
+DEFAULT_ACTION_WINDOWS = (
+    ARTIFACT_ROOT
+    / "first_batch_action_window_selection"
+    / "frozen_20260820_v3"
+    / "frozen_action_windows.json"
 )
 DEFAULT_ACTOR_WORK_ORDER = (
     ARTIFACT_ROOT
@@ -36,12 +50,12 @@ DEFAULT_BRIDGE_ACTORS = (
 DEFAULT_EXPORT_ARTIFACT_ROOT = ARTIFACT_ROOT / "first_batch_action_ue_export"
 DEFAULT_WORK_ORDER = (
     DEFAULT_EXPORT_ARTIFACT_ROOT
-    / "work_order_20260820_v1"
+    / "work_order_20260820_v3"
     / "work_order.json"
 )
-DEFAULT_STAGING_ROOT = DEFAULT_EXPORT_ARTIFACT_ROOT / "staging_20260820_v1"
-DEFAULT_FINAL_ROOT = DEFAULT_EXPORT_ARTIFACT_ROOT / "bundle_20260820_v1"
-DEFAULT_CONFIG = SCRIPT_ROOT / "cc_first_batch_action_ue_export_20260820_v1.json"
+DEFAULT_STAGING_ROOT = DEFAULT_EXPORT_ARTIFACT_ROOT / "staging_20260820_v3"
+DEFAULT_FINAL_ROOT = DEFAULT_EXPORT_ARTIFACT_ROOT / "bundle_20260820_v3"
+DEFAULT_CONFIG = SCRIPT_ROOT / "cc_first_batch_action_ue_export_20260820_v3.json"
 
 ACTOR_BINDINGS = {
     "female": "p0_female_clothed",
@@ -121,31 +135,62 @@ def safe_export_basename(action_id: str) -> str:
     return value
 
 
+def normalized_paths(paths: Path | Sequence[Path]) -> list[Path]:
+    if isinstance(paths, Path):
+        return [paths.resolve()]
+    values = [Path(path).resolve() for path in paths]
+    if not values:
+        raise FirstBatchActionExportBuildError(
+            "At least one CC dynamic-review file is required"
+        )
+    return values
+
+
 def build_first_batch_action_export(
     registry_path: Path = DEFAULT_REGISTRY,
-    dynamic_review_path: Path = DEFAULT_DYNAMIC_REVIEW,
+    dynamic_review_path: Path | Sequence[Path] = DEFAULT_DYNAMIC_REVIEWS,
     actor_work_order_path: Path = DEFAULT_ACTOR_WORK_ORDER,
     bridge_actor_root: Path = DEFAULT_BRIDGE_ACTORS,
     work_order_output: Path = DEFAULT_WORK_ORDER,
     config_output: Path = DEFAULT_CONFIG,
     staging_root: Path = DEFAULT_STAGING_ROOT,
     final_root: Path = DEFAULT_FINAL_ROOT,
+    action_windows_path: Path = DEFAULT_ACTION_WINDOWS,
 ) -> dict[str, Any]:
     registry_path = registry_path.resolve()
-    dynamic_review_path = dynamic_review_path.resolve()
+    dynamic_review_paths = normalized_paths(dynamic_review_path)
     actor_work_order_path = actor_work_order_path.resolve()
+    action_windows_path = action_windows_path.resolve()
     registry = read_json(registry_path)
-    review = read_json(dynamic_review_path)
+    reviews = [read_json(path) for path in dynamic_review_paths]
+    action_windows = read_json(action_windows_path)
     actor_work_order = read_json(actor_work_order_path)
 
     if registry.get("status") != "frozen_pending_cc_and_ue_validation":
         raise FirstBatchActionExportBuildError("Action registry is not frozen")
     actions = registry.get("actions") or []
-    review_cases = {item.get("case_id"): item for item in review.get("cases") or []}
-    if len(actions) != 12 or len(review_cases) != 12:
+    if len(actions) != 12:
         raise FirstBatchActionExportBuildError("Expected exactly 12 actions")
-    if review.get("status") != "automation_complete_pending_visual_review":
-        raise FirstBatchActionExportBuildError("CC dynamic review is incomplete")
+
+    review_cases = {}
+    for review_path, review in zip(dynamic_review_paths, reviews):
+        if review.get("status") != "automation_complete_pending_visual_review":
+            raise FirstBatchActionExportBuildError(
+                f"CC dynamic review is incomplete: {review_path}"
+            )
+        for item in review.get("cases") or []:
+            if item.get("load_status") == "succeeded":
+                review_cases[item.get("case_id")] = item
+
+    if action_windows.get("status") != "frozen_ready_for_cc_export":
+        raise FirstBatchActionExportBuildError("Action windows are not frozen")
+    window_rows = action_windows.get("actions") or []
+    windows_by_case = {item.get("case_id"): item for item in window_rows}
+    registry_case_ids = {str(item.get("action_id")).lower() for item in actions}
+    if len(window_rows) != 12 or set(windows_by_case) != registry_case_ids:
+        raise FirstBatchActionExportBuildError(
+            "Frozen action windows do not match the 12-action registry"
+        )
 
     source_actors = actor_work_order.get("actors") or []
     actor_by_sex = {item.get("sex"): item for item in source_actors}
@@ -243,6 +288,24 @@ def build_first_batch_action_export(
         source_motion = verified_record(
             action.get("runtime_file") or {}, f"action {action_id}"
         )
+        window_row = windows_by_case[case_id]
+        if window_row.get("action_id") != action_id:
+            raise FirstBatchActionExportBuildError(
+                f"Frozen-window action ID mismatch: {action_id}"
+            )
+        window_source = verified_record(
+            window_row.get("source_motion") or {},
+            f"frozen-window source {action_id}",
+        )
+        if window_source != source_motion:
+            raise FirstBatchActionExportBuildError(
+                f"Frozen-window source differs from registry: {action_id}"
+            )
+        window = window_row.get("window") or {}
+        if float(window.get("production_duration_seconds", 0.0)) != 5.0:
+            raise FirstBatchActionExportBuildError(
+                f"Action does not have a frozen five-second window: {action_id}"
+            )
         root_evidence = (evidence.get("automation_evidence") or {}).get(
             "root_motion_evidence"
         ) or {}
@@ -254,7 +317,8 @@ def build_first_batch_action_export(
                 "actor_binding_id": actor_binding,
                 "source_motion": source_motion,
                 "motion_role": action.get("semantic_family"),
-                "temporal_usage": "pending_visual_assignment",
+                "temporal_usage": "frozen_five_second_window",
+                "window": window,
                 "root_motion": {
                     "classification": root_class,
                     "policy": (
@@ -280,14 +344,17 @@ def build_first_batch_action_export(
 
     work_order = {
         "schema_version": 1,
-        "work_order_id": "cc_first_batch_action_ue_export_20260820_v1",
+        "work_order_id": "cc_first_batch_action_ue_export_20260820_v3",
         "generated_at": now(),
         "status": "ready_for_cc_export",
         "production_status": "not_approved",
         "visual_status": "pending_user_review",
         "provenance": {
             "action_registry": locked_file(registry_path),
-            "cc_dynamic_review": locked_file(dynamic_review_path),
+            "cc_dynamic_reviews": [
+                locked_file(path) for path in dynamic_review_paths
+            ],
+            "frozen_action_windows": locked_file(action_windows_path),
             "source_actor_work_order": locked_file(actor_work_order_path),
         },
         "scope": {
@@ -295,6 +362,7 @@ def build_first_batch_action_export(
             "motion_count": 12,
             "female_motion_count": 6,
             "male_motion_count": 6,
+            "frozen_five_second_window_count": 12,
             "root_motion_counts": root_counts,
             "generated_clothed_characters_required": True,
             "production_approved_count": 0,
@@ -341,7 +409,7 @@ def build_first_batch_action_export(
 
     config = {
         "schema_version": 1,
-        "library_id": "cc_first_batch_action_ue_export_20260820_v1",
+        "library_id": "cc_first_batch_action_ue_export_20260820_v3",
         "diagnostic_mode": "animation_p0_ue_runtime_export",
         "presets": presets,
         "animation_p0_ue_export": {
@@ -376,7 +444,16 @@ def build_first_batch_action_export(
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY)
-    parser.add_argument("--dynamic-review", type=Path, default=DEFAULT_DYNAMIC_REVIEW)
+    parser.add_argument(
+        "--dynamic-review",
+        type=Path,
+        action="append",
+        default=None,
+        help="Repeat to merge successful evidence from multiple CC review runs.",
+    )
+    parser.add_argument(
+        "--action-windows", type=Path, default=DEFAULT_ACTION_WINDOWS
+    )
     parser.add_argument("--actor-work-order", type=Path, default=DEFAULT_ACTOR_WORK_ORDER)
     parser.add_argument("--bridge-actor-root", type=Path, default=DEFAULT_BRIDGE_ACTORS)
     parser.add_argument("--work-order-output", type=Path, default=DEFAULT_WORK_ORDER)
@@ -390,13 +467,14 @@ def main() -> int:
     args = parse_args()
     result = build_first_batch_action_export(
         args.registry,
-        args.dynamic_review,
+        args.dynamic_review or DEFAULT_DYNAMIC_REVIEWS,
         args.actor_work_order,
         args.bridge_actor_root,
         args.work_order_output,
         args.config_output,
         args.staging_root,
         args.final_root,
+        args.action_windows,
     )
     print(json.dumps(result, ensure_ascii=False, indent=2))
     return 0

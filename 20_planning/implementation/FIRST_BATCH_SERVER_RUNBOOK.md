@@ -1,100 +1,14 @@
-# 第一批数据服务器运行手册
+# 第一批服务器运行手册（兼容入口）
 
-> 文档角色：`technical_specification`
-> 状态：`planned`
-> 适用阶段：`WF-08..WF-09`
-> 权威范围：第一批数据在 Linux/NVIDIA 服务器上的项目同步、预检、10 节点基准、批量渲染、重试和回收流程
-> 上级入口：[`README.md`](./README.md)
-> 上游：[`FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md`](../data_design/character_creator/full_process/planning/FIRST_DATA_BATCH_SPRINT_2026-08-19_TO_2026-08-26.md)、[`CONFIG_GRAPH_SCHEMA_V1.md`](../data_design/schema/CONFIG_GRAPH_SCHEMA_V1.md)
-> 下游：`WF-08` 场景构建、`WF-09` 渲染和数据集封装
-> 最近核验：2026-08-19
+> 状态：`compatibility`
+> 最近核验：2026-08-25
 
-## 1. 原则
+本文件保留旧路径兼容，不再维护服务器生产规则。当前权威说明为：
 
-- 不创建 Shipping 包；使用与本地一致的 UE 5.8 Editor 命令行离屏运行。
-- 服务器先做 10 节点基准，再决定完整节点预算。
-- 上传项目源和确定性配置，不上传本地缓存作为权威输入。
-- 每个节点独立可重试；成功媒体按 node_id 去重并原子晋升。
-- 本文当前是计划手册。服务器真实路径、命令参数和服务脚本只有在首次预检验证后才能写入 `WF-09`。
+- [Linux/NVIDIA 服务器执行](../data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)
+- [WF-80 本地验证与批量渲染](../data_design/character_creator/full_process/workflow/WF-80-RENDER-EXECUTION.md)
+- [第一批状态](../data_design/character_creator/full_process/project_management/status/batches/BATCH-001-FIRST-DATA.md)
+- [当前计划](../data_design/character_creator/full_process/project_management/plans/active/PLAN-2026-08-FIRST-DATA-BATCH.md)
+- [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./FIRST_BATCH_SERVER_PREFLIGHT.sh)
 
-## 2. 本地交付包
-
-上传前应生成不可变交付清单，至少包含：
-
-- `datatry_02.uproject` 与本轮使用的 `Content/DataMake`、必要 Vendor/Reallusion 资产。
-- 项目级插件及版本清单；特别记录 Auto Setup 2.03 是否仅为导入期依赖。
-- `Config`、本轮 UE Python/插件脚本和 schema/manifest。
-- `assets.json`、`nodes.jsonl`、`render_jobs.jsonl` 与 render profile。
-- 每个上传文件的相对路径、字节数和 SHA-256。
-- 明确排除 `Saved`、`Intermediate`、本地 DDC、临时截图和旧渲染输出，除非某项经验证必须保留。
-
-任何依赖本地绝对盘符的配置在上传前失败；必须转换为项目相对路径、数据集相对路径或 UE 软对象路径。
-
-## 3. 服务器预检
-
-按顺序确认：
-
-1. NVIDIA 驱动、GPU 可见性、显存和 Vulkan 工作正常。
-2. Linux UE 精确版本与本地 UE 5.8 兼容。
-3. 项目在命令行离屏模式下可打开，且没有必须点击的模态窗口。
-4. 所需插件可加载；若 Auto Setup 只在导入期需要，服务器项目不得因缺少它而丢失已生成材质/蓝图。
-5. Linux 大小写敏感路径检查通过，所有软对象路径可解析。
-6. 场景、16 个 Look、6 条动作、3 条表情、两台相机和 Sequence 模板均可加载。
-7. shader 首次编译完成，第二次启动不再产生不可控长等待。
-8. 输出根、临时根和日志根可写，剩余磁盘满足节点预算与重试空间。
-
-任何一项失败都形成结构化 preflight report，不直接进入批量渲染。
-
-## 4. 10 节点基准
-
-基准集必须覆盖：
-
-- 女性和男性。
-- 至少 4 个不同身份/服装 Look。
-- medium 与 full-body 两种镜头。
-- Happy、Angry、Sad。
-- Root Motion 与原地动作。
-- 首次 shader 已完成后的稳定计时。
-
-每个节点检查媒体存在、帧数、fps、分辨率、时长、黑帧/空帧、构图、角色/服装可见性、sidecar 和哈希。统计启动开销、平均/中位/p95 每帧时间、单节点输出大小和峰值显存。
-
-全量 ETA 使用 p95，而不是最好样例。10/10 成功且无视觉硬失败后才能批准完整队列。
-
-## 5. 批量调度
-
-- 输入只来自 `render_jobs.jsonl` 的 `pending` 或 `retryable_failed` 节点。
-- 单作业先写临时目录，验证完成后再原子移动到 `media/nodes/<node_id>`。
-- 同一 node_id 同时只允许一个活动 lease。
-- 每个 attempt 记录机器、GPU、UE 版本、开始/结束、退出状态和日志路径。
-- 进程批次大小由显存、系统内存和 UE 稳定性基准决定，不预设为一个常驻进程跑完全部节点。
-- 每批结束检查 GPU 温度/显存、RAM、磁盘、失败率和平均速度；速度显著漂移时暂停诊断。
-
-## 6. 失败与重试
-
-| 类型 | 处理 |
-| --- | --- |
-| 临时进程退出、文件占用、短暂 GPU 错误 | 保持 node config，增加 attempt 后有限重试 |
-| shader/资产首次加载超时 | 单独预热后重试，不计入稳定基准 |
-| 资产缺失、软路径大小写错误、插件不兼容 | 标记 permanent_failed，修复输入版本后生成新批次 |
-| 黑帧、空角色、错误镜头、明显穿模 | 视觉硬失败；停止同类节点，不盲目全量重试 |
-| 输出哈希与同 node_id 既有媒体冲突 | 整批停止并审计确定性 |
-
-重试不得修改场景、相机、分辨率、动作或表达式。需要修改任何像素相关参数时，升级 render_profile 并重新计算 node_id。
-
-## 7. 性能降级
-
-只有 Sprint 第 9 节定义的降级顺序有效：节点 `384→288→192`，分辨率 `720p→540p`，时长 `3s→2s`，动作 `6→4`。每次降级产生新的 render profile 和节点清单；旧基准/失败记录保留，不覆盖。
-
-## 8. 完成检查
-
-批量结束时输出：
-
-- 计划、成功、可重试失败和永久失败节点数。
-- 媒体/sidecar/哈希通过数。
-- 实际总帧数、总时长、总字节和节点复用率。
-- p50/p95 渲染速度、总墙钟时间和失败分类。
-- `chains.jsonl` 的 0 悬空节点验证。
-- 随机抽取至少 2% 节点的视觉联系表，覆盖两性、两镜头、全部动作和全部表情。
-
-达到最低交付需要：所有被链引用的节点成功、至少 3,000 条有效链、0 悬空引用、0 哈希冲突。未被链引用的额外失败节点可以从当前交付排除，但必须留在失败报告中。
-
+旧 Runbook 中有效的上传输入锁、两次离屏 Smoke、10 节点基准、Lease/attempt、失败分类、版本化降级和完成报告规则已经合并到上述 Technical 文档。不要在本文件新增参数或状态。
