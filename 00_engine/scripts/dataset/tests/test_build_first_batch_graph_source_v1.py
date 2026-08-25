@@ -174,10 +174,41 @@ class FirstBatchGraphSourceTests(unittest.TestCase):
             )
             self.assertTrue(
                 all(
-                    not SUBJECT.Path(asset["source_ref"]).is_absolute()
+                    SUBJECT.is_portable_source_ref(asset["source_ref"])
                     for asset in source["assets"]
                 )
             )
+
+    def test_input_hashes_are_independent_of_json_line_endings(self):
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            required, matrix = make_inputs()
+            outputs = []
+            for name, newline in (("lf", "\n"), ("crlf", "\r\n")):
+                case = root / name
+                case.mkdir()
+                required_path = case / "required.json"
+                matrix_path = case / "matrix.json"
+                required_text = json.dumps(required, ensure_ascii=False, indent=2) + "\n"
+                matrix_text = json.dumps(matrix, ensure_ascii=False, indent=2) + "\n"
+                required_path.write_bytes(required_text.replace("\n", newline).encode("utf-8"))
+                matrix_path.write_bytes(matrix_text.replace("\n", newline).encode("utf-8"))
+                outputs.append(SUBJECT.build_source_manifest(required_path, matrix_path))
+
+            self.assertEqual(outputs[0], outputs[1])
+            self.assertEqual(
+                "canonical_json_v1",
+                outputs[0]["input_manifests"]["local_render_matrix"]["hash_mode"],
+            )
+
+    def test_rejects_windows_source_reference(self):
+        with tempfile.TemporaryDirectory() as raw:
+            required, matrix = make_inputs()
+            required["full_reference_looks"][0]["fbx"]["source_ref"] = (
+                r"D:\fixture\look.fbx"
+            )
+            with self.assertRaisesRegex(SUBJECT.GraphSourceError, "Unportable"):
+                self.build(Path(raw), required, matrix)
 
     def test_normalizes_every_action_to_happy_composite(self):
         with tempfile.TemporaryDirectory() as raw:

@@ -84,6 +84,31 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def legacy_text_sha256_candidates(path: Path) -> set[str]:
+    payload = path.read_bytes()
+    normalized = payload.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    crlf = normalized.replace(b"\n", b"\r\n")
+    return {sha256_bytes(payload), sha256_bytes(normalized), sha256_bytes(crlf)}
+
+
+def normalized_locked_input(path: Path) -> tuple[bytes, str]:
+    suffix = path.suffix.lower()
+    if suffix in {".json", ".uproject"}:
+        payload = canonical_json(read_json(path)).encode("utf-8")
+        return payload, "canonical_json_v1"
+    if suffix == ".jsonl":
+        records = read_jsonl(path)
+        payload = ("\n".join(canonical_json(record) for record in records) + "\n").encode(
+            "utf-8"
+        )
+        return payload, "canonical_jsonl_v1"
+    payload = path.read_bytes()
+    if suffix in {".py", ".ps1", ".sh", ".cmd"}:
+        payload = payload.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+        return payload, "text_lf_v1"
+    return payload, "raw_bytes_v1"
+
+
 def atomic_write_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{uuid.uuid4().hex}.tmp")
@@ -361,12 +386,20 @@ def load_context(args: argparse.Namespace) -> RenderContext:
     if len(actions_by_id) != int(required_exports.get("counts", {}).get("action_assets", -1)):
         raise ContractError("Action registry count mismatch")
 
-    expected_matrix_hash = (
-        source_manifest.get("input_manifests", {})
-        .get("local_render_matrix", {})
-        .get("sha256")
+    matrix_lock = source_manifest.get("input_manifests", {}).get(
+        "local_render_matrix", {}
     )
-    if expected_matrix_hash and sha256_file(matrix_config_path) != expected_matrix_hash:
+    expected_matrix_hash = matrix_lock.get("sha256")
+    matrix_hash_mode = matrix_lock.get("hash_mode", "raw_bytes_v1")
+    if matrix_hash_mode == "canonical_json_v1":
+        matrix_hash_matches = sha256_json(matrix_config) == expected_matrix_hash
+    elif matrix_hash_mode == "raw_bytes_v1":
+        matrix_hash_matches = expected_matrix_hash in legacy_text_sha256_candidates(
+            matrix_config_path
+        )
+    else:
+        raise ContractError(f"Unsupported matrix hash mode: {matrix_hash_mode}")
+    if expected_matrix_hash and not matrix_hash_matches:
         raise ContractError("Local render matrix hash differs from the frozen source")
 
     uproject = args.uproject.resolve()
@@ -465,11 +498,13 @@ def input_entries(context: RenderContext) -> list[dict]:
             if project_path is not None and path == project_path
             else repo_uri(path)
         )
+        normalized_payload, hash_mode = normalized_locked_input(path)
         entries.append(
             {
                 "uri": uri,
-                "bytes": path.stat().st_size,
-                "sha256": sha256_file(path),
+                "bytes": len(normalized_payload),
+                "sha256": sha256_bytes(normalized_payload),
+                "hash_mode": hash_mode,
             }
         )
     return sorted(entries, key=lambda value: value["uri"])

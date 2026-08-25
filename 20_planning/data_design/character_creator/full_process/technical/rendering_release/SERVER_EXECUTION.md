@@ -16,13 +16,13 @@
 
 ## 2. 预检入口
 
-脚本：`20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh`。
+唯一权威脚本：`20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh`。该版本已针对当前 Slurm 集群、用户级 UE 运行库和无 `vulkaninfo` 时的 UE Vulkan 日志取证进行验证。
 
 环境预检：
 
 ```bash
 UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
-bash FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
+bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
 ```
 
 完整预检：
@@ -31,7 +31,7 @@ bash FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
 UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
 UPROJECT=/data/datatry_02/datatry_02.uproject \
 REPORT_ROOT=/data/reports/first_batch_preflight_001 \
-bash FIRST_BATCH_SERVER_PREFLIGHT.sh
+bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh
 ```
 
 脚本检查 Linux/GPU/Vulkan/UE、磁盘、项目、插件和两次离屏启动。环境模式返回码 2 表示只完成环境部分，不是失败，也不是完整通过。
@@ -43,7 +43,7 @@ bash FIRST_BATCH_SERVER_PREFLIGHT.sh
 - `.uproject`、`Config`、本批 `Content/DataMake` 和被引用的 Vendor/Reallusion 资产；
 - 服务器实际需要的项目插件及版本；
 - 当前图、链、Render Jobs、Prompt Manifest、Render Profile 和执行代码；
-- 每个上传文件的相对路径、字节数与 SHA-256；
+- 每个上传文件的相对路径、字节数与 SHA-256；可迁移 JSON/JSONL 同时使用不受换行影响的规范化语义哈希；
 - 本地与服务器路径映射、Git revision、UE 版本和批次 ID。
 
 排除 `Saved`、`Intermediate`、本地 DDC、旧媒体和临时截图，除非某项被输入锁明确列入。可迁移配置出现 Windows 盘符时硬失败；路径必须转换为项目/数据集相对 URI 或 UE Object Path。

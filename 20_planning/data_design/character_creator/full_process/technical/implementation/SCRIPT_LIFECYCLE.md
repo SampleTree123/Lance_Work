@@ -42,7 +42,7 @@
 20_planning/implementation/
 ```
 
-`10_research/model_experiments/` 是下游模型研究，不属于角色工厂生产实现。`outputs`、缓存、构建目录和第三方二进制不进入脚本目录。
+Catalog 在 Git 工作树中只枚举已跟踪脚本；脚本内容统一换算为 LF 后记录字节数和 SHA-256。因此 Windows/Linux 换行和本机忽略目录不会污染仓库 Catalog。`10_research/model_experiments/` 是下游模型研究，不属于角色工厂生产实现。`outputs`、缓存、构建目录和第三方二进制不进入脚本目录。
 
 ## 4. 生命周期契约
 

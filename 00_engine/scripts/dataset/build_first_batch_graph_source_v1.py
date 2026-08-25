@@ -22,6 +22,7 @@ SOURCE_MANIFEST_ID = "first_batch_source_20260824_v1"
 SAMPLING_SPEC_VERSION = "multi_round_v1_20260824"
 CAMERA_IDS = ("near", "far", "high", "side")
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+PORTABLE_SOURCE_PREFIXES = ("bundle://", "repo://", "workspace://", "/Game/")
 
 
 class GraphSourceError(RuntimeError):
@@ -62,6 +63,10 @@ def canonical_sha256(value: object) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
+def is_portable_source_ref(value: str) -> bool:
+    return isinstance(value, str) and value.startswith(PORTABLE_SOURCE_PREFIXES)
+
+
 def normalize_id(value: str) -> str:
     normalized = re.sub(r"[^a-z0-9]+", "_", value.lower()).strip("_")
     require(bool(normalized), f"Could not normalize ID: {value!r}")
@@ -81,6 +86,7 @@ def make_asset(
     constraints: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     require(bool(SHA256.fullmatch(content_sha256)), f"Invalid hash for {asset_id}")
+    require(is_portable_source_ref(source_ref), f"Unportable source_ref for {asset_id}")
     return {
         "asset_id": asset_id,
         "asset_type": asset_type,
@@ -174,6 +180,10 @@ def build_source_manifest(
         fbx = source_look["fbx"]
         content_hash = fbx["sha256"]
         require(bool(SHA256.fullmatch(content_hash)), f"Invalid Look hash: {source_look_id}")
+        require(
+            is_portable_source_ref(fbx["source_ref"]),
+            f"Unportable Look source_ref: {source_look_id}",
+        )
         bodyfit = normalize_id(source_look["bodyfit_id"])
         identity = normalize_id(source_look["identity_id"])
         outfit = outfit_id(sex, source_look["outfit_id"])
@@ -351,8 +361,8 @@ def build_source_manifest(
             )
         )
 
-    required_hash = sha256_file(required_exports_path)
-    matrix_hash = sha256_file(local_matrix_path)
+    required_hash = canonical_sha256(required)
+    matrix_hash = canonical_sha256(matrix)
     input_manifest_sha256 = canonical_sha256(
         {"required_exports": required_hash, "local_render_matrix": matrix_hash}
     )
@@ -374,10 +384,12 @@ def build_source_manifest(
             "required_exports": {
                 "source_ref": f"repo://00_engine/scripts/dataset/{required_exports_path.name}",
                 "sha256": required_hash,
+                "hash_mode": "canonical_json_v1",
             },
             "local_render_matrix": {
                 "source_ref": f"repo://00_engine/scripts/unreal/{local_matrix_path.name}",
                 "sha256": matrix_hash,
+                "hash_mode": "canonical_json_v1",
             },
         },
         "assets": sorted(assets, key=lambda row: row["asset_id"]),

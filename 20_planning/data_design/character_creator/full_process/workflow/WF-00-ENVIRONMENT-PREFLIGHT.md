@@ -30,7 +30,7 @@
 | 1. 检查工作区 | 检查路径映射、磁盘、Git 改动和当前配置版本 | 命令与边界由 [环境与会话](../technical/environment/ENVIRONMENT_AND_SESSION.md#3-本地输入与预检) 维护；文档审计入口为 [`check_character_factory_docs.py`](../../../../../00_engine/scripts/documentation/check_character_factory_docs.py) | 工作区与代码基线结果 |
 | 2. 验证 CC 通道 | 仅在本轮需要 CC 时检查新鲜 Heartbeat、`ping` 和 `scene-summary` | [`cc_bridge_client.py`](../../../../../00_engine/character_creator_bridge/cc_bridge_client.py) 与 CC 端 [`plugin/main.py`](../../../../../00_engine/character_creator_bridge/plugin/main.py)；准确命令见 [Bridge Technical](../technical/bridge/CC_BRIDGE_OPERATIONS.md#3-验证与健康检查) | 当前 CC 进程绑定的 Bridge 结果 |
 | 3. 验证 UE 通道 | 仅在本轮需要 UE 时确认项目、插件、MCP/Remote Execution 和无阻塞窗口 | 系统入口 [`ue_remote_exec.py`](../../../../../00_engine/scripts/unreal/ue_remote_exec.py)；具体无副作用查询由 [环境与会话](../technical/environment/ENVIRONMENT_AND_SESSION.md#5-ue-会话) 规定 | 当前 UE 会话和目标项目结果 |
-| 4. 验证服务器环境 | 仅在需要服务器时检查 Linux、GPU、Vulkan、UE 和磁盘，不启动生产渲染 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh) 的 `--environment-only` 模式；完整说明见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md#2-预检入口) | 服务器环境预检报告 |
+| 4. 验证服务器环境 | 仅在需要服务器时检查 Slurm、Linux、GPU、Vulkan、UE 和磁盘，不启动生产渲染 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh) 的 `--environment-only` 模式；完整说明见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md#2-预检入口) | 服务器环境预检报告 |
 | 5. 汇总本轮范围 | 把必需/非必需通道、失败原因和允许进入阶段写入会话结果 | 当前没有跨本地、CC、UE、服务器的一键聚合器；按 [Output Run Root](../technical/output/OUTPUT_CONTRACTS.md#5-run-root-契约) 和 [WF-00 状态](../project_management/status/workflows/WF-00.md) 记录 | `OUT-WF00-SESSION` |
 
 本阶段是按需预检，不要求同时启动 CC 与 UE。第 5 步尚为受控记录流程，不能把任一单独命令成功描述为完整 `GATE-00`。

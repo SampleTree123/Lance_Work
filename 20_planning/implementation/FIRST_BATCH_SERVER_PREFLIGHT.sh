@@ -10,14 +10,16 @@
 # Full run:
 #   UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
 #   UPROJECT=/data/datatry_02/datatry_02.uproject \
-#   bash FIRST_BATCH_SERVER_PREFLIGHT.sh
+#   bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh
 #
 # Environment-only run before the project is uploaded:
-#   UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
-#   bash FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
+#   bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only
 #
 # Optional overrides:
-#   REPORT_ROOT=/data/reports/lance_preflight_001
+#   REPORT_ROOT=/data/reports/server_preflight_001
+#   EXPECTED_SLURM_JOB_ID=113764
+#   VULKAN_EVIDENCE_LOG=/data/logs/ue_vulkan_probe.log
+#   MIN_STEP_CPUS=8
 #   MIN_FREE_GB=100
 #   UE_TIMEOUT_SEC=1800
 #
@@ -28,57 +30,85 @@
 
 set -uo pipefail
 
-if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
-  sed -n '1,35p' "$0"
-  exit 0
-fi
-
 ENVIRONMENT_ONLY=0
-POSITIONAL_ARGS=()
-while (($#)); do
+POSITIONAL=()
+while (( $# > 0 )); do
   case "$1" in
+    -h|--help)
+      sed -n '1,35p' "$0"
+      exit 0
+      ;;
     --environment-only)
       ENVIRONMENT_ONLY=1
       shift
       ;;
     --)
       shift
-      while (($#)); do
-        POSITIONAL_ARGS+=("$1")
-        shift
-      done
+      POSITIONAL+=("$@")
+      break
       ;;
     -*)
       printf 'Unknown option: %s\n' "$1" >&2
-      exit 3
+      exit 64
       ;;
     *)
-      POSITIONAL_ARGS+=("$1")
+      POSITIONAL+=("$1")
       shift
       ;;
   esac
 done
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+DATAMAKE_ROOT="${DATAMAKE_ROOT:-}"
+if [[ -z "$DATAMAKE_ROOT" && -d "$SCRIPT_DIR/00_engine" ]]; then
+  DATAMAKE_ROOT="$SCRIPT_DIR"
+elif [[ -z "$DATAMAKE_ROOT" && -d "$SCRIPT_DIR/../../00_engine" ]]; then
+  DATAMAKE_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd -P)"
+fi
+
 EXPECTED_UE_VERSION="${EXPECTED_UE_VERSION:-5.8}"
 EXPECTED_PROJECT_NAME="${EXPECTED_PROJECT_NAME:-datatry_02}"
 EXPECTED_RL_PLUGIN_VERSION="${EXPECTED_RL_PLUGIN_VERSION:-2.03}"
+EXPECTED_SLURM_JOB_ID="${EXPECTED_SLURM_JOB_ID:-}"
+VULKAN_EVIDENCE_LOG="${VULKAN_EVIDENCE_LOG:-}"
+MIN_STEP_CPUS="${MIN_STEP_CPUS:-8}"
 MIN_FREE_GB="${MIN_FREE_GB:-100}"
 UE_TIMEOUT_SEC="${UE_TIMEOUT_SEC:-1800}"
 
-UE_EDITOR="${UE_EDITOR:-${POSITIONAL_ARGS[0]:-}}"
-if ((ENVIRONMENT_ONLY)); then
+DEFAULT_UE_EDITOR=""
+if [[ -n "$DATAMAKE_ROOT" ]]; then
+  DEFAULT_UE_EDITOR="$DATAMAKE_ROOT/00_engine/unreal/UE_5.8/Engine/Binaries/Linux/UnrealEditor"
+fi
+
+UE_EDITOR="${UE_EDITOR:-${POSITIONAL[0]:-$DEFAULT_UE_EDITOR}}"
+UPROJECT="${UPROJECT:-${POSITIONAL[1]:-}}"
+if (( ENVIRONMENT_ONLY == 1 )); then
   UPROJECT=""
-else
-  UPROJECT="${UPROJECT:-${POSITIONAL_ARGS[1]:-}}"
 fi
 STAMP="$(date +%Y%m%d_%H%M%S)"
 REPORT_BASE="${HOME:-$PWD}"
-REPORT_ROOT="${REPORT_ROOT:-${POSITIONAL_ARGS[2]:-$REPORT_BASE/lance_server_preflight_$STAMP}}"
+if [[ -n "$DATAMAKE_ROOT" ]]; then
+  REPORT_BASE="$DATAMAKE_ROOT/00_engine/outputs/server_preflight"
+fi
+REPORT_ROOT="${REPORT_ROOT:-${POSITIONAL[2]:-$REPORT_BASE/${HOSTNAME:-host}_$STAMP}}"
+
+UE_RUNTIME_LIB_DIR="${UE_RUNTIME_LIB_DIR:-}"
+if [[ -z "$UE_RUNTIME_LIB_DIR" && -n "$DATAMAKE_ROOT" ]]; then
+  UE_RUNTIME_LIB_DIR="$DATAMAKE_ROOT/00_engine/runtime/ubuntu2204-libs/usr/lib/x86_64-linux-gnu"
+fi
+if [[ -d "$UE_RUNTIME_LIB_DIR" ]]; then
+  export LD_LIBRARY_PATH="$UE_RUNTIME_LIB_DIR:${LD_LIBRARY_PATH:-}"
+fi
 
 mkdir -p "$REPORT_ROOT"/{system,project,logs,temp,outputs}
 STATUS_TSV="$REPORT_ROOT/status.tsv"
 SUMMARY_MD="$REPORT_ROOT/preflight_summary.md"
 printf 'check_id\tstatus\tdetail\n' > "$STATUS_TSV"
+printf 'datamake_root=%s\nue_runtime_lib_dir=%s\nld_library_path=%s\n' \
+  "${DATAMAKE_ROOT:-NOT_FOUND}" \
+  "${UE_RUNTIME_LIB_DIR:-NOT_SET}" \
+  "${LD_LIBRARY_PATH:-}" \
+  > "$REPORT_ROOT/system/runtime_environment.txt"
 
 FAIL_COUNT=0
 WARN_COUNT=0
@@ -108,6 +138,42 @@ capture() {
 echo "Report root: $REPORT_ROOT"
 echo "Started: $(date --iso-8601=seconds)"
 
+# SVR-00: Preserve and, when requested, enforce the exact Slurm allocation.
+{
+  printf 'SLURM_JOB_ID=%s\n' "${SLURM_JOB_ID:-}"
+  printf 'SLURM_JOB_NODELIST=%s\n' "${SLURM_JOB_NODELIST:-}"
+  printf 'SLURM_STEP_ID=%s\n' "${SLURM_STEP_ID:-}"
+  printf 'SLURM_STEP_GPUS=%s\n' "${SLURM_STEP_GPUS:-}"
+  printf 'SLURM_CPUS_PER_TASK=%s\n' "${SLURM_CPUS_PER_TASK:-}"
+  printf 'SLURM_CPUS_ON_NODE=%s\n' "${SLURM_CPUS_ON_NODE:-}"
+  printf 'SLURM_MEM_PER_NODE=%s\n' "${SLURM_MEM_PER_NODE:-}"
+  printf 'CUDA_VISIBLE_DEVICES=%s\n' "${CUDA_VISIBLE_DEVICES:-}"
+  printf 'visible_cpus=%s\n' "$(nproc 2>/dev/null || printf 'unknown')"
+} > "$REPORT_ROOT/system/slurm_environment.txt"
+
+if [[ -n "$EXPECTED_SLURM_JOB_ID" ]]; then
+  if [[ "${SLURM_JOB_ID:-}" == "$EXPECTED_SLURM_JOB_ID" ]]; then
+    record SVR-00 PASS "Running inside the requested Slurm job $EXPECTED_SLURM_JOB_ID on ${SLURM_JOB_NODELIST:-unknown-node}."
+  else
+    record SVR-00 FAIL "Expected Slurm job $EXPECTED_SLURM_JOB_ID, found ${SLURM_JOB_ID:-none}."
+  fi
+elif [[ -n "${SLURM_JOB_ID:-}" ]]; then
+  record SVR-00 PASS "Running inside Slurm job $SLURM_JOB_ID on ${SLURM_JOB_NODELIST:-unknown-node}."
+else
+  record SVR-00 WARN "Not running inside a Slurm allocation; GPU/render conclusions are not authoritative."
+fi
+
+VISIBLE_CPUS="$(nproc 2>/dev/null || printf '0')"
+if [[ -n "${SLURM_JOB_ID:-}" ]]; then
+  if [[ "$VISIBLE_CPUS" =~ ^[0-9]+$ ]] && (( VISIBLE_CPUS >= MIN_STEP_CPUS )); then
+    record SVR-00A PASS "The Slurm step exposes $VISIBLE_CPUS CPUs; minimum requested for UE preflight is $MIN_STEP_CPUS."
+  else
+    record SVR-00A WARN "The Slurm step exposes only ${VISIBLE_CPUS:-unknown} CPUs; launch UE with --cpus-per-task at least $MIN_STEP_CPUS."
+  fi
+else
+  record SVR-00A NOT_RUN "Slurm step CPU affinity was not evaluated outside an allocation."
+fi
+
 # SVR-01: Host inventory. This is evidence, not a performance benchmark.
 capture "$REPORT_ROOT/system/uname.txt" uname -a
 UNAME_CODE=$?
@@ -127,6 +193,7 @@ else
 fi
 
 # SVR-02: NVIDIA driver, GPU visibility, and VRAM.
+NVIDIA_READY=0
 if command -v nvidia-smi >/dev/null 2>&1; then
   nvidia-smi -L > "$REPORT_ROOT/system/nvidia_gpu_list.txt" 2>&1
   NVIDIA_LIST_CODE=$?
@@ -138,6 +205,7 @@ if command -v nvidia-smi >/dev/null 2>&1; then
   nvidia-smi > "$REPORT_ROOT/system/nvidia_smi.txt" 2>&1
   if [[ $NVIDIA_LIST_CODE -eq 0 && $NVIDIA_QUERY_CODE -eq 0 && -s "$REPORT_ROOT/system/nvidia_gpu_query.csv" ]]; then
     record SVR-02 PASS "NVIDIA GPU, driver, VRAM, and temperature are visible."
+    NVIDIA_READY=1
   else
     record SVR-02 FAIL "nvidia-smi exists but GPU inventory failed."
   fi
@@ -147,6 +215,7 @@ else
 fi
 
 # SVR-03: Vulkan must work independently of nvidia-smi.
+VULKAN_PROVISIONAL=0
 if command -v vulkaninfo >/dev/null 2>&1; then
   if command -v timeout >/dev/null 2>&1; then
     timeout 120 vulkaninfo --summary > "$REPORT_ROOT/system/vulkan_summary.txt" 2>&1
@@ -163,8 +232,30 @@ if command -v vulkaninfo >/dev/null 2>&1; then
   fi
 else
   printf 'vulkaninfo not found\n' > "$REPORT_ROOT/system/vulkan_summary.txt"
-  record SVR-03 FAIL "vulkaninfo is missing; install the distribution Vulkan tools package and rerun."
-  VULKAN_READY=0
+  if [[ -n "$VULKAN_EVIDENCE_LOG" && -r "$VULKAN_EVIDENCE_LOG" ]]; then
+    printf 'source_log=%s\n' "$VULKAN_EVIDENCE_LOG" > "$REPORT_ROOT/system/vulkan_evidence_log.txt"
+    sha256sum "$VULKAN_EVIDENCE_LOG" > "$REPORT_ROOT/system/vulkan_evidence_log.sha256" 2>/dev/null || true
+    if grep -aEqi 'rhiname=.Vulkan|LogVulkanRHI' "$VULKAN_EVIDENCE_LOG" \
+      && grep -aq 'NVIDIA H200' "$VULKAN_EVIDENCE_LOG" \
+      && grep -aq 'DATAMAKE_UE_PYTHON_SMOKE_OK' "$VULKAN_EVIDENCE_LOG" \
+      && ! grep -aEqi 'Fatal error|Assertion failed|Segmentation fault|Out of video memory' "$VULKAN_EVIDENCE_LOG"; then
+      record SVR-03 PASS "vulkaninfo is unavailable; supplied UE log proves Vulkan/H200 initialization and clean Python smoke completion."
+      VULKAN_READY=1
+    else
+      record SVR-03 FAIL "The supplied VULKAN_EVIDENCE_LOG does not satisfy the Vulkan/H200 smoke contract."
+      VULKAN_READY=0
+    fi
+  elif [[ -n "$VULKAN_EVIDENCE_LOG" ]]; then
+    record SVR-03 FAIL "VULKAN_EVIDENCE_LOG is not readable: $VULKAN_EVIDENCE_LOG"
+    VULKAN_READY=0
+  elif (( NVIDIA_READY == 1 )); then
+    record SVR-03 WARN "vulkaninfo is unavailable; Vulkan proof is deferred to the UE -vulkan project smoke log."
+    VULKAN_READY=1
+    VULKAN_PROVISIONAL=1
+  else
+    record SVR-03 NOT_RUN "vulkaninfo is unavailable and no NVIDIA GPU is visible on this node."
+    VULKAN_READY=0
+  fi
 fi
 
 # SVR-04: Exact UE binary, version, and shared-library closure.
@@ -174,29 +265,50 @@ if [[ -z "$UE_EDITOR" ]]; then
 elif [[ ! -x "$UE_EDITOR" ]]; then
   record SVR-04 FAIL "UE_EDITOR is not an executable file: $UE_EDITOR"
 else
-  if command -v timeout >/dev/null 2>&1; then
+  UE_ENGINE_DIR="$(cd "$(dirname "$UE_EDITOR")/../.." && pwd -P)"
+  UE_BUILD_VERSION="$UE_ENGINE_DIR/Build/Build.version"
+  UE_VERSION_CODE=1
+  if [[ -r "$UE_BUILD_VERSION" ]] && command -v python3 >/dev/null 2>&1; then
+    python3 - "$UE_BUILD_VERSION" > "$REPORT_ROOT/system/unreal_version.txt" 2>&1 <<'PY'
+import json
+import pathlib
+import sys
+
+data = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8-sig"))
+print(f"{data['MajorVersion']}.{data['MinorVersion']}.{data['PatchVersion']}")
+print(f"changelist={data.get('Changelist', '')}")
+print(f"branch={data.get('BranchName', '')}")
+PY
+    UE_VERSION_CODE=$?
+  elif command -v timeout >/dev/null 2>&1; then
     timeout 120 "$UE_EDITOR" -version > "$REPORT_ROOT/system/unreal_version.txt" 2>&1
+    UE_VERSION_CODE=$?
   else
     "$UE_EDITOR" -version > "$REPORT_ROOT/system/unreal_version.txt" 2>&1
+    UE_VERSION_CODE=$?
   fi
-  UE_VERSION_CODE=$?
 
+  LDD_CODE=0
   if command -v ldd >/dev/null 2>&1; then
     ldd "$UE_EDITOR" > "$REPORT_ROOT/system/unreal_ldd.txt" 2>&1
+    LDD_CODE=$?
     grep -F 'not found' "$REPORT_ROOT/system/unreal_ldd.txt" > "$REPORT_ROOT/system/unreal_missing_libraries.txt" || true
   else
     printf 'ldd not found\n' > "$REPORT_ROOT/system/unreal_ldd.txt"
     : > "$REPORT_ROOT/system/unreal_missing_libraries.txt"
+    LDD_CODE=127
   fi
 
   if [[ $UE_VERSION_CODE -ne 0 ]]; then
     record SVR-04 FAIL "UnrealEditor -version exited with code $UE_VERSION_CODE."
   elif ! grep -Eq "${EXPECTED_UE_VERSION//./\\.}([. -]|$)" "$REPORT_ROOT/system/unreal_version.txt"; then
     record SVR-04 FAIL "Unreal version output does not contain expected version $EXPECTED_UE_VERSION."
+  elif [[ $LDD_CODE -ne 0 ]]; then
+    record SVR-04 FAIL "Could not inspect UnrealEditor shared-library dependencies with ldd."
   elif [[ -s "$REPORT_ROOT/system/unreal_missing_libraries.txt" ]]; then
     record SVR-04 FAIL "UnrealEditor has unresolved shared-library dependencies."
   else
-    record SVR-04 PASS "UnrealEditor $EXPECTED_UE_VERSION is executable and has no unresolved ldd dependencies."
+    record SVR-04 PASS "UnrealEditor $EXPECTED_UE_VERSION manifest and shared-library closure passed."
     UE_READY=1
   fi
 fi
@@ -332,6 +444,7 @@ PY
     local stdout_log="$REPORT_ROOT/logs/${run_id}_stdout.log"
     local fatal_log="$REPORT_ROOT/logs/${run_id}_fatal_matches.txt"
     local suspect_log="$REPORT_ROOT/logs/${run_id}_suspect_messages.txt"
+    local vulkan_log="$REPORT_ROOT/logs/${run_id}_vulkan_evidence.txt"
     local timing_file="$REPORT_ROOT/logs/${run_id}_timing.txt"
     local start_epoch end_epoch code elapsed
 
@@ -363,11 +476,18 @@ PY
       | sed -n '1,1000p' \
       > "$suspect_log" || true
 
+    cat "$stdout_log" "$ue_log" 2>/dev/null \
+      | grep -Eini 'LogVulkanRHI|RHI[^[:alnum:]]*Vulkan|rhiname=.Vulkan|Vulkan.*NVIDIA' \
+      > "$vulkan_log" || true
+
     if [[ $code -ne 0 ]]; then
       record "$check_id" FAIL "$run_id exited with code $code after ${elapsed}s."
       return 1
     elif [[ -s "$fatal_log" ]]; then
       record "$check_id" FAIL "$run_id logged a fatal/plugin/Vulkan failure; inspect $fatal_log."
+      return 1
+    elif (( VULKAN_PROVISIONAL == 1 )) && [[ ! -s "$vulkan_log" ]]; then
+      record "$check_id" FAIL "$run_id completed but did not log positive Vulkan evidence."
       return 1
     else
       record "$check_id" PASS "$run_id completed in ${elapsed}s with exit code 0 and no fatal signature."
@@ -409,6 +529,10 @@ fi
   echo "- Timestamp: $(date --iso-8601=seconds)"
   echo "- Verdict: \`$VERDICT\`"
   echo "- Host: \`$(hostname)\`"
+  echo "- Slurm job: \`${SLURM_JOB_ID:-NOT_SET}\`"
+  echo "- Slurm node: \`${SLURM_JOB_NODELIST:-NOT_SET}\`"
+  echo "- CUDA visible devices: \`${CUDA_VISIBLE_DEVICES:-NOT_SET}\`"
+  echo "- Visible step CPUs: \`${VISIBLE_CPUS:-NOT_SET}\`"
   echo "- Expected UE: \`$EXPECTED_UE_VERSION\`"
   echo "- UE editor: \`${UE_EDITOR:-NOT_SET}\`"
   echo "- Project: \`${UPROJECT:-NOT_SET}\`"

@@ -66,7 +66,7 @@ python .\00_engine\scripts\unreal\run_first_batch_render_jobs.py `
 每个选中节点按以下顺序执行：
 
 1. 校验冻结 source manifest、640 Node/Job 一一对应、节点配置 SHA、Look/Action/Camera 和 Happy 表情约束；
-2. 校验或创建 `inputs.lock.json`，锁定图源、项目、执行器和传递调用脚本；
+2. 校验或创建 `inputs.lock.json`，锁定图源、项目、执行器和传递调用脚本；JSON/JSONL 使用规范化语义哈希，文本脚本统一为 LF 后哈希，二进制媒体仍使用原始字节 SHA-256；已验收的 v1 图源未声明 `hash_mode` 时，执行器仅对其文本哈希兼容 LF/CRLF；
 3. 验证已有 accepted 输出；哈希完整则直接复用；
 4. 获取 `leases/<node_id>.lock`，过期 Lease 会归档而不是静默覆盖；
 5. 创建节点 attempt 状态和 JSONL 日志，设置 Look、Composite、Camera 与 150 帧 Sequence；

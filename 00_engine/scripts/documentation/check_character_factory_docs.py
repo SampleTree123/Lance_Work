@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import sys
 import unicodedata
 from collections import Counter, deque
@@ -1122,6 +1123,30 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def normalized_script_bytes(path: Path) -> bytes:
+    return path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def tracked_scripts(repo: Path, scan_root_relative: str) -> list[Path]:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(repo), "ls-files", "-z", "--", scan_root_relative],
+            check=False,
+            capture_output=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError):
+        result = None
+    if result is not None and result.returncode == 0:
+        return [
+            repo / relative.decode("utf-8", errors="surrogateescape")
+            for relative in result.stdout.split(b"\0")
+            if relative
+        ]
+    scan_root = repo / scan_root_relative
+    return sorted(scan_root.rglob("*")) if scan_root.is_dir() else []
+
+
 def check_script_catalog(repo: Path | None, root: Path, report: AuditReport) -> None:
     if repo is None:
         report.warnings.append("repository root not found; script catalog check skipped")
@@ -1140,6 +1165,8 @@ def check_script_catalog(repo: Path | None, root: Path, report: AuditReport) -> 
             f"script catalog roots must be {SCRIPT_SCAN_ROOTS}: "
             f"{payload.get('script_roots')}"
         )
+    if payload.get("content_normalization") != "text_lf_v1":
+        report.errors.append("script catalog must use text_lf_v1 normalization")
     actual_paths: set[str] = set()
     for scan_root_relative in SCRIPT_SCAN_ROOTS:
         scan_root = repo / scan_root_relative
@@ -1148,7 +1175,7 @@ def check_script_catalog(repo: Path | None, root: Path, report: AuditReport) -> 
             continue
         actual_paths.update(
             path.relative_to(repo).as_posix()
-            for path in scan_root.rglob("*")
+            for path in tracked_scripts(repo, scan_root_relative)
             if path.is_file()
             and path.suffix.lower() in SCRIPT_SUFFIXES
             and not any(
@@ -1186,9 +1213,10 @@ def check_script_catalog(repo: Path | None, root: Path, report: AuditReport) -> 
         if lifecycle not in allowed:
             report.errors.append(f"invalid script lifecycle: {relative}: {lifecycle}")
         if target.is_file():
-            if item.get("bytes") != target.stat().st_size:
+            normalized = normalized_script_bytes(target)
+            if item.get("bytes") != len(normalized):
                 report.errors.append(f"script catalog byte count is stale: {relative}")
-            if item.get("sha256") != sha256_file(target):
+            if item.get("sha256") != hashlib.sha256(normalized).hexdigest():
                 report.errors.append(f"script catalog SHA-256 is stale: {relative}")
         if not (root / owner).is_file():
             report.errors.append(f"script owner document missing: {relative}: {owner}")

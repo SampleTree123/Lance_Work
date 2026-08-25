@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -90,11 +91,31 @@ def default_doc_root(root: Path) -> Path:
 
 
 def sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as stream:
-        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
+    return hashlib.sha256(normalized_script_bytes(path)).hexdigest()
+
+
+def normalized_script_bytes(path: Path) -> bytes:
+    return path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def scripts_in_scan_root(root: Path, scan_root_relative: str) -> list[Path]:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "ls-files", "-z", "--", scan_root_relative],
+            check=False,
+            capture_output=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError):
+        result = None
+    if result is not None and result.returncode == 0:
+        return [
+            root / relative.decode("utf-8", errors="surrogateescape")
+            for relative in result.stdout.split(b"\0")
+            if relative
+        ]
+    scripts_root = root / scan_root_relative
+    return sorted(scripts_root.rglob("*")) if scripts_root.is_dir() else []
 
 
 def owner_for(relative: str) -> str:
@@ -192,7 +213,7 @@ def build_catalog(root: Path, doc_root: Path) -> dict[str, object]:
         scripts_root = root / scan_root_relative
         if not scripts_root.is_dir():
             continue
-        for path in sorted(scripts_root.rglob("*")):
+        for path in scripts_in_scan_root(root, scan_root_relative):
             if not path.is_file() or path.suffix.lower() not in SCRIPT_SUFFIXES:
                 continue
             relative_parts = path.relative_to(scripts_root).parts
@@ -219,10 +240,11 @@ def build_catalog(root: Path, doc_root: Path) -> dict[str, object]:
                     "owner_document": owner,
                     "owner_exists": (doc_root / owner).is_file(),
                     "document_mentions": mentioned,
-                    "bytes": path.stat().st_size,
+                    "bytes": len(normalized_script_bytes(path)),
                     "sha256": sha256(path),
                 }
             )
+    entries.sort(key=lambda item: str(item["path"]))
     counts = Counter(str(item["lifecycle"]) for item in entries)
     return {
         "schema_version": 1,
@@ -232,6 +254,7 @@ def build_catalog(root: Path, doc_root: Path) -> dict[str, object]:
         if doc_root.is_relative_to(root)
         else str(doc_root),
         "script_roots": list(SCRIPT_SCAN_ROOTS),
+        "content_normalization": "text_lf_v1",
         "excluded_path_parts": sorted(EXCLUDED_SCRIPT_PARTS),
         "lifecycle_vocabulary": [
             "production",

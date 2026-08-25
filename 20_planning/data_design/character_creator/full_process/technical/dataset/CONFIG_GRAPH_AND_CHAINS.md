@@ -93,7 +93,7 @@ required_exports.json
 build_report.json
 ```
 
-这些文件及其输入哈希属于 `authoritative`。`review_10/` 是 `retained_evidence`；临时调试图和被新版本完全替代的图根标记为 `superseded` 后才可清理。
+这些文件及其输入哈希属于 `authoritative`。Git 管理的 JSON 输入使用 `canonical_json_v1` 语义哈希，不受 Windows `CRLF` 与 Linux `LF` 换行差异影响；二进制资产仍使用原始字节 SHA-256。`review_10/` 是 `retained_evidence`；临时调试图和被新版本完全替代的图根标记为 `superseded` 后才可清理。
 
 当前接受的图根为 `%OUTPUT_ROOT%/first_batch_dataset/graph_20260824_v1/`；Retention Policy 以去掉 `%OUTPUT_ROOT%/` 的相对前缀 `first_batch_dataset/graph_20260824_v1` 锁定它。
 

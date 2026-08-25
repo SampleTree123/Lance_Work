@@ -14,13 +14,13 @@
 | `environment.md` | UE 版本、本机/服务器分工、远程 UI、配套软件、工程同步 | 历史调研稿 |
 | `risks.md` | 可行性与风险登记、go 判定、服务器自检记录 | 当前风险表 |
 | [`FIRST_BATCH_SERVER_RUNBOOK.md`](./FIRST_BATCH_SERVER_RUNBOOK.md) | 旧路径兼容入口；转到 Character Factory 的服务器 Technical 文档 | 兼容 |
-| [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./FIRST_BATCH_SERVER_PREFLIGHT.sh) | 第一批数据服务器的可执行预检；采集 Linux/NVIDIA/Vulkan/UE 5.8 证据，并在项目已上传时执行插件检查和两次离屏启动 smoke | 当前可执行入口 |
+| [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](./FIRST_BATCH_SERVER_PREFLIGHT.sh) | 第一批数据服务器的唯一权威预检；采集 Slurm/Linux/NVIDIA/Vulkan/UE 5.8 证据，并在项目已上传时执行插件检查和两次离屏启动 Smoke | 当前可执行入口 |
 
 ## 当前服务器状态
 
 动态状态、输入资产和唯一下一步统一由 [项目状态](../data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md) 与 [WF-80 状态](../data_design/character_creator/full_process/project_management/status/workflows/WF-80.md) 维护。本目录不复制批次进度。
 
-资产包未上传时可运行 `FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only`；项目上传后仍需插件/大小写路径检查、两次离屏 Smoke 和 10 节点基准。完整步骤见 [服务器执行](../data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)。
+资产包未上传时可在仓库根目录运行 `bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-only`；项目上传后仍需插件/大小写路径检查、两次离屏 Smoke 和 10 节点基准。完整步骤见 [服务器执行](../data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)。
 
 ## 维护规则
 
