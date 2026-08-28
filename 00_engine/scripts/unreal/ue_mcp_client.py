@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import base64
 import json
+import subprocess
 from typing import Any
 from urllib import request
 
@@ -43,6 +44,9 @@ class UnrealMcpClient:
         self.timeout = timeout
         self.session_id: str | None = None
         self.next_id = 1
+        # The UE endpoint is local to the editor host. Cluster proxy settings
+        # must not redirect loopback MCP traffic.
+        self.opener = request.build_opener(request.ProxyHandler({}))
 
     def _post(self, message: dict[str, Any]) -> dict[str, Any] | None:
         headers = {
@@ -57,7 +61,7 @@ class UnrealMcpClient:
             headers=headers,
             method="POST",
         )
-        with request.urlopen(req, timeout=self.timeout) as response:
+        with self.opener.open(req, timeout=self.timeout) as response:
             session_id = response.headers.get("Mcp-Session-Id")
             if session_id:
                 self.session_id = session_id
@@ -65,16 +69,61 @@ class UnrealMcpClient:
                 response.read(), response.headers.get("Content-Type", "")
             )
 
+    def _post_streaming(self, message: dict[str, Any]) -> dict[str, Any] | None:
+        headers = [
+            "Accept: application/json, text/event-stream",
+            "Content-Type: application/json",
+        ]
+        if self.session_id:
+            headers.append(f"Mcp-Session-Id: {self.session_id}")
+        command = [
+            "curl",
+            "--noproxy",
+            "*",
+            "--silent",
+            "--show-error",
+            "--no-buffer",
+            "--fail-with-body",
+            "--max-time",
+            str(self.timeout),
+        ]
+        for header in headers:
+            command.extend(["--header", header])
+        command.extend(
+            [
+                "--data-binary",
+                json.dumps(message, separators=(",", ":")),
+                self.url,
+            ]
+        )
+        completed = subprocess.run(
+            command,
+            check=False,
+            capture_output=True,
+            timeout=self.timeout + 5.0,
+        )
+        if completed.stdout:
+            return decode_response(completed.stdout, "text/event-stream")
+        if completed.returncode != 0:
+            detail = completed.stderr.decode("utf-8", errors="replace").strip()
+            raise UnrealMcpError(
+                f"Streaming MCP request failed ({completed.returncode}): {detail}"
+            )
+        return None
+
     def request(self, method: str, params: dict[str, Any]) -> Any:
         request_id = self.next_id
         self.next_id += 1
-        response = self._post(
-            {
-                "jsonrpc": "2.0",
-                "id": request_id,
-                "method": method,
-                "params": params,
-            }
+        message = {
+            "jsonrpc": "2.0",
+            "id": request_id,
+            "method": method,
+            "params": params,
+        }
+        response = (
+            self._post_streaming(message)
+            if method == "tools/call"
+            else self._post(message)
         )
         if response is None:
             raise UnrealMcpError(f"MCP request {method} returned no response")

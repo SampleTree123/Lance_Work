@@ -9,7 +9,7 @@ from pathlib import Path
 import unreal
 
 
-ROOT = Path(r"D:\UE\Lance_Work")
+ROOT = Path(str(globals().get("DM_WORKSPACE_ROOT", r"D:\UE\Lance_Work")))
 PRESET_FOLDER = "/Game/DataMake/Render/Presets"
 PRESET_NAME = "MRQ_DM_FirstBatch_1440p30_PNG_v001"
 PRESET_PATH = f"{PRESET_FOLDER}/{PRESET_NAME}"

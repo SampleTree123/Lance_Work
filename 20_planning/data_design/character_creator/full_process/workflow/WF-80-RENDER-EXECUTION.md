@@ -6,7 +6,7 @@
 > 前序：`WF-70`
 > 后序：`WF-90`
 > Exit Gate：`GATE-80 MEDIA_COMPLETE`
-> 最近核验：2026-08-25
+> 最近核验：2026-08-28
 
 ## 1. 目的与使用时机
 
@@ -28,10 +28,10 @@ Render Jobs、UE 项目、Sequence 模板、MRQ Profile、资产哈希和服务�
 | 1. 编译本地 Smoke/矩阵 | 把代表链或冻结 Look 矩阵转换为 UE 可执行配置 | [`build_first_batch_chain_render_matrix_v1.py`](../../../../../00_engine/scripts/unreal/build_first_batch_chain_render_matrix_v1.py) 与 [`run_first_batch_render_matrix.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_matrix.py) | `production`，已完成本地证据 | 本地 Render Matrix 与计划报告 |
 | 2. 审计并搭建 UE 舞台 | 检查 Look、Skeleton、Composite、相机和 Profile，再设置 staging Actor/Sequence | [`ue_audit_first_batch_render_assets.py`](../../../../../00_engine/scripts/unreal/ue_audit_first_batch_render_assets.py)、[`ue_stage_first_batch_render_look.py`](../../../../../00_engine/scripts/unreal/ue_stage_first_batch_render_look.py) | `production` | UE 依赖审计和 staging 结果 |
 | 3. 渲染本地样例并验证 | 运行 150 帧 MRQ 样例/矩阵，检查媒体规格、运动、T-pose 和白块 | [`run_first_batch_local_sample_render.py`](../../../../../00_engine/scripts/unreal/run_first_batch_local_sample_render.py)、[`ue_start_first_batch_local_sample_render.py`](../../../../../00_engine/scripts/unreal/ue_start_first_batch_local_sample_render.py)、[`validate_first_batch_chain_visual_smoke_v1.py`](../../../../../00_engine/scripts/unreal/validate_first_batch_chain_visual_smoke_v1.py) | `production`，代表 Smoke 已通过 | 本地媒体与 `VAL-RENDER-01` 代表证据 |
-| 4. 服务器预检与基准 | 检查服务器环境/项目并执行确定性 10 节点基准 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh)；步骤见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md) | 环境脚本存在；目标服务器项目 Smoke/基准 `pending` | Preflight/Benchmark Run Root |
+| 4. 服务器预检与基准 | 检查服务器环境/项目并执行确定性 10 节点基准 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh)；步骤见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md) | 当前 UE 5.8/H200/565.57.01 像素 Smoke `failed`；兼容环境阻塞 | Preflight/Benchmark Run Root |
 | 5. 正式节点执行与重试 | 读取 `render_jobs.jsonl`，按 Lease/attempt 渲染、校验并原子晋升媒体 | [`run_first_batch_render_jobs.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_jobs.py)；命令、字段和恢复见 [渲染执行](../technical/rendering_release/RENDER_EXECUTION.md) | `production`；本地 2 节点真渲染与哈希恢复已通过，服务器/640 节点待执行 | 正式节点媒体、Sidecar、状态和媒体 Manifest |
 
-第 1–3 步的本地矩阵能力不能替代第 5 步。第 5 步的实现和本地小规模 Gate 已完成；当前唯一下一工作是第 4 步的服务器同步、完整预检和确定性 10 节点基准，通过后再用同一正式执行器进入全量运行。
+第 1–3 步的本地矩阵能力不能替代第 5 步。第 5 步的实现和本地小规模 Gate 已完成；第 4 步在当前服务器环境失败，必须先更换兼容驱动环境或验证独立旧版 UE 兼容分支，再从最小像素 Smoke 重新进入，不能直接运行 10 节点或全量作业。
 
 ## 5. 输出契约
 

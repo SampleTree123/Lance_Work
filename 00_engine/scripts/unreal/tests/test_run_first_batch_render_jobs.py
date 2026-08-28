@@ -70,6 +70,12 @@ def context_args(run_root: Path, *, dry_run: bool = True) -> argparse.Namespace:
 
 
 class FrozenGraphContractTests(unittest.TestCase):
+    def test_default_uproject_targets_engine_workspace(self) -> None:
+        self.assertEqual(
+            MODULE.DEFAULT_UPROJECT,
+            MODULE.ENGINE_ROOT / "projects" / "datatry_02" / "datatry_02.uproject",
+        )
+
     def test_all_640_jobs_bind_to_frozen_assets_and_camera_windows(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             context = MODULE.load_context(context_args(Path(temp_dir)))
@@ -94,6 +100,13 @@ class FrozenGraphContractTests(unittest.TestCase):
             },
         )
         self.assertEqual({row["expression_id"] for row in rows}, {"happy"})
+        self.assertEqual(
+            {row["action_contract"]["action_id"] for row in rows},
+            {row["action_id"] for row in rows},
+        )
+        self.assertTrue(
+            all(row["action_contract"]["happy_composite_animation"] for row in rows)
+        )
 
     def test_full_non_dry_run_requires_explicit_confirmation(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -335,7 +348,16 @@ class ChildProcessRoutingTests(unittest.TestCase):
                         "workspace_sequence_package": "/Game/Output",
                     }
                 },
-                {"action_id": "ACT_TEST", "expression_id": "happy"},
+                {
+                    "action_id": "ACT_TEST",
+                    "expression_id": "happy",
+                    "action_contract": {
+                        "action_id": "ACT_TEST",
+                        "sex": "female",
+                        "window": {"start_seconds": 0},
+                        "happy_composite_animation": "/Game/Test/Happy",
+                    },
+                },
                 "Actor",
             )
 
@@ -344,6 +366,7 @@ class ChildProcessRoutingTests(unittest.TestCase):
         self.assertIn("--project-name", command)
         self.assertIn("server_project", command)
         self.assertIn("--engine-root", command)
+        self.assertIn("--action-contract-json", command)
 
 
 if __name__ == "__main__":

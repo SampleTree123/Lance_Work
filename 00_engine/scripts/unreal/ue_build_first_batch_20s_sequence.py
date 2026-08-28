@@ -9,7 +9,7 @@ from pathlib import Path
 import unreal
 
 
-ROOT = Path(r"D:\UE\Lance_Work")
+ROOT = Path(str(globals().get("DM_WORKSPACE_ROOT", r"D:\UE\Lance_Work")))
 WINDOWS_PATH = (
     ROOT
     / "00_engine"
@@ -47,6 +47,7 @@ OUTPUT_SEQUENCE = str(
     )
 )
 ACTION_ID = str(globals().get("DM_ACTION_ID", "ACT_F02_CATCH_BREATH"))
+ACTION_CONTRACT_JSON = str(globals().get("DM_ACTION_CONTRACT_JSON", "null"))
 TARGET_ACTOR_NAME = str(
     globals().get(
         "DM_TARGET_ACTOR_NAME",
@@ -120,9 +121,19 @@ def find_action(records: list[dict], action_id: str) -> dict:
     return matches[0]
 
 
-def load_animation(action_id: str, motion_record: dict, window_record: dict):
-    if action_id == "ACT_F02_CATCH_BREATH":
-        path = F02_INPLACE_ASSET
+def load_animation(
+    action_id: str,
+    motion_record: dict,
+    window_record: dict,
+    action_contract: dict | None,
+):
+    override_asset = (
+        action_contract.get("root_motion_override_asset")
+        if action_contract is not None
+        else None
+    )
+    if override_asset or action_id == "ACT_F02_CATCH_BREATH":
+        path = override_asset or F02_INPLACE_ASSET
         source_policy = "approved_inplace_override"
     elif float(window_record["window"]["padding_required_seconds"]) > 1.0e-6:
         slug = action_id.removeprefix("ACT_")
@@ -133,7 +144,11 @@ def load_animation(action_id: str, motion_record: dict, window_record: dict):
         )
         source_policy = "symmetric_exact_endpoint_holds_v1"
     else:
-        path = motion_record["body_only_animation"]["asset"]
+        path = (
+            action_contract["happy_composite_animation"]
+            if action_contract is not None
+            else motion_record["body_only_animation"]["asset"]
+        )
         source_policy = "approved_original_body_only"
     asset = unreal.load_asset(path)
     if not isinstance(asset, unreal.AnimSequence):
@@ -145,6 +160,7 @@ def load_segment_animations(
     action_id: str,
     window_record: dict,
     body_animation: unreal.AnimSequence,
+    action_contract: dict | None,
 ) -> tuple[list[unreal.AnimSequence], list[str], str]:
     slug = action_id.removeprefix("ACT_")
     actor_id = slug.split("_", 1)[0]
@@ -165,7 +181,11 @@ def load_segment_animations(
             f"Unsupported segment expression: {SEGMENT_EXPRESSION_STATES}"
         )
     for state in SEGMENT_EXPRESSION_STATES:
-        path = f"{root}/A_DM_{slug}_{state.title()}_Composite_v001"
+        path = (
+            action_contract["happy_composite_animation"]
+            if action_contract is not None and state == "happy"
+            else f"{root}/A_DM_{slug}_{state.title()}_Composite_v001"
+        )
         asset = unreal.load_asset(path)
         if not isinstance(asset, unreal.AnimSequence):
             raise RuntimeError(f"Missing expression composite: {path}")
@@ -387,21 +407,48 @@ def add_repeated_action_track(
     return actor_binding, sections
 
 
-windows = read_json(WINDOWS_PATH)
-action_pool = read_json(ACTION_POOL_PATH)
-motion_gate = read_json(MOTION_GATE_PATH)
-active_action_ids = {
-    action_id
-    for sex in ("female", "male")
-    for action_id in action_pool["active_actions"][sex]
-}
-if ACTION_ID not in active_action_ids:
-    raise RuntimeError(f"Action is not active in the frozen production pool: {ACTION_ID}")
-window_record = find_action(windows["actions"], ACTION_ID)
-motion_record = find_action(motion_gate["records"], ACTION_ID)
-animation, source_policy = load_animation(ACTION_ID, motion_record, window_record)
+action_contract = json.loads(ACTION_CONTRACT_JSON)
+if action_contract is not None:
+    if not isinstance(action_contract, dict):
+        raise RuntimeError("Frozen action contract must be an object")
+    if action_contract.get("action_id") != ACTION_ID:
+        raise RuntimeError(
+            f"Action contract mismatch: {action_contract.get('action_id')} != {ACTION_ID}"
+        )
+    if action_contract.get("sex") not in {"female", "male"}:
+        raise RuntimeError(f"Invalid action sex: {action_contract.get('sex')}")
+    if not isinstance(action_contract.get("window"), dict):
+        raise RuntimeError("Frozen action contract lacks window")
+    if not action_contract.get("happy_composite_animation"):
+        raise RuntimeError("Frozen action contract lacks Happy composite")
+    window_record = {
+        "action_id": ACTION_ID,
+        "sex": action_contract["sex"],
+        "window": action_contract["window"],
+    }
+    motion_record = {}
+    action_contract_source = "frozen_source_manifest"
+else:
+    windows = read_json(WINDOWS_PATH)
+    action_pool = read_json(ACTION_POOL_PATH)
+    motion_gate = read_json(MOTION_GATE_PATH)
+    active_action_ids = {
+        action_id
+        for sex in ("female", "male")
+        for action_id in action_pool["active_actions"][sex]
+    }
+    if ACTION_ID not in active_action_ids:
+        raise RuntimeError(
+            f"Action is not active in the frozen production pool: {ACTION_ID}"
+        )
+    window_record = find_action(windows["actions"], ACTION_ID)
+    motion_record = find_action(motion_gate["records"], ACTION_ID)
+    action_contract_source = "legacy_runtime_reports"
+animation, source_policy = load_animation(
+    ACTION_ID, motion_record, window_record, action_contract
+)
 segment_animations, expression_states, expression_policy = load_segment_animations(
-    ACTION_ID, window_record, animation
+    ACTION_ID, window_record, animation, action_contract
 )
 bind_pose_guard_frames = 1 if ACTION_ID == "ACT_F02_CATCH_BREATH" else 0
 source_start_seconds = (
@@ -446,6 +493,7 @@ report = {
     "target_component": component.get_path_name(),
     "action_id": ACTION_ID,
     "action_sex": window_record["sex"],
+    "action_contract_source": action_contract_source,
     "animation": animation.get_path_name(),
     "animation_source_policy": source_policy,
     "expression_policy": expression_policy,

@@ -39,7 +39,7 @@ DEFAULT_MATRIX_CONFIG = (
     / "unreal"
     / "first_batch_local_render_matrix_20260824_v1.json"
 )
-DEFAULT_UPROJECT = ROOT.parent / "projects" / "datatry_02" / "datatry_02.uproject"
+DEFAULT_UPROJECT = ENGINE_ROOT / "projects" / "datatry_02" / "datatry_02.uproject"
 LOCK_SCHEMA = "first_batch_render_input_lock_v1"
 RUN_SCHEMA = "first_batch_render_run_v1"
 SIDECAR_SCHEMA = "first_batch_node_sidecar_v1"
@@ -439,9 +439,14 @@ def node_to_matrix_row(context: RenderContext, job: dict) -> dict:
         raise ContractError(
             f"Unable to bind {job['node_id']} to a frozen production asset: {exc}"
         ) from exc
-    source_action_id = action.get("constraints", {}).get("source_action_id")
+    constraints = action.get("constraints", {})
+    source_action_id = constraints.get("source_action_id")
     if not source_action_id:
         raise ContractError(f"Action lacks source_action_id: {action_id}")
+    window = constraints.get("window")
+    happy_composite = constraints.get("happy_composite_animation")
+    if not isinstance(window, dict) or not happy_composite:
+        raise ContractError(f"Action lacks frozen runtime bindings: {action_id}")
     if config.get("expression_id") != "happy":
         raise ContractError(f"First Batch node is not fixed to Happy: {job['node_id']}")
     expected_frames = int(config["duration_frames"])
@@ -459,6 +464,16 @@ def node_to_matrix_row(context: RenderContext, job: dict) -> dict:
         "character_blueprint": look["character_blueprint"],
         "character_blueprint_class": look["character_blueprint_class"],
         "action_id": source_action_id,
+        "action_contract": {
+            "action_id": source_action_id,
+            "sex": config["sex"],
+            "window": window,
+            "root_motion_policy": constraints.get("root_motion_policy"),
+            "root_motion_override_asset": constraints.get(
+                "root_motion_override_asset"
+            ),
+            "happy_composite_animation": happy_composite,
+        },
         "expression_id": config["expression_id"],
         "camera_id": camera_id,
         **camera,

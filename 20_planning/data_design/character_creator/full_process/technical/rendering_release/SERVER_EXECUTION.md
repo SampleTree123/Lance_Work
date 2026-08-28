@@ -8,11 +8,44 @@
 > 验证所有权：`VAL-SERVER-01`
 > 输出契约：`OUT-WF00-SESSION`、`OUT-WF80-NODE-MEDIA`
 > 运行环境：Linux、NVIDIA、Vulkan、Unreal Engine 5.8
-> 最近核验：2026-08-25
+> 最近核验：2026-08-28
 
 ## 1. 当前状态
 
-预检脚本和正式 Render Job 执行器均已存在；执行器已通过本地 2 节点真渲染与恢复，但目标服务器的完整项目 Smoke、10 节点基准和正式批量渲染尚未完成。服务器不能仅凭 Git 仓库生产：还需要 Batch Status 与 `required_exports.json` 指定的 UE 项目和二进制资产。
+预检脚本和正式 Render Job 执行器均已存在；执行器已通过本地 2 节点真渲染与恢复。目标服务器项目和 UE 5.8 可以启动、加载、Cook 和 Package，但 `H64Y574/job117396` 的 H200/565.57.01 环境无法完成最小 Vulkan 像素输出，因此 `VAL-SERVER-01` 为 `failed`，10 节点与正式批量均未启动。服务器不能仅凭 Git 仓库生产：还需要 Batch Status 与 `required_exports.json` 指定的 UE 项目和二进制资产。
+
+### 1.1 当前目标环境证据
+
+2026-08-28 核验范围：
+
+| 项目 | 实际值 |
+| --- | --- |
+| Slurm | `job117396`，节点 `H64Y574`，1 张 H200，14 CPU |
+| NVIDIA | 驱动 `565.57.01`，`nvidia-smi` 报告 CUDA 12.7 |
+| UE | `%LANCE_ROOT%/00_engine/unreal/UE_5.8` |
+| 项目 | `%LANCE_ROOT%/00_engine/projects/datatry_02/datatry_02.uproject` |
+| 失败证据 | [服务器 Vulkan 阻塞报告](../../project_management/history/reports/REPORT-2026-08-28-UE58-SERVER-VULKAN-BLOCKER.md)；原始 Manifest 位于 `%OUTPUT_ROOT%/server_preflight/` |
+
+已排除的上层原因：
+
+- 最小无光照地图在 SM5 和 ES3.1 下均能加载，MRQ 能推进到 Camera Cut 完成，但没有 PNG。
+- 关闭 RHI 线程、改成单线程、预创建输出目录和禁用高阶渲染特性均无效。
+- 仅含 10 KB 地图的 packaged runtime 在 `HighResShot` 处同样阻塞；多线程版本 60 秒后报告 RenderThread timeout，单线程版本 180 秒仍无图。因此主因不在 MRQ、Editor 插件或正式执行器。
+- Vulkan Validation 报告图像布局错误 `VUID-vkCmdDispatch-imageLayout-00344`；Lavapipe 软件 Vulkan 在 Editor 和最小 packaged runtime 中均以同一 libc `0x4251f` 空指针 SIGSEGV 退出，不能作为生产降级。
+- 诊断前后源地图 SHA-256 均为 `e45167092fb3d213b68481803daa14a0bcacdeef7a31e9a9ff2f7a1ed118e987`，原始关卡未被修改。
+
+Epic 的 [UE 5.8 Linux Development Requirements](https://dev.epicgames.com/documentation/unreal-engine/linux-development-requirements-for-unreal-engine?lang=en-US) 在本次核验日期要求 NVIDIA 570 或更高版本。当前 565.57.01 低于该边界。生产恢复顺序为：
+
+1. 首选切换到满足 UE 5.8 要求的 NVIDIA 驱动节点或镜像。
+2. 若集群驱动不能变化，只能建立独立的旧版 UE 兼容分支并重新验证项目/资产兼容性；不能把 UE 5.8 项目直接降级覆盖。
+3. 任一候选环境先产出并验证三帧最小无光照图像，再执行项目 Smoke；在此之前不得运行 10 节点基准或正式节点。
+
+Slurm 交互分配内的诊断/渲染命令必须显式复用 allocation 并使用全部获配 CPU：
+
+```bash
+srun --jobid=<job_id> --overlap --nodes=1 --ntasks=1 \
+  --cpus-per-task=14 --cpu-bind=verbose,cores <command>
+```
 
 ## 2. 预检入口
 
@@ -34,7 +67,7 @@ REPORT_ROOT=/data/reports/first_batch_preflight_001 \
 bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh
 ```
 
-脚本检查 Linux/GPU/Vulkan/UE、磁盘、项目、插件和两次离屏启动。环境模式返回码 2 表示只完成环境部分，不是失败，也不是完整通过。
+脚本检查 Linux/GPU/Vulkan/UE、磁盘、项目、插件和两次离屏启动。`SVR-02A` 对 UE 5.8 强制 NVIDIA 570+；低于该版本时返回失败并禁止项目 Smoke。环境模式返回码 2 表示只完成环境部分且没有硬失败，不是完整通过。
 
 ## 3. 项目同步与输入锁
 

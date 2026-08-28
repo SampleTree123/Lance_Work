@@ -28,6 +28,7 @@ START_FRAME = int(globals().get("DM_START_FRAME", 0))
 END_FRAME = int(globals().get("DM_END_FRAME", 150))
 JOB_NAME = str(globals().get("DM_JOB_NAME", "DM_FirstBatch_LocalSample_v001"))
 ALLOW_PARTIAL = bool(globals().get("DM_ALLOW_PARTIAL", False))
+RENDER_OFFSCREEN = bool(globals().get("DM_RENDER_OFFSCREEN", False))
 
 
 preset = unreal.load_asset(PRESET_PATH)
@@ -82,7 +83,7 @@ configuration.find_or_add_setting_by_class(
 configuration.initialize_transient_settings()
 
 executor = unreal.MoviePipelinePIEExecutor(subsystem)
-executor.set_is_rendering_offscreen(False)
+executor.set_is_rendering_offscreen(RENDER_OFFSCREEN)
 # Keep the Python wrapper alive for the duration of the asynchronous render.
 setattr(unreal, "_dm_first_batch_local_executor", executor)
 subsystem.render_queue_with_executor_instance(executor)
@@ -99,6 +100,6 @@ report = {
     "expected_frame_count": END_FRAME - START_FRAME,
     "resolution": [2560, 1440],
     "fps": 30,
-    "offscreen": False,
+    "offscreen": RENDER_OFFSCREEN,
 }
 print("DM_SAMPLE_RENDER_STARTED=" + json.dumps(report, ensure_ascii=False))

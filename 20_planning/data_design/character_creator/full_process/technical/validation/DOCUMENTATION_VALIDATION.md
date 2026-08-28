@@ -7,7 +7,7 @@
 > 实现所有权：文档结构、可达性、语义新鲜度、计划/状态同步和代码归属
 > 验证所有权：`VAL-DOC-01`
 > 输出契约：`OUT-GLOBAL-DOC-AUDIT`
-> 最近核验：2026-08-25
+> 最近核验：2026-08-28
 
 ## 1. 触发条件
 
@@ -104,7 +104,7 @@ Workflow 子系统还强制检查每个阶段是否具备可执行层契约：�
 %OUTPUT_ROOT%/documentation_audit/documentation_rebuild_20260825_v3/
 ```
 
-`v3` 绑定本次正式执行器实现与本地证据、计划 `R07` 完成、服务器唯一下一步以及更新后的 Script Catalog/Output Inventory；它取代 `v2`，是当前按 `retained_evidence` 保留的接受结果。前述 `v1/v2` 段落只用于版本演进说明。
+`v3` 绑定正式执行器实现与本地证据、计划 `R07` 完成、当时的服务器下一步以及更新后的 Script Catalog/Output Inventory；它取代 `v2`，并按 `retained_evidence` 保留。2026-08-28 的服务器阻塞状态和 Script Catalog 更新已使其不再代表当前文档版本。服务器副本缺少 Windows 本地历史输出，不能在该副本上伪造 Output Inventory 通过；必须回到完整本地输出盘重建 Inventory、运行全审计并创建新 `run_id`。前述 `v1/v2/v3` 段落只用于版本演进说明。
 
 ## 5. 人工审计
 

@@ -9,12 +9,17 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import time
 
-import imageio_ffmpeg
 from PIL import Image
+
+try:
+    import imageio_ffmpeg
+except ImportError:
+    imageio_ffmpeg = None
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -66,6 +71,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--job-name", default="DM_FirstBatch_LocalSample_v001")
     parser.add_argument("--skip-profile", action="store_true")
     parser.add_argument(
+        "--render-offscreen",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Override MRQ PIE offscreen mode (defaults on for Linux without DISPLAY).",
+    )
+    parser.add_argument(
         "--allow-partial",
         action="store_true",
         help="Allow a non-150-frame diagnostic render.",
@@ -77,6 +88,38 @@ def configure_remote(project_name: str, engine_root: Path | None = None) -> None
     global _remote_project_name, _remote_engine_root
     _remote_project_name = project_name
     _remote_engine_root = engine_root.resolve() if engine_root is not None else None
+
+
+def resolve_render_offscreen(
+    requested: bool | None,
+    *,
+    platform_name: str | None = None,
+    display: str | None = None,
+) -> bool:
+    if requested is not None:
+        return requested
+    platform_name = sys.platform if platform_name is None else platform_name
+    display = os.environ.get("DISPLAY") if display is None else display
+    return platform_name.startswith("linux") and not display
+
+
+def resolve_ffmpeg_exe() -> str:
+    configured = os.environ.get("DM_FFMPEG_EXE")
+    if configured:
+        path = Path(configured).expanduser()
+        if path.is_file() and os.access(path, os.X_OK):
+            return str(path.resolve())
+        raise RuntimeError(f"DM_FFMPEG_EXE is not executable: {path}")
+
+    system_ffmpeg = shutil.which("ffmpeg")
+    if system_ffmpeg:
+        return system_ffmpeg
+    if imageio_ffmpeg is not None:
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    raise RuntimeError(
+        "ffmpeg is unavailable; install imageio-ffmpeg or set DM_FFMPEG_EXE "
+        "to an executable ffmpeg binary"
+    )
 
 
 def remote(command: str, timeout: int = 120) -> dict:
@@ -132,7 +175,7 @@ def encode_video(frames: list[Path], output: Path) -> None:
     lines.append(f"file '{escaped_last}'")
     manifest.write_text("\n".join(lines) + "\n", encoding="utf-8")
     command = [
-        imageio_ffmpeg.get_ffmpeg_exe(),
+        resolve_ffmpeg_exe(),
         "-y",
         "-f",
         "concat",
@@ -179,6 +222,7 @@ def sha256(path: Path) -> str:
 def main() -> int:
     args = parse_args()
     configure_remote(args.project_name, args.engine_root)
+    render_offscreen = resolve_render_offscreen(args.render_offscreen)
     expected_frame_count = args.end_frame - args.start_frame
     if expected_frame_count <= 0:
         raise ValueError("The render frame range must be positive")
@@ -224,6 +268,7 @@ def main() -> int:
         f"DM_END_FRAME={args.end_frame!r}; "
         f"DM_JOB_NAME={args.job_name!r}; "
         f"DM_ALLOW_PARTIAL={args.allow_partial!r}; "
+        f"DM_RENDER_OFFSCREEN={render_offscreen!r}; "
         f"exec(compile(open({script_path!r}, 'r', encoding='utf-8').read(), "
         f"{script_path!r}, 'exec'))"
     )

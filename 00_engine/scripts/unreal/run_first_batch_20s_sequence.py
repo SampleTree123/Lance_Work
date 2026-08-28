@@ -46,6 +46,10 @@ def parse_args() -> argparse.Namespace:
         choices=("happy", "angry", "sad"),
         help="Use one expression for all four camera segments.",
     )
+    parser.add_argument(
+        "--action-contract-json",
+        help="Frozen action runtime contract from source_manifest.json.",
+    )
     parser.add_argument("--no-open", action="store_true")
     return parser.parse_args()
 
@@ -58,7 +62,14 @@ def main() -> int:
         else ["happy", "angry", "sad", "happy"]
     )
     script_path = str(BUILD_SCRIPT.resolve())
+    action_contract = None
+    if args.action_contract_json:
+        action_contract = json.loads(args.action_contract_json)
+        if not isinstance(action_contract, dict):
+            raise ValueError("Action contract must be a JSON object")
     command = (
+        f"DM_WORKSPACE_ROOT={str(ROOT.parent.resolve())!r}; "
+        f"DM_ACTION_CONTRACT_JSON={json.dumps(action_contract, sort_keys=True)!r}; "
         f"DM_ACTION_ID={args.action_id!r}; "
         f"DM_SOURCE_SEQUENCE={args.source_sequence!r}; "
         f"DM_OUTPUT_SEQUENCE={args.output_sequence!r}; "

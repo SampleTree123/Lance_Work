@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-25T20:33:47+08:00",
+  "updated_at": "2026-08-28T06:21:55+08:00",
   "documentation_version": "character_factory_docs_v3_independent_subsystems",
   "current_plan_id": "PLAN-2026-08-FIRST-DATA-BATCH",
   "active_batch_id": "BATCH-001-FIRST-DATA",
   "active_workflow_id": "WF-80",
-  "project_phase": "first_batch_server_preflight_pending",
+  "project_phase": "first_batch_server_pixel_render_blocked",
   "workflow_status": {
-    "WF-00": "local_validated_server_pending",
+    "WF-00": "local_validated_target_server_pixel_failed",
     "WF-10": "batch_spec_accepted",
     "WF-20": "first_batch_matrix_frozen",
     "WF-30": "first_batch_cc_assets_accepted",
@@ -15,7 +15,7 @@
     "WF-50": "first_batch_performance_accepted",
     "WF-60": "first_batch_sequence_accepted",
     "WF-70": "first_batch_job_graph_accepted",
-    "WF-80": "formal_executor_local_accepted_server_benchmark_pending",
+    "WF-80": "formal_executor_local_accepted_target_server_pixel_failed",
     "WF-90": "pending"
   },
   "validation_status": {
@@ -44,13 +44,24 @@
       },
       {"scope": "formal_640_nodes", "status": "pending"}
     ],
-    "VAL-SERVER-01": [{"scope": "target_server", "status": "pending"}],
+    "VAL-SERVER-01": [{
+      "scope": "H64Y574_job117396_UE_5.8_NVIDIA_565.57.01_H200",
+      "status": "failed",
+      "evidence": "project_management/history/reports/REPORT-2026-08-28-UE58-SERVER-VULKAN-BLOCKER.md"
+    }],
     "VAL-RELEASE-01": [{"scope": "BATCH-001-FIRST-DATA", "status": "pending"}],
-    "VAL-DOC-01": [{
-      "scope": "documentation_formal_render_executor_closure_2026-08-25",
-      "status": "passed",
-      "evidence": "%OUTPUT_ROOT%/documentation_audit/documentation_rebuild_20260825_v3"
-    }]
+    "VAL-DOC-01": [
+      {
+        "scope": "documentation_formal_render_executor_closure_2026-08-25",
+        "status": "expired",
+        "evidence": "%OUTPUT_ROOT%/documentation_audit/documentation_rebuild_20260825_v3"
+      },
+      {
+        "scope": "server_replica_server_blocker_update_2026-08-28",
+        "status": "failed",
+        "evidence": "%OUTPUT_ROOT%/server_preflight/job117396_documentation_audit_20260828.json"
+      }
+    ]
   },
   "current_outputs": {
     "OUT-WF00-SESSION": null,
@@ -83,6 +94,15 @@
     "width": 2560,
     "height": 1440
   },
-  "next_action": "Commit and sync the frozen Git state plus the UE project and binary assets, then run the target-server preflight, two project smoke launches, and a deterministic 10-node benchmark with the formal render-job executor.",
-  "blocking_issues": []
+  "next_action": "Provide a UE 5.8-compatible NVIDIA driver environment, or validate a separate older-UE compatibility branch when the cluster driver cannot change; rerun a three-frame unlit pixel smoke before any project smoke or ten-node benchmark.",
+  "blocking_issues": [
+    {
+      "id": "BLOCK-SERVER-UE58-VULKAN-DRIVER565",
+      "scope": "WF-00/WF-80/R08",
+      "status": "active",
+      "summary": "UE 5.8 pixel output stalls on H200 with NVIDIA 565.57.01 even in a minimal packaged runtime; no image was produced.",
+      "evidence": "project_management/history/reports/REPORT-2026-08-28-UE58-SERVER-VULKAN-BLOCKER.md",
+      "resolution": "Use a UE 5.8-compatible NVIDIA driver environment, or validate an explicitly separate older-UE compatibility branch before rerunning the pixel smoke."
+    }
+  ]
 }

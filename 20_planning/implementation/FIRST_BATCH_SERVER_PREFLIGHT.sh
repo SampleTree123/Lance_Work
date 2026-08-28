@@ -5,7 +5,8 @@
 # This script is read-only with respect to the Unreal project. It writes only to
 # REPORT_ROOT. It validates the server environment first, then validates the
 # project and performs two UE 5.8 Vulkan offscreen startup smoke tests when an
-# .uproject is supplied.
+# .uproject is supplied. For UE 5.8 it also enforces Epic's NVIDIA 570+ Linux
+# driver requirement before any project smoke is allowed to pass.
 #
 # Full run:
 #   UE_EDITOR=/opt/UnrealEngine-5.8/Engine/Binaries/Linux/UnrealEditor \
@@ -194,6 +195,7 @@ fi
 
 # SVR-02: NVIDIA driver, GPU visibility, and VRAM.
 NVIDIA_READY=0
+NVIDIA_DRIVER_COMPATIBLE=0
 if command -v nvidia-smi >/dev/null 2>&1; then
   nvidia-smi -L > "$REPORT_ROOT/system/nvidia_gpu_list.txt" 2>&1
   NVIDIA_LIST_CODE=$?
@@ -212,6 +214,42 @@ if command -v nvidia-smi >/dev/null 2>&1; then
 else
   printf 'nvidia-smi not found\n' > "$REPORT_ROOT/system/nvidia_smi.txt"
   record SVR-02 FAIL "nvidia-smi is not installed or not on PATH."
+fi
+
+# UE 5.8's published Linux requirements specify NVIDIA driver 570 or newer.
+# Keep this version-specific: an explicitly separate older-UE compatibility
+# branch must establish its own lower bound instead of bypassing the UE 5.8 gate.
+REQUIRED_NVIDIA_DRIVER_MAJOR=0
+case "$EXPECTED_UE_VERSION" in
+  5.8|5.8.*) REQUIRED_NVIDIA_DRIVER_MAJOR=570 ;;
+esac
+
+if (( NVIDIA_READY != 1 )); then
+  record SVR-02A NOT_RUN "NVIDIA driver compatibility was not evaluated because GPU inventory failed."
+elif (( REQUIRED_NVIDIA_DRIVER_MAJOR == 0 )); then
+  record SVR-02A WARN "No NVIDIA driver minimum is encoded for UE $EXPECTED_UE_VERSION; project smoke may run, but that branch requires separate compatibility acceptance."
+  NVIDIA_DRIVER_COMPATIBLE=1
+else
+  mapfile -t NVIDIA_DRIVER_VERSIONS < <(
+    awk -F',' '{value=$4; gsub(/^[[:space:]]+|[[:space:]]+$/, "", value); if (value != "") print value}' \
+      "$REPORT_ROOT/system/nvidia_gpu_query.csv" | LC_ALL=C sort -u
+  )
+  NVIDIA_DRIVER_FAILURES=()
+  for driver_version in "${NVIDIA_DRIVER_VERSIONS[@]}"; do
+    driver_major="${driver_version%%.*}"
+    if [[ ! "$driver_major" =~ ^[0-9]+$ ]] || (( driver_major < REQUIRED_NVIDIA_DRIVER_MAJOR )); then
+      NVIDIA_DRIVER_FAILURES+=("$driver_version")
+    fi
+  done
+  printf '%s\n' "${NVIDIA_DRIVER_VERSIONS[@]}" > "$REPORT_ROOT/system/nvidia_driver_versions.txt"
+  if (( ${#NVIDIA_DRIVER_VERSIONS[@]} == 0 )); then
+    record SVR-02A FAIL "Could not parse an NVIDIA driver version from nvidia-smi output."
+  elif (( ${#NVIDIA_DRIVER_FAILURES[@]} > 0 )); then
+    record SVR-02A FAIL "UE $EXPECTED_UE_VERSION requires NVIDIA driver ${REQUIRED_NVIDIA_DRIVER_MAJOR}+; found ${NVIDIA_DRIVER_FAILURES[*]}."
+  else
+    record SVR-02A PASS "NVIDIA driver ${NVIDIA_DRIVER_VERSIONS[*]} meets the UE $EXPECTED_UE_VERSION minimum ${REQUIRED_NVIDIA_DRIVER_MAJOR}."
+    NVIDIA_DRIVER_COMPATIBLE=1
+  fi
 fi
 
 # SVR-03: Vulkan must work independently of nvidia-smi.
@@ -495,14 +533,14 @@ PY
     fi
   }
 
-  if [[ $UE_READY -eq 1 && $VULKAN_READY -eq 1 && $PROJECT_READY -eq 1 ]] && command -v timeout >/dev/null 2>&1; then
+  if [[ $UE_READY -eq 1 && $VULKAN_READY -eq 1 && $PROJECT_READY -eq 1 && $NVIDIA_DRIVER_COMPATIBLE -eq 1 ]] && command -v timeout >/dev/null 2>&1; then
     if run_ue_smoke run_01_cold SVR-08; then
       run_ue_smoke run_02_repeat SVR-09 || true
     else
       record SVR-09 NOT_RUN "Repeat smoke was skipped because the first project launch failed."
     fi
   else
-    record SVR-08 NOT_RUN "Prerequisites failed or timeout is unavailable; UE project smoke was not run."
+    record SVR-08 NOT_RUN "Prerequisites, including the version-specific NVIDIA driver gate, failed or timeout is unavailable; UE project smoke was not run."
     record SVR-09 NOT_RUN "Repeat UE project smoke was not run."
   fi
 fi

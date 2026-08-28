@@ -33,6 +33,7 @@ def main() -> int:
     args = parse_args()
     path = str(BUILD_SCRIPT.resolve())
     command = (
+        f"DM_WORKSPACE_ROOT={str(ROOT.parent.resolve())!r}; "
         f"exec(compile(open({path!r}, 'r', encoding='utf-8').read(), "
         f"{path!r}, 'exec'))"
     )

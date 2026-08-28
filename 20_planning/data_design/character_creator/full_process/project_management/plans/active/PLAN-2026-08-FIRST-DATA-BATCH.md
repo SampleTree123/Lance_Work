@@ -6,7 +6,7 @@
 > 计划状态：`current`
 > 影响阶段：`WF-10..WF-90`
 > 完成条件：第一批数据通过 `GATE-90 DATASET_RELEASED`
-> 最近核验：2026-08-25
+> 最近核验：2026-08-28
 
 ## 目标
 
@@ -23,14 +23,15 @@
 | `R05` | 固定场景、四相机和五秒 Sequence | `WF-60` | `completed` | [WF-60 状态](../../status/workflows/WF-60.md) |
 | `R06` | 生成并验证图、链、Prompt 和 Render Jobs | `WF-70` | `completed` | [WF-70 状态](../../status/workflows/WF-70.md) |
 | `R07` | 实现正式节点执行器、GT、Sidecar、Manifest 和重试 | `WF-80` | `completed` | [WF-80 状态](../../status/workflows/WF-80.md) |
-| `R08` | 服务器预检、项目 Smoke 和 10 节点基准 | `WF-00/WF-80` | `pending` | [服务器执行](../../../technical/rendering_release/SERVER_EXECUTION.md) |
+| `R08` | 服务器预检、项目 Smoke 和 10 节点基准 | `WF-00/WF-80` | `blocked` | 当前 UE 5.8/H200/565.57.01 像素 Smoke 失败；见 [服务器执行](../../../technical/rendering_release/SERVER_EXECUTION.md) |
 | `R09` | 完整渲染、QA、文本媒体解析和发布包 | `WF-80/WF-90` | `pending` | [WF-90 状态](../../status/workflows/WF-90.md) |
 
 ## 当前执行顺序
 
-1. 完成 `R08` 的仓库/UE 项目同步、服务器预检与 10 节点性能基准。
-2. 运行全部正式 Render Jobs，按 `node_id` 重试。
-3. 完成 `R09` 的媒体/文本/链解析、QA、哈希和发布封装。
+1. 为 `R08` 提供兼容的服务器像素渲染环境：首选满足 UE 5.8 要求的 NVIDIA 驱动；若集群驱动不可变，则先建立并验证独立的旧版 UE 兼容分支。
+2. 在兼容环境重跑三帧最小像素 Smoke；通过后再执行项目 Smoke 与 10 节点性能基准。
+3. 运行全部正式 Render Jobs，按 `node_id` 重试。
+4. 完成 `R09` 的媒体/文本/链解析、QA、哈希和发布封装。
 
 ## 不包含
 

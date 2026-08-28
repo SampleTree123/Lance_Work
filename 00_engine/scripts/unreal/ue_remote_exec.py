@@ -6,12 +6,24 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 from pathlib import Path
 import sys
 import time
 
 
-DEFAULT_ENGINE_ROOT = Path(r"D:\UE\UE_5.8")
+def default_engine_root() -> Path:
+    configured = os.environ.get("DM_UE_ENGINE_ROOT")
+    if configured:
+        return Path(configured)
+
+    workspace_install = Path(__file__).resolve().parents[2] / "unreal" / "UE_5.8"
+    if workspace_install.is_dir() or os.name != "nt":
+        return workspace_install
+    return Path(r"D:\UE\UE_5.8")
+
+
+DEFAULT_ENGINE_ROOT = default_engine_root()
 
 
 def load_remote_execution(engine_root: Path):

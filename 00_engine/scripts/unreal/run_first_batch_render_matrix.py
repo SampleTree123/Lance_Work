@@ -194,6 +194,19 @@ def build_sequence(config: dict, row: dict, actor_name: str) -> dict:
     ]
     if _remote_engine_root is not None:
         command.extend(["--engine-root", str(_remote_engine_root)])
+    action_contract = row.get("action_contract")
+    if action_contract is not None:
+        command.extend(
+            [
+                "--action-contract-json",
+                json.dumps(
+                    action_contract,
+                    ensure_ascii=True,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+            ]
+        )
     completed = run_command(
         command,
         420,
