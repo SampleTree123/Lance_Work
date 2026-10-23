@@ -1,0 +1,14 @@
+diff --git a/train/datamake_packed_batch.py b/train/datamake_packed_batch.py
+--- a/train/datamake_packed_batch.py
++++ b/train/datamake_packed_batch.py
+@@ -13,8 +13,8 @@
+ 
+ class IndexedPackedPrefixDataset(IndexedPrefixDataset):
+     def __init__(self, packer, total_prefixes, seed, batch_size=2):
+-        if batch_size not in (1, 2) or total_prefixes % batch_size:
+-            raise ValueError("Packing requires complete batches of one or two prefixes")
++        if batch_size not in (1, 2, 4, 8) or total_prefixes % batch_size:
++            raise ValueError("Packing requires complete batches of 1, 2, 4 or 8 prefixes")
+         super().__init__(packer, total_prefixes // batch_size, seed)
+         self.batch_size = batch_size
+         self.single_token_budget = packer.max_num_tokens

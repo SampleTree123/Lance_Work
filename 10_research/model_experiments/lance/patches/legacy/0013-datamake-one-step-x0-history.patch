@@ -1,0 +1,627 @@
+diff --git a/modeling/lance/lance.py b/modeling/lance/lance.py
+index c425fe6..f29e009 100644
+--- a/modeling/lance/lance.py
++++ b/modeling/lance/lance.py
+@@ -39,6 +39,32 @@ from common.val.utils import map_splits_to_samples, make_packed_vit_token_embed,
+ from data.common import shift_position_ids
+ from copy import deepcopy
+ 
++
++def _build_forward_outputs(
++    mse,
++    ce,
++    frame_mse,
++    total_mse_tokens,
++    return_flow_intermediates=False,
++    flow_noisy_target=None,
++    flow_pred_velocity=None,
++    flow_timesteps=None,
++):
++    outputs = dict(
++        mse=mse,
++        ce=ce,
++        frame_mse=frame_mse,
++        total_mse_tokens=total_mse_tokens,
++    )
++    if return_flow_intermediates:
++        outputs.update(
++            flow_noisy_target=flow_noisy_target,
++            flow_pred_velocity=flow_pred_velocity,
++            flow_timesteps=flow_timesteps,
++        )
++    return outputs
++
++
+ class LanceConfig(PretrainedConfig):
+     def __init__(
+         self,
+@@ -177,6 +203,7 @@ class Lance(PreTrainedModel):
+         sample_task: Optional[torch.LongTensor] = None,
+         sample_modality: Optional[torch.LongTensor] = None,
+         BLOCK_SIZE: int = 128,
++        return_flow_intermediates: bool = False,
+     ) -> torch.Tensor:
+         """
+         Args:
+@@ -290,12 +317,22 @@ class Lance(PreTrainedModel):
+         )
+ 
+         mse, frame_mse, total_mse_tokens = None, None, None
++        flow_noisy_target = None
++        flow_pred_velocity = None
++        flow_timesteps = None
+         if self.config.visual_gen:
+             packed_mse_preds = self.llm2vae(last_hidden_state[mse_loss_indexes])
+             total_mse_tokens = packed_mse_preds.shape[0]
+             target = noise - packed_latent_clean
+             has_mse = packed_timesteps > 0
+             mse = (packed_mse_preds - target[has_mse]) ** 2
++            if return_flow_intermediates:
++                flow_noisy_target = (
++                    (1 - packed_timesteps[:, None]) * packed_latent_clean
++                    + packed_timesteps[:, None] * noise
++                )[has_mse].detach()
++                flow_pred_velocity = packed_mse_preds.detach()
++                flow_timesteps = packed_timesteps[has_mse].detach()
+ 
+         ce = None
+         if ce_loss_indexes is not None:
+@@ -310,7 +347,16 @@ class Lance(PreTrainedModel):
+             targets = torch.where(invalid, torch.full_like(targets, ignore_index), targets)
+             ce = F.cross_entropy(logits, targets, reduction="none", ignore_index=ignore_index)
+ 
+-        return dict(mse=mse, ce=ce, frame_mse=frame_mse, total_mse_tokens=total_mse_tokens)
++        return _build_forward_outputs(
++            mse=mse,
++            ce=ce,
++            frame_mse=frame_mse,
++            total_mse_tokens=total_mse_tokens,
++            return_flow_intermediates=return_flow_intermediates,
++            flow_noisy_target=flow_noisy_target,
++            flow_pred_velocity=flow_pred_velocity,
++            flow_timesteps=flow_timesteps,
++        )
+ 
+     @torch.no_grad()
+     def validation_gen(
+diff --git a/train/datamake_online_rollout.py b/train/datamake_online_rollout.py
+--- a/train/datamake_online_rollout.py
++++ b/train/datamake_online_rollout.py
+@@ -17,6 +17,8 @@
+ 
+ CHAIN_MANIFEST_SCHEMA = "datamake_lance_chain_dataset_manifest_v1"
+ ONLINE_CONTRACT_SCHEMA = "datamake_lance_online_rollout_contract_v1"
++FULL_ROLLOUT_HISTORY = "online_rollout_full"
++ONE_STEP_X0_HISTORY = "one_step_x0_history"
+ 
+ 
+ def sha256_file(path: Path) -> str:
+@@ -105,14 +107,25 @@
+     datamake_smoke_label: str = ""
+ 
+     def validate(self) -> None:
+-        if self.datamake_history_mode != "online_rollout_full":
+-            raise ValueError("this entry implements only online_rollout_full")
++        if self.datamake_history_mode not in {
++            FULL_ROLLOUT_HISTORY,
++            ONE_STEP_X0_HISTORY,
++        }:
++            raise ValueError(f"unsupported history mode: {self.datamake_history_mode}")
+         if self.datamake_gradient_accumulation_steps != 2:
+             raise ValueError("the frozen first profile requires accumulation=2")
+         if self.datamake_num_epochs != 4:
+             raise ValueError("the frozen first profile requires four epochs")
+-        if self.datamake_rollout_diffusion_steps != 30:
+-            raise ValueError("the frozen first profile requires 30 rollout steps")
++        expected_steps = 30 if self.datamake_history_mode == FULL_ROLLOUT_HISTORY else 0
++        if self.datamake_rollout_diffusion_steps != expected_steps:
++            raise ValueError(
++                f"{self.datamake_history_mode} requires {expected_steps} extra denoising steps"
++            )
++        if (
++            self.datamake_history_mode == ONE_STEP_X0_HISTORY
++            and self.datamake_rollout_use_kv_cache
++        ):
++            raise ValueError("one_step_x0_history does not use the inference KV cache")
+         if self.datamake_rollout_cfg_text_scale != 1.0:
+             raise ValueError("the frozen first profile requires rollout text CFG=1")
+         if self.datamake_rollout_retry_count != 1:
+@@ -380,6 +393,7 @@
+         raise ValueError("executable profile hash differs from CLI lock")
+     if sha256_file(paths["base_model"]) != arguments.datamake_base_model_sha256:
+         raise ValueError("immutable base model hash differs from CLI lock")
++    one_step_x0 = arguments.datamake_history_mode == ONE_STEP_X0_HISTORY
+     return {
+         "schema_version": ONLINE_CONTRACT_SCHEMA,
+         "profile": str(paths["profile"]),
+@@ -394,7 +408,10 @@
+         "gradient_accumulation_steps": arguments.datamake_gradient_accumulation_steps,
+         "num_epochs": arguments.datamake_num_epochs,
+         "rollout": {
+-            "online": True,
++            "online": not one_step_x0,
++            "method": (
++                "training_forward_pred_x0" if one_step_x0 else "full_inference_rollout"
++            ),
+             "detach_history": True,
+             "replace_vit_history": True,
+             "replace_latest_vae_source": True,
+@@ -405,9 +422,23 @@
+             "cfg_renorm_min": arguments.datamake_rollout_cfg_renorm_min,
+             "cfg_renorm_type": arguments.datamake_rollout_cfg_renorm_type,
+             "use_kv_cache": arguments.datamake_rollout_use_kv_cache,
+-            "lance_internal_rank_seed_offset_compensated": True,
+-            "noise_seed_invariant_to_rank_assignment": True,
+-            "failure_policy": "one_deterministic_retry_then_fail",
++            "reuse_training_forward": one_step_x0,
++            "predicted_clean_formula": (
++                "z_t_minus_t_times_predicted_velocity" if one_step_x0 else None
++            ),
++            "timestep_source": (
++                "same_shifted_training_timestep_as_velocity_loss"
++                if one_step_x0
++                else "inference_schedule"
++            ),
++            "decode_to_pixels_for_vit_and_reencode_for_vae": one_step_x0,
++            "lance_internal_rank_seed_offset_compensated": not one_step_x0,
++            "noise_seed_invariant_to_rank_assignment": not one_step_x0,
++            "failure_policy": (
++                "no_separate_rollout"
++                if one_step_x0
++                else "one_deterministic_retry_then_fail"
++            ),
+         },
+         "loss": {
+             "type": "native_flow_matching_latent_mse",
+@@ -415,10 +446,16 @@
+             "cross_target_reduction": "global_mean",
+             "ce_weight": 0.0,
+             "edit_region_weighting": False,
+-            "actual_direct_parent": "generated_g(t-1)",
++            "actual_direct_parent": (
++                "detached_one_step_x0_estimate_from_noisy_rendered_v(t-1)"
++                if one_step_x0
++                else "generated_g(t-1)"
++            ),
+             "rendered_target_parent": "rendered_v(t-1)",
+             "supervision_interpretation": (
+-                "joint_edit_and_previous_error_repair_not_pure_exposure_bias_only"
++                "noisy_gt_conditioning_proxy_not_full_inference_distribution"
++                if one_step_x0
++                else "joint_edit_and_previous_error_repair_not_pure_exposure_bias_only"
+             ),
+         },
+         "lora": dict(lora_config),
+diff --git a/train/datamake_online_rollout_lora_train.py b/train/datamake_online_rollout_lora_train.py
+--- a/train/datamake_online_rollout_lora_train.py
++++ b/train/datamake_online_rollout_lora_train.py
+@@ -1,12 +1,12 @@
+ # coding: utf-8
+ 
+-"""Chain-level DataMake training with online Lance rollouts and generation LoRA.
++"""Chain-level DataMake training with model-derived history and generation LoRA.
+ 
+ Every chain is replayed sequentially.  Turn ``t`` trains against rendered GT
+-``v_t`` while its conditions are ``v_0`` plus detached model outputs
+-``g_1..g_(t-1)`` in ViT history and ``g_(t-1)`` as the only direct VAE source.
+-The rollout graph is never differentiated.  Each target video contributes one
+-equally weighted native flow-matching latent-MSE value.
++``v_t`` while its conditions are ``v_0`` plus detached model-derived history.
++The fast path reconstructs ``pred_x0 = z_t - t * velocity`` from the same
++forward used by the native flow-matching loss, so it does not run a separate
++multi-step sampler.  Each target video contributes one equally weighted loss.
+ """
+ 
+ from __future__ import annotations
+@@ -51,6 +51,7 @@
+     save_lora_checkpoint,
+ )
+ from train.datamake_online_rollout import (
++    ONE_STEP_X0_HISTORY,
+     ChainRecord,
+     OnlineRolloutArguments,
+     ScheduledChain,
+@@ -101,6 +102,7 @@ def validate_frozen_training_arguments(
+         ("beta2", training_args.beta2, 0.95),
+         ("epsilon", training_args.eps, 1e-15),
+         ("gradient clipping", training_args.max_grad_norm, 1.0),
++        ("training timestep shift", training_args.timestep_shift, 4.0),
+         ("MSE weight", training_args.mse_weight, 1.0),
+         ("CE weight", training_args.ce_weight, 0.0),
+         ("edit-region weighting", training_args.edit_region_weighting, False),
+@@ -279,10 +280,69 @@
+     if mse is None or mse.numel() == 0:
+         raise RuntimeError("turn forward produced no MSE target")
+     if loss_dict.get("ce") is not None:
+-        raise RuntimeError("video-only online rollout unexpectedly produced CE tokens")
++        raise RuntimeError("video-only chain training unexpectedly produced CE tokens")
+     return mse.float().mean(dim=-1).mean()
+ 
+ 
++def predict_clean_latent_patches(loss_dict: Mapping[str, Any]) -> torch.Tensor:
++    """Recover detached clean-latent patches from Lance flow intermediates."""
++
++    noisy = loss_dict.get("flow_noisy_target")
++    velocity = loss_dict.get("flow_pred_velocity")
++    timesteps = loss_dict.get("flow_timesteps")
++    if not all(isinstance(value, torch.Tensor) for value in (noisy, velocity, timesteps)):
++        raise RuntimeError("one-step history requires flow intermediates")
++    if noisy.shape != velocity.shape or timesteps.shape != noisy.shape[:1]:
++        raise RuntimeError("flow intermediate shapes do not align")
++    return (noisy - timesteps[:, None] * velocity).detach()
++
++
++@torch.no_grad()
++def decode_one_step_x0_history(
++    loss_dict: Mapping[str, Any],
++    target_shape: Sequence[int],
++    vae_model,
++    device: int,
++    telemetry: Dict[str, float],
++) -> torch.Tensor:
++    """Decode one target's predicted x0 for the next turn's ViT/VAE inputs."""
++
++    telemetry.clear()
++    torch.cuda.reset_peak_memory_stats(device)
++    telemetry["allocated_before_mb"] = torch.cuda.memory_allocated(device) / 1024**2
++    telemetry["reserved_before_mb"] = torch.cuda.memory_reserved(device) / 1024**2
++    patches = predict_clean_latent_patches(loss_dict)
++    if len(target_shape) != 3:
++        raise RuntimeError(f"target latent shape must be THW, got {target_shape}")
++    latent_t, latent_h, latent_w = (int(value) for value in target_shape)
++    expected_patches = latent_t * latent_h * latent_w
++    if patches.shape[0] != expected_patches:
++        raise RuntimeError(
++            f"predicted x0 has {patches.shape[0]} patches, expected {expected_patches}"
++        )
++    predicted_x0 = patches.reshape(latent_t, latent_h, latent_w, -1)
++    latent_float = predicted_x0.float()
++    telemetry["latent_sum"] = float(latent_float.sum().item())
++    telemetry["latent_square_sum"] = float(latent_float.square().sum().item())
++    telemetry["latent_numel"] = float(predicted_x0.numel())
++    timesteps = loss_dict["flow_timesteps"]
++    telemetry["timestep_mean"] = float(timesteps.float().mean().item())
++    del latent_float
++    with torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
++        decoded = vae_model.vae_decode([predicted_x0])[0]
++    if decoded.ndim != 4 or decoded.shape[0] != 3:
++        raise RuntimeError(f"decoded predicted x0 must be CTHW, got {tuple(decoded.shape)}")
++    history = decoded.detach().clamp(-1.0, 1.0).to(
++        device="cpu", dtype=torch.float16
++    ).contiguous()
++    telemetry["peak_allocated_mb"] = torch.cuda.max_memory_allocated(device) / 1024**2
++    telemetry["peak_reserved_mb"] = torch.cuda.max_memory_reserved(device) / 1024**2
++    telemetry["allocated_after_mb"] = torch.cuda.memory_allocated(device) / 1024**2
++    telemetry["reserved_after_mb"] = torch.cuda.memory_reserved(device) / 1024**2
++    del decoded, predicted_x0, patches
++    return history
++
++
+ def rollout_generation_parameters(
+     data: Mapping[str, Any],
+     video_sizes: List[Tuple[int, int, int]],
+@@ -473,11 +533,11 @@
+     training_args: TrainingArguments,
+ ) -> None:
+     profile = json.loads(profile_path.read_text(encoding="utf-8"))
+-    if profile.get("schema_version") != "datamake_lance_online_rollout_lora_profile_v2":
++    if profile.get("schema_version") != "datamake_lance_one_step_x0_lora_profile_v3":
+         raise ValueError("unsupported executable profile schema")
+     if profile.get("status") not in {
+         "implementation_ready_gpu_smoke_pending",
+-        "gpu_smoke_passed",
++        "gpu_smoke_passed_formal_launch_pending_user_authorization",
+         "training_authorized",
+     }:
+         raise ValueError("profile status does not permit executable validation")
+@@ -498,20 +558,27 @@
+     model_profile = profile["model"]
+     run_profile = profile["run"]
+     rollout_profile = profile["rollout"]
++    optimization_profile = profile["optimization"]
+     lora_profile = profile["lora"]
+     checkpoint_profile = profile["checkpoint"]
+     wandb_profile = profile["wandb"]
+     _require(checkpoint_profile["format_version"], 5, "profile checkpoint format")
+     _require(lora_profile["adapter_weight_dtype"], "float32", "profile adapter dtype")
++    _require(rollout_profile["online_during_training"], False, "profile online rollout")
+     _require(
+-        rollout_profile["lance_internal_rank_seed_offset_compensated"],
+-        True,
+-        "profile Lance rank seed compensation",
++        rollout_profile["method"],
++        "training_forward_pred_x0",
++        "profile history method",
+     )
+     _require(
+-        rollout_profile["noise_seed_invariant_to_rank_assignment"],
++        rollout_profile["reuse_training_forward"],
+         True,
+-        "profile rank-invariant noise seed",
++        "profile training-forward reuse",
++    )
++    _require(
++        optimization_profile["timestep_shift"],
++        rollout_profile["timestep_shift"],
++        "profile timestep shift agreement",
+     )
+     chain_manifest = Path(online_args.datamake_chain_manifest).resolve()
+     dataset_config = Path(data_args.dataset_config_file).resolve()
+@@ -599,6 +666,11 @@
+             online_args.datamake_rollout_timestep_shift,
+             rollout_profile["timestep_shift"],
+         ),
++        (
++            "training timestep shift",
++            training_args.timestep_shift,
++            optimization_profile["timestep_shift"],
++        ),
+         (
+             "rollout CFG interval",
+             list(online_args.datamake_rollout_cfg_interval),
+@@ -676,7 +737,7 @@
+ def main() -> None:
+     reject_duplicate_cli_options(sys.argv[1:])
+     if not torch.cuda.is_available():
+-        raise RuntimeError("CUDA is required for online rollout training")
++        raise RuntimeError("CUDA is required for chain-history training")
+     torch.set_num_threads(1)
+     torch.set_num_interop_threads(1)
+     dist.init_process_group("nccl")
+@@ -889,8 +950,12 @@
+         raise ValueError("resume step is beyond the training schedule")
+ 
+     fsdp_model.train()
++    one_step_x0_history = (
++        online_args.datamake_history_mode == ONE_STEP_X0_HISTORY
++    )
+     log_rank0(
+-        f"Online rollout schedule: chains={len(records)}, epochs={online_args.datamake_num_epochs}, "
++        f"Chain history schedule: mode={online_args.datamake_history_mode}, "
++        f"chains={len(records)}, epochs={online_args.datamake_num_epochs}, "
+         f"steps/epoch={per_epoch_windows}, total_steps={len(all_windows)}, "
+         f"starting_step={train_step}"
+     )
+@@ -904,24 +969,23 @@
+             backward_scale = float(world_size) / float(global_targets)
+             local_loss_sum = 0.0
+             local_targets = 0
+-            local_rollouts = 0
+-            local_rollout_latent_sum = 0.0
+-            local_rollout_latent_square_sum = 0.0
+-            local_rollout_latent_numel = 0.0
++            local_histories = 0
++            local_history_latent_sum = 0.0
++            local_history_latent_square_sum = 0.0
++            local_history_latent_numel = 0.0
++            local_history_timestep_sum = 0.0
+             local_round_loss_sum = [0.0] * 5
+             local_round_count = [0.0] * 5
+             memory_keys = (
+                 "allocated_before_mb",
+                 "reserved_before_mb",
+-                "allocated_summoned_mb",
+-                "reserved_summoned_mb",
+                 "peak_allocated_mb",
+                 "peak_reserved_mb",
+                 "allocated_after_mb",
+                 "reserved_after_mb",
+             )
+-            local_rollout_memory_max = {key: 0.0 for key in memory_keys}
+-            rollout_seconds = 0.0
++            local_history_memory_max = {key: 0.0 for key in memory_keys}
++            history_seconds = 0.0
+             train_seconds = 0.0
+             torch.cuda.synchronize(device)
+             window_started = time()
+@@ -945,6 +1009,9 @@
+                     turn_data, video_sizes = prepare_turn_data(
+                         batch, device, vae_model
+                     )
++                    needs_history = round_number < record.round_count
++                    if one_step_x0_history and needs_history:
++                        turn_data["return_flow_intermediates"] = True
+ 
+                     torch.cuda.synchronize(device)
+                     train_started = time()
+@@ -978,48 +1045,62 @@
+                         local_round_count[round_number - 1] += 1
+ 
+                     if round_number < max_rounds:
+-                        needs_history = round_number < record.round_count
+                         torch.cuda.synchronize(device)
+-                        rollout_started = time()
+-                        rollout_telemetry: Dict[str, float] = {}
+-                        seed_value = stable_turn_seed(
+-                            training_args.global_seed,
+-                            epoch,
+-                            record.chain_id,
+-                            effective_round,
+-                        )
+-                        history_video = generate_with_retry(
+-                            fsdp_model=fsdp_model,
+-                            vae_model=vae_model,
+-                            data=turn_data,
+-                            video_sizes=video_sizes,
+-                            online_args=online_args,
+-                            model_args=model_args,
+-                            training_args=training_args,
+-                            new_token_ids=new_token_ids,
+-                            image_token_id=image_token_id,
+-                            device=device,
+-                            seed=seed_value,
+-                            save_output=needs_history,
+-                            telemetry=rollout_telemetry,
+-                        )
++                        history_started = time()
++                        history_telemetry: Dict[str, float] = {}
++                        if one_step_x0_history:
++                            history_video = None
++                            if needs_history:
++                                history_video = decode_one_step_x0_history(
++                                    loss_dict,
++                                    turn_data["patchified_vae_latent_shapes"][-1],
++                                    vae_model,
++                                    device,
++                                    history_telemetry,
++                                )
++                        else:
++                            seed_value = stable_turn_seed(
++                                training_args.global_seed,
++                                epoch,
++                                record.chain_id,
++                                effective_round,
++                            )
++                            history_video = generate_with_retry(
++                                fsdp_model=fsdp_model,
++                                vae_model=vae_model,
++                                data=turn_data,
++                                video_sizes=video_sizes,
++                                online_args=online_args,
++                                model_args=model_args,
++                                training_args=training_args,
++                                new_token_ids=new_token_ids,
++                                image_token_id=image_token_id,
++                                device=device,
++                                seed=seed_value,
++                                save_output=needs_history,
++                                telemetry=history_telemetry,
++                            )
+                         torch.cuda.synchronize(device)
+-                        rollout_seconds += time() - rollout_started
+-                        for key in memory_keys:
+-                            local_rollout_memory_max[key] = max(
+-                                local_rollout_memory_max[key],
+-                                float(rollout_telemetry[key]),
++                        history_seconds += time() - history_started
++                        if history_telemetry:
++                            for key in memory_keys:
++                                local_history_memory_max[key] = max(
++                                    local_history_memory_max[key],
++                                    float(history_telemetry[key]),
++                                )
++                            local_history_latent_sum += history_telemetry["latent_sum"]
++                            local_history_latent_square_sum += history_telemetry[
++                                "latent_square_sum"
++                            ]
++                            local_history_latent_numel += history_telemetry["latent_numel"]
++                            local_history_timestep_sum += history_telemetry.get(
++                                "timestep_mean", 0.0
+                             )
+-                        local_rollout_latent_sum += rollout_telemetry["latent_sum"]
+-                        local_rollout_latent_square_sum += rollout_telemetry[
+-                            "latent_square_sum"
+-                        ]
+-                        local_rollout_latent_numel += rollout_telemetry["latent_numel"]
+                         if needs_history:
+                             if history_video is None:
+-                                raise RuntimeError("real rollout did not return a tensor")
++                                raise RuntimeError("history generation did not return a tensor")
+                             generated_history.append(history_video)
+-                            local_rollouts += 1
++                            local_histories += 1
+                         dist.barrier()
+                     del turn_data, batch, loss_dict, target_loss, backward_loss
+ 
+@@ -1035,21 +1116,22 @@
+                 [
+                     local_loss_sum,
+                     float(local_targets),
+-                    float(local_rollouts),
+-                    rollout_seconds,
++                    float(local_histories),
++                    history_seconds,
+                     train_seconds,
+-                    local_rollout_latent_sum,
+-                    local_rollout_latent_square_sum,
+-                    local_rollout_latent_numel,
++                    local_history_latent_sum,
++                    local_history_latent_square_sum,
++                    local_history_latent_numel,
++                    local_history_timestep_sum,
+                     *local_round_loss_sum,
+                     *local_round_count,
+                 ],
+                 device,
+             )
+             memory_max = _all_reduce_max_metrics(
+-                [local_rollout_memory_max[key] for key in memory_keys], device
++                [local_history_memory_max[key] for key in memory_keys], device
+             )
+-            global_loss_sum, global_target_count, global_rollouts = reduced[:3]
++            global_loss_sum, global_target_count, global_histories = reduced[:3]
+             if int(global_target_count) != global_targets:
+                 raise RuntimeError(
+                     f"target weighting mismatch: {global_target_count} != {global_targets}"
+@@ -1057,30 +1139,34 @@
+             loss_mean = global_loss_sum / global_target_count
+             step_seconds = time() - window_started
+             if global_rank == 0 and completed_steps % training_args.log_every == 0:
+-                round_loss_sum = reduced[8:13]
+-                round_count = reduced[13:18]
++                round_loss_sum = reduced[9:14]
++                round_count = reduced[14:19]
++                history_timestep_mean = (
++                    reduced[8] / global_histories if global_histories else 0.0
++                )
+                 metrics = {
+                     "mse": loss_mean,
+                     "lr": optimizer.param_groups[0]["lr"],
+                     "total_norm": float(total_norm.item()),
+                     "target_videos": global_target_count,
+-                    "rollout_videos": global_rollouts,
++                    "history_videos": global_histories,
+                     "chains": world_size
+                     * online_args.datamake_gradient_accumulation_steps,
+                     "step_time_sec": step_seconds,
+-                    "rollout_time_sec_rank_sum": reduced[3],
++                    "history_time_sec_rank_sum": reduced[3],
+                     "train_time_sec_rank_sum": reduced[4],
+-                    "rollout_latent_sum": reduced[5],
+-                    "rollout_latent_square_sum": reduced[6],
+-                    "rollout_latent_numel": reduced[7],
+-                    "mem_allocated_mb": memory_max[4],
+-                    "mem_reserved_mb": memory_max[5],
++                    "history_latent_sum": reduced[5],
++                    "history_latent_square_sum": reduced[6],
++                    "history_latent_numel": reduced[7],
++                    "history_timestep_mean": history_timestep_mean,
++                    "mem_allocated_mb": memory_max[2],
++                    "mem_reserved_mb": memory_max[3],
+                     "epoch": epoch,
+                     "epoch_step": epoch_step,
+                 }
+                 metrics.update(
+                     {
+-                        f"rollout_{key}_rank_max": value
++                        f"history_{key}_rank_max": value
+                         for key, value in zip(memory_keys, memory_max)
+                     }
+                 )
+@@ -1093,12 +1179,13 @@
+                 wandb.log(metrics, step=completed_steps)
+                 logger.info(
+                     f"(step={completed_steps:07d}) mse={loss_mean:.6f}, "
+-                    f"targets={int(global_target_count)}, rollouts={int(global_rollouts)}, "
++                    f"targets={int(global_target_count)}, histories={int(global_histories)}, "
+                     f"grad_norm={float(total_norm.item()):.6f}, "
+                     f"lr={optimizer.param_groups[0]['lr']:.8g}, "
+-                    f"rollout_latent_sum={reduced[5]:.9g}, "
+-                    f"rollout_latent_square_sum={reduced[6]:.9g}, "
+-                    f"rollout_latent_numel={int(reduced[7])}, "
++                    f"history_t={history_timestep_mean:.6f}, "
++                    f"history_latent_sum={reduced[5]:.9g}, "
++                    f"history_latent_square_sum={reduced[6]:.9g}, "
++                    f"history_latent_numel={int(reduced[7])}, "
+                     f"step_time={step_seconds:.2f}s"
+                 )
+             periodic = training_args.save_every > 0 and (
+@@ -1138,7 +1225,7 @@
+         optimizer.zero_grad(set_to_none=True)
+         raise
+     if global_rank == 0:
+-        logger.info("Online rollout LoRA training complete")
++        logger.info("Chain-history LoRA training complete")
+         wandb.finish()
+     dist.destroy_process_group()
+ 

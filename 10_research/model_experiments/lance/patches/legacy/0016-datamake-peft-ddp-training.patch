@@ -1,0 +1,703 @@
+diff --git a/train/datamake_peft.py b/train/datamake_peft.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_peft.py
+@@ -0,0 +1,115 @@
++"""Official PEFT adapter injection with DataMake's exact branch contract."""
++from dataclasses import asdict
++import hashlib
++import json
++from pathlib import Path
++
++import torch
++from torch import nn
++
++from train.datamake_branch_lora import (
++    BranchLoRAConfig, is_generation_target, is_understanding_target,
++)
++
++SCHEMA = "datamake_lance_peft_branch_v1"
++PEFT_VERSION = "0.15.2"
++
++
++def require_peft():
++    import peft
++    if peft.__version__ != PEFT_VERSION:
++        raise RuntimeError(f"Expected PEFT {PEFT_VERSION}, found {peft.__version__}")
++    return peft
++
++
++def canonical_name(name):
++    name = name.replace("_checkpoint_wrapped_module.", "")
++    for side in ("A", "B"):
++        name = name.replace(f".lora_{side}.default.weight", f".lora_{side}.weight")
++    return name
++
++
++def legacy_name(name):
++    name = canonical_name(name)
++    for side in ("A", "B"):
++        if name.endswith(f".lora_{side}.weight"):
++            return name[:-7]
++    raise ValueError(f"Not a LoRA parameter: {name}")
++
++
++def inject(model, config: BranchLoRAConfig, seed=2026):
++    """Use PEFT's Linear implementation; only scope and RNG policy are local."""
++    peft = require_peft()
++    config.validate()
++    targets = [name for name, module in model.named_modules()
++               if isinstance(module, nn.Linear) and (is_generation_target(name) or
++                  (config.target_scope == "both_branches" and is_understanding_target(name)))]
++    if len(targets) != config.expected_target_modules:
++        raise ValueError(f"Expected {config.expected_target_modules} targets, found {len(targets)}")
++    model.requires_grad_(False)
++    devices = sorted({p.device.index for p in model.parameters() if p.is_cuda})
++    with torch.random.fork_rng(devices=devices):
++        model = peft.inject_adapter_in_model(peft.LoraConfig(
++            r=config.rank, lora_alpha=config.alpha, lora_dropout=config.dropout,
++            bias="none", target_modules=targets, init_lora_weights=True,
++            use_rslora=False, use_dora=False,
++        ), model)
++        # Explicit per-module initialization aligns both branches with Stage6.
++        for name in targets:
++            module = model.get_submodule(name)
++            module_seed = int.from_bytes(hashlib.sha256(f"{seed}:{name}".encode()).digest()[:8], "little")
++            torch.random.default_generator.manual_seed(module_seed)
++            if devices:
++                torch.cuda.manual_seed_all(module_seed)
++            # Stage6 initialized in the base dtype, then promoted to FP32.
++            base = module.get_base_layer().weight
++            initial = torch.empty(module.lora_A["default"].weight.shape,
++                                  dtype=base.dtype, device=base.device)
++            nn.init.kaiming_uniform_(initial, a=5 ** 0.5)
++            module.lora_A["default"].weight.data = initial.float()
++            module.lora_B["default"].weight.data = torch.zeros_like(module.lora_B["default"].weight, dtype=torch.float32)
++    actual = [name for name, p in model.named_parameters() if p.requires_grad]
++    if len(actual) != 2 * len(targets) or any(".lora_" not in name for name in actual):
++        raise RuntimeError("PEFT trainable scope differs from the branch contract")
++    return targets
++
++
++def adapter_state(model):
++    return {k: v.detach().cpu().contiguous().clone()
++            for k, v in require_peft().get_peft_model_state_dict(model).items()}
++
++
++def load_adapter(model, state):
++    expected = require_peft().get_peft_model_state_dict(model)
++    if set(state) != set(expected):
++        raise ValueError("Adapter keys differ from exact PEFT target topology")
++    for name, value in state.items():
++        if value.shape != expected[name].shape or not torch.isfinite(value).all():
++            raise ValueError(f"Invalid adapter tensor: {name}")
++    result = require_peft().set_peft_model_state_dict(model, state)
++    if result.unexpected_keys or any("lora_" in key for key in result.missing_keys):
++        raise RuntimeError(f"PEFT adapter load failed: {result}")
++
++
++def metadata(config):
++    return {"schema_version": SCHEMA, "peft_version": PEFT_VERSION,
++            "branch_config": asdict(config)}
++
++
++def install_inference_loader(checkpoint):
++    import inference_lance
++    from safetensors.torch import load_file
++    checkpoint = Path(checkpoint)
++    config = BranchLoRAConfig.from_dict(json.loads((checkpoint / "datamake_lora_config.json").read_text())["branch_config"])
++    original = inference_lance.init_from_model_path_if_needed
++
++    def loader(model, model_args):
++        original(model, model_args)
++        inject(model, config)
++        load_adapter(model, load_file(str(checkpoint / "adapter.safetensors")))
++        # Same audit shape as the legacy inference loader.
++        values = adapter_state(model)
++        return {"loaded_adapter_tensors": len(values), "checkpoint": str(checkpoint)}
++
++    inference_lance.init_from_model_path_if_needed = loader
++    return original
+diff --git a/train/datamake_ddp_checkpoint.py b/train/datamake_ddp_checkpoint.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_ddp_checkpoint.py
+@@ -0,0 +1,219 @@
++"""PEFT weights + standard named Adam state; complete, atomic DDP resume."""
++from copy import deepcopy
++import hashlib
++import json
++import os
++from pathlib import Path
++import random
++import shutil
++import tempfile
++
++import numpy as np
++from safetensors.torch import load_file, save_file
++import torch
++import torch.distributed as dist
++
++from train.datamake_peft import adapter_state, canonical_name, load_adapter, metadata
++
++FORMAT = 6
++
++
++def rank():
++    return dist.get_rank() if dist.is_initialized() else 0
++
++
++def world():
++    return dist.get_world_size() if dist.is_initialized() else 1
++
++
++def barrier():
++    if dist.is_initialized():
++        dist.barrier()
++
++
++def rank_zero_call(fn):
++    error = None
++    if rank() == 0:
++        try:
++            fn()
++        except Exception as exc:
++            error = f"{type(exc).__name__}: {exc}"
++    if dist.is_initialized():
++        value = [error]
++        dist.broadcast_object_list(value, src=0)
++        error = value[0]
++    if error:
++        raise RuntimeError(error)
++
++
++def sha256(path):
++    result = hashlib.sha256()
++    with Path(path).open("rb") as stream:
++        for chunk in iter(lambda: stream.read(8 * 1024 * 1024), b""):
++            result.update(chunk)
++    return result.hexdigest()
++
++
++def write_json(path, value):
++    Path(path).write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
++
++
++def rng_state():
++    state = {"python": random.getstate(), "numpy": np.random.get_state(), "torch_cpu": torch.get_rng_state()}
++    if torch.cuda.is_available():
++        state["torch_cuda"] = torch.cuda.get_rng_state()
++    return state
++
++
++def restore_rng(state):
++    random.setstate(state["python"])
++    np.random.set_state(state["numpy"])
++    torch.set_rng_state(state["torch_cpu"])
++    if torch.cuda.is_available() and "torch_cuda" in state:
++        torch.cuda.set_rng_state(state["torch_cuda"])
++
++
++def cpu_tree(value):
++    if torch.is_tensor(value):
++        return value.detach().cpu().clone()
++    if isinstance(value, dict):
++        return {k: cpu_tree(v) for k, v in value.items()}
++    if isinstance(value, list):
++        return [cpu_tree(v) for v in value]
++    if isinstance(value, tuple):
++        return tuple(cpu_tree(v) for v in value)
++    return deepcopy(value)
++
++
++def named_optimizer(model, optimizer):
++    names = {id(p): canonical_name(n) for n, p in model.named_parameters() if p.requires_grad}
++    state = optimizer.state_dict()
++    mapping = {}
++    for group, saved in zip(optimizer.param_groups, state["param_groups"]):
++        for p, index in zip(group["params"], saved["params"]):
++            if id(p) not in names:
++                raise ValueError("Optimizer contains a frozen/non-adapter parameter")
++            mapping[index] = names[id(p)]
++    return {"state_dict": cpu_tree(state), "parameter_names": mapping}
++
++
++def load_named_optimizer(model, optimizer, payload):
++    current = named_optimizer(model, optimizer)
++    old_names = {int(k): v for k, v in payload["parameter_names"].items()}
++    current_names = current["parameter_names"]
++    if set(old_names.values()) != set(current_names.values()) or len(old_names) != len(current_names):
++        raise ValueError("Optimizer target names differ")
++    by_name = {name: index for index, name in old_names.items()}
++    source = payload["state_dict"]
++    if len(source["param_groups"]) != len(current["state_dict"]["param_groups"]):
++        raise ValueError("Optimizer group count differs")
++    states, groups = {}, []
++    for current_group, old_group in zip(current["state_dict"]["param_groups"], source["param_groups"]):
++        expected = {current_names[i] for i in current_group["params"]}
++        if expected != {old_names[i] for i in old_group["params"]}:
++            raise ValueError("Optimizer group membership differs")
++        groups.append({**old_group, "params": current_group["params"]})
++        for index in current_group["params"]:
++            old_index = by_name[current_names[index]]
++            if old_index in source["state"]:
++                states[index] = source["state"][old_index]
++    optimizer.load_state_dict({"state": states, "param_groups": groups})
++    for group in optimizer.param_groups:
++        for p in group["params"]:
++            for key in ("exp_avg", "exp_avg_sq"):
++                value = optimizer.state[p].get(key)
++                if value is not None and (value.shape != p.shape or not torch.isfinite(value).all()):
++                    raise ValueError(f"Invalid Adam {key}")
++
++
++def finalize(staging, final, completed, world_size, contract, cursor, keep_last):
++    write_json(staging / "datamake_online_training_contract.json", contract)
++    write_json(staging / "trainer_state.json", {
++        "checkpoint_format_version": FORMAT, "completed_steps": completed,
++        "next_step": completed, "next_microstep": cursor, "world_size": world_size,
++        "optimizer_boundary": True,
++    })
++    files = [p for p in staging.iterdir() if p.is_file()]
++    required = {"adapter.safetensors", "adapter_config.json", "datamake_lora_config.json",
++                "optimizer.pt", "scheduler.pt", "trainer_state.json", "datamake_online_training_contract.json",
++                *[f"rng.rank-{r:05d}-of-{world_size:05d}.pt" for r in range(world_size)]}
++    if not required.issubset({p.name for p in files}):
++        raise ValueError("Incomplete DDP checkpoint")
++    write_json(staging / "checkpoint_complete.json", {
++        "status": "complete", "checkpoint_format_version": FORMAT, "adapter_only": True,
++        "completed_steps": completed, "world_size": world_size,
++        "artifacts": {p.name: {"bytes": p.stat().st_size, "sha256": sha256(p)} for p in files},
++    })
++    os.rename(staging, final)
++    completed_dirs = sorted([p for p in final.parent.iterdir() if p.is_dir() and p.name.isdigit()
++                             and (p / "checkpoint_complete.json").is_file()], key=lambda p: int(p.name))
++    for old in completed_dirs[:-keep_last]:
++        shutil.rmtree(old)
++
++
++def validate(checkpoint, contract=None, expected_world=None):
++    checkpoint = Path(checkpoint)
++    marker = json.loads((checkpoint / "checkpoint_complete.json").read_text())
++    if marker.get("status") != "complete" or marker.get("checkpoint_format_version") != FORMAT:
++        raise ValueError("A converted/native complete DDP-v6 checkpoint is required")
++    if expected_world is not None and marker["world_size"] != expected_world:
++        raise ValueError("World size differs; rank RNG/data cursors must stay aligned")
++    required = {"adapter.safetensors", "adapter_config.json", "datamake_lora_config.json",
++                "optimizer.pt", "scheduler.pt", "trainer_state.json", "datamake_online_training_contract.json",
++                *[f"rng.rank-{r:05d}-of-{marker['world_size']:05d}.pt" for r in range(marker["world_size"])]}
++    if not required.issubset(marker["artifacts"]):
++        raise ValueError("Checkpoint manifest omits required artifacts")
++    for name, record in marker["artifacts"].items():
++        if Path(name).name != name:
++            raise ValueError("Checkpoint artifact escapes directory")
++        p = checkpoint / name
++        if p.stat().st_size != record["bytes"] or sha256(p) != record["sha256"]:
++            raise ValueError(f"Checkpoint artifact mismatch: {name}")
++    if contract is not None and json.loads((checkpoint / "datamake_online_training_contract.json").read_text()) != contract:
++        raise ValueError("DDP checkpoint contract differs")
++    state = json.loads((checkpoint / "trainer_state.json").read_text())
++    if (not state["optimizer_boundary"] or state["next_step"] != marker["completed_steps"]
++            or state["completed_steps"] != state["next_step"] or state["world_size"] != marker["world_size"]):
++        raise ValueError("Checkpoint is not at an optimizer boundary")
++    return state
++
++
++def save(root, completed, model, optimizer, scheduler, config, contract, cursor, keep_last=4):
++    if completed < 1 or keep_last < 1:
++        raise ValueError("Invalid checkpoint step/retention")
++    root = Path(root)
++    final = root / f"{completed:07d}"
++    staging = None
++
++    def prepare():
++        nonlocal staging
++        root.mkdir(parents=True, exist_ok=True)
++        if final.exists():
++            raise FileExistsError(f"Refusing to overwrite checkpoint: {final}")
++        # A failed attempt may leave files behind; a retry owns a new directory.
++        staging = Path(tempfile.mkdtemp(prefix=f".{completed:07d}.incomplete-", dir=root))
++        save_file(adapter_state(model), str(staging / "adapter.safetensors"))
++        model.peft_config["default"].save_pretrained(staging)
++        write_json(staging / "datamake_lora_config.json", metadata(config))
++        torch.save(named_optimizer(model, optimizer), staging / "optimizer.pt")
++        torch.save(scheduler.state_dict(), staging / "scheduler.pt")
++
++    rank_zero_call(prepare)
++    if dist.is_initialized():
++        paths = [str(staging) if rank() == 0 else None]
++        dist.broadcast_object_list(paths, src=0)
++        staging = Path(paths[0])
++    torch.save(rng_state(), staging / f"rng.rank-{rank():05d}-of-{world():05d}.pt")
++    barrier()
++    rank_zero_call(lambda: finalize(staging, final, completed, world(), contract, cursor, keep_last))
++    return final
++
++
++def load(checkpoint, model, optimizer, scheduler, contract):
++    checkpoint = Path(checkpoint)
++    state = validate(checkpoint, contract, world())
++    load_adapter(model, load_file(str(checkpoint / "adapter.safetensors")))
++    load_named_optimizer(model, optimizer, torch.load(checkpoint / "optimizer.pt", weights_only=False, map_location="cpu"))
++    scheduler.load_state_dict(torch.load(checkpoint / "scheduler.pt", weights_only=True, map_location="cpu"))
++    restore_rng(torch.load(checkpoint / f"rng.rank-{rank():05d}-of-{world():05d}.pt", weights_only=False, map_location="cpu"))
++    return state
+diff --git a/train/datamake_ddp_train.py b/train/datamake_ddp_train.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_ddp_train.py
+@@ -0,0 +1,354 @@
++"""PEFT/DDP Stage6 recipe, optional activation recomputation and phase timing."""
++import argparse
++from dataclasses import asdict
++import functools
++from contextlib import nullcontext
++from torch.nn.parallel import DistributedDataParallel as DDP
++import json
++from pathlib import Path
++import sys
++from time import perf_counter
++
++import torch
++import torch.distributed as dist
++from torch.utils.data import DataLoader
++from torch.distributed.algorithms._checkpoint.checkpoint_wrapper import (
++    CheckpointImpl, apply_activation_checkpointing, checkpoint_wrapper,
++)
++from transformers import HfArgumentParser, set_seed
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
++from run_datamake_ddp_training import load_profile, make_contract
++from run_datamake_formal_training import build_torchrun_command
++from config.config_factory import ModelArguments, DataArguments, TrainingArguments
++from common.utils.logging import get_logger
++from common.val.utils import make_padded_latent
++from data.dataset_base_train import PackedDataset, simple_custom_collate
++from data.data_utils import add_special_tokens
++from modeling.lance import Lance, LanceConfig
++from modeling.qwen2 import Qwen2Tokenizer
++from train.fsdp_utils import fsdp_wrapper, grad_checkpoint_check_fn
++from train.train_utils import (
++    prepare_model_paths, setup_model_components, prepare_checkpoint_loader,
++    build_fsdp_config, build_lr_scheduler, build_train_dataset_config,
++    get_image_token_id, build_edit_region_mse_weights, compute_training_loss,
++)
++from train.datamake_branch_lora import config_from_profile
++from train.datamake_peft import inject
++from train.datamake_stage2_lora_checkpoint import initialize_adam_state, save_and_stop_requested
++from train.datamake_ddp_checkpoint import save as save_ddp_checkpoint, load as load_ddp_checkpoint
++from train.datamake_stage2_lora_data import IndexedPrefixDataset
++
++
++def recipe_arguments(profile):
++    # Reuse Stage2's exact mapping of model/data/optimizer settings, without
++    # running its full-parameter-only launcher or modifying its frozen files.
++    command = build_torchrun_command(profile, None, 29500)
++    argv = command[command.index("train/unified_train.py") + 1:]
++    return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
++
++
++def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events):
++    data = batch.cuda(device).to_dict()
++    indexes = data.pop("batch_data_indexes")
++    ce_weights = data.pop("ce_loss_weights", None)
++    roles = data.pop("vae_edit_roles")
++    e0, e1, e2 = [torch.cuda.Event(enable_timing=True) for _ in range(3)]
++    e0.record()
++    with torch.autocast("cuda", dtype=torch.bfloat16):
++        mode, videos = data.pop("vae_data_mode"), data.pop("padded_videos")
++        with torch.no_grad():
++            data["padded_latent"] = make_padded_latent(videos, mode, vae)
++            weights = build_edit_region_mse_weights(
++                data["padded_latent"], data["patchified_vae_latent_shapes"], roles,
++                model_args.latent_patch_size, training_args.edit_region_weight_boost,
++                training_args.edit_region_low_quantile, training_args.edit_region_high_quantile,
++            ) if training_args.edit_region_weighting else None
++        e1.record()
++        data.pop("padded_videos_vit", None)
++        losses = model(**data)
++        e2.record()
++    phase_events.append((e0, e1, e2))
++    loss, metrics, _, total_tokens = compute_training_loss(
++        losses, data, ce_weights, training_args, device, world, weights,
++    )
++    return loss, metrics, total_tokens, indexes
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--profile", type=Path, required=True)
++    parser.add_argument("--run-dir", type=Path, required=True)
++    parser.add_argument("--resume-from", type=Path)
++    parser.add_argument("--stop-after", type=int)
++    parser.add_argument("--smoke", action="store_true")
++    parser.add_argument("--trace", action="store_true", help="Capture first two optimizer updates; benchmark only")
++    parser.add_argument("--single-gpu-probe", action="store_true", help="Diagnostic only: rank0's unchanged four-rank data schedule, no training checkpoints")
++    parser.add_argument("--probe-backend", choices=("ddp", "fsdp"), default="ddp")
++    args = parser.parse_args()
++    profile = load_profile(args.profile)
++    model_args, data_args, training_args = recipe_arguments(profile)
++    torch.set_num_threads(1)
++    torch.set_num_interop_threads(1)
++    device = int(__import__("os").environ["LOCAL_RANK"])
++    torch.cuda.set_device(device)
++    dist.init_process_group("nccl", device_id=torch.device("cuda", device))
++    rank, world = dist.get_rank(), dist.get_world_size()
++    if args.single_gpu_probe and (world != 1 or not args.smoke or args.resume_from):
++        raise ValueError("Single-GPU probe requires world1, smoke mode and fresh initialization")
++    if args.probe_backend != "ddp" and not args.single_gpu_probe:
++        raise ValueError("FSDP comparison is diagnostic only")
++    if not args.single_gpu_probe and world != profile["distributed"]["gpus_per_node"]:
++        raise ValueError("This profile uses four GPUs")
++    logger = get_logger()
++    log = logger.info if rank == 0 else lambda *_: None
++    run_dir = args.run_dir.resolve()
++    if rank == 0:
++        (run_dir / "configs").mkdir(parents=True, exist_ok=True)
++        (run_dir / "configs" / "profile.json").write_text(json.dumps(profile, indent=2) + "\n")
++    dist.barrier()
++    training_args.config_dir = str(run_dir / "configs")
++    training_args.N_key_frame = data_args.N_key_frame
++    training_args.incre_time_pro = data_args.incre_time_pro
++    set_seed(training_args.global_seed * world + rank)
++    prepare_model_paths(model_args, training_args)
++    llm_config, language, vit_config, vit, vae, vae_config = setup_model_components(model_args, training_args, log)
++    config = LanceConfig(
++        visual_gen=True, visual_und=True, llm_config=llm_config,
++        vit_config=vit_config, vae_config=vae_config,
++        latent_patch_size=model_args.latent_patch_size,
++        max_num_frames=model_args.max_num_frames, max_latent_size=model_args.max_latent_size,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        connector_act=model_args.connector_act, interpolate_pos=model_args.interpolate_pos,
++        timestep_shift=training_args.timestep_shift,
++    )
++    model = Lance(language_model=language, vit_model=vit, vit_type=model_args.vit_type,
++                  config=config, training_args=training_args)
++    tokenizer, token_ids, num_new_tokens = add_special_tokens(Qwen2Tokenizer.from_pretrained(model_args.model_path))
++    load_base = prepare_checkpoint_loader(
++        model_args, training_args, llm_config, language, tokenizer,
++        num_new_tokens, log, report_dir=training_args.config_dir,
++    )
++    load_base(model)  # Mandatory ordering: base -> adapter -> distributed wrapper.
++    lora_config = config_from_profile(profile)
++    if args.probe_backend == "fsdp":
++        from train.datamake_branch_lora import apply_branch_lora
++        targets = apply_branch_lora(model, lora_config, training_args.global_seed)
++    else:
++        targets = inject(model, lora_config, training_args.global_seed)
++    # Match FSDP BF16 compute without FP32 base masters/parameter collectives.
++    for p in model.parameters():
++        if args.probe_backend == "ddp" and not p.requires_grad and p.is_floating_point():
++            p.data = p.data.to(torch.bfloat16)
++    model.to(device)
++    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
++    log(f"PEFT/DDP targets={len(targets)} trainable_parameters={trainable} FP32 master; freeze_und=False")
++    if rank == 0:
++        (run_dir / "configs" / "lora_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
++    image_token_id = get_image_token_id(language)
++    checkpoint_mode = profile["ddp"]["activation_checkpointing"]
++    def checkpoint_layer(module):
++        if checkpoint_mode == "none" or not grad_checkpoint_check_fn(module):
++            return False
++        if checkpoint_mode == "all":
++            return True
++        index = getattr(getattr(module, "self_attn", None), "layer_idx", None)
++        return index is not None and index % 2 == 0
++    apply_activation_checkpointing(
++        model, checkpoint_wrapper_fn=functools.partial(checkpoint_wrapper, checkpoint_impl=CheckpointImpl.NO_REENTRANT),
++        check_fn=checkpoint_layer,
++    )
++    bare_model = model
++    # Final UND adapters can be unused. Keep detection enabled until separately validated.
++    if args.probe_backend == "fsdp":
++        fsdp_config = build_fsdp_config(training_args)
++        fsdp_config.sharding_strategy = "NO_SHARD"
++        model = fsdp_wrapper(model, fsdp_config)
++    else:
++        model = DDP(model, device_ids=[device], broadcast_buffers=False,
++                    find_unused_parameters=True, gradient_as_bucket_view=True)
++    vit_events = []
++    def vit_pre(*_):
++        start = torch.cuda.Event(enable_timing=True)
++        start.record()
++        vit_events.append([start, None])
++    def vit_post(*_):
++        end = torch.cuda.Event(enable_timing=True)
++        end.record()
++        vit_events[-1][1] = end
++    bare_model.vit_model.register_forward_pre_hook(vit_pre)
++    bare_model.vit_model.register_forward_hook(vit_post)
++    optimizer = torch.optim.AdamW(
++        [p for p in model.parameters() if p.requires_grad], lr=training_args.lr,
++        betas=(training_args.beta1, training_args.beta2), eps=training_args.eps,
++        weight_decay=profile["optimization"]["weight_decay"],
++    )
++    initialize_adam_state(optimizer)
++    scheduler = build_lr_scheduler(optimizer, training_args)
++    accumulation = profile["run"]["gradient_accumulation_steps"]
++    total_steps = profile["run"]["total_steps"]
++    stop = args.stop_after or total_steps
++    if not 0 < stop <= total_steps:
++        raise ValueError("stop-after must not change the profile's scheduler horizon")
++    contract = make_contract(profile)
++    if args.single_gpu_probe:
++        contract = {**contract, "diagnostic_only": True, "actual_world_size": 1}
++    # Dataset construction is before RNG restoration. The loader gets its own
++    # generator; prefetch never advances the saved consumed-sample cursor.
++    dataset_config = build_train_dataset_config(data_args, model_args, training_args, vae_config)
++    packer = PackedDataset(
++        dataset_config, tokenizer=tokenizer, special_tokens=token_ids,
++        local_rank=rank, world_size=profile["distributed"]["gpus_per_node"], interpolate_pos=model_args.interpolate_pos,
++        use_flex=True, data_status=None, apply_chat_template=False,
++        image_token_id=image_token_id, cfg_type=training_args.cfg_type,
++        cfg_uncond_token_id=training_args.cfg_uncond_token_id, **asdict(data_args),
++    )
++    packer.set_epoch(data_args.data_seed)
++    dataset = IndexedPrefixDataset(packer, total_steps * accumulation, data_args.data_seed)
++    next_step = 0
++    if args.resume_from:
++        state = json.loads((args.resume_from / "trainer_state.json").read_text())
++        next_step = state["next_step"]
++        if state["next_microstep"] != next_step * accumulation:
++            raise ValueError("Checkpoint is not at the expected accumulation boundary")
++    loader = DataLoader(
++        dataset, batch_size=1, sampler=range(next_step * accumulation, stop * accumulation),
++        num_workers=data_args.num_workers, pin_memory=True, collate_fn=simple_custom_collate,
++        prefetch_factor=data_args.prefetch_factor if data_args.num_workers else None,
++        multiprocessing_context="spawn" if data_args.num_workers else None,
++        generator=torch.Generator().manual_seed(data_args.data_seed),
++    )
++    wb = None
++    if rank == 0 and not args.smoke:
++        import wandb
++        cfg = profile["wandb"]
++        wb = wandb.init(project=cfg["project"], entity=cfg["entity"], id=cfg["run_id"],
++                        name=profile["run"]["run_name"], group=cfg["group"], tags=cfg["tags"],
++                        job_type=cfg["job_type"], mode=cfg["mode"], resume="allow",
++                        config=profile, dir=str(run_dir), save_code=False)
++        wb.define_metric("optimizer_step")
++        wb.define_metric("train/*", step_metric="optimizer_step")
++        wb.define_metric("perf/*", step_metric="optimizer_step")
++    model.train()
++    optimizer.zero_grad(set_to_none=True)
++    iterator = iter(loader)
++    # W&B and worker startup must not perturb restored model/noise RNG.
++    set_seed(training_args.global_seed * world + rank)
++    if args.resume_from:
++        load_ddp_checkpoint(args.resume_from, bare_model, optimizer, scheduler, contract)
++    if args.trace and not args.smoke:
++        raise ValueError("Profiler capture is restricted to smoke/benchmark runs")
++    profiler = None
++    if args.trace:
++        profiler = torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
++                                          record_shapes=True)
++        profiler.start()
++    for step in range(next_step, stop):
++        torch.cuda.synchronize(device)
++        start = perf_counter()
++        torch.cuda.reset_peak_memory_stats(device)
++        totals, sample_ids, tokens = {}, [], 0
++        phase_events, backward_events, data_wait = [], [], 0.0
++        vit_events.clear()
++        lr_used = optimizer.param_groups[0]["lr"]
++        for micro in range(accumulation):
++            waiting = perf_counter()
++            batch = next(iterator)
++            data_wait += perf_counter() - waiting
++            # DDP requires both forward and backward inside no_sync().
++            context = model.no_sync() if args.probe_backend == "ddp" and micro + 1 < accumulation else nullcontext()
++            with context:
++                loss, metrics, count, indexes = microbatch_loss(
++                    batch, model, vae, model_args, training_args, device, world, phase_events)
++                bad = (~torch.isfinite(loss.detach())).int()
++                dist.all_reduce(bad, op=dist.ReduceOp.MAX)
++                if bad.item():
++                    raise FloatingPointError(f"Nonfinite loss at optimizer step {step + 1}")
++                e0, e1 = [torch.cuda.Event(enable_timing=True) for _ in range(2)]
++                e0.record()
++                (loss / accumulation).backward()
++                e1.record()
++                backward_events.append((e0, e1))
++            for key, value in {**metrics, "loss": loss.detach()}.items():
++                totals[key] = totals.get(key, 0) + value.detach().float() / accumulation
++            tokens += int(count)
++            sample_ids.extend(item["sample_id"] for item in indexes)
++            del loss, metrics, batch
++        grad_norm = (model.clip_grad_norm_(training_args.max_grad_norm) if args.probe_backend == "fsdp" else
++                     torch.nn.utils.clip_grad_norm_([p for p in bare_model.parameters() if p.requires_grad], training_args.max_grad_norm))
++        if not torch.isfinite(grad_norm):
++            raise FloatingPointError("Nonfinite gradient norm")
++        optimizer.step()
++        scheduler.step()
++        optimizer.zero_grad(set_to_none=True)
++        completed = step + 1
++        torch.cuda.synchronize(device)
++        step_time = torch.tensor(perf_counter() - start, device=device)
++        dist.all_reduce(step_time, op=dist.ReduceOp.MAX)
++        for value in totals.values():
++            dist.all_reduce(value)
++            value.div_(world)
++        memory = torch.tensor([torch.cuda.max_memory_allocated(device), torch.cuda.max_memory_reserved(device)], device=device)
++        dist.all_reduce(memory, op=dist.ReduceOp.MAX)
++        timing = torch.tensor([
++            data_wait,
++            sum(a.elapsed_time(b) for a, b, _ in phase_events) / 1000,
++            sum(b.elapsed_time(c) for _, b, c in phase_events) / 1000,
++            sum(a.elapsed_time(b) for a, b in backward_events) / 1000,
++            sum(a.elapsed_time(b) for a, b in vit_events if b is not None) / 1000,
++        ], device=device)
++        dist.all_reduce(timing, op=dist.ReduceOp.MAX)
++        report = {
++            "backend": args.probe_backend, "diagnostic_only": args.single_gpu_probe,
++            "actual_world_size": world, "activation_checkpointing": checkpoint_mode,
++            **{f"perf/{key}": value for key, value in zip(
++                ("data_wait_seconds", "vae_region_seconds", "model_forward_seconds", "backward_sync_seconds", "vit_seconds"), timing.tolist())},
++            "optimizer_step": completed, **{f"train/{k}": v.item() for k, v in totals.items()},
++            "train/grad_norm": float(grad_norm), "train/lr": lr_used,
++            "train/next_lr": optimizer.param_groups[0]["lr"],
++            "train/target_exposures": completed * world * accumulation,
++            "perf/step_time": step_time.item(), "perf/target_videos_per_second": world * accumulation / step_time.item(),
++            "perf/mse_tokens": tokens, "perf/peak_allocated_gib": memory[0].item() / 2**30,
++            "perf/peak_reserved_gib": memory[1].item() / 2**30,
++        }
++        if rank == 0:
++            log(json.dumps(report, sort_keys=True))
++            with (run_dir / "metrics.jsonl").open("a") as stream:
++                stream.write(json.dumps(report) + "\n")
++            if wb:
++                wb.log(report)
++        # Only the short smoke writes per-rank sample IDs/loss for comparison.
++        if args.smoke:
++            with (run_dir / f"trace.rank-{rank}.jsonl").open("a") as stream:
++                stream.write(json.dumps({"step": completed, "sample_ids": sample_ids,
++                                         "loss": totals["loss"].item()}) + "\n")
++        requested_stop = save_and_stop_requested(run_dir, device)
++        save = requested_stop or completed % profile["checkpoint"]["completed_step_interval"] == 0
++        save |= completed == stop and (args.smoke or profile["checkpoint"]["save_final_checkpoint"])
++        if save and not args.single_gpu_probe:
++            saved = save_ddp_checkpoint(
++                run_dir / "checkpoints", completed, bare_model, optimizer, scheduler,
++                lora_config, contract, completed * accumulation,
++                keep_last=profile["checkpoint"]["keep_last_complete"],
++            )
++            log(f"Complete adapter/Adam/scheduler/RNG/cursor checkpoint: {saved}")
++        if profiler is not None and completed >= min(next_step + 2, stop):
++            profiler.stop()
++            profiler.export_chrome_trace(str(run_dir / f"profile.rank-{rank}.json"))
++            profiler = None
++        if requested_stop:
++            if rank == 0:
++                (run_dir / "SAVE_AND_STOP").unlink(missing_ok=True)
++            dist.barrier()
++            log(f"SAVE_AND_STOP completed after optimizer step {completed}")
++            break
++    if profiler is not None:
++        profiler.stop()
++        profiler.export_chrome_trace(str(run_dir / f"profile.rank-{rank}.json"))
++    if wb:
++        wb.finish()
++    dist.destroy_process_group()
++
++
++if __name__ == "__main__":
++    main()

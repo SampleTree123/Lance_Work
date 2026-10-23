@@ -6,7 +6,7 @@
 > 前序：`WF-70`
 > 后序：`WF-90`
 > Exit Gate：`GATE-80 MEDIA_COMPLETE`
-> 最近核验：2026-08-28
+> 最近核验：2026-08-29
 
 ## 1. 目的与使用时机
 
@@ -28,10 +28,10 @@ Render Jobs、UE 项目、Sequence 模板、MRQ Profile、资产哈希和服务�
 | 1. 编译本地 Smoke/矩阵 | 把代表链或冻结 Look 矩阵转换为 UE 可执行配置 | [`build_first_batch_chain_render_matrix_v1.py`](../../../../../00_engine/scripts/unreal/build_first_batch_chain_render_matrix_v1.py) 与 [`run_first_batch_render_matrix.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_matrix.py) | `production`，已完成本地证据 | 本地 Render Matrix 与计划报告 |
 | 2. 审计并搭建 UE 舞台 | 检查 Look、Skeleton、Composite、相机和 Profile，再设置 staging Actor/Sequence | [`ue_audit_first_batch_render_assets.py`](../../../../../00_engine/scripts/unreal/ue_audit_first_batch_render_assets.py)、[`ue_stage_first_batch_render_look.py`](../../../../../00_engine/scripts/unreal/ue_stage_first_batch_render_look.py) | `production` | UE 依赖审计和 staging 结果 |
 | 3. 渲染本地样例并验证 | 运行 150 帧 MRQ 样例/矩阵，检查媒体规格、运动、T-pose 和白块 | [`run_first_batch_local_sample_render.py`](../../../../../00_engine/scripts/unreal/run_first_batch_local_sample_render.py)、[`ue_start_first_batch_local_sample_render.py`](../../../../../00_engine/scripts/unreal/ue_start_first_batch_local_sample_render.py)、[`validate_first_batch_chain_visual_smoke_v1.py`](../../../../../00_engine/scripts/unreal/validate_first_batch_chain_visual_smoke_v1.py) | `production`，代表 Smoke 已通过 | 本地媒体与 `VAL-RENDER-01` 代表证据 |
-| 4. 服务器预检与基准 | 检查服务器环境/项目并执行确定性 10 节点基准 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh)；步骤见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md) | 当前 UE 5.8/H200/565.57.01 像素 Smoke `failed`；兼容环境阻塞 | Preflight/Benchmark Run Root |
-| 5. 正式节点执行与重试 | 读取 `render_jobs.jsonl`，按 Lease/attempt 渲染、校验并原子晋升媒体 | [`run_first_batch_render_jobs.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_jobs.py)；命令、字段和恢复见 [渲染执行](../technical/rendering_release/RENDER_EXECUTION.md) | `production`；本地 2 节点真渲染与哈希恢复已通过，服务器/640 节点待执行 | 正式节点媒体、Sidecar、状态和媒体 Manifest |
+| 4. 服务器预检与基准 | 检查服务器环境/项目并执行确定性 10 节点基准、单 UE 50 节点资源压力和首帧回归 | [`FIRST_BATCH_SERVER_PREFLIGHT.sh`](../../../../../20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh)、[`run_first_batch_server_render_jobs.py`](../../../../../00_engine/scripts/unreal/run_first_batch_server_render_jobs.py)、[`run_first_batch_server_render_batches.py`](../../../../../00_engine/scripts/unreal/run_first_batch_server_render_batches.py)；步骤见 [服务器执行](../technical/rendering_release/SERVER_EXECUTION.md) | H200/580.126.20 正式 Tokyo 样例、逐帧确定性、10/10 基准、中断恢复、修复后单 UE 6/6 首帧回归和正式单 UE 50/50 媒体 Gate 通过；最终 Vulkan Validation 保留 bounded risk | Preflight/Benchmark/50-node Stress/First-frame Regression/Formal 50-node Gate Run Root |
+| 5. 正式节点执行与重试 | 读取 `render_jobs.jsonl`，按 Lease/attempt 渲染、校验并原子晋升媒体 | [`run_first_batch_render_jobs.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_jobs.py)；服务器由 `run_first_batch_server_production.py` 按 50 节点 batch supervisor 执行，命令、字段和恢复见 [渲染执行](../technical/rendering_release/RENDER_EXECUTION.md) | `completed`；`v004` 640/640 accepted，13 个 UE invocation 全部 exit 0，累计审计通过 | 正式节点媒体、Sidecar、状态和媒体 Manifest |
 
-第 1–3 步的本地矩阵能力不能替代第 5 步。第 5 步的实现和本地小规模 Gate 已完成；第 4 步在当前服务器环境失败，必须先更换兼容驱动环境或验证独立旧版 UE 兼容分支，再从最小像素 Smoke 重新进入，不能直接运行 10 节点或全量作业。
+第 1–3 步的本地矩阵能力不能替代第 5 步。H200/580.126.20 正式 Tokyo 节点、确定性、10 节点、故障恢复、修复后首帧回归和正式 640 节点媒体 Gate 已完成；冻结 `50 nodes / Editor invocation`，不允许每视频重启，也不外推成单 Editor 全量。`v003` 的 61 个旧媒体因视觉 Gate 失效，不得交付或复用。565.57.01 失败路径不进入生产。`first_batch_server_production_20260829_v004` 已关闭 `GATE-80`，下游进入 `WF-90`。
 
 ## 5. 输出契约
 
@@ -50,7 +50,7 @@ Render Jobs、UE 项目、Sequence 模板、MRQ Profile、资产哈希和服务�
 | 媒体 Manifest/完成清单 | `node_id` 到媒体 URI、字节数、SHA-256 和接受状态映射 | 让图、Prompt 和发布包解析真实媒体 | `WF-90` 零悬空审计 |
 | Smoke/基准证据 | 本地代表链、服务器 10 节点和视觉抽检报告 | 在全量运行前发现系统性错误并估算资源 | `VAL-RENDER-01/VAL-SERVER-01` |
 
-本地正式 Run Root 已创建并验证，当前只覆盖 2 个代表节点，不是 640 节点正式生产结果；准确位置和缺口见 [WF-80 状态](../project_management/status/workflows/WF-80.md#当前输出与证据)。稳定组成与晋升规则见 [输出契约目录](../technical/output/OUTPUT_CONTRACTS.md#39-out-wf80-node-media)。
+本地与服务器正式 Run Root 均已创建并验证；`first_batch_server_production_20260829_v004` 完成 640/640 accepted。批次完成后原始运行目录已清理，当前 accepted 媒体和紧凑 Run 证据分别保存在最终候选的 `dataset_v1/videos/` 与 `release_evidence/render_run/`。准确位置见 [WF-80 状态](../project_management/status/workflows/WF-80.md#当前输出与证据)。
 
 ## 6. 必需验证
 
@@ -64,6 +64,8 @@ Render Jobs、UE 项目、Sequence 模板、MRQ Profile、资产哈希和服务�
 ## 7. Exit Gate
 
 `GATE-80 MEDIA_COMPLETE` 要求所有计划节点存在唯一有效媒体，规格、时间运动、角色可见性、哈希和重试状态完整，无 T-pose、黑帧或悬空作业。
+
+第一批 `v004` 已满足上述条件，`GATE-80` 于 2026-08-29 关闭。
 
 ## 8. 技术与状态
 

@@ -1,0 +1,27 @@
+{
+  "status": "cpu_validated_gpu_pending",
+  "lance_cpu_tests": 133,
+  "eight_rank_gloo": {
+    "status": "passed",
+    "world_size": 8,
+    "backend": "gloo",
+    "updates": 3,
+    "accumulation": 4,
+    "region_weighting": false,
+    "max_gradient_difference": 2.9802322387695312e-08,
+    "scope": "real DDP + PEFT + project weighted loss vs explicit global reference; no GPU performance evidence"
+  },
+  "eight_gpu_actual_run": "not_run",
+  "job_submitted": false,
+  "job_bash_syntax": "passed",
+  "stage5b_frozen_files_unchanged": 22,
+  "patch_isolated_replay": "passed",
+  "profile_sha256": "5bf05cdd2eb7e77a98449d0b1dfc70c77ea52001433864ed10ab3395e77c3a5e",
+  "launcher_dry_run": "passed",
+  "startup_gpu_gate_required": true,
+  "documentation_audit": {
+    "success": true,
+    "errors": [],
+    "warnings": []
+  }
+}

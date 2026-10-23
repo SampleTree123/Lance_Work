@@ -3,16 +3,16 @@
 ## 项目范围
 
 - 本工作空间用于多轮视频编辑模型的数据集构建。
-- 不要把这里当成训练代码仓库。除非用户明确扩展范围，否则模型训练不在本项目内。
+- 不要把这里当成通用训练代码仓库。用户已于 2026-08-29 明确扩展 Lance 微调接入范围；允许在 `10_research/model_experiments/lance/` 维护 DataMake 专用数据适配器、patch、配置、测试和小规模训练验证，上游 clone 与大型 checkpoint/output 仍不进入 Git。
 - 允许在本仓库维护论文笔记、外部模型验证计划和少量实验记录；这些内容服务于数据方案设计和基线判断。
-- 当前主线是 Unreal Engine 引擎合成视频数据。真实视频来源和大模型生成来源已规划，但尚未在本目录展开为执行管线。
+- 当前主线是 Unreal Engine 引擎合成视频数据。UE第一批已发布；CoinVE真实数据已通过引用式索引接入Lance混合训练，大模型生成来源仍以规划/验收记录为准。
 
 ## 接手时先读
 
 - 先读 `HANDOFF.md`，确认当前状态和下一步。
 - 用 `README.md` 查看完整目录图和决策日志。
 - 用 `00_engine/README.md` 查看引擎合成工作区。
-- 用 `00_engine/scripts/README.md` 查看当前 MVP 渲染管线。
+- 用 `00_engine/scripts/README.md` 查看当前脚本导航与生命周期。
 - 用 `10_research/README.md` 查看论文、外部项目和 UE harness 调研。
 - 用 `10_research/model_experiments/README.md` 查看外部模型验证计划。
 - 用 `20_planning/README.md` 查看讨论、实施计划和合规入口。
@@ -29,14 +29,15 @@
 
 ## 当前操作假设
 
-- 截至 Codex 在 2026-06-28 接手时，本目录只有规划文档；尚无 UE 工程、渲染脚本或资产台账。
+- 2026-06-28仅有规划文档是历史状态；当前UE工程、渲染/发布流水线和Lance训练均已有实现与证据。具体成熟度从PROJECT_STATUS及各Workflow Status读取。
 - 当前目录已是本地 Git 仓库，分支 `main`。开始写脚本或做大改前先看 `git status --short`，确认没有意外大文件或无关改动。
 - 大型生成数据、Unreal 缓存、引擎安装、数据集、模型文件和凭据不要提交进 Git；本项目用 `.gitignore` 排除这些路径。
 - 管理员已确认不能使用 `/local`。当前阶段 UE、DDC、MVP 工程、外部模型验证权重/cache 和少量输出都放在当前 DataMake 目录下，按 `20_planning/implementation/storage.md` 执行。
 - UE 安装、DDC、工程和渲染输出放在 `00_engine/` 下。
 - 外部模型代码、权重和验证输出放在 `10_research/model_experiments/` 下；Lance 当前使用用户已配置的 scratch 全局 HF cache `/scratch/prj0000000275/jcy/.cache/huggingface`，不要落回默认小 home。
 - 文档中的当前 Unreal 目标是 UE 5.8，来自 2026-06-19 规划。UE 5.6 相关备忘录视为历史调研，除非用户明确要钉死 5.6。
-- Lance 已读初步资料，视频分支权重已下载，`xks_lance` 环境与 `video_edit` 单轮脚本已跑通；当前 batch8 是连续单轮回灌，不是真多轮编辑验证。BAGEL 只登记来源，暂未深读。
+- Lance当前源码基线/补丁合同从`10_research/model_experiments/lance/patches/current/source_lock.json`读取；旧9717d91走读、batch8和“等待WF-90发布”是历史阶段，不作为当前运行状态。
+- 2026-10-23起模型架构讨论与同步/UE执行分工并行。接手本地/服务器同步和UE渲染时先读`SERVER_SYNC_STATUS.md`，不覆盖另一对话的模型决定。历史生产兼容引擎原路径缺失，下一次渲染先核验实际构建，不能把工作区Installed Build默认当替代。
 
 ## 工程优先级
 

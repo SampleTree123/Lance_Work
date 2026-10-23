@@ -1,0 +1,125 @@
+{
+  "schema_version": "datamake_lance_formal_training_profile_v1",
+  "profile_id": "datamake_dialogue_first_batch_fullparam_4xh200_v1",
+  "created_at": "2026-08-31",
+  "source": {
+    "lance_commit": "9717d9160ed16fedfdad5ce39ccbc6c9d69695e0",
+    "patches": {
+      "10_research/model_experiments/lance/patches/0004-datamake-multiturn-training-dataset.patch": "14e3b366ee684011ebb9bb53650e637f8287a307bd7ee738a54ebc816aff0cab",
+      "10_research/model_experiments/lance/patches/0005-wandb-online-resume-metrics.patch": "3426479e15b772d9663cc81d744f5b48628188079c29d654705c05fecc7a8cb3",
+      "10_research/model_experiments/lance/patches/0006-formal-scheduler-checkpoint-resume.patch": "75abe15381aa3c2fb8972d627d0c597060fa63bf897a64db13f2e54062359ab1",
+      "10_research/model_experiments/lance/patches/0007-datamake-distributed-data-resume.patch": "a8d69b2a946cf6b7fa8030cd2331d33d200a7eb111f676b957b67a09ee6a0d74"
+    }
+  },
+  "data": {
+    "split_manifest": "10_research/model_experiments/lance/outputs/training_data/datamake_dialogue_first_batch_v002_split_seed2026_sharded8_20260831/split_manifest.json",
+    "split_manifest_sha256": "2ca2e84be0125a9ff6da5213d22dab3952e917e39af243fa2d812441a30470cc",
+    "train_config": "10_research/model_experiments/lance/outputs/training_data/datamake_dialogue_first_batch_v002_split_seed2026_sharded8_20260831/train/lance_dataset.yaml",
+    "train_config_sha256": "0befc292587160de0b81365d6bfae1e7db2b1ea4b0a0167e9fe15214bbff874d",
+    "validation_config": "10_research/model_experiments/lance/outputs/training_data/datamake_dialogue_first_batch_v002_split_seed2026_sharded8_20260831/validation/lance_dataset.yaml",
+    "validation_config_sha256": "e2fdfa3fc9165584f06bcb4fb91dd421629859bb0cfac57f02e5aa4815d5c2de",
+    "test_config": "10_research/model_experiments/lance/outputs/training_data/datamake_dialogue_first_batch_v002_split_seed2026_sharded8_20260831/test/lance_dataset.yaml",
+    "test_config_sha256": "24932bbcf117baf9e24323be5e3be083ee46569dbf26947de7612b01ba57fe5e",
+    "train_parquet_shards": 8,
+    "train_chains": 3600,
+    "train_prefixes": 13483,
+    "validation_chains": 200,
+    "validation_prefixes": 754,
+    "test_chains": 200,
+    "test_prefixes": 763,
+    "split_seed": 2026,
+    "prompt_view": "dialogue",
+    "language": "en"
+  },
+  "run": {
+    "run_name": "datamake_dialogue_first_batch_fullparam_4xh200_v1",
+    "output_root": "10_research/model_experiments/lance/outputs/training_runs",
+    "total_steps": 3371,
+    "global_batch_size": 4,
+    "per_rank_batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "num_workers_per_rank": 2,
+    "prefetch_factor": 2,
+    "data_seed": 2040,
+    "data_seed_selection": "balances the 8 file shards across 4 ranks x 2 workers: all 13483 unique prefixes plus one synchronization pad sample",
+    "global_seed": 2026
+  },
+  "model": {
+    "model_path": "10_research/model_experiments/lance/lance/downloads/Lance_3B_Video",
+    "vit_path": "10_research/model_experiments/lance/lance/downloads/Qwen2.5-VL-ViT",
+    "precision": "bf16",
+    "vae_resolution": 480,
+    "vit_resolution": 448,
+    "sample_fps": 12,
+    "max_duration_seconds": 6,
+    "max_num_frames": 121,
+    "max_tokens": 65536,
+    "use_flex_attention": true,
+    "train_lance_core": true,
+    "freeze_llm_embed_tokens": true,
+    "freeze_vit": true,
+    "freeze_vae": true,
+    "use_lora": false,
+    "use_ema": false
+  },
+  "distributed": {
+    "nodes": 1,
+    "gpus_per_node": 4,
+    "sharding_strategy": "HYBRID_SHARD",
+    "num_replicate": 1,
+    "num_shard": 4,
+    "cpu_offload": false
+  },
+  "optimization": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.00001,
+    "minimum_learning_rate": 0.000001,
+    "scheduler": "cosine",
+    "warmup_steps": 101,
+    "cosine_cycles": 0.5,
+    "beta1": 0.9,
+    "beta2": 0.95,
+    "epsilon": 1e-15,
+    "weight_decay": 0.0,
+    "max_gradient_norm": 1.0,
+    "mse_weight": 1.0,
+    "ce_weight": 0.25,
+    "text_condition_dropout": 0.1,
+    "vit_condition_dropout": 0.1,
+    "vae_condition_dropout": 0.0,
+    "timestep_shift": 4.0
+  },
+  "checkpoint": {
+    "completed_step_interval": 600,
+    "save_final_checkpoint": true,
+    "keep_last_complete": 2,
+    "save_on_slurm_termination": false,
+    "require_full_state": true,
+    "directory_names_are_completed_steps": true
+  },
+  "wandb": {
+    "mode": "online",
+    "entity": "xingkeshuo-xi-an-jiaotong-university-",
+    "project": "datamake_lance",
+    "run_id": "datamake-dialogue-first-batch-fullparam-v1",
+    "group": "first-batch-dialogue",
+    "job_type": "formal-train",
+    "tags": [
+      "first-batch",
+      "dialogue",
+      "full-param",
+      "4xh200"
+    ],
+    "log_every_steps": 1,
+    "upload_model": false,
+    "upload_media": false,
+    "upload_code": false
+  },
+  "slurm": {
+    "partition": "testqueue",
+    "time_limit": "18:00:00",
+    "account": "prj0000000275",
+    "qos": "highpriority",
+    "manual_resume": true
+  }
+}

@@ -6,7 +6,7 @@
 > 前序：`WF-80`
 > 后序：无
 > Exit Gate：`GATE-90 DATASET_RELEASED`
-> 最近核验：2026-08-25
+> 最近核验：2026-08-31
 
 ## 1. 目的与使用时机
 
@@ -25,13 +25,13 @@
 
 | 步骤 | 操作 | 精确实现或机器入口 | 当前实现状态 | 本步输出 |
 | --- | --- | --- | --- | --- |
-| 1. 解析媒体引用 | 将 Nodes、Chains、Turns/Dialogs 的相对 URI 解析到 accepted Node Media | 字段和布局由 [数据集封装](../technical/rendering_release/DATASET_PACKAGE.md) 与 [Prompt Technical](../technical/dataset/PROMPT_LAYER.md) 定义 | 契约已定义，统一发布解析器 `pending` | 零悬空引用报告 |
-| 2. 验证 GT/Sidecar/哈希 | 比对 Node 配置、UE 实际绑定、媒体规格、SHA-256 和 attempt 状态 | Sidecar 最低字段见 [数据集封装](../technical/rendering_release/DATASET_PACKAGE.md#2-节点-sidecar) | 正式 640 节点输入未完成，执行器 `pending` | 节点完整性报告 |
-| 3. 执行 QA | 运行结构、统计、媒体和分层人工抽样检查 | 稳定 Gate 见 [Validation Catalog](../technical/validation/VALIDATION_CATALOG.md)；领域标准见 [视觉审查](../technical/validation/VISUAL_REVIEW.md) | 发布级 QA 编排器 `pending` | QA 报告与人工决定 |
-| 4. 构建交付包 | 按统一布局汇聚 Manifest、Graph、Text、Media、Metadata、QA 和 Checksums | 目标结构见 [数据集封装](../technical/rendering_release/DATASET_PACKAGE.md#1-交付结构) | 发布 Builder 尚未实现 | 不可变 Release Candidate |
-| 5. 冻结发布 | 分配 `release_id`，验证另一机器可复核并更新 Batch/Plan/里程碑 | 当前版本所有者为 [WF-90 状态](../project_management/status/workflows/WF-90.md) 和 [Batch Status](../project_management/status/batches/README.md) | `pending` | `OUT-WF90-DATASET-RELEASE` |
+| 1. 解析媒体引用 | 将 Nodes、Chains、Turns/Dialogs 的相对 URI 解析到 accepted Node Media | `build_first_batch_delivery_v1.py`；字段和布局由 [数据集封装](../technical/rendering_release/DATASET_PACKAGE.md) 与 [Prompt Technical](../technical/dataset/PROMPT_LAYER.md) 定义 | 4,000 链、15,000 Turn 与 640 accepted 媒体零悬空引用检查通过 | 零悬空引用报告 |
+| 2. 验证 GT/Sidecar/哈希 | 比对 Node 配置、UE 实际绑定、媒体规格、SHA-256 和 attempt 状态 | [发布封装器](../../../../../00_engine/scripts/dataset/build_first_batch_delivery_v1.py) 在物化每个编号视频前执行硬检查 | 640/640 通过；视频 SHA-256 和源硬链接已独立复核为零差异 | 节点完整性报告 |
+| 3. 执行 QA | 运行结构、统计、媒体和分层人工抽样检查 | 本机/异机 package-only 入口为 [`verify_first_batch_delivery_v1.py`](../../../../../00_engine/scripts/dataset/verify_first_batch_delivery_v1.py)；稳定 Gate 见 [Validation Catalog](../technical/validation/VALIDATION_CATALOG.md)，领域标准见 [视觉审查](../technical/validation/VISUAL_REVIEW.md) | 本机全量机器 QA、完整/简化链 package-only 验证、13 视频分层视觉抽样、用户签字及 `JDS9B74/job118880` 独立全包验证通过 | QA 报告与人工决定 |
+| 4. 构建交付包 | 生成 `videos/<编号>.mp4`、完整 `chains.json`、训练 `chains_simple.json` 和追溯 `manifest.json` | `build_first_batch_delivery_v1.py`；目标结构见 [数据集封装](../technical/rendering_release/DATASET_PACKAGE.md#1-交付结构) | `%OUTPUT_ROOT%/delivery/first_batch_candidate_20260830_v002/dataset_v1/` 已构建并晋升为 `released` | 不可变 Release |
+| 5. 冻结发布 | 分配 `release_id`，验证另一机器可复核并更新 Batch/Plan/里程碑 | 当前版本所有者为 [WF-90 状态](../project_management/status/workflows/WF-90.md) 和 [Batch Status](../project_management/status/batches/README.md) | `completed`；发布决定见 `release_evidence/release_qa/release_decision_20260831.json` | `OUT-WF90-DATASET-RELEASE` |
 
-本阶段目前只有契约，没有可宣称完成的发布执行器或候选包。实现前不得把散布的本地输出目录称为正式数据集。
+本阶段已完成。2026-08-31，候选在独立节点通过全包验证，Manifest 仅将状态晋升为 `released`；随后发布态再次通过相同全包验证。链、简化链和全部视频内容未因晋升改变，`VAL-RELEASE-01` 与 `GATE-90` 已关闭。
 
 ## 5. 输出契约
 
@@ -43,14 +43,12 @@
 
 | 组成 | 实际内容 | 为什么需要 | 下游消费者 |
 | --- | --- | --- | --- |
-| Release Manifest | `batch_id/release_id`、输入版本、文件清单、QA 状态和追溯关系 | 提供交付包的单一顶层入口 | 用户、训练系统和独立审计 |
-| Graph 与 Text | 冻结 Assets/Domains/Nodes/Edges/Chains/Render Jobs、Turns/Dialogs | 保留视频状态和编辑监督的完整语义 | 数据加载器和模型训练 |
-| Node Media | 每个 `node_id` 的唯一 accepted 媒体 | 让多轮样本复用节点而不复制视频 | Turn/Dialog URI 解析 |
-| Metadata/GT/Sidecar | 配置、UE 绑定、媒体规格、版本、attempt 和哈希 | 支撑可追溯性、QA 与复现 | 训练过滤、误差分析和再验证 |
-| QA 与 Checksums | 机器报告、人工抽样、发布决定和全包哈希 | 证明包完整、未损坏且满足 Gate | `VAL-RELEASE-01` 与接收方 |
-| 保留/清理清单 | 权威、证据、可替代和临时产物分类 | 防止发布后误删源证据或长期保留无用缓存 | Output 子系统和运维 |
+| `manifest.json` | Batch/Release、输入版本、Node 配置、编号映射、媒体/Sidecar 哈希和 QA 状态 | 提供交付包单一追溯入口 | 用户、训练系统和独立审计 |
+| `chains.json` | 链事实、Node 配置、正式双语 Prompt、独立 Prompt、Grounding 和输入/输出视频路径 | 保存多轮编辑监督语义 | 数据加载器和模型训练 |
+| `chains_simple.json` | 从 1 连续编号的链、Hash 追溯 ID 和每轮输入视频/双语指令/输出视频 | 提供精简训练输入，不携带验证元数据 | 数据加载器和模型训练 |
+| `videos/<编号>.mp4` | 每个内部 `node_id` 的唯一 accepted 媒体 | 让多条链复用节点，同时提供简短文件名 | Turn 媒体解析 |
 
-当前尚无发布候选；未来准确位置由 [WF-90 状态](../project_management/status/workflows/WF-90.md#当前输出与证据) 指定。稳定组成、不可变性和保留语义见 [输出契约目录](../technical/output/OUTPUT_CONTRACTS.md#310-out-wf90-dataset-release)。
+当前正式发布位于 `%OUTPUT_ROOT%/delivery/first_batch_candidate_20260830_v002/dataset_v1/`；为保持候选身份和所有既有引用，物理目录名未改，权威 Manifest 状态为 `released`。准确状态和 QA 证据由 [WF-90 状态](../project_management/status/workflows/WF-90.md#当前输出与证据) 指定。稳定组成、不可变性和保留语义见 [输出契约目录](../technical/output/OUTPUT_CONTRACTS.md#310-out-wf90-dataset-release)。
 
 ## 6. 必需验证
 
@@ -63,6 +61,8 @@
 ## 7. Exit Gate
 
 `GATE-90 DATASET_RELEASED` 要求媒体、链、文本和元数据零悬空引用，哈希一致，全部必需 QA 通过，人工抽检已签字，发布包可在另一台机器独立验证。
+
+当前批次已于 2026-08-31 满足上述全部条件，Gate 结果为 `passed`。
 
 ## 8. 技术与状态
 

@@ -8,6 +8,8 @@
 
 - [PROJECT_STATUS.md](./PROJECT_STATUS.md)：人类可读的当前结论和唯一下一步。
 - [PROJECT_STATE.json](./PROJECT_STATE.json)：受控状态字段的机器权威。
+- [SERVER_SYNC_STATUS.md](./SERVER_SYNC_STATUS.md)：同步与UE执行分支的服务器快照、准备项和下一步；不覆盖模型分支计划。
+- [GITHUB_SYNC_REVIEW.md](./GITHUB_SYNC_REVIEW.md)：当前上传候选、验证结果、公开UE补丁范围与认证准备项。
 - [`workflows/`](./workflows/README.md)：十个长期阶段的能力状态。
 - [`batches/`](./batches/README.md)：活动批次的冻结范围和执行状态。
 

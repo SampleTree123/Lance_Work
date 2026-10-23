@@ -2,13 +2,15 @@
 
 > 父层：[`../README.md`](../README.md)。
 
-本目录用于放 MVP 和后续 UE 工程。当前第一个工程位置：
+本目录包含已用于第一批生产的`datatry_02/`、诊断工程`UE58VulkanCubeSmoke/`和历史`MVPProject/`。生产/同步入口见[服务器执行](../../20_planning/data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)。
+
+以下为2026-07历史MVP记录，不能代表当前正式工程或像素Gate：
 
 ```text
 00_engine/projects/MVPProject/
 ```
 
-## 当前工程
+## 历史MVP工程
 
 `MVPProject/` 已创建为最小 UE 5.8 工程，用于 smoke test 和后续 MVP 渲染闭环：
 

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-25",
+  "updated_at": "2026-08-30",
   "default_retention": "unclassified",
-  "policy": "No output may be deleted solely because it is old. A path must be classified, have an owner, and satisfy the replacement/evidence rule in full_process/GOVERNANCE.md before cleanup.",
+  "policy": "No output may be deleted solely because it is old. A path must be classified, have an owner, and satisfy the replacement/evidence rule in full_process/GOVERNANCE.md before cleanup. The 2026-08-30 first-batch cleanup is recorded in project_management/history/reports/FIRST_BATCH_STORAGE_CLEANUP_20260830.json.",
   "retention_classes": {
     "authoritative": "Current production input, accepted dataset state, or irreplaceable manifest. Do not delete before an accepted migration.",
     "retained_evidence": "Evidence supporting a Gate, incident conclusion, or human acceptance. Delete only after replacement evidence is accepted.",
@@ -107,7 +107,7 @@
       "workflow": "WF-40/WF-50/WF-60",
       "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
       "output_contract_id": "OUT-GLOBAL-VALIDATION-EVIDENCE",
-      "reason": "UE import, runtime, animation, scene and diagnostic outputs; specific retained runs override this owner."
+      "reason": "UE import, runtime, animation, scene and diagnostic outputs."
     },
     {
       "path_prefix": "unreal_render",
@@ -115,32 +115,37 @@
       "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
       "output_contract_id": "OUT-WF80-NODE-MEDIA",
       "reason": "Local and production render outputs."
+    },
+    {
+      "path_prefix": "server_preflight",
+      "workflow": "WF-00/WF-80",
+      "owner_document": "technical/rendering_release/SERVER_EXECUTION.md",
+      "output_contract_id": "OUT-WF00-SESSION",
+      "reason": "Server environment, project smoke, Vulkan diagnostics and benchmark preflight evidence."
+    },
+    {
+      "path_prefix": "delivery",
+      "workflow": "WF-90",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "output_contract_id": "OUT-WF90-DATASET-RELEASE",
+      "reason": "Sequentially numbered videos, chain text, release manifests and delivery validation outputs."
+    },
+    {
+      "path_prefix": "mvp",
+      "workflow": "WF-00/WF-80",
+      "owner_document": "technical/rendering_release/SERVER_EXECUTION.md",
+      "output_contract_id": "OUT-WF00-SESSION",
+      "reason": "Legacy server MVP smoke output root."
     }
   ],
   "rules": [
     {
-      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v1",
-      "retention": "superseded",
-      "workflow": "global",
-      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
-      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
-      "reason": "Superseded by documentation_rebuild_20260825_v2 after exact Workflow implementation and output-role contracts were added."
-    },
-    {
-      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v2",
-      "retention": "superseded",
-      "workflow": "global",
-      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
-      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
-      "reason": "Superseded by documentation_rebuild_20260825_v3 after formal Render Job implementation, WF-80 status, plan and output-governance closure."
-    },
-    {
-      "path_prefix": "documentation_audit/documentation_rebuild_20260825_v3",
-      "retention": "retained_evidence",
-      "workflow": "global",
-      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
-      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
-      "reason": "Accepted documentation audit after formal Render Job executor implementation, local Gate evidence, R07 closure and server-next-step reconciliation."
+      "path_prefix": "delivery/first_batch_candidate_20260830_v002",
+      "retention": "authoritative",
+      "workflow": "WF-90",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "output_contract_id": "OUT-WF90-DATASET-RELEASE",
+      "reason": "Current immutable first-batch dataset candidate plus compact render and release evidence. Package contents passed local full verification and user visual signoff; independent-machine verification remains pending."
     },
     {
       "path_prefix": "first_batch_dataset/graph_20260824_v1",
@@ -148,7 +153,7 @@
       "workflow": "WF-70",
       "owner_document": "technical/dataset/CONFIG_GRAPH_AND_CHAINS.md",
       "output_contract_id": "OUT-WF70-JOB-GRAPH",
-      "reason": "Accepted first-batch graph, chains, render jobs, review sample, and current v2 prompt layer; superseded prompt v1 was reviewed and removed on 2026-08-25."
+      "reason": "Accepted first-batch graph, chains, render jobs, review sample and current v2 prompt layer required to reproduce the package."
     },
     {
       "path_prefix": "character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001",
@@ -157,86 +162,6 @@
       "owner_document": "technical/dataset/PROMPT_LAYER.md",
       "output_contract_id": "OUT-WF70-JOB-GRAPH",
       "reason": "Accepted eight-identity reference images used by the prompt layer."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_32look_matrix_20260824_v002",
-      "retention": "retained_evidence",
-      "workflow": "WF-50",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Accepted 32-Look local visual matrix."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_chain_visual_smoke_20260824_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Accepted chain-level local render smoke evidence."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v001",
-      "retention": "disposable",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Failed pre-media probe from the corrected attempt-directory ownership defect; no accepted node media was produced."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v002",
-      "retention": "superseded",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Superseded by v003 after the portable transitive input lock and resume behavior were finalized."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v003",
-      "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Accepted local formal-executor evidence: two real nodes rendered and accepted, then reused by SHA-validated resume without rerendering."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_day2_20260822_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-50",
-      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
-      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Day-2 runtime validation evidence."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_day3_20260823_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-60",
-      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
-      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
-      "reason": "Accepted scene, camera, and sequence evidence."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_render_audit_20260824_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Current local render asset audit."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_full_reference_expansion_20260822_v2",
-      "retention": "retained_evidence",
-      "workflow": "WF-40",
-      "owner_document": "technical/transfer/CC_TO_UE_FULLREFERENCE.md",
-      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
-      "reason": "Accepted 32-Look FullReference expansion evidence."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_motions_20260822_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-50",
-      "owner_document": "technical/transfer/MOTION_TRANSFER.md",
-      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Accepted first-batch motion import evidence."
     }
   ]
 }

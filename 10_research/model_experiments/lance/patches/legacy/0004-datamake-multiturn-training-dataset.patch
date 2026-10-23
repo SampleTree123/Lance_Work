@@ -1,0 +1,368 @@
+diff --git a/data/dataset_info.py b/data/dataset_info.py
+index 013178a..c5311b0 100644
+--- a/data/dataset_info.py
++++ b/data/dataset_info.py
+@@ -4,6 +4,9 @@ from data.datasets_factory.dataset_x2v_interleave import X2VInterleaveIterableDa
+ from data.datasets_factory.dataset_x2v_interleave_local import X2VInterleaveLocalIterableDataset
+ from data.datasets_factory.dataset_x2t_interleave import X2TInterleaveIterableDataset
+ from data.datasets_factory.dataset_x2t_interleave_local import X2TInterleaveLocalIterableDataset
++from data.datasets_factory.dataset_datamake_multiturn_v2v_local import (
++    DataMakeMultiTurnV2VLocalIterableDataset,
++)
+ 
+ DATASET_REGISTRY = {
+     # GEN
+@@ -11,4 +14,5 @@ DATASET_REGISTRY = {
+     'x2v_interleave_local': X2VInterleaveLocalIterableDataset,
+     'x2t_interleave': X2TInterleaveIterableDataset,
+     'x2t_interleave_local': X2TInterleaveLocalIterableDataset,
++    'datamake_multiturn_v2v_local': DataMakeMultiTurnV2VLocalIterableDataset,
+     }
+diff --git a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+new file mode 100644
+index 0000000..61ad409
+--- /dev/null
++++ b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+@@ -0,0 +1,341 @@
++# coding: utf-8
++
++"""DataMake multi-turn video-edit training dataset.
++
++Each parquet row represents one chain prefix. Historical videos are semantic
++ViT references, the latest input video is the only clean VAE source, and the
++final video is the VAE training target. This mirrors DataMake's role-aware
++multi-turn inference layout without duplicating video bytes in parquet.
++"""
++
++from __future__ import annotations
++
++import os
++import random
++from typing import Any, Dict, List, Optional, Tuple
++
++from data.common import generate_system_prompt
++from data.system_prompt_render import VS, VE, render_qwenvl_prompt
++from data.datasets_factory.dataset_x2v_interleave_local import (
++    X2VInterleaveLocalIterableDataset,
++)
++
++
++def _find_last_exact(all_ids: List[int], needle: List[int]) -> int:
++    if not needle:
++        return -1
++    last = -1
++    width = len(needle)
++    for index in range(len(all_ids) - width + 1):
++        if all_ids[index : index + width] == needle:
++            last = index
++    return last
++
++
++def expand_and_index_multiturn(
++    rendered_text: str,
++    tokens: List[int],
++    tokenizer,
++    target_text: str = "assistant\n",
++    search_text: str = "",
++) -> Tuple[List[int], List[List[int]], List[int], List[int]]:
++    """Expand visual placeholders and index the final assistant/current prompt."""
++
++    vision_start_ids = tokenizer(VS, add_special_tokens=False)["input_ids"]
++    vision_end_ids = tokenizer(VE, add_special_tokens=False)["input_ids"]
++    base_ids = tokenizer(rendered_text, add_special_tokens=False)["input_ids"]
++
++    all_ids: List[int] = []
++    spans_index: List[List[int]] = []
++    cursor = 0
++    token_count_index = 0
++
++    while True:
++        try:
++            vision_start = base_ids[cursor:].index(vision_start_ids[0]) + cursor
++        except ValueError:
++            all_ids.extend(base_ids[cursor:])
++            break
++
++        all_ids.extend(base_ids[cursor:vision_start])
++        cursor = vision_start + 3
++        if token_count_index >= len(tokens):
++            raise ValueError("more visual placeholders than visual token counts")
++
++        pad_ids = base_ids[vision_start + 1 : vision_start + 2]
++        count = int(tokens[token_count_index])
++        start = len(all_ids) + 1
++        end = start + count
++        all_ids.extend(vision_start_ids + pad_ids * count + vision_end_ids)
++        spans_index.append(list(range(start, end)))
++        token_count_index += 1
++
++    if token_count_index != len(tokens):
++        raise ValueError(
++            f"visual placeholder count {token_count_index} does not match "
++            f"visual token count entries {len(tokens)}"
++        )
++
++    target_ids = tokenizer(target_text, add_special_tokens=False)["input_ids"]
++    target_start = _find_last_exact(all_ids, target_ids)
++    target_index = (
++        list(range(target_start + len(target_ids), len(all_ids)))
++        if target_start >= 0
++        else []
++    )
++
++    search_index: List[int] = []
++    if search_text:
++        search_ids = tokenizer(search_text, add_special_tokens=False)["input_ids"]
++        search_start = _find_last_exact(all_ids, search_ids)
++        if search_start >= 0:
++            search_index = list(
++                range(search_start, search_start + len(search_ids))
++            )
++
++    return all_ids, spans_index, target_index, search_index
++
++
++class DataMakeMultiTurnV2VLocalIterableDataset(
++    X2VInterleaveLocalIterableDataset
++):
++    """Read path-based DataMake chain prefixes and build role-aware samples."""
++
++    DATASET_TYPE = "datamake_multiturn_video2video"
++
++    def __init__(self, *args, **kwargs):
++        kwargs.setdefault("raw_bytes_input", False)
++        self.media_root = os.path.abspath(kwargs.get("media_root", "."))
++        super().__init__(*args, **kwargs)
++
++    def _validate_local_row(self, row):
++        if self.dataset_type != self.DATASET_TYPE:
++            raise ValueError(
++                f"{self.__class__.__name__} requires dataset_type="
++                f"{self.DATASET_TYPE}, got {self.dataset_type}"
++            )
++
++        required = {"sample_id", "chain_id", "target_round", "prompts", "video_paths"}
++        missing = sorted(required - set(row))
++        if missing:
++            raise ValueError(f"missing required keys {missing}")
++
++        prompts = row["prompts"]
++        video_paths = row["video_paths"]
++        target_round = int(row["target_round"])
++        context_length = int(row.get("context_length", len(prompts)))
++        if not isinstance(prompts, list) or not all(
++            isinstance(prompt, str) and prompt.strip() for prompt in prompts
++        ):
++            raise ValueError("prompts must be a non-empty list of strings")
++        if not isinstance(video_paths, list) or not all(
++            isinstance(path, str) and path.strip() for path in video_paths
++        ):
++            raise ValueError("video_paths must be a non-empty list of strings")
++        if target_round < 1:
++            raise ValueError(f"target_round must be >= 1, got {target_round}")
++        if context_length != len(prompts):
++            raise ValueError(
++                f"context_length {context_length} does not match prompts {len(prompts)}"
++            )
++        if len(video_paths) != len(prompts) + 1:
++            raise ValueError(
++                f"video_paths must contain one more item than prompts, got "
++                f"{len(video_paths)} and {len(prompts)}"
++            )
++
++    def _resolve_media_path(self, value: str) -> str:
++        is_absolute = os.path.isabs(value)
++        path = value if is_absolute else os.path.join(self.media_root, value)
++        path = os.path.realpath(path)
++        if not is_absolute and os.path.commonpath([self.media_root, path]) != self.media_root:
++            raise ValueError(f"DataMake media path escapes media_root: {value}")
++        if not os.path.isfile(path):
++            raise FileNotFoundError(f"DataMake media does not exist: {path}")
++        return path
++
++    def _read_media_bytes(self, value: str, cache: Dict[str, bytes]) -> bytes:
++        path = self._resolve_media_path(value)
++        if path not in cache:
++            with open(path, "rb") as stream:
++                cache[path] = stream.read()
++        return cache[path]
++
++    def _process_row(
++        self,
++        row: Any,
++        parquet_idx: int,
++        row_group_id: int,
++        row_idx: int,
++        worker_id: int,
++        parquet_file_path: str,
++    ) -> Optional[Dict[str, Any]]:
++        try:
++            self._validate_local_row(row)
++            prompts = list(row["prompts"])
++            video_paths = list(row["video_paths"])
++            latest_source_index = len(video_paths) - 2
++            drop_all_text = random.random() < self.data_config["text_cond_dropout_prob"]
++
++            video_tensor_list = []
++            sequence_plan = []
++            visual_token_counts: List[int] = []
++            media_cache: Dict[str, bytes] = {}
++
++            def add_condition(
++                path_value: str,
++                message_content: List[Dict[str, str]],
++                include_vae: bool,
++            ) -> None:
++                media_bytes = self._read_media_bytes(path_value, media_cache)
++                include_vit = random.random() >= self.data_config["vit_cond_dropout_prob"]
++
++                if include_vit and "vit" in self.vision_cond_type:
++                    tensor, num_tokens, thw = self.get_video_tensor(
++                        media_bytes,
++                        vision_stream="vit_video",
++                        worker_id=worker_id,
++                        element_dtype="video",
++                        raw_bytes_input=True,
++                    )
++                    video_tensor_list.append(tensor)
++                    sequence_plan.append(
++                        {
++                            "type": "vit_video",
++                            "enable_cfg": 1,
++                            "loss": 0,
++                            "special_token_loss": 0,
++                            "special_token_label": None,
++                            "thw": thw,
++                            "apply_text_template": True,
++                        }
++                    )
++                    visual_token_counts.append(num_tokens)
++                    message_content.append({"type": "video"})
++
++                if include_vae and "vae_Nsplit" in self.vision_cond_type:
++                    tensor, num_tokens, thw = self.get_video_tensor(
++                        media_bytes,
++                        vision_stream="vae_video",
++                        worker_id=worker_id,
++                        element_dtype="video",
++                        raw_bytes_input=True,
++                    )
++                    video_tensor_list.append(tensor)
++                    sequence_plan.append(
++                        {
++                            "type": "vae_video",
++                            "enable_cfg": 1,
++                            "loss": 0,
++                            "special_token_loss": 0,
++                            "special_token_label": None,
++                            "thw": thw,
++                            "apply_text_template": True,
++                        }
++                    )
++                    visual_token_counts.append(num_tokens)
++                    message_content.append({"type": "video"})
++
++            messages: List[Dict[str, Any]] = []
++            for prompt_index, prompt in enumerate(prompts):
++                user_content: List[Dict[str, str]] = []
++                if prompt_index == 0:
++                    add_condition(
++                        video_paths[0],
++                        user_content,
++                        include_vae=latest_source_index == 0,
++                    )
++                if not drop_all_text:
++                    user_content.append({"type": "text", "text": prompt})
++                messages.append({"role": "user", "content": user_content})
++
++                if prompt_index < len(prompts) - 1:
++                    assistant_content: List[Dict[str, str]] = []
++                    source_index = prompt_index + 1
++                    add_condition(
++                        video_paths[source_index],
++                        assistant_content,
++                        include_vae=source_index == latest_source_index,
++                    )
++                    messages.append(
++                        {"role": "assistant", "content": assistant_content}
++                    )
++
++            target_bytes = self._read_media_bytes(video_paths[-1], media_cache)
++            target_tensor, target_tokens, target_thw = self.get_video_tensor(
++                target_bytes,
++                vision_stream="vae_video",
++                worker_id=worker_id,
++                element_dtype="video",
++                raw_bytes_input=True,
++            )
++            video_tensor_list.append(target_tensor)
++            sequence_plan.append(
++                {
++                    "type": "vae_video",
++                    "enable_cfg": 0,
++                    "loss": 1,
++                    "special_token_loss": 0,
++                    "special_token_label": None,
++                    "frame_condition_idx": [],
++                    "L_video_group": self.L_video_group,
++                    "random_choose_group": self.random_choose_group,
++                    "thw": target_thw,
++                    "apply_text_template": True,
++                }
++            )
++            visual_token_counts.append(target_tokens)
++            messages.append(
++                {"role": "assistant", "content": [{"type": "video"}]}
++            )
++
++            current_prompt = "" if drop_all_text else prompts[-1]
++            rendered = render_qwenvl_prompt(
++                messages,
++                default_system=generate_system_prompt("edit", vision_type="video"),
++                include_assistant_content=True,
++            ).strip()
++            all_token_ids, spans_index, target_index, search_index = (
++                expand_and_index_multiturn(
++                    rendered,
++                    visual_token_counts,
++                    tokenizer=self.tokenizer,
++                    target_text="assistant\n",
++                    search_text=current_prompt,
++                )
++            )
++            sequence_plan.append(
++                {
++                    "type": "text_template",
++                    "enable_cfg": 0,
++                    "loss": 0,
++                    "special_token_loss": 0,
++                    "special_token_label": None,
++                    "packed_label_index": target_index,
++                    "spans_index": spans_index,
++                    "cap_index": search_index,
++                }
++            )
++
++            return {
++                "video_tensor_list": video_tensor_list,
++                "text_ids_list": [all_token_ids],
++                "num_tokens": len(all_token_ids),
++                "sequence_plan": sequence_plan,
++                "sample_task": "edit",
++                "N_target": 1,
++                "data_indexes": {
++                    "data_indexes": [parquet_idx, row_group_id, row_idx],
++                    "worker_id": worker_id,
++                    "dataset_name": self.dataset_name,
++                    "sample_id": row["sample_id"],
++                    "chain_id": row["chain_id"],
++                    "target_round": int(row["target_round"]),
++                },
++            }
++        except Exception as error:
++            self.logger.warning(
++                f"Error processing DataMake multi-turn row: {error} in "
++                f"rg#{row_group_id}, {parquet_file_path}"
++            )
++            return None
+

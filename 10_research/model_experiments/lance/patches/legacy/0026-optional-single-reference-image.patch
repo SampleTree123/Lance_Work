@@ -1,0 +1,312 @@
+--- a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
++++ b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+@@ -15,6 +15,7 @@
+ from typing import Any, Dict, List, Optional, Tuple
+ 
+ from data.common import generate_system_prompt
++from data.datamake_reference_image import normalize_reference_images, append_reference_condition
+ from data.system_prompt_render import VS, VE, render_qwenvl_prompt
+ from data.datasets_factory.dataset_x2v_interleave import X2VInterleaveIterableDataset
+ 
+@@ -180,6 +181,7 @@
+         worker_id: int,
+         parquet_file_path: str,
+     ) -> Optional[Dict[str, Any]]:
++        references = normalize_reference_images(row)
+         try:
+             self._validate_local_row(row)
+             prompts = list(row["prompts"])
+@@ -256,6 +258,10 @@
+                         user_content,
+                         include_vae=latest_source_index == 0,
+                     )
++                append_reference_condition(
++                    self, references[prompt_index], user_content, video_tensor_list,
++                    sequence_plan, visual_token_counts, drop_text=drop_all_text,
++                )
+                 if not drop_all_text:
+                     user_content.append({"type": "text", "text": prompt})
+                 messages.append({"role": "user", "content": user_content})
+@@ -346,6 +352,8 @@
+                 },
+             }
+         except Exception as error:
++            if any(ref is not None for ref in references):
++                raise RuntimeError(f"Failed reference-conditioned row {row.get('sample_id')}") from error
+             self.logger.warning(
+                 f"Error processing DataMake multi-turn row: {error} in "
+                 f"rg#{row_group_id}, {parquet_file_path}"
+--- a/data/datasets_factory/datamake_online_rollout_turn.py
++++ b/data/datasets_factory/datamake_online_rollout_turn.py
+@@ -17,6 +17,7 @@
+ import torch
+ 
+ from data.common import generate_system_prompt
++from data.datamake_reference_image import normalize_reference_images, append_reference_condition
+ from data.system_prompt_render import render_qwenvl_prompt
+ from data.datasets_factory.dataset_datamake_multiturn_v2v_local import (
+     expand_and_index_multiturn,
+@@ -109,6 +110,7 @@
+ ) -> Optional[Dict[str, Any]]:
+     """Build one role-aware training turn using path or in-memory video inputs."""
+ 
++    references = normalize_reference_images(row)
+     try:
+         video_inputs = _validate_online_row(dataset, row)
+         prompts = list(row["prompts"])
+@@ -179,6 +181,10 @@
+                     user_content,
+                     include_vae=latest_source_index == 0,
+                 )
++            append_reference_condition(
++                dataset, references[prompt_index], user_content, video_tensor_list,
++                sequence_plan, visual_token_counts, drop_text=drop_all_text,
++            )
+             if not drop_all_text:
+                 user_content.append({"type": "text", "text": prompt})
+             messages.append({"role": "user", "content": user_content})
+@@ -259,6 +265,8 @@
+             },
+         }
+     except Exception as error:
++        if any(ref is not None for ref in references):
++            raise RuntimeError(f"Failed reference-conditioned row {row.get('sample_id')}") from error
+         dataset.logger.warning(
+             f"Error processing DataMake online-rollout row: {error} in "
+             f"rg#{row_group_id}, {parquet_file_path}"
+--- a/train/datamake_chain_window_schedule.py
++++ b/train/datamake_chain_window_schedule.py
+@@ -6,6 +6,7 @@
+ import random
+ 
+ import pyarrow.parquet as pq
++from data.datamake_reference_image import normalize_reference_images
+ 
+ VERSION = "whole_chain_fixed_target_window_v1"
+ 
+@@ -41,6 +42,8 @@
+             row, k = record["row"], int(record["row"]["target_round"])
+             if row["prompts"] != longest["prompts"][:k] or row["video_paths"] != longest["video_paths"][:k+1]:
+                 raise ValueError(f"Inconsistent chain prefixes: {chain_id}")
++            if normalize_reference_images(row) != normalize_reference_images(longest)[:k]:
++                raise ValueError(f"Inconsistent reference images across chain prefixes: {chain_id}")
+         if any(count > 1 and k < length for k, count in counts.items()):
+             raise ValueError("Only terminal-round repeats are supported")
+         chains.append(dict(chain_id=chain_id, length=length, records=records,
+--- a/train/datamake_pred_x0_prefix.py
++++ b/train/datamake_pred_x0_prefix.py
+@@ -5,6 +5,7 @@
+ import torch
+ 
+ from data.dataset_base_train import simple_custom_collate
++from data.datamake_reference_image import normalize_reference_images
+ from data.datasets_factory.datamake_online_rollout_turn import process_online_rollout_row
+ from train.datamake_stage2_lora_data import IndexedPrefixDataset, locate_prefix, preprocessing_rng
+ 
+@@ -22,6 +23,9 @@
+     if any(video.requires_grad or video.grad_fn is not None for video in histories):
+         raise ValueError("Generated history must be detached")
+     result = dict(row)
++    references = normalize_reference_images(row)
++    if "reference_images" in row:
++        result["reference_images"] = references[:round_number]
+     result.update(target_round=round_number, context_length=round_number,
+                   prompts=list(row["prompts"][:round_number]),
+                   video_paths=list(row["video_paths"][:round_number + 1]))
+--- a/train/datamake_online_rollout.py
++++ b/train/datamake_online_rollout.py
+@@ -172,6 +172,9 @@
+ 
+ 
+ def _chain_from_row(row: Mapping[str, Any]) -> ChainRecord:
++    from data.datamake_reference_image import normalize_reference_images
++    if any(ref is not None for ref in normalize_reference_images(row)):
++        raise ValueError("Legacy chain-record training does not support reference images; use the DDP prefix entry")
+     if row.get("schema_version") != "datamake_lance_chain_dataset_v1":
+         raise ValueError(f"unsupported chain row schema: {row.get('schema_version')}")
+     prompts = tuple(str(value) for value in row["prompts"])
+--- a/multiturn/conversation.py
++++ b/multiturn/conversation.py
+@@ -142,6 +142,9 @@
+     num_frames: Optional[int] = None
+     # Free-form metadata (e.g. saved output path) attached after generation.
+     meta: Dict[str, Any] = field(default_factory=dict)
++    # Optional appearance reference for this instruction. Kept separate from
++    # content visuals so it can never become the next direct VAE edit source.
++    reference_image: Optional[str] = None
+ 
+     def __post_init__(self) -> None:
+         if self.role not in _VALID_ROLES:
+@@ -152,6 +155,13 @@
+             )
+         if self.role == ROLE_ASSISTANT and self.action is not None:
+             raise ValueError("assistant turns must not declare an action")
++        if self.reference_image is not None:
++            if not isinstance(self.reference_image, str) or not self.reference_image.strip():
++                raise ValueError("reference_image must be a non-empty image path or null")
++            if self.role != ROLE_USER:
++                raise ValueError("reference_image is only supported on user turns")
++            if self.action not in (None, TurnAction.EDIT_VIDEO):
++                raise ValueError("reference_image is currently supported only for edit_video")
+ 
+     @property
+     def visual_items(self) -> List[ContentItem]:
+@@ -169,6 +179,8 @@
+     def from_dict(cls, raw: Dict[str, Any]) -> "Turn":
+         if not isinstance(raw, dict):
+             raise TypeError(f"turn must be a dict, got {type(raw).__name__}: {raw!r}")
++        if "reference_images" in raw or "reference_image_paths" in raw:
++            raise ValueError("Inference turns use the singular reference_image field")
+         role = raw.get("role")
+         if role not in _VALID_ROLES:
+             raise ValueError(f"turn 'role' must be one of {_VALID_ROLES}, got {role!r}")
+@@ -201,6 +213,7 @@
+             width=raw.get("width"),
+             num_frames=raw.get("num_frames"),
+             meta=dict(raw.get("meta", {})),
++            reference_image=raw.get("reference_image"),
+         )
+ 
+     def to_dict(self) -> Dict[str, Any]:
+@@ -216,6 +229,8 @@
+                 out[key] = value
+         if self.meta:
+             out["meta"] = dict(self.meta)
++        if self.reference_image is not None:
++            out["reference_image"] = self.reference_image
+         return out
+ 
+ 
+--- a/multiturn/sequence_builder.py
++++ b/multiturn/sequence_builder.py
+@@ -39,6 +39,7 @@
+ import torch
+ 
+ from data.common import generate_system_prompt
++from data.datamake_reference_image import REFERENCE_IMAGE_PROMPT, read_reference_tensor
+ from data.data_utils import get_flattened_position_ids_extrapolate_video
+ from data.datasets_custom.validation_dataset import (
+     ValidationDataset,
+@@ -230,6 +231,8 @@
+             )
+         action = turn.action
+         history = conversation.turns[: target_user_idx + 1]
++        if any(t.reference_image is not None for t in history) and action != TurnAction.EDIT_VIDEO:
++            raise ValueError("conversations with reference images currently support edit_video only")
+ 
+         if action.is_text_output:
+             return self._build_text(conversation, history, turn, action)
+@@ -327,7 +330,7 @@
+ 
+         for turn in history:
+             content: List[Dict[str, Any]] = []
+-            for item in self._ordered_content(turn):
++            for item in turn.visual_items:
+                 if item.is_visual:
+                     vae_tensor = self._add_visual_condition(
+                         item,
+@@ -340,8 +343,23 @@
+                     )
+                     if vae_tensor is not None:
+                         last_vae_cond = vae_tensor
+-                else:
+-                    content.append({"type": MODALITY_TEXT, "text": item.value})
++            if turn.reference_image is not None:
++                # Use the shared static-image preprocessing, not the online
++                # video reader (which can be patched with CoinVE crop windows).
++                reference = read_reference_tensor(turn.reference_image, self.vit_transform)
++                self.sample, _, _, _, curr_video_grid_thw, reference_k = self.process_vit_video(
++                    reference, curr=0, curr_rope_id=0, curr_split_len=0,
++                    curr_video_grid_thw=curr_video_grid_thw, item_loss=0,
++                )
++                content.append({"type": MODALITY_TEXT, "text": REFERENCE_IMAGE_PROMPT})
++                # Static T=1 ViT grid shares the video positional-index stream.
++                # Mixing image/video placeholders would reset separate RoPE
++                # counters in the existing video-only packed path.
++                content.append({"type": MODALITY_VIDEO})
++                video_types.append("vit_video")
++                vit_num_tokens.append(reference_k)
++            for item in turn.text_items:
++                content.append({"type": MODALITY_TEXT, "text": item.value})
+             if content:
+                 messages.append({"role": turn.role, "content": content})
+ 
+--- /dev/null
++++ b/data/datamake_reference_image.py
+@@ -0,0 +1,76 @@
++"""Optional one-image-per-turn conditions shared by training and inference.
++
++Static images use the existing ViT video stream with one temporal patch (two
++identical frames), not a new image/video RoPE cursor or a VAE source.  No new
++vocabulary or parameters are introduced.
++"""
++from pathlib import Path
++import math
++import random
++
++from PIL import Image, ImageOps
++import torch
++
++
++REFERENCE_IMAGE_PROMPT = (
++    "Reference image for this instruction: use only the attributes requested "
++    "by the instruction; preserve the other content of the source video.\n"
++)
++
++
++def normalize_reference_images(row):
++    """Return optional paths aligned with prompts; never silently discard input."""
++    if "reference_image" in row or "reference_image_paths" in row:
++        raise ValueError("Training rows use reference_images, aligned with prompts")
++    count = len(row["prompts"])
++    refs = row.get("reference_images")
++    if refs is None:
++        return [None] * count
++    if not isinstance(refs, list) or len(refs) != count:
++        raise ValueError("reference_images must be a list aligned with prompts")
++    for ref in refs:
++        if ref is not None and (not isinstance(ref, str) or not ref.strip()):
++            raise ValueError("Each turn accepts one nonempty reference image path or null")
++        if isinstance(ref, str) and "://" in ref:
++            raise ValueError("Reference images must be local files")
++    return list(refs)
++
++
++def read_reference_tensor(path, vit_transform):
++    """Decode a single still image and apply the existing official transform."""
++    path = Path(path)
++    with Image.open(path) as image:
++        if getattr(image, "n_frames", 1) != 1:
++            raise ValueError("Reference must be a single still image, not an animation")
++        frame = ImageOps.exif_transpose(image).convert("RGB")
++        tensor = vit_transform([frame])
++    if not isinstance(tensor, torch.Tensor) or tensor.ndim != 4 or tensor.shape[:2] != (3, 1):
++        raise ValueError("Reference ViT transform must return one RGB frame in CTHW")
++    # Qwen's temporal patch size is two; this is one static temporal position.
++    return torch.cat([tensor, tensor[:, -1:]], dim=1)
++
++
++def append_reference_condition(dataset, path, message, tensors, plan, counts, drop_text=False):
++    if path is None:
++        return
++    if "vit" not in dataset.vision_cond_type:
++        raise ValueError("Reference image conditioning requires the ViT stream")
++    # Do not call _read_media_bytes: CoinVE overrides it with video crop handles.
++    resolved = dataset._resolve_media_path(path)
++    tensor = read_reference_tensor(resolved, dataset.vit_transform)
++    probability = float(dataset.data_config.get("vit_cond_dropout_prob", 0.0))
++    if not math.isfinite(probability) or not 0 <= probability <= 1:
++        raise ValueError("vit_cond_dropout_prob must be finite and in [0, 1]")
++    if probability > 0 and random.random() < probability:
++        return
++    dataset.vision_stream, dataset.data_mode = "vit_video", "online"
++    count = dataset.vision_token_count(tensor)
++    tensors.append(tensor)
++    plan.append(dict(type="vit_video", enable_cfg=1, loss=0,
++                     special_token_loss=0, special_token_label=None, thw=None,
++                     apply_text_template=True, datamake_edit_role="reference_image"))
++    counts.append(count)
++    if not drop_text:
++        message.append({"type": "text", "text": REFERENCE_IMAGE_PROMPT})
++    # A video placeholder intentionally shares the single video-grid cursor.
++    message.append({"type": "video"})

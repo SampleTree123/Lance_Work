@@ -1,0 +1,494 @@
+diff --git a/train/datamake_branch_lora.py b/train/datamake_branch_lora.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_branch_lora.py
+@@ -0,0 +1,106 @@
++"""Stage6 parameter-only branch ablation; Stage5's adapter code stays frozen."""
++from dataclasses import dataclass
++import hashlib
++import json
++from pathlib import Path
++
++import torch
++from torch import nn
++
++from train.datamake_generation_lora import (
++    GenerationLoRAConfig, LoRALinear, GENERATION_EXPERT_SUFFIXES,
++    GENERATION_IO_NAMES, LORA_CONFIG_FILENAME, LORA_ADAPTER_FILENAME,
++    _resolve_parent, load_adapter_state_dict,
++)
++
++SCHEMA = "datamake_lance_branch_lora_v1"
++UND_SUFFIXES = (
++    "self_attn.q_proj", "self_attn.k_proj", "self_attn.v_proj",
++    "self_attn.o_proj", "mlp.gate_proj", "mlp.up_proj", "mlp.down_proj",
++)
++
++
++@dataclass(frozen=True)
++class BranchLoRAConfig(GenerationLoRAConfig):
++    schema_version: str = SCHEMA
++
++    def validate(self):
++        if self.schema_version != SCHEMA:
++            raise ValueError("Not a Stage6 branch adapter")
++        if self.target_scope not in {"generation_experts_and_io", "both_branches"}:
++            raise ValueError(f"Unknown branch scope: {self.target_scope}")
++        if self.rank <= 0 or self.alpha <= 0 or not 0 <= self.dropout < 1:
++            raise ValueError("Invalid LoRA rank/alpha/dropout")
++        if self.expected_target_modules <= 0:
++            raise ValueError("LoRA target count must be positive")
++
++
++def config_from_profile(profile):
++    frozen = profile["freeze"]["understanding_adapters"]
++    lora = profile["lora"]
++    return BranchLoRAConfig(
++        rank=lora["rank"], alpha=lora["alpha"], dropout=lora["dropout"],
++        target_scope="generation_experts_and_io" if frozen else "both_branches",
++        expected_target_modules=256 if frozen else 508,
++    )
++
++
++def is_generation_target(name):
++    return name in GENERATION_IO_NAMES or (
++        name.startswith("language_model.model.layers.")
++        and name.endswith(GENERATION_EXPERT_SUFFIXES)
++    )
++
++
++def is_understanding_target(name):
++    return (name.startswith("language_model.model.layers.")
++            and name.endswith(UND_SUFFIXES))
++
++
++def apply_branch_lora(model, config, seed=2026):
++    config.validate()
++    targets = [
++        (name, module) for name, module in model.named_modules()
++        if isinstance(module, nn.Linear) and (
++            is_generation_target(name) or
++            (config.target_scope == "both_branches" and is_understanding_target(name)))
++    ]
++    if len(targets) != config.expected_target_modules:
++        raise ValueError(f"Expected {config.expected_target_modules} LoRA modules, got {len(targets)}")
++    model.requires_grad_(False)
++    for name, module in targets:
++        # Per-name initialization keeps common GEN adapters identical in both
++        # arms without consuming the noise/data RNG differently.
++        devices = [module.weight.device.index] if module.weight.is_cuda else []
++        with torch.random.fork_rng(devices=devices):
++            module_seed = int.from_bytes(hashlib.sha256(f"{seed}:{name}".encode()).digest()[:8], "little")
++            torch.random.default_generator.manual_seed(module_seed)
++            if devices:
++                torch.cuda.manual_seed(module_seed)
++            adapter = LoRALinear(module, config.rank, config.alpha, config.dropout)
++        adapter.lora_A.data = adapter.lora_A.data.float()
++        adapter.lora_B.data = adapter.lora_B.data.float()
++        parent, child = _resolve_parent(model, name)
++        setattr(parent, child, adapter)
++    return [name for name, _ in targets]
++
++
++def read_branch_config(path):
++    return BranchLoRAConfig.from_dict(json.loads(Path(path).read_text()))
++
++
++def install_branch_adapter_inference_loader(checkpoint):
++    """Load explicit base first, then the same wrappers and saved adapters."""
++    import inference_lance
++    from safetensors.torch import load_file
++    checkpoint = Path(checkpoint)
++    config = read_branch_config(checkpoint / LORA_CONFIG_FILENAME)
++    original_loader = inference_lance.init_from_model_path_if_needed
++
++    def load(model, model_args):
++        original_loader(model, model_args)
++        apply_branch_lora(model, config)
++        return load_adapter_state_dict(model, load_file(str(checkpoint / LORA_ADAPTER_FILENAME)))
++
++    inference_lance.init_from_model_path_if_needed = load
++    return original_loader
+diff --git a/train/datamake_stage2_lora_checkpoint.py b/train/datamake_stage2_lora_checkpoint.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_stage2_lora_checkpoint.py
+@@ -0,0 +1,39 @@
++"""Reuse checkpoint-v5 unchanged, with a private Stage6 config reader.
++
++The private module instance avoids changing Stage5's global loader. V5 moves
++live nested-FSDP parameter shards through optimizer DCP, not stale model views.
++"""
++import importlib.util
++from pathlib import Path
++
++import torch
++
++from train.datamake_branch_lora import read_branch_config
++
++_spec = importlib.util.spec_from_file_location(
++    "train._stage6_checkpoint_v5", Path(__file__).with_name("datamake_lora_checkpoint.py")
++)
++_core = importlib.util.module_from_spec(_spec)
++_spec.loader.exec_module(_core)
++_core.read_lora_config = read_branch_config
++
++save_lora_checkpoint = _core.save_lora_checkpoint
++load_lora_checkpoint = _core.load_lora_checkpoint
++validate_lora_checkpoint = _core.validate_lora_checkpoint
++
++
++def initialize_adam_state(optimizer):
++    """Allocate Adam's exact step-0 state, including currently unused adapters.
++
++    Final-layer UND outputs may have no loss path with CE disabled. Explicit
++    zero state makes their DCP schema stable; no fictitious optimizer update or
++    gradient is introduced. Empty local FSDP parameter shards need no state.
++    """
++    for group in optimizer.param_groups:
++        for parameter in group["params"]:
++            if parameter.numel() and not optimizer.state[parameter]:
++                optimizer.state[parameter] = {
++                    "step": torch.tensor(0., dtype=torch.float32),
++                    "exp_avg": torch.zeros_like(parameter),
++                    "exp_avg_sq": torch.zeros_like(parameter),
++                }
+diff --git a/train/datamake_stage2_lora_data.py b/train/datamake_stage2_lora_data.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_stage2_lora_data.py
+@@ -0,0 +1,68 @@
++"""One GT dialogue prefix per microbatch with a consumed, resumable cursor."""
++from contextlib import contextmanager
++import hashlib
++import random
++
++import numpy as np
++import pyarrow.parquet as pq
++import torch
++from torch.utils.data import Dataset
++
++SCHEDULE_VERSION = "rank_shards_alternating_workers_indexed_prefix_v1"
++
++
++def locate_prefix(index, shard_lengths):
++    worker = index % len(shard_lengths)
++    ordinal = index // len(shard_lengths)
++    return worker, ordinal % shard_lengths[worker], ordinal // shard_lengths[worker]
++
++
++@contextmanager
++def preprocessing_rng(seed):
++    python_state, numpy_state = random.getstate(), np.random.get_state()
++    try:
++        with torch.random.fork_rng(devices=[]):
++            random.seed(seed)
++            np.random.seed(seed % 2**32)
++            torch.random.default_generator.manual_seed(seed)
++            yield
++    finally:
++        random.setstate(python_state)
++        np.random.set_state(numpy_state)
++
++
++class IndexedPrefixDataset(Dataset):
++    def __init__(self, packer, total_microsteps, seed):
++        self.packer = packer
++        self.source = packer.grouped_datasets[0]
++        if len(packer.grouped_datasets) != 1:
++            raise ValueError("Stage6 expects exactly the DataMake prefix dataset")
++        self.paths = self.source.data_paths_per_rank
++        self.rows = [pq.read_table(path).to_pylist() for path in self.paths]
++        if len(self.rows) != 2 or not all(self.rows):
++            raise ValueError("Stage6 schedule expects two nonempty shards per rank")
++        self.total_microsteps, self.seed = total_microsteps, seed
++
++    def __len__(self):
++        return self.total_microsteps
++
++    def __getitem__(self, index):
++        worker, row_index, cycle = locate_prefix(index, [len(rows) for rows in self.rows])
++        row = self.rows[worker][row_index]
++        seed = int.from_bytes(hashlib.sha256(
++            f"{self.seed}:{self.source.local_rank}:{index}".encode()).digest()[:8], "little")
++        with preprocessing_rng(seed):
++            sample = self.source._process_row(row, 0, 0, row_index, worker, self.paths[worker])
++            if sample is None:
++                raise RuntimeError(f"Failed to decode prefix {row.get('sample_id')} at microstep {index}")
++            estimate = sample["num_tokens"] + 2 * len(sample["sequence_plan"])
++            if estimate > self.packer.max_num_tokens_per_sample:
++                raise ValueError(f"Prefix exceeds token budget: {estimate}")
++            status = self.packer.pack_sequence(sample, self.packer.set_sequence_status())
++            if status["curr"] > self.packer.max_num_tokens:
++                raise ValueError(f"Packed prefix exceeds token budget: {status['curr']}")
++            packed = self.packer.to_tensor(status)
++        packed["batch_data_indexes"] = [{
++            **sample["data_indexes"], "microstep": index, "cycle": cycle,
++        }]
++        return packed
+diff --git a/train/datamake_stage2_lora_train.py b/train/datamake_stage2_lora_train.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_stage2_lora_train.py
+@@ -0,0 +1,261 @@
++"""Stage2 GT-prefix recipe + branch-selective LoRA + optimizer-step accumulation.
++
++Usage is intentionally short: --profile FILE [--resume-from CHECKPOINT].
++The parent launcher supplies a run directory and runs the startup resume gate.
++"""
++import argparse
++from dataclasses import asdict
++import functools
++import json
++from pathlib import Path
++import sys
++from time import perf_counter
++
++import torch
++import torch.distributed as dist
++from torch.utils.data import DataLoader
++from torch.distributed.algorithms._checkpoint.checkpoint_wrapper import (
++    CheckpointImpl, apply_activation_checkpointing, checkpoint_wrapper,
++)
++from transformers import HfArgumentParser, set_seed
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
++from run_datamake_stage2_lora_training import load_profile, make_contract
++from run_datamake_formal_training import build_torchrun_command
++from config.config_factory import ModelArguments, DataArguments, TrainingArguments
++from common.utils.logging import get_logger
++from common.val.utils import make_padded_latent
++from data.dataset_base_train import PackedDataset, simple_custom_collate
++from data.data_utils import add_special_tokens
++from modeling.lance import Lance, LanceConfig
++from modeling.qwen2 import Qwen2Tokenizer
++from train.fsdp_utils import fsdp_wrapper, grad_checkpoint_check_fn
++from train.train_utils import (
++    prepare_model_paths, setup_model_components, prepare_checkpoint_loader,
++    build_fsdp_config, build_lr_scheduler, build_train_dataset_config,
++    get_image_token_id, build_edit_region_mse_weights, compute_training_loss,
++)
++from train.datamake_branch_lora import config_from_profile, apply_branch_lora
++from train.datamake_stage2_lora_checkpoint import (
++    initialize_adam_state, save_lora_checkpoint, load_lora_checkpoint,
++)
++from train.datamake_stage2_lora_data import IndexedPrefixDataset
++
++
++def recipe_arguments(profile):
++    # Reuse Stage2's exact mapping of model/data/optimizer settings, without
++    # running its full-parameter-only launcher or modifying its frozen files.
++    command = build_torchrun_command(profile, None, 29500)
++    argv = command[command.index("train/unified_train.py") + 1:]
++    return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
++
++
++def microbatch_loss(batch, model, vae, model_args, training_args, device, world):
++    data = batch.cuda(device).to_dict()
++    indexes = data.pop("batch_data_indexes")
++    ce_weights = data.pop("ce_loss_weights", None)
++    roles = data.pop("vae_edit_roles")
++    with torch.autocast("cuda", dtype=torch.bfloat16):
++        mode, videos = data.pop("vae_data_mode"), data.pop("padded_videos")
++        with torch.no_grad():
++            data["padded_latent"] = make_padded_latent(videos, mode, vae)
++            weights = build_edit_region_mse_weights(
++                data["padded_latent"], data["patchified_vae_latent_shapes"], roles,
++                model_args.latent_patch_size, training_args.edit_region_weight_boost,
++                training_args.edit_region_low_quantile, training_args.edit_region_high_quantile,
++            ) if training_args.edit_region_weighting else None
++        data.pop("padded_videos_vit", None)
++        losses = model(**data)
++    loss, metrics, _, total_tokens = compute_training_loss(
++        losses, data, ce_weights, training_args, device, world, weights,
++    )
++    return loss, metrics, total_tokens, indexes
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--profile", type=Path, required=True)
++    parser.add_argument("--run-dir", type=Path, required=True)
++    parser.add_argument("--resume-from", type=Path)
++    parser.add_argument("--stop-after", type=int)
++    parser.add_argument("--smoke", action="store_true")
++    args = parser.parse_args()
++    profile = load_profile(args.profile)
++    model_args, data_args, training_args = recipe_arguments(profile)
++    torch.set_num_threads(1)
++    torch.set_num_interop_threads(1)
++    dist.init_process_group("nccl")
++    rank, world = dist.get_rank(), dist.get_world_size()
++    device = int(__import__("os").environ["LOCAL_RANK"])
++    torch.cuda.set_device(device)
++    if world != profile["distributed"]["gpus_per_node"]:
++        raise ValueError("This profile uses four GPUs")
++    logger = get_logger()
++    log = logger.info if rank == 0 else lambda *_: None
++    run_dir = args.run_dir.resolve()
++    if rank == 0:
++        (run_dir / "configs").mkdir(parents=True, exist_ok=True)
++        (run_dir / "configs" / "profile.json").write_text(json.dumps(profile, indent=2) + "\n")
++    dist.barrier()
++    training_args.config_dir = str(run_dir / "configs")
++    training_args.N_key_frame = data_args.N_key_frame
++    training_args.incre_time_pro = data_args.incre_time_pro
++    set_seed(training_args.global_seed * world + rank)
++    prepare_model_paths(model_args, training_args)
++    llm_config, language, vit_config, vit, vae, vae_config = setup_model_components(model_args, training_args, log)
++    config = LanceConfig(
++        visual_gen=True, visual_und=True, llm_config=llm_config,
++        vit_config=vit_config, vae_config=vae_config,
++        latent_patch_size=model_args.latent_patch_size,
++        max_num_frames=model_args.max_num_frames, max_latent_size=model_args.max_latent_size,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        connector_act=model_args.connector_act, interpolate_pos=model_args.interpolate_pos,
++        timestep_shift=training_args.timestep_shift,
++    )
++    model = Lance(language_model=language, vit_model=vit, vit_type=model_args.vit_type,
++                  config=config, training_args=training_args)
++    tokenizer, token_ids, num_new_tokens = add_special_tokens(Qwen2Tokenizer.from_pretrained(model_args.model_path))
++    load_base = prepare_checkpoint_loader(
++        model_args, training_args, llm_config, language, tokenizer,
++        num_new_tokens, log, report_dir=training_args.config_dir,
++    )
++    load_base(model)  # Mandatory ordering: base -> LoRA -> FSDP -> optimizer.
++    lora_config = config_from_profile(profile)
++    targets = apply_branch_lora(model, lora_config, training_args.global_seed)
++    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
++    log(f"Stage6 targets={len(targets)} trainable_parameters={trainable} FP32 master; freeze_und=False")
++    if rank == 0:
++        (run_dir / "configs" / "lora_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
++    image_token_id = get_image_token_id(language)
++    model = fsdp_wrapper(model, build_fsdp_config(training_args))
++    apply_activation_checkpointing(
++        model, checkpoint_wrapper_fn=functools.partial(checkpoint_wrapper, checkpoint_impl=CheckpointImpl.NO_REENTRANT),
++        check_fn=grad_checkpoint_check_fn,
++    )
++    optimizer = torch.optim.AdamW(
++        [p for p in model.parameters() if p.requires_grad], lr=training_args.lr,
++        betas=(training_args.beta1, training_args.beta2), eps=training_args.eps,
++        weight_decay=profile["optimization"]["weight_decay"],
++    )
++    initialize_adam_state(optimizer)
++    scheduler = build_lr_scheduler(optimizer, training_args)
++    accumulation = profile["run"]["gradient_accumulation_steps"]
++    total_steps = profile["run"]["total_steps"]
++    stop = args.stop_after or total_steps
++    if not 0 < stop <= total_steps:
++        raise ValueError("stop-after must not change the profile's scheduler horizon")
++    contract = make_contract(profile, args.profile)
++    # Dataset construction is before RNG restoration. The loader gets its own
++    # generator; prefetch never advances the saved consumed-sample cursor.
++    dataset_config = build_train_dataset_config(data_args, model_args, training_args, vae_config)
++    packer = PackedDataset(
++        dataset_config, tokenizer=tokenizer, special_tokens=token_ids,
++        local_rank=rank, world_size=world, interpolate_pos=model_args.interpolate_pos,
++        use_flex=True, data_status=None, apply_chat_template=False,
++        image_token_id=image_token_id, cfg_type=training_args.cfg_type,
++        cfg_uncond_token_id=training_args.cfg_uncond_token_id, **asdict(data_args),
++    )
++    packer.set_epoch(data_args.data_seed)
++    dataset = IndexedPrefixDataset(packer, total_steps * accumulation, data_args.data_seed)
++    next_step = 0
++    if args.resume_from:
++        state = json.loads((args.resume_from / "trainer_state.json").read_text())
++        next_step = state["next_step"]
++        if state["next_microstep"] != next_step * accumulation:
++            raise ValueError("Checkpoint is not at the expected accumulation boundary")
++    loader = DataLoader(
++        dataset, batch_size=1, sampler=range(next_step * accumulation, stop * accumulation),
++        num_workers=data_args.num_workers, pin_memory=True, collate_fn=simple_custom_collate,
++        prefetch_factor=data_args.prefetch_factor if data_args.num_workers else None,
++        multiprocessing_context="spawn" if data_args.num_workers else None,
++        generator=torch.Generator().manual_seed(data_args.data_seed),
++    )
++    wb = None
++    if rank == 0 and not args.smoke:
++        import wandb
++        cfg = profile["wandb"]
++        wb = wandb.init(project=cfg["project"], entity=cfg["entity"], id=cfg["run_id"],
++                        name=profile["run"]["run_name"], group=cfg["group"], tags=cfg["tags"],
++                        job_type=cfg["job_type"], mode=cfg["mode"], resume="allow",
++                        config=profile, dir=str(run_dir), save_code=False)
++        wb.define_metric("optimizer_step")
++        wb.define_metric("train/*", step_metric="optimizer_step")
++        wb.define_metric("perf/*", step_metric="optimizer_step")
++    model.train()
++    optimizer.zero_grad(set_to_none=True)
++    iterator = iter(loader)
++    # W&B and worker startup must not perturb restored model/noise RNG.
++    set_seed(training_args.global_seed * world + rank)
++    if args.resume_from:
++        load_lora_checkpoint(args.resume_from, model, optimizer, scheduler, lora_config, contract)
++    for step in range(next_step, stop):
++        torch.cuda.synchronize(device)
++        start = perf_counter()
++        torch.cuda.reset_peak_memory_stats(device)
++        totals, sample_ids, tokens = {}, [], 0
++        lr_used = optimizer.param_groups[0]["lr"]
++        for micro in range(accumulation):
++            loss, metrics, count, indexes = microbatch_loss(
++                next(iterator), model, vae, model_args, training_args, device, world)
++            bad = (~torch.isfinite(loss.detach())).int()
++            dist.all_reduce(bad, op=dist.ReduceOp.MAX)
++            if bad.item():
++                raise FloatingPointError(f"Nonfinite loss at optimizer step {step + 1}")
++            # FSDP synchronizes every backward so accumulated grads stay sharded.
++            (loss / accumulation).backward()
++            for key, value in {**metrics, "loss": loss.detach()}.items():
++                totals[key] = totals.get(key, 0) + value.detach().float() / accumulation
++            tokens += int(count)
++            sample_ids.extend(item["sample_id"] for item in indexes)
++            del loss, metrics
++        grad_norm = model.clip_grad_norm_(training_args.max_grad_norm)
++        if not torch.isfinite(grad_norm):
++            raise FloatingPointError("Nonfinite gradient norm")
++        optimizer.step()
++        scheduler.step()
++        optimizer.zero_grad(set_to_none=True)
++        completed = step + 1
++        torch.cuda.synchronize(device)
++        step_time = torch.tensor(perf_counter() - start, device=device)
++        dist.all_reduce(step_time, op=dist.ReduceOp.MAX)
++        for value in totals.values():
++            dist.all_reduce(value)
++            value.div_(world)
++        memory = torch.tensor([torch.cuda.max_memory_allocated(device), torch.cuda.max_memory_reserved(device)], device=device)
++        dist.all_reduce(memory, op=dist.ReduceOp.MAX)
++        report = {
++            "optimizer_step": completed, **{f"train/{k}": v.item() for k, v in totals.items()},
++            "train/grad_norm": float(grad_norm), "train/lr": lr_used,
++            "train/next_lr": optimizer.param_groups[0]["lr"],
++            "train/target_exposures": completed * profile["run"]["global_batch_size"],
++            "perf/step_time": step_time.item(), "perf/target_videos_per_second": 32 / step_time.item(),
++            "perf/mse_tokens": tokens, "perf/peak_allocated_gib": memory[0].item() / 2**30,
++            "perf/peak_reserved_gib": memory[1].item() / 2**30,
++        }
++        if rank == 0:
++            log(json.dumps(report, sort_keys=True))
++            with (run_dir / "metrics.jsonl").open("a") as stream:
++                stream.write(json.dumps(report) + "\n")
++            if wb:
++                wb.log(report)
++        # Only the short smoke writes per-rank sample IDs/loss for comparison.
++        if args.smoke:
++            with (run_dir / f"trace.rank-{rank}.jsonl").open("a") as stream:
++                stream.write(json.dumps({"step": completed, "sample_ids": sample_ids,
++                                         "loss": totals["loss"].item()}) + "\n")
++        save = completed % profile["checkpoint"]["completed_step_interval"] == 0
++        save |= completed == stop and (args.smoke or profile["checkpoint"]["save_final_checkpoint"])
++        if save:
++            saved = save_lora_checkpoint(
++                run_dir / "checkpoints", completed, model, optimizer, scheduler,
++                lora_config, contract, {"next_microstep": completed * accumulation},
++                keep_last=profile["checkpoint"]["keep_last_complete"], logger=logger,
++            )
++            log(f"Complete adapter/Adam/scheduler/RNG/cursor checkpoint: {saved}")
++    if wb:
++        wb.finish()
++    dist.destroy_process_group()
++
++
++if __name__ == "__main__":
++    main()

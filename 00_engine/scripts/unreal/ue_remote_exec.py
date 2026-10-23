@@ -56,6 +56,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--engine-root", type=Path, default=DEFAULT_ENGINE_ROOT)
     parser.add_argument("--discovery-timeout", type=float, default=12.0)
     parser.add_argument(
+        "--multicast-bind-address",
+        default=os.environ.get("DM_UE_REMOTE_BIND_ADDRESS"),
+        help="Override the Python Remote Execution multicast interface.",
+    )
+    parser.add_argument(
+        "--multicast-ttl",
+        type=int,
+        default=int(os.environ.get("DM_UE_REMOTE_MULTICAST_TTL", "0")),
+        help="Override the Python Remote Execution multicast TTL.",
+    )
+    parser.add_argument(
         "--interactive",
         action="store_true",
         help="Allow Unreal modal UI during execution instead of unattended mode",
@@ -73,7 +84,11 @@ def main() -> int:
         payload = args.script.resolve().read_text(encoding="utf-8")
 
     remote_execution = load_remote_execution(args.engine_root.resolve())
-    session = remote_execution.RemoteExecution()
+    remote_config = remote_execution.RemoteExecutionConfig()
+    if args.multicast_bind_address:
+        remote_config.multicast_bind_address = args.multicast_bind_address
+    remote_config.multicast_ttl = args.multicast_ttl
+    session = remote_execution.RemoteExecution(remote_config)
     session.start()
     try:
         deadline = time.monotonic() + args.discovery_timeout

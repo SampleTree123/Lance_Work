@@ -1,9 +1,10 @@
 # 文件系统与资产存储约定（当前 DataMake 工作区）
 
 > 父层：[`./README.md`](./README.md) → [`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
-> 本文件是当前服务器上“东西放哪、怎么用”的权威约定。
+> 本文件保留存储原则和早期布局；当前跨机器路径以[PATH_ALIASES](../data_design/character_creator/full_process/reference/PATH_ALIASES.md)为准，实时容量/引擎可用性见[服务器同步状态](../data_design/character_creator/full_process/project_management/status/SERVER_SYNC_STATUS.md)。2026-07容量不是当前余量。
+> 2026-10-23整理：第一批已生产并发布；旧生产使用项目外的兼容构建，现原路径缺失。下文“仅MVP/尚未生产”均是7月规划范围，不覆盖后续验收。
 
-## 一、当前结论（2026-07-08）
+## 一、早期容量与部署记录（2026-07-08历史快照）
 
 管理员已确认：**不能使用 `/local`**。当前阶段的 UE 安装、DDC、MVP 工程、Lance 等外部模型验证权重/cache 和少量输出都放在当前项目目录下：
 

@@ -81,7 +81,10 @@ aa.temporal_sample_count = 1
 aa.engine_warm_up_count = 16
 aa.render_warm_up_count = 8
 aa.render_warm_up_frames = True
-aa.use_camera_cut_for_warm_up = True
+# Each dataset job starts exactly at a camera-cut boundary. Camera-cut warm-up
+# requires excess cut range to the left and otherwise leaks the previous camera
+# into the first output frame. Evaluate the target frame, then warm up in place.
+aa.use_camera_cut_for_warm_up = False
 profile.initialize_transient_settings()
 
 if not unreal.EditorAssetLibrary.save_loaded_asset(profile, only_if_is_dirty=False):
@@ -101,6 +104,10 @@ checks = {
     "deferred_pass_enabled": bool(deferred.is_enabled()),
     "single_sample_aa": int(aa.spatial_sample_count) == 1
     and int(aa.temporal_sample_count) == 1,
+    "target_frame_warm_up": not bool(aa.use_camera_cut_for_warm_up)
+    and int(aa.engine_warm_up_count) == 16
+    and int(aa.render_warm_up_count) == 8
+    and bool(aa.render_warm_up_frames),
 }
 report = {
     "schema_version": 1,
@@ -120,6 +127,9 @@ report = {
         "delivery_format": "h264_mp4",
         "spatial_samples": 1,
         "temporal_samples": 1,
+        "engine_warm_up_frames": 16,
+        "render_warm_up_frames": 8,
+        "use_camera_cut_for_warm_up": False,
     },
     "settings": setting_classes,
     "checks": checks,

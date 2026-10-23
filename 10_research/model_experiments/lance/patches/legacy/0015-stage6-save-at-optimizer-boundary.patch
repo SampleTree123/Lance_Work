@@ -1,0 +1,57 @@
+diff --git a/train/datamake_stage2_lora_checkpoint.py b/train/datamake_stage2_lora_checkpoint.py
+--- a/train/datamake_stage2_lora_checkpoint.py
++++ b/train/datamake_stage2_lora_checkpoint.py
+@@ -22,6 +22,19 @@
+ validate_lora_checkpoint = _core.validate_lora_checkpoint
+ 
+ 
++def save_and_stop_requested(run_dir, device):
++    """Poll only at an optimizer boundary; rank 0 owns the shared decision.
++
++    Keep the request file until the complete checkpoint has been saved. Do not
++    invoke FSDP checkpoint collectives from a signal handler or a worker thread.
++    """
++    request = Path(run_dir) / "SAVE_AND_STOP"
++    requested = request.is_file() if torch.distributed.get_rank() == 0 else False
++    flag = torch.tensor(int(requested), device=device, dtype=torch.int32)
++    torch.distributed.broadcast(flag, src=0)
++    return bool(flag.item())
++
++
+ def initialize_adam_state(optimizer):
+     """Allocate Adam's exact step-0 state, including currently unused adapters.
+ 
+diff --git a/train/datamake_stage2_lora_train.py b/train/datamake_stage2_lora_train.py
+--- a/train/datamake_stage2_lora_train.py
++++ b/train/datamake_stage2_lora_train.py
+@@ -38,6 +38,7 @@
+ from train.datamake_branch_lora import config_from_profile, apply_branch_lora
+ from train.datamake_stage2_lora_checkpoint import (
+     initialize_adam_state, save_lora_checkpoint, load_lora_checkpoint,
++    save_and_stop_requested,
+ )
+ from train.datamake_stage2_lora_data import IndexedPrefixDataset
+ 
+@@ -243,7 +244,8 @@
+             with (run_dir / f"trace.rank-{rank}.jsonl").open("a") as stream:
+                 stream.write(json.dumps({"step": completed, "sample_ids": sample_ids,
+                                          "loss": totals["loss"].item()}) + "\n")
++        requested_stop = save_and_stop_requested(run_dir, device)
++        save = requested_stop or completed % profile["checkpoint"]["completed_step_interval"] == 0
+-        save = completed % profile["checkpoint"]["completed_step_interval"] == 0
+         save |= completed == stop and (args.smoke or profile["checkpoint"]["save_final_checkpoint"])
+         if save:
+             saved = save_lora_checkpoint(
+@@ -252,6 +254,12 @@
+                 keep_last=profile["checkpoint"]["keep_last_complete"], logger=logger,
+             )
+             log(f"Complete adapter/Adam/scheduler/RNG/cursor checkpoint: {saved}")
++        if requested_stop:
++            if rank == 0:
++                (run_dir / "SAVE_AND_STOP").unlink(missing_ok=True)
++            dist.barrier()
++            log(f"SAVE_AND_STOP completed after optimizer step {completed}")
++            break
+     if wb:
+         wb.finish()
+     dist.destroy_process_group()

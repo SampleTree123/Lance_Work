@@ -47,6 +47,11 @@ def parse_args() -> argparse.Namespace:
         help="Use one expression for all four camera segments.",
     )
     parser.add_argument(
+        "--camera-id",
+        choices=("near", "far", "high", "side"),
+        help="Keep one camera active for the full workspace render range.",
+    )
+    parser.add_argument(
         "--action-contract-json",
         help="Frozen action runtime contract from source_manifest.json.",
     )
@@ -75,6 +80,7 @@ def main() -> int:
         f"DM_OUTPUT_SEQUENCE={args.output_sequence!r}; "
         f"DM_TARGET_ACTOR_NAME={args.target_actor!r}; "
         f"DM_SEGMENT_EXPRESSIONS={segment_expressions!r}; "
+        f"DM_RENDER_CAMERA_ID={args.camera_id!r}; "
         f"DM_REPLACE_OUTPUT=True; DM_OPEN_OUTPUT={not args.no_open!r}; "
         f"exec(compile(open({script_path!r}, 'r', encoding='utf-8').read(), "
         f"{script_path!r}, 'exec'))"

@@ -77,5 +77,37 @@ class FfmpegResolutionTests(unittest.TestCase):
         MODULE.imageio_ffmpeg.get_ffmpeg_exe.assert_not_called()
 
 
+class EvaluationPrerollTests(unittest.TestCase):
+    def test_splits_one_preroll_frame_from_150_delivery_frames(self) -> None:
+        frames = [Path(f"frame_{index:04d}.png") for index in range(151)]
+
+        discarded, delivery, mode = MODULE.split_rendered_frames(frames, 150, 1)
+
+        self.assertEqual(discarded, [Path("frame_0000.png")])
+        self.assertEqual(delivery[0], Path("frame_0001.png"))
+        self.assertEqual(delivery[-1], Path("frame_0150.png"))
+        self.assertEqual(len(delivery), 150)
+        self.assertEqual(mode, "explicit_output_discard")
+
+    def test_accepts_preroll_clipped_by_sequence_playback_range(self) -> None:
+        frames = [Path(f"frame_{index:04d}.png") for index in range(150)]
+
+        discarded, delivery, mode = MODULE.split_rendered_frames(frames, 150, 1)
+
+        self.assertEqual(discarded, [])
+        self.assertEqual(delivery, frames)
+        self.assertEqual(mode, "playback_range_clipped_preroll")
+
+    def test_rejects_missing_delivery_frame(self) -> None:
+        frames = [Path(f"frame_{index:04d}.png") for index in range(149)]
+
+        with self.assertRaisesRegex(RuntimeError, "Expected 151 rendered PNG frames"):
+            MODULE.split_rendered_frames(frames, 150, 1)
+
+    def test_rejects_negative_preroll(self) -> None:
+        with self.assertRaisesRegex(ValueError, "non-negative"):
+            MODULE.split_rendered_frames([], 0, -1)
+
+
 if __name__ == "__main__":
     unittest.main()

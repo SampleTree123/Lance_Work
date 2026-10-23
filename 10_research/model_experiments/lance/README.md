@@ -1,162 +1,45 @@
-# lance —— Lance 外部模型验证
+# Lance / DataMake 训练工作区
 
-> 父层：[`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
+最近核验：2026-10-22。当前源码已迁至官方 `4baeee0`，详见[迁移清单与验证](reports/datamake_source_migration_20261022.md)。日常使用只需看下面的当前入口；旧阶段启动器、测试、补丁分别归入 `scripts/legacy/`、`tests/legacy/`、`patches/legacy/`。
 
-本目录收拢 Lance 相关的代码、权重、输入、输出、脚本和报告。这里不是训练代码仓库；Lance 在 DataMake 中先作为外部单轮调用基线和运行验证对象。
+源码唯一安装合同是 [patches/current/source_lock.json](patches/current/source_lock.json) 和同目录的一份完整补丁；[重建/核验工具](scripts/rebuild_lance_checkout.py)支持 `--verify-only`，也支持 `--official-only` 创建未经本地修改的官方实验目录。不要重新叠加旧的26份补丁。当前训练不再导入旧训练器或手写LoRA实现，旧adapter读取/转换库保留作兼容。
 
-## 目录
+已有模型/数据/输出路径保留。训练结果快照见[2026-10-11进度](reports/datamake_progress_20261011.md)，模型语义见[训练架构详解及SVG图](reports/datamake_current_architecture_20261011.md)。旧完整checkpoint需核对实现合同才能续训；本轮不自动启动正式训练。
 
-| 路径 | 内容 | Git 状态 |
-|------|------|----------|
-| `README.md` | 本层说明 | 提交 |
-| `validation_plan.md` | Lance 下载、环境、验证计划和执行状态 | 提交 |
-| `reports/` | 稳定实验记录和结果摘要 | 提交 |
-| `scripts/` | Lance 快速验证脚本 | 提交 |
-| `inputs/video_edit/` | `video_edit` 自测输入和 prompt 模板 | 部分提交 |
-| `lance/` | 上游 Lance 代码仓库 | 忽略 |
-| `models/` | Lance 权重目录 | 忽略 |
-| `outputs/` | 生成视频、图片、json 结果 | 忽略 |
-| `logs/` | 运行日志和自动生成 config | 忽略 |
+2026-10-11已完成[可选单张 ViT 参考图实现](reports/datamake_optional_reference_image_20261011.md)：纯文本轮次与有参考图轮次共存，小尺寸 GPU 推理和训练工程验证通过。现有数据仍无参考图监督，新正式训练未启动；分支编辑未实施。
 
-## 当前状态
+本目录维护 DataMake 专用 Dataset、patch、profile、测试和训练/推理入口；上游 clone、大型权重与数据不进入 Git。
 
-- Lance 代码位于 `lance/`，当前验证过的 commit 是 `9717d91`。
-- 视频分支权重位于 `models/Lance/`，约 18GB。
-- 代码仓库内 `downloads -> ../models/Lance`，因此官方脚本仍可使用 `downloads/Lance_3B_Video`。
-- 当前只下载视频分支，没有下载 `Lance_3B/` 图片分支和 HF demo assets。
-- Batch8 多领域连续单轮测试记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。这不是 Lance 真多轮编辑验证。
-- 已新增 contextual 多轮 config 工具：`scripts/contextual_video_edit.py`。v1 把所有历史视频都作为 VAE source，turn1/turn2 视觉质量失败；复查后确认这种结构会让多个 `ref_source` 对一个 `noise target`，破坏 Lance edit 的 source-target 对齐。当前已改为 v2 role-aware 路径：历史视频 `history_vit` 只进 VIT，最新视频 `direct_source` 作为唯一 clean VAE source；turn2/turn3 已在 H200 上生成成功。v2 turn2 明显优于 v1 all-source，但 turn3 小目标项圈编辑仍有属性绑定失败。记录见 [`reports/contextual_video_edit_smoke.md`](./reports/contextual_video_edit_smoke.md)。
-- 已接入并测试 full-conversation multi-turn chat A 方案原型：参考 `Jayce-Ping/Lance@8b002b5`，新增 Lance 内部 `multiturn/` engine 和 DataMake 入口 `scripts/run_multiturn_chat.sh`。该方案保留历史 user/assistant turns，而不是把历史 prompt 拼进最新 prompt；实现上仍保留我们的 v2 原则：历史视觉只作为 VIT 语义上下文，最新视觉才作为唯一 clean VAE direct source。2026-07-08 在 job `102622` 上完成三轮 GPU smoke：代码路径跑通，但同样例视觉保持差于 contextual v2 current-only，记录见 [`reports/full_conversation_multiturn_chat_smoke.md`](./reports/full_conversation_multiturn_chat_smoke.md)。
+## 当前入口
 
-## 使用入口
+| 用途 | 配置 | 作业入口 |
+| --- | --- | --- |
+| GT历史混合双分支LoRA | [GT profile](configs/datamake_coinve_mixed_ddp8_lora64_both_no_region_v1.json)，当前run为gtfresh_v1 | [GT八卡](jobs/datamake_coinve_mixed_ddp8_lora64_both_no_region_v1.sbatch) |
+| 整链pred_x0混合双分支LoRA | [chain v2 profile](configs/datamake_coinve_mixed_ddp8_lora64_both_chain_pred_x0_no_region_v2.json) | [整链启动器](scripts/run_datamake_chain_pred_x0_ddp_training.py) |
+| 旧GT1650快照CFG对照 | [执行报告](reports/datamake_cfg4_submission_20260922.md) | [四卡CFG](jobs/datamake_cfg4_gt1650.sbatch) |
+| 可选单张参考图实验准备 | [输入合同与验证边界](reports/datamake_optional_reference_image_20261011.md) | [数据审计与独立配置准备](scripts/prepare_datamake_reference_training.py)，需显式绑定含参考图的数据 |
 
-### 连续单轮基线
+两组训练均每50步保留最近4份。源配方、实现合同、run/W&B身份和恢复点必须一起核对；本页列入口不表示自动提交授权。旧Stage5 B和Stage6是历史实现参考，其训练目录已不在当前保留范围。
 
-```bash
-10_research/model_experiments/lance/scripts/run_video_edit.sh \
-  --video 10_research/model_experiments/lance/inputs/video_edit/videos/example.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt \
-  --name my_test
-```
+## 导航
 
-当前 `--prompts-file` 只是把上一轮输出视频重新输入给下一次独立 `video_edit` 调用。后续多轮一致性测试应改用 contextual config，并先跑小规模 GPU smoke。
+- [训练接入与实现所有权](training_integration.md)、[配置](configs/README.md)、[Slurm](jobs/README.md)、[报告索引](reports/README.md)。
+- [脚本](scripts/README.md)、[补丁链](patches/README.md)、[源码地图（历史）](reports/lance_training_code_map_20260903.md)。
+- [项目Status](../../../20_planning/data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md)。
 
-如果从登录节点提交到已存在的 SLURM allocation：
+## 目录职责与保留边界
 
-```bash
-10_research/model_experiments/lance/scripts/run_video_edit.sh \
-  --job-id <JOB_ID> \
-  --video 10_research/model_experiments/lance/inputs/video_edit/videos/example.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/example_chained_single_turn.txt \
-  --name my_test
-```
+| 目录 | 内容 |
+| --- | --- |
+| lance | 最新官方基线加当前适配；内部导航为 `DATAMAKE.md` |
+| scripts、tests | 当前启动/工具与回归；legacy子目录仅供历史追溯 |
+| patches/current、patches/legacy | 唯一可重建源码合同 / 已退役历史补丁链 |
+| runtime | 固定PEFT依赖，不存放训练数据或权重 |
+| models | 官方视频基座/ViT；HF cache用用户指定scratch位置 |
+| outputs/model_bases | 历史Stage2 base-only模型，不包含完整全参恢复状态 |
+| outputs/training_runs | GT fresh、整链pred_x0 v2两个现存run；详情见进度报告 |
+| outputs/training_data | 派生parquet/YAML引用原媒体，不复制视频 |
+| outputs/multiturn_chat | 推理视频、媒体审计和展示页面；GT1650快照仅供推理 |
+| outputs/optimization_diagnostics、outputs/slurm_logs | 性能/工程证据与日志；不把诊断快照当作完整checkpoint |
 
-### Contextual 多轮 config
-
-生成第 2 轮 contextual config，其中 `history-video` 是第 1 轮已生成结果。默认 `--prompt-style current-only` 只写当前轮编辑指令，不复述历史编辑内容；当前测试中这比长上下文 prompt 更少干扰局部属性绑定：
-
-```bash
-10_research/model_experiments/lance/scripts/contextual_video_edit.py build \
-  --source-video 10_research/model_experiments/lance/inputs/video_edit/videos/1.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/01_snow_couple_dog_multiedit.txt \
-  --history-video 10_research/model_experiments/lance/outputs/video_edit/batch8_01_snow_couple_dog/turn_01/000001.mp4 \
-  --turn 2 \
-  --prompt-style current-only \
-  --output 10_research/model_experiments/lance/logs/generated_configs/contextual/my_turn02.json
-```
-
-默认 v2 config 会写成 `text -> video(history_vit) -> video(direct_source)`。这是为了匹配 Lance 内部模板：它会把首个 text block 旋转到视频之后，同时用最后一个 JSON 元素的 dtype 生成正确的 `input video` system prompt。更重要的是，历史视频只作为 VIT 语义参考，最新视频才是唯一 clean VAE source。
-
-如果需要复现旧 v1 行为，可显式使用：
-
-```bash
---history-role-mode all-source
-```
-
-该模式会把所有历史视频都作为 VAE source，当前仅作为对照，不再作为推荐路径。
-
-检查 Lance 数据层打包结构时，优先用 synthetic media 模式跳过真实 MP4 解码：
-
-```bash
-/scratch/prj0000000275/jcy/.conda/envs/xks_lance/bin/python \
-  10_research/model_experiments/lance/scripts/contextual_video_edit.py inspect \
-  --config 10_research/model_experiments/lance/logs/generated_configs/contextual/my_turn02.json \
-  --pack \
-  --synthetic-media \
-  --frames 25 \
-  --height 360 \
-  --width 360 \
-  --resolution video_360p
-```
-
-Contextual v1 smoke 已用 turn1/turn2 跑通，但抽帧检查显示主体和场景保持失败。注意：Lance edit 路径会按输入视频 transform 后的条件张量覆盖目标帧数和尺寸；后续若要控制 token/显存，应先预处理输入视频，而不是只依赖 `--NUM_FRAMES` 和 `--VIDEO_HEIGHT/--VIDEO_WIDTH`。
-
-当前 v2 synthetic pack 检查结果：
-
-```text
-role sequence: text -> video(history_vit) -> video(direct_source)
-attn_modes: causal, full, full, full_noise, causal, causal, noise, causal
-vit_condition_blocks=2
-vae_condition_blocks=1
-target_vae_blocks=1
-ref_source=3390
-noise=3390
-source_target_alignment=PASS
-```
-
-当前 v2 GPU 结果摘要：
-
-- `outputs/video_edit/contextual_role_v2_01/turn_02/000001.mp4`：相比 v1 turn2 明显减少场景重绘，能在 turn1 结果上叠加暖金色夕阳。
-- `outputs/video_edit/contextual_role_v2_01/turn_03/000001.mp4`：小目标“蓝色狗项圈”编辑失败，蓝色错误绑定到人物外套。
-- `outputs/video_edit/contextual_role_v2_01/turn_03_current_only_collar_simple/000001.mp4`：只写当前项圈指令时，蓝色能更稳定落到狗脖子附近，但红外套会漂移成棕/灰。
-- `outputs/video_edit/contextual_role_v2_01/turn_03_current_only_collar_keep_red/000001.mp4`：只写当前项圈指令和必要保持约束时，红外套和夕阳保持最好，但蓝项圈不明显。
-- `outputs/video_edit/contextual_role_v2_01_single_turn_collar_from_turn2/turn_01/000001.mp4`：同类项圈 prompt 的直接单轮对照基本保住红外套，说明多历史上下文会增加局部属性绑定干扰。
-- `outputs/video_edit/contextual_role_v2_current_only_full_01/`：从原视频重新完整跑 current-only 三轮。turn1 保住双人主体并改红外套，turn2 加入夕阳且主体稳定，turn3 保住红外套和夕阳并把蓝色加到前景狗附近，但仍不是精确小项圈。
-
-当前 prompt 策略：
-
-- 默认用 `current-only`：只描述当前编辑。
-- 若当前编辑容易破坏已接受属性，在当前 prompt 里写少量保持约束，例如“keep the red jacket unchanged”。
-- 不默认使用 `natural`/`structured` 复述历史编辑；当前测试中这会把旧对象和颜色描述重新引入，反而干扰第三轮局部编辑。
-- 完整三轮验证后，当前默认组合是：v2 role-aware 视频结构 + `current-only` 文本 + 当前 prompt 内少量保持约束。
-
-### Full-Conversation 多轮 chat 原型
-
-该入口用于测试 A 方案：历史文本保留为独立的历史 turn，历史输出以 assistant visual 形式回写到 conversation。它比 `contextual_video_edit.py` 更接近真正的多轮对话推理，并且可以混合不同任务，例如：
-
-```text
-user understand(video) -> assistant text
-user edit_video(text) -> assistant video
-user understand(text) -> assistant text
-user edit_video(text) -> assistant video
-```
-
-从初始视频和 prompt 文件快速构建三轮 `edit_video` conversation 并运行：
-
-```bash
-10_research/model_experiments/lance/scripts/run_multiturn_chat.sh \
-  --job-id <JOB_ID> \
-  --video 10_research/model_experiments/lance/inputs/video_edit/videos/1.mp4 \
-  --prompts-file 10_research/model_experiments/lance/inputs/video_edit/prompts/01_snow_couple_dog_multiedit.txt \
-  --name full_conversation_a_01 \
-  --steps 12 \
-  --resolution video_360p \
-  --height 360 \
-  --width 360
-```
-
-也可以直接手写 conversation JSON，然后运行：
-
-```bash
-10_research/model_experiments/lance/scripts/run_multiturn_chat.sh \
-  --job-id <JOB_ID> \
-  --conversation path/to/conversation.json \
-  --name mixed_task_conversation_01
-```
-
-当前实现边界：
-
-- 文本上下文采用 full conversation：前几轮 prompt 是历史 user turns，不被拼接进最新 prompt 字符串。
-- 视觉上下文采用 role-aware：旧图/视频只进 VIT，最新图/视频进 VIT + VAE direct source。
-- `edit_video` 第二轮以后可以只写当前轮文本，因为 engine 会把上一轮生成视频作为 assistant visual 自动追加回上下文。
-- 2026-07-08 已完成 GPU smoke；该入口可继续用于混合任务 conversation 研究，但当前默认多轮视频编辑验证仍使用 `contextual_video_edit.py` 的 v2 role-aware + `current-only`。
+本次参考图扩展未删除、移动既有结果，也未改写旧训练 profile。代码实现合同已变化，旧 adapter 可加载不等于旧完整 checkpoint 可按新合同严格续训。历史清理记录描述当时动作；当前存储事实以进度报告和目录核对为准。

@@ -62,6 +62,7 @@ SEGMENT_EXPRESSION_STATES = tuple(
         "DM_SEGMENT_EXPRESSIONS", ("happy", "angry", "sad", "happy")
     )
 )
+RENDER_CAMERA_ID = str(globals().get("DM_RENDER_CAMERA_ID", "")).lower()
 
 DISPLAY_FPS = 30
 SEGMENT_FRAMES = 150
@@ -231,6 +232,72 @@ def validate_camera_contract(sequence: unreal.LevelSequence) -> list[dict]:
             f"observed={observed}"
         )
     return cuts
+
+
+def configure_render_camera(sequence: unreal.LevelSequence, camera_id: str) -> dict:
+    if camera_id not in {cut[2] for cut in EXPECTED_CAMERA_CUTS}:
+        raise RuntimeError(f"Unsupported render camera: {camera_id!r}")
+    camera_tracks = [
+        track
+        for track in sequence.get_tracks()
+        if isinstance(track, unreal.MovieSceneCameraCutTrack)
+    ]
+    if len(camera_tracks) != 1:
+        raise RuntimeError(
+            f"Expected one camera-cut track, found {len(camera_tracks)}"
+        )
+    expected_by_name = {
+        name: (start_frame, end_frame)
+        for start_frame, end_frame, name in EXPECTED_CAMERA_CUTS
+    }
+    sections_by_name = {}
+    for section in camera_tracks[0].get_sections():
+        binding = sequence.resolve_binding_id(section.get_camera_binding_id())
+        name = binding.get_name() if binding.is_valid() else None
+        if name not in expected_by_name or name in sections_by_name:
+            raise RuntimeError(f"Unexpected camera-cut binding: {name!r}")
+        sections_by_name[name] = section
+    if set(sections_by_name) != set(expected_by_name):
+        raise RuntimeError(
+            f"Camera-cut bindings are incomplete: {sorted(sections_by_name)}"
+        )
+
+    # The workspace asset is reused between jobs. Restore its canonical ranges
+    # before applying this job's camera isolation so no previous job can leak.
+    for name, section in sections_by_name.items():
+        start_frame, end_frame = expected_by_name[name]
+        section.set_range(start_frame, end_frame)
+        section.set_is_active(True)
+    source_cuts = validate_camera_contract(sequence)
+
+    for name, section in sections_by_name.items():
+        selected = name == camera_id
+        section.set_is_active(selected)
+        if selected:
+            section.set_range(0, TOTAL_FRAMES)
+
+    active_sections = [
+        {
+            "camera_binding": name,
+            "start_frame": frame_value(section.get_start_frame()),
+            "end_frame": frame_value(section.get_end_frame()),
+        }
+        for name, section in sections_by_name.items()
+        if section.is_active()
+    ]
+    expected_active = [
+        {
+            "camera_binding": camera_id,
+            "start_frame": 0,
+            "end_frame": TOTAL_FRAMES,
+        }
+    ]
+    return {
+        "requested_camera": camera_id,
+        "source_camera_cuts": source_cuts,
+        "active_camera_cuts": active_sections,
+        "passed": active_sections == expected_active,
+    }
 
 
 def duplicate_sequence(source_path: str, output_path: str):
@@ -467,7 +534,8 @@ sequence = duplicate_sequence(SOURCE_SEQUENCE, OUTPUT_SEQUENCE)
 sequence.set_display_rate(unreal.FrameRate(DISPLAY_FPS, 1))
 sequence.set_playback_start(0)
 sequence.set_playback_end(TOTAL_FRAMES)
-camera_cuts = validate_camera_contract(sequence)
+camera_contract = configure_render_camera(sequence, RENDER_CAMERA_ID)
+camera_cuts = camera_contract["source_camera_cuts"]
 actor_binding, sections = add_repeated_action_track(
     sequence,
     actor,
@@ -511,6 +579,7 @@ report = {
     "segment_count": SEGMENT_COUNT,
     "total_frames": TOTAL_FRAMES,
     "camera_cuts": camera_cuts,
+    "render_camera_contract": camera_contract,
     "animation_binding": actor_binding.get_name(),
     "animation_binding_type": "native_actor_binding",
     "animation_sections": sections,
@@ -524,6 +593,7 @@ report = {
             }
             for start, end, camera in EXPECTED_CAMERA_CUTS
         ],
+        "render_camera_isolated": camera_contract["passed"],
         "four_animation_sections": len(sections) == SEGMENT_COUNT,
         "all_sections_are_150_frames": all(
             item["end_frame"] - item["start_frame"] == SEGMENT_FRAMES

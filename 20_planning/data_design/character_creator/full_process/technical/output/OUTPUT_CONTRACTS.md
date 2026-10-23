@@ -7,7 +7,7 @@
 > 实现所有权：稳定输出 ID、存储类别、Run Root、Manifest、晋升和失效语义
 > 验证所有权：`VAL-DOC-01`
 > 输出契约：`OUT-GLOBAL-OUTPUT-INVENTORY`
-> 最近核验：2026-08-25
+> 最近核验：2026-08-31
 
 ## 1. 目的与边界
 
@@ -42,7 +42,7 @@
 | `OUT-WF60-SEQUENCE-TEMPLATE` | `WF-60` | Scene/Camera/Anchor Registry、Sequence、MRQ Profile 和布局证据 | `versioned_registry` + `ue_asset` + `run_evidence` | [场景、相机与 Sequence](../unreal/SCENE_CAMERA_SEQUENCE.md) | [WF-60 状态](../../project_management/status/workflows/WF-60.md) |
 | `OUT-WF70-JOB-GRAPH` | `WF-70` | Source Manifest、Assets/Domains/Nodes/Edges/Chains、Render Jobs、Prompt 和报告 | `versioned_registry` + `%OUTPUT_ROOT%` authoritative 根 | [配置图与链](../dataset/CONFIG_GRAPH_AND_CHAINS.md) | [WF-70 状态](../../project_management/status/workflows/WF-70.md) |
 | `OUT-WF80-NODE-MEDIA` | `WF-80` | 节点 attempt、媒体、GT/Sidecar、状态、日志、哈希和完成清单 | `render_run` | [渲染执行](../rendering_release/RENDER_EXECUTION.md) | [WF-80 状态](../../project_management/status/workflows/WF-80.md) |
-| `OUT-WF90-DATASET-RELEASE` | `WF-90` | 统一交付包、QA、顶层 Manifest、Checksums 和发布决定 | `delivery` | [数据集封装](../rendering_release/DATASET_PACKAGE.md) | [WF-90 状态](../../project_management/status/workflows/WF-90.md) |
+| `OUT-WF90-DATASET-RELEASE` | `WF-90` | 顺序编号视频、链/双语 Turn、追溯 Manifest、QA 和发布决定 | `delivery` | [数据集封装](../rendering_release/DATASET_PACKAGE.md) | [WF-90 状态](../../project_management/status/workflows/WF-90.md) |
 
 ### 3.1 `OUT-WF00-SESSION`
 
@@ -158,13 +158,13 @@ FBX/JSON/纹理属于 `OUT-WF40-TRANSFER-BUNDLE`，不得与本输出混淆。�
 
 | 部分 | 最小内容 | 作用 | 当前位置所有者 |
 | --- | --- | --- | --- |
-| Run/Attempt state | Manifest、输入锁、Lease、状态、日志、机器/版本和错误分类 | 支撑断点续跑和同配置重试 | [WF-80 Status](../../project_management/status/workflows/WF-80.md#当前输出与证据) |
+| Run/Attempt state | Manifest、输入锁、Lease、状态、日志、机器/版本、Editor invocation/supervisor 和错误分类 | 支撑断点续跑、同配置重试和单 UE 多节点批次恢复 | [WF-80 Status](../../project_management/status/workflows/WF-80.md#当前输出与证据) |
 | Accepted node media | `media/nodes/<node_id>/` 下唯一视频/帧 | 让多条链复用同一语义节点 | `WF-90`、Turn/Dialog 和训练数据 |
 | GT/Sidecar | 节点配置、UE 绑定、媒体规格、版本、attempt 和哈希 | 连接确定性配置与真实像素 | QA、发布和复现 |
 | Media Manifest/status | Node 到 URI、字节数、SHA-256、接受/失败状态和完成清单 | 支撑零悬空引用和只重跑失败节点 | `WF-90` |
-| Smoke/benchmark evidence | 本地代表链、服务器基准和视觉抽检 | 在全量运行前发现系统性错误 | `VAL-RENDER-01/VAL-SERVER-01` |
+| Smoke/benchmark evidence | 本地代表链、服务器基准、首帧/确定性报告和视觉抽检 | 在全量运行前发现系统性错误 | `VAL-RENDER-01/VAL-SERVER-01` |
 
-本地正式节点 Run Root 已在 `%OUTPUT_ROOT%/unreal_render/first_batch_formal_executor_smoke_20260825_v003/` 建立并通过 2 节点真渲染与哈希恢复；它是 `retained_evidence`，不是完整批次权威媒体。服务器 640 节点 Run Root 尚未创建。执行命令、目录字段和当前边界由 [渲染 Technical](../rendering_release/RENDER_EXECUTION.md) 负责，准确状态由 [WF-80 Status](../../project_management/status/workflows/WF-80.md) 负责。主要下游是 `WF-90` 的媒体解析、QA、Sidecar 和发布包。
+第一批原始 Run Root、Smoke 和 benchmark 输出已在最终包通过后清理。当前 640 个 accepted 媒体位于 `%OUTPUT_ROOT%/delivery/first_batch_candidate_20260830_v002/dataset_v1/videos/`；输入锁、冻结 profile、640 节点结果、媒体 Manifest 和生产 checkpoint 位于同一候选根的 `release_evidence/render_run/`。执行命令、历史 Run ID 和当前边界由 [渲染 Technical](../rendering_release/RENDER_EXECUTION.md) 负责，准确状态由 [WF-80 Status](../../project_management/status/workflows/WF-80.md) 负责。主要下游是 `WF-90` 发布验证以及 Lance 训练数据构建。
 
 ### 3.10 `OUT-WF90-DATASET-RELEASE`
 
@@ -172,14 +172,12 @@ FBX/JSON/纹理属于 `OUT-WF40-TRANSFER-BUNDLE`，不得与本输出混淆。�
 
 | 部分 | 最小内容 | 作用 | 当前位置所有者 |
 | --- | --- | --- | --- |
-| Release Manifest | Batch/Release ID、输入版本、文件清单、QA 状态和追溯关系 | 提供接收方单一顶层入口 | [WF-90 Status](../../project_management/status/workflows/WF-90.md#当前输出与证据) |
-| Graph/Text | 冻结图、链、Render Jobs、Turns/Dialogs 和 Catalog | 保存节点及多轮编辑语义 | 数据加载器和训练系统 |
-| Node Media | 每个 `node_id` 的唯一 accepted 媒体 | 解析所有 Turn/Dialog 媒体 URI | 模型训练与评估 |
-| Metadata/GT/Sidecar | 配置、UE 绑定、版本、媒体规格、attempt 和哈希 | 支撑过滤、复现和误差分析 | 接收方与独立审计 |
-| QA/Checksums | 机器/人工 QA、发布决定和全包哈希 | 证明包完整、未损坏且满足 `GATE-90` | `VAL-RELEASE-01` |
-| Retention/cleanup manifest | 权威、证据、可替代和临时产物分类 | 防止误删源证据或长期保留缓存 | Output 子系统和运维 |
+| `manifest.json` | Batch/Release、输入哈希、Node 配置、`编号 -> node_id`、媒体/Sidecar 哈希与 QA | 提供接收方单一顶层入口和追溯映射 | [WF-90 Status](../../project_management/status/workflows/WF-90.md#当前输出与证据) |
+| `chains.json` | 链事实、Node 序列、正式双语 Prompt/Standalone Prompt、Grounding 与媒体路径 | 保存多轮编辑监督语义 | 数据加载器和训练系统 |
+| `chains_simple.json` | `chain_index=1..N`、Hash `chain_id` 和每轮输入视频/双语指令/输出视频 | 提供不含验证元数据的直接训练视图，同时保留完整链追溯 | 训练数据加载器 |
+| `videos/<编号>.mp4` | 从 1 连续编号、每个内部 `node_id` 唯一一份的 accepted 媒体 | 解析所有 Turn 输入/输出并复用端点 | 模型训练与评估 |
 
-当前批次尚无发布候选。目标结构、Gate 和不可变性由 [数据集封装 Technical](../rendering_release/DATASET_PACKAGE.md) 负责；未来当前版本由 WF-90 Status 指定。主要下游是数据接收方、训练/评估加载器和独立复核流程。
+当前完整发布位于 `%OUTPUT_ROOT%/delivery/first_batch_candidate_20260830_v002/dataset_v1/`，Manifest 状态为 `released`；目录保留候选 ID 以维持身份与既有引用，发布决定和独立候选态/发布态报告位于相邻 `release_evidence/release_qa/`。旧未版本化候选和两链格式样例已删除。目标结构、Gate 和不可变性由 [数据集封装 Technical](../rendering_release/DATASET_PACKAGE.md) 负责，准确状态由 WF-90 Status 指定。主要下游是数据接收方、训练/评估加载器和独立复核流程。
 
 ## 4. 全局维护输出
 

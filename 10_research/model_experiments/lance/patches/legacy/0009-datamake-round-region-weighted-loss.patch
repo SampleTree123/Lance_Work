@@ -1,0 +1,274 @@
+diff --git a/config/config_factory.py b/config/config_factory.py
+--- a/config/config_factory.py
++++ b/config/config_factory.py
+@@ -270,6 +270,10 @@ class TrainingArguments:
+     mse_weight:                 float = 1.0
+     ce_weight:                  float = 1.0
+     ce_loss_reweighting:        bool = False
++    edit_region_weighting:      bool = False
++    edit_region_weight_boost:   float = 1.0
++    edit_region_low_quantile:   float = 0.5
++    edit_region_high_quantile:  float = 0.9
+ 
+     # FSDP settings
+     sharding_strategy:          str = "HYBRID_SHARD"
+diff --git a/data/dataset_base_train.py b/data/dataset_base_train.py
+--- a/data/dataset_base_train.py
++++ b/data/dataset_base_train.py
+@@ -199,6 +199,7 @@ class PackedDataset(torch.utils.data.IterableDataset):
+             # Offline arguments
+             vae_video_latent            = [], # for vae video latent offline
+             vae_data_mode               = [], # offline or online
++            vae_edit_roles              = [], # DataMake direct source / target loss metadata
+             vit_data_mode               = [], # offline or online
+             # sample_task for joint training
+             sample_task                 = [],
+@@ -222,6 +223,7 @@ class PackedDataset(torch.utils.data.IterableDataset):
+         )
+ 
+         data['vae_data_mode'] = sequence_status['vae_data_mode']
++        data['vae_edit_roles'] = sequence_status['vae_edit_roles']
+         if not self.use_flex:
+             data['nested_attention_masks'] = sequence_status['nested_attention_masks']
+         else:
+@@ -586,6 +588,9 @@ class PackedDataset(torch.utils.data.IterableDataset):
+                     continue
+ 
+                 apply_text_template = item.get('apply_text_template', False)
++                sequence_status['vae_edit_roles'].append(
++                    item.get('datamake_edit_role', 'other')
++                )
+ 
+ 
+                 num_special_tokens = 0
+diff --git a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+--- a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
++++ b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+@@ -239,6 +239,7 @@ class DataMakeMultiTurnV2VLocalIterableDataset(
+                             "loss": 0,
+                             "special_token_loss": 0,
+                             "special_token_label": None,
++                            "datamake_edit_role": "source",
+                             "thw": thw,
+                             "apply_text_template": True,
+                         }
+@@ -287,6 +288,7 @@ class DataMakeMultiTurnV2VLocalIterableDataset(
+                     "loss": 1,
+                     "special_token_loss": 0,
+                     "special_token_label": None,
++                    "datamake_edit_role": "target",
+                     "frame_condition_idx": [],
+                     "L_video_group": self.L_video_group,
+                     "random_choose_group": self.random_choose_group,
+diff --git a/train/train_utils.py b/train/train_utils.py
+--- a/train/train_utils.py
++++ b/train/train_utils.py
+@@ -8,7 +8,7 @@ from copy import deepcopy
+ from dataclasses import asdict
+ from datetime import datetime
+ from time import time
+-from typing import List, Optional
++from typing import List, Optional, Sequence, Tuple
+ 
+ warnings.filterwarnings(
+     "ignore",
+@@ -394,6 +394,103 @@ def build_train_dataset_config(
+     return dataset_config
+ 
+ 
++@torch.no_grad()
++def build_edit_region_mse_weights(
++    padded_latent: Sequence[torch.Tensor],
++    patchified_vae_latent_shapes: Sequence[Tuple[int, int, int]],
++    vae_edit_roles: Sequence[str],
++    latent_patch_size: Sequence[int],
++    boost: float = 1.0,
++    low_quantile: float = 0.5,
++    high_quantile: float = 0.9,
++    epsilon: float = 1e-6,
++) -> torch.Tensor:
++    """Build target-token weights from paired DataMake source/target latents.
++
++    Raw weights are ``1 + boost * importance``. The loss reducer divides by
++    the global weight sum, so unchanged tokens remain supervised while the
++    overall loss scale stays stable.
++    """
++
++    if boost < 0:
++        raise ValueError(f"edit-region boost must be non-negative, got {boost}")
++    if not 0 <= low_quantile < high_quantile <= 1:
++        raise ValueError(
++            "edit-region quantiles must satisfy "
++            f"0 <= low < high <= 1, got {low_quantile}, {high_quantile}"
++        )
++    if len(latent_patch_size) != 3 or any(
++        int(value) < 1 for value in latent_patch_size
++    ):
++        raise ValueError(f"invalid latent patch size: {latent_patch_size}")
++    if not (
++        len(padded_latent)
++        == len(patchified_vae_latent_shapes)
++        == len(vae_edit_roles)
++    ):
++        raise ValueError(
++            "latent, shape and edit-role counts must match: "
++            f"{len(padded_latent)}, {len(patchified_vae_latent_shapes)}, "
++            f"{len(vae_edit_roles)}"
++        )
++
++    pt, ph, pw = (int(value) for value in latent_patch_size)
++    latest_source = None
++    target_weights: List[torch.Tensor] = []
++
++    for latent, shape, role in zip(
++        padded_latent, patchified_vae_latent_shapes, vae_edit_roles
++    ):
++        t, h, w = (int(value) for value in shape)
++        cropped = latent[: t * pt, : h * ph, : w * pw]
++        if tuple(cropped.shape[:3]) != (t * pt, h * ph, w * pw):
++            raise ValueError(
++                f"latent is smaller than declared patchified shape: "
++                f"latent={tuple(latent.shape)}, shape={(t, h, w)}"
++            )
++
++        if role == "source":
++            latest_source = (cropped, (t, h, w))
++            continue
++        if role != "target":
++            latest_source = None
++            continue
++        if latest_source is None:
++            raise ValueError("DataMake target latent has no preceding direct source")
++
++        source, source_shape = latest_source
++        latest_source = None
++        if source_shape != (t, h, w) or source.shape != cropped.shape:
++            raise ValueError(
++                "DataMake direct source and target latent shapes differ: "
++                f"source={tuple(source.shape)}/{source_shape}, "
++                f"target={tuple(cropped.shape)}/{(t, h, w)}"
++            )
++
++        delta = (cropped.float() - source.float()).abs().mean(dim=-1)
++        flat_delta = delta.reshape(-1)
++        low = torch.quantile(flat_delta, low_quantile)
++        high = torch.quantile(flat_delta, high_quantile)
++        if (high - low).item() <= epsilon:
++            high = flat_delta.max()
++        if (high - low).item() <= epsilon:
++            importance = torch.zeros_like(delta)
++        else:
++            importance = ((delta - low) / (high - low)).clamp_(0.0, 1.0)
++
++        token_importance = (
++            importance.reshape(t, pt, h, ph, w, pw)
++            .permute(0, 2, 4, 1, 3, 5)
++            .reshape(t * h * w, pt * ph * pw)
++            .mean(dim=-1)
++        )
++        target_weights.append(1.0 + float(boost) * token_importance)
++
++    if not target_weights:
++        raise ValueError("no DataMake target latent was found for region weighting")
++    return torch.cat(target_weights, dim=0)
++
++
+ def compute_training_loss(
+     loss_dict: dict,
+     data: dict,
+@@ -401,6 +498,7 @@ def compute_training_loss(
+     training_args: TrainingArguments,
+     device: int,
+     world_size: int,
++    mse_token_weights: Optional[torch.Tensor] = None,
+ ):
+     loss = torch.tensor(0.0, device=device)
+ 
+@@ -428,7 +526,36 @@ def compute_training_loss(
+         if mse is not None:
+             total_mse_tokens = torch.tensor(total_mse_tokens, device=device)
+             dist.all_reduce(total_mse_tokens, op=dist.ReduceOp.SUM)
+-            mse = mse.mean(dim=-1).sum() * world_size / total_mse_tokens
++            per_token_mse = mse.mean(dim=-1)
++            raw_mse = per_token_mse.sum() * world_size / total_mse_tokens
++            if mse_token_weights is not None:
++                if mse_token_weights.ndim != 1 or len(mse_token_weights) != len(
++                    per_token_mse
++                ):
++                    raise ValueError(
++                        "edit-region weight count must match MSE tokens: "
++                        f"weights={tuple(mse_token_weights.shape)}, "
++                        f"mse_tokens={len(per_token_mse)}"
++                    )
++                mse_token_weights = mse_token_weights.to(
++                    device=per_token_mse.device, dtype=per_token_mse.dtype
++                )
++                total_mse_weight = mse_token_weights.sum()
++                dist.all_reduce(total_mse_weight, op=dist.ReduceOp.SUM)
++                mse = (
++                    (per_token_mse * mse_token_weights).sum()
++                    * world_size
++                    / total_mse_weight
++                )
++                loss_dict["mse_unweighted"] = raw_mse.detach()
++                loss_dict["edit_region_weight_mean"] = (
++                    mse_token_weights.mean().detach()
++                )
++                loss_dict["edit_region_weight_max"] = (
++                    mse_token_weights.max().detach()
++                )
++            else:
++                mse = raw_mse
+             loss_dict["mse"] = mse.detach()
+             loss = loss + mse * training_args.mse_weight
+         else:
+diff --git a/train/unified_train.py b/train/unified_train.py
+--- a/train/unified_train.py
++++ b/train/unified_train.py
+@@ -59,6 +59,7 @@ from train.train_utils import (
+     build_fsdp_config,
+     build_lr_scheduler,
+     build_train_dataset_config,
++    build_edit_region_mse_weights,
+     compute_training_loss,
+     get_image_token_id,
+     log_training_metrics,
+@@ -260,12 +261,30 @@ def main():
+             data = data.cuda(DEVICE).to_dict()
+             data_indexes = data.pop("batch_data_indexes", None)
+             ce_loss_weights = data.pop("ce_loss_weights", None)
++            vae_edit_roles = data.pop("vae_edit_roles", None)
++            mse_token_weights = None
+             with torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
+                 vae_data_mode = data.pop("vae_data_mode")
+                 padded_videos = data.pop("padded_videos")
+                 if training_args.visual_gen:
+                     with torch.no_grad():
+                         data["padded_latent"] = make_padded_latent(padded_videos, vae_data_mode, vae_model)
++                        if training_args.edit_region_weighting:
++                            if vae_edit_roles is None:
++                                raise ValueError(
++                                    "edit-region weighting requires VAE edit-role metadata"
++                                )
++                            mse_token_weights = build_edit_region_mse_weights(
++                                padded_latent=data["padded_latent"],
++                                patchified_vae_latent_shapes=data[
++                                    "patchified_vae_latent_shapes"
++                                ],
++                                vae_edit_roles=vae_edit_roles,
++                                latent_patch_size=model_args.latent_patch_size,
++                                boost=training_args.edit_region_weight_boost,
++                                low_quantile=training_args.edit_region_low_quantile,
++                                high_quantile=training_args.edit_region_high_quantile,
++                            )
+                 if "padded_videos_vit" in data:
+                     data.pop("padded_videos_vit")
+ 
+@@ -278,6 +297,7 @@ def main():
+                 training_args=training_args,
+                 device=DEVICE,
+                 world_size=WORLD_SIZE,
++                mse_token_weights=mse_token_weights,
+             )
+ 
+             if not torch.isfinite(loss).all():

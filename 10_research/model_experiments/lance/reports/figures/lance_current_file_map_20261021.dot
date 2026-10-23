@@ -1,0 +1,32 @@
+digraph G {
+graph [rankdir=TB, bgcolor="#ffffff", pad="0.35", nodesep="0.35", ranksep="0.55", fontname="DejaVu Sans", fontsize=20];
+node [shape=box, style="rounded,filled", fillcolor="#eef4fb", color="#94a3b8", fontname="DejaVu Sans", fontsize=13, margin="0.18,0.12"];
+edge [color="#52677e", arrowsize=0.75];
+
+subgraph cluster_gt {
+label="GT HISTORY TRAINING"; color="#b7cde3"; style=rounded;
+g0 [label="[NEW] scripts/\nrun_datamake_ddp_training.py",fillcolor="#eaf2ff"];
+g1 [label="[NEW] lance/train/\ndatamake_ddp_train.py",fillcolor="#eaf2ff"];
+g2 [label="[NEW] lance/train/\ndatamake_stage2_lora_data.py",fillcolor="#eaf2ff"];
+g3 [label="[NEW] lance/data/datasets_factory/\ndataset_datamake_mixed_v2v_local.py\n+ dataset_datamake_multiturn_v2v_local.py",fillcolor="#eaf2ff"];
+g0 -> g1 -> g2 -> g3;
+}
+subgraph cluster_chain {
+label="WHOLE-CHAIN PRED_X0 TRAINING"; color="#b7cde3"; style=rounded;
+c0 [label="[NEW] scripts/\nrun_datamake_chain_pred_x0_ddp_training.py",fillcolor="#eaf2ff"];
+c1 [label="[NEW] lance/train/\ndatamake_chain_pred_x0_ddp_train.py",fillcolor="#eaf2ff"];
+c2 [label="[NEW] lance/train/\ndatamake_chain_window_data.py",fillcolor="#eaf2ff"];
+c3 [label="[NEW] lance/data/datasets_factory/\ndatamake_online_rollout_turn.py",fillcolor="#eaf2ff"];
+c0 -> c1 -> c2 -> c3;
+}
+subgraph cluster_chat {
+label="MULTI-TURN INFERENCE"; color="#b7cde3"; style=rounded;
+i0 [label="[NEW] scripts/run_multiturn_chat.sh\n-> lance/multiturn_chat.py",fillcolor="#eaf2ff"];
+i1 [label="[NEW] lance/multiturn/\nengine.py",fillcolor="#eaf2ff"];
+i2 [label="[NEW] lance/multiturn/\nsequence_builder.py",fillcolor="#eaf2ff"];
+i0 -> i1 -> i2;
+}
+p [label="[MODIFIED] lance/data/\ndataset_base_train.py\nOfficial packer + role metadata",fillcolor="#fff2db",color="#d8aa55"];
+m [label="[MODIFIED] lance/modeling/lance/\nlance.py\nShared training forward / generation",fillcolor="#fff2db",color="#d8aa55"];
+g3 -> p; c3 -> p; p -> m; i2 -> m;
+}

@@ -54,6 +54,8 @@ Registry 子系统用于“已知对象名或文件类型，但不知道机器�
 | 输出当前盘点 | `repo://00_engine/outputs/OUTPUT_INVENTORY.json` | 查看已扫描路径的当前分类，不直接授权删除 | [盘点与保留](../technical/output/INVENTORY_AND_RETENTION.md) |
 | 当前项目状态 | [PROJECT_STATE.json](../project_management/status/PROJECT_STATE.json) | 机器读取 active Workflow/Plan/Batch、验证和当前输出指针 | [Status 子系统](../project_management/status/README.md) |
 
+本轮文档交接清单：[server_documentation_sync_20261023.json](../../../../implementation/server_documentation_sync_20261023.json)，由[DOCUMENT_SYNC](../technical/rendering_release/DOCUMENT_SYNC.md)拥有，仅用于该次服务器文档快照，不是发布媒体Manifest或持续同步权威。
+
 ## 5. 查询规则
 
 ### 5.1 反向查询

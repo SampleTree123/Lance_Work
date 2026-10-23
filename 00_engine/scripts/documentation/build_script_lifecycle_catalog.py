@@ -43,10 +43,12 @@ ACTIVE_FIRST_BATCH_SCRIPTS = {
     "00_engine/scripts/character_creator/run_first_batch_missing_looks_export.ps1",
     "00_engine/scripts/dataset/build_first_batch_chain_review_v1.py",
     "00_engine/scripts/dataset/build_first_batch_config_graph_v1.py",
+    "00_engine/scripts/dataset/build_first_batch_delivery_v1.py",
     "00_engine/scripts/dataset/build_first_batch_graph_source_v1.py",
     "00_engine/scripts/dataset/build_first_batch_local_render_matrix_v1.py",
     "00_engine/scripts/dataset/build_first_batch_prompt_layer_v1.py",
     "00_engine/scripts/dataset/build_first_batch_required_exports_v1.py",
+    "00_engine/scripts/dataset/verify_first_batch_delivery_v1.py",
     "00_engine/scripts/unreal/build_first_batch_chain_render_matrix_v1.py",
     "00_engine/scripts/unreal/prepare_first_batch_motion_fbxs.py",
     "00_engine/scripts/unreal/run_first_batch_20s_sequence.py",
@@ -59,6 +61,10 @@ ACTIVE_FIRST_BATCH_SCRIPTS = {
     "00_engine/scripts/unreal/run_first_batch_local_sample_render.py",
     "00_engine/scripts/unreal/run_first_batch_motion_import.py",
     "00_engine/scripts/unreal/run_first_batch_render_jobs.py",
+    "00_engine/scripts/unreal/run_first_batch_server_render_jobs.py",
+    "00_engine/scripts/unreal/run_first_batch_server_render_batches.py",
+    "00_engine/scripts/unreal/run_first_batch_server_production.py",
+    "00_engine/scripts/unreal/run_first_batch_server_production_slurm.sh",
     "00_engine/scripts/unreal/run_first_batch_render_matrix.py",
     "00_engine/scripts/unreal/run_first_batch_render_profile.py",
     "00_engine/scripts/unreal/ue_audit_first_batch_day3_layout_motion.py",
@@ -79,6 +85,7 @@ ACTIVE_FIRST_BATCH_SCRIPTS = {
     "00_engine/scripts/unreal/ue_start_first_batch_local_sample_render.py",
     "00_engine/scripts/unreal/ue_validate_first_batch_day2_runtime.py",
     "00_engine/scripts/unreal/validate_first_batch_chain_visual_smoke_v1.py",
+    "00_engine/scripts/unreal/validate_first_batch_node_determinism.py",
 }
 
 
@@ -101,7 +108,18 @@ def normalized_script_bytes(path: Path) -> bytes:
 def scripts_in_scan_root(root: Path, scan_root_relative: str) -> list[Path]:
     try:
         result = subprocess.run(
-            ["git", "-C", str(root), "ls-files", "-z", "--", scan_root_relative],
+            [
+                "git",
+                "-C",
+                str(root),
+                "ls-files",
+                "-z",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+                "--",
+                scan_root_relative,
+            ],
             check=False,
             capture_output=True,
             timeout=30,
@@ -128,6 +146,8 @@ def owner_for(relative: str) -> str:
         return "technical/validation/VISUAL_REVIEW.md"
     if relative.startswith("00_engine/remote_desktop/"):
         return "technical/rendering_release/SERVER_EXECUTION.md"
+    if relative.startswith("00_engine/projects/UE58VulkanCubeSmoke/"):
+        return "technical/rendering_release/SERVER_EXECUTION.md"
     if relative.startswith("00_engine/projects/"):
         return "technical/environment/ENVIRONMENT_AND_SESSION.md"
     if "/documentation/" in relative:
@@ -137,6 +157,8 @@ def owner_for(relative: str) -> str:
             return "technical/implementation/SCRIPT_LIFECYCLE.md"
         return "technical/validation/DOCUMENTATION_VALIDATION.md"
     if "/dataset/" in relative:
+        if any(token in name for token in ("delivery", "package")):
+            return "technical/rendering_release/DATASET_PACKAGE.md"
         if "prompt" in name:
             return "technical/dataset/PROMPT_LAYER.md"
         return "technical/dataset/CONFIG_GRAPH_AND_CHAINS.md"
@@ -163,7 +185,10 @@ def owner_for(relative: str) -> str:
             return "technical/transfer/ASSET_TRACEABILITY.md"
         if name == "run_first_batch_32_video_matrix.ps1":
             return "technical/rendering_release/RENDER_EXECUTION.md"
-        if any(token in name for token in ("render", "server", "chain_visual_smoke")):
+        if any(
+            token in name
+            for token in ("render", "server", "chain_visual_smoke", "determinism")
+        ):
             return "technical/rendering_release/RENDER_EXECUTION.md"
         if any(token in name for token in ("expression", "motion", "animation", "inplace", "idle")):
             return "technical/unreal/ANIMATION_EXPRESSION_MORPH.md"

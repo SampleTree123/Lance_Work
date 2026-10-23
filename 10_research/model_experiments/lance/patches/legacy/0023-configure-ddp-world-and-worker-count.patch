@@ -1,0 +1,24 @@
+--- a/train/datamake_stage2_lora_data.py
++++ b/train/datamake_stage2_lora_data.py
+@@ -43,8 +43,8 @@
+             raise ValueError("Stage6 expects exactly the DataMake prefix dataset")
+         self.paths = self.source.data_paths_per_rank
+         self.rows = [pq.read_table(path).to_pylist() for path in self.paths]
+-        if len(self.rows) != 2 or not all(self.rows):
+-            raise ValueError("Stage6 schedule expects two nonempty shards per rank")
++        if len(self.rows) != self.source.num_workers or not all(self.rows):
++            raise ValueError("Indexed schedule expects one nonempty shard per rank/worker slot")
+         self.total_microsteps, self.seed = total_microsteps, seed
+ 
+     def __len__(self):
+--- a/train/datamake_ddp_train.py
++++ b/train/datamake_ddp_train.py
+@@ -124,7 +124,7 @@
+     if args.probe_backend != "ddp" and not args.single_gpu_probe:
+         raise ValueError("FSDP comparison is diagnostic only")
+     if not args.single_gpu_probe and world != profile["distributed"]["gpus_per_node"]:
+-        raise ValueError("This profile uses four GPUs")
++        raise ValueError(f"Expected {profile['distributed']['gpus_per_node']} GPUs, got {world}")
+     logger = get_logger()
+     log = logger.info if rank == 0 else lambda *_: None
+     run_dir = args.run_dir.resolve()

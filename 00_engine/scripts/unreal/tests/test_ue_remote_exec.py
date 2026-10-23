@@ -27,6 +27,24 @@ class DefaultEngineRootTests(unittest.TestCase):
                 Path("/custom/UE_5.8"),
             )
 
+    def test_multicast_bind_address_defaults_from_environment(self) -> None:
+        with mock.patch.dict(
+            MODULE.os.environ,
+            {
+                "DM_UE_REMOTE_BIND_ADDRESS": "0.0.0.0",
+                "DM_UE_REMOTE_MULTICAST_TTL": "1",
+            },
+            clear=False,
+        ), mock.patch.object(
+            MODULE.sys,
+            "argv",
+            ["ue_remote_exec.py", "--project", "datatry_02", "--command", "pass"],
+        ):
+            args = MODULE.parse_args()
+
+        self.assertEqual(args.multicast_bind_address, "0.0.0.0")
+        self.assertEqual(args.multicast_ttl, 1)
+
 
 if __name__ == "__main__":
     unittest.main()

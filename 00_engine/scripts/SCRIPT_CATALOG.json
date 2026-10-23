@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-27T22:33:02.926776+00:00",
+  "generated_at": "2026-10-22T16:31:14.773397+00:00",
   "generator": "00_engine/scripts/documentation/build_script_lifecycle_catalog.py",
   "documentation_root": "20_planning/data_design/character_creator/full_process",
   "script_roots": [
@@ -26,9 +26,9 @@
     "archived"
   ],
   "counts": {
-    "experimental": 35,
-    "production": 47,
-    "utility": 123,
+    "experimental": 37,
+    "production": 54,
+    "utility": 132,
     "validated_pilot": 181
   },
   "scripts": [
@@ -187,6 +187,36 @@
       "document_mentions": [],
       "bytes": 528,
       "sha256": "ec1ef496013acfa9b669ec3af457bf8b62d4c758e42779a1f1da1d9cdf7575ec"
+    },
+    {
+      "path": "00_engine/projects/UE58VulkanCubeSmoke/Scripts/create_cube_smoke_map.py",
+      "scan_root": "00_engine",
+      "domain": "projects",
+      "lifecycle": "experimental",
+      "active_batch": false,
+      "classification_reason": "sandbox project utility",
+      "owner_document": "technical/rendering_release/SERVER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/SERVER_EXECUTION.md"
+      ],
+      "bytes": 5579,
+      "sha256": "1ed4a2940ca70b8a7aa3d2f5924868baa33fdac64f69f196d84eca660a1889a0"
+    },
+    {
+      "path": "00_engine/projects/UE58VulkanCubeSmoke/Scripts/run_cube_smoke.sh",
+      "scan_root": "00_engine",
+      "domain": "projects",
+      "lifecycle": "experimental",
+      "active_batch": false,
+      "classification_reason": "sandbox project utility",
+      "owner_document": "technical/rendering_release/SERVER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/SERVER_EXECUTION.md"
+      ],
+      "bytes": 20674,
+      "sha256": "8a2aeb86dd6fe40030b3310a6c826fdad4614903c5da02572f7aa14fcc723348"
     },
     {
       "path": "00_engine/remote_desktop/run_ue_editor_existing_display.sh",
@@ -3243,6 +3273,22 @@
       "sha256": "7b7b744cad2f0c92d278d2d70a6cc2970c1dbdd6dc93c53c0c7f5035d7ee9d8e"
     },
     {
+      "path": "00_engine/scripts/dataset/build_first_batch_delivery_v1.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/DATASET_PACKAGE.md",
+        "workflow/WF-90-QA-PACKAGE-RELEASE.md"
+      ],
+      "bytes": 23014,
+      "sha256": "ff3a5312c9a547d3245adc09801438e706849ef0acce7833e63a70cfaf06d62c"
+    },
+    {
       "path": "00_engine/scripts/dataset/build_first_batch_graph_source_v1.py",
       "scan_root": "00_engine",
       "domain": "scripts",
@@ -3324,6 +3370,19 @@
       "sha256": "14c8d244737b628280d13d6de7d4e6b7adbbcf37fe91149ccebf7a351ef49381"
     },
     {
+      "path": "00_engine/scripts/dataset/tests/test_build_first_batch_delivery_v1.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 9429,
+      "sha256": "730a34e9b6375054042c8dfda52069c897d2a967ceb49156e86f2b97c58441c6"
+    },
+    {
       "path": "00_engine/scripts/dataset/tests/test_build_first_batch_graph_source_v1.py",
       "scan_root": "00_engine",
       "domain": "scripts",
@@ -3363,6 +3422,35 @@
       "sha256": "4f0a2cd1f19052a2fbafb1b3a1795e40199cb81102aa8494a68e452a70ae4ec3"
     },
     {
+      "path": "00_engine/scripts/dataset/tests/test_verify_first_batch_delivery_v1.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 8391,
+      "sha256": "064fdb6a97a49119070593ff16284b4ffcd61043c9cb57971bda3a2e9819d35e"
+    },
+    {
+      "path": "00_engine/scripts/dataset/verify_first_batch_delivery_v1.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/DATASET_PACKAGE.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/DATASET_PACKAGE.md",
+        "workflow/WF-90-QA-PACKAGE-RELEASE.md"
+      ],
+      "bytes": 21135,
+      "sha256": "40693fc41b3de26f49afb1729d33eae8d529ea46a836a2dcaa3bf8e89ec4749b"
+    },
+    {
       "path": "00_engine/scripts/documentation/build_output_inventory.py",
       "scan_root": "00_engine",
       "domain": "scripts",
@@ -3374,6 +3462,7 @@
       "document_mentions": [
         "technical/implementation/SCRIPT_LIFECYCLE.md",
         "technical/output/INVENTORY_AND_RETENTION.md",
+        "technical/rendering_release/DOCUMENT_SYNC.md",
         "technical/validation/DOCUMENTATION_VALIDATION.md"
       ],
       "bytes": 5922,
@@ -3390,10 +3479,11 @@
       "owner_exists": true,
       "document_mentions": [
         "technical/implementation/SCRIPT_LIFECYCLE.md",
+        "technical/rendering_release/DOCUMENT_SYNC.md",
         "technical/validation/DOCUMENTATION_VALIDATION.md"
       ],
-      "bytes": 13987,
-      "sha256": "5016d7717ee7704799dbcf8e1e422c27388840bb1bf9b854578df82f018c48a4"
+      "bytes": 15022,
+      "sha256": "2b258c949cc96870cc8c87591040f8b347b321e6352d2f7741dc98eea6824f33"
     },
     {
       "path": "00_engine/scripts/documentation/check_character_factory_docs.py",
@@ -3410,12 +3500,13 @@
         "technical/environment/ENVIRONMENT_AND_SESSION.md",
         "technical/implementation/SCRIPT_LIFECYCLE.md",
         "technical/output/INVENTORY_AND_RETENTION.md",
+        "technical/rendering_release/DOCUMENT_SYNC.md",
         "technical/validation/DOCUMENTATION_VALIDATION.md",
         "workflow/WF-00-ENVIRONMENT-PREFLIGHT.md",
         "workflow/WF-10-BATCH-DEFINITION.md"
       ],
-      "bytes": 56447,
-      "sha256": "4e24319f5b1375a4be0743a1b1f8660073504739b0978e6ad44743e4cd696457"
+      "bytes": 56668,
+      "sha256": "3ce1437cbfe57de7ab97119ee733b8155b218947942504b229b659d14a5ddc14"
     },
     {
       "path": "00_engine/scripts/documentation/generate_character_factory_link_trace.py",
@@ -3443,8 +3534,8 @@
         "technical/implementation/SCRIPT_LIFECYCLE.md",
         "technical/validation/DOCUMENTATION_VALIDATION.md"
       ],
-      "bytes": 8829,
-      "sha256": "579e3b383425f6749b69cff9050d8f44548fca0de5b24d0c58e6443262f83399"
+      "bytes": 10424,
+      "sha256": "6a4f49eeb4e5070842a922274483c26781e91cd7713dcb4b7ef4575097fb2e9f"
     },
     {
       "path": "00_engine/scripts/documentation/tests/test_check_character_factory_docs.py",
@@ -3571,8 +3662,8 @@
         "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
         "workflow/WF-60-SCENE-CAMERA-SEQUENCE.md"
       ],
-      "bytes": 4129,
-      "sha256": "244cf4a31ea8e852e9f06e3d791960ebdb4de86b9c0af6e67ea647c3239a3b54"
+      "bytes": 4360,
+      "sha256": "91bb4fe927607808f379062ea4fe91077da2ff5d949360ba2e4d19aaa7b5b7b4"
     },
     {
       "path": "00_engine/scripts/unreal/run_first_batch_32_video_matrix.ps1",
@@ -3732,8 +3823,8 @@
         "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
         "workflow/WF-80-RENDER-EXECUTION.md"
       ],
-      "bytes": 11709,
-      "sha256": "b6e7bed244c1768f4bae40f428113b9be836eecd43b9bc11776fc5dc6f4edc6f"
+      "bytes": 15899,
+      "sha256": "bce6b6eef841d3a0f88345879fca40592a7f194f7665b9919882bfb04b4805f4"
     },
     {
       "path": "00_engine/scripts/unreal/run_first_batch_motion_import.py",
@@ -3764,8 +3855,8 @@
         "technical/rendering_release/SERVER_EXECUTION.md",
         "workflow/WF-80-RENDER-EXECUTION.md"
       ],
-      "bytes": 44027,
-      "sha256": "591d11e3295fcf75b742079f54a81aa08f0a01e22a44286e44effd59e621c5d8"
+      "bytes": 46760,
+      "sha256": "f2d9b6b4e2502a92c22251e06ea93bccbb164981fdfa81e1424dbe2dd9ec2079"
     },
     {
       "path": "00_engine/scripts/unreal/run_first_batch_render_matrix.py",
@@ -3781,8 +3872,8 @@
         "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
         "workflow/WF-80-RENDER-EXECUTION.md"
       ],
-      "bytes": 28494,
-      "sha256": "54c6786004a574a64a2b7c342bdfae301caa90cb24f2148cb517689500e3d6db"
+      "bytes": 30337,
+      "sha256": "5c4becc1b0faf8e5f260fcb391099ba3b6342d34b0f67c9fd31d1f9e5526bae2"
     },
     {
       "path": "00_engine/scripts/unreal/run_first_batch_render_profile.py",
@@ -3813,6 +3904,73 @@
       "document_mentions": [],
       "bytes": 5773,
       "sha256": "360e0ecd93fae5d96ad0d20a3f56e80ec2467766d79b0c786d82285945185a3a"
+    },
+    {
+      "path": "00_engine/scripts/unreal/run_first_batch_server_production.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/RENDER_EXECUTION.md",
+        "technical/rendering_release/SERVER_EXECUTION.md",
+        "workflow/WF-80-RENDER-EXECUTION.md"
+      ],
+      "bytes": 10459,
+      "sha256": "12754437fcde08ad722e7e441753a99776dba69dc16a6140f7e31d03f01a27a2"
+    },
+    {
+      "path": "00_engine/scripts/unreal/run_first_batch_server_production_slurm.sh",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/RENDER_EXECUTION.md",
+        "technical/rendering_release/SERVER_EXECUTION.md"
+      ],
+      "bytes": 1514,
+      "sha256": "4d5a11872917e6d257c6225a323981d0023a55fd1ee43d5ef93543e0fc456d5c"
+    },
+    {
+      "path": "00_engine/scripts/unreal/run_first_batch_server_render_batches.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/RENDER_EXECUTION.md",
+        "technical/rendering_release/SERVER_EXECUTION.md",
+        "workflow/WF-80-RENDER-EXECUTION.md"
+      ],
+      "bytes": 8717,
+      "sha256": "9d1e3b5df13caa9666eca50992a150e788a52340118ed440e16a0baa442f4933"
+    },
+    {
+      "path": "00_engine/scripts/unreal/run_first_batch_server_render_jobs.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/RENDER_EXECUTION.md",
+        "technical/rendering_release/SERVER_EXECUTION.md",
+        "workflow/WF-80-RENDER-EXECUTION.md"
+      ],
+      "bytes": 25784,
+      "sha256": "21f73b11ce1e975f74d90519a542065e29c79d4769fbe9d30ba18d781ac18471"
     },
     {
       "path": "00_engine/scripts/unreal/run_m02_elder_morph_pie_review.py",
@@ -3906,6 +4064,19 @@
       "sha256": "7f8b3e5324e076f7e6bcbebc4a220880bc6810c1e940f6070811df152cf4553d"
     },
     {
+      "path": "00_engine/scripts/unreal/tests/test_run_first_batch_local_sample_render.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 4061,
+      "sha256": "3f1ae7aa88fbc1e4538498c73f06d4d8c5fadbacfd6d2aca63e42d26902f6771"
+    },
+    {
       "path": "00_engine/scripts/unreal/tests/test_run_first_batch_render_jobs.py",
       "scan_root": "00_engine",
       "domain": "scripts",
@@ -3915,8 +4086,8 @@
       "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
       "owner_exists": true,
       "document_mentions": [],
-      "bytes": 13880,
-      "sha256": "a54d4ac36d3fc6dd5de0213c7ff6bc01c3ca714bb163a1979ed77732ac4da2e3"
+      "bytes": 17810,
+      "sha256": "2d39ba328f45e545598991558b15dc520a311bd7f354089e6e4d87809ff00aee"
     },
     {
       "path": "00_engine/scripts/unreal/tests/test_run_first_batch_render_matrix.py",
@@ -3928,8 +4099,86 @@
       "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
       "owner_exists": true,
       "document_mentions": [],
-      "bytes": 4740,
-      "sha256": "d23b332a7531b1e1d692c991ba966e5915ba69c4aa682dd12447f15553156925"
+      "bytes": 6524,
+      "sha256": "819f7e1a5df08f3a8f6610adfb3072a2a3456625be82e213977b2939f437b7b4"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_run_first_batch_server_production.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 4420,
+      "sha256": "a447f3783b4bc702645b397299775709f2b3fb6538f797d57a87324c3d56d0b5"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_run_first_batch_server_render_batches.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 4318,
+      "sha256": "76b60153c20c7775bbdb3f7f6e0078c7aa6554292100a9ba0a3cdff89d8e0d02"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_run_first_batch_server_render_jobs.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 13127,
+      "sha256": "6003423790f2aa8770c4e1198dabd3ca5d62cb6a2a697400a1104fb72c52a8a7"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_ue_mcp_client.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 1907,
+      "sha256": "4fc8edd901a736287814a55a322b9913dc64fa84d359dc0f6c2ed25e7f459a51"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_ue_remote_exec.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 1482,
+      "sha256": "d2ee74288d2bc5fb726dba65573e63808336a3949feb739a228853d4b6a065b0"
+    },
+    {
+      "path": "00_engine/scripts/unreal/tests/test_validate_first_batch_node_determinism.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "utility",
+      "active_batch": false,
+      "classification_reason": "automated test",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [],
+      "bytes": 1427,
+      "sha256": "619987667279a605b5ea1e9172e781aa60ae24f90d38f51b574f016d010b6e3a"
     },
     {
       "path": "00_engine/scripts/unreal/ue_apply_first_batch_cleanup.py",
@@ -4041,8 +4290,8 @@
         "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
         "workflow/WF-60-SCENE-CAMERA-SEQUENCE.md"
       ],
-      "bytes": 21680,
-      "sha256": "5eb6c7c547f0a0049358ee79c56ba21f6f6ddb81c54885384e99c94ff75b453e"
+      "bytes": 24429,
+      "sha256": "75aa0c580cfee7b231ddd7df214a083435326237fe84d9f299d46f49f403d388"
     },
     {
       "path": "00_engine/scripts/unreal/ue_build_first_batch_action_expression_composites.py",
@@ -4138,8 +4387,8 @@
         "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
         "workflow/WF-60-SCENE-CAMERA-SEQUENCE.md"
       ],
-      "bytes": 4601,
-      "sha256": "51b2a956dd75481811e6271e869f13b44d7fc052d6011be0c7facd9bfb676e0c"
+      "bytes": 5153,
+      "sha256": "63718f514ccd5d114b318d1b757d3e72cb0da3050c6b5192ba3f113dbb2bbda5"
     },
     {
       "path": "00_engine/scripts/unreal/ue_build_m02_body_face_animation.py",
@@ -4646,8 +4895,8 @@
         "technical/transfer/CC_TO_UE_FULLREFERENCE.md",
         "workflow/WF-00-ENVIRONMENT-PREFLIGHT.md"
       ],
-      "bytes": 3948,
-      "sha256": "4b5e096421928822d656cefa49602c9436e3eababa7ae738140a8de1bb2d76fa"
+      "bytes": 4604,
+      "sha256": "ea501c48db29e694586f51d96feb0661a4438b8a5d596af96bc5a6c196947688"
     },
     {
       "path": "00_engine/scripts/unreal/ue_run_first_batch_expression_review.py",
@@ -4935,6 +5184,21 @@
       ],
       "bytes": 13325,
       "sha256": "4167139e1e9b246e5d3aba3f60d08a91c9a1f1d3ba0efcfc914617e7b38e02fd"
+    },
+    {
+      "path": "00_engine/scripts/unreal/validate_first_batch_node_determinism.py",
+      "scan_root": "00_engine",
+      "domain": "scripts",
+      "lifecycle": "production",
+      "active_batch": true,
+      "classification_reason": "accepted active first-batch implementation",
+      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
+      "owner_exists": true,
+      "document_mentions": [
+        "technical/rendering_release/RENDER_EXECUTION.md"
+      ],
+      "bytes": 11318,
+      "sha256": "f14f82cd2f09ce096b3eee04c3288d8d60277ca17ca2489396d8af30e8707344"
     },
     {
       "path": "00_engine/visualization_portal/OPEN_OFFLINE_ANIMATION_REVIEW.cmd",
@@ -5264,8 +5528,8 @@
         "workflow/WF-00-ENVIRONMENT-PREFLIGHT.md",
         "workflow/WF-80-RENDER-EXECUTION.md"
       ],
-      "bytes": 25125,
-      "sha256": "58a22f03ca618310821a1ac855ab37d2b2f02cad4f41d89d9b44e4693bac66e2"
+      "bytes": 25180,
+      "sha256": "95c8f16f64e3a342e8f3d6541a348c207edc42f198723fa3d4ac22954e6ce08e"
     }
   ]
 }

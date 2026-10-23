@@ -1,0 +1,218 @@
+{
+  "date": "2026-09-12",
+  "status": "single_gpu_validated_pending_eight_gpu_startup_gate",
+  "old_pred_x0": {
+    "job_id": 133605,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "checkpoint": 77,
+    "end": "2026-09-12T10:06:52+08:00",
+    "original_resume_dry_run": "passed"
+  },
+  "gt_control": {
+    "job_id": 133604,
+    "state": "RUNNING",
+    "modified": false
+  },
+  "profile": "10_research/model_experiments/lance/configs/datamake_coinve_mixed_ddp8_lora64_both_chain_pred_x0_no_region_v2.json",
+  "initialization": "fresh_official_base",
+  "formal_training_submitted": false,
+  "global_targets_per_update": 32,
+  "extra_round_weights": [
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "r5_exposures": 3,
+  "loss_normalization": "global_window_target_token_mean",
+  "lance_unit_tests": 153,
+  "patch_replay": "passed",
+  "gpu": {
+    "status": "passed",
+    "updates": 2,
+    "target_exposures": 11,
+    "model_forwards": 11,
+    "history_decodes": 7,
+    "extra_history_model_forwards": 0,
+    "history_detached": true,
+    "frozen_weights_unchanged": true,
+    "both_branches_updated": true,
+    "gt_targets_equal_original_preprocessing": true,
+    "r5_repeats_have_distinct_timesteps": true,
+    "peak_allocated_gib": 117.94736623764038
+  },
+  "cpu_real_media": {
+    "status": "passed",
+    "cases": [
+      {
+        "chain_length": 1,
+        "targets": 1,
+        "target_tokens": 13728,
+        "histories": 0,
+        "r5_timesteps": []
+      },
+      {
+        "chain_length": 3,
+        "targets": 3,
+        "target_tokens": 38610,
+        "histories": 2,
+        "r5_timesteps": []
+      },
+      {
+        "chain_length": 4,
+        "targets": 4,
+        "target_tokens": 51480,
+        "histories": 3,
+        "r5_timesteps": []
+      },
+      {
+        "chain_length": 5,
+        "targets": 7,
+        "target_tokens": 90090,
+        "histories": 4,
+        "r5_timesteps": [
+          1.8719004392623901,
+          0.7958451509475708,
+          -0.694298505783081
+        ]
+      }
+    ]
+  },
+  "gloo": {
+    "status": "passed",
+    "world_size": 2,
+    "backend": "gloo",
+    "updates": 3,
+    "local_forward_counts": [
+      7,
+      1
+    ],
+    "decode_counts": [
+      4,
+      0
+    ],
+    "gradient_reference": "global_token_mean_detached_history",
+    "max_gradient_difference": 0.0
+  },
+  "eight_gpu_resume_gate": "pending_on_user_submission",
+  "per_epoch_counts": {
+    "supervised_forwards": 18276,
+    "old_extra_history_forwards": 24213,
+    "new_extra_history_forwards": 0,
+    "new_history_decodes": 9883
+  },
+  "core_tests": {
+    "documentation": 22,
+    "dataset": 30,
+    "unreal": 80
+  },
+  "fresh_launch_dry_run": {
+    "passed": true,
+    "next_step": 0,
+    "gate_required": true
+  },
+  "documentation_audit": {
+    "root": "/scratch/prj0000000275/jcy/xks/DataMake/20_planning/data_design/character_creator/full_process",
+    "errors": [],
+    "warnings": [],
+    "stats": {
+      "document_ids": 114,
+      "reachable_documents": 114,
+      "inventoried_output_scopes": 5,
+      "catalogued_scripts": 404,
+      "documents": 114,
+      "local_links": 686
+    },
+    "subsystems": {
+      "DocumentIO": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Metadata": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Navigation": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Master": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Workflow": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Validation": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Output": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Technical": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Status": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Plan": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "History": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Decisions": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Reference": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Registry": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Governance": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      },
+      "Templates": {
+        "success": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    "cross_layer": {
+      "success": true,
+      "errors": [],
+      "warnings": []
+    },
+    "success": true
+  },
+  "slurm_shell_syntax": "passed"
+}

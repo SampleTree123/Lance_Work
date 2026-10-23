@@ -1,0 +1,2505 @@
+diff --git a/data/datasets_factory/datamake_online_rollout_turn.py b/data/datasets_factory/datamake_online_rollout_turn.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..d3b15d53acda51050878d0ba2b86f9816e852f34
+--- /dev/null
++++ b/data/datasets_factory/datamake_online_rollout_turn.py
+@@ -0,0 +1,266 @@
++# coding: utf-8
++
++"""Stage-4 in-memory turn encoding without mutating the frozen Stage-2 dataset.
++
++The regular DataMake dataset remains path-only and hash-compatible with the
++completed full-parameter runs.  This module is an explicit adapter used only
++by the online-rollout trainer: generated CTHW frames can replace historical
++paths while the row keeps its original ``video_paths`` as provenance.
++"""
++
++from __future__ import annotations
++
++import random
++from typing import Any, Dict, List, Optional
++
++from PIL import Image
++import torch
++
++from data.common import generate_system_prompt
++from data.system_prompt_render import render_qwenvl_prompt
++from data.datasets_factory.dataset_datamake_multiturn_v2v_local import (
++    expand_and_index_multiturn,
++)
++
++
++def _validate_online_row(dataset, row: Dict[str, Any]) -> List[Any]:
++    dataset._validate_local_row(row)
++    video_paths = row["video_paths"]
++    video_inputs = list(row.get("video_inputs", video_paths))
++    if len(video_inputs) != len(video_paths):
++        raise ValueError("video_inputs and video_paths must have equal length")
++    if not all(
++        (isinstance(value, str) and value.strip())
++        or (
++            isinstance(value, torch.Tensor)
++            and value.ndim == 4
++            and value.shape[0] == 3
++        )
++        for value in video_inputs
++    ):
++        raise ValueError("video_inputs must contain paths or in-memory CTHW tensors")
++    return video_inputs
++
++
++def get_online_video_tensor(
++    dataset,
++    value: Any,
++    vision_stream: str,
++    worker_id: int,
++    cache: Dict[str, bytes],
++):
++    """Encode a path or detached decoded tensor without an MP4 roundtrip."""
++
++    if isinstance(value, str):
++        media_bytes = dataset._read_media_bytes(value, cache)
++        return dataset.get_video_tensor(
++            media_bytes,
++            vision_stream=vision_stream,
++            worker_id=worker_id,
++            element_dtype="video",
++            raw_bytes_input=True,
++        )
++
++    if not isinstance(value, torch.Tensor):
++        raise TypeError(f"unsupported DataMake video input: {type(value)!r}")
++    video = value.detach().to(device="cpu")
++    if video.ndim != 4 or video.shape[0] != 3:
++        raise ValueError(f"in-memory video must be CTHW, got {tuple(video.shape)}")
++    if vision_stream == "vae_video":
++        if video.dtype == torch.uint8:
++            tensor = video.float().div_(127.5).sub_(1.0)
++        else:
++            tensor = video.float().clamp_(-1.0, 1.0)
++    elif vision_stream == "vit_video":
++        if video.dtype == torch.uint8:
++            frames_uint8 = video
++        else:
++            frames_uint8 = (
++                video.float()
++                .clamp_(-1.0, 1.0)
++                .add_(1.0)
++                .mul_(127.5)
++                .round_()
++                .clamp_(0, 255)
++                .to(torch.uint8)
++            )
++        frames = [
++            Image.fromarray(frame.permute(1, 2, 0).numpy(), mode="RGB")
++            for frame in frames_uint8.unbind(dim=1)
++        ]
++        tensor = dataset.vit_transform(frames)
++        if tensor.shape[1] % 2 == 1:
++            tensor = torch.cat([tensor, tensor[:, -1:]], dim=1)
++        del frames, frames_uint8
++    else:
++        raise ValueError(f"unsupported vision stream: {vision_stream}")
++    dataset.vision_stream = vision_stream
++    return tensor, dataset.vision_token_count(tensor), None
++
++
++def process_online_rollout_row(
++    dataset,
++    row: Dict[str, Any],
++    parquet_idx: int,
++    row_group_id: int,
++    row_idx: int,
++    worker_id: int,
++    parquet_file_path: str,
++) -> Optional[Dict[str, Any]]:
++    """Build one role-aware training turn using path or in-memory video inputs."""
++
++    try:
++        video_inputs = _validate_online_row(dataset, row)
++        prompts = list(row["prompts"])
++        video_paths = list(row["video_paths"])
++        latest_source_index = len(video_paths) - 2
++        drop_all_text = (
++            random.random() < dataset.data_config["text_cond_dropout_prob"]
++        )
++
++        video_tensor_list = []
++        sequence_plan = []
++        visual_token_counts: List[int] = []
++        media_cache: Dict[str, bytes] = {}
++
++        def add_condition(
++            media_value: Any,
++            message_content: List[Dict[str, str]],
++            include_vae: bool,
++        ) -> None:
++            include_vit = (
++                random.random() >= dataset.data_config["vit_cond_dropout_prob"]
++            )
++            if include_vit and "vit" in dataset.vision_cond_type:
++                tensor, num_tokens, thw = get_online_video_tensor(
++                    dataset, media_value, "vit_video", worker_id, media_cache
++                )
++                video_tensor_list.append(tensor)
++                sequence_plan.append(
++                    {
++                        "type": "vit_video",
++                        "enable_cfg": 1,
++                        "loss": 0,
++                        "special_token_loss": 0,
++                        "special_token_label": None,
++                        "thw": thw,
++                        "apply_text_template": True,
++                    }
++                )
++                visual_token_counts.append(num_tokens)
++                message_content.append({"type": "video"})
++
++            if include_vae and "vae_Nsplit" in dataset.vision_cond_type:
++                tensor, num_tokens, thw = get_online_video_tensor(
++                    dataset, media_value, "vae_video", worker_id, media_cache
++                )
++                video_tensor_list.append(tensor)
++                sequence_plan.append(
++                    {
++                        "type": "vae_video",
++                        "enable_cfg": 1,
++                        "loss": 0,
++                        "special_token_loss": 0,
++                        "special_token_label": None,
++                        "datamake_edit_role": "source",
++                        "thw": thw,
++                        "apply_text_template": True,
++                    }
++                )
++                visual_token_counts.append(num_tokens)
++                message_content.append({"type": "video"})
++
++        messages: List[Dict[str, Any]] = []
++        for prompt_index, prompt in enumerate(prompts):
++            user_content: List[Dict[str, str]] = []
++            if prompt_index == 0:
++                add_condition(
++                    video_inputs[0],
++                    user_content,
++                    include_vae=latest_source_index == 0,
++                )
++            if not drop_all_text:
++                user_content.append({"type": "text", "text": prompt})
++            messages.append({"role": "user", "content": user_content})
++
++            if prompt_index < len(prompts) - 1:
++                assistant_content: List[Dict[str, str]] = []
++                source_index = prompt_index + 1
++                add_condition(
++                    video_inputs[source_index],
++                    assistant_content,
++                    include_vae=source_index == latest_source_index,
++                )
++                messages.append({"role": "assistant", "content": assistant_content})
++
++        target_tensor, target_tokens, target_thw = get_online_video_tensor(
++            dataset, video_inputs[-1], "vae_video", worker_id, media_cache
++        )
++        video_tensor_list.append(target_tensor)
++        sequence_plan.append(
++            {
++                "type": "vae_video",
++                "enable_cfg": 0,
++                "loss": 1,
++                "special_token_loss": 0,
++                "special_token_label": None,
++                "datamake_edit_role": "target",
++                "frame_condition_idx": [],
++                "L_video_group": dataset.L_video_group,
++                "random_choose_group": dataset.random_choose_group,
++                "thw": target_thw,
++                "apply_text_template": True,
++            }
++        )
++        visual_token_counts.append(target_tokens)
++        messages.append({"role": "assistant", "content": [{"type": "video"}]})
++
++        current_prompt = "" if drop_all_text else prompts[-1]
++        rendered = render_qwenvl_prompt(
++            messages,
++            default_system=generate_system_prompt("edit", vision_type="video"),
++            include_assistant_content=True,
++        ).strip()
++        all_token_ids, spans_index, target_index, search_index = (
++            expand_and_index_multiturn(
++                rendered,
++                visual_token_counts,
++                tokenizer=dataset.tokenizer,
++                target_text="assistant\n",
++                search_text=current_prompt,
++            )
++        )
++        sequence_plan.append(
++            {
++                "type": "text_template",
++                "enable_cfg": 0,
++                "loss": 0,
++                "special_token_loss": 0,
++                "special_token_label": None,
++                "packed_label_index": target_index,
++                "spans_index": spans_index,
++                "cap_index": search_index,
++            }
++        )
++        return {
++            "video_tensor_list": video_tensor_list,
++            "text_ids_list": [all_token_ids],
++            "num_tokens": len(all_token_ids),
++            "sequence_plan": sequence_plan,
++            "sample_task": "edit",
++            "N_target": 1,
++            "data_indexes": {
++                "data_indexes": [parquet_idx, row_group_id, row_idx],
++                "worker_id": worker_id,
++                "dataset_name": dataset.dataset_name,
++                "sample_id": row["sample_id"],
++                "chain_id": row["chain_id"],
++                "target_round": int(row["target_round"]),
++            },
++        }
++    except Exception as error:
++        dataset.logger.warning(
++            f"Error processing DataMake online-rollout row: {error} in "
++            f"rg#{row_group_id}, {parquet_file_path}"
++        )
++        return None
+diff --git a/datamake_lora_multiturn_chat.py b/datamake_lora_multiturn_chat.py
+index 23443376e6a8b529a25149f86ba023481101b058..233a97b33a2ffdd6951a60c9bf1f051230b7ec2e 100644
+--- a/datamake_lora_multiturn_chat.py
++++ b/datamake_lora_multiturn_chat.py
+@@ -15,26 +15,48 @@ import sys
+ 
+ from train.datamake_generation_lora import (
+     LORA_CONFIG_FILENAME,
++    install_lora_adapter_inference_loader,
+     install_lora_inference_loader_if_present,
+ )
+ 
+ 
+ def argument_value(arguments, name):
+-    try:
+-        index = arguments.index(name)
+-    except ValueError as error:
+-        raise ValueError(f"{name} is required") from error
++    indexes = [index for index, value in enumerate(arguments) if value == name]
++    if not indexes:
++        raise ValueError(f"{name} is required")
++    if len(indexes) != 1:
++        raise ValueError(f"{name} may only be provided once")
++    index = indexes[0]
+     if index + 1 >= len(arguments):
+         raise ValueError(f"{name} requires a value")
+     return arguments[index + 1]
+ 
+ 
+ def main() -> None:
+-    model_path = argument_value(sys.argv[1:], "--model_path")
+-    if not install_lora_inference_loader_if_present(model_path):
++    arguments = sys.argv[1:]
++    model_path = argument_value(arguments, "--model_path")
++    adapter_indexes = [
++        index
++        for index, value in enumerate(arguments)
++        if value == "--datamake_lora_checkpoint"
++    ]
++    if len(adapter_indexes) > 1:
++        raise ValueError("--datamake_lora_checkpoint may only be provided once")
++    if adapter_indexes:
++        index = adapter_indexes[0]
++        if index + 1 >= len(arguments):
++            raise ValueError("--datamake_lora_checkpoint requires a value")
++        checkpoint = arguments[index + 1]
++        del arguments[index : index + 2]
++        installed = install_lora_adapter_inference_loader(checkpoint)
++    else:
++        installed = install_lora_inference_loader_if_present(model_path)
++    if not installed:
+         raise FileNotFoundError(
+-            f"LoRA-aware inference requires {LORA_CONFIG_FILENAME}: {model_path}"
++            f"LoRA-aware inference requires {LORA_CONFIG_FILENAME} and adapter "
++            f"weights: {checkpoint if adapter_indexes else model_path}"
+         )
++    sys.argv = [sys.argv[0], *arguments]
+ 
+     from multiturn_chat import main as multiturn_main
+ 
+diff --git a/train/datamake_generation_lora.py b/train/datamake_generation_lora.py
+index f74600d3bcfd12ce41ca1c31059e53155f57d2fc..fe497016ce68e126227732c8b70da52330d25d2c 100644
+--- a/train/datamake_generation_lora.py
++++ b/train/datamake_generation_lora.py
+@@ -14,13 +14,14 @@ VAE therefore stay immutable; only ``lora_A`` and ``lora_B`` are trainable.
+ 
+ LoRA checkpoints keep the wrapped module topology instead of silently merging
+ adapters.  ``datamake_lora_config.json`` is consequently part of the checkpoint
+-contract: training resume and the patched inference loader attach the same
+-wrappers before loading ``model.safetensors``.
++contract: exact training resume and inference attach the same wrappers to an
++explicit immutable base before loading ``adapter.safetensors``.
+ """
+ 
+ from __future__ import annotations
+ 
+ from dataclasses import asdict, dataclass
++import hashlib
+ import json
+ import math
+ import os
+@@ -33,6 +34,10 @@ from torch.nn import functional as F
+ 
+ LORA_CONFIG_FILENAME = "datamake_lora_config.json"
+ LORA_SCHEMA_VERSION = "datamake_lance_generation_lora_v1"
++LORA_ADAPTER_FILENAME = "adapter.safetensors"
++OFFICIAL_VIDEO_GENERATION_TARGET_SIGNATURE = (
++    "317edc33a16fabc9f3988aac84dcd48487af732ba977b660ae44b4ca09f65cac"
++)
+ 
+ GENERATION_EXPERT_SUFFIXES: Tuple[str, ...] = (
+     "self_attn.q_proj_moe_gen",
+@@ -59,6 +64,7 @@ class GenerationLoRAConfig:
+     dropout: float = 0.0
+     target_scope: str = "generation_experts_and_io"
+     expected_target_modules: int = 256
++    expected_target_signature_sha256: str = ""
+     schema_version: str = LORA_SCHEMA_VERSION
+ 
+     def validate(self) -> None:
+@@ -77,6 +83,14 @@ class GenerationLoRAConfig:
+             raise ValueError(f"unsupported LoRA target scope: {self.target_scope!r}")
+         if self.expected_target_modules < 1:
+             raise ValueError("expected_target_modules must be positive")
++        if self.expected_target_signature_sha256 and (
++            len(self.expected_target_signature_sha256) != 64
++            or any(
++                char not in "0123456789abcdef"
++                for char in self.expected_target_signature_sha256
++            )
++        ):
++            raise ValueError("expected target signature must be lowercase SHA-256")
+ 
+     def to_dict(self) -> Dict[str, object]:
+         return asdict(self)
+@@ -89,6 +103,9 @@ class GenerationLoRAConfig:
+             dropout=float(payload["dropout"]),
+             target_scope=str(payload["target_scope"]),
+             expected_target_modules=int(payload["expected_target_modules"]),
++            expected_target_signature_sha256=str(
++                payload.get("expected_target_signature_sha256", "")
++            ),
+             schema_version=str(payload["schema_version"]),
+         )
+         config.validate()
+@@ -165,6 +182,22 @@ def generation_lora_targets(model: nn.Module, scope: str) -> List[str]:
+     ]
+ 
+ 
++def generation_target_signature(model: nn.Module, target_names: List[str]) -> str:
++    """Hash the exact ordered generation target names and Linear shapes."""
++
++    modules = dict(model.named_modules())
++    payload = [
++        {
++            "name": name,
++            "in_features": int(modules[name].in_features),
++            "out_features": int(modules[name].out_features),
++        }
++        for name in sorted(target_names)
++    ]
++    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
++    return hashlib.sha256(canonical).hexdigest()
++
++
+ def apply_generation_lora(
+     model: nn.Module,
+     config: GenerationLoRAConfig,
+@@ -182,6 +215,16 @@ def apply_generation_lora(
+             f"expected {config.expected_target_modules}, found {len(target_names)}. "
+             "Inspect the Lance architecture before changing the frozen contract."
+         )
++    target_signature = generation_target_signature(model, target_names)
++    if (
++        config.expected_target_signature_sha256
++        and target_signature != config.expected_target_signature_sha256
++    ):
++        raise ValueError(
++            "generation LoRA target names/shapes changed: "
++            f"expected signature {config.expected_target_signature_sha256}, "
++            f"found {target_signature}"
++        )
+ 
+     for parameter in model.parameters():
+         parameter.requires_grad = False
+@@ -214,11 +257,63 @@ def apply_generation_lora(
+     return {
+         "target_modules": target_names,
+         "target_module_count": len(target_names),
++        "target_signature_sha256": target_signature,
+         "trainable_parameter_count": sum(trainable.values()),
+         "trainable_parameter_names": sorted(trainable),
+     }
+ 
+ 
++def lora_parameter_names(model: nn.Module) -> List[str]:
++    return sorted(
++        name
++        for name, _ in model.named_parameters()
++        if name.endswith("lora_A") or name.endswith("lora_B")
++    )
++
++
++def validate_adapter_state_dict(
++    model: nn.Module, state: Mapping[str, torch.Tensor]
++) -> None:
++    """Require an adapter file to contain every and only current LoRA tensor."""
++
++    expected_parameters = dict(model.named_parameters())
++    expected_names = set(lora_parameter_names(model))
++    actual_names = set(state)
++    missing = sorted(expected_names - actual_names)
++    unexpected = sorted(actual_names - expected_names)
++    shape_mismatches = []
++    for name in sorted(expected_names & actual_names):
++        expected_shape = tuple(expected_parameters[name].shape)
++        actual_shape = tuple(state[name].shape)
++        if actual_shape != expected_shape:
++            shape_mismatches.append((name, expected_shape, actual_shape))
++    if missing or unexpected or shape_mismatches:
++        raise RuntimeError(
++            "LoRA adapter topology mismatch: "
++            f"missing={missing[:20]}, unexpected={unexpected[:20]}, "
++            f"shape_mismatches={shape_mismatches[:20]}"
++        )
++
++
++def load_adapter_state_dict(
++    model: nn.Module, state: Mapping[str, torch.Tensor]
++):
++    """Strictly load a partial adapter state without accepting base-weight drift."""
++
++    validate_adapter_state_dict(model, state)
++    message = model.load_state_dict(dict(state), strict=False)
++    expected_missing = sorted(
++        name for name in model.state_dict() if name not in set(state)
++    )
++    if sorted(message.missing_keys) != expected_missing or message.unexpected_keys:
++        raise RuntimeError(
++            "partial LoRA load returned an unexpected key contract: "
++            f"missing={message.missing_keys[:20]}, "
++            f"unexpected={message.unexpected_keys[:20]}"
++        )
++    return message
++
++
+ def write_lora_config(path: str, config: GenerationLoRAConfig) -> None:
+     config.validate()
+     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
+@@ -266,6 +361,13 @@ def load_lora_checkpoint_into_model(model: nn.Module, model_args):
+ 
+     from safetensors.torch import load_file
+ 
++    adapter_path = os.path.join(checkpoint_dir, LORA_ADAPTER_FILENAME)
++    if os.path.isfile(adapter_path):
++        state = load_file(adapter_path, device="cpu")
++        message = load_adapter_state_dict(model, state)
++        state.clear()
++        return message
++
+     model_path = os.path.join(checkpoint_dir, "model.safetensors")
+     if not os.path.isfile(model_path):
+         raise FileNotFoundError(model_path)
+@@ -288,12 +390,52 @@ def load_lora_checkpoint_into_model(model: nn.Module, model_args):
+     return message
+ 
+ 
++def install_lora_adapter_inference_loader(checkpoint_dir: str) -> bool:
++    """Install a loader for an immutable base plus a separate LoRA adapter."""
++
++    checkpoint_dir = os.path.abspath(checkpoint_dir)
++    config_path = os.path.join(checkpoint_dir, LORA_CONFIG_FILENAME)
++    adapter_path = os.path.join(checkpoint_dir, LORA_ADAPTER_FILENAME)
++    if not os.path.isfile(config_path) or not os.path.isfile(adapter_path):
++        return False
++
++    import inference_lance
++
++    original_loader = inference_lance.init_from_model_path_if_needed
++    if getattr(original_loader, "_datamake_adapter_loader", False):
++        raise RuntimeError("DataMake adapter inference loader is already installed")
++
++    def fixed_checkpoint_loader(model: nn.Module, model_args):
++        # Lance creates a fresh model before invoking this hook.  Loading the
++        # official --model_path base must therefore happen before modules are
++        # wrapped: the base checkpoint contains nn.Linear names, while the
++        # adapter checkpoint contains only LoRA A/B tensors.
++        original_loader(model, model_args)
++        config = read_lora_config(config_path)
++        apply_generation_lora(model, config)
++        from safetensors.torch import load_file
++
++        state = load_file(adapter_path, device="cpu")
++        message = load_adapter_state_dict(model, state)
++        state.clear()
++        return message
++
++    fixed_checkpoint_loader._datamake_adapter_loader = True
++    inference_lance.init_from_model_path_if_needed = fixed_checkpoint_loader
++    return True
++
++
+ def install_lora_inference_loader_if_present(checkpoint_dir: str) -> bool:
+     """Patch only this process when the checkpoint declares DataMake LoRA."""
+ 
+     config_path = os.path.join(checkpoint_dir, LORA_CONFIG_FILENAME)
+     if not os.path.isfile(config_path):
+         return False
++    if os.path.isfile(os.path.join(checkpoint_dir, LORA_ADAPTER_FILENAME)):
++        # Use the same base-first ordering even for a combined directory.  If
++        # it does not also contain a valid model.safetensors, Lance's original
++        # loader fails explicitly instead of silently using random base weights.
++        return install_lora_adapter_inference_loader(checkpoint_dir)
+     import inference_lance
+ 
+     inference_lance.init_from_model_path_if_needed = load_lora_checkpoint_into_model
+diff --git a/train/datamake_lora_checkpoint.py b/train/datamake_lora_checkpoint.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..9e734c11ecde6e5c42abbede75f4c8fb7c702b2e
+--- /dev/null
++++ b/train/datamake_lora_checkpoint.py
+@@ -0,0 +1,328 @@
++# coding: utf-8
++
++"""Adapter-only, exact-resume checkpoints for DataMake Lance LoRA training."""
++
++from __future__ import annotations
++
++import json
++import os
++from pathlib import Path
++import random
++import shutil
++from typing import Any, Dict, Mapping, Optional
++
++import numpy as np
++from safetensors.torch import load_file, save_file
++import torch
++import torch.distributed as dist
++import torch.distributed.checkpoint as dcp
++from torch.distributed.checkpoint.state_dict import (
++    StateDictOptions,
++    get_model_state_dict,
++    get_optimizer_state_dict,
++    set_model_state_dict,
++    set_optimizer_state_dict,
++)
++
++from train.datamake_generation_lora import (
++    LORA_ADAPTER_FILENAME,
++    LORA_CONFIG_FILENAME,
++    GenerationLoRAConfig,
++    load_adapter_state_dict,
++    read_lora_config,
++    write_lora_config,
++)
++
++
++CHECKPOINT_FORMAT_VERSION = 2
++TRAINING_CONTRACT_FILENAME = "datamake_online_training_contract.json"
++TRAINER_STATE_FILENAME = "trainer_state.json"
++COMPLETE_MARKER_FILENAME = "checkpoint_complete.json"
++OPTIMIZER_DCP_DIRNAME = "optimizer"
++
++
++def _rank() -> int:
++    return dist.get_rank() if dist.is_available() and dist.is_initialized() else 0
++
++
++def _world_size() -> int:
++    return dist.get_world_size() if dist.is_available() and dist.is_initialized() else 1
++
++
++def _barrier() -> None:
++    if dist.is_available() and dist.is_initialized():
++        dist.barrier()
++
++
++def _atomic_json(path: Path, value: Mapping[str, Any]) -> None:
++    temporary = path.with_suffix(path.suffix + ".tmp")
++    temporary.write_text(
++        json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
++        encoding="utf-8",
++    )
++    os.replace(temporary, path)
++
++
++def _rng_state() -> Dict[str, Any]:
++    value: Dict[str, Any] = {
++        "python": random.getstate(),
++        "numpy": np.random.get_state(),
++        "torch_cpu": torch.get_rng_state(),
++    }
++    if torch.cuda.is_available():
++        value["torch_cuda"] = torch.cuda.get_rng_state()
++    return value
++
++
++def _restore_rng_state(value: Mapping[str, Any]) -> None:
++    random.setstate(value["python"])
++    np.random.set_state(value["numpy"])
++    torch.set_rng_state(value["torch_cpu"])
++    if torch.cuda.is_available() and "torch_cuda" in value:
++        torch.cuda.set_rng_state(value["torch_cuda"])
++
++
++def _full_trainable_state(model: torch.nn.Module) -> Dict[str, torch.Tensor]:
++    options = StateDictOptions(
++        full_state_dict=True,
++        cpu_offload=True,
++        ignore_frozen_params=False,
++        strict=True,
++    )
++    state = get_model_state_dict(model, options=options)
++    return {
++        key: value.contiguous()
++        for key, value in state.items()
++        if isinstance(value, torch.Tensor)
++        and (key.endswith("lora_A") or key.endswith("lora_B"))
++    }
++
++
++def _sharded_optimizer_state(
++    model: torch.nn.Module, optimizer: torch.optim.Optimizer
++) -> Dict[str, Any]:
++    options = StateDictOptions(
++        full_state_dict=False,
++        cpu_offload=True,
++        ignore_frozen_params=False,
++        strict=True,
++    )
++    return get_optimizer_state_dict(model, optimizer, options=options)
++
++
++def save_lora_checkpoint(
++    checkpoint_root: Path,
++    completed_steps: int,
++    model: torch.nn.Module,
++    optimizer: torch.optim.Optimizer,
++    scheduler,
++    lora_config: GenerationLoRAConfig,
++    training_contract: Mapping[str, Any],
++    trainer_state: Mapping[str, Any],
++    keep_last: int,
++    logger,
++) -> Path:
++    """Save adapter, optimizer/scheduler/cursor and RNG at an optimizer boundary."""
++
++    if completed_steps <= 0:
++        raise ValueError("completed_steps must be positive")
++    if keep_last < 1:
++        raise ValueError("keep_last must be positive")
++    checkpoint_root = checkpoint_root.resolve()
++    final_path = checkpoint_root / f"{completed_steps:07d}"
++    staging = checkpoint_root / f".{completed_steps:07d}.incomplete"
++    if _rank() == 0:
++        checkpoint_root.mkdir(parents=True, exist_ok=True)
++        if final_path.exists():
++            raise FileExistsError(final_path)
++        if staging.exists():
++            shutil.rmtree(staging)
++        staging.mkdir(parents=True)
++    _barrier()
++
++    # A full state is requested only for trainable parameters. PyTorch 2.8's
++    # ignore_frozen_params avoids gathering the immutable 7.1B base weights.
++    adapter_state = _full_trainable_state(model)
++    if _rank() == 0:
++        if not adapter_state or any(
++            not (name.endswith("lora_A") or name.endswith("lora_B"))
++            for name in adapter_state
++        ):
++            raise RuntimeError("checkpoint state must contain only LoRA A/B tensors")
++        save_file(adapter_state, str(staging / LORA_ADAPTER_FILENAME))
++        write_lora_config(str(staging / LORA_CONFIG_FILENAME), lora_config)
++        _atomic_json(staging / TRAINING_CONTRACT_FILENAME, training_contract)
++    del adapter_state
++    _barrier()
++
++    optimizer_state = _sharded_optimizer_state(model, optimizer)
++    dcp.save(
++        {"optimizer": optimizer_state},
++        checkpoint_id=str(staging / OPTIMIZER_DCP_DIRNAME),
++    )
++    del optimizer_state
++    _barrier()
++
++    rng_path = staging / f"rng.rank-{_rank():05d}-of-{_world_size():05d}.pt"
++    torch.save(_rng_state(), rng_path)
++    if _rank() == 0:
++        torch.save(scheduler.state_dict(), staging / "scheduler.pt")
++        state = {
++            **dict(trainer_state),
++            "checkpoint_format_version": CHECKPOINT_FORMAT_VERSION,
++            "completed_steps": int(completed_steps),
++            "next_step": int(completed_steps),
++            "world_size": _world_size(),
++            "optimizer_boundary": True,
++        }
++        _atomic_json(staging / TRAINER_STATE_FILENAME, state)
++    _barrier()
++
++    if _rank() == 0:
++        required = [
++            LORA_ADAPTER_FILENAME,
++            LORA_CONFIG_FILENAME,
++            TRAINING_CONTRACT_FILENAME,
++            TRAINER_STATE_FILENAME,
++            "scheduler.pt",
++            *[
++                f"rng.rank-{rank:05d}-of-{_world_size():05d}.pt"
++                for rank in range(_world_size())
++            ],
++        ]
++        missing = [
++            value
++            for value in required
++            if not (staging / value).is_file() or (staging / value).stat().st_size <= 0
++        ]
++        optimizer_files = [
++            path
++            for path in (staging / OPTIMIZER_DCP_DIRNAME).rglob("*")
++            if path.is_file() and path.stat().st_size > 0
++        ]
++        if missing or not optimizer_files:
++            raise RuntimeError(
++                f"incomplete LoRA checkpoint: missing={missing}, "
++                f"optimizer_files={len(optimizer_files)}"
++            )
++        marker = {
++            "status": "complete",
++            "checkpoint_format_version": CHECKPOINT_FORMAT_VERSION,
++            "completed_steps": int(completed_steps),
++            "next_step": int(completed_steps),
++            "world_size": _world_size(),
++            "adapter_only": True,
++            "base_weights_stored": False,
++            "required_artifact_sizes": {
++                value: (staging / value).stat().st_size for value in required
++            },
++            "optimizer_dcp_file_count": len(optimizer_files),
++        }
++        _atomic_json(staging / COMPLETE_MARKER_FILENAME, marker)
++        os.replace(staging, final_path)
++
++        complete = sorted(
++            (
++                path
++                for path in checkpoint_root.iterdir()
++                if path.is_dir()
++                and path.name.isdigit()
++                and (path / COMPLETE_MARKER_FILENAME).is_file()
++            ),
++            key=lambda path: int(path.name),
++        )
++        for stale in complete[:-keep_last]:
++            logger.info(f"Removing adapter checkpoint outside retention: {stale}")
++            shutil.rmtree(stale)
++    _barrier()
++    return final_path
++
++
++def validate_lora_checkpoint(
++    checkpoint: Path,
++    expected_world_size: int,
++    expected_contract: Optional[Mapping[str, Any]] = None,
++) -> Dict[str, Any]:
++    checkpoint = checkpoint.resolve()
++    marker_path = checkpoint / COMPLETE_MARKER_FILENAME
++    if not marker_path.is_file():
++        raise ValueError(f"checkpoint has no complete marker: {checkpoint}")
++    marker = json.loads(marker_path.read_text(encoding="utf-8"))
++    if marker.get("status") != "complete" or not marker.get("adapter_only"):
++        raise ValueError("checkpoint is not a complete adapter-only checkpoint")
++    if int(marker.get("world_size", -1)) != int(expected_world_size):
++        raise ValueError("checkpoint world size differs from current FSDP topology")
++    for value, size in marker.get("required_artifact_sizes", {}).items():
++        path = checkpoint / value
++        if not path.is_file() or path.stat().st_size != int(size):
++            raise ValueError(f"checkpoint artifact differs from marker: {path}")
++    if not (checkpoint / OPTIMIZER_DCP_DIRNAME / ".metadata").is_file():
++        raise ValueError("checkpoint optimizer DCP metadata is missing")
++    if expected_contract is not None:
++        actual_contract = json.loads(
++            (checkpoint / TRAINING_CONTRACT_FILENAME).read_text(encoding="utf-8")
++        )
++        if actual_contract != dict(expected_contract):
++            raise ValueError("checkpoint training contract differs from current run")
++    return marker
++
++
++def load_lora_checkpoint(
++    checkpoint: Path,
++    model: torch.nn.Module,
++    optimizer: torch.optim.Optimizer,
++    scheduler,
++    lora_config: GenerationLoRAConfig,
++    training_contract: Mapping[str, Any],
++) -> Dict[str, Any]:
++    """Strictly restore adapter, optimizer, scheduler, cursor and per-rank RNG."""
++
++    checkpoint = checkpoint.resolve()
++    validate_lora_checkpoint(checkpoint, _world_size(), training_contract)
++    if read_lora_config(str(checkpoint / LORA_CONFIG_FILENAME)) != lora_config:
++        raise ValueError("checkpoint LoRA topology differs from current run")
++
++    if _rank() == 0:
++        adapter_state = load_file(
++            str(checkpoint / LORA_ADAPTER_FILENAME), device="cpu"
++        )
++    else:
++        adapter_state = {}
++    options = StateDictOptions(
++        full_state_dict=True,
++        cpu_offload=True,
++        ignore_frozen_params=False,
++        strict=False,
++        broadcast_from_rank0=_world_size() > 1,
++    )
++    message = set_model_state_dict(model, adapter_state, options=options)
++    missing_adapters = [
++        key
++        for key in message.missing_keys
++        if key.endswith("lora_A") or key.endswith("lora_B")
++    ]
++    if missing_adapters or message.unexpected_keys:
++        raise RuntimeError(
++            "strict distributed adapter restore failed: "
++            f"missing_adapters={missing_adapters[:20]}, "
++            f"unexpected={message.unexpected_keys[:20]}"
++        )
++
++    optimizer_state = _sharded_optimizer_state(model, optimizer)
++    state = {"optimizer": optimizer_state}
++    dcp.load(state, checkpoint_id=str(checkpoint / OPTIMIZER_DCP_DIRNAME))
++    set_optimizer_state_dict(model, optimizer, state["optimizer"])
++    scheduler.load_state_dict(
++        torch.load(checkpoint / "scheduler.pt", weights_only=True, map_location="cpu")
++    )
++    rng = torch.load(
++        checkpoint / f"rng.rank-{_rank():05d}-of-{_world_size():05d}.pt",
++        weights_only=False,
++        map_location="cpu",
++    )
++    _restore_rng_state(rng)
++    trainer_state = json.loads(
++        (checkpoint / TRAINER_STATE_FILENAME).read_text(encoding="utf-8")
++    )
++    return trainer_state
++
++
++def load_unwrapped_adapter(checkpoint: Path, model: torch.nn.Module) -> None:
++    """Small helper used by CPU tests and non-FSDP adapter export consumers."""
++
++    state = load_file(str(checkpoint / LORA_ADAPTER_FILENAME), device="cpu")
++    load_adapter_state_dict(model, state)
+diff --git a/train/datamake_lora_generation_train.py b/train/datamake_lora_generation_train.py
+index 47e2388cfade792761be10d6d86e0fbd176cfec7..c39e71a3b341e7a9ebc052ca31b3143c6294b993 100644
+--- a/train/datamake_lora_generation_train.py
++++ b/train/datamake_lora_generation_train.py
+@@ -53,10 +53,12 @@ TRAINING_CONTRACT_SCHEMA = "datamake_lance_lora_training_contract_v1"
+ 
+ 
+ def argument_value(arguments: List[str], name: str) -> str | None:
+-    try:
+-        index = arguments.index(name)
+-    except ValueError:
++    indexes = [index for index, value in enumerate(arguments) if value == name]
++    if not indexes:
+         return None
++    if len(indexes) != 1:
++        raise ValueError(f"{name} may only be provided once")
++    index = indexes[0]
+     if index + 1 >= len(arguments):
+         raise ValueError(f"{name} requires a value")
+     return arguments[index + 1]
+diff --git a/train/datamake_online_rollout.py b/train/datamake_online_rollout.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..3d740adc30afb8884187aa19e725b9b38bd47aa9
+--- /dev/null
++++ b/train/datamake_online_rollout.py
+@@ -0,0 +1,424 @@
++# coding: utf-8
++
++"""Contracts and deterministic scheduling for chain-level online rollout SFT."""
++
++from __future__ import annotations
++
++from dataclasses import dataclass, field
++import hashlib
++import json
++from pathlib import Path
++import random
++from typing import Any, Dict, Iterable, List, Mapping, Sequence
++
++import pyarrow.parquet as pq
++import yaml
++
++
++CHAIN_MANIFEST_SCHEMA = "datamake_lance_chain_dataset_manifest_v1"
++ONLINE_CONTRACT_SCHEMA = "datamake_lance_online_rollout_contract_v1"
++
++
++def sha256_file(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as stream:
++        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def reject_duplicate_cli_options(arguments: Sequence[str]) -> None:
++    """Reject duplicate long options instead of inheriting first/last ambiguity."""
++
++    seen: Dict[str, int] = {}
++    for raw in arguments:
++        if not raw.startswith("--"):
++            continue
++        name = raw.split("=", 1)[0]
++        seen[name] = seen.get(name, 0) + 1
++    duplicates = sorted(name for name, count in seen.items() if count > 1)
++    if duplicates:
++        raise ValueError(f"duplicate CLI options are forbidden: {duplicates}")
++
++
++def stable_turn_seed(
++    global_seed: int, epoch: int, chain_id: str, round_number: int
++) -> int:
++    payload = (
++        f"{int(global_seed)}\0{int(epoch)}\0{chain_id}\0{int(round_number)}"
++    ).encode("utf-8")
++    value = int.from_bytes(hashlib.sha256(payload).digest()[:8], "big")
++    # Keep enough positive headroom for Lance's internal rank offset to be
++    # subtracted before validation_gen_KVcache() adds it back.
++    minimum = 1024
++    return value % (2**31 - 1 - minimum) + minimum
++
++
++def rank_compensated_lance_seed(
++    stable_seed: int, global_rank: int, max_samples: int = 1
++) -> int:
++    """Cancel Lance validation's internal ``rank * max_samples`` seed offset.
++
++    Online training always generates exactly one sample (``i_sample == 0``),
++    so the effective generator seed inside Lance becomes ``stable_seed`` on
++    every rank.  Fail closed if future settings invalidate that contract.
++    """
++
++    if max_samples != 1:
++        raise ValueError("online rollout seed compensation requires max_samples=1")
++    adjusted = int(stable_seed) - int(global_rank) * int(max_samples)
++    if adjusted <= 0:
++        raise ValueError("rank-compensated Lance seed must remain positive")
++    return adjusted
++
++
++@dataclass(frozen=True)
++class OnlineRolloutArguments:
++    datamake_chain_manifest: str = field(
++        metadata={"help": "Manifest for one-row-per-chain training data."}
++    )
++    datamake_profile_path: str = field(
++        metadata={"help": "Frozen executable profile used to launch the run."}
++    )
++    datamake_profile_sha256: str = ""
++    datamake_history_mode: str = "online_rollout_full"
++    datamake_gradient_accumulation_steps: int = 2
++    datamake_num_epochs: int = 4
++    datamake_rollout_diffusion_steps: int = 30
++    datamake_rollout_cfg_text_scale: float = 1.0
++    datamake_rollout_timestep_shift: float = 3.0
++    datamake_rollout_cfg_interval: List[float] = field(
++        default_factory=lambda: [0.4, 1.0]
++    )
++    datamake_rollout_cfg_renorm_min: float = 0.0
++    datamake_rollout_cfg_renorm_type: str = "global"
++    datamake_rollout_use_kv_cache: bool = True
++    datamake_rollout_retry_count: int = 1
++    datamake_lora_rank: int = 64
++    datamake_lora_alpha: float = 64.0
++    datamake_lora_dropout: float = 0.0
++    datamake_lora_target_scope: str = "generation_experts_and_io"
++    datamake_lora_expected_target_modules: int = 256
++    datamake_lora_expected_target_signature_sha256: str = ""
++    datamake_base_model_sha256: str = ""
++    datamake_smoke_mode: bool = False
++
++    def validate(self) -> None:
++        if self.datamake_history_mode != "online_rollout_full":
++            raise ValueError("this entry implements only online_rollout_full")
++        if self.datamake_gradient_accumulation_steps != 2:
++            raise ValueError("the frozen first profile requires accumulation=2")
++        if self.datamake_num_epochs != 4:
++            raise ValueError("the frozen first profile requires four epochs")
++        if self.datamake_rollout_diffusion_steps != 30:
++            raise ValueError("the frozen first profile requires 30 rollout steps")
++        if self.datamake_rollout_cfg_text_scale != 1.0:
++            raise ValueError("the frozen first profile requires rollout text CFG=1")
++        if self.datamake_rollout_retry_count != 1:
++            raise ValueError("rollout failure policy is exactly one deterministic retry")
++        if self.datamake_lora_rank != 64 or self.datamake_lora_alpha != 64.0:
++            raise ValueError("the frozen first profile requires LoRA r64/alpha64")
++        if self.datamake_lora_dropout != 0.0:
++            raise ValueError("the frozen first profile requires LoRA dropout=0")
++        if len(self.datamake_rollout_cfg_interval) != 2:
++            raise ValueError("rollout CFG interval must have two values")
++        if not (
++            0 <= self.datamake_rollout_cfg_interval[0]
++            <= self.datamake_rollout_cfg_interval[1]
++            <= 1
++        ):
++            raise ValueError("invalid rollout CFG interval")
++        for label, value in (
++            ("profile", self.datamake_profile_sha256),
++            ("base model", self.datamake_base_model_sha256),
++            ("LoRA target", self.datamake_lora_expected_target_signature_sha256),
++        ):
++            if len(value) != 64:
++                raise ValueError(f"{label} SHA-256 is required")
++
++
++@dataclass(frozen=True)
++class ChainRecord:
++    chain_id: str
++    prompts: tuple[str, ...]
++    video_paths: tuple[str, ...]
++    turn_ids: tuple[str, ...]
++    edit_axes: tuple[str, ...]
++    source_sample_id: str
++
++    @property
++    def round_count(self) -> int:
++        return len(self.prompts)
++
++
++@dataclass(frozen=True)
++class ScheduledChain:
++    record: ChainRecord
++    contributes_loss: bool = True
++
++
++def _chain_from_row(row: Mapping[str, Any]) -> ChainRecord:
++    if row.get("schema_version") != "datamake_lance_chain_dataset_v1":
++        raise ValueError(f"unsupported chain row schema: {row.get('schema_version')}")
++    prompts = tuple(str(value) for value in row["prompts"])
++    video_paths = tuple(str(value) for value in row["video_paths"])
++    turn_ids = tuple(str(value) for value in row["turn_ids"])
++    edit_axes = tuple(str(value) for value in row["edit_axes"])
++    rounds = int(row["round_count"])
++    if not 1 <= rounds <= 5:
++        raise ValueError(f"chain length must be 1..5, got {rounds}")
++    if not all(value.strip() for value in prompts):
++        raise ValueError("chain prompts must be non-empty")
++    if len(prompts) != rounds or len(video_paths) != rounds + 1:
++        raise ValueError("chain prompt/video counts differ from round_count")
++    if len(turn_ids) != rounds or len(edit_axes) != rounds:
++        raise ValueError("chain turn/edit-axis counts differ from round_count")
++    return ChainRecord(
++        chain_id=str(row["chain_id"]),
++        prompts=prompts,
++        video_paths=video_paths,
++        turn_ids=turn_ids,
++        edit_axes=edit_axes,
++        source_sample_id=str(row["source_longest_prefix_sample_id"]),
++    )
++
++
++def load_chain_records(manifest_path: Path) -> tuple[List[ChainRecord], Dict[str, Any]]:
++    manifest_path = manifest_path.resolve()
++    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
++    if manifest.get("schema_version") != CHAIN_MANIFEST_SCHEMA:
++        raise ValueError("unsupported chain manifest schema")
++    if manifest.get("split") != "train":
++        raise ValueError("online training requires a train chain manifest")
++    if manifest.get("history_mode") != "online_rollout_full":
++        raise ValueError("chain manifest history mode does not match online trainer")
++    if manifest.get("record_level") != "chain":
++        raise ValueError("online training requires one record per chain")
++    parquet_path = Path(manifest["parquet_file"]).resolve()
++    if not parquet_path.is_file():
++        raise FileNotFoundError(parquet_path)
++    if sha256_file(parquet_path) != manifest["parquet_sha256"]:
++        raise ValueError("chain parquet hash differs from its manifest")
++    rows = pq.read_table(parquet_path).to_pylist()
++    records = [_chain_from_row(row) for row in rows]
++    if len(records) != int(manifest["chain_count"]):
++        raise ValueError("chain row count differs from manifest")
++    if len({record.chain_id for record in records}) != len(records):
++        raise ValueError("chain parquet contains duplicate chain_id values")
++    if sum(record.round_count for record in records) != int(
++        manifest["target_video_count"]
++    ):
++        raise ValueError("target video count differs from manifest")
++    return records, manifest
++
++
++def validate_dataset_binding(
++    dataset_config_path: Path, chain_manifest_path: Path
++) -> None:
++    """Bind CLI history semantics to the actual YAML and parquet artifact."""
++
++    dataset_config_path = dataset_config_path.resolve()
++    chain_manifest_path = chain_manifest_path.resolve()
++    payload = yaml.safe_load(dataset_config_path.read_text(encoding="utf-8"))
++    if not isinstance(payload, dict) or len(payload) != 1:
++        raise ValueError("dataset YAML must have exactly one outer group")
++    group = next(iter(payload.values()))
++    if not isinstance(group, dict) or len(group) != 1:
++        raise ValueError("dataset YAML must have exactly one dataset implementation")
++    dataset = next(iter(group.values()))
++    if dataset.get("datamake_record_level") != "chain":
++        raise ValueError("dataset YAML is not chain-level")
++    if dataset.get("datamake_history_mode") != "online_rollout_full":
++        raise ValueError("dataset YAML history mode differs from trainer")
++    if Path(dataset.get("datamake_chain_manifest", "")).resolve() != chain_manifest_path:
++        raise ValueError("dataset YAML chain manifest differs from CLI")
++    manifest = json.loads(chain_manifest_path.read_text(encoding="utf-8"))
++    expected_parquet = Path(manifest["parquet_file"]).resolve()
++    names = dataset.get("dataset_names", {})
++    data_paths: List[str] = []
++    for record in names.values():
++        value = record.get("data_dir", [])
++        data_paths.extend([value] if isinstance(value, str) else list(value))
++    actual_paths = {Path(value).resolve() for value in data_paths}
++    if actual_paths != {expected_parquet}:
++        raise ValueError(
++            f"dataset YAML parquet binding differs: {actual_paths} != {expected_parquet}"
++        )
++
++
++def build_epoch_groups(
++    records: Sequence[ChainRecord], world_size: int, seed: int, epoch: int
++) -> List[List[ScheduledChain]]:
++    """Make collective-safe groups while using every real chain exactly once."""
++
++    if world_size < 1:
++        raise ValueError("world_size must be positive")
++    rng = random.Random(int(seed) + 1_000_003 * int(epoch))
++    buckets: Dict[int, List[ChainRecord]] = {}
++    for record in records:
++        buckets.setdefault(record.round_count, []).append(record)
++
++    groups: List[List[ScheduledChain]] = []
++    leftovers: List[ChainRecord] = []
++    for length in sorted(buckets):
++        bucket = list(buckets[length])
++        rng.shuffle(bucket)
++        full_count = len(bucket) // world_size * world_size
++        for start in range(0, full_count, world_size):
++            groups.append(
++                [ScheduledChain(record) for record in bucket[start : start + world_size]]
++            )
++        leftovers.extend(bucket[full_count:])
++
++    rng.shuffle(leftovers)
++    for start in range(0, len(leftovers), world_size):
++        group = [ScheduledChain(record) for record in leftovers[start : start + world_size]]
++        if len(group) < world_size:
++            if not records:
++                raise ValueError("cannot pad an empty chain dataset")
++            padding_source = group[-1].record if group else records[0]
++            group.extend(
++                ScheduledChain(padding_source, contributes_loss=False)
++                for _ in range(world_size - len(group))
++            )
++        groups.append(group)
++
++    rng.shuffle(groups)
++    real_ids = [
++        item.record.chain_id
++        for group in groups
++        for item in group
++        if item.contributes_loss
++    ]
++    if len(real_ids) != len(records) or set(real_ids) != {
++        record.chain_id for record in records
++    }:
++        raise RuntimeError("epoch scheduler did not cover every chain exactly once")
++    return groups
++
++
++def optimizer_windows(
++    groups: Sequence[List[ScheduledChain]], accumulation_steps: int
++) -> List[List[List[ScheduledChain]]]:
++    if accumulation_steps < 1:
++        raise ValueError("accumulation_steps must be positive")
++    if len(groups) % accumulation_steps:
++        raise ValueError(
++            f"{len(groups)} collective groups cannot divide accumulation={accumulation_steps}"
++        )
++    return [
++        list(groups[start : start + accumulation_steps])
++        for start in range(0, len(groups), accumulation_steps)
++    ]
++
++
++def window_target_count(window: Sequence[Sequence[ScheduledChain]]) -> int:
++    return sum(
++        item.record.round_count
++        for group in window
++        for item in group
++        if item.contributes_loss
++    )
++
++
++def make_turn_row(
++    record: ChainRecord,
++    round_number: int,
++    generated_history: Sequence[Any],
++) -> Dict[str, Any]:
++    """Create one Lance prefix with audited GT paths and generated inputs.
++
++    ``video_paths`` remains a strings-only provenance view.  The row encoder
++    consumes ``video_inputs`` when present, so detached decoded tensors replace
++    every previous edited video without being serialized through a lossy codec.
++    """
++
++    if not 1 <= round_number <= record.round_count:
++        raise ValueError("round_number is outside the chain")
++    if len(generated_history) != round_number - 1:
++        raise ValueError(
++            f"round {round_number} requires {round_number - 1} generated videos, "
++            f"got {len(generated_history)}"
++        )
++    paths = list(record.video_paths[: round_number + 1])
++    inputs = [
++        record.video_paths[0],
++        *generated_history,
++        record.video_paths[round_number],
++    ]
++    return {
++        "sample_id": f"{record.chain_id}_online_r{round_number:02d}",
++        "chain_id": record.chain_id,
++        "target_round": round_number,
++        "context_length": round_number,
++        "prompts": list(record.prompts[:round_number]),
++        "video_paths": paths,
++        "video_inputs": inputs,
++    }
++
++
++def build_online_contract(
++    arguments: OnlineRolloutArguments,
++    profile_path: Path,
++    chain_manifest_path: Path,
++    dataset_config_path: Path,
++    base_model_path: Path,
++    lora_config: Mapping[str, Any],
++) -> Dict[str, Any]:
++    arguments.validate()
++    paths = {
++        "profile": profile_path.resolve(),
++        "chain_manifest": chain_manifest_path.resolve(),
++        "dataset_config": dataset_config_path.resolve(),
++        "base_model": (base_model_path / "model.safetensors").resolve(),
++    }
++    for path in paths.values():
++        if not path.is_file():
++            raise FileNotFoundError(path)
++    if sha256_file(paths["profile"]) != arguments.datamake_profile_sha256:
++        raise ValueError("executable profile hash differs from CLI lock")
++    if sha256_file(paths["base_model"]) != arguments.datamake_base_model_sha256:
++        raise ValueError("immutable base model hash differs from CLI lock")
++    return {
++        "schema_version": ONLINE_CONTRACT_SCHEMA,
++        "profile": str(paths["profile"]),
++        "profile_sha256": arguments.datamake_profile_sha256,
++        "chain_manifest": str(paths["chain_manifest"]),
++        "chain_manifest_sha256": sha256_file(paths["chain_manifest"]),
++        "dataset_config": str(paths["dataset_config"]),
++        "dataset_config_sha256": sha256_file(paths["dataset_config"]),
++        "base_model": str(base_model_path.resolve()),
++        "base_model_sha256": arguments.datamake_base_model_sha256,
++        "history_mode": arguments.datamake_history_mode,
++        "gradient_accumulation_steps": arguments.datamake_gradient_accumulation_steps,
++        "num_epochs": arguments.datamake_num_epochs,
++        "rollout": {
++            "online": True,
++            "detach_history": True,
++            "replace_vit_history": True,
++            "replace_latest_vae_source": True,
++            "diffusion_steps": arguments.datamake_rollout_diffusion_steps,
++            "cfg_text_scale": arguments.datamake_rollout_cfg_text_scale,
++            "timestep_shift": arguments.datamake_rollout_timestep_shift,
++            "cfg_interval": list(arguments.datamake_rollout_cfg_interval),
++            "cfg_renorm_min": arguments.datamake_rollout_cfg_renorm_min,
++            "cfg_renorm_type": arguments.datamake_rollout_cfg_renorm_type,
++            "use_kv_cache": arguments.datamake_rollout_use_kv_cache,
++            "lance_internal_rank_seed_offset_compensated": True,
++            "noise_seed_invariant_to_rank_assignment": True,
++            "failure_policy": "one_deterministic_retry_then_fail",
++        },
++        "loss": {
++            "type": "native_flow_matching_latent_mse",
++            "per_target_token_reduction": "mean",
++            "cross_target_reduction": "global_mean",
++            "ce_weight": 0.0,
++            "edit_region_weighting": False,
++            "actual_direct_parent": "generated_g(t-1)",
++            "rendered_target_parent": "rendered_v(t-1)",
++            "supervision_interpretation": (
++                "joint_edit_and_previous_error_repair_not_pure_exposure_bias_only"
++            ),
++        },
++        "lora": dict(lora_config),
++    }
+diff --git a/train/datamake_online_rollout_lora_train.py b/train/datamake_online_rollout_lora_train.py
+new file mode 100644
+index 0000000000000000000000000000000000000000..4f7ada5676a6454e18903ccf28658de116531788
+--- /dev/null
++++ b/train/datamake_online_rollout_lora_train.py
+@@ -0,0 +1,1122 @@
++# coding: utf-8
++
++"""Chain-level DataMake training with online Lance rollouts and generation LoRA.
++
++Every chain is replayed sequentially.  Turn ``t`` trains against rendered GT
++``v_t`` while its conditions are ``v_0`` plus detached model outputs
++``g_1..g_(t-1)`` in ViT history and ``g_(t-1)`` as the only direct VAE source.
++The rollout graph is never differentiated.  Each target video contributes one
++equally weighted native flow-matching latent-MSE value.
++"""
++
++from __future__ import annotations
++
++import functools
++import gc
++import json
++from pathlib import Path
++import sys
++from time import time
++import traceback
++from typing import Any, Dict, List, Mapping, Sequence, Tuple, cast
++
++import torch
++import torch.distributed as dist
++from torch.distributed.algorithms._checkpoint.checkpoint_wrapper import (
++    CheckpointImpl,
++    apply_activation_checkpointing,
++    checkpoint_wrapper,
++)
++from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
++from transformers import HfArgumentParser, set_seed
++import wandb
++
++from common.utils.basic import get_global_rank, get_world_size
++from common.utils.logging import get_logger
++from common.val.utils import make_padded_latent
++from config.config_factory import ModelArguments, DataArguments, TrainingArguments
++from data.data_utils import add_special_tokens
++from data.dataset_base_train import PackedDataset, simple_custom_collate
++from data.datasets_factory.datamake_online_rollout_turn import (
++    process_online_rollout_row,
++)
++from modeling.lance import Lance, LanceConfig
++from modeling.qwen2 import Qwen2Tokenizer
++from train.datamake_generation_lora import (
++    GenerationLoRAConfig,
++    apply_generation_lora,
++)
++from train.datamake_lora_checkpoint import (
++    load_lora_checkpoint,
++    save_lora_checkpoint,
++)
++from train.datamake_online_rollout import (
++    ChainRecord,
++    OnlineRolloutArguments,
++    ScheduledChain,
++    build_epoch_groups,
++    build_online_contract,
++    load_chain_records,
++    make_turn_row,
++    optimizer_windows,
++    rank_compensated_lance_seed,
++    reject_duplicate_cli_options,
++    sha256_file,
++    stable_turn_seed,
++    validate_dataset_binding,
++    window_target_count,
++)
++from train.fsdp_utils import fsdp_wrapper, grad_checkpoint_check_fn
++from train.train_utils import (
++    build_fsdp_config,
++    build_lr_scheduler,
++    build_train_dataset_config,
++    get_image_token_id,
++    prepare_checkpoint_loader,
++    prepare_model_paths,
++    save_trainable_parameters,
++    save_training_config,
++    setup_model_components,
++    setup_output_paths,
++    setup_rank0_logging_and_wandb,
++)
++
++
++def _require(actual: Any, expected: Any, label: str) -> None:
++    if actual != expected:
++        raise ValueError(f"{label}: expected {expected!r}, got {actual!r}")
++
++
++def validate_frozen_training_arguments(
++    model_args: ModelArguments,
++    data_args: DataArguments,
++    training_args: TrainingArguments,
++    online_args: OnlineRolloutArguments,
++    world_size: int,
++) -> None:
++    online_args.validate()
++    common_requirements = (
++        ("world size", world_size, 4),
++        ("LLM QK norm", model_args.llm_qk_norm, True),
++        ("understanding QK norm", model_args.llm_qk_norm_und, True),
++        ("generation QK norm", model_args.llm_qk_norm_gen, True),
++        ("tied embeddings", model_args.tie_word_embeddings, False),
++        ("latent patch size", tuple(model_args.latent_patch_size), (1, 1, 1)),
++        ("maximum frames", model_args.max_num_frames, 121),
++        ("maximum latent size", model_args.max_latent_size, 64),
++        ("ViT type", model_args.vit_type, "qwen_2_5_vl_original"),
++        ("ViT maximum patches per side", model_args.vit_max_num_patch_per_side, 70),
++        ("connector activation", model_args.connector_act, "gelu_pytorch_tanh"),
++        ("position interpolation", model_args.interpolate_pos, False),
++        ("visual generation path", training_args.visual_gen, True),
++        ("visual understanding path", training_args.visual_und, True),
++        ("VAE type", training_args.vae_model_type, "wan"),
++        ("copy MoE initialization", training_args.copy_init_moe, True),
++        ("initialize from VLM", training_args.init_from_vlm_checkpoint, False),
++        ("Qwen2.5-VL position embedding", training_args.apply_qwen_2_5_vl_pos_emb, True),
++        ("chat template", training_args.apply_chat_template, False),
++        ("warmup steps", training_args.warmup_steps, 20),
++        ("scheduler", training_args.lr_scheduler, "cosine"),
++        ("cosine cycles", training_args.lr_num_cycles, 0.5),
++        ("learning rate", training_args.lr, 1e-4),
++        ("minimum learning rate", training_args.min_lr, 1e-5),
++        ("beta1", training_args.beta1, 0.9),
++        ("beta2", training_args.beta2, 0.95),
++        ("epsilon", training_args.eps, 1e-15),
++        ("gradient clipping", training_args.max_grad_norm, 1.0),
++        ("MSE weight", training_args.mse_weight, 1.0),
++        ("CE weight", training_args.ce_weight, 0.0),
++        ("edit-region weighting", training_args.edit_region_weighting, False),
++        ("EMA", training_args.use_ema, False),
++        ("text condition dropout", model_args.text_cond_dropout_prob, 0.0),
++        ("ViT condition dropout", model_args.vit_cond_dropout_prob, 0.0),
++        ("VAE condition dropout", model_args.vae_cond_dropout_prob, 0.0),
++        ("Flex attention", training_args.use_flex, True),
++        ("max tokens", data_args.max_num_tokens, 65536),
++        ("max tokens per sample", data_args.max_num_tokens_per_sample, 65536),
++        ("checkpoint retention", training_args.keep_last_checkpoints, 4),
++        ("final checkpoint", training_args.save_final_checkpoint, True),
++        ("completed-step checkpoint names", training_args.checkpoint_completed_steps, True),
++        ("freeze understanding experts", training_args.freeze_und_params, True),
++        ("freeze understanding path", training_args.freeze_und, True),
++        ("freeze ViT", training_args.freeze_vit, True),
++        ("freeze ViT connector", training_args.freeze_vit_connector, False),
++        ("freeze VAE", training_args.freeze_vae, True),
++        ("freeze all LLM", training_args.freeze_llm, False),
++        ("freeze token embeddings", training_args.freeze_llm_embed_tokens, True),
++        ("load official Lance checkpoint", training_args.load_from_lance_checkpoint, True),
++        ("FSDP sharding strategy", training_args.sharding_strategy, "HYBRID_SHARD"),
++        ("FSDP replicate dimension", training_args.num_replicate, 1),
++        ("FSDP shard dimension", training_args.num_shard, 4),
++        ("FSDP CPU offload", training_args.cpu_offload, False),
++        ("CFG unconditioned representation", training_args.cfg_type, 0),
++        ("required understanding/generation sample", data_args.require_und_gen, True),
++        ("chain loader workers", data_args.num_workers, 0),
++        ("expected tokens", data_args.expected_num_tokens, 65536),
++        ("preferred buffer threshold", data_args.prefer_buffer_before, 65536),
++        ("maximum buffer size", data_args.max_buffer_size, 0),
++    )
++    for label, actual, expected in common_requirements:
++        _require(actual, expected, label)
++    if online_args.datamake_smoke_mode:
++        if not 1 <= training_args.total_steps <= 10:
++            raise ValueError("smoke mode permits 1..10 optimizer steps")
++        if training_args.save_every not in (0, training_args.total_steps):
++            raise ValueError("smoke checkpoint interval must be 0 or its final step")
++    else:
++        _require(training_args.total_steps, 1800, "total steps")
++        _require(training_args.save_every, 50, "save interval")
++    _require(training_args.num_replicate * training_args.num_shard, world_size, "FSDP mesh")
++    if training_args.resume_model_only:
++        raise ValueError("online LoRA resume must restore optimizer/scheduler/RNG state")
++    if not data_args.dataset_config_file:
++        raise ValueError("--dataset_config_file is required")
++    validate_dataset_binding(
++        Path(data_args.dataset_config_file), Path(online_args.datamake_chain_manifest)
++    )
++
++
++class OnlineTurnPacker:
++    """Reuse the validated role-aware DataMake encoder for dynamic prefixes."""
++
++    def __init__(
++        self,
++        dataset_config,
++        tokenizer,
++        new_token_ids,
++        model_args: ModelArguments,
++        data_args: DataArguments,
++        training_args: TrainingArguments,
++        image_token_id: int,
++        global_rank: int,
++        world_size: int,
++    ) -> None:
++        self.packer = PackedDataset(
++            dataset_config,
++            tokenizer=tokenizer,
++            special_tokens=new_token_ids,
++            local_rank=global_rank,
++            world_size=world_size,
++            interpolate_pos=model_args.interpolate_pos,
++            use_flex=training_args.use_flex,
++            data_status=None,
++            apply_chat_template=training_args.apply_chat_template,
++            image_token_id=image_token_id,
++            cfg_type=training_args.cfg_type,
++            cfg_uncond_token_id=training_args.cfg_uncond_token_id,
++            **vars(data_args),
++        )
++        if len(self.packer.grouped_datasets) != 1:
++            raise ValueError("online trainer requires exactly one DataMake dataset")
++        self.row_encoder = self.packer.grouped_datasets[0]
++
++    def pack(
++        self,
++        record: ChainRecord,
++        round_number: int,
++        generated_history: Sequence[torch.Tensor],
++    ):
++        row = make_turn_row(record, round_number, generated_history)
++        sample = process_online_rollout_row(
++            self.row_encoder,
++            row,
++            parquet_idx=-1,
++            row_group_id=-1,
++            row_idx=round_number - 1,
++            worker_id=0,
++            parquet_file_path="<online-rollout-memory-row>",
++        )
++        if sample is None:
++            raise RuntimeError(
++                f"role-aware encoding failed for {record.chain_id} round {round_number}"
++            )
++        estimated = int(sample["num_tokens"]) + 2 * len(sample["sequence_plan"])
++        if estimated > self.packer.max_num_tokens_per_sample:
++            raise ValueError(
++                f"{record.chain_id} round {round_number} exceeds max tokens: "
++                f"{estimated} > {self.packer.max_num_tokens_per_sample}"
++            )
++        sequence = self.packer.set_sequence_status()
++        sequence = self.packer.pack_sequence(sample, sequence)
++        if sequence["curr"] > self.packer.max_num_tokens:
++            raise ValueError(
++                f"packed sequence exceeds max tokens: {sequence['curr']} > "
++                f"{self.packer.max_num_tokens}"
++            )
++        packed = self.packer.to_tensor(sequence)
++        packed["batch_data_indexes"] = [
++            {
++                "dataset_name": "datamake_online_rollout",
++                "chain_id": record.chain_id,
++                "target_round": round_number,
++            }
++        ]
++        return simple_custom_collate([packed])
++
++
++def prepare_turn_data(batch, device: int, vae_model) -> Tuple[Dict[str, Any], List[Tuple[int, int, int]]]:
++    data = batch.cuda(device).to_dict()
++    data.pop("batch_data_indexes", None)
++    data.pop("ce_loss_weights", None)
++    data.pop("vae_edit_roles", None)
++    vae_data_mode = data.pop("vae_data_mode")
++    padded_videos = data.pop("padded_videos")
++    data.pop("padded_videos_vit", None)
++    video_sizes = [tuple(int(value) for value in video.shape[1:]) for video in padded_videos]
++    with torch.no_grad(), torch.amp.autocast(
++        "cuda", enabled=True, dtype=torch.bfloat16
++    ):
++        data["padded_latent"] = make_padded_latent(
++            padded_videos, vae_data_mode, vae_model
++        )
++    return data, video_sizes
++
++
++def per_target_flow_loss(loss_dict: Mapping[str, Any]) -> torch.Tensor:
++    """Reduce one target's latent-token MSE without token-weighting other targets."""
++
++    mse = loss_dict.get("mse")
++    if mse is None or mse.numel() == 0:
++        raise RuntimeError("turn forward produced no MSE target")
++    if loss_dict.get("ce") is not None:
++        raise RuntimeError("video-only online rollout unexpectedly produced CE tokens")
++    return mse.float().mean(dim=-1).mean()
++
++
++def rollout_generation_parameters(
++    data: Mapping[str, Any],
++    video_sizes: List[Tuple[int, int, int]],
++    online_args: OnlineRolloutArguments,
++    model_args: ModelArguments,
++    training_args: TrainingArguments,
++    new_token_ids: Mapping[str, int],
++    image_token_id: int,
++    device: int,
++    seed: int,
++) -> Dict[str, Any]:
++    return {
++        "val_packed_text_ids": data["packed_text_ids"],
++        "val_packed_text_indexes": data["packed_text_indexes"],
++        "val_sample_lens": data["sample_lens"],
++        "val_packed_position_ids": data["packed_position_ids"],
++        "val_split_lens": data["split_lens"],
++        "val_attn_modes": data["attn_modes"],
++        "val_sample_N_target": data["sample_N_target"],
++        "val_packed_vae_token_indexes": data["packed_vae_token_indexes"],
++        "timestep_shift": online_args.datamake_rollout_timestep_shift,
++        "num_timesteps": online_args.datamake_rollout_diffusion_steps,
++        "val_mse_loss_indexes": data["mse_loss_indexes"],
++        "val_padded_latent": data["padded_latent"],
++        "video_sizes": video_sizes,
++        "cfg_text_scale": online_args.datamake_rollout_cfg_text_scale,
++        "cfg_interval": online_args.datamake_rollout_cfg_interval,
++        "cfg_renorm_min": online_args.datamake_rollout_cfg_renorm_min,
++        "cfg_renorm_type": online_args.datamake_rollout_cfg_renorm_type,
++        "device": device,
++        "dtype": torch.bfloat16,
++        "new_token_ids": new_token_ids,
++        "max_samples": 1,
++        # Lance adds global_rank * max_samples + i_sample internally.  Pass a
++        # compensated value so the actual noise depends only on the frozen
++        # global_seed/epoch/chain/round contract.
++        "validation_noise_seed": rank_compensated_lance_seed(
++            seed, get_global_rank(), max_samples=1
++        ),
++        "apply_chat_template": training_args.apply_chat_template,
++        "apply_qwen_2_5_vl_pos_emb": training_args.apply_qwen_2_5_vl_pos_emb,
++        "image_token_id": image_token_id,
++        "val_packed_vit_token_indexes": data.get("packed_vit_token_indexes"),
++        "val_packed_vit_tokens": data.get("packed_vit_tokens"),
++        "vit_video_grid_thw": data.get("vit_video_grid_thw"),
++        "vae_video_grid_thw": data["vae_video_grid_thw"],
++        "video_grid_thw": data.get("video_grid_thw"),
++        "sample_task": data["sample_task"],
++        "sample_modality": data["sample_modality"],
++        "cfg_type": training_args.cfg_type,
++        "cfg_uncond_token_id": training_args.cfg_uncond_token_id,
++    }
++
++
++@torch.no_grad()
++def generate_detached_history(
++    fsdp_model: Lance,
++    vae_model,
++    data: Mapping[str, Any],
++    video_sizes: List[Tuple[int, int, int]],
++    online_args: OnlineRolloutArguments,
++    model_args: ModelArguments,
++    training_args: TrainingArguments,
++    new_token_ids: Mapping[str, int],
++    image_token_id: int,
++    device: int,
++    seed: int,
++    save_output: bool,
++    telemetry: Dict[str, float],
++) -> torch.Tensor | None:
++    telemetry.clear()
++    torch.cuda.reset_peak_memory_stats(device)
++    telemetry["allocated_before_mb"] = torch.cuda.memory_allocated(device) / 1024**2
++    telemetry["reserved_before_mb"] = torch.cuda.memory_reserved(device) / 1024**2
++    params = rollout_generation_parameters(
++        data,
++        video_sizes,
++        online_args,
++        model_args,
++        training_args,
++        new_token_ids,
++        image_token_id,
++        device,
++        seed,
++    )
++    fsdp_model.eval()
++    try:
++        with torch.amp.autocast("cuda", enabled=True, dtype=torch.bfloat16):
++            with FSDP.summon_full_params(
++                fsdp_model, writeback=False, rank0_only=False, recurse=True
++            ):
++                telemetry["allocated_summoned_mb"] = (
++                    torch.cuda.memory_allocated(device) / 1024**2
++                )
++                telemetry["reserved_summoned_mb"] = (
++                    torch.cuda.memory_reserved(device) / 1024**2
++                )
++                if online_args.datamake_rollout_use_kv_cache:
++                    generated = fsdp_model.validation_gen_KVcache(**params)
++                else:
++                    generated = fsdp_model.validation_gen(**params)
++    finally:
++        fsdp_model.train()
++        telemetry["peak_allocated_mb"] = (
++            torch.cuda.max_memory_allocated(device) / 1024**2
++        )
++        telemetry["peak_reserved_mb"] = (
++            torch.cuda.max_memory_reserved(device) / 1024**2
++        )
++        telemetry["allocated_after_mb"] = (
++            torch.cuda.memory_allocated(device) / 1024**2
++        )
++        telemetry["reserved_after_mb"] = (
++            torch.cuda.memory_reserved(device) / 1024**2
++        )
++    if isinstance(generated, tuple):
++        generated = generated[0]
++    if not generated or not generated[0]:
++        raise RuntimeError("online rollout returned no target latent")
++    target_latent = generated[0][-1].detach()
++    if not save_output:
++        del target_latent, generated
++        return None
++    decoded = vae_model.vae_decode([target_latent])[0]
++    if decoded.ndim != 4 or decoded.shape[0] != 3:
++        raise RuntimeError(
++            f"decoded rollout must be CTHW, got {tuple(decoded.shape)}"
++        )
++    # Keep the exact VAE-decoded pixels.  CPU fp16 bounds history memory while
++    # avoiding an MP4 encode/decode cycle before the next ViT/VAE encoding.
++    history = decoded.detach().clamp(-1.0, 1.0).to(
++        device="cpu", dtype=torch.float16
++    ).contiguous()
++    del decoded, target_latent, generated
++    return history
++
++
++def generate_with_retry(**kwargs) -> torch.Tensor | None:
++    retries = int(kwargs["online_args"].datamake_rollout_retry_count)
++    last_error: Exception | None = None
++    for attempt in range(retries + 1):
++        result = None
++        try:
++            result = generate_detached_history(**kwargs)
++            failed = 0
++        except Exception as error:
++            last_error = error
++            failed = 1
++        failure = torch.tensor(failed, dtype=torch.int32, device=kwargs["device"])
++        dist.all_reduce(failure, op=dist.ReduceOp.SUM)
++        if failure.item() == 0:
++            return result
++        dist.barrier()
++        if attempt >= retries:
++            break
++        if failed == 0:
++            last_error = RuntimeError("another rank failed the synchronized rollout")
++        gc.collect()
++        if torch.cuda.is_available():
++            torch.cuda.empty_cache()
++    raise RuntimeError(
++        f"online rollout failed after {retries + 1} deterministic attempts"
++    ) from last_error
++
++
++def _all_reduce_metrics(values: Sequence[float], device: int) -> List[float]:
++    tensor = torch.tensor(list(values), dtype=torch.float64, device=device)
++    dist.all_reduce(tensor, op=dist.ReduceOp.SUM)
++    return tensor.cpu().tolist()
++
++
++def _all_reduce_max_metrics(values: Sequence[float], device: int) -> List[float]:
++    tensor = torch.tensor(list(values), dtype=torch.float64, device=device)
++    dist.all_reduce(tensor, op=dist.ReduceOp.MAX)
++    return tensor.cpu().tolist()
++
++
++def _run_profile_contract_check(
++    profile_path: Path,
++    model_args: ModelArguments,
++    data_args: DataArguments,
++    online_args: OnlineRolloutArguments,
++    training_args: TrainingArguments,
++) -> None:
++    profile = json.loads(profile_path.read_text(encoding="utf-8"))
++    if profile.get("schema_version") != "datamake_lance_online_rollout_lora_profile_v1":
++        raise ValueError("unsupported executable profile schema")
++    if profile.get("status") not in {
++        "implementation_ready_gpu_smoke_pending",
++        "gpu_smoke_passed",
++        "training_authorized",
++    }:
++        raise ValueError("profile status does not permit executable validation")
++    if sha256_file(profile_path) != online_args.datamake_profile_sha256:
++        raise ValueError("profile file differs from --datamake_profile_sha256")
++    if not online_args.datamake_smoke_mode:
++        _require(profile.get("status"), "training_authorized", "formal profile status")
++        _require(
++            profile.get("training_authorized"), True, "formal training authorization"
++        )
++
++    workspace_root = profile_path.parents[4]
++
++    def resolve(value: str) -> Path:
++        path = Path(value)
++        return path.resolve() if path.is_absolute() else (workspace_root / path).resolve()
++
++    data_profile = profile["data"]
++    model_profile = profile["model"]
++    run_profile = profile["run"]
++    rollout_profile = profile["rollout"]
++    lora_profile = profile["lora"]
++    checkpoint_profile = profile["checkpoint"]
++    wandb_profile = profile["wandb"]
++    _require(
++        rollout_profile["lance_internal_rank_seed_offset_compensated"],
++        True,
++        "profile Lance rank seed compensation",
++    )
++    _require(
++        rollout_profile["noise_seed_invariant_to_rank_assignment"],
++        True,
++        "profile rank-invariant noise seed",
++    )
++    chain_manifest = Path(online_args.datamake_chain_manifest).resolve()
++    dataset_config = Path(data_args.dataset_config_file).resolve()
++    base_model = Path(model_args.model_path).resolve()
++    vit_model = Path(model_args.vit_path).resolve()
++    _require(
++        chain_manifest,
++        resolve(data_profile["train_chain_manifest"]),
++        "profile chain manifest path",
++    )
++    _require(
++        sha256_file(chain_manifest),
++        data_profile["train_chain_manifest_sha256"],
++        "profile chain manifest hash",
++    )
++    _require(
++        dataset_config,
++        resolve(data_profile["train_config"]),
++        "profile dataset config path",
++    )
++    _require(
++        sha256_file(dataset_config),
++        data_profile["train_config_sha256"],
++        "profile dataset config hash",
++    )
++    _require(base_model, resolve(model_profile["model_path"]), "profile base path")
++    _require(vit_model, resolve(model_profile["vit_path"]), "profile ViT path")
++    _require(
++        online_args.datamake_base_model_sha256,
++        model_profile["model_safetensors_sha256"],
++        "profile base hash lock",
++    )
++
++    exact_values = (
++        ("ViT type", model_args.vit_type, model_profile["vit_type"]),
++        ("LLM QK norm", model_args.llm_qk_norm, model_profile["llm_qk_norm"]),
++        (
++            "understanding QK norm",
++            model_args.llm_qk_norm_und,
++            model_profile["llm_qk_norm_und"],
++        ),
++        (
++            "generation QK norm",
++            model_args.llm_qk_norm_gen,
++            model_profile["llm_qk_norm_gen"],
++        ),
++        (
++            "latent patch size",
++            list(model_args.latent_patch_size),
++            model_profile["latent_patch_size"],
++        ),
++        ("maximum frames", model_args.max_num_frames, model_profile["max_num_frames"]),
++        (
++            "maximum latent size",
++            model_args.max_latent_size,
++            model_profile["max_latent_size"],
++        ),
++        (
++            "visual generation path",
++            training_args.visual_gen,
++            model_profile["visual_gen"],
++        ),
++        (
++            "visual understanding path",
++            training_args.visual_und,
++            model_profile["visual_und"],
++        ),
++        ("history mode", online_args.datamake_history_mode, data_profile["history_mode"]),
++        ("schedule seed", data_args.data_seed, data_profile["schedule_seed"]),
++        ("epochs", online_args.datamake_num_epochs, run_profile["epochs"]),
++        (
++            "gradient accumulation",
++            online_args.datamake_gradient_accumulation_steps,
++            run_profile["gradient_accumulation_steps"],
++        ),
++        (
++            "rollout steps",
++            online_args.datamake_rollout_diffusion_steps,
++            rollout_profile["diffusion_steps"],
++        ),
++        (
++            "rollout text CFG",
++            online_args.datamake_rollout_cfg_text_scale,
++            rollout_profile["text_cfg"],
++        ),
++        (
++            "rollout timestep shift",
++            online_args.datamake_rollout_timestep_shift,
++            rollout_profile["timestep_shift"],
++        ),
++        (
++            "rollout CFG interval",
++            list(online_args.datamake_rollout_cfg_interval),
++            rollout_profile["cfg_interval"],
++        ),
++        (
++            "rollout CFG renorm minimum",
++            online_args.datamake_rollout_cfg_renorm_min,
++            rollout_profile["cfg_renorm_min"],
++        ),
++        (
++            "rollout CFG renorm type",
++            online_args.datamake_rollout_cfg_renorm_type,
++            rollout_profile["cfg_renorm_type"],
++        ),
++        (
++            "rollout KV cache",
++            online_args.datamake_rollout_use_kv_cache,
++            rollout_profile["use_kv_cache"],
++        ),
++        ("LoRA rank", online_args.datamake_lora_rank, lora_profile["rank"]),
++        ("LoRA alpha", online_args.datamake_lora_alpha, lora_profile["alpha"]),
++        ("LoRA dropout", online_args.datamake_lora_dropout, lora_profile["dropout"]),
++        (
++            "LoRA target scope",
++            online_args.datamake_lora_target_scope,
++            lora_profile["target_scope"],
++        ),
++        (
++            "LoRA target count",
++            online_args.datamake_lora_expected_target_modules,
++            lora_profile["target_modules"],
++        ),
++        (
++            "LoRA target signature",
++            online_args.datamake_lora_expected_target_signature_sha256,
++            lora_profile["target_signature_sha256"],
++        ),
++        ("W&B project", training_args.wandb_project, wandb_profile["project"]),
++        ("W&B log interval", training_args.log_every, wandb_profile["log_every_steps"]),
++        (
++            "checkpoint retention",
++            training_args.keep_last_checkpoints,
++            checkpoint_profile["keep_last_complete"],
++        ),
++    )
++    for label, actual, expected in exact_values:
++        _require(actual, expected, f"profile {label}")
++
++    expected_run_name = run_profile["run_name"]
++    expected_run_id = wandb_profile["run_id"]
++    if online_args.datamake_smoke_mode:
++        expected_run_name += "_smoke"
++        expected_run_id += "-smoke"
++    _require(training_args.wandb_name, expected_run_name, "profile W&B run name")
++    _require(training_args.wandb_runid, expected_run_id, "profile W&B run id")
++    _require(
++        training_args.wandb_offline,
++        online_args.datamake_smoke_mode or wandb_profile["mode"] != "online",
++        "profile W&B mode",
++    )
++
++    if online_args.datamake_smoke_mode:
++        if training_args.total_steps > profile["run"]["total_steps"]:
++            raise ValueError("smoke steps exceed the frozen full schedule")
++    else:
++        _require(profile["run"]["total_steps"], training_args.total_steps, "profile total steps")
++
++
++def main() -> None:
++    reject_duplicate_cli_options(sys.argv[1:])
++    if not torch.cuda.is_available():
++        raise RuntimeError("CUDA is required for online rollout training")
++    torch.set_num_threads(1)
++    torch.set_num_interop_threads(1)
++    dist.init_process_group("nccl")
++    global_rank = dist.get_rank()
++    world_size = get_world_size()
++    local_rank = global_rank % torch.cuda.device_count()
++    device = local_rank
++    torch.cuda.set_device(device)
++
++    parser = HfArgumentParser(
++        (ModelArguments, DataArguments, TrainingArguments, OnlineRolloutArguments)
++    )
++    model_args, data_args, training_args, online_args = cast(
++        Tuple[
++            ModelArguments,
++            DataArguments,
++            TrainingArguments,
++            OnlineRolloutArguments,
++        ],
++        parser.parse_args_into_dataclasses(),
++    )
++    validate_frozen_training_arguments(
++        model_args, data_args, training_args, online_args, world_size
++    )
++    profile_path = Path(online_args.datamake_profile_path).resolve()
++    _run_profile_contract_check(
++        profile_path, model_args, data_args, online_args, training_args
++    )
++
++    logger = get_logger()
++    log_rank0 = (
++        (lambda message: logger.info(message))
++        if global_rank == 0
++        else (lambda *_: None)
++    )
++    setup_output_paths(training_args, logger, global_rank)
++    setup_rank0_logging_and_wandb(
++        model_args, data_args, training_args, logger, global_rank
++    )
++    save_training_config(model_args, data_args, training_args, logger)
++
++    seed = training_args.global_seed * world_size + global_rank
++    set_seed(seed)
++    prepare_model_paths(model_args, training_args)
++    (
++        llm_config,
++        language_model,
++        vit_config,
++        vit_model,
++        vae_model,
++        vae_config,
++    ) = setup_model_components(model_args, training_args, log_rank0)
++    config = LanceConfig(
++        visual_gen=training_args.visual_gen,
++        visual_und=training_args.visual_und,
++        llm_config=llm_config,
++        vit_config=vit_config if training_args.visual_und else None,
++        vae_config=vae_config if training_args.visual_gen else None,
++        latent_patch_size=model_args.latent_patch_size,
++        max_num_frames=model_args.max_num_frames,
++        max_latent_size=model_args.max_latent_size,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        connector_act=model_args.connector_act,
++        interpolate_pos=model_args.interpolate_pos,
++        timestep_shift=training_args.timestep_shift,
++    )
++    model = Lance(
++        language_model=language_model,
++        vit_model=vit_model if training_args.visual_und else None,
++        vit_type=model_args.vit_type,
++        config=config,
++        training_args=training_args,
++    )
++    tokenizer = Qwen2Tokenizer.from_pretrained(model_args.model_path)
++    tokenizer, new_token_ids, num_new_tokens = add_special_tokens(tokenizer)
++    load_ckpt = prepare_checkpoint_loader(
++        model_args,
++        training_args,
++        llm_config,
++        language_model,
++        tokenizer,
++        num_new_tokens,
++        log_rank0,
++        report_dir=training_args.config_dir,
++    )
++    load_ckpt(model, ema=False)
++
++    lora_config = GenerationLoRAConfig(
++        rank=online_args.datamake_lora_rank,
++        alpha=online_args.datamake_lora_alpha,
++        dropout=online_args.datamake_lora_dropout,
++        target_scope=online_args.datamake_lora_target_scope,
++        expected_target_modules=online_args.datamake_lora_expected_target_modules,
++        expected_target_signature_sha256=(
++            online_args.datamake_lora_expected_target_signature_sha256
++        ),
++    )
++    lora_report = apply_generation_lora(model, lora_config)
++    image_token_id = get_image_token_id(language_model)
++    fsdp_config = build_fsdp_config(training_args)
++    fsdp_model = fsdp_wrapper(model, fsdp_config)
++    apply_activation_checkpointing(
++        fsdp_model,
++        checkpoint_wrapper_fn=functools.partial(
++            checkpoint_wrapper, checkpoint_impl=CheckpointImpl.NO_REENTRANT
++        ),
++        check_fn=grad_checkpoint_check_fn,
++    )
++    save_trainable_parameters(
++        model, fsdp_model, training_args, logger, global_rank
++    )
++    params_to_train = [parameter for parameter in fsdp_model.parameters() if parameter.requires_grad]
++    optimizer = torch.optim.AdamW(
++        params_to_train,
++        lr=training_args.lr,
++        betas=(training_args.beta1, training_args.beta2),
++        eps=training_args.eps,
++        weight_decay=0,
++    )
++    scheduler = build_lr_scheduler(optimizer, training_args)
++
++    records, chain_manifest = load_chain_records(
++        Path(online_args.datamake_chain_manifest)
++    )
++    dataset_config = build_train_dataset_config(
++        data_args, model_args, training_args, vae_config
++    )
++    turn_packer = OnlineTurnPacker(
++        dataset_config,
++        tokenizer,
++        new_token_ids,
++        model_args,
++        data_args,
++        training_args,
++        image_token_id,
++        global_rank,
++        world_size,
++    )
++    training_contract = None
++    if global_rank == 0:
++        training_contract = build_online_contract(
++            online_args,
++            profile_path,
++            Path(online_args.datamake_chain_manifest),
++            Path(data_args.dataset_config_file),
++            Path(model_args.model_path),
++            lora_config.to_dict(),
++        )
++    contract_holder = [training_contract]
++    dist.broadcast_object_list(contract_holder, src=0)
++    training_contract = contract_holder[0]
++    if not isinstance(training_contract, dict):
++        raise RuntimeError("rank 0 did not broadcast the online training contract")
++    if global_rank == 0:
++        Path(training_args.config_dir, "datamake_online_training_contract.json").write_text(
++            json.dumps(training_contract, indent=2, sort_keys=True) + "\n",
++            encoding="utf-8",
++        )
++        wandb.config.update(
++            {
++                "datamake_online_rollout": training_contract["rollout"],
++                "datamake_loss_contract": training_contract["loss"],
++                "datamake_lora": lora_config.to_dict(),
++                "datamake_lora_trainable_parameters": lora_report[
++                    "trainable_parameter_count"
++                ],
++                "datamake_chain_count": len(records),
++                "datamake_target_video_count": chain_manifest[
++                    "target_video_count"
++                ],
++            },
++            allow_val_change=True,
++        )
++    dist.barrier()
++
++    train_step = 0
++    if training_args.resume_from:
++        restored = load_lora_checkpoint(
++            Path(training_args.resume_from),
++            fsdp_model,
++            optimizer,
++            scheduler,
++            lora_config,
++            training_contract,
++        )
++        train_step = int(restored["next_step"])
++    elif training_args.auto_resume:
++        raise ValueError("auto_resume is disabled; resolve an explicit complete checkpoint")
++
++    all_windows: List[
++        Tuple[int, int, List[List[ScheduledChain]]]
++    ] = []
++    per_epoch_windows = None
++    for epoch in range(online_args.datamake_num_epochs):
++        groups = build_epoch_groups(
++            records, world_size, data_args.data_seed, epoch
++        )
++        windows = optimizer_windows(
++            groups, online_args.datamake_gradient_accumulation_steps
++        )
++        if per_epoch_windows is None:
++            per_epoch_windows = len(windows)
++        elif per_epoch_windows != len(windows):
++            raise RuntimeError("optimizer steps per epoch changed")
++        all_windows.extend((epoch, index, window) for index, window in enumerate(windows))
++    if online_args.datamake_smoke_mode:
++        all_windows = all_windows[: training_args.total_steps]
++    _require(len(all_windows), training_args.total_steps, "scheduled optimizer steps")
++    if train_step > len(all_windows):
++        raise ValueError("resume step is beyond the training schedule")
++
++    fsdp_model.train()
++    log_rank0(
++        f"Online rollout schedule: chains={len(records)}, epochs={online_args.datamake_num_epochs}, "
++        f"steps/epoch={per_epoch_windows}, total_steps={len(all_windows)}, "
++        f"starting_step={train_step}"
++    )
++    try:
++        for step_index in range(train_step, len(all_windows)):
++            epoch, epoch_step, window = all_windows[step_index]
++            optimizer.zero_grad(set_to_none=True)
++            global_targets = window_target_count(window)
++            if global_targets <= 0:
++                raise RuntimeError("optimizer window contains no real targets")
++            backward_scale = float(world_size) / float(global_targets)
++            local_loss_sum = 0.0
++            local_targets = 0
++            local_rollouts = 0
++            local_round_loss_sum = [0.0] * 5
++            local_round_count = [0.0] * 5
++            memory_keys = (
++                "allocated_before_mb",
++                "reserved_before_mb",
++                "allocated_summoned_mb",
++                "reserved_summoned_mb",
++                "peak_allocated_mb",
++                "peak_reserved_mb",
++                "allocated_after_mb",
++                "reserved_after_mb",
++            )
++            local_rollout_memory_max = {key: 0.0 for key in memory_keys}
++            rollout_seconds = 0.0
++            train_seconds = 0.0
++            torch.cuda.synchronize(device)
++            window_started = time()
++
++            for group in window:
++                scheduled = group[global_rank]
++                record = scheduled.record
++                max_rounds = max(item.record.round_count for item in group)
++                generated_history: List[torch.Tensor] = []
++
++                for round_number in range(1, max_rounds + 1):
++                    active = (
++                        scheduled.contributes_loss
++                        and round_number <= record.round_count
++                    )
++                    effective_round = min(round_number, record.round_count)
++                    effective_history = generated_history[: effective_round - 1]
++                    batch = turn_packer.pack(
++                        record, effective_round, effective_history
++                    )
++                    turn_data, video_sizes = prepare_turn_data(
++                        batch, device, vae_model
++                    )
++
++                    torch.cuda.synchronize(device)
++                    train_started = time()
++                    with torch.amp.autocast(
++                        "cuda", enabled=True, dtype=torch.bfloat16
++                    ):
++                        loss_dict = fsdp_model(**turn_data)
++                        target_loss = per_target_flow_loss(loss_dict)
++                        backward_loss = target_loss * backward_scale
++                        if not active:
++                            backward_loss = backward_loss * 0.0
++                    bad = torch.tensor(
++                        0 if torch.isfinite(backward_loss) else 1,
++                        device=device,
++                        dtype=torch.int32,
++                    )
++                    dist.all_reduce(bad, op=dist.ReduceOp.SUM)
++                    if bad.item():
++                        raise FloatingPointError(
++                            f"non-finite loss at step={step_index}, "
++                            f"chain={record.chain_id}, round={round_number}"
++                        )
++                    backward_loss.backward()
++                    torch.cuda.synchronize(device)
++                    train_seconds += time() - train_started
++                    if active:
++                        value = float(target_loss.detach().item())
++                        local_loss_sum += value
++                        local_targets += 1
++                        local_round_loss_sum[round_number - 1] += value
++                        local_round_count[round_number - 1] += 1
++
++                    if round_number < max_rounds:
++                        needs_history = round_number < record.round_count
++                        torch.cuda.synchronize(device)
++                        rollout_started = time()
++                        rollout_telemetry: Dict[str, float] = {}
++                        seed_value = stable_turn_seed(
++                            training_args.global_seed,
++                            epoch,
++                            record.chain_id,
++                            effective_round,
++                        )
++                        history_video = generate_with_retry(
++                            fsdp_model=fsdp_model,
++                            vae_model=vae_model,
++                            data=turn_data,
++                            video_sizes=video_sizes,
++                            online_args=online_args,
++                            model_args=model_args,
++                            training_args=training_args,
++                            new_token_ids=new_token_ids,
++                            image_token_id=image_token_id,
++                            device=device,
++                            seed=seed_value,
++                            save_output=needs_history,
++                            telemetry=rollout_telemetry,
++                        )
++                        torch.cuda.synchronize(device)
++                        rollout_seconds += time() - rollout_started
++                        for key in memory_keys:
++                            local_rollout_memory_max[key] = max(
++                                local_rollout_memory_max[key],
++                                float(rollout_telemetry[key]),
++                            )
++                        if needs_history:
++                            if history_video is None:
++                                raise RuntimeError("real rollout did not return a tensor")
++                            generated_history.append(history_video)
++                            local_rollouts += 1
++                        dist.barrier()
++                    del turn_data, batch, loss_dict, target_loss, backward_loss
++
++                generated_history.clear()
++
++            total_norm = fsdp_model.clip_grad_norm_(training_args.max_grad_norm)
++            optimizer.step()
++            scheduler.step()
++            torch.cuda.synchronize(device)
++            completed_steps = step_index + 1
++
++            reduced = _all_reduce_metrics(
++                [
++                    local_loss_sum,
++                    float(local_targets),
++                    float(local_rollouts),
++                    rollout_seconds,
++                    train_seconds,
++                    *local_round_loss_sum,
++                    *local_round_count,
++                ],
++                device,
++            )
++            memory_max = _all_reduce_max_metrics(
++                [local_rollout_memory_max[key] for key in memory_keys], device
++            )
++            global_loss_sum, global_target_count, global_rollouts = reduced[:3]
++            if int(global_target_count) != global_targets:
++                raise RuntimeError(
++                    f"target weighting mismatch: {global_target_count} != {global_targets}"
++                )
++            loss_mean = global_loss_sum / global_target_count
++            step_seconds = time() - window_started
++            if global_rank == 0 and completed_steps % training_args.log_every == 0:
++                round_loss_sum = reduced[5:10]
++                round_count = reduced[10:15]
++                metrics = {
++                    "mse": loss_mean,
++                    "lr": optimizer.param_groups[0]["lr"],
++                    "total_norm": float(total_norm.item()),
++                    "target_videos": global_target_count,
++                    "rollout_videos": global_rollouts,
++                    "chains": world_size
++                    * online_args.datamake_gradient_accumulation_steps,
++                    "step_time_sec": step_seconds,
++                    "rollout_time_sec_rank_sum": reduced[3],
++                    "train_time_sec_rank_sum": reduced[4],
++                    "mem_allocated_mb": memory_max[4],
++                    "mem_reserved_mb": memory_max[5],
++                    "epoch": epoch,
++                    "epoch_step": epoch_step,
++                }
++                metrics.update(
++                    {
++                        f"rollout_{key}_rank_max": value
++                        for key, value in zip(memory_keys, memory_max)
++                    }
++                )
++                for index, (loss_sum, count) in enumerate(
++                    zip(round_loss_sum, round_count), start=1
++                ):
++                    if count:
++                        metrics[f"mse_round_{index}"] = loss_sum / count
++                        metrics[f"targets_round_{index}"] = count
++                wandb.log(metrics, step=completed_steps)
++                logger.info(
++                    f"(step={completed_steps:07d}) mse={loss_mean:.6f}, "
++                    f"targets={int(global_target_count)}, rollouts={int(global_rollouts)}, "
++                    f"grad_norm={float(total_norm.item()):.6f}, "
++                    f"lr={optimizer.param_groups[0]['lr']:.8g}, "
++                    f"step_time={step_seconds:.2f}s"
++                )
++            periodic = training_args.save_every > 0 and (
++                completed_steps % training_args.save_every == 0
++            )
++            final = training_args.save_final_checkpoint and (
++                completed_steps == training_args.total_steps
++            )
++            if periodic or final:
++                save_lora_checkpoint(
++                    Path(training_args.ckpt_dir),
++                    completed_steps,
++                    fsdp_model,
++                    optimizer,
++                    scheduler,
++                    lora_config,
++                    training_contract,
++                    {
++                        "epoch": epoch,
++                        "epoch_step": epoch_step + 1,
++                        "schedule_seed": data_args.data_seed,
++                        "gradient_accumulation_steps": (
++                            online_args.datamake_gradient_accumulation_steps
++                        ),
++                    },
++                    training_args.keep_last_checkpoints,
++                    logger,
++                )
++                gc.collect()
++                torch.cuda.empty_cache()
++    except Exception:
++        logger.error(
++            f"[ONLINE ROLLOUT TRAINING EXCEPTION] step={locals().get('step_index')}, "
++            f"rank={global_rank}"
++        )
++        traceback.print_exc()
++        optimizer.zero_grad(set_to_none=True)
++        raise
++    if global_rank == 0:
++        logger.info("Online rollout LoRA training complete")
++        wandb.finish()
++    dist.destroy_process_group()
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/modeling/lance/qwen2_navit.py b/modeling/lance/qwen2_navit.py
+index 8f3c8d8..ca588fc 100644
+--- a/modeling/lance/qwen2_navit.py
++++ b/modeling/lance/qwen2_navit.py
+@@ -961,8 +961,12 @@ class Qwen2Model(Qwen2PreTrainedModel):
+                 packed_query_sequence = self.norm(packed_query_sequence)
+             elif mode == "gen":
+                 packed_query_sequence_ = torch.zeros_like(packed_query_sequence)
+-                packed_query_sequence_[packed_text_indexes] = self.norm(packed_query_sequence[packed_text_indexes])
+-                packed_query_sequence_[packed_vae_token_indexes] = self.norm_moe_gen(packed_query_sequence[packed_vae_token_indexes])
++                packed_query_sequence_[packed_text_indexes] = self.norm(
++                    packed_query_sequence[packed_text_indexes]
++                ).to(dtype=packed_query_sequence_.dtype)
++                packed_query_sequence_[packed_vae_token_indexes] = self.norm_moe_gen(
++                    packed_query_sequence[packed_vae_token_indexes]
++                ).to(dtype=packed_query_sequence_.dtype)
+                 packed_query_sequence = packed_query_sequence_
+         else:
+             packed_query_sequence = self.norm(packed_query_sequence)

@@ -2,7 +2,7 @@
 
 > 父层：[`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
 
-本目录记录 Unreal Engine 版本、部署、历史技术调研和集群 MVP 计划。当前执行目标是 **UE 5.8 Linux Installed Build + 无头渲染**。
+本目录记录 Unreal Engine 版本、部署、历史技术调研和集群 MVP 计划。早期Installed Build与MVP记录保留为历史。当前生产配方和构建边界以[服务器执行](../../20_planning/data_design/character_creator/full_process/technical/rendering_release/SERVER_EXECUTION.md)为准；2026-10-23旧生产兼容构建原路径缺失，下一轮渲染尚需环境准备。
 
 ## 内容说明
 
@@ -10,10 +10,10 @@
 |------|------|------|
 | `README.md` | 本层索引和当前策略 | 当前 |
 | `pipeline_research_memo.md` | UE 环境、渲染能力、软件清单、历史调研 | 历史调研稿，执行前复核 |
-| `cluster_deploy_and_mvp.md` | 当前 DataMake 单目录方案下的 UE 安装、无头 smoke test、SLURM MVP 计划 | 当前执行计划 |
-| `mcp_agent_setup.md` | UE 5.8 官方 MCP + Codex/Terminal Linux 配置 | 当前 |
+| `cluster_deploy_and_mvp.md` | 当前 DataMake 单目录方案下的 UE 安装、无头 smoke test、SLURM MVP 计划 | 2026-07历史部署计划 |
+| `mcp_agent_setup.md` | UE 5.8 MCP/Terminal Linux配置记录 | 历史辅助工具配置；不是生产入口 |
 
-实际引擎目录使用：
+工作区保留的Installed Build目录（不是旧生产兼容构建）：
 
 ```text
 00_engine/unreal/UE_5.8/
@@ -31,7 +31,7 @@
 00_engine/runtime/
 ```
 
-## 当前策略
+## 早期部署策略（2026-07历史范围）
 
 - 引擎目标：UE 5.8。UE5.6 相关备忘录只作历史调研。
 - 部署路线：优先使用 Linux Installed Build zip；源码编译、容器、Apptainer 只在 Installed Build 失败时再讨论。2026-07-06 复核：Installed Build 入口需要 Epic account 登录，不需要 GitHub；源码路线才需要 Epic account 绑定 GitHub。
@@ -59,10 +59,12 @@
 - 存储路径：[`../../20_planning/implementation/storage.md`](../../20_planning/implementation/storage.md)。
 - 许可证约束：[`../../20_planning/compliance/licensing_compliance.md`](../../20_planning/compliance/licensing_compliance.md)。
 
-## Agent 备忘
+## 后续操作边界
 
 - 执行前重新核实 UE 5.8 实际下载来源、hotfix 状态、Linux 依赖和 SLURM 限制。
 - UE Linux Installed Build 页面是 `https://www.unrealengine.com/en-US/linux`；如果需要源码，再走 `EpicGames/UnrealEngine` GitHub 绑定流程。
 - 不把引擎、下载包、DDC、工程生成目录或渲染输出提交进 Git。
 - 第一个 MVP 不追求资产规模，先验证确定性渲染、GT、sidecar 和端点复用。
 - 试用 UE MCP 时优先限制为 inspection/read-only/test 类操作；任何修改类工具保持人工 approval。
+
+同步文档与UE执行准备见[服务器同步状态](../../20_planning/data_design/character_creator/full_process/project_management/status/SERVER_SYNC_STATUS.md)。文档更新不启动MVP、MCP或生产渲染。

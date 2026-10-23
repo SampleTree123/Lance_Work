@@ -1,0 +1,702 @@
+diff --git a/train/datamake_chain_window_schedule.py b/train/datamake_chain_window_schedule.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_chain_window_schedule.py
+@@ -0,0 +1,102 @@
++"""Deterministic whole-chain windows with exactly 32 weighted target exposures."""
++from collections import Counter, defaultdict
++import hashlib
++import json
++from pathlib import Path
++import random
++
++import pyarrow.parquet as pq
++
++VERSION = "whole_chain_fixed_target_window_v1"
++
++
++def read_chains(profile):
++    manifest_path = Path(profile["data"]["split_manifest"])
++    manifest = json.loads(manifest_path.read_text())
++    grouped = defaultdict(list)
++    seen = set()
++    for item in manifest["splits"]["train"]["parquet_files"]:
++        path = manifest_path.parent / item["path"]
++        if item.get("sha256") and hashlib.sha256(path.read_bytes()).hexdigest() != item["sha256"]:
++            raise ValueError(f"Changed parquet: {path}")
++        for row_index, row in enumerate(pq.read_table(path).to_pylist()):
++            identity = row["sampling_instance_id"]
++            if identity in seen:
++                raise ValueError(f"Duplicate sampling instance {identity}")
++            seen.add(identity)
++            grouped[row["chain_id"]].append(dict(row=row, row_index=row_index, path=str(path)))
++    if len(seen) != profile["data"]["train_prefixes"]:
++        raise ValueError("Weighted target exposure count changed")
++    chains = []
++    for chain_id, records in sorted(grouped.items()):
++        records.sort(key=lambda record: (int(record["row"]["target_round"]), int(record["row"]["sampling_repeat_index"])))
++        longest = records[-1]["row"]
++        length = int(longest["target_round"])
++        counts = Counter(int(record["row"]["target_round"]) for record in records)
++        expected = {k: (profile["data"]["round_repeats"][str(k)] if longest["dataset_origin"] == "ue_synthetic" else 1)
++                    for k in range(1, length + 1)}
++        if dict(counts) != expected:
++            raise ValueError(f"Incomplete chain or changed round repeats: {chain_id}")
++        for record in records:
++            row, k = record["row"], int(record["row"]["target_round"])
++            if row["prompts"] != longest["prompts"][:k] or row["video_paths"] != longest["video_paths"][:k+1]:
++                raise ValueError(f"Inconsistent chain prefixes: {chain_id}")
++        if any(count > 1 and k < length for k, count in counts.items()):
++            raise ValueError("Only terminal-round repeats are supported")
++        chains.append(dict(chain_id=chain_id, length=length, records=records,
++                           targets=len(records), cost=sum(1 + int(r["row"]["target_round"]) for r in records)))
++    if len(chains) != profile["data"]["train_chains"]:
++        raise ValueError("Mixed chain count changed")
++    return chains
++
++
++def make_windows(chains, total_steps, seed, world=8, batch=32):
++    """Every epoch visits every chain once; only whole units move between windows.
++
++    Reserve one target for each remaining rank while selecting the first `world`
++    chains. This guarantees a nonempty final synchronized backward on every rank.
++    Greedy earliest-fit filling may look into the next epoch at a boundary.
++    """
++    if batch < world or max(c["targets"] for c in chains) > batch - world + 1:
++        raise ValueError("Batch cannot accommodate a whole chain and one target per rank")
++    if not any(c["targets"] == 1 for c in chains):
++        raise ValueError("Exact mixed windows require single-turn filler records")
++    pending, epoch, windows = [], 0, []
++
++    def append_epoch():
++        nonlocal epoch
++        order = list(range(len(chains)))
++        random.Random(f"{VERSION}:{seed}:{epoch}").shuffle(order)
++        pending.extend((epoch, index) for index in order)
++        epoch += 1
++
++    for _ in range(total_steps):
++        selected, remaining = [], batch
++        while remaining:
++            reserve = max(0, world - len(selected) - 1)
++            limit = remaining - reserve
++            index = next((i for i, (_, c) in enumerate(pending) if chains[c]["targets"] <= limit), None)
++            if index is None:
++                append_epoch()
++                continue
++            unit = pending.pop(index)
++            selected.append(unit)
++            remaining -= chains[unit[1]]["targets"]
++        ranks, loads = [[] for _ in range(world)], [0] * world
++        for unit in sorted(selected, key=lambda unit: -chains[unit[1]]["cost"]):
++            rank = min(range(world), key=lambda i: (loads[i], i))
++            ranks[rank].append(unit)
++            loads[rank] += chains[unit[1]]["cost"]
++        assert all(ranks) and sum(chains[i]["targets"] for slots in ranks for _, i in slots) == batch
++        windows.append(ranks)
++    return windows
++
++
++def schedule_digest(chains, windows):
++    payload = dict(version=VERSION, instances=[[r["row"]["sampling_instance_id"] for r in c["records"]] for c in chains], windows=windows)
++    return hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
++
++
++def turn_seed(seed, epoch, chain_id, round_number, repeat):
++    return int.from_bytes(hashlib.sha256(
++        f"{VERSION}:{seed}:{epoch}:{chain_id}:{round_number}:{repeat}".encode()).digest()[:8], "little")
+diff --git a/train/datamake_chain_window_data.py b/train/datamake_chain_window_data.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_chain_window_data.py
+@@ -0,0 +1,124 @@
++"""CPU preparation and detached in-memory history for whole-chain DDP windows."""
++from contextlib import contextmanager
++
++import torch
++from torch.utils.data import Dataset
++
++from data.dataset_base_train import simple_custom_collate
++from data.datasets_factory import datamake_online_rollout_turn as online
++from train.datamake_stage2_lora_data import preprocessing_rng
++from train.datamake_chain_window_schedule import turn_seed
++
++
++def pack_sample(packer, sample):
++    if sample is None:
++        raise RuntimeError("Chain sample could not be decoded")
++    if sample["num_tokens"] + 2 * len(sample["sequence_plan"]) > packer.max_num_tokens_per_sample:
++        raise ValueError("Chain turn exceeds sample token budget")
++    status = packer.pack_sequence(sample, packer.set_sequence_status())
++    if status["curr"] > packer.max_num_tokens:
++        raise ValueError("Chain turn exceeds packed token budget")
++    packed = packer.to_tensor(status)
++    packed["batch_data_indexes"] = [sample["data_indexes"]]
++    return packed
++
++
++class ChainWindowDataset(Dataset):
++    def __init__(self, packer, chains, windows, seed, rank):
++        self.packer, self.source = packer, packer.grouped_datasets[0]
++        self.chains, self.windows, self.seed, self.rank = chains, windows, seed, rank
++
++    def __len__(self):
++        return len(self.windows)
++
++    def __getitem__(self, step):
++        units, total_tokens, targets = [], 0, 0
++        for epoch, index in self.windows[step][self.rank]:
++            chain = self.chains[index]
++            longest = chain["records"][-1]["row"]
++            if longest["dataset_origin"] == "coinve":
++                record = chain["records"][0]
++                seed = turn_seed(self.seed, epoch, chain["chain_id"], 1, 0)
++                with preprocessing_rng(seed):
++                    sample = self.source._process_row(record["row"], 0, 0, record["row_index"], 0, record["path"])
++                    packed = pack_sample(self.packer, sample)
++                counts = [len(packed["mse_loss_indexes"])]
++                units.append(dict(epoch=epoch, chain_index=index, packed=packed, counts=counts))
++            else:
++                # Decode each original video once. Keep exact FP32 GT preprocessing;
++                # these CPU tensors are shared by worker IPC, never sent to a GPU here.
++                cache, media, counts = {}, {}, []
++                paths = longest["video_paths"]
++                with preprocessing_rng(turn_seed(self.seed, epoch, chain["chain_id"], 0, 0)):
++                    for path in paths:
++                        cache[(path, "vae_video")] = online.get_online_video_tensor(self.source, path, "vae_video", 0, media)
++                    cache[(paths[0], "vit_video")] = online.get_online_video_tensor(self.source, paths[0], "vit_video", 0, media)
++                for record in chain["records"]:
++                    path = record["row"]["video_paths"][-1]
++                    counts.append(int(cache[(path, "vae_video")][1]))
++                units.append(dict(epoch=epoch, chain_index=index, cache=cache, counts=counts))
++            total_tokens += sum(counts)
++            targets += chain["targets"]
++        return dict(step=step, units=units, target_tokens=total_tokens, targets=targets)
++
++    def make_runtime(self, unit):
++        return ChainRuntime(self.packer, self.source, self.chains[unit["chain_index"]], unit, self.seed)
++
++
++def collate_window(batch):
++    if len(batch) != 1:
++        raise ValueError("One optimizer window per loader item")
++    return batch[0]
++
++
++class ChainRuntime:
++    def __init__(self, packer, source, chain, unit, seed):
++        self.packer, self.source, self.chain, self.unit, self.seed = packer, source, chain, unit, seed
++        self.histories, self.generated_cache = [], {}
++
++    @contextmanager
++    def cached_video_reader(self):
++        original = online.get_online_video_tensor
++
++        def get(dataset, value, stream, worker, media):
++            if isinstance(value, str):
++                result = self.unit["cache"][(value, stream)]
++            else:
++                key = (id(value), stream)
++                if key not in self.generated_cache:
++                    self.generated_cache[key] = original(dataset, value, stream, worker, media)
++                result = self.generated_cache[key]
++            dataset.vision_stream = stream
++            return result
++
++        online.get_online_video_tensor = get
++        try:
++            yield
++        finally:
++            online.get_online_video_tensor = original
++
++    def append_history(self, video):
++        if video.requires_grad or video.grad_fn is not None or video.device.type != "cpu":
++            raise ValueError("History must be a detached CPU video")
++        self.histories.append(video)
++
++    def pack(self, ordinal):
++        record = self.chain["records"][ordinal]
++        row = record["row"]
++        k, repeat = int(row["target_round"]), int(row["sampling_repeat_index"])
++        if len(self.histories) != k - 1:
++            raise ValueError("Whole-chain history does not match the current round")
++        seed = turn_seed(self.seed, self.unit["epoch"], self.chain["chain_id"], k, repeat)
++        if "packed" in self.unit:
++            packed = self.unit["packed"]
++        else:
++            row = {**row, "video_inputs": [row["video_paths"][0], *self.histories, row["video_paths"][-1]]}
++            with preprocessing_rng(seed), self.cached_video_reader():
++                sample = online.process_online_rollout_row(self.source, row, 0, 0, record["row_index"], 0, record["path"])
++                packed = pack_sample(self.packer, sample)
++        if len(packed["mse_loss_indexes"]) != self.unit["counts"][ordinal]:
++            raise ValueError("Precomputed target token denominator differs from actual packing")
++        identity = {**packed["batch_data_indexes"][0], "epoch": self.unit["epoch"],
++                    "sampling_instance_id": record["row"]["sampling_instance_id"], "repeat": repeat}
++        packed = {**packed, "batch_data_indexes": [identity]}
++        return simple_custom_collate([packed])
+diff --git a/train/datamake_chain_pred_x0_ddp_train.py b/train/datamake_chain_pred_x0_ddp_train.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_chain_pred_x0_ddp_train.py
+@@ -0,0 +1,461 @@
++"""Whole-chain pred_x0 reuse with exact global target windows and DDP-v6 state."""
++import argparse
++from copy import deepcopy
++from dataclasses import asdict
++import functools
++from contextlib import nullcontext
++from torch.nn.parallel import DistributedDataParallel as DDP
++import json
++from pathlib import Path
++import sys
++from time import perf_counter
++
++import torch
++import torch.distributed as dist
++from torch.utils.data import DataLoader
++from torch.distributed.algorithms._checkpoint.checkpoint_wrapper import (
++    CheckpointImpl, apply_activation_checkpointing, checkpoint_wrapper,
++)
++from transformers import HfArgumentParser, set_seed
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
++from run_datamake_chain_pred_x0_ddp_training import load_profile, make_contract
++from run_datamake_formal_training import build_torchrun_command
++from config.config_factory import ModelArguments, DataArguments, TrainingArguments
++from common.utils.logging import get_logger
++from common.val.utils import make_padded_latent
++from data.dataset_base_train import PackedDataset, simple_custom_collate
++from data.data_utils import add_special_tokens
++from modeling.lance import Lance, LanceConfig
++from modeling.qwen2 import Qwen2Tokenizer
++from train.fsdp_utils import fsdp_wrapper, grad_checkpoint_check_fn
++from train.train_utils import (
++    prepare_model_paths, setup_model_components, prepare_checkpoint_loader,
++    build_fsdp_config, build_lr_scheduler, build_train_dataset_config,
++    get_image_token_id, build_edit_region_mse_weights, compute_training_loss,
++)
++from train.datamake_branch_lora import config_from_profile
++from train.datamake_peft import inject
++from train.datamake_stage2_lora_checkpoint import initialize_adam_state, save_and_stop_requested
++from train.datamake_ddp_checkpoint import save as save_ddp_checkpoint, load as load_ddp_checkpoint
++from train.datamake_stage2_lora_data import IndexedPrefixDataset
++from train.datamake_packed_batch import IndexedPackedPrefixDataset, compute_packed_training_loss, trim_attention_padding
++
++
++def recipe_arguments(profile):
++    # Reuse Stage2's exact mapping of model/data/optimizer settings, without
++    # running its full-parameter-only launcher or modifying its frozen files.
++    argument_profile = deepcopy(profile)
++    argument_profile["run"]["gradient_accumulation_steps"] *= argument_profile["run"]["per_rank_batch_size"]
++    argument_profile["run"]["per_rank_batch_size"] = 1
++    command = build_torchrun_command(argument_profile, None, 29500)
++    argv = command[command.index("train/unified_train.py") + 1:]
++    return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
++
++
++from train.datamake_chain_window_schedule import read_chains, make_windows, schedule_digest
++from train.datamake_chain_window_data import ChainWindowDataset, collate_window
++from train.datamake_online_rollout_lora_train import predict_clean_latent_patches
++
++
++def forward_target(batch, model, vae, training_args, device, phase_events, needs_history,
++                   empty_vae_cache=False, attention_padding="minimal"):
++    data = batch.cuda(device).to_dict()
++    if attention_padding == "minimal":
++        data = trim_attention_padding(data)
++    indexes = data.pop("batch_data_indexes")
++    for key in ("ce_loss_weights", "vae_edit_roles", "mse_slot_counts", "padded_videos_vit"):
++        data.pop(key, None)
++    shape = tuple(int(v) for v in data["patchified_vae_latent_shapes"][-1])
++    e0, e1, e2 = [torch.cuda.Event(enable_timing=True) for _ in range(3)]
++    e0.record()
++    with torch.autocast("cuda", dtype=torch.bfloat16):
++        mode, videos = data.pop("vae_data_mode"), data.pop("padded_videos")
++        with torch.no_grad():
++            data["padded_latent"] = make_padded_latent(videos, mode, vae, empty_cache=empty_vae_cache)
++        e1.record()
++        losses = model(**data, return_flow_intermediates=needs_history)
++        e2.record()
++    phase_events.append((e0, e1, e2))
++    if losses["ce"] is not None or losses["frame_mse"] is not None or losses["mse"] is None:
++        raise ValueError("Whole-chain windows require the original video-only flow MSE")
++    # Same official per-token loss. Normalize once over the global optimizer
++    # window instead of making collectives for unequal numbers of local turns.
++    per_token = losses["mse"].mean(dim=-1)
++    numerator = per_token.sum()
++    patches = None
++    if needs_history:
++        with torch.no_grad():
++            patches = predict_clean_latent_patches(losses)
++    stats = dict(tokens=len(per_token), attention_tokens=sum(data["sample_lens"]),
++                 padding_tokens=data["sample_lens"][-1])
++    return numerator, patches, shape, indexes, stats
++
++
++@torch.no_grad()
++def decode_history(patches, shape, vae):
++    if patches is None or patches.requires_grad or patches.grad_fn is not None:
++        raise ValueError("History latent must be detached before decoding")
++    if patches.shape[0] != shape[0] * shape[1] * shape[2] or not torch.isfinite(patches).all():
++        raise FloatingPointError("Invalid pred_x0 latent")
++    with torch.autocast("cuda", dtype=torch.bfloat16):
++        decoded = vae.vae_decode([patches.reshape(*shape, -1)])[0]
++    if decoded.ndim != 4 or decoded.shape[0] != 3 or not torch.isfinite(decoded).all():
++        raise FloatingPointError("Invalid pred_x0 decoded video")
++    return decoded.detach().clamp(-1, 1).to(device="cpu", dtype=torch.float16).contiguous()
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--profile", type=Path, required=True)
++    parser.add_argument("--run-dir", type=Path, required=True)
++    parser.add_argument("--resume-from", type=Path)
++    parser.add_argument("--stop-after", type=int)
++    parser.add_argument("--smoke", action="store_true")
++    parser.add_argument("--benchmark-only", action="store_true", help="Smoke timing without checkpoint writes")
++    parser.add_argument("--trace", action="store_true", help="Capture first two optimizer updates; benchmark only")
++    parser.add_argument("--single-gpu-probe", action="store_true", help="Diagnostic only: rank0 of the eight-rank chain schedule, no training checkpoints")
++    parser.add_argument("--probe-backend", choices=("ddp", "fsdp"), default="ddp")
++    args = parser.parse_args()
++    if args.benchmark_only and (not args.smoke or args.resume_from):
++        raise ValueError("Benchmark-only requires fresh smoke mode")
++    if args.probe_backend != "ddp":
++        raise ValueError("Whole-chain training supports PEFT/DDP only")
++    profile = load_profile(args.profile)
++    if profile["ddp"].get("attention_padding", "fixed") == "minimal":
++        # Configure the official compiler only in this DDP process. Automatic
++        # dynamic generalization changes BF16 results when padding lengths vary;
++        # static shape caching preserves the validated attention numerics.
++        from torch.nn.attention.flex_attention import flex_attention
++        from modeling.lance import qwen2_navit
++        qwen2_navit.flex_attention = torch.compile(flex_attention, dynamic=False)
++    model_args, data_args, training_args = recipe_arguments(profile)
++    torch.set_num_threads(1)
++    torch.set_num_interop_threads(1)
++    device = int(__import__("os").environ["LOCAL_RANK"])
++    torch.cuda.set_device(device)
++    dist.init_process_group("nccl", device_id=torch.device("cuda", device))
++    rank, world = dist.get_rank(), dist.get_world_size()
++    if args.single_gpu_probe and (world != 1 or not args.smoke or args.resume_from):
++        raise ValueError("Single-GPU probe requires world1, smoke mode and fresh initialization")
++    if args.probe_backend != "ddp" and not args.single_gpu_probe:
++        raise ValueError("FSDP comparison is diagnostic only")
++    if not args.single_gpu_probe and world != profile["distributed"]["gpus_per_node"]:
++        raise ValueError(f"Expected {profile['distributed']['gpus_per_node']} GPUs, got {world}")
++    logger = get_logger()
++    log = logger.info if rank == 0 else lambda *_: None
++    run_dir = args.run_dir.resolve()
++    if rank == 0:
++        (run_dir / "configs").mkdir(parents=True, exist_ok=True)
++        (run_dir / "configs" / "profile.json").write_text(json.dumps(profile, indent=2) + "\n")
++    dist.barrier()
++    training_args.config_dir = str(run_dir / "configs")
++    training_args.N_key_frame = data_args.N_key_frame
++    training_args.incre_time_pro = data_args.incre_time_pro
++    set_seed(training_args.global_seed * world + rank)
++    prepare_model_paths(model_args, training_args)
++    llm_config, language, vit_config, vit, vae, vae_config = setup_model_components(model_args, training_args, log)
++    config = LanceConfig(
++        visual_gen=True, visual_und=True, llm_config=llm_config,
++        vit_config=vit_config, vae_config=vae_config,
++        latent_patch_size=model_args.latent_patch_size,
++        max_num_frames=model_args.max_num_frames, max_latent_size=model_args.max_latent_size,
++        vit_max_num_patch_per_side=model_args.vit_max_num_patch_per_side,
++        connector_act=model_args.connector_act, interpolate_pos=model_args.interpolate_pos,
++        timestep_shift=training_args.timestep_shift,
++    )
++    model = Lance(language_model=language, vit_model=vit, vit_type=model_args.vit_type,
++                  config=config, training_args=training_args)
++    tokenizer, token_ids, num_new_tokens = add_special_tokens(Qwen2Tokenizer.from_pretrained(model_args.model_path))
++    load_base = prepare_checkpoint_loader(
++        model_args, training_args, llm_config, language, tokenizer,
++        num_new_tokens, log, report_dir=training_args.config_dir,
++    )
++    load_base(model)  # Mandatory ordering: base -> adapter -> distributed wrapper.
++    lora_config = config_from_profile(profile)
++    if args.probe_backend == "fsdp":
++        from train.datamake_branch_lora import apply_branch_lora
++        targets = apply_branch_lora(model, lora_config, training_args.global_seed)
++    else:
++        targets = inject(model, lora_config, training_args.global_seed)
++    # Match FSDP BF16 compute without FP32 base masters/parameter collectives.
++    for p in model.parameters():
++        if args.probe_backend == "ddp" and not p.requires_grad and p.is_floating_point():
++            p.data = p.data.to(torch.bfloat16)
++    model.to(device)
++    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
++    log(f"PEFT/DDP targets={len(targets)} trainable_parameters={trainable} FP32 master; freeze_und=False")
++    if rank == 0:
++        (run_dir / "configs" / "lora_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
++    image_token_id = get_image_token_id(language)
++    checkpoint_mode = profile["ddp"]["activation_checkpointing"]
++    disabled_layers = set(profile["ddp"].get("checkpoint_disabled_layers", []))
++    def checkpoint_layer(module):
++        if checkpoint_mode == "none" or not grad_checkpoint_check_fn(module):
++            return False
++        if checkpoint_mode == "all":
++            index = getattr(getattr(module, "self_attn", None), "layer_idx", None)
++            return index not in disabled_layers
++        index = getattr(getattr(module, "self_attn", None), "layer_idx", None)
++        return index is not None and index % 2 == 0
++    apply_activation_checkpointing(
++        model, checkpoint_wrapper_fn=functools.partial(checkpoint_wrapper, checkpoint_impl=CheckpointImpl.NO_REENTRANT),
++        check_fn=checkpoint_layer,
++    )
++    bare_model = model
++    # Final UND adapters can be unused. Keep detection enabled until separately validated.
++    if args.probe_backend == "fsdp":
++        fsdp_config = build_fsdp_config(training_args)
++        fsdp_config.sharding_strategy = "NO_SHARD"
++        model = fsdp_wrapper(model, fsdp_config)
++    else:
++        model = DDP(model, device_ids=[device], broadcast_buffers=False,
++                    find_unused_parameters=True, gradient_as_bucket_view=True)
++    vit_events = []
++    def vit_pre(*_):
++        start = torch.cuda.Event(enable_timing=True)
++        start.record()
++        vit_events.append([start, None])
++    def vit_post(*_):
++        end = torch.cuda.Event(enable_timing=True)
++        end.record()
++        vit_events[-1][1] = end
++    bare_model.vit_model.register_forward_pre_hook(vit_pre)
++    bare_model.vit_model.register_forward_hook(vit_post)
++    optimizer = torch.optim.AdamW(
++        [p for p in model.parameters() if p.requires_grad], lr=training_args.lr,
++        betas=(training_args.beta1, training_args.beta2), eps=training_args.eps,
++        weight_decay=profile["optimization"]["weight_decay"],
++    )
++    initialize_adam_state(optimizer)
++    scheduler = build_lr_scheduler(optimizer, training_args)
++    accumulation = profile["run"]["gradient_accumulation_steps"]
++    batch_size = profile["run"]["per_rank_batch_size"]
++    prefixes_per_update = accumulation * batch_size
++    total_steps = profile["run"]["total_steps"]
++    stop = args.stop_after or total_steps
++    if not 0 < stop <= total_steps:
++        raise ValueError("stop-after must not change the profile's scheduler horizon")
++    contract = make_contract(profile)
++    if args.single_gpu_probe:
++        contract = {**contract, "diagnostic_only": True, "actual_world_size": 1}
++    # Dataset construction is before RNG restoration. The loader gets its own
++    # generator; prefetch never advances the saved consumed-sample cursor.
++    dataset_config = build_train_dataset_config(data_args, model_args, training_args, vae_config)
++    packer = PackedDataset(
++        dataset_config, tokenizer=tokenizer, special_tokens=token_ids,
++        local_rank=rank, world_size=profile["distributed"]["gpus_per_node"], interpolate_pos=model_args.interpolate_pos,
++        use_flex=True, data_status=None, apply_chat_template=False,
++        image_token_id=image_token_id, cfg_type=training_args.cfg_type,
++        cfg_uncond_token_id=training_args.cfg_uncond_token_id, **asdict(data_args),
++    )
++    packer.set_epoch(data_args.data_seed)
++    chains = read_chains(profile)
++    windows = make_windows(chains, total_steps, data_args.data_seed)
++    if schedule_digest(chains, windows) != contract["chain_schedule"]["schedule_sha256"]:
++        raise ValueError("Runtime schedule differs from the checkpoint contract")
++    dataset = ChainWindowDataset(packer, chains, windows, data_args.data_seed, rank)
++    next_step = 0
++    if args.resume_from:
++        state = json.loads((args.resume_from / "trainer_state.json").read_text())
++        next_step = state["next_step"]
++        if state["next_microstep"] != next_step:
++            raise ValueError("Chain checkpoint cursor must point to the next optimizer window")
++    loader = DataLoader(
++        dataset, batch_size=1, sampler=range(next_step, stop),
++        num_workers=data_args.num_workers, pin_memory=False, collate_fn=collate_window,
++        prefetch_factor=data_args.prefetch_factor if data_args.num_workers else None,
++        multiprocessing_context="spawn" if data_args.num_workers else None,
++        generator=torch.Generator().manual_seed(data_args.data_seed),
++    )
++    wb = None
++    if rank == 0 and not args.smoke:
++        import wandb
++        cfg = profile["wandb"]
++        wb = wandb.init(project=cfg["project"], entity=cfg["entity"], id=cfg["run_id"],
++                        name=profile["run"]["run_name"], group=cfg["group"], tags=cfg["tags"],
++                        job_type=cfg["job_type"], mode=cfg["mode"], resume="allow",
++                        config=profile, dir=str(run_dir), save_code=False)
++        wb.define_metric("optimizer_step")
++        wb.define_metric("train/*", step_metric="optimizer_step")
++        wb.define_metric("perf/*", step_metric="optimizer_step")
++    model.train()
++    optimizer.zero_grad(set_to_none=True)
++    iterator = iter(loader)
++    # W&B and worker startup must not perturb restored model/noise RNG.
++    set_seed(training_args.global_seed * world + rank)
++    if args.resume_from:
++        load_ddp_checkpoint(args.resume_from, bare_model, optimizer, scheduler, contract)
++    if args.trace and not args.smoke:
++        raise ValueError("Profiler capture is restricted to smoke/benchmark runs")
++    profiler = None
++    if args.trace:
++        profiler = torch.profiler.profile(activities=[torch.profiler.ProfilerActivity.CPU, torch.profiler.ProfilerActivity.CUDA],
++                                          record_shapes=True)
++        profiler.start()
++    for step in range(next_step, stop):
++        torch.cuda.synchronize(device)
++        start = perf_counter()
++        torch.cuda.reset_peak_memory_stats(device)
++        sample_ids, instance_ids = [], []
++        phase_events, backward_events, history_events = [], [], []
++        vit_events.clear()
++        lr_used = optimizer.param_groups[0]["lr"]
++        waiting = perf_counter()
++        window = next(iterator)
++        data_wait = perf_counter() - waiting
++        if window["step"] != step:
++            raise ValueError("Consumed window does not match optimizer cursor")
++        counts = torch.tensor([window["target_tokens"], window["targets"]], device=device, dtype=torch.long)
++        dist.all_reduce(counts)
++        global_tokens, global_targets = (int(v) for v in counts.tolist())
++        if not args.single_gpu_probe and global_targets != profile["run"]["global_batch_size"]:
++            raise ValueError("Whole-chain update must contain exactly 32 target exposures")
++        if not global_tokens or not window["targets"]:
++            raise ValueError("Empty rank or optimizer window")
++        # Numerator, target tokens, targets, attention/padding, decoded histories,
++        # plus per-round numerator/token/exposure triples. Sum only once per update.
++        aggregate = torch.zeros(21, dtype=torch.float64, device=device)
++        local_target_index = 0
++        for unit in window["units"]:
++            runtime = dataset.make_runtime(unit)
++            for ordinal, record in enumerate(runtime.chain["records"]):
++                round_number = int(record["row"]["target_round"])
++                needs_history = round_number < runtime.chain["length"]
++                batch = runtime.pack(ordinal)
++                local_target_index += 1
++                context = model.no_sync() if local_target_index < window["targets"] else nullcontext()
++                with context:
++                    numerator, patches, shape, indexes, stats = forward_target(
++                        batch, model, vae, training_args, device, phase_events, needs_history,
++                        empty_vae_cache=profile["ddp"].get("vae_cache_policy", "release") == "release",
++                        attention_padding=profile["ddp"].get("attention_padding", "fixed"))
++                    loss = numerator * world / global_tokens * training_args.mse_weight
++                    if not torch.isfinite(loss.detach()):
++                        raise FloatingPointError(f"Nonfinite chain loss at step {step + 1}")
++                    e0, e1 = [torch.cuda.Event(enable_timing=True) for _ in range(2)]
++                    e0.record()
++                    loss.backward()
++                    e1.record()
++                    backward_events.append((e0, e1))
++                aggregate[0] += numerator.detach().double()
++                aggregate[1] += stats["tokens"]
++                aggregate[2] += 1
++                aggregate[3] += stats["attention_tokens"]
++                aggregate[4] += stats["padding_tokens"]
++                offset = 6 + 3 * (round_number - 1)
++                aggregate[offset] += numerator.detach().double()
++                aggregate[offset + 1] += stats["tokens"]
++                aggregate[offset + 2] += 1
++                sample_ids.extend(item["sample_id"] for item in indexes)
++                instance_ids.extend(f"{item['epoch']}:{item['sampling_instance_id']}" for item in indexes)
++                del loss, numerator, batch
++                # Backward has freed this turn's graph. Only detached patches are
++                # decoded; subsequent loss cannot propagate through history creation.
++                if needs_history:
++                    e0, e1 = [torch.cuda.Event(enable_timing=True) for _ in range(2)]
++                    e0.record()
++                    runtime.append_history(decode_history(patches, shape, vae))
++                    e1.record()
++                    history_events.append((e0, e1))
++                    aggregate[5] += 1
++                del patches
++            del runtime
++        if local_target_index != window["targets"]:
++            raise ValueError("Lost or duplicated targets in a chain window")
++        grad_norm = torch.nn.utils.clip_grad_norm_([p for p in bare_model.parameters() if p.requires_grad], training_args.max_grad_norm)
++        if not torch.isfinite(grad_norm):
++            raise FloatingPointError("Nonfinite gradient norm")
++        optimizer.step()
++        scheduler.step()
++        optimizer.zero_grad(set_to_none=True)
++        completed = step + 1
++        torch.cuda.synchronize(device)
++        step_time = torch.tensor(perf_counter() - start, device=device)
++        dist.all_reduce(step_time, op=dist.ReduceOp.MAX)
++        dist.all_reduce(aggregate)
++        if int(aggregate[1]) != global_tokens or int(aggregate[2]) != global_targets:
++            raise ValueError("Loss denominator differs from actual supervised targets")
++        memory = torch.tensor([torch.cuda.max_memory_allocated(device), torch.cuda.max_memory_reserved(device)], device=device)
++        dist.all_reduce(memory, op=dist.ReduceOp.MAX)
++        timing = torch.tensor([data_wait,
++            sum(a.elapsed_time(b) for a, b, _ in phase_events) / 1000,
++            sum(b.elapsed_time(c) for _, b, c in phase_events) / 1000,
++            sum(a.elapsed_time(b) for a, b in backward_events) / 1000,
++            sum(a.elapsed_time(b) for a, b in vit_events if b is not None) / 1000,
++            sum(a.elapsed_time(b) for a, b in history_events) / 1000], device=device)
++        dist.all_reduce(timing, op=dist.ReduceOp.MAX)
++        value = aggregate.tolist()
++        mse = value[0] / global_tokens
++        exposures = completed * profile["run"]["global_batch_size"]
++        if args.single_gpu_probe:
++            exposures = sum(chains[index]["targets"] for w in windows[:completed] for _, index in w[rank])
++        report = {
++            "backend": "ddp", "diagnostic_only": args.single_gpu_probe,
++            "actual_world_size": world, "activation_checkpointing": checkpoint_mode,
++            "checkpoint_disabled_layers": sorted(disabled_layers), "per_rank_batch_size": 1,
++            "vae_cache_policy": profile["ddp"].get("vae_cache_policy", "release"),
++            "attention_padding": profile["ddp"].get("attention_padding", "fixed"),
++            "sampling": "whole_chain_fixed_target_window_v1", "optimizer_step": completed,
++            "train/loss": mse * training_args.mse_weight, "train/mse": mse,
++            "train/ce": 0.0, "train/grad_norm": float(grad_norm), "train/lr": lr_used,
++            "train/next_lr": optimizer.param_groups[0]["lr"], "train/target_exposures": exposures,
++            "train/targets_this_update": global_targets, "train/history_generated_rounds": value[5],
++            "train/history_extra_model_forwards": 0, "train/history_detached": 1.0,
++            "train/attention_tokens": value[3] / global_targets,
++            "train/attention_padding_tokens": value[4] / global_targets,
++            "perf/step_time": step_time.item(), "perf/target_videos_per_second": global_targets / step_time.item(),
++            "perf/mse_tokens": global_tokens, "perf/peak_allocated_gib": memory[0].item() / 2**30,
++            "perf/peak_reserved_gib": memory[1].item() / 2**30,
++            **{f"perf/{key}": v for key, v in zip(("data_wait_seconds", "vae_region_seconds", "model_forward_seconds",
++                "backward_sync_seconds", "vit_seconds", "history_decode_seconds"), timing.tolist())},
++        }
++        for k in range(1, 6):
++            offset = 6 + 3 * (k - 1)
++            report[f"train/round_{k}_targets"] = value[offset + 2]
++            if value[offset + 1]:
++                report[f"train/round_{k}_mse"] = value[offset] / value[offset + 1]
++        del window
++        if rank == 0:
++            log(json.dumps(report, sort_keys=True))
++            with (run_dir / "metrics.jsonl").open("a") as stream:
++                stream.write(json.dumps(report) + "\n")
++            if wb:
++                wb.log(report)
++        # Only the short smoke writes per-rank sample IDs/loss for comparison.
++        if args.smoke:
++            with (run_dir / f"trace.rank-{rank}.jsonl").open("a") as stream:
++                stream.write(json.dumps({"step": completed, "sample_ids": sample_ids,
++                                         "loss": mse * training_args.mse_weight, "sampling_instances": instance_ids,
++                                         "peak_allocated_gib": torch.cuda.max_memory_allocated(device) / 2**30,
++                                         "peak_reserved_gib": torch.cuda.max_memory_reserved(device) / 2**30}) + "\n")
++        requested_stop = save_and_stop_requested(run_dir, device)
++        save = requested_stop or completed % profile["checkpoint"]["completed_step_interval"] == 0
++        save |= completed == stop and (args.smoke or profile["checkpoint"]["save_final_checkpoint"])
++        if save and not args.single_gpu_probe and not args.benchmark_only:
++            saved = save_ddp_checkpoint(
++                run_dir / "checkpoints", completed, bare_model, optimizer, scheduler,
++                lora_config, contract, completed,
++                keep_last=profile["checkpoint"]["keep_last_complete"],
++            )
++            log(f"Complete adapter/Adam/scheduler/RNG/cursor checkpoint: {saved}")
++        if profiler is not None and completed >= min(next_step + 2, stop):
++            profiler.stop()
++            profiler.export_chrome_trace(str(run_dir / f"profile.rank-{rank}.json"))
++            profiler = None
++        if requested_stop:
++            if rank == 0:
++                (run_dir / "SAVE_AND_STOP").unlink(missing_ok=True)
++            dist.barrier()
++            log(f"SAVE_AND_STOP completed after optimizer step {completed}")
++            break
++    if profiler is not None:
++        profiler.stop()
++        profiler.export_chrome_trace(str(run_dir / f"profile.rank-{rank}.json"))
++    if wb:
++        wb.finish()
++    dist.destroy_process_group()
++
++
++if __name__ == "__main__":
++    main()

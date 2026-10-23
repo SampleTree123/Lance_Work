@@ -1,0 +1,596 @@
+{
+  "date": "2026-09-11",
+  "status": "completed",
+  "authorization": "User requested checking and deleting unused Lance files to free disk space.",
+  "scope": "Only listed large payload files; retain all JSON manifests, logs, configs, RNG and scheduler files, formal checkpoints, bases and latest DDP validation.",
+  "replacement_evidence": "datamake_padding_optimization_20260910.md: superseded intermediate migrations and completed current DDP resume validation; retained padding_final migration and formal 987/893 checkpoints.",
+  "consequence": "Affected historical checkpoint directories retain provenance only and cannot be loaded or used for raw tensor revalidation without regeneration.",
+  "files": [
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/resumed/checkpoints/0000003/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788733231884819083,
+      "inode": 14677261605607702538,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/resumed/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788733222461030771,
+      "inode": 9092604139915706378,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/resumed/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788733222241035627,
+      "inode": 6571180211702005770,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/resumed/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788733222217036047,
+      "inode": 2835443715708157962,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/resumed/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788733222233035756,
+      "inode": 3593651334886981642,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/continuous/checkpoints/0000003/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788732590123239747,
+      "inode": 8172676915902414858,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/continuous/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788732580215462464,
+      "inode": 17562271750979584010,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/continuous/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788732580335459681,
+      "inode": 905875139118170122,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/continuous/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788732580243461988,
+      "inode": 7864429738986831882,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/continuous/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788732580327460099,
+      "inode": 9981225816958173194,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/prefix/checkpoints/0000002/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788732978770504173,
+      "inode": 2798046020014374922,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/prefix/checkpoints/0000002/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788732969226718306,
+      "inode": 11829751997834919946,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/prefix/checkpoints/0000002/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788732968962724372,
+      "inode": 16737952035437150218,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/prefix/checkpoints/0000002/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788732969246717960,
+      "inode": 1751296033569374218,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200/startup_validation/job-124136/prefix/checkpoints/0000002/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788732969214718558,
+      "inode": 11619856336796647434,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/resumed/checkpoints/0000003/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788798988015929191,
+      "inode": 10671438716016001034,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/resumed/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788798974472213201,
+      "inode": 11138334434662940682,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/resumed/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798974196219047,
+      "inode": 11395663563556126730,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/resumed/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788798974424214447,
+      "inode": 17851344738731491338,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/resumed/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798974192219369,
+      "inode": 5620633495703977994,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/prefix/checkpoints/0000002/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788798706249844698,
+      "inode": 4456132822420684810,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/prefix/checkpoints/0000002/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788798692218139259,
+      "inode": 1786157521604706314,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/prefix/checkpoints/0000002/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798692518132961,
+      "inode": 5914159399803420682,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/prefix/checkpoints/0000002/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798692610131030,
+      "inode": 5828772810675453962,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/prefix/checkpoints/0000002/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788798692554132036,
+      "inode": 12065294822158958602,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/continuous/checkpoints/0000003/adapter.safetensors",
+      "bytes": 960717544,
+      "allocated_bytes": 960720896,
+      "mtime_ns": 1788798286710652320,
+      "inode": 3087607962710245386,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/continuous/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 725785323,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798273206935779,
+      "inode": 14411051202069331978,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/continuous/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 725247569,
+      "allocated_bytes": 725250048,
+      "mtime_ns": 1788798272938941270,
+      "inode": 2723370742137094154,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/continuous/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 725783117,
+      "allocated_bytes": 725786624,
+      "mtime_ns": 1788798272918942030,
+      "inode": 1557038381485719562,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_both_branches_v1_4xh200_restart1/startup_validation/job-124653/continuous/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 725852696,
+      "allocated_bytes": 725856256,
+      "mtime_ns": 1788798273250934924,
+      "inode": 10215933181785014282,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/prefix/checkpoints/0000002/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788743576702741452,
+      "inode": 10543070494382948362,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/prefix/checkpoints/0000002/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743569554890890,
+      "inode": 6771062247213432842,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/prefix/checkpoints/0000002/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788743569542891294,
+      "inode": 3694819569886887946,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/prefix/checkpoints/0000002/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743569542891260,
+      "inode": 7600524523530223626,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/prefix/checkpoints/0000002/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788743569526891425,
+      "inode": 5235378715071152138,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/resumed/checkpoints/0000003/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788743840965214952,
+      "inode": 1501495762965102602,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/resumed/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743834665346803,
+      "inode": 13954554522482376714,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/resumed/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788743834473350836,
+      "inode": 6025565297146986506,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/resumed/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743834497350232,
+      "inode": 12319167318560669706,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/resumed/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788743834489350502,
+      "inode": 14658877462848536586,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/continuous/checkpoints/0000003/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788743171703211906,
+      "inode": 16047041763519627274,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/continuous/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788743164711358108,
+      "inode": 5035490065698455562,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/continuous/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743164687358746,
+      "inode": 1475715408342745098,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/continuous/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788743164699358528,
+      "inode": 15374171524659281930,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200/startup_validation/job-124137/continuous/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788743164671358825,
+      "inode": 7531043014571196426,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/resumed/checkpoints/0000003/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788809329047310456,
+      "inode": 18006781576854044682,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/resumed/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788809323971419213,
+      "inode": 7272435928895324170,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/resumed/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788809323987418802,
+      "inode": 33086584799363082,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/resumed/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788809324191414248,
+      "inode": 9538095593190522890,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/resumed/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788809324207414126,
+      "inode": 4652051718293749770,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/continuous/checkpoints/0000003/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788808705100666995,
+      "inode": 10177234173503537162,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/continuous/checkpoints/0000003/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788808699956776988,
+      "inode": 11462532326841974794,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/continuous/checkpoints/0000003/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788808699964776714,
+      "inode": 16246018783587991562,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/continuous/checkpoints/0000003/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788808699968776645,
+      "inode": 16541816289963409418,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/continuous/checkpoints/0000003/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788808699964776935,
+      "inode": 8584198735035170826,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/prefix/checkpoints/0000002/adapter.safetensors",
+      "bytes": 481716824,
+      "allocated_bytes": 481718272,
+      "mtime_ns": 1788809085252529784,
+      "inode": 3403875780207247370,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/prefix/checkpoints/0000002/optimizer/__0_0.distcp",
+      "bytes": 363660329,
+      "allocated_bytes": 363663360,
+      "mtime_ns": 1788809080152639027,
+      "inode": 2235494555610578954,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/prefix/checkpoints/0000002/optimizer/__1_0.distcp",
+      "bytes": 363930941,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788809080164638718,
+      "inode": 16997352017986846730,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/prefix/checkpoints/0000002/optimizer/__3_0.distcp",
+      "bytes": 363933147,
+      "allocated_bytes": 363933696,
+      "mtime_ns": 1788809080160638906,
+      "inode": 14243794701839106058,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/training_runs/datamake_dialogue_stage2_recipe_lora_r64_freeze_und_v1_4xh200_restart1/startup_validation/job-124654/prefix/checkpoints/0000002/optimizer/__2_0.distcp",
+      "bytes": 363969224,
+      "allocated_bytes": 363970560,
+      "mtime_ns": 1788809080164638514,
+      "inode": 11857127277491388426,
+      "classification": "disposable_old_fsdp_validation_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_20260910/both/0000900/adapter.safetensors",
+      "bytes": 960724656,
+      "allocated_bytes": 960724992,
+      "mtime_ns": 1789020725262443732,
+      "inode": 11422600054433972234,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_20260910/both/0000900/optimizer.pt",
+      "bytes": 1922091403,
+      "allocated_bytes": 1922093056,
+      "mtime_ns": 1789020726546417108,
+      "inode": 2819529594338344970,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_20260910/gen/0000825/adapter.safetensors",
+      "bytes": 481720408,
+      "allocated_bytes": 481722368,
+      "mtime_ns": 1789020744542047684,
+      "inode": 17995260829830283274,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_20260910/gen/0000825/optimizer.pt",
+      "bytes": 963762595,
+      "allocated_bytes": 963764224,
+      "mtime_ns": 1789020745166034733,
+      "inode": 6272684444240642058,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_ddp_20260910/both/0000900/optimizer.pt",
+      "bytes": 1922091403,
+      "allocated_bytes": 1922093056,
+      "mtime_ns": 1789021226240157972,
+      "inode": 17589152949309734922,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_ddp_20260910/both/0000900/adapter.safetensors",
+      "bytes": 960724656,
+      "allocated_bytes": 960724992,
+      "mtime_ns": 1789021224944184725,
+      "inode": 5924800999551008778,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_ddp_20260910/gen/0000825/adapter.safetensors",
+      "bytes": 481720408,
+      "allocated_bytes": 481722368,
+      "mtime_ns": 1789021244567781716,
+      "inode": 11600174413651181578,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/checkpoint_migrations/padding_ddp_20260910/gen/0000825/optimizer.pt",
+      "bytes": 963762595,
+      "allocated_bytes": 963764224,
+      "mtime_ns": 1789021245399764622,
+      "inode": 8940924973044662282,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/optimization_diagnostics/padding_20260910/migrated_both/0000900/optimizer.pt",
+      "bytes": 1922091403,
+      "allocated_bytes": 1922093056,
+      "mtime_ns": 1789020234536520661,
+      "inode": 4197562521214189578,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/optimization_diagnostics/padding_20260910/migrated_both/0000900/adapter.safetensors",
+      "bytes": 960724656,
+      "allocated_bytes": 960724992,
+      "mtime_ns": 1789020233208547879,
+      "inode": 7931409546385686538,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/optimization_diagnostics/padding_20260910/migrated_gen/0000825/adapter.safetensors",
+      "bytes": 481720408,
+      "allocated_bytes": 481722368,
+      "mtime_ns": 1789020253696127714,
+      "inode": 11495975680938016778,
+      "classification": "superseded_padding_migration_payload"
+    },
+    {
+      "path": "outputs/optimization_diagnostics/padding_20260910/migrated_gen/0000825/optimizer.pt",
+      "bytes": 963762595,
+      "allocated_bytes": 963764224,
+      "mtime_ns": 1789020254376113471,
+      "inode": 4939647847422230538,
+      "classification": "superseded_padding_migration_payload"
+    }
+  ],
+  "allocated_bytes_to_remove": 47788634112,
+  "protected_ddp_sha256_verified": [
+    "outputs/training_runs/datamake_stage6_ddp_pad128_both_20260910/checkpoints/0000987",
+    "outputs/training_runs/datamake_stage6_ddp_pad128_gen_20260910/checkpoints/0000893",
+    "outputs/checkpoint_migrations/padding_final_20260910/both/0000900",
+    "outputs/checkpoint_migrations/padding_final_20260910/gen/0000825"
+  ],
+  "removed_file_count": 72,
+  "remaining_preexisting_output_files_unchanged": 1765,
+  "disk_free_bytes_after": 138630742016
+}

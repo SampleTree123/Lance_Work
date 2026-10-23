@@ -1,0 +1,53 @@
+diff --git a/train/train_utils.py b/train/train_utils.py
+index 49a645c..7554bf0 100644
+--- a/train/train_utils.py
++++ b/train/train_utils.py
+@@ -65,13 +65,11 @@ def setup_output_paths(
+     if global_rank == 0:
+         mkdir(training_args.config_dir)
+         mkdir(training_args.ckpt_dir)
+-        if training_args.wandb_offline:
+-            mkdir(training_args.wandb_dir)
++        mkdir(training_args.wandb_dir)
+         logger.info(f"training_args.run_output_dir: {training_args.run_output_dir}")
+         logger.info(f"training_args.config_dir: {training_args.config_dir}")
+         logger.info(f"training_args.ckpt_dir: {training_args.ckpt_dir}")
+-        if training_args.wandb_offline:
+-            logger.info(f"training_args.wandb_dir: {training_args.wandb_dir}")
++        logger.info(f"training_args.wandb_dir: {training_args.wandb_dir}")
+ 
+     if dist.is_available() and dist.is_initialized():
+         dist.barrier()
+@@ -89,7 +87,11 @@ def setup_rank0_logging_and_wandb(
+ 
+     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+     wandb_name = training_args.wandb_name[:64]
+-    wandb_id = f"{wandb_name}-{timestamp}"[:64]
++    requested_wandb_id = training_args.wandb_runid.strip()
++    if requested_wandb_id and requested_wandb_id != "trial":
++        wandb_id = requested_wandb_id[:64]
++    else:
++        wandb_id = f"{wandb_name}-{timestamp}"[:64]
+ 
+     wandb_init_kwargs = {
+         "project": training_args.wandb_project,
+@@ -97,9 +99,8 @@ def setup_rank0_logging_and_wandb(
+         "id": wandb_id,
+         "resume": training_args.wandb_resume,
+         "mode": "offline" if training_args.wandb_offline else "online",
++        "dir": training_args.wandb_dir,
+     }
+-    if training_args.wandb_offline:
+-        wandb_init_kwargs["dir"] = training_args.wandb_dir
+ 
+     wandb.init(**wandb_init_kwargs)
+     wandb.config.update({**vars(training_args), **vars(model_args), **vars(data_args)})
+@@ -514,6 +515,8 @@ def log_training_metrics(
+     progress_bar.update(training_args.log_every)
+ 
+     wandb_log["lr"] = optimizer.param_groups[0]["lr"]
++    wandb_log["steps_per_sec"] = steps_per_sec
++    wandb_log["step_time_sec"] = 1.0 / steps_per_sec
+     wandb_log["total_mse_tokens"] = total_mse_tokens.item()
+     wandb_log["total_ce_tokens"] = total_ce_tokens.item()
+     wandb_log["total_norm"] = total_norm.item()

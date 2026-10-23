@@ -1,0 +1,96 @@
+{
+  "schema_version": "datamake_storage_cleanup_manifest_v1",
+  "decision_date": "2026-08-30",
+  "decision_source": "explicit_user_request",
+  "status": "completed_with_unverified_sources_retained",
+  "scope": "first_batch_test_outputs_render_intermediates_and_rebuildable_caches",
+  "protected_paths": [
+    "00_engine/outputs/delivery/first_batch_candidate_20260830_v002",
+    "00_engine/outputs/first_batch_dataset/graph_20260824_v1",
+    "00_engine/outputs/character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001",
+    "00_engine/projects/datatry_02/Config",
+    "00_engine/projects/datatry_02/Content",
+    "00_engine/projects/datatry_02/datatry_02.uproject",
+    "00_engine/projects/datatry_02/checksums.sha256",
+    "00_engine/projects/MVPProject",
+    "00_engine/projects/UE58VulkanCubeSmoke",
+    "00_engine/scripts",
+    "00_engine/unreal",
+    "robotdata",
+    "chains.json",
+    "10_research/model_experiments/lance/lance",
+    "10_research/model_experiments/lance/models",
+    "10_research/model_experiments/lance/scripts",
+    "10_research/model_experiments/lance/patches",
+    "10_research/model_experiments/lance/tests",
+    "10_research/model_experiments/lance/inputs/video_edit/videos"
+  ],
+  "evidence_migration": {
+    "source": "00_engine/outputs/unreal_render/first_batch_server_production_20260829_v004",
+    "destination": "00_engine/outputs/delivery/first_batch_candidate_20260830_v002/release_evidence",
+    "contents": [
+      "render input lock and frozen profile",
+      "640-node result and media manifest",
+      "production controller checkpoints",
+      "package verification and release QA reports",
+      "three user-approved visual contact sheets"
+    ]
+  },
+  "cleanup_groups": [
+    {
+      "paths": ["00_engine/outputs/server_preflight", "00_engine/outputs/unreal_render", "00_engine/outputs/unreal_character_import", "00_engine/outputs/mvp"],
+      "reason": "Historical environment diagnostics, failed probes, accepted run intermediates and local validation outputs are replaced by retained final-package evidence and stable reports."
+    },
+    {
+      "paths": ["00_engine/outputs/delivery/dataset_v1", "00_engine/outputs/delivery/dataset_v1_server_sample_20260829_v001", "00_engine/outputs/delivery/dataset_v1_server_sample_20260829_v002"],
+      "reason": "Superseded by first_batch_candidate_20260830_v002 with chains_simple.json and full package verification."
+    },
+    {
+      "paths": ["00_engine/cache", "00_engine/logs", "00_engine/remote_desktop/conda_pkgs", "00_engine/remote_desktop/downloads", "00_engine/remote_desktop/logs", "00_engine/remote_desktop/home", ".pytest_cache"],
+      "reason": "Rebuildable caches, transient logs and server GUI test environment."
+    },
+    {
+      "paths": ["00_engine/projects/MVPProject/DerivedDataCache", "00_engine/projects/MVPProject/Intermediate", "00_engine/projects/MVPProject/Saved", "00_engine/projects/UE58VulkanCubeSmoke/DerivedDataCache", "00_engine/projects/UE58VulkanCubeSmoke/Intermediate", "00_engine/projects/UE58VulkanCubeSmoke/Saved", "00_engine/projects/datatry_02/DerivedDataCache", "00_engine/projects/datatry_02/Intermediate", "00_engine/projects/datatry_02/Saved"],
+      "reason": "Generated UE project state. Test project source was retained; Vulkan patches were also migrated to the stable script tree before cleanup."
+    },
+    {
+      "paths": ["10_research/model_experiments/lance/outputs", "10_research/model_experiments/lance/logs"],
+      "reason": "Pre-training smoke media and generated results; stable reports, code, model weights and final DataMake training input are retained."
+    }
+  ],
+  "retained_after_review": [
+    {
+      "paths": ["robotdata", "chains.json"],
+      "reason": "User-provided source transfer material has no confirmed cold-storage copy in the current workspace. It remains protected until a separate deletion decision confirms recoverability."
+    },
+    {
+      "paths": ["10_research/model_experiments/lance/inputs/video_edit/videos"],
+      "reason": "Source inputs for documented model validation remain protected; generated Lance outputs and logs were removed."
+    },
+    {
+      "paths": ["00_engine/projects/MVPProject", "00_engine/projects/UE58VulkanCubeSmoke"],
+      "reason": "Small source/configuration trees remain for reproducibility; only their generated cache, Intermediate and Saved directories were removed."
+    }
+  ],
+  "pre_cleanup": {
+    "filesystem_available": "311G",
+    "workspace_allocated": "188G"
+  },
+  "post_cleanup": {
+    "filesystem_available": "373G",
+    "workspace_allocated": "127G",
+    "released_space_approx": "62G"
+  },
+  "verification": {
+    "status": "passed",
+    "scope": "package_only_no_render_sources_after_cleanup",
+    "report": "00_engine/outputs/delivery/first_batch_candidate_20260830_v002/release_evidence/release_qa/package_verification_post_cleanup_20260830.json",
+    "counts": {
+      "videos": 640,
+      "chains": 4000,
+      "turns": 15000
+    },
+    "manifest_json_sha256": "c86faa72c455ffc5e202cdcde69b7f646c985cd61a2651a99f3fca710a699d2a",
+    "ordered_video_hash_list_sha256": "68bec5d67d684a5852c7de4ed6c16b819449bbd58463ae142c5a116128cff51e"
+  }
+}

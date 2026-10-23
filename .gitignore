@@ -16,6 +16,15 @@ env/
 *.key
 *.token
 
+# Public GitHub sync scope approved on 2026-10-23.
+# Keep UE engine source patches on the server; retain their docs/manifests in Git.
+/00_engine/projects/UE58VulkanCubeSmoke/Patches/*.patch
+/00_engine/scripts/unreal/patches/ue58_vulkan_compatibility/*.patch
+# Local data examples/access notes and unrelated nested repository.
+/chains.json
+/html.md
+/robotdata/
+
 # Unreal installs, projects, caches, and generated output
 00_engine/unreal/UE_*/
 00_engine/unreal/downloads/
@@ -33,8 +42,9 @@ env/
 00_engine/projects/*/Intermediate/
 00_engine/projects/*/DerivedDataCache/
 00_engine/projects/*/Binaries/
-00_engine/projects/*/Content/
+00_engine/projects/*/Content/*
 !00_engine/projects/*/Content/README.md
+00_engine/projects/*/Build/Linux/FileOpenOrder/
 00_engine/projects/*/.vs/
 00_engine/projects/*/*.sln
 00_engine/outputs/*
@@ -54,6 +64,8 @@ env/
 
 # Lance validation workspace. Track protocols/docs/scripts, not repos, weights, raw videos, logs, or outputs.
 10_research/model_experiments/lance/lance/
+10_research/model_experiments/lance/lance_next/
+10_research/model_experiments/lance/lance_legacy_migration/
 10_research/model_experiments/lance/models/
 10_research/model_experiments/lance/inputs/video_edit/videos/*
 !10_research/model_experiments/lance/inputs/video_edit/videos/.gitkeep
@@ -163,6 +175,7 @@ Binaries/
 /00_engine/tools/fbx_motion_normalizer/*.pdb
 
 # OS/editor noise
+10_research/model_experiments/lance/runtime/
 .DS_Store
 Thumbs.db
 *.swp

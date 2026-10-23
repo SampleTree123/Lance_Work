@@ -1,0 +1,57 @@
+{
+  "schema_version": "datamake_lora_resume_smoke_audit_v1",
+  "status": "passed",
+  "date": "2026-09-04",
+  "jobs": {
+    "continuous_three_steps": 122758,
+    "prefix_two_steps": 122827,
+    "resume_step_three": 122836
+  },
+  "continuous_checkpoint": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_online_rollout_lora_r64_4xh200_v2_smoke_keepfieldcontinuous3/checkpoints/0000003",
+  "prefix_checkpoint": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_online_rollout_lora_r64_4xh200_v2_smoke_emptyshardresume3/checkpoints/0000002",
+  "resumed_checkpoint": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_online_rollout_lora_r64_4xh200_v2_smoke_emptyshardresume3/checkpoints/0000003",
+  "tolerance": {
+    "atol": 1e-7,
+    "rtol": 1e-6
+  },
+  "adapter": {
+    "tensor_count": 512,
+    "exact_tensor_count": 512,
+    "max_abs_difference": 0.0,
+    "within_tolerance": true
+  },
+  "prefix_lora_B": {
+    "tensor_count": 256,
+    "nonzero_tensor_count": 256
+  },
+  "optimizer": {
+    "tensor_count": 2048,
+    "exact_tensor_count": 2048,
+    "max_abs_difference": 0.0,
+    "within_tolerance": true
+  },
+  "scheduler_within_tolerance": true,
+  "trainer_state_within_tolerance": true,
+  "rng": {
+    "tensor_count": 8,
+    "exact_tensor_count": 8,
+    "max_abs_difference": 0.0,
+    "within_tolerance": true
+  },
+  "step_three": {
+    "mse": 0.198684,
+    "targets": 24,
+    "rollouts": 16,
+    "grad_norm": 0.018962,
+    "learning_rate": 1.5e-5,
+    "rollout_latent_sum": -355815.144,
+    "rollout_latent_square_sum": 8652475.09,
+    "rollout_latent_numel": 9884160,
+    "continuous_and_resumed_scalars_equal": true
+  },
+  "notes": [
+    "The original Job 122549 adapter checkpoints are invalid and must not be resumed.",
+    "The final load-only empty-shard fix does not execute in the continuous path; Job 122758 remains the matching numerical baseline for Job 122836.",
+    "Formal training remains disabled pending explicit user authorization."
+  ]
+}

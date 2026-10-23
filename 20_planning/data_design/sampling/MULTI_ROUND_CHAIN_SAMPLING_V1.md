@@ -7,7 +7,7 @@
 > 适用阶段：`WF-70/WF-90`
 > 权威范围：配置图兼容域、原子编辑边、3–5 轮编辑链、采样配额、事实标签、去重与验收规则
 > 上级入口：[`README.md`](./README.md)
-> 上游：[`CONFIG_GRAPH_SCHEMA_V1.md`](../schema/CONFIG_GRAPH_SCHEMA_V1.md)、[`PLAN-2026-08-FIRST-DATA-BATCH.md`](../character_creator/full_process/project_management/plans/active/PLAN-2026-08-FIRST-DATA-BATCH.md)
+> 上游：[`CONFIG_GRAPH_SCHEMA_V1.md`](../schema/CONFIG_GRAPH_SCHEMA_V1.md)、[`PLAN-2026-08-FIRST-DATA-BATCH.md`](../character_creator/full_process/project_management/history/completed_plans/PLAN-2026-08-FIRST-DATA-BATCH.md)
 > 架构决定：[`ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md`](../character_creator/full_process/project_management/decisions/ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md)
 > 文本派生：[`MULTI_ROUND_VIDEO_EDIT_TEXT_SCHEMA_V1.md`](../schema/MULTI_ROUND_VIDEO_EDIT_TEXT_SCHEMA_V1.md)
 > 下游：链采样器、指令生成器、渲染任务生成器和数据集验收器

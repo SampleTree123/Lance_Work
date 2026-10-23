@@ -1,0 +1,53 @@
+{
+  "date": "2026-09-12",
+  "status": "single_gpu_validated_pending_eight_gpu_startup_gate",
+  "gpu": {
+    "status": "passed",
+    "updates": 4,
+    "microsteps": 16,
+    "frozen_weights_unchanged": true,
+    "both_branches_updated": true,
+    "generation_forwards": 23,
+    "gradient_forwards": 16,
+    "no_grad_history_and_rng_restoration": true,
+    "gt_targets_timesteps_indexes_preserved": true
+  },
+  "gpu_released": true,
+  "cpu_tests_passed": 148,
+  "core_tests_passed": 132,
+  "gloo": {
+    "status": "passed",
+    "backend": "gloo",
+    "world_size": 2,
+    "accumulation": 4,
+    "gradient": 13.0,
+    "reference_gradient": 13.0,
+    "generation_forwards_per_rank": 8,
+    "cross_history_gradient": false
+  },
+  "control_comparison": {
+    "status": "passed",
+    "prefixes": 16,
+    "matched_fields": [
+      "sample_ids",
+      "target_exposures",
+      "attention_tokens",
+      "padding_tokens",
+      "mse_tokens",
+      "lr",
+      "next_lr"
+    ]
+  },
+  "documentation_audit_passed": true,
+  "patch_replay": "bytewise_exact",
+  "formal_job_submitted": false,
+  "control_job": {
+    "job_id": 132170,
+    "state": "TIMEOUT",
+    "last_logged_step": 1186,
+    "latest_complete_checkpoint": 1150,
+    "resume_contract_valid": true
+  },
+  "profile": "configs/datamake_coinve_mixed_ddp8_lora64_both_pred_x0_no_region_v1.json",
+  "diagnostic_output": "10_research/model_experiments/lance/outputs/optimization_diagnostics/pred_x0_ddp8_single_gpu_20260912"
+}

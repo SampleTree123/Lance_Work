@@ -1130,7 +1130,18 @@ def normalized_script_bytes(path: Path) -> bytes:
 def tracked_scripts(repo: Path, scan_root_relative: str) -> list[Path]:
     try:
         result = subprocess.run(
-            ["git", "-C", str(repo), "ls-files", "-z", "--", scan_root_relative],
+            [
+                "git",
+                "-C",
+                str(repo),
+                "ls-files",
+                "-z",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+                "--",
+                scan_root_relative,
+            ],
             check=False,
             capture_output=True,
             timeout=30,

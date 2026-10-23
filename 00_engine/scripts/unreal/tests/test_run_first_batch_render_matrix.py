@@ -46,6 +46,22 @@ class PoseDriverContractTests(unittest.TestCase):
         self.assertFalse(contract["checks"]["all_sections_force_custom_mode"])
 
 
+class DeliveryFrameRangeTests(unittest.TestCase):
+    def test_normalizes_every_camera_section_to_first_workspace_segment(self) -> None:
+        self.assertEqual(
+            MODULE.delivery_frame_range(
+                {"start_frame_inclusive": 150, "end_frame_exclusive": 300}
+            ),
+            (0, 150),
+        )
+
+    def test_rejects_non_five_second_matrix_rows(self) -> None:
+        with self.assertRaisesRegex(ValueError, "150-frame"):
+            MODULE.delivery_frame_range(
+                {"start_frame_inclusive": 0, "end_frame_exclusive": 149}
+            )
+
+
 class ResumeValidationTests(unittest.TestCase):
     ROW = {
         "sample_id": "FB32_001_F_ID01_O01",
@@ -71,6 +87,7 @@ class ResumeValidationTests(unittest.TestCase):
                 "look_id": self.ROW["look_id"],
                 "action_id": self.ROW["action_id"],
                 "pose_driver_contract": {"passed": pose_passed},
+                "evaluation_preroll_contract": {"passed": pose_passed},
                 "temporal_motion_contract": {"passed": pose_passed},
             },
         }
@@ -103,11 +120,26 @@ class ResumeValidationTests(unittest.TestCase):
 
             self.assertIsNone(MODULE.valid_render(folder, self.ROW))
 
+    def test_resume_rejects_output_without_evaluation_preroll_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir)
+            self.write_report(folder, pose_passed=True)
+            report_path = folder / "render_report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            del report["automation_contract"]["evaluation_preroll_contract"]
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            self.assertIsNone(MODULE.valid_render(folder, self.ROW))
+
 
 class TemporalMotionContractTests(unittest.TestCase):
-    def write_frames(self, folder: Path, *, moving: bool) -> None:
+    def write_frames(
+        self, folder: Path, *, moving: bool, wrong_first_camera: bool = False
+    ) -> None:
         for index in range(150):
-            value = 255 if moving and index == 75 else 0
+            value = 255 if (moving and index == 75) or (
+                wrong_first_camera and index == 0
+            ) else 0
             Image.new("L", (16, 16), value).save(folder / f"frame_{index:04d}.png")
 
     def test_rejects_static_frame_sequence(self) -> None:
@@ -123,6 +155,15 @@ class TemporalMotionContractTests(unittest.TestCase):
             self.write_frames(folder, moving=True)
 
             self.assertTrue(MODULE.temporal_motion_contract(folder)["passed"])
+
+    def test_rejects_first_frame_from_previous_camera(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            folder = Path(temp_dir)
+            self.write_frames(folder, moving=True, wrong_first_camera=True)
+
+            contract = MODULE.temporal_motion_contract(folder)
+            self.assertFalse(contract["passed"])
+            self.assertFalse(contract["checks"]["first_frame_continuity"])
 
 
 if __name__ == "__main__":

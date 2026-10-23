@@ -15,6 +15,7 @@
 4. **多样性矩阵（diversity matrix）** —— 各因子覆盖多少、怎么覆盖。
 5. **统一样本 schema**（[`schema/`](./schema/README.md)）—— 第一批 Unreal 配置图 V1 已冻结，MVP 后再扩为跨来源正式 schema。
 6. **采样与多轮链**（[`sampling/`](./sampling/README.md)）—— 第一批 3–5 轮链、回退/成环、覆盖和去重规范已冻结。
+7. **模型评测设计**（[`evaluation/`](./evaluation/README.md)）—— 记录外部视频编辑 benchmark、UE 真值参考和多轮链级指标的初稿；当前尚未冻结实现与 Gate。
 
 运行环境、存储和风险登记在 [`../implementation/`](../implementation/README.md)。当前执行来源是 [`../../00_engine/`](../../00_engine/README.md)；真实视频和大模型生成来源先放在 [`source_notes/`](./source_notes/README.md) 中作为规划。
 
@@ -98,6 +99,7 @@
 - **当前实现入口**：
   1. 第一批字段见 [`schema/CONFIG_GRAPH_SCHEMA_V1.md`](./schema/CONFIG_GRAPH_SCHEMA_V1.md)。
   2. 第一批链规则见 [`sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md`](./sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md)。
+  3. 多轮模型评测初稿见 [`evaluation/README.md`](./evaluation/README.md)。
 - **依赖**：100角色/100服装等"可实现性"取决于 UE 调研与 MVP 实测结果；UE5.6 调研已保留在 [`../../00_engine/unreal/pipeline_research_memo.md`](../../00_engine/unreal/pipeline_research_memo.md)，当前执行目标以 UE5.8 相关部署文档为准。
 
 # 近期新增

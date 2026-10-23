@@ -1,0 +1,94 @@
+--- a/train/datamake_packed_batch.py
++++ b/train/datamake_packed_batch.py
+@@ -9,6 +9,27 @@
+ import torch.distributed as dist
+ 
+ from train.datamake_stage2_lora_data import IndexedPrefixDataset, locate_prefix, preprocessing_rng
++
++
++def trim_attention_padding(data):
++    """Keep only 128-token alignment padding for Lance's native FlexAttention.
++
++    The zero-length trailing pad document must remain: Lance uses it as a
++    sentinel when iterating real samples for multimodal position IDs. Real
++    tensors, sample boundaries, loss indexes and RNG are untouched.
++    """
++    lengths, splits = data['sample_lens'], data['split_lens']
++    real_length = data['sequence_length']
++    if (not lengths or not splits or data['sample_type'][-1] != 'pad'
++            or data['sample_N_target'][-1] != 0 or data['attn_modes'][-1] != 'causal'
++            or lengths[-1] != splits[-1]
++            or sum(lengths[:-1]) != real_length or sum(splits[:-1]) != real_length):
++        raise ValueError("Expected Lance's isolated trailing attention padding document")
++    padding = (-real_length) % 128
++    result = dict(data)
++    result['sample_lens'] = [*lengths[:-1], padding]
++    result['split_lens'] = [*splits[:-1], padding]
++    return result
+ 
+ 
+ class IndexedPackedPrefixDataset(IndexedPrefixDataset):
+--- a/train/datamake_ddp_train.py
++++ b/train/datamake_ddp_train.py
+@@ -39,7 +39,7 @@
+ from train.datamake_stage2_lora_checkpoint import initialize_adam_state, save_and_stop_requested
+ from train.datamake_ddp_checkpoint import save as save_ddp_checkpoint, load as load_ddp_checkpoint
+ from train.datamake_stage2_lora_data import IndexedPrefixDataset
+-from train.datamake_packed_batch import IndexedPackedPrefixDataset, compute_packed_training_loss
++from train.datamake_packed_batch import IndexedPackedPrefixDataset, compute_packed_training_loss, trim_attention_padding
+ 
+ 
+ def recipe_arguments(profile):
+@@ -53,8 +53,10 @@
+     return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
+ 
+ 
+-def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events, empty_vae_cache=True):
++def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events, empty_vae_cache=True, attention_padding="fixed"):
+     data = batch.cuda(device).to_dict()
++    if attention_padding == "minimal":
++        data = trim_attention_padding(data)
+     indexes = data.pop("batch_data_indexes")
+     ce_weights = data.pop("ce_loss_weights", None)
+     roles = data.pop("vae_edit_roles")
+@@ -83,6 +85,8 @@
+         loss, metrics, _, total_tokens = compute_packed_training_loss(
+             losses, slot_counts, training_args, weights,
+         )
++    metrics['attention_tokens'] = loss.new_tensor(sum(data['sample_lens']))
++    metrics['attention_padding_tokens'] = loss.new_tensor(data['sample_lens'][-1])
+     return loss, metrics, total_tokens, indexes
+ 
+ 
+@@ -101,6 +105,13 @@
+     if args.benchmark_only and (not args.smoke or args.resume_from):
+         raise ValueError("Benchmark-only requires fresh smoke mode")
+     profile = load_profile(args.profile)
++    if profile["ddp"].get("attention_padding", "fixed") == "minimal":
++        # Configure the official compiler only in this DDP process. Automatic
++        # dynamic generalization changes BF16 results when padding lengths vary;
++        # static shape caching preserves the validated attention numerics.
++        from torch.nn.attention.flex_attention import flex_attention
++        from modeling.lance import qwen2_navit
++        qwen2_navit.flex_attention = torch.compile(flex_attention, dynamic=False)
+     model_args, data_args, training_args = recipe_arguments(profile)
+     torch.set_num_threads(1)
+     torch.set_num_interop_threads(1)
+@@ -280,7 +291,8 @@
+             with context:
+                 loss, metrics, count, indexes = microbatch_loss(
+                     batch, model, vae, model_args, training_args, device, world, phase_events,
+-                    empty_vae_cache=profile["ddp"].get("vae_cache_policy", "release") == "release")
++                    empty_vae_cache=profile["ddp"].get("vae_cache_policy", "release") == "release",
++                    attention_padding=profile["ddp"].get("attention_padding", "fixed"))
+                 bad = (~torch.isfinite(loss.detach())).int()
+                 dist.all_reduce(bad, op=dist.ReduceOp.MAX)
+                 if bad.item():
+@@ -324,6 +336,7 @@
+             "actual_world_size": world, "activation_checkpointing": checkpoint_mode,
+             "checkpoint_disabled_layers": sorted(disabled_layers), "per_rank_batch_size": batch_size,
+             "vae_cache_policy": profile["ddp"].get("vae_cache_policy", "release"),
++            "attention_padding": profile["ddp"].get("attention_padding", "fixed"),
+             **{f"perf/{key}": value for key, value in zip(
+                 ("data_wait_seconds", "vae_region_seconds", "model_forward_seconds", "backward_sync_seconds", "vit_seconds"), timing.tolist())},
+             "optimizer_step": completed, **{f"train/{k}": v.item() for k, v in totals.items()},

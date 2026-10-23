@@ -1,0 +1,679 @@
+{
+  "schema_version": "datamake_complete_chain_review_v1",
+  "split": "validation",
+  "seed": 20260911,
+  "selection_policy": "new complete UE chains of length 3/4/5; minimize shared endpoints then maximize axis diversity; seeded tie-break",
+  "excluded_prior_chain_ids": [
+    "c_7669cabae1467386",
+    "c_c6282282709e3a10"
+  ],
+  "prior_review_evidence": [
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/action_r2_step3669_30step_cfg1_seed42/target_pixel_metrics.json",
+      "sha256": "03166eeddc07b263c2e5469664381dd2603f831f126ea7316678097ad1b13f6c"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/action_r2_step3669_30step_cfg1_seed42/transcript.json",
+      "sha256": "dff1afd0627c099489a5c3b8654ce7cb56a999b45d0778d8a73289a33b4090c4"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/autoregressive_chain3_step3669_30step_cfg1_seed42/transcript.json",
+      "sha256": "9f62aa3e4ad137b18b80239d765de244d98a4312b4ae996e416d5787312b43ec"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/autoregressive_chain3_step3669_30step_cfg1_seed42/turn00_target_pixel_metrics.json",
+      "sha256": "c6b385e3aad204731a688c2a60f8aad32355cb947a5568cf9d6b0310a0a6b4f9"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/autoregressive_chain3_step3669_30step_cfg1_seed42/turn01_target_pixel_metrics.json",
+      "sha256": "d55bbaf77c6024f379d39a950c84e5f63b586d02a392ce96e183140b6abfb690"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/autoregressive_chain3_step3669_30step_cfg1_seed42/turn02_target_pixel_metrics.json",
+      "sha256": "00dc5cb7c1a5af7fedea23db486c4bced67f9f5197165e6b6c45e3769baf6356"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/identity_r1_step3669_30step_cfg1_seed42/target_pixel_metrics.json",
+      "sha256": "88a8eea48249e71088a9c7990961390fa23fcf73f6bfdbdf1ffe295d5e54fa9a"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/identity_r1_step3669_30step_cfg1_seed42/transcript.json",
+      "sha256": "81235f3bf8a70fefec82d368ed69eb56ccd71c907f35cbbf8308a4179596da2d"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/outfit_r3_step3669_30step_cfg1_seed42/target_pixel_metrics.json",
+      "sha256": "b925554060584ed08f8ec74bf1ac384e700d8d4071bb348900e8a24cc8cf474b"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/outfit_r3_step3669_30step_cfg1_seed42/transcript.json",
+      "sha256": "1deb4fd063d642ae710244d1e41957bc24d441fdc99ecd2e21ff86910b42df51"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/outfit_r5_step3669_30step_cfg1_seed42/target_pixel_metrics.json",
+      "sha256": "2fcec1b21bfed8579fbb5d5abc0810c427c4043947c41e53c5bf7ec8e701686a"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage2_3669_visual_sanity_20260903/outfit_r5_step3669_30step_cfg1_seed42/transcript.json",
+      "sha256": "abc9ebaf93076b839f678dcf365557d6d48f46362926d58ae8e54118f6cc4898"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/autoregressive_chain3/transcript.json",
+      "sha256": "1fb7c4669d4b1bdaef340e112367ea687bfae5cfa626f25cbebb99f24ab15209"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/manifest.json",
+      "sha256": "549020691f5f70abdd365b9d146e3e9848ae0dd7797aff0954dd7510216e9a7d"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_action_r2/transcript.json",
+      "sha256": "5a9459c9662bcc36edf47c051e4f8e501e63880ba3f33578fe115ee86887b52a"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "e7a2a9e5e59ad14cc6d344e38de0f006bf79e22ff59fa4baf132d68c5a3f147d"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "b88fdecded54ac27cab72ae7584ca9a8ac446964fe3bfe765469a6af111e12bf"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step650_trainres_20260906/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/autoregressive_chain3/transcript.json",
+      "sha256": "ad36c4c033fb056d5a04adda5b84075f9a2ae3bb85202f07e4a7a2ef97592835"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/manifest.json",
+      "sha256": "6885a0cc7b28506eba8308dcb339a51412eaa91e93f448ed43cd8af26376c96f"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/media_audit.json",
+      "sha256": "a547f4daa91db1f9ff8ce1c00ce427b672947139283cd8832d7bba6a62f8af11"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/references/comparison_0_manifest.json",
+      "sha256": "27b9f484250f12a44d0de59030fb06456e44f4e9fe59d6c6333252f889202f8e"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/references/comparison_1_manifest.json",
+      "sha256": "549020691f5f70abdd365b9d146e3e9848ae0dd7797aff0954dd7510216e9a7d"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_action_r2/transcript.json",
+      "sha256": "70be36852facf651094170eb0719287cd994caab68a6f53bae2aa97204a628d2"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "a03dac676a177d38364a73eaba770d147f442e0a25766d45331dffd2b83bf21b"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "0c6fb9fde751d10c82e768e64aec57ec83c85707df0d5aa3b6f29114448380d5"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_a_step800_trainres_20260906/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906/manifest.json",
+      "sha256": "93ef2d22f8d090ade18e765c216df68f3ef62578dd426f9ac51819df6d3535c2"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906_retry1/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906_retry1/manifest.json",
+      "sha256": "88a74c39b5942494326b8f6623321d666162c5de375ccc815ec19713093ad4e5"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906_retry1/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906_retry1/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_20260906_retry1/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/autoregressive_chain3/transcript.json",
+      "sha256": "48ff597b685c94c88178df020474dc79b5221b967a2e2294a9de16ed323aedd1"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/manifest.json",
+      "sha256": "2722d4550c08bfd4ad7f16b365569c03db894ee8319b09114f5696f00c46ceb6"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/media_audit.json",
+      "sha256": "1a49466b94a7c4f8590f2347a9c4856670c12c1a35ee21cb8fec9c4b44a344f9"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/references/comparison_0_manifest.json",
+      "sha256": "6885a0cc7b28506eba8308dcb339a51412eaa91e93f448ed43cd8af26376c96f"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_action_r2/transcript.json",
+      "sha256": "177fd1e278abcef888676dafda3ce82d88f2497b9bb3c50f4716ab859ffe9e03"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "4ac144914731a0506ebcb06933919062394ffc6bf95df6c30626fad8c53c5169"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "c63da126fa134226282a1d6513ce33b9a32b9916e89fce5bd063f84d2b836504"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_b_step350_trainres_review_20260906_1623/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/autoregressive_chain3/transcript.json",
+      "sha256": "d823f8055d772338bebb1422722302eb70a755eaf877f3ebdd796867f108b0a0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/manifest.json",
+      "sha256": "27b9f484250f12a44d0de59030fb06456e44f4e9fe59d6c6333252f889202f8e"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/media_audit.json",
+      "sha256": "0d0d508a2eaf434227845eff485ae907f8ccc351f1addaf93de2278645c51cfb"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_action_r2/transcript.json",
+      "sha256": "f7ff368b8922210db09b2c7681dcf1874c24f835753859c0312361fe7f11e7b8"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "97ca575f09290a8109ba75ba9735a7f2a69b0956005e2dec096618f8aed6d6cf"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "1dcf14eba3613333ed29897096ec69d4fd2398f39d715d878cafc34dbc23e71b"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage5_v3_step400_visual_sanity_20260905/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/autoregressive_chain3/transcript.json",
+      "sha256": "781eced98070722a246363591f09f0e28bd2093d9cb6d0562106bab5a2a0e7ef"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/manifest.json",
+      "sha256": "a6589e845c56394970817f34b99d731a9d6c3c2210aeb4ab0b26322cb553b56a"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_action_r2/transcript.json",
+      "sha256": "554bc0c9f818081d1e7180124613d7a427876b62647a0580d757cb10e13195b3"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "de139c229a6c45991f772fc992f7d71b1b64b4b7d90d07bb4d53e0b176b2fa11"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "9462280d13682f324526c63f9fa0e90f90aeec8d1737db0aebc23b03f8b31dd4"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_1_step800_visual_20260909_1553/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/autoregressive_chain3/transcript.json",
+      "sha256": "630e76a270403c9cb61f4cc797b7447d1f209cd14684bdd767dbe3e8ec80451c"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/autoregressive_chain3.input.json",
+      "sha256": "93244071e312f04f704a692f657e86d18e8640cc603c3bc1cf255283b6d076d0"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/manifest.json",
+      "sha256": "9486991a73409d5d6415cac3707176eb0a6a2cfb1b795a3d2c1d19be43c517d9"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/media_audit.json",
+      "sha256": "5908a3b2b3cbeddc063276a0df89ca9544b160e80911a8cb1fc05aef5b068bc5"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/references/comparison_0_manifest.json",
+      "sha256": "a6589e845c56394970817f34b99d731a9d6c3c2210aeb4ab0b26322cb553b56a"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_action_r2/transcript.json",
+      "sha256": "35d012dfdcfe34a3104772f97ffd46f532b8b34936f6169a8fd5cfe0fa647e00"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_action_r2.input.json",
+      "sha256": "07df005add55b20493dfc4133ec01914d34c7a18172c9395fc51b47649add408"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_outfit_r3/transcript.json",
+      "sha256": "146eda407711fdbe3414a24d5b325f54778deb47cc1c9852edd81f698919de9d"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_outfit_r3.input.json",
+      "sha256": "1b175eacdae362ed255d14c3ca4b855bf10bb1c2627579af1e876d0991a46027"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_outfit_r5/transcript.json",
+      "sha256": "bda007871558cd5b79f659668bd7cb5dca68849b097ab56be0d5539003a9485c"
+    },
+    {
+      "path": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/multiturn_chat/stage6_s6_2_step800_review_20260909/teacher_forced_outfit_r5.input.json",
+      "sha256": "b0a15fbcc7353983a1794ae6c9c68d8ac9da598e139766411164fb113c983175"
+    }
+  ],
+  "parquet": "/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/outputs/training_data/datamake_coinve4k_mixed_r5x3_seed20260911_v1/validation/mixed-00000-of-00001.parquet",
+  "parquet_sha256": "b68000cb1c20884ad143bd796ff518f58d1f1e0c320a2f95bfc3e0d85ee7ff60",
+  "media_root": "/scratch/prj0000000275/jcy/xks/DataMake/00_engine/outputs/delivery/first_batch_candidate_20260830_v002/dataset_v1",
+  "chains": [
+    {
+      "schema_version": "datamake_lance_multiturn_prefix_v1",
+      "sample_id": "dmmt_c4887b109285f71042f7",
+      "chain_id": "c_575347cc8db313eb",
+      "target_round": 3,
+      "context_length": 3,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "Change the person to an adult man with deep-brown skin, a long rectangular face and broad angular jaw, narrow gray-green eyes, thick eyebrows, a high nose with a broad tip, a dense full dark beard and mustache, and medium-length dark hair swept back from a side part and leave all other visual content unchanged.",
+        "Only change the action and have the person wave in greeting.",
+        "Switch the camera to a wide frontal shot, while keeping the person, outfit, action, expression, and scene unchanged."
+      ],
+      "video_paths": [
+        "videos/604.mp4",
+        "videos/404.mp4",
+        "videos/613.mp4",
+        "videos/106.mp4"
+      ],
+      "turn_ids": [
+        "t_ed316dd46d2501db",
+        "t_c319cfd861b0ed44",
+        "t_cb6a1a43c8cb0de9"
+      ],
+      "edit_axes": [
+        "identity_id",
+        "action_id",
+        "camera_id"
+      ],
+      "input_video_path": "videos/613.mp4",
+      "output_video_path": "videos/106.mp4",
+      "chain_policy": "freeform_walk",
+      "semantic_facts_json": "{\"has_consecutive_same_axis\":false,\"has_repeated_axis\":false,\"has_rollback\":false,\"is_semantic_shortest\":true,\"returns_to_start\":false}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "dmmt_c4887b109285f71042f7::repeat0",
+      "dataset_origin": "ue_synthetic",
+      "source_sample_id": "dmmt_c4887b109285f71042f7",
+      "split": "validation",
+      "crop_policy": null,
+      "crop_start_seconds": null,
+      "crop_duration_seconds": null,
+      "media_metadata_json": null
+    },
+    {
+      "schema_version": "datamake_lance_multiturn_prefix_v1",
+      "sample_id": "dmmt_8ad08cbdf7a84735b3f7",
+      "chain_id": "c_3071d965660823b5",
+      "target_round": 4,
+      "context_length": 4,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "Make the person perform a battle-style dance, while keeping the identity, outfit, expression, scene, and camera unchanged.",
+        "Switch the camera to a close frontal shot, while keeping the person, outfit, action, expression, and scene unchanged.",
+        "Change the person's clothing to a 1920s-inspired men's outfit, while keeping the person, action, expression, scene, and camera unchanged.",
+        "Change the person to an adult man with light warm skin, a long rectangular face with a broad jaw and squared chin, light blue-gray eyes, a long prominent nose, medium lips, a clean-shaven face, dense black curls on top with closely faded sides, and a small mole below the lower lip and leave all other visual content unchanged."
+      ],
+      "video_paths": [
+        "videos/364.mp4",
+        "videos/66.mp4",
+        "videos/568.mp4",
+        "videos/449.mp4",
+        "videos/40.mp4"
+      ],
+      "turn_ids": [
+        "t_4a8280ac58cc47d5",
+        "t_a12b287b897cabfa",
+        "t_b3f5b2cc23efbc08",
+        "t_5652c7b9f9d85158"
+      ],
+      "edit_axes": [
+        "action_id",
+        "camera_id",
+        "outfit_id",
+        "identity_id"
+      ],
+      "input_video_path": "videos/449.mp4",
+      "output_video_path": "videos/40.mp4",
+      "chain_policy": "progressive_shortest",
+      "semantic_facts_json": "{\"has_consecutive_same_axis\":false,\"has_repeated_axis\":false,\"has_rollback\":false,\"is_semantic_shortest\":true,\"returns_to_start\":false}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "dmmt_8ad08cbdf7a84735b3f7::repeat0",
+      "dataset_origin": "ue_synthetic",
+      "source_sample_id": "dmmt_8ad08cbdf7a84735b3f7",
+      "split": "validation",
+      "crop_policy": null,
+      "crop_start_seconds": null,
+      "crop_duration_seconds": null,
+      "media_metadata_json": null
+    },
+    {
+      "schema_version": "datamake_lance_multiturn_prefix_v1",
+      "sample_id": "dmmt_f0575706facba006977f",
+      "chain_id": "c_e98974f1c66a9300",
+      "target_round": 5,
+      "context_length": 5,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "Replace the body motion so the person will perform a swing dance, without changing any other visual attribute.",
+        "Only edit the clothing so the person is wearing a men's urban casual outfit.",
+        "Only change the person's identity, replacing them with an adult man with deep-brown skin, a long defined face and broad angular jaw, relatively large light gray-green eyes, a long straight nose, a neatly shaped dark full beard and mustache, dark hair swept into a voluminous top with faded sides, and visible notches in one eyebrow.",
+        "Only change the camera viewpoint and use a wide frontal shot.",
+        "Replace the current clothing with a men's casual outfit and do not change anything else."
+      ],
+      "video_paths": [
+        "videos/408.mp4",
+        "videos/584.mp4",
+        "videos/384.mp4",
+        "videos/391.mp4",
+        "videos/319.mp4",
+        "videos/48.mp4"
+      ],
+      "turn_ids": [
+        "t_5d1f83ae2c193d3c",
+        "t_3705fad5957f7f0b",
+        "t_b0fed7fd46526a5f",
+        "t_bd4ccb48e6321996",
+        "t_8b86a484343b20b5"
+      ],
+      "edit_axes": [
+        "action_id",
+        "outfit_id",
+        "identity_id",
+        "camera_id",
+        "outfit_id"
+      ],
+      "input_video_path": "videos/319.mp4",
+      "output_video_path": "videos/48.mp4",
+      "chain_policy": "freeform_walk",
+      "semantic_facts_json": "{\"has_consecutive_same_axis\":false,\"has_repeated_axis\":true,\"has_rollback\":false,\"is_semantic_shortest\":false,\"returns_to_start\":false}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "dmmt_f0575706facba006977f::repeat0",
+      "dataset_origin": "ue_synthetic",
+      "source_sample_id": "dmmt_f0575706facba006977f",
+      "split": "validation",
+      "crop_policy": null,
+      "crop_start_seconds": null,
+      "crop_duration_seconds": null,
+      "media_metadata_json": null
+    }
+  ],
+  "train_chain_overlap": [],
+  "media_sha256": {
+    "videos/106.mp4": "755bea478c568715cca95b422d1e98b24e32b4549b66a3d09594f9883f326eb5",
+    "videos/319.mp4": "014844fb2e992b1e0e1660b019a0f92fa541a45d9ccaebb49849a889280a26e2",
+    "videos/364.mp4": "573134e47585846cbfdfae0093337b8beab5f3f154919ff0cbff807ffaeb952c",
+    "videos/384.mp4": "79fac6dec5d20ba2dbc01d0b879772f8a6bc1248eed127f3af4fa10750faa169",
+    "videos/391.mp4": "4325679c594ee5aabd015c44ec25d7ebd8619fffb1728b4d8ef222d70bc1b601",
+    "videos/40.mp4": "a2906208fdbbfea53de1b9e15a970e46a6d38e8713c0638c5efe221d390f21f4",
+    "videos/404.mp4": "eb1a9b5781c39a496f9904e11ea939e7b0845e1a6f4c6a3c23496c4f0ae6212c",
+    "videos/408.mp4": "32953355e6b89cab81ad1b8ae3b2bcee35a15fcbd779335417012244dc5a8e32",
+    "videos/449.mp4": "8150a3aa812b7c2953aa3575f460a9aae2895e35e7cb688b131fd6901e5195e0",
+    "videos/48.mp4": "044a28b4a840d88fd7b21a590d773aeeafc2ebe6d48e0ba953a71b37eb5a1433",
+    "videos/568.mp4": "e60b87e14767b65a96c8a8dc878538f4fda5aa76dabb08adc52c92fe0e29b947",
+    "videos/584.mp4": "01c129dcf9a237ad8b62a1644aad0260d5078a0d9713e0e4fb214f1b14210bdb",
+    "videos/604.mp4": "d3e3a96744fb94c980f044bc1f955d425699bf4d463d245dee5ecd59671c4aa3",
+    "videos/613.mp4": "751467d5d775a74c5d65fb89aef8961fd2ddffb216a83d4432e5d0702a43218e",
+    "videos/66.mp4": "47b80c7c5a536232d3961b8d63884b68251e69bc3031fc72cecaa20b50243788"
+  },
+  "inference": {
+    "diffusion_steps": 30,
+    "cfg_text_scale": 1.0,
+    "timestep_shift": 3.5,
+    "global_seed": 42,
+    "noise_seed": 42,
+    "use_KVcache": true
+  },
+  "expected_generated_videos": 28,
+  "real_cases": [
+    {
+      "schema_version": "datamake_lance_mixed_prefix_v1",
+      "sample_id": "coinve-085619",
+      "chain_id": "coinve-085619",
+      "target_round": 1,
+      "context_length": 1,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "1. Remove the gold-rimmed glasses worn by the bald man in the foreground.\n2. Replace the urban brick building background behind the man and car with a blurred green park scene featuring trees and grass."
+      ],
+      "video_paths": [
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_source.mp4",
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_target.mp4"
+      ],
+      "turn_ids": [
+        "coinve-085619::turn1"
+      ],
+      "edit_axes": [
+        "Remove",
+        "Replace"
+      ],
+      "input_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_source.mp4",
+      "output_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_target.mp4",
+      "chain_policy": "single_turn_compound_edit",
+      "semantic_facts_json": "{}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "coinve-085619::repeat0",
+      "dataset_origin": "coinve",
+      "source_sample_id": "coinve-085619",
+      "split": "validation",
+      "crop_policy": "paired_absolute_5s_12fps_kn1_fixed_v1",
+      "crop_start_seconds": 3.022652408,
+      "crop_duration_seconds": 5.0,
+      "media_metadata_json": "{\"probe_policy\": \"coinve_pair_full_decode_common5s_v1\", \"reasons\": [], \"sample_id\": \"coinve-085619\", \"source\": {\"bytes\": 11213664, \"duration\": 13.08, \"fps\": 25.0, \"frames\": 327, \"height\": 1080, \"width\": 1920}, \"status\": \"pass\", \"target\": {\"bytes\": 5170518, \"duration\": 8.04, \"fps\": 25.0, \"frames\": 201, \"height\": 1080, \"width\": 1920}}"
+    },
+    {
+      "schema_version": "datamake_lance_mixed_prefix_v1",
+      "sample_id": "coinve-192680",
+      "chain_id": "coinve-192680",
+      "target_round": 1,
+      "context_length": 1,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "1. Replace the blue color of the oval ceramic bowl in the center with a bright red color.\n2. Replace the wooden cutting board and table surface visible behind the food with a plain white marble countertop."
+      ],
+      "video_paths": [
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_source.mp4",
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_target.mp4"
+      ],
+      "turn_ids": [
+        "coinve-192680::turn1"
+      ],
+      "edit_axes": [
+        "Replace",
+        "Replace"
+      ],
+      "input_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_source.mp4",
+      "output_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_target.mp4",
+      "chain_policy": "single_turn_compound_edit",
+      "semantic_facts_json": "{}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "coinve-192680::repeat0",
+      "dataset_origin": "coinve",
+      "source_sample_id": "coinve-192680",
+      "split": "validation",
+      "crop_policy": "paired_absolute_5s_12fps_kn1_fixed_v1",
+      "crop_start_seconds": 0.476921142,
+      "crop_duration_seconds": 5.0,
+      "media_metadata_json": "{\"probe_policy\": \"coinve_pair_full_decode_common5s_v1\", \"reasons\": [], \"sample_id\": \"coinve-192680\", \"source\": {\"bytes\": 9322909, \"duration\": 7.307307307307307, \"fps\": 29.97, \"frames\": 219, \"height\": 1080, \"width\": 1920}, \"status\": \"pass\", \"target\": {\"bytes\": 7123202, \"duration\": 6.706706706706707, \"fps\": 29.97, \"frames\": 201, \"height\": 1080, \"width\": 1920}}"
+    },
+    {
+      "schema_version": "datamake_lance_mixed_prefix_v1",
+      "sample_id": "coinve-186523",
+      "chain_id": "coinve-186523",
+      "target_round": 1,
+      "context_length": 1,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "1. Restyle the entire sliced cake assembly in the center foreground into lego style.\n2. Replace the light-colored wooden cutting board underneath the cake with a dark slate stone serving platter."
+      ],
+      "video_paths": [
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_source.mp4",
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_target.mp4"
+      ],
+      "turn_ids": [
+        "coinve-186523::turn1"
+      ],
+      "edit_axes": [
+        "Stylize",
+        "Replace"
+      ],
+      "input_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_source.mp4",
+      "output_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_target.mp4",
+      "chain_policy": "single_turn_compound_edit",
+      "semantic_facts_json": "{}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "coinve-186523::repeat0",
+      "dataset_origin": "coinve",
+      "source_sample_id": "coinve-186523",
+      "split": "validation",
+      "crop_policy": "paired_absolute_5s_12fps_kn1_fixed_v1",
+      "crop_start_seconds": 0.036432653,
+      "crop_duration_seconds": 5.0,
+      "media_metadata_json": "{\"probe_policy\": \"coinve_pair_full_decode_common5s_v1\", \"reasons\": [], \"sample_id\": \"coinve-186523\", \"source\": {\"bytes\": 5715757, \"duration\": 5.038371705038372, \"fps\": 29.97, \"frames\": 151, \"height\": 1080, \"width\": 1920}, \"status\": \"pass\", \"target\": {\"bytes\": 7064764, \"duration\": 5.038371705038372, \"fps\": 29.97, \"frames\": 151, \"height\": 1080, \"width\": 1920}}"
+    },
+    {
+      "schema_version": "datamake_lance_mixed_prefix_v1",
+      "sample_id": "coinve-006415",
+      "chain_id": "coinve-006415",
+      "target_round": 1,
+      "context_length": 1,
+      "language": "en",
+      "prompt_view": "dialogue",
+      "prompts": [
+        "1. Add a red necktie to the chest area of the man wearing the bright blue t-shirt.\n2. Replace the plastic cup containing green smoothie held by the man in blue with a large brown paper coffee cup.\n3. Replace the background scene of the grassy field and lake with a snowy mountain landscape."
+      ],
+      "video_paths": [
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_source.mp4",
+        "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_target.mp4"
+      ],
+      "turn_ids": [
+        "coinve-006415::turn1"
+      ],
+      "edit_axes": [
+        "Add",
+        "Replace",
+        "Replace"
+      ],
+      "input_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_source.mp4",
+      "output_video_path": "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_target.mp4",
+      "chain_policy": "single_turn_compound_edit",
+      "semantic_facts_json": "{}",
+      "sampling_repeat_index": 0,
+      "sampling_instance_id": "coinve-006415::repeat0",
+      "dataset_origin": "coinve",
+      "source_sample_id": "coinve-006415",
+      "split": "validation",
+      "crop_policy": "paired_absolute_5s_12fps_kn1_fixed_v1",
+      "crop_start_seconds": 0.455142088,
+      "crop_duration_seconds": 5.0,
+      "media_metadata_json": "{\"probe_policy\": \"coinve_pair_full_decode_common5s_v1\", \"reasons\": [], \"sample_id\": \"coinve-006415\", \"source\": {\"bytes\": 16513858, \"duration\": 11.444778111444778, \"fps\": 29.97, \"frames\": 343, \"height\": 1080, \"width\": 1920}, \"status\": \"pass\", \"target\": {\"bytes\": 5800446, \"duration\": 6.706706706706707, \"fps\": 29.97, \"frames\": 201, \"height\": 1080, \"width\": 1920}}"
+    }
+  ],
+  "real_selection_policy": "seeded validation-only; one-turn compound prompts retained; cover Remove/Replace/Stylize/Add combinations",
+  "real_media_sha256": {
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_source.mp4": "9f7284d1ba0149507ead16d9615fd1f87a3a499308bd354d72ee82f044dfad88",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-085619_target.mp4": "e49ae9ed3d1b8419f56522623853b643e5971c648108305d368407b3a1d51250",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_source.mp4": "ba77dc351fedb111a00bc18e4f41e02513c52a746a58360b325f108859a41b3a",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-192680_target.mp4": "890568a4310abc3edb0c21a230fe6ac46666a191e74da114ed2ec0d97096109c",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_source.mp4": "12e8b5c6a93c73cba3b56dd3bacbdf767f45a4aee7acbd9a2306bbd7b25ded75",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-186523_target.mp4": "9e1a02a8bb50d5459b86e1a797c833d8826e88569a67dea83b8533458d4defec",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_source.mp4": "a5c1aada3ef9a5e631bb3274c1f2b79a2bab5ae6f025e6e9544830d783abbdc3",
+    "/scratch/prj0000000275/jcy/ljy/video_collection/lance_general_edit_finetune/3_lance_lora_finetuning/artifacts/coinve_ablation_v1/media/coinve-006415_target.mp4": "ea3261919af3bd1033a569ef7c334c1422adf52aef92b4dcebdd2d51b621e40d"
+  }
+}

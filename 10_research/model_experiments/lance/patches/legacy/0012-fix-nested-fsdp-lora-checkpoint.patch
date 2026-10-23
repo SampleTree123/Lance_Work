@@ -1,0 +1,396 @@
+diff --git a/train/datamake_lora_checkpoint.py b/train/datamake_lora_checkpoint.py
+index e22b485..5611432 100644
+--- a/train/datamake_lora_checkpoint.py
++++ b/train/datamake_lora_checkpoint.py
+@@ -16,11 +16,10 @@ from safetensors.torch import load_file, save_file
+ import torch
+ import torch.distributed as dist
+ import torch.distributed.checkpoint as dcp
++from torch.distributed.checkpoint.format_utils import dcp_to_torch_save
+ from torch.distributed.checkpoint.state_dict import (
+     StateDictOptions,
+-    get_model_state_dict,
+     get_optimizer_state_dict,
+-    set_model_state_dict,
+     set_optimizer_state_dict,
+ )
+ 
+@@ -34,11 +33,12 @@ from train.datamake_generation_lora import (
+ )
+ 
+ 
+-CHECKPOINT_FORMAT_VERSION = 2
++CHECKPOINT_FORMAT_VERSION = 5
+ TRAINING_CONTRACT_FILENAME = "datamake_online_training_contract.json"
+ TRAINER_STATE_FILENAME = "trainer_state.json"
+ COMPLETE_MARKER_FILENAME = "checkpoint_complete.json"
+ OPTIMIZER_DCP_DIRNAME = "optimizer"
++ADAPTER_PARAMETER_STATE_KEY = "_datamake_parameter_value"
+ 
+ 
+ def _rank() -> int:
+@@ -82,20 +82,96 @@ def _restore_rng_state(value: Mapping[str, Any]) -> None:
+         torch.cuda.set_rng_state(value["torch_cuda"])
+ 
+ 
+-def _full_trainable_state(model: torch.nn.Module) -> Dict[str, torch.Tensor]:
+-    options = StateDictOptions(
+-        full_state_dict=True,
+-        cpu_offload=True,
+-        ignore_frozen_params=False,
+-        strict=True,
++def _validate_adapter_state(
++    state: Mapping[str, torch.Tensor], expected_tensor_count: int
++) -> None:
++    unexpected = sorted(
++        name
++        for name, value in state.items()
++        if not isinstance(value, torch.Tensor)
++        or not (name.endswith("lora_A") or name.endswith("lora_B"))
+     )
+-    state = get_model_state_dict(model, options=options)
+-    return {
+-        key: value.contiguous()
+-        for key, value in state.items()
+-        if isinstance(value, torch.Tensor)
+-        and (key.endswith("lora_A") or key.endswith("lora_B"))
++    if len(state) != expected_tensor_count or unexpected:
++        raise RuntimeError(
++            "LoRA checkpoint topology mismatch: "
++            f"expected_tensors={expected_tensor_count}, actual_tensors={len(state)}, "
++            f"unexpected={unexpected[:20]}"
++        )
++
++
++def _materialize_adapter_safetensors(
++    optimizer_dcp_path: Path,
++    output_path: Path,
++    expected_tensor_count: int,
++) -> None:
++    """Consolidate live parameter values carried by the optimizer DCP."""
++
++    temporary = output_path.with_suffix(".torch.tmp")
++    dcp_to_torch_save(optimizer_dcp_path, temporary)
++    value = torch.load(temporary, map_location="cpu", weights_only=False)
++    temporary.unlink()
++    optimizer_state = value.get("optimizer")
++    if not isinstance(optimizer_state, dict):
++        raise RuntimeError("optimizer DCP did not materialize a state")
++    parameter_states = optimizer_state.get("state")
++    if not isinstance(parameter_states, dict):
++        raise RuntimeError("optimizer DCP has no parameter states")
++    adapter_state = {
++        name: state[ADAPTER_PARAMETER_STATE_KEY]
++        for name, state in parameter_states.items()
++        if ADAPTER_PARAMETER_STATE_KEY in state
+     }
++    _validate_adapter_state(adapter_state, expected_tensor_count)
++    save_file(
++        {
++            name: tensor.detach().cpu().contiguous()
++            for name, tensor in adapter_state.items()
++        },
++        str(output_path),
++    )
++
++
++def _inject_parameter_values(optimizer: torch.optim.Optimizer) -> int:
++    count = 0
++    for group in optimizer.param_groups:
++        for parameter in group["params"]:
++            state = optimizer.state[parameter]
++            if ADAPTER_PARAMETER_STATE_KEY in state:
++                raise RuntimeError("temporary adapter state was not cleared")
++            state[ADAPTER_PARAMETER_STATE_KEY] = parameter.detach().clone()
++            count += 1
++    return count
++
++
++def _remove_parameter_values(optimizer: torch.optim.Optimizer) -> None:
++    for group in optimizer.param_groups:
++        for parameter in group["params"]:
++            optimizer.state[parameter].pop(ADAPTER_PARAMETER_STATE_KEY, None)
++
++
++def _restore_parameter_values(optimizer: torch.optim.Optimizer) -> int:
++    count = 0
++    with torch.no_grad():
++        for group in optimizer.param_groups:
++            for parameter in group["params"]:
++                state = optimizer.state[parameter]
++                value = state.pop(ADAPTER_PARAMETER_STATE_KEY, None)
++                # With FSDP ``use_orig_params=True``, parameters outside this
++                # rank's flat-parameter shard are represented by empty local
++                # tensors and intentionally have no optimizer state to load.
++                if parameter.numel() == 0:
++                    count += 1
++                    continue
++                if value is None:
++                    raise RuntimeError("checkpoint optimizer state has no adapter value")
++                if value.shape != parameter.shape:
++                    raise RuntimeError(
++                        "adapter shard shape mismatch: "
++                        f"{tuple(value.shape)} != {tuple(parameter.shape)}"
++                    )
++                parameter.copy_(value.to(device=parameter.device, dtype=parameter.dtype))
++                count += 1
++    return count
+ 
+ 
+ def _sharded_optimizer_state(
+@@ -140,27 +216,34 @@ def save_lora_checkpoint(
+         staging.mkdir(parents=True)
+     _barrier()
+ 
+-    # A full state is requested only for trainable parameters. PyTorch 2.8's
+-    # ignore_frozen_params avoids gathering the immutable 7.1B base weights.
+-    adapter_state = _full_trainable_state(model)
++    # PyTorch's model-state paths returned stale original-parameter views for
++    # nested FSDP units. Optimizer-state mapping is live, so temporarily carry
++    # every local parameter shard through that proven mapping.
++    parameter_count = _inject_parameter_values(optimizer)
++    if parameter_count != 2 * lora_config.expected_target_modules:
++        raise RuntimeError(
++            f"optimizer has {parameter_count} trainable tensors; "
++            f"expected {2 * lora_config.expected_target_modules}"
++        )
++    try:
++        optimizer_state = _sharded_optimizer_state(model, optimizer)
++        dcp.save(
++            {"optimizer": optimizer_state},
++            checkpoint_id=str(staging / OPTIMIZER_DCP_DIRNAME),
++        )
++        del optimizer_state
++    finally:
++        _remove_parameter_values(optimizer)
++    _barrier()
++
+     if _rank() == 0:
+-        if not adapter_state or any(
+-            not (name.endswith("lora_A") or name.endswith("lora_B"))
+-            for name in adapter_state
+-        ):
+-            raise RuntimeError("checkpoint state must contain only LoRA A/B tensors")
+-        save_file(adapter_state, str(staging / LORA_ADAPTER_FILENAME))
++        _materialize_adapter_safetensors(
++            staging / OPTIMIZER_DCP_DIRNAME,
++            staging / LORA_ADAPTER_FILENAME,
++            expected_tensor_count=2 * lora_config.expected_target_modules,
++        )
+         write_lora_config(str(staging / LORA_CONFIG_FILENAME), lora_config)
+         _atomic_json(staging / TRAINING_CONTRACT_FILENAME, training_contract)
+-    del adapter_state
+-    _barrier()
+-
+-    optimizer_state = _sharded_optimizer_state(model, optimizer)
+-    dcp.save(
+-        {"optimizer": optimizer_state},
+-        checkpoint_id=str(staging / OPTIMIZER_DCP_DIRNAME),
+-    )
+-    del optimizer_state
+     _barrier()
+ 
+     rng_path = staging / f"rng.rank-{_rank():05d}-of-{_world_size():05d}.pt"
+@@ -250,6 +333,11 @@ def validate_lora_checkpoint(
+     marker = json.loads(marker_path.read_text(encoding="utf-8"))
+     if marker.get("status") != "complete" or not marker.get("adapter_only"):
+         raise ValueError("checkpoint is not a complete adapter-only checkpoint")
++    if int(marker.get("checkpoint_format_version", -1)) != CHECKPOINT_FORMAT_VERSION:
++        raise ValueError(
++            f"checkpoint format must be v{CHECKPOINT_FORMAT_VERSION}; "
++            "older nested-FSDP adapter exports are not resumable"
++        )
+     if int(marker.get("world_size", -1)) != int(expected_world_size):
+         raise ValueError("checkpoint world size differs from current FSDP topology")
+     for value, size in marker.get("required_artifact_sizes", {}).items():
+@@ -282,36 +370,33 @@ def load_lora_checkpoint(
+     if read_lora_config(str(checkpoint / LORA_CONFIG_FILENAME)) != lora_config:
+         raise ValueError("checkpoint LoRA topology differs from current run")
+ 
+-    if _rank() == 0:
+-        adapter_state = load_file(
+-            str(checkpoint / LORA_ADAPTER_FILENAME), device="cpu"
+-        )
+-    else:
+-        adapter_state = {}
+-    options = StateDictOptions(
+-        full_state_dict=True,
+-        cpu_offload=True,
+-        ignore_frozen_params=False,
+-        strict=False,
+-        broadcast_from_rank0=_world_size() > 1,
+-    )
+-    message = set_model_state_dict(model, adapter_state, options=options)
+-    missing_adapters = [
+-        key
+-        for key in message.missing_keys
+-        if key.endswith("lora_A") or key.endswith("lora_B")
+-    ]
+-    if missing_adapters or message.unexpected_keys:
+-        raise RuntimeError(
+-            "strict distributed adapter restore failed: "
+-            f"missing_adapters={missing_adapters[:20]}, "
+-            f"unexpected={message.unexpected_keys[:20]}"
+-        )
+-
+     optimizer_state = _sharded_optimizer_state(model, optimizer)
+     state = {"optimizer": optimizer_state}
+     dcp.load(state, checkpoint_id=str(checkpoint / OPTIMIZER_DCP_DIRNAME))
+     set_optimizer_state_dict(model, optimizer, state["optimizer"])
++
++    # The empty AdamW skeleton loads its standard fields but not the custom
++    # parameter-value field. Build a second skeleton from the restored state so
++    # DCP can map that field back to each live local shard as well.
++    parameter_count = _inject_parameter_values(optimizer)
++    if parameter_count != 2 * lora_config.expected_target_modules:
++        raise RuntimeError("optimizer tensor count differs from LoRA topology")
++    adapter_restore_state = _sharded_optimizer_state(model, optimizer)
++    adapter_holder = {"optimizer": adapter_restore_state}
++    try:
++        # Nested FSDP may return optimizer-state views which share dictionaries
++        # with ``optimizer.state``. Keep the temporary key alive until DCP has
++        # populated and installed the restored shards.
++        dcp.load(
++            adapter_holder,
++            checkpoint_id=str(checkpoint / OPTIMIZER_DCP_DIRNAME),
++        )
++        set_optimizer_state_dict(model, optimizer, adapter_holder["optimizer"])
++        parameter_count = _restore_parameter_values(optimizer)
++    finally:
++        _remove_parameter_values(optimizer)
++    if parameter_count != 2 * lora_config.expected_target_modules:
++        raise RuntimeError("restored adapter tensor count differs from LoRA topology")
+     scheduler.load_state_dict(
+         torch.load(checkpoint / "scheduler.pt", weights_only=True, map_location="cpu")
+     )
+@@ -326,3 +411,9 @@ def load_lora_checkpoint(
+     )
+     return trainer_state
+ 
++
++def load_unwrapped_adapter(checkpoint: Path, model: torch.nn.Module) -> None:
++    """Small helper used by CPU tests and non-FSDP adapter export consumers."""
++
++    state = load_file(str(checkpoint / LORA_ADAPTER_FILENAME), device="cpu")
++    load_adapter_state_dict(model, state)
+diff --git a/train/datamake_online_rollout.py b/train/datamake_online_rollout.py
+index 3d740ad..e815261 100644
+--- a/train/datamake_online_rollout.py
++++ b/train/datamake_online_rollout.py
+@@ -102,6 +102,7 @@ class OnlineRolloutArguments:
+     datamake_lora_expected_target_signature_sha256: str = ""
+     datamake_base_model_sha256: str = ""
+     datamake_smoke_mode: bool = False
++    datamake_smoke_label: str = ""
+ 
+     def validate(self) -> None:
+         if self.datamake_history_mode != "online_rollout_full":
+diff --git a/train/datamake_online_rollout_lora_train.py b/train/datamake_online_rollout_lora_train.py
+index e7b782c..f708ffc 100644
+--- a/train/datamake_online_rollout_lora_train.py
++++ b/train/datamake_online_rollout_lora_train.py
+@@ -403,6 +403,11 @@ def generate_detached_history(
+     if not generated or not generated[0]:
+         raise RuntimeError("online rollout returned no target latent")
+     target_latent = generated[0][-1].detach()
++    latent_float = target_latent.float()
++    telemetry["latent_sum"] = float(latent_float.sum().item())
++    telemetry["latent_square_sum"] = float(latent_float.square().sum().item())
++    telemetry["latent_numel"] = float(target_latent.numel())
++    del latent_float
+     if not save_output:
+         del target_latent, generated
+         return None
+@@ -468,7 +473,7 @@ def _run_profile_contract_check(
+     training_args: TrainingArguments,
+ ) -> None:
+     profile = json.loads(profile_path.read_text(encoding="utf-8"))
+-    if profile.get("schema_version") != "datamake_lance_online_rollout_lora_profile_v1":
++    if profile.get("schema_version") != "datamake_lance_online_rollout_lora_profile_v2":
+         raise ValueError("unsupported executable profile schema")
+     if profile.get("status") not in {
+         "implementation_ready_gpu_smoke_pending",
+@@ -497,6 +502,8 @@ def _run_profile_contract_check(
+     lora_profile = profile["lora"]
+     checkpoint_profile = profile["checkpoint"]
+     wandb_profile = profile["wandb"]
++    _require(checkpoint_profile["format_version"], 5, "profile checkpoint format")
++    _require(lora_profile["adapter_weight_dtype"], "float32", "profile adapter dtype")
+     _require(
+         rollout_profile["lance_internal_rank_seed_offset_compensated"],
+         True,
+@@ -648,8 +655,9 @@ def _run_profile_contract_check(
+     expected_run_name = run_profile["run_name"]
+     expected_run_id = wandb_profile["run_id"]
+     if online_args.datamake_smoke_mode:
+-        expected_run_name += "_smoke"
+-        expected_run_id += "-smoke"
++        label = online_args.datamake_smoke_label
++        expected_run_name += "_smoke" + (f"_{label}" if label else "")
++        expected_run_id += "-smoke" + (f"-{label}" if label else "")
+     _require(training_args.wandb_name, expected_run_name, "profile W&B run name")
+     _require(training_args.wandb_runid, expected_run_id, "profile W&B run id")
+     _require(
+@@ -897,6 +905,9 @@ def main() -> None:
+             local_loss_sum = 0.0
+             local_targets = 0
+             local_rollouts = 0
++            local_rollout_latent_sum = 0.0
++            local_rollout_latent_square_sum = 0.0
++            local_rollout_latent_numel = 0.0
+             local_round_loss_sum = [0.0] * 5
+             local_round_count = [0.0] * 5
+             memory_keys = (
+@@ -999,6 +1010,11 @@ def main() -> None:
+                                 local_rollout_memory_max[key],
+                                 float(rollout_telemetry[key]),
+                             )
++                        local_rollout_latent_sum += rollout_telemetry["latent_sum"]
++                        local_rollout_latent_square_sum += rollout_telemetry[
++                            "latent_square_sum"
++                        ]
++                        local_rollout_latent_numel += rollout_telemetry["latent_numel"]
+                         if needs_history:
+                             if history_video is None:
+                                 raise RuntimeError("real rollout did not return a tensor")
+@@ -1022,6 +1038,9 @@ def main() -> None:
+                     float(local_rollouts),
+                     rollout_seconds,
+                     train_seconds,
++                    local_rollout_latent_sum,
++                    local_rollout_latent_square_sum,
++                    local_rollout_latent_numel,
+                     *local_round_loss_sum,
+                     *local_round_count,
+                 ],
+@@ -1038,8 +1057,8 @@ def main() -> None:
+             loss_mean = global_loss_sum / global_target_count
+             step_seconds = time() - window_started
+             if global_rank == 0 and completed_steps % training_args.log_every == 0:
+-                round_loss_sum = reduced[5:10]
+-                round_count = reduced[10:15]
++                round_loss_sum = reduced[8:13]
++                round_count = reduced[13:18]
+                 metrics = {
+                     "mse": loss_mean,
+                     "lr": optimizer.param_groups[0]["lr"],
+@@ -1051,6 +1070,9 @@ def main() -> None:
+                     "step_time_sec": step_seconds,
+                     "rollout_time_sec_rank_sum": reduced[3],
+                     "train_time_sec_rank_sum": reduced[4],
++                    "rollout_latent_sum": reduced[5],
++                    "rollout_latent_square_sum": reduced[6],
++                    "rollout_latent_numel": reduced[7],
+                     "mem_allocated_mb": memory_max[4],
+                     "mem_reserved_mb": memory_max[5],
+                     "epoch": epoch,
+@@ -1074,6 +1096,9 @@ def main() -> None:
+                     f"targets={int(global_target_count)}, rollouts={int(global_rollouts)}, "
+                     f"grad_norm={float(total_norm.item()):.6f}, "
+                     f"lr={optimizer.param_groups[0]['lr']:.8g}, "
++                    f"rollout_latent_sum={reduced[5]:.9g}, "
++                    f"rollout_latent_square_sum={reduced[6]:.9g}, "
++                    f"rollout_latent_numel={int(reduced[7])}, "
+                     f"step_time={step_seconds:.2f}s"
+                 )
+             periodic = training_args.save_every > 0 and (

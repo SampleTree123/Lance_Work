@@ -428,7 +428,7 @@ PY
   SCAN_TARGETS=("$UPROJECT")
   [[ -d "$PROJECT_ROOT/Config" ]] && SCAN_TARGETS+=("$PROJECT_ROOT/Config")
   [[ -d "$PROJECT_ROOT/DataMake" ]] && SCAN_TARGETS+=("$PROJECT_ROOT/DataMake")
-  grep -RInE --binary-files=without-match '([A-Za-z]:\\|[A-Za-z]:/)' "${SCAN_TARGETS[@]}" \
+  grep -RInE --binary-files=without-match '(^|[^[:alnum:]_])([A-Za-z]:\\|[A-Za-z]:/)' "${SCAN_TARGETS[@]}" \
     > "$REPORT_ROOT/project/windows_absolute_paths.txt" 2>/dev/null || true
 
   if [[ $PROJECT_PARSE_OK -ne 0 ]]; then
@@ -487,7 +487,7 @@ PY
     local start_epoch end_epoch code elapsed
 
     start_epoch="$(date +%s)"
-    timeout "${UE_TIMEOUT_SEC}s" \
+    timeout --signal=TERM --kill-after=15s "${UE_TIMEOUT_SEC}s" \
       "$UE_EDITOR" "$UPROJECT" \
       -Unattended \
       -NoSplash \
@@ -498,7 +498,7 @@ PY
       -stdout \
       -FullStdOutLogOutput \
       "-AbsLog=$ue_log" \
-      "-ExecCmds=Quit" \
+      "-ExecCmds=QUIT_EDITOR" \
       > "$stdout_log" 2>&1
     code=$?
     end_epoch="$(date +%s)"

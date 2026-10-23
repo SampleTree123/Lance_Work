@@ -1,0 +1,271 @@
+--- a/config/config_factory.py
++++ b/config/config_factory.py
+@@ -249,6 +249,9 @@ class TrainingArguments:
+     jump_first_step:            bool = False
+     log_every:                  int = 10
+     save_every:                 int = 2000
++    save_final_checkpoint:      bool = False
++    checkpoint_completed_steps: bool = False
++    keep_last_checkpoints:      int = 0
+     eval_every:                 int = 2
+     total_steps:                int = 500_000
+     ckpt_debug_steps:           int = -1
+@@ -256,6 +259,7 @@ class TrainingArguments:
+     # Optimizer and scheduler settings
+     warmup_steps:               int = 2000
+     lr_scheduler:               str = "constant"
++    lr_num_cycles:              float = 0.5
+     lr:                         float = 1e-5
+     min_lr:                     float = 1e-7
+     beta1:                      float = 0.9
+--- a/train/train_utils.py
++++ b/train/train_utils.py
+@@ -103,7 +103,10 @@ def setup_rank0_logging_and_wandb(
+     }
+ 
+     wandb.init(**wandb_init_kwargs)
+-    wandb.config.update({**vars(training_args), **vars(model_args), **vars(data_args)})
++    wandb.config.update(
++        {**vars(training_args), **vars(model_args), **vars(data_args)},
++        allow_val_change=True,
++    )
+ 
+ 
+ def prepare_model_paths(model_args: ModelArguments, training_args: TrainingArguments):
+@@ -288,7 +291,7 @@ def build_lr_scheduler(optimizer: torch.optim.Optimizer, training_args: TrainingA
+             num_warmup_steps=training_args.warmup_steps,
+             num_training_steps=training_args.total_steps,
+             min_lr=training_args.min_lr,
+-            num_cycles=5,
++            num_cycles=training_args.lr_num_cycles,
+         )
+ 
+     if training_args.lr_scheduler == "constant":
+@@ -501,7 +504,8 @@ def log_training_metrics(
+     torch.cuda.synchronize()
+     end_time = time()
+     steps_per_sec = training_args.log_every / (end_time - start_time)
+-    message = f"(step={curr_step:07d}) "
++    completed_steps = curr_step + 1
++    message = f"(step={completed_steps:07d}) "
+     wandb_log = {}
+     for key, value in loss_dict.items():
+         avg_loss = torch.tensor(value.item(), device=device)
+@@ -530,7 +534,7 @@ def log_training_metrics(
+     wandb_log["mem_cache"] = mem_cache
+ 
+     if global_rank == 0:
+-        wandb.log(wandb_log, step=curr_step)
++        wandb.log(wandb_log, step=completed_steps)
+     return time()
+ 
+ 
+--- a/train/fsdp_utils.py
++++ b/train/fsdp_utils.py
+@@ -1,8 +1,10 @@
+ # coding: utf-8
+ 
+ import functools
++import json
+ import os
+ import os.path as osp
++import shutil
+ import warnings
+ import torch
+ import torch.distributed as dist
+@@ -165,7 +167,17 @@ class FSDPCheckpoint:
+ class FSDPCheckpoint:
+     @staticmethod
+     def fsdp_save_fsdp_ckpt(ckpt_dir, train_steps, model, ema_model, optimizer, scheduler, data_status, logger, fsdp_config, blocking=True, **kwargs):
+-        save_path = osp.join(ckpt_dir, f"{train_steps:07d}")
++        completed_steps = kwargs.get("completed_steps", train_steps + 1)
++        next_step = kwargs.get("next_step", train_steps + 1)
++        keep_last_checkpoints = kwargs.get("keep_last_checkpoints", 0)
++        final_save_path = osp.join(ckpt_dir, f"{train_steps:07d}")
++        save_path = osp.join(ckpt_dir, f".{train_steps:07d}.incomplete")
++        if _rank() == 0:
++            if osp.exists(final_save_path):
++                raise FileExistsError(f"Checkpoint already exists: {final_save_path}")
++            if osp.exists(save_path):
++                shutil.rmtree(save_path)
++        __barrier__()
+         mkdir(save_path)
+         logger.info(f"Begin saving checkpoint info to {save_path}")
+         source_model_path = kwargs.get("source_model_path")
+@@ -306,6 +318,80 @@ class FSDPCheckpoint:
+ 
+         __barrier__()
+ 
++        if rank == 0:
++            optimizer_shards = (
++                world
++                if fsdp_config.sharding_strategy == "FULL_SHARD"
++                else fsdp_config.num_shard
++            )
++            required_files = [
++                "model.safetensors",
++                "scheduler.pt",
++                "data_status.pt",
++                *[
++                    f"optimizer.{index:05d}-of-{optimizer_shards:05d}.pt"
++                    for index in range(optimizer_shards)
++                ],
++            ]
++            missing_files = [
++                filename
++                for filename in required_files
++                if not osp.isfile(osp.join(save_path, filename))
++                or osp.getsize(osp.join(save_path, filename)) <= 0
++            ]
++            if missing_files:
++                raise RuntimeError(
++                    "Checkpoint is incomplete; missing/empty files: "
++                    + ", ".join(missing_files)
++                )
++
++            trainer_state = {
++                "checkpoint_format_version": 1,
++                "completed_steps": int(completed_steps),
++                "next_step": int(next_step),
++                "checkpoint_name": f"{train_steps:07d}",
++                "optimizer_shards": optimizer_shards,
++                "world_size": world,
++            }
++            with open(osp.join(save_path, "trainer_state.json"), "w", encoding="utf-8") as stream:
++                json.dump(trainer_state, stream, indent=2, sort_keys=True)
++                stream.write("\n")
++
++            artifact_sizes = {
++                filename: osp.getsize(osp.join(save_path, filename))
++                for filename in required_files
++            }
++            complete_marker = {
++                **trainer_state,
++                "status": "complete",
++                "required_artifact_sizes": artifact_sizes,
++            }
++            with open(osp.join(save_path, "checkpoint_complete.json"), "w", encoding="utf-8") as stream:
++                json.dump(complete_marker, stream, indent=2, sort_keys=True)
++                stream.write("\n")
++            os.replace(save_path, final_save_path)
++
++            if keep_last_checkpoints > 0:
++                complete_checkpoints = sorted(
++                    (
++                        entry
++                        for entry in os.listdir(ckpt_dir)
++                        if entry.isdigit()
++                        and osp.isfile(
++                            osp.join(ckpt_dir, entry, "checkpoint_complete.json")
++                        )
++                    ),
++                    key=int,
++                )
++                for stale_name in complete_checkpoints[:-keep_last_checkpoints]:
++                    stale_path = osp.join(ckpt_dir, stale_name)
++                    logger.info(
++                        f"Removing checkpoint outside rolling retention: {stale_path}"
++                    )
++                    shutil.rmtree(stale_path)
++
++        __barrier__()
++
+         return
+ 
+     @staticmethod
+@@ -408,7 +494,14 @@ class FSDPCheckpoint:
+             scheduler.load_state_dict(scheduler_state_dict)
+             del scheduler_state_dict
+ 
+-            train_steps = int(osp.basename(osp.normpath(resume_from))) + 1
++            trainer_state_path = osp.join(resume_from, "trainer_state.json")
++            if osp.isfile(trainer_state_path):
++                with open(trainer_state_path, "r", encoding="utf-8") as stream:
++                    trainer_state = json.load(stream)
++                train_steps = int(trainer_state["next_step"])
++            else:
++                # Compatibility with upstream zero-based checkpoint directories.
++                train_steps = int(osp.basename(osp.normpath(resume_from))) + 1
+             """
+             data_status = [
+                 {
+--- a/train/unified_train.py
++++ b/train/unified_train.py
+@@ -290,9 +290,10 @@ def main():
+                 is_bad = torch.tensor(1.0, device=DEVICE)
+             dist.all_reduce(is_bad, op=dist.ReduceOp.SUM)
+             if is_bad.item() > 0.5:
+-                logger.error(f"bad data at step {curr_step}, rank {GLOBAL_RANK}, sum of is_bad {is_bad.item()}, skip this step in all ranks")
+-                optimizer.zero_grad()
+-                continue
++                raise FloatingPointError(
++                    f"bad data at step {curr_step}, rank {GLOBAL_RANK}, "
++                    f"sum of is_bad {is_bad.item()}"
++                )
+ 
+             total_norm = optimizer_step_with_ema(
+                 loss=loss,
+@@ -328,7 +329,29 @@ def main():
+                     data_status[item["dataset_name"]] = {}
+                 data_status[item["dataset_name"]][item["worker_id"]] = item["data_indexes"]
+ 
+-            if (curr_step == training_args.ckpt_debug_steps) or (curr_step > 0 and curr_step % training_args.save_every == 0):
++            completed_steps = curr_step + 1
++            if training_args.checkpoint_completed_steps:
++                periodic_checkpoint = (
++                    training_args.save_every > 0
++                    and completed_steps % training_args.save_every == 0
++                )
++                final_checkpoint = (
++                    training_args.save_final_checkpoint
++                    and completed_steps == training_args.total_steps
++                )
++                checkpoint_step = completed_steps
++            else:
++                periodic_checkpoint = (
++                    curr_step > 0 and curr_step % training_args.save_every == 0
++                )
++                final_checkpoint = False
++                checkpoint_step = curr_step
++
++            if (
++                curr_step == training_args.ckpt_debug_steps
++                or periodic_checkpoint
++                or final_checkpoint
++            ):
+                 if curr_step == training_args.ckpt_debug_steps:
+                     log_rank0(f"ckpt_debug_steps = {curr_step}, saving checkpoints just for debug...")
+ 
+@@ -341,7 +364,7 @@ def main():
+ 
+                 FSDPCheckpoint.fsdp_save_fsdp_ckpt(
+                     ckpt_dir=training_args.ckpt_dir,
+-                    train_steps=curr_step,
++                    train_steps=checkpoint_step,
+                     model=fsdp_model,
+                     ema_model=(
+                         ema_model if (training_args.use_ema and curr_step >= training_args.ema_start_steps)
+@@ -354,19 +377,15 @@ def main():
+                     data_status=gather_list,
+                     blocking=(curr_step >= (training_args.total_steps - 1)),
+                     source_model_path=model_args.model_path,
++                    completed_steps=completed_steps,
++                    next_step=completed_steps,
++                    keep_last_checkpoints=training_args.keep_last_checkpoints,
+                 )
+         except Exception:
+             logger.error(f"[TRAINING EXCEPTION] Step {curr_step}, Rank {GLOBAL_RANK}, Error:")
+             traceback.print_exc()
+-            # Clear gradients so stale data does not affect the next iteration
+             optimizer.zero_grad()
+-            # Synchronize all distributed ranks before skipping together
+-            try:
+-                dist.barrier()
+-            except:
+-                pass
+-            # Skip the current batch and continue training
+-            continue
++            raise
+ 
+     if GLOBAL_RANK == 0:
+         logger.info("Done!")

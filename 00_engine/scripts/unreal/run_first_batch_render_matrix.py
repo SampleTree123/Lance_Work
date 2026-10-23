@@ -47,6 +47,7 @@ DEFAULT_OUTPUT = (
 )
 MIN_FREE_BYTES = 40 * 1024**3
 MIN_TEMPORAL_MEAN_ABS_DIFF = 2.0
+MAX_FIRST_FRAME_MEAN_ABS_DIFF = 12.0
 DEFAULT_PROJECT_NAME = os.environ.get("DM_UE_PROJECT_NAME", "datatry_02")
 DEFAULT_UE_ENGINE_ROOT = (
     Path(os.environ["DM_UE_ENGINE_ROOT"])
@@ -190,6 +191,8 @@ def build_sequence(config: dict, row: dict, actor_name: str) -> dict:
         actor_name,
         "--expression",
         row["expression_id"],
+        "--camera-id",
+        row["camera_id"],
         "--no-open",
     ]
     if _remote_engine_root is not None:
@@ -226,13 +229,15 @@ def valid_render(folder: Path, row: dict) -> dict | None:
     automation = report.get("automation_contract", {})
     pose_driver = automation.get("pose_driver_contract", {})
     temporal_motion = automation.get("temporal_motion_contract", {})
+    evaluation_preroll = automation.get("evaluation_preroll_contract", {})
+    expected_start_frame, expected_end_frame = delivery_frame_range(row)
     if (
         report.get("status") == "passed"
         and report.get("frame_count") == 150
         and report.get("resolution") == [2560, 1440]
         and report.get("fps") == 30
-        and report.get("start_frame_inclusive") == row["start_frame_inclusive"]
-        and report.get("end_frame_exclusive") == row["end_frame_exclusive"]
+        and report.get("start_frame_inclusive") == expected_start_frame
+        and report.get("end_frame_exclusive") == expected_end_frame
         and video.is_file()
         and video.stat().st_size > 0
         and automation.get("sample_id") == row["sample_id"]
@@ -240,6 +245,7 @@ def valid_render(folder: Path, row: dict) -> dict | None:
         and automation.get("action_id") == row["action_id"]
         and pose_driver.get("passed") is True
         and temporal_motion.get("passed") is True
+        and evaluation_preroll.get("passed") is True
     ):
         return report
     return None
@@ -277,15 +283,27 @@ def pose_driver_contract(sequence_report: dict) -> dict:
     return {"checks": checks, "passed": all(checks.values())}
 
 
+def delivery_frame_range(row: dict) -> tuple[int, int]:
+    frame_count = row["end_frame_exclusive"] - row["start_frame_inclusive"]
+    if frame_count != 150:
+        raise ValueError(f"Expected a 150-frame matrix row, found {frame_count}")
+    # The selected camera covers the full workspace and every animation section
+    # uses the same action/expression. Render section zero so preroll does not
+    # cross an animation-section boundary.
+    return 0, frame_count
+
+
 def temporal_motion_contract(folder: Path, expected_frames: int = 150) -> dict:
     frames = sorted(folder.glob("frame_*.png"))
     checks = {
         "expected_frame_count": len(frames) == expected_frames,
         "sample_frames_readable": False,
+        "first_frame_continuity": False,
         "visible_temporal_change": False,
     }
     sample_indices: list[int] = []
     differences: list[float] = []
+    first_frame_difference: float | None = None
     if frames:
         sample_indices = sorted(
             {
@@ -297,6 +315,17 @@ def temporal_motion_contract(folder: Path, expected_frames: int = 150) -> dict:
             }
         )
         try:
+            if len(frames) >= 2:
+                with Image.open(frames[0]) as source:
+                    first = source.convert("L").resize((320, 180))
+                with Image.open(frames[1]) as source:
+                    second = source.convert("L").resize((320, 180))
+                first_frame_difference = float(
+                    ImageStat.Stat(ImageChops.difference(first, second)).mean[0]
+                )
+                checks["first_frame_continuity"] = (
+                    first_frame_difference <= MAX_FIRST_FRAME_MEAN_ABS_DIFF
+                )
             with Image.open(frames[sample_indices[0]]) as source:
                 baseline = source.convert("L").resize((320, 180))
             for index in sample_indices[1:]:
@@ -319,6 +348,12 @@ def temporal_motion_contract(folder: Path, expected_frames: int = 150) -> dict:
         ],
         "maximum_mean_abs_difference": round(maximum, 6),
         "minimum_required": MIN_TEMPORAL_MEAN_ABS_DIFF,
+        "first_frame_to_second_mean_abs_difference": (
+            round(first_frame_difference, 6)
+            if first_frame_difference is not None
+            else None
+        ),
+        "maximum_allowed_first_frame_difference": MAX_FIRST_FRAME_MEAN_ABS_DIFF,
         "checks": checks,
         "passed": all(checks.values()),
     }
@@ -337,6 +372,7 @@ def render_case(
             "Refusing to render a sequence that can fall back to T-pose: "
             f"{pose_contract}"
         )
+    render_start_frame, render_end_frame = delivery_frame_range(row)
     command = [
         sys.executable,
         str(RENDER_RUNNER),
@@ -349,9 +385,11 @@ def render_case(
         "--sequence-path",
         config["unreal"]["workspace_sequence_object"],
         "--start-frame",
-        str(row["start_frame_inclusive"]),
+        str(render_start_frame),
         "--end-frame",
-        str(row["end_frame_exclusive"]),
+        str(render_end_frame),
+        "--evaluation-preroll-frames",
+        "1",
         "--job-name",
         row["sample_id"],
         "--timeout-seconds",
@@ -377,6 +415,7 @@ def render_case(
         "camera_id": row["camera_id"],
         "sequence": sequence_report.get("output_sequence"),
         "pose_driver_contract": pose_contract,
+        "evaluation_preroll_contract": report.get("evaluation_preroll", {}),
         "temporal_motion_contract": temporal_motion_contract(folder),
     }
     if not report["automation_contract"]["temporal_motion_contract"]["passed"]:

@@ -39,7 +39,11 @@ def load_prompts(args: argparse.Namespace) -> list[str]:
     return prompts
 
 
-def build_video_edit_conversation(video: Path, prompts: list[str]) -> dict:
+def build_video_edit_conversation(
+    video: Path, prompts: list[str], reference_images: list[str | None] | None = None,
+) -> dict:
+    if reference_images is not None and len(reference_images) != len(prompts):
+        raise ValueError("reference_images must contain exactly one path/null per prompt")
     turns = []
     for idx, prompt in enumerate(prompts):
         content = [{"type": "text", "value": prompt}]
@@ -52,6 +56,11 @@ def build_video_edit_conversation(video: Path, prompts: list[str]) -> dict:
                 "content": content,
             }
         )
+        if reference_images is not None and reference_images[idx] is not None:
+            reference = reference_images[idx]
+            if not isinstance(reference, str) or not reference.strip():
+                raise ValueError("reference image must be a non-empty path or null")
+            turns[-1]["reference_image"] = reference
     return {
         "system_prompt": None,
         "turns": turns,
@@ -63,12 +72,21 @@ def main() -> None:
     parser.add_argument("--video", required=True, help="Initial source video.")
     parser.add_argument("--prompt", action="append", default=[], help="One edit prompt. Repeat for multiple turns.")
     parser.add_argument("--prompts-file", help="Prompt file; one non-empty non-comment line per turn.")
+    parser.add_argument(
+        "--reference-image", action="append", default=None,
+        help="Optional one image per prompt; repeat in prompt order and use '-' for no reference.",
+    )
     parser.add_argument("--output", required=True, help="Output conversation JSON path.")
     args = parser.parse_args()
 
     video = resolve_file(args.video)
     prompts = load_prompts(args)
-    payload = build_video_edit_conversation(video, prompts)
+    references = None
+    if args.reference_image is not None:
+        if len(args.reference_image) != len(prompts):
+            parser.error("repeat --reference-image once per prompt; use '-' for no reference")
+        references = [None if value == "-" else str(resolve_file(value)) for value in args.reference_image]
+    payload = build_video_edit_conversation(video, prompts, references)
 
     output = Path(args.output).expanduser()
     if not output.is_absolute():

@@ -1,0 +1,996 @@
+From: DataMake project
+Date: Wed, 3 Sep 2026 00:00:00 +0800
+Subject: [PATCH] Add generation-only LoRA and rollout history entries
+
+diff --git a/train/datamake_generation_lora.py b/train/datamake_generation_lora.py
+new file mode 100644
+index 0000000..f74600d
+--- /dev/null
++++ b/train/datamake_generation_lora.py
+@@ -0,0 +1,300 @@
++# coding: utf-8
++
++"""DataMake LoRA support restricted to Lance's visual-generation branch.
++
++The released Lance training tree does not provide a LoRA implementation.  This
++module deliberately targets only generation-side ``nn.Linear`` modules:
++
++* the 36 decoder layers' ``*_moe_gen`` attention and MLP projections; and
++* optionally the VAE/time input-output projections owned by visual generation.
++
++All pre-existing parameters are frozen before adapters are attached.  The
++understanding experts, ViT, connector, embeddings, generation base weights and
++VAE therefore stay immutable; only ``lora_A`` and ``lora_B`` are trainable.
++
++LoRA checkpoints keep the wrapped module topology instead of silently merging
++adapters.  ``datamake_lora_config.json`` is consequently part of the checkpoint
++contract: training resume and the patched inference loader attach the same
++wrappers before loading ``model.safetensors``.
++"""
++
++from __future__ import annotations
++
++from dataclasses import asdict, dataclass
++import json
++import math
++import os
++from typing import Dict, List, Mapping, Optional, Tuple
++
++import torch
++from torch import nn
++from torch.nn import functional as F
++
++
++LORA_CONFIG_FILENAME = "datamake_lora_config.json"
++LORA_SCHEMA_VERSION = "datamake_lance_generation_lora_v1"
++
++GENERATION_EXPERT_SUFFIXES: Tuple[str, ...] = (
++    "self_attn.q_proj_moe_gen",
++    "self_attn.k_proj_moe_gen",
++    "self_attn.v_proj_moe_gen",
++    "self_attn.o_proj_moe_gen",
++    "mlp_moe_gen.gate_proj",
++    "mlp_moe_gen.up_proj",
++    "mlp_moe_gen.down_proj",
++)
++
++GENERATION_IO_NAMES: Tuple[str, ...] = (
++    "time_embedder.mlp.0",
++    "time_embedder.mlp.2",
++    "vae2llm",
++    "llm2vae",
++)
++
++
++@dataclass(frozen=True)
++class GenerationLoRAConfig:
++    rank: int = 64
++    alpha: float = 64.0
++    dropout: float = 0.0
++    target_scope: str = "generation_experts_and_io"
++    expected_target_modules: int = 256
++    schema_version: str = LORA_SCHEMA_VERSION
++
++    def validate(self) -> None:
++        if self.schema_version != LORA_SCHEMA_VERSION:
++            raise ValueError(f"unsupported LoRA schema: {self.schema_version!r}")
++        if self.rank <= 0:
++            raise ValueError(f"LoRA rank must be positive, got {self.rank}")
++        if self.alpha <= 0:
++            raise ValueError(f"LoRA alpha must be positive, got {self.alpha}")
++        if not 0.0 <= self.dropout < 1.0:
++            raise ValueError(f"LoRA dropout must be in [0, 1), got {self.dropout}")
++        if self.target_scope not in {
++            "generation_experts",
++            "generation_experts_and_io",
++        }:
++            raise ValueError(f"unsupported LoRA target scope: {self.target_scope!r}")
++        if self.expected_target_modules < 1:
++            raise ValueError("expected_target_modules must be positive")
++
++    def to_dict(self) -> Dict[str, object]:
++        return asdict(self)
++
++    @classmethod
++    def from_dict(cls, payload: Mapping[str, object]) -> "GenerationLoRAConfig":
++        config = cls(
++            rank=int(payload["rank"]),
++            alpha=float(payload["alpha"]),
++            dropout=float(payload["dropout"]),
++            target_scope=str(payload["target_scope"]),
++            expected_target_modules=int(payload["expected_target_modules"]),
++            schema_version=str(payload["schema_version"]),
++        )
++        config.validate()
++        return config
++
++
++class LoRALinear(nn.Module):
++    """A frozen ``nn.Linear`` plus a trainable low-rank residual."""
++
++    def __init__(
++        self,
++        base_layer: nn.Linear,
++        rank: int,
++        alpha: float,
++        dropout: float,
++    ) -> None:
++        super().__init__()
++        if not isinstance(base_layer, nn.Linear):
++            raise TypeError(f"LoRALinear requires nn.Linear, got {type(base_layer)!r}")
++        self.base_layer = base_layer
++        self.rank = int(rank)
++        self.alpha = float(alpha)
++        self.scaling = self.alpha / self.rank
++        self.dropout = nn.Dropout(float(dropout)) if dropout > 0 else nn.Identity()
++
++        factory = {
++            "device": base_layer.weight.device,
++            "dtype": base_layer.weight.dtype,
++        }
++        self.lora_A = nn.Parameter(
++            torch.empty(self.rank, base_layer.in_features, **factory)
++        )
++        self.lora_B = nn.Parameter(
++            torch.zeros(base_layer.out_features, self.rank, **factory)
++        )
++        nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(5))
++
++        for parameter in self.base_layer.parameters():
++            parameter.requires_grad = False
++
++    @property
++    def in_features(self) -> int:
++        return self.base_layer.in_features
++
++    @property
++    def out_features(self) -> int:
++        return self.base_layer.out_features
++
++    def forward(self, inputs: torch.Tensor) -> torch.Tensor:
++        base = self.base_layer(inputs)
++        residual = F.linear(F.linear(self.dropout(inputs), self.lora_A), self.lora_B)
++        return base + residual * self.scaling
++
++
++def _is_generation_target(name: str, scope: str) -> bool:
++    if any(name.endswith(suffix) for suffix in GENERATION_EXPERT_SUFFIXES):
++        return True
++    return scope == "generation_experts_and_io" and name in GENERATION_IO_NAMES
++
++
++def _resolve_parent(model: nn.Module, qualified_name: str) -> Tuple[nn.Module, str]:
++    parent = model
++    parts = qualified_name.split(".")
++    for part in parts[:-1]:
++        parent = getattr(parent, part)
++    return parent, parts[-1]
++
++
++def generation_lora_targets(model: nn.Module, scope: str) -> List[str]:
++    return [
++        name
++        for name, module in model.named_modules()
++        if isinstance(module, nn.Linear) and _is_generation_target(name, scope)
++    ]
++
++
++def apply_generation_lora(
++    model: nn.Module,
++    config: GenerationLoRAConfig,
++) -> Dict[str, object]:
++    """Freeze the full model and attach LoRA only to generation-side linears."""
++
++    config.validate()
++    if any(isinstance(module, LoRALinear) for module in model.modules()):
++        raise ValueError("generation LoRA has already been applied to this model")
++
++    target_names = generation_lora_targets(model, config.target_scope)
++    if len(target_names) != config.expected_target_modules:
++        raise ValueError(
++            "generation LoRA target count changed: "
++            f"expected {config.expected_target_modules}, found {len(target_names)}. "
++            "Inspect the Lance architecture before changing the frozen contract."
++        )
++
++    for parameter in model.parameters():
++        parameter.requires_grad = False
++
++    for name in target_names:
++        parent, attribute = _resolve_parent(model, name)
++        base_layer = getattr(parent, attribute)
++        setattr(
++            parent,
++            attribute,
++            LoRALinear(
++                base_layer=base_layer,
++                rank=config.rank,
++                alpha=config.alpha,
++                dropout=config.dropout,
++            ),
++        )
++
++    trainable = {
++        name: parameter.numel()
++        for name, parameter in model.named_parameters()
++        if parameter.requires_grad
++    }
++    if not trainable or any(
++        not (name.endswith("lora_A") or name.endswith("lora_B"))
++        for name in trainable
++    ):
++        raise RuntimeError("only LoRA A/B parameters may remain trainable")
++
++    return {
++        "target_modules": target_names,
++        "target_module_count": len(target_names),
++        "trainable_parameter_count": sum(trainable.values()),
++        "trainable_parameter_names": sorted(trainable),
++    }
++
++
++def write_lora_config(path: str, config: GenerationLoRAConfig) -> None:
++    config.validate()
++    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
++    with open(path, "w", encoding="utf-8") as stream:
++        json.dump(config.to_dict(), stream, indent=2, sort_keys=True)
++        stream.write("\n")
++
++
++def read_lora_config(path: str) -> GenerationLoRAConfig:
++    with open(path, "r", encoding="utf-8") as stream:
++        payload = json.load(stream)
++    if not isinstance(payload, dict):
++        raise ValueError(f"LoRA config must be a JSON object: {path}")
++    return GenerationLoRAConfig.from_dict(payload)
++
++
++def maybe_apply_checkpoint_lora(
++    model: nn.Module,
++    checkpoint_dir: str,
++) -> Optional[Dict[str, object]]:
++    """Attach adapters when an inference checkpoint declares the LoRA contract."""
++
++    config_path = os.path.join(checkpoint_dir, LORA_CONFIG_FILENAME)
++    if not os.path.isfile(config_path):
++        return None
++    config = read_lora_config(config_path)
++    report = apply_generation_lora(model, config)
++    return {"config": config.to_dict(), **report}
++
++
++def load_lora_checkpoint_into_model(model: nn.Module, model_args):
++    """Attach LoRA topology and load a DataMake full-state checkpoint.
++
++    The two-argument signature matches Lance's inference checkpoint loader, so
++    an isolated entry point can install it without editing historical code.
++    """
++
++    checkpoint_dir = os.path.abspath(model_args.model_path)
++    report = maybe_apply_checkpoint_lora(model, checkpoint_dir)
++    if report is None:
++        raise FileNotFoundError(
++            f"DataMake LoRA checkpoint lacks {LORA_CONFIG_FILENAME}: "
++            f"{checkpoint_dir}"
++        )
++
++    from safetensors.torch import load_file
++
++    model_path = os.path.join(checkpoint_dir, "model.safetensors")
++    if not os.path.isfile(model_path):
++        raise FileNotFoundError(model_path)
++    state = load_file(model_path, device="cpu")
++    for key in ("latent_pos_embed.pos_embed", "vit_pos_embed.pos_embed"):
++        state.pop(key, None)
++    message = model.load_state_dict(state, strict=False)
++    unexpected = list(message.unexpected_keys)
++    missing = [
++        key
++        for key in message.missing_keys
++        if key not in {"latent_pos_embed.pos_embed", "vit_pos_embed.pos_embed"}
++    ]
++    state.clear()
++    if missing or unexpected:
++        raise RuntimeError(
++            "DataMake LoRA checkpoint topology mismatch: "
++            f"missing={missing[:20]}, unexpected={unexpected[:20]}"
++        )
++    return message
++
++
++def install_lora_inference_loader_if_present(checkpoint_dir: str) -> bool:
++    """Patch only this process when the checkpoint declares DataMake LoRA."""
++
++    config_path = os.path.join(checkpoint_dir, LORA_CONFIG_FILENAME)
++    if not os.path.isfile(config_path):
++        return False
++    import inference_lance
++
++    inference_lance.init_from_model_path_if_needed = load_lora_checkpoint_into_model
++    return True
+diff --git a/train/datamake_lora_generation_train.py b/train/datamake_lora_generation_train.py
+new file mode 100644
+index 0000000..47e2388
+--- /dev/null
++++ b/train/datamake_lora_generation_train.py
+@@ -0,0 +1,324 @@
++# coding: utf-8
++
++"""Isolated DataMake entry point for generation-only LoRA training.
++
++The historical ``train/unified_train.py`` remains unchanged. This entry removes
++its own LoRA-only CLI arguments, patches three extension points in memory, and
++then calls the existing optimization loop:
++
++1. load the immutable Lance base checkpoint;
++2. freeze every base parameter and attach generation-only LoRA modules;
++3. preserve adapter topology/config in full-state checkpoints for exact resume.
++
++The history arm is selected by the ordinary ``--dataset_config_file``. Thus the
++teacher-forced and rollout experiments share the identical optimizer/model code.
++"""
++
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import math
++import os
++from pathlib import Path
++import shutil
++import sys
++from typing import Dict, List, Tuple
++
++import torch.distributed as dist
++import wandb
++
++from common.utils.basic import get_global_rank
++from train.datamake_generation_lora import (
++    GenerationLoRAConfig,
++    LORA_CONFIG_FILENAME,
++    apply_generation_lora,
++    read_lora_config,
++    write_lora_config,
++)
++from train.fsdp_utils import FSDPCheckpoint
++
++
++REQUIRED_UPSTREAM_ARGUMENTS: Dict[str, str] = {
++    "--freeze_und_params": "True",
++    "--freeze_und": "True",
++    "--freeze_vit": "True",
++    "--freeze_vae": "True",
++    "--freeze_llm": "False",
++    "--use_ema": "False",
++}
++TRAINING_CONTRACT_FILENAME = "datamake_lora_training_contract.json"
++TRAINING_CONTRACT_SCHEMA = "datamake_lance_lora_training_contract_v1"
++
++
++def argument_value(arguments: List[str], name: str) -> str | None:
++    try:
++        index = arguments.index(name)
++    except ValueError:
++        return None
++    if index + 1 >= len(arguments):
++        raise ValueError(f"{name} requires a value")
++    return arguments[index + 1]
++
++
++def validate_upstream_contract(arguments: List[str], history_mode: str) -> None:
++    for name, expected in REQUIRED_UPSTREAM_ARGUMENTS.items():
++        actual = argument_value(arguments, name)
++        if actual is None:
++            raise ValueError(f"DataMake LoRA entry requires {name} {expected}")
++        if actual.lower() != expected.lower():
++            raise ValueError(f"{name} must be {expected}, got {actual}")
++
++    learning_rate = argument_value(arguments, "--lr")
++    if learning_rate is None or not math.isclose(
++        float(learning_rate), 1e-4, rel_tol=0.0, abs_tol=1e-12
++    ):
++        raise ValueError(f"DataMake LoRA entry requires --lr 1e-4, got {learning_rate}")
++
++    region_weighting = argument_value(arguments, "--edit_region_weighting")
++    if region_weighting is None:
++        raise ValueError("--edit_region_weighting must be explicit for every history arm")
++    if history_mode == "rollout_full" and region_weighting.lower() != "false":
++        raise ValueError(
++            "rollout_full requires --edit_region_weighting False because its "
++            "generated direct source is not the rendered target's exact parent"
++        )
++
++
++def parse_lora_arguments(
++    arguments: List[str],
++) -> Tuple[GenerationLoRAConfig, str, List[str]]:
++    parser = argparse.ArgumentParser(add_help=False)
++    parser.add_argument("--datamake_lora_rank", type=int, default=64)
++    parser.add_argument("--datamake_lora_alpha", type=float, default=64.0)
++    parser.add_argument("--datamake_lora_dropout", type=float, default=0.0)
++    parser.add_argument(
++        "--datamake_lora_target_scope",
++        default="generation_experts_and_io",
++        choices=("generation_experts", "generation_experts_and_io"),
++    )
++    parser.add_argument("--datamake_lora_expected_target_modules", type=int, default=256)
++    parser.add_argument(
++        "--datamake_history_mode",
++        required=True,
++        choices=("teacher_forced", "rollout_vit_only", "rollout_full"),
++    )
++    parsed, remaining = parser.parse_known_args(arguments)
++    config = GenerationLoRAConfig(
++        rank=parsed.datamake_lora_rank,
++        alpha=parsed.datamake_lora_alpha,
++        dropout=parsed.datamake_lora_dropout,
++        target_scope=parsed.datamake_lora_target_scope,
++        expected_target_modules=parsed.datamake_lora_expected_target_modules,
++    )
++    config.validate()
++    if config.rank != 64:
++        raise ValueError(f"this review profile fixes LoRA rank to 64, got {config.rank}")
++    return config, parsed.datamake_history_mode, remaining
++
++
++def sha256_file(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as stream:
++        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def build_training_contract(
++    config: GenerationLoRAConfig,
++    history_mode: str,
++    upstream_arguments: List[str],
++) -> Dict[str, object]:
++    dataset_config = Path(
++        argument_value(upstream_arguments, "--dataset_config_file") or ""
++    ).resolve()
++    if not dataset_config.is_file():
++        raise FileNotFoundError(dataset_config)
++    return {
++        "schema_version": TRAINING_CONTRACT_SCHEMA,
++        "lora": config.to_dict(),
++        "history_mode": history_mode,
++        "dataset_config_file": str(dataset_config),
++        "dataset_config_sha256": sha256_file(dataset_config),
++        "base_model_path": argument_value(upstream_arguments, "--model_path"),
++        "learning_rate": float(argument_value(upstream_arguments, "--lr") or "nan"),
++        "edit_region_weighting": (
++            argument_value(upstream_arguments, "--edit_region_weighting").lower()
++            == "true"
++        ),
++    }
++
++
++def install_training_hooks(
++    config: GenerationLoRAConfig,
++    training_contract: Dict[str, object],
++) -> None:
++    import train.unified_train as unified_train
++
++    original_setup = unified_train.setup_ema_and_load_checkpoint
++    original_save = FSDPCheckpoint.fsdp_save_fsdp_ckpt
++    metadata_path: Path | None = None
++    contract_path: Path | None = None
++
++    def setup_with_generation_lora(
++        model,
++        training_args,
++        fsdp_config,
++        load_ckpt,
++        resume_from=None,
++        resume_model_only=True,
++        logger=None,
++    ):
++        nonlocal metadata_path, contract_path
++        if training_args.use_ema:
++            raise ValueError("DataMake generation LoRA does not support EMA")
++        if resume_from is not None and resume_model_only:
++            raise ValueError("LoRA continuation requires full-state resume")
++
++        # Match upstream setup, but attach adapters after base loading and before
++        # full-state resume loading.
++        load_ckpt(model, ema=False)
++        report = apply_generation_lora(model, config)
++        metadata_path = Path(training_args.config_dir) / LORA_CONFIG_FILENAME
++        contract_path = Path(training_args.config_dir) / TRAINING_CONTRACT_FILENAME
++        if get_global_rank() == 0:
++            write_lora_config(str(metadata_path), config)
++            contract_path.write_text(
++                json.dumps(training_contract, indent=2, sort_keys=True) + "\n",
++                encoding="utf-8",
++            )
++            wandb.config.update(
++                {
++                    "datamake_lora": config.to_dict(),
++                    "datamake_history_mode": training_contract["history_mode"],
++                    "datamake_lora_trainable_parameters": report[
++                        "trainable_parameter_count"
++                    ],
++                    "datamake_lora_target_modules": report["target_module_count"],
++                },
++                allow_val_change=True,
++            )
++        if dist.is_available() and dist.is_initialized():
++            dist.barrier()
++        if logger is not None:
++            logger.info(
++                "DataMake generation-only LoRA enabled: "
++                f"r={config.rank}, alpha={config.alpha}, "
++                f"modules={report['target_module_count']}, "
++                f"trainable={report['trainable_parameter_count']}"
++            )
++
++        if resume_from is not None:
++            checkpoint_config_path = Path(resume_from) / LORA_CONFIG_FILENAME
++            if not checkpoint_config_path.is_file():
++                raise ValueError(
++                    f"LoRA resume checkpoint lacks {LORA_CONFIG_FILENAME}: {resume_from}"
++                )
++            if read_lora_config(str(checkpoint_config_path)) != config:
++                raise ValueError("LoRA resume config differs from the current contract")
++            checkpoint_contract_path = Path(resume_from) / TRAINING_CONTRACT_FILENAME
++            if not checkpoint_contract_path.is_file():
++                raise ValueError(
++                    f"LoRA resume checkpoint lacks {TRAINING_CONTRACT_FILENAME}"
++                )
++            checkpoint_contract = json.loads(
++                checkpoint_contract_path.read_text(encoding="utf-8")
++            )
++            if checkpoint_contract != training_contract:
++                raise ValueError(
++                    "LoRA resume history/data contract differs from the current run"
++                )
++            model, _ = FSDPCheckpoint.try_load_ckpt(
++                resume_from=resume_from,
++                logger=logger,
++                model=model,
++                ema_model=None,
++                resume_from_ema=False,
++                report_dir=training_args.config_dir,
++            )
++        return None
++
++    def save_with_lora_metadata(*args, **kwargs):
++        keep_last_checkpoints = int(kwargs.get("keep_last_checkpoints", 0))
++        upstream_kwargs = dict(kwargs)
++        # Do not let the upstream saver prune the previous recoverable point
++        # before the new checkpoint has its LoRA metadata and final marker.
++        upstream_kwargs["keep_last_checkpoints"] = 0
++        result = original_save(*args, **upstream_kwargs)
++        if metadata_path is None or contract_path is None:
++            raise RuntimeError("LoRA metadata was not initialized before checkpoint save")
++        if dist.is_available() and dist.is_initialized():
++            dist.barrier()
++        if get_global_rank() == 0:
++            checkpoint = Path(kwargs["ckpt_dir"]) / f"{int(kwargs['train_steps']):07d}"
++            incomplete = checkpoint.parent / f".{checkpoint.name}.lora-metadata"
++            if incomplete.exists():
++                raise FileExistsError(incomplete)
++            os.replace(checkpoint, incomplete)
++            destination = incomplete / LORA_CONFIG_FILENAME
++            shutil.copy2(metadata_path, destination)
++            contract_destination = incomplete / TRAINING_CONTRACT_FILENAME
++            shutil.copy2(contract_path, contract_destination)
++            marker_path = incomplete / "checkpoint_complete.json"
++            marker = json.loads(marker_path.read_text(encoding="utf-8"))
++            marker["lora_config"] = LORA_CONFIG_FILENAME
++            marker.setdefault("required_artifact_sizes", {})[
++                LORA_CONFIG_FILENAME
++            ] = destination.stat().st_size
++            marker["datamake_training_contract"] = TRAINING_CONTRACT_FILENAME
++            marker["required_artifact_sizes"][
++                TRAINING_CONTRACT_FILENAME
++            ] = contract_destination.stat().st_size
++            temporary = marker_path.with_suffix(".json.tmp")
++            temporary.write_text(
++                json.dumps(marker, indent=2, sort_keys=True) + "\n",
++                encoding="utf-8",
++            )
++            os.replace(temporary, marker_path)
++            os.replace(incomplete, checkpoint)
++            if keep_last_checkpoints > 0:
++                complete_checkpoints = sorted(
++                    (
++                        item
++                        for item in checkpoint.parent.iterdir()
++                        if item.is_dir()
++                        and item.name.isdigit()
++                        and (item / "checkpoint_complete.json").is_file()
++                    ),
++                    key=lambda item: int(item.name),
++                )
++                for stale in complete_checkpoints[:-keep_last_checkpoints]:
++                    kwargs["logger"].info(
++                        f"Removing LoRA checkpoint outside rolling retention: {stale}"
++                    )
++                    shutil.rmtree(stale)
++        if dist.is_available() and dist.is_initialized():
++            dist.barrier()
++        return result
++
++    # The imported optimization loop resolves these globals at call time.
++    unified_train.setup_ema_and_load_checkpoint = setup_with_generation_lora
++    FSDPCheckpoint.fsdp_save_fsdp_ckpt = staticmethod(save_with_lora_metadata)
++    unified_train._datamake_original_setup = original_setup
++    unified_train._datamake_original_save = original_save
++
++
++def main() -> None:
++    original_arguments = sys.argv[1:]
++    config, history_mode, upstream_arguments = parse_lora_arguments(original_arguments)
++    validate_upstream_contract(upstream_arguments, history_mode)
++    training_contract = build_training_contract(
++        config, history_mode, upstream_arguments
++    )
++    sys.argv = [sys.argv[0], *upstream_arguments]
++    install_training_hooks(config, training_contract)
++
++    from train.unified_train import main as unified_main
++
++    unified_main()
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/datamake_lora_multiturn_chat.py b/datamake_lora_multiturn_chat.py
+new file mode 100644
+index 0000000..2344337
+--- /dev/null
++++ b/datamake_lora_multiturn_chat.py
+@@ -0,0 +1,45 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++# Licensed under the Apache License, Version 2.0.
++# coding: utf-8
++
++"""LoRA-aware DataMake entry for Lance multi-turn inference.
++
++The historical ``multiturn_chat.py`` and ``inference_lance.py`` remain
++unchanged. This entry requires LoRA topology metadata, installs the compatible
++loader in this process, and delegates to the existing multi-turn CLI.
++"""
++
++from __future__ import annotations
++
++import sys
++
++from train.datamake_generation_lora import (
++    LORA_CONFIG_FILENAME,
++    install_lora_inference_loader_if_present,
++)
++
++
++def argument_value(arguments, name):
++    try:
++        index = arguments.index(name)
++    except ValueError as error:
++        raise ValueError(f"{name} is required") from error
++    if index + 1 >= len(arguments):
++        raise ValueError(f"{name} requires a value")
++    return arguments[index + 1]
++
++
++def main() -> None:
++    model_path = argument_value(sys.argv[1:], "--model_path")
++    if not install_lora_inference_loader_if_present(model_path):
++        raise FileNotFoundError(
++            f"LoRA-aware inference requires {LORA_CONFIG_FILENAME}: {model_path}"
++        )
++
++    from multiturn_chat import main as multiturn_main
++
++    multiturn_main()
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/datamake_rollout.py b/datamake_rollout.py
+new file mode 100644
+index 0000000..1e3d214
+--- /dev/null
++++ b/datamake_rollout.py
+@@ -0,0 +1,298 @@
++# Copyright (c) 2025 ByteDance Ltd. and/or its affiliates.
++# Licensed under the Apache License, Version 2.0.
++# coding: utf-8
++
++"""Generate deterministic model-output histories for DataMake training.
++
++One Lance model is loaded per process and reused for every assigned chain.  The
++input train parquet is deduplicated to the longest prefix of each chain, then
++all edit turns are generated autoregressively.  Each process owns a stable
++``chain_index % shard_count`` partition and writes an independent manifest, so
++several one-GPU jobs can run without a shared-manifest race.
++
++This program generates conditioning media only. It never starts optimization.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++from dataclasses import dataclass, field
++from pathlib import Path
++from typing import Any, Dict, List, Tuple, cast
++
++import pyarrow.parquet as pq
++import torch
++from transformers import HfArgumentParser, set_seed
++import yaml
++
++from config.config_factory import (
++    DataArguments,
++    InferenceArguments,
++    ModelArguments,
++    get_model_path,
++)
++from multiturn.conversation import ContentItem, Conversation, Turn, TurnAction
++from multiturn.engine import MultiTurnChatEngine
++from train.datamake_generation_lora import install_lora_inference_loader_if_present
++
++
++SCHEMA_VERSION = "datamake_lance_rollout_media_v1"
++
++
++@dataclass
++class RolloutArguments:
++    source_config: str = field(metadata={"help": "DataMake Lance train YAML."})
++    output_root: str = field(metadata={"help": "Root for generated chain media."})
++    manifest_path: str = field(
++        default="",
++        metadata={"help": "Defaults to output_root/manifest-shard-NNNNN.json."},
++    )
++    shard_count: int = 1
++    shard_index: int = 0
++    max_chains: int = 0
++
++
++def sha256_file(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as stream:
++        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return digest.hexdigest()
++
++
++def atomic_json(path: Path, payload: Dict[str, Any]) -> None:
++    path.parent.mkdir(parents=True, exist_ok=True)
++    temporary = path.with_suffix(path.suffix + ".tmp")
++    temporary.write_text(
++        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
++        encoding="utf-8",
++    )
++    os.replace(temporary, path)
++
++
++def resolve_media(media_root: Path, value: str) -> Path:
++    path = Path(value)
++    resolved = path.resolve() if path.is_absolute() else (media_root / path).resolve()
++    if not resolved.is_file():
++        raise FileNotFoundError(resolved)
++    return resolved
++
++
++def load_longest_chain_rows(source_config: Path) -> Tuple[List[Dict[str, Any]], Path]:
++    payload = yaml.safe_load(source_config.read_text(encoding="utf-8"))
++    dataset = payload["D1"]["datamake_multiturn_v2v_local"]
++    media_root = Path(dataset["media_root"]).resolve()
++    parquet_paths = dataset["dataset_names"]["datamake_multiturn"]["data_dir"]
++    longest: Dict[str, Dict[str, Any]] = {}
++    for parquet_path in parquet_paths:
++        rows = pq.read_table(
++            parquet_path,
++            columns=[
++                "sample_id",
++                "chain_id",
++                "target_round",
++                "prompts",
++                "video_paths",
++            ],
++        ).to_pylist()
++        for row in rows:
++            chain_id = str(row["chain_id"])
++            previous = longest.get(chain_id)
++            if previous is None or int(row["target_round"]) > int(
++                previous["target_round"]
++            ):
++                longest[chain_id] = row
++    return [longest[key] for key in sorted(longest)], media_root
++
++
++def make_user_turn(prompt: str, initial_video: Path | None) -> Turn:
++    content = []
++    if initial_video is not None:
++        content.append(ContentItem(type="video", value=str(initial_video)))
++    content.append(ContentItem(type="text", value=prompt))
++    return Turn(role="user", content=content, action=TurnAction.EDIT_VIDEO)
++
++
++def stable_turn_seed(base_seed: int, chain_id: str, round_number: int) -> int:
++    payload = f"{base_seed}\0{chain_id}\0{round_number}".encode("utf-8")
++    return int.from_bytes(hashlib.sha256(payload).digest()[:4], "big")
++
++
++def checkpoint_identity(model_path: Path) -> Dict[str, Any]:
++    model_file = model_path / "model.safetensors"
++    if not model_file.is_file():
++        raise FileNotFoundError(model_file)
++    identity = {
++        "path": str(model_path),
++        "model_sha256": sha256_file(model_file),
++    }
++    lora_config = model_path / "datamake_lora_config.json"
++    if lora_config.is_file():
++        identity["lora_config_sha256"] = sha256_file(lora_config)
++    return identity
++
++
++def validate_existing_chain(record: Dict[str, Any]) -> None:
++    for item in record["round_outputs"]:
++        path = Path(item["output_video"])
++        if not path.is_file() or sha256_file(path) != item["sha256"]:
++            raise ValueError(f"existing rollout chain is incomplete: {path}")
++
++
++def main() -> None:
++    if not torch.cuda.is_available():
++        raise RuntimeError("CUDA is required for rollout generation")
++    parser = HfArgumentParser(
++        (ModelArguments, DataArguments, InferenceArguments, RolloutArguments)
++    )
++    model_args, data_args, inference_args, rollout_args = cast(
++        Tuple[ModelArguments, DataArguments, InferenceArguments, RolloutArguments],
++        parser.parse_args_into_dataclasses(),
++    )
++    if rollout_args.shard_count < 1:
++        raise ValueError("shard_count must be positive")
++    if not 0 <= rollout_args.shard_index < rollout_args.shard_count:
++        raise ValueError("shard_index must be in [0, shard_count)")
++    if not model_args.model_path:
++        raise ValueError("--model_path is required")
++    if not model_args.llm_path:
++        model_args.llm_path = model_args.model_path
++    if not model_args.vit_path:
++        model_args.vit_path = get_model_path("vit.qwen2_5_vl")
++
++    source_config = Path(rollout_args.source_config).resolve()
++    output_root = Path(rollout_args.output_root).resolve()
++    manifest_path = (
++        Path(rollout_args.manifest_path).resolve()
++        if rollout_args.manifest_path
++        else output_root
++        / f"manifest-shard-{rollout_args.shard_index:05d}-of-{rollout_args.shard_count:05d}.json"
++    )
++    rows, media_root = load_longest_chain_rows(source_config)
++    assigned = [
++        row
++        for index, row in enumerate(rows)
++        if index % rollout_args.shard_count == rollout_args.shard_index
++    ]
++    if rollout_args.max_chains > 0:
++        assigned = assigned[: rollout_args.max_chains]
++
++    model_path = Path(model_args.model_path).resolve()
++    uses_lora = install_lora_inference_loader_if_present(str(model_path))
++    identity = checkpoint_identity(model_path)
++    identity["uses_datamake_lora"] = uses_lora
++    settings = {
++        "diffusion_steps": int(inference_args.validation_num_timesteps),
++        "timestep_shift": float(inference_args.validation_timestep_shift),
++        "cfg_text_scale": float(model_args.cfg_text_scale),
++        "base_seed": int(inference_args.validation_data_seed),
++        "num_frames": int(inference_args.num_frames),
++        "resolution": str(inference_args.resolution),
++    }
++    manifest: Dict[str, Any] = {
++        "schema_version": SCHEMA_VERSION,
++        "source_config": str(source_config),
++        "source_config_sha256": sha256_file(source_config),
++        "checkpoint": identity,
++        "inference": settings,
++        "shard_count": rollout_args.shard_count,
++        "shard_index": rollout_args.shard_index,
++        "chains": [],
++    }
++    completed: Dict[str, Dict[str, Any]] = {}
++    if manifest_path.is_file():
++        existing = json.loads(manifest_path.read_text(encoding="utf-8"))
++        for key in (
++            "schema_version",
++            "source_config_sha256",
++            "checkpoint",
++            "inference",
++            "shard_count",
++            "shard_index",
++        ):
++            if existing.get(key) != manifest.get(key):
++                raise ValueError(f"existing rollout manifest differs at {key}")
++        for record in existing.get("chains", []):
++            validate_existing_chain(record)
++            completed[str(record["chain_id"])] = record
++        manifest["chains"] = list(existing.get("chains", []))
++
++    device = 0
++    torch.cuda.set_device(device)
++    set_seed(inference_args.global_seed)
++    engine = MultiTurnChatEngine(
++        model_args=model_args,
++        data_args=data_args,
++        inference_args=inference_args,
++        device=device,
++        log=print,
++    )
++
++    for row in assigned:
++        chain_id = str(row["chain_id"])
++        if chain_id in completed:
++            print(f"[skip] {chain_id}")
++            continue
++        chain_dir = output_root / "chains" / chain_id
++        if chain_dir.exists() and any(chain_dir.iterdir()):
++            raise ValueError(
++                f"partial chain directory exists without manifest record: {chain_dir}"
++            )
++        chain_dir.mkdir(parents=True, exist_ok=True)
++        prompts = list(row["prompts"])
++        gt_paths = [resolve_media(media_root, value) for value in row["video_paths"]]
++        conversation = Conversation(turns=[])
++        outputs = []
++        for index, prompt in enumerate(prompts):
++            round_number = index + 1
++            conversation.append(
++                make_user_turn(prompt, gt_paths[0] if index == 0 else None)
++            )
++            seed = stable_turn_seed(
++                int(inference_args.validation_data_seed), chain_id, round_number
++            )
++            engine.inference_args.validation_noise_seed = seed
++            output = Path(
++                engine.generate_turn(
++                    conversation,
++                    len(conversation.turns) - 1,
++                    str(chain_dir),
++                    index,
++                )
++            ).resolve()
++            outputs.append(
++                {
++                    "round": round_number,
++                    "output_video": str(output),
++                    "sha256": sha256_file(output),
++                    "seed": seed,
++                    "ground_truth_video": str(gt_paths[round_number]),
++                    "ground_truth_sha256": sha256_file(gt_paths[round_number]),
++                }
++            )
++
++        transcript_path = chain_dir / "transcript.json"
++        atomic_json(transcript_path, conversation.to_dict())
++        record = {
++            "chain_id": chain_id,
++            "source_sample_id": str(row["sample_id"]),
++            "rounds": len(prompts),
++            "initial_video": str(gt_paths[0]),
++            "initial_video_sha256": sha256_file(gt_paths[0]),
++            "round_outputs": outputs,
++            "transcript": str(transcript_path),
++            "transcript_sha256": sha256_file(transcript_path),
++        }
++        manifest["chains"].append(record)
++        manifest["chains"].sort(key=lambda item: item["chain_id"])
++        atomic_json(manifest_path, manifest)
++        print(f"[complete] {chain_id} ({len(outputs)} rounds)")
++
++    atomic_json(manifest_path, manifest)
++    print(f"[done] {len(manifest['chains'])} chains -> {manifest_path}")
++
++
++if __name__ == "__main__":
++    main()
+

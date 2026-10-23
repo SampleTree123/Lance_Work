@@ -1,0 +1,173 @@
+diff --git a/train/datamake_pred_x0_prefix.py b/train/datamake_pred_x0_prefix.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_pred_x0_prefix.py
+@@ -0,0 +1,82 @@
++"""Prefix-preserving online histories. Workers only read media; GPU work is local."""
++from contextlib import contextmanager
++import hashlib
++
++import torch
++
++from data.dataset_base_train import simple_custom_collate
++from data.datasets_factory.datamake_online_rollout_turn import process_online_rollout_row
++from train.datamake_stage2_lora_data import IndexedPrefixDataset, locate_prefix, preprocessing_rng
++
++REQUEST_KEY = "pred_x0_prefix_request"
++
++
++def history_seed(seed, round_number):
++    return int.from_bytes(hashlib.sha256(
++        f"pred_x0_v1:{seed}:{round_number}".encode()).digest()[:8], "little")
++
++
++def make_history_row(row, round_number, histories):
++    if not 1 <= round_number <= int(row["target_round"]) or len(histories) != round_number - 1:
++        raise ValueError("History count must match the selected turn")
++    if any(video.requires_grad or video.grad_fn is not None for video in histories):
++        raise ValueError("Generated history must be detached")
++    result = dict(row)
++    result.update(target_round=round_number, context_length=round_number,
++                  prompts=list(row["prompts"][:round_number]),
++                  video_paths=list(row["video_paths"][:round_number + 1]))
++    result["video_inputs"] = [row["video_paths"][0], *histories, row["video_paths"][round_number]]
++    return result
++
++
++@contextmanager
++def generation_rng(seed, device):
++    # Restore CPU, Python, NumPy AND this rank's CUDA RNG before the target forward.
++    with preprocessing_rng(seed), torch.random.fork_rng(devices=[device]):
++        torch.cuda.default_generators[device].manual_seed(seed)
++        yield
++
++
++class PredX0PrefixDataset(IndexedPrefixDataset):
++    active = None
++
++    def __init__(self, *args, **kwargs):
++        super().__init__(*args, **kwargs)
++        PredX0PrefixDataset.active = self
++
++    def __getitem__(self, index):
++        worker, row_index, cycle = locate_prefix(index, [len(rows) for rows in self.rows])
++        row = self.rows[worker][row_index]
++        if int(row["target_round"]) == 1:
++            # Includes all CoinVE records: preserve the exact original implementation.
++            return super().__getitem__(index)
++        seed = int.from_bytes(hashlib.sha256(
++            f"{self.seed}:{self.source.local_rank}:{index}".encode()).digest()[:8], "little")
++        cache = {}
++        media = {path: self.source._read_media_bytes(path, cache) for path in row["video_paths"]}
++        return {REQUEST_KEY: dict(row=row, seed=seed, worker=worker, row_index=row_index,
++                                 cycle=cycle, microstep=index, media=media)}
++
++    def pack_turn(self, request, round_number, histories, seed):
++        row = make_history_row(request["row"], round_number, histories)
++        worker, row_index = request["worker"], request["row_index"]
++        original_reader = self.source._read_media_bytes
++        try:
++            # Reuse bytes prefetched by the worker for all turns of this prefix.
++            self.source._read_media_bytes = lambda path, cache: request["media"][path]
++            with preprocessing_rng(seed):
++                sample = process_online_rollout_row(
++                    self.source, row, 0, 0, row_index, worker, self.paths[worker])
++                if sample is None:
++                    raise RuntimeError(f"Failed to pack {row['sample_id']} turn {round_number}")
++                if sample["num_tokens"] + 2 * len(sample["sequence_plan"]) > self.packer.max_num_tokens_per_sample:
++                    raise ValueError("History prefix exceeds sample token budget")
++                status = self.packer.pack_sequence(sample, self.packer.set_sequence_status())
++                if status["curr"] > self.packer.max_num_tokens:
++                    raise ValueError("History prefix exceeds packed token budget")
++                packed = self.packer.to_tensor(status)
++        finally:
++            self.source._read_media_bytes = original_reader
++        packed["batch_data_indexes"] = [{**sample["data_indexes"],
++            "microstep": request["microstep"], "cycle": request["cycle"]}]
++        return simple_custom_collate([packed])
+diff --git a/train/datamake_pred_x0_ddp_train.py b/train/datamake_pred_x0_ddp_train.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_pred_x0_ddp_train.py
+@@ -0,0 +1,81 @@
++"""Frozen mixed DDP loop with detached online pred_x0 history preparation."""
++from pathlib import Path
++import sys
++
++import torch
++
++sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
++from run_datamake_pred_x0_ddp_training import load_profile, make_contract
++from train import datamake_ddp_train as control
++from train.datamake_pred_x0_prefix import (
++    REQUEST_KEY, PredX0PrefixDataset, generation_rng, history_seed,
++)
++from train.datamake_online_rollout_lora_train import predict_clean_latent_patches
++
++supervised_loss = control.microbatch_loss
++
++
++@torch.no_grad()
++def predict_history(batch, bare_model, vae, device, empty_vae_cache, attention_padding):
++    data = batch.cuda(device).to_dict()
++    if attention_padding == "minimal":
++        data = control.trim_attention_padding(data)
++    for key in ("batch_data_indexes", "ce_loss_weights", "vae_edit_roles", "mse_slot_counts", "padded_videos_vit"):
++        data.pop(key, None)
++    mode, videos = data.pop("vae_data_mode"), data.pop("padded_videos")
++    shape = tuple(int(value) for value in data["patchified_vae_latent_shapes"][-1])
++    with torch.autocast("cuda", dtype=torch.bfloat16):
++        data["padded_latent"] = control.make_padded_latent(videos, mode, vae, empty_cache=empty_vae_cache)
++        losses = bare_model(**data, return_flow_intermediates=True)
++        patches = predict_clean_latent_patches(losses)
++        if patches.shape[0] != shape[0] * shape[1] * shape[2]:
++            raise RuntimeError("pred_x0 patch count does not match the target latent")
++        latent = patches.reshape(*shape, -1)
++        if not torch.isfinite(latent).all():
++            raise FloatingPointError("Nonfinite pred_x0 history latent")
++        # Official VAE decoder; no peak-stat reset, so full-step memory includes rollout.
++        decoded = vae.vae_decode([latent])[0]
++    if decoded.ndim != 4 or decoded.shape[0] != 3 or not torch.isfinite(decoded).all():
++        raise FloatingPointError("Invalid decoded pred_x0 history")
++    return decoded.detach().clamp(-1, 1).to(device="cpu", dtype=torch.float16).contiguous()
++
++
++def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events,
++                    empty_vae_cache=True, attention_padding="fixed"):
++    request = getattr(batch, REQUEST_KEY, None)
++    histories = []
++    if request is not None:
++        dataset = PredX0PrefixDataset.active
++        target_round = int(request["row"]["target_round"])
++        # Bypass DDP collectives for unequal history lengths across ranks. The final
++        # supervised forward still uses the original DDP/no_sync/backward path.
++        bare_model = model.module
++        for round_number in range(1, target_round):
++            seed = history_seed(request["seed"], round_number)
++            with torch.no_grad(), generation_rng(seed, device):
++                turn = dataset.pack_turn(request, round_number, histories, seed)
++                history = predict_history(turn, bare_model, vae, device, empty_vae_cache, attention_padding)
++                histories.append(history)
++                del turn
++        batch = dataset.pack_turn(request, target_round, histories, request["seed"])
++    loss, metrics, count, indexes = supervised_loss(
++        batch, model, vae, model_args, training_args, device, world, phase_events,
++        empty_vae_cache=empty_vae_cache, attention_padding=attention_padding)
++    # Same keys on every rank, including R1: preserve collective ordering.
++    metrics["history_generated_rounds"] = loss.new_tensor(len(histories))
++    metrics["history_detached"] = loss.new_tensor(1.0)
++    return loss, metrics, count, indexes
++
++
++def main():
++    # Only these hooks change. Model setup, optimizer, supervised loss/backward,
++    # scheduler, cursor, checkpoints and resume gate remain the control code.
++    control.load_profile = load_profile
++    control.make_contract = make_contract
++    control.IndexedPrefixDataset = PredX0PrefixDataset
++    control.microbatch_loss = microbatch_loss
++    return control.main()
++
++
++if __name__ == "__main__":
++    main()

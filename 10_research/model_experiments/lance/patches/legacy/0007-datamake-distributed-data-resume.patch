@@ -1,0 +1,25 @@
+diff --git a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+index 59c9ac4..040ec3e 100644
+--- a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
++++ b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+@@ -14,10 +14,8 @@ import random
+ from typing import Any, Dict, List, Optional, Tuple
+ 
+ from data.common import generate_system_prompt
+ from data.system_prompt_render import VS, VE, render_qwenvl_prompt
+-from data.datasets_factory.dataset_x2v_interleave_local import (
+-    X2VInterleaveLocalIterableDataset,
+-)
++from data.datasets_factory.dataset_x2v_interleave import X2VInterleaveIterableDataset
+ 
+ 
+ def _find_last_exact(all_ids: List[int], needle: List[int]) -> int:
+@@ -98,7 +96,7 @@ def expand_and_index_multiturn(
+ 
+ 
+ class DataMakeMultiTurnV2VLocalIterableDataset(
+-    X2VInterleaveLocalIterableDataset
++    X2VInterleaveIterableDataset
+ ):
+     """Read path-based DataMake chain prefixes and build role-aware samples."""
+ 

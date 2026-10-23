@@ -4,9 +4,9 @@
 > 文档类型：`reference`
 > 生命周期：`current`
 > 权威范围：本机路径别名、目录职责和迁移边界
-> 最近核验：2026-08-25
+> 最近核验：2026-10-23服务器路径；Windows路径沿用历史记录，待本地确认
 
-## 1. 本机别名
+## 1. Windows历史绑定与共同逻辑别名
 
 | 别名 | 当前路径 | 主要内容 |
 | --- | --- | --- |
@@ -33,6 +33,22 @@
 | `%ANIMATION_ROOT%` | `D:\BaiduNetdiskDownload\iclone动作` | 动画来源库 |
 
 UE 路径解析规则：`/Game/<relative_path>` 表示 Content Browser Object Path，其当前本机物理目录根为 `%UE_PROJECT_ROOT%\Content\<relative_path>`。例如 `/Game/Vendor/Reallusion/...` 对应 `%UE_PROJECT_ROOT%\Content\Vendor\Reallusion\...`；带 `.AssetName` 的完整对象引用不是文件系统文件名，不能直接拼接为磁盘路径。
+
+## 1.1 服务器绑定
+
+服务器根为`/scratch/prj0000000275/jcy/xks/DataMake`。下表路径于2026-10-23只读核对；不代表当前会话通过UE Gate。
+
+| 逻辑项 | 服务器绑定 | 边界 |
+| --- | --- | --- |
+| `%LANCE_ROOT%` / repo root | `/scratch/prj0000000275/jcy/xks/DataMake` | shell物理路径可显示`/home/users/astar/cfar/stuchengyou/jcy/xks/DataMake`；不是另一份待同步工作区 |
+| `%ENGINE_ROOT%` | `<repo>/00_engine` | 数据生产目录，不是UE二进制安装根 |
+| `%UE_PROJECT_ROOT%` | `<repo>/00_engine/projects/datatry_02` | Windows工程需经输入闭包同步；只同步文档不会更新Content |
+| Installed Build | `<repo>/00_engine/unreal/UE_5.8` | 当前存在；不是已证明可替代旧生产构建 |
+| 历史生产兼容构建 | `/scratch/prj0000000275/jcy/sx/UnrealEngine` | 发布profile保留此路径，但可执行文件当前不存在；不可作为有效命令默认值 |
+| `%OUTPUT_ROOT%` | `<repo>/00_engine/outputs` | 服务器媒体/证据；目录快照不能覆盖本地输出事实 |
+| Lance HF cache | `/scratch/prj0000000275/jcy/.cache/huggingface` | 保留服务器绑定，不同步到Windows文档暂存区 |
+
+本轮同步范围见[文档同步](../technical/rendering_release/DOCUMENT_SYNC.md)。Windows表中的外部资产根不能据服务器内容自动修改；服务器运行快照见[同步状态](../project_management/status/SERVER_SYNC_STATUS.md)。
 
 ## 2. 所有权
 

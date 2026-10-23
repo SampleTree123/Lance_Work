@@ -1,0 +1,37 @@
+diff --git a/data/common.py b/data/common.py
+index 7028fc9..dd62b58 100644
+--- a/data/common.py
++++ b/data/common.py
+@@ -60,6 +60,7 @@ def shift_position_ids(
+     i_sample_modality=None,
+ ) -> torch.Tensor:
+     curr_split = 0
++    matching_modality_counts = None
+     for i, attn_mode in enumerate(attn_modes):
+         if attn_mode in shift_attn_mode:
+             if pro_type == 10:  # Related to sample_modality.
+@@ -69,8 +70,15 @@ def shift_position_ids(
+                 if position_ids[:, :, i_sample_modality == 3].sum() != 0:
+                     pos_shift_type3 = 2000 - position_ids[:, :, i_sample_modality == 3][0, 0, 0]
+                     position_ids[0, :, i_sample_modality == 3] += pos_shift_type3
+-                if position_ids[:, :, i_sample_modality == 2].sum() != 0 and sum(i_sample_modality == 2) == sum(i_sample_modality == 1):
+-                    position_ids[:, :, i_sample_modality == 1] = position_ids[:, :, i_sample_modality == 2]
++                if position_ids[:, :, i_sample_modality == 2].sum() != 0:
++                    # Modality labels are unchanged by the position updates.
++                    # Reduce on-device once instead of iterating CUDA scalars.
++                    if matching_modality_counts is None:
++                        matching_modality_counts = bool(
++                            ((i_sample_modality == 2).sum() == (i_sample_modality == 1).sum()).item()
++                        )
++                    if matching_modality_counts:
++                        position_ids[:, :, i_sample_modality == 1] = position_ids[:, :, i_sample_modality == 2]
+ 
+         curr_split += split_lens[i]
+ 
+@@ -222,4 +230,4 @@ def parse_videochat2it_doubao_caption(row):
+         if 'rewrite_VQA' in row.keys():
+             raise ValueError(f"wrong rewrite_VQA in {row['rewrite_VQA']}")
+         else:
+-            raise ValueError(f"wrong rewrite_VQA in {row}")
+\ No newline at end of file
++            raise ValueError(f"wrong rewrite_VQA in {row}")

@@ -1,0 +1,23 @@
+diff --git a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+index 040ec3e..a7d1a21 100644
+--- a/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
++++ b/data/datasets_factory/dataset_datamake_multiturn_v2v_local.py
+@@ -106,6 +106,18 @@ class DataMakeMultiTurnV2VLocalIterableDataset(
+         self.media_root = os.path.abspath(kwargs.get("media_root", "."))
+         super().__init__(*args, **kwargs)
+ 
++        # Tiny overfit datasets may intentionally contain a single parquet
++        # file.  Repeat its path list before the distributed rank/worker split
++        # so every loader worker receives at least one shard.  Keep the
++        # distributed BaseMMParquetDataset iterator used by formal training;
++        # this only expands the explicitly requested debug input list.
++        self.debug_parquet_repeat = max(
++            1, int(kwargs.get("debug_parquet_repeat", 1))
++        )
++        if self.debug_parquet_repeat > 1:
++            source_paths = list(self.data_paths or self.data_dir_list)
++            self.data_paths = source_paths * self.debug_parquet_repeat
++
+     def _validate_local_row(self, row):
+         if self.dataset_type != self.DATASET_TYPE:
+             raise ValueError(

@@ -223,21 +223,44 @@ class FileLease(AbstractContextManager["FileLease"]):
             "created_at_utc": utc_now(),
         }
 
+    def _archive(self, reason: str) -> bool:
+        archived = self.path.with_name(
+            f"{self.path.name}.{reason}.{int(time.time())}.{uuid.uuid4().hex[:8]}"
+        )
+        try:
+            os.replace(self.path, archived)
+        except FileNotFoundError:
+            pass
+        return True
+
+    def _owner_process_is_dead(self) -> bool:
+        try:
+            payload = read_json(self.path)
+        except (ContractError, FileNotFoundError):
+            return False
+        if payload.get("hostname") != socket.gethostname():
+            return False
+        pid = payload.get("pid")
+        if not isinstance(pid, int) or pid <= 0:
+            return False
+        try:
+            os.kill(pid, 0)
+        except ProcessLookupError:
+            return True
+        except (PermissionError, OSError):
+            return False
+        return False
+
     def _archive_stale(self) -> bool:
         try:
             age = time.time() - self.path.stat().st_mtime
         except FileNotFoundError:
             return True
+        if self._owner_process_is_dead():
+            return self._archive("orphaned")
         if age <= self.stale_after_seconds:
             return False
-        stale = self.path.with_name(
-            f"{self.path.name}.stale.{int(time.time())}.{uuid.uuid4().hex[:8]}"
-        )
-        try:
-            os.replace(self.path, stale)
-        except FileNotFoundError:
-            pass
-        return True
+        return self._archive("stale")
 
     def acquire(self) -> "FileLease":
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -300,6 +323,8 @@ class RenderContext:
     uproject: Path
     project_name: str
     engine_root: Path | None
+    runtime_profile_path: Path | None = None
+    runtime_profile: dict | None = None
     input_fingerprint: str = ""
     input_lock_sha256: str = ""
 
@@ -406,6 +431,20 @@ def load_context(args: argparse.Namespace) -> RenderContext:
     if not args.dry_run and not args.audit_existing and not uproject.is_file():
         raise ContractError(f"Unreal project is missing: {uproject}")
 
+    runtime_profile_path = getattr(args, "runtime_profile_record", None)
+    runtime_profile = None
+    if runtime_profile_path is not None:
+        runtime_profile_path = runtime_profile_path.resolve()
+        runtime_profile = read_json(runtime_profile_path)
+        if (
+            runtime_profile.get("schema_version")
+            != "first_batch_server_editor_profile_v1"
+            or not runtime_profile.get("profile_id")
+        ):
+            raise ContractError(
+                f"Invalid server runtime profile: {runtime_profile_path}"
+            )
+
     return RenderContext(
         graph_root=graph_root,
         run_root=run_root,
@@ -422,6 +461,8 @@ def load_context(args: argparse.Namespace) -> RenderContext:
         uproject=uproject,
         project_name=args.project_name,
         engine_root=args.engine_root.resolve() if args.engine_root else None,
+        runtime_profile_path=runtime_profile_path,
+        runtime_profile=runtime_profile,
     )
 
 
@@ -504,15 +545,21 @@ def input_entries(context: RenderContext) -> list[dict]:
     project_path = context.uproject if context.uproject.is_file() else None
     if project_path is not None:
         paths.append(project_path)
+    if context.runtime_profile_path is not None:
+        paths.append(context.runtime_profile_path)
     entries = []
     for path in paths:
         if not path.is_file():
             raise ContractError(f"Locked input is missing: {path}")
-        uri = (
-            f"project://{context.project_name}/{path.name}"
-            if project_path is not None and path == project_path
-            else repo_uri(path)
-        )
+        if (
+            context.runtime_profile_path is not None
+            and path == context.runtime_profile_path
+        ):
+            uri = f"runtime-profile://{context.runtime_profile['profile_id']}"
+        elif project_path is not None and path == project_path:
+            uri = f"project://{context.project_name}/{path.name}"
+        else:
+            uri = repo_uri(path)
         normalized_payload, hash_mode = normalized_locked_input(path)
         entries.append(
             {
@@ -566,6 +613,7 @@ def ensure_run_manifest(context: RenderContext) -> None:
         "input_lock_sha256": context.input_lock_sha256,
         "planned_node_count": len(context.jobs),
         "render_profile": context.source_manifest["render_profile"],
+        "runtime_profile": context.runtime_profile,
         "paths": {
             "input_lock": "inputs.lock.json",
             "status": "status.json",
@@ -660,6 +708,7 @@ def validate_accepted_node(
     node = context.nodes_by_id[job["node_id"]]
     media = sidecar.get("media", {})
     ground_truth = sidecar.get("ground_truth", {})
+    qa = sidecar.get("qa", {})
     checks = [
         sidecar.get("schema_version") == SIDECAR_SCHEMA,
         sidecar.get("status") == "accepted",
@@ -671,6 +720,9 @@ def validate_accepted_node(
         media.get("path") == job["expected_media_uri"],
         media.get("bytes") == video.stat().st_size,
         bool(media.get("sha256")),
+        qa.get("pose_driver", {}).get("passed") is True,
+        qa.get("evaluation_preroll", {}).get("passed") is True,
+        qa.get("temporal_motion", {}).get("passed") is True,
     ]
     if not all(checks):
         return None
@@ -735,6 +787,7 @@ def build_sidecar(
         "qa": {
             "render_status": render_report["status"],
             "pose_driver": automation["pose_driver_contract"],
+            "evaluation_preroll": automation["evaluation_preroll_contract"],
             "temporal_motion": automation["temporal_motion_contract"],
         },
         "runtime": {
@@ -746,6 +799,7 @@ def build_sidecar(
                 sha256_file(context.uproject) if context.uproject.is_file() else None
             ),
             "git": git_state(),
+            "editor_profile": context.runtime_profile,
         },
         "accepted_at_utc": utc_now(),
     }
@@ -857,6 +911,18 @@ def attempt_log_path(context: RenderContext, job: dict, attempt_number: int) -> 
     )
 
 
+def mark_interrupted_attempts(attempts: list[dict]) -> int:
+    interrupted_at = utc_now()
+    count = 0
+    for attempt in attempts:
+        if attempt.get("status") != "running":
+            continue
+        attempt["status"] = "interrupted"
+        attempt["interrupted_at_utc"] = interrupted_at
+        count += 1
+    return count
+
+
 def run_one_job(
     context: RenderContext,
     job: dict,
@@ -881,6 +947,7 @@ def run_one_job(
             return {"node_id": job["node_id"], "status": "accepted", "resume": "reused"}
         state = read_node_state(context, job)
         attempts = state.setdefault("attempts", [])
+        mark_interrupted_attempts(attempts)
         max_attempts = int(job["max_attempts"])
         if len(attempts) >= max_attempts:
             state["status"] = "permanent_failed"
@@ -1030,6 +1097,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--uproject", type=Path, default=DEFAULT_UPROJECT)
     parser.add_argument("--project-name", default="datatry_02")
     parser.add_argument("--engine-root", type=Path)
+    parser.add_argument(
+        "--runtime-profile-record",
+        type=Path,
+        help="Immutable server Editor launch profile to include in the input lock.",
+    )
     parser.add_argument("--timeout-seconds", type=int, default=1800)
     parser.add_argument("--lease-timeout-seconds", type=int, default=6 * 60 * 60)
     parser.add_argument("--minimum-free-gib", type=float, default=40.0)

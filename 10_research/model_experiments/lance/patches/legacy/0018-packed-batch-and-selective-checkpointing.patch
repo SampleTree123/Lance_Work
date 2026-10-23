@@ -1,0 +1,233 @@
+diff --git a/train/datamake_ddp_train.py b/train/datamake_ddp_train.py
+--- a/train/datamake_ddp_train.py
++++ b/train/datamake_ddp_train.py
+@@ -1,5 +1,6 @@
+ """PEFT/DDP Stage6 recipe, optional activation recomputation and phase timing."""
+ import argparse
++from copy import deepcopy
+ from dataclasses import asdict
+ import functools
+ from contextlib import nullcontext
+@@ -38,12 +39,16 @@
+ from train.datamake_stage2_lora_checkpoint import initialize_adam_state, save_and_stop_requested
+ from train.datamake_ddp_checkpoint import save as save_ddp_checkpoint, load as load_ddp_checkpoint
+ from train.datamake_stage2_lora_data import IndexedPrefixDataset
++from train.datamake_packed_batch import IndexedPackedPrefixDataset, compute_packed_training_loss
+ 
+ 
+ def recipe_arguments(profile):
+     # Reuse Stage2's exact mapping of model/data/optimizer settings, without
+     # running its full-parameter-only launcher or modifying its frozen files.
+-    command = build_torchrun_command(profile, None, 29500)
++    argument_profile = deepcopy(profile)
++    argument_profile["run"]["gradient_accumulation_steps"] *= argument_profile["run"]["per_rank_batch_size"]
++    argument_profile["run"]["per_rank_batch_size"] = 1
++    command = build_torchrun_command(argument_profile, None, 29500)
+     argv = command[command.index("train/unified_train.py") + 1:]
+     return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
+ 
+@@ -53,6 +58,7 @@
+     indexes = data.pop("batch_data_indexes")
+     ce_weights = data.pop("ce_loss_weights", None)
+     roles = data.pop("vae_edit_roles")
++    slot_counts = data.pop("mse_slot_counts", None)
+     e0, e1, e2 = [torch.cuda.Event(enable_timing=True) for _ in range(3)]
+     e0.record()
+     with torch.autocast("cuda", dtype=torch.bfloat16):
+@@ -69,9 +75,14 @@
+         losses = model(**data)
+         e2.record()
+     phase_events.append((e0, e1, e2))
+-    loss, metrics, _, total_tokens = compute_training_loss(
+-        losses, data, ce_weights, training_args, device, world, weights,
+-    )
++    if slot_counts is None:
++        loss, metrics, _, total_tokens = compute_training_loss(
++            losses, data, ce_weights, training_args, device, world, weights,
++        )
++    else:
++        loss, metrics, _, total_tokens = compute_packed_training_loss(
++            losses, slot_counts, training_args, weights,
++        )
+     return loss, metrics, total_tokens, indexes
+ 
+ 
+@@ -82,10 +93,13 @@
+     parser.add_argument("--resume-from", type=Path)
+     parser.add_argument("--stop-after", type=int)
+     parser.add_argument("--smoke", action="store_true")
++    parser.add_argument("--benchmark-only", action="store_true", help="Smoke timing without checkpoint writes")
+     parser.add_argument("--trace", action="store_true", help="Capture first two optimizer updates; benchmark only")
+     parser.add_argument("--single-gpu-probe", action="store_true", help="Diagnostic only: rank0's unchanged four-rank data schedule, no training checkpoints")
+     parser.add_argument("--probe-backend", choices=("ddp", "fsdp"), default="ddp")
+     args = parser.parse_args()
++    if args.benchmark_only and (not args.smoke or args.resume_from):
++        raise ValueError("Benchmark-only requires fresh smoke mode")
+     profile = load_profile(args.profile)
+     model_args, data_args, training_args = recipe_arguments(profile)
+     torch.set_num_threads(1)
+@@ -147,11 +161,13 @@
+         (run_dir / "configs" / "lora_targets.json").write_text(json.dumps(targets, indent=2) + "\n")
+     image_token_id = get_image_token_id(language)
+     checkpoint_mode = profile["ddp"]["activation_checkpointing"]
++    disabled_layers = set(profile["ddp"].get("checkpoint_disabled_layers", []))
+     def checkpoint_layer(module):
+         if checkpoint_mode == "none" or not grad_checkpoint_check_fn(module):
+             return False
+         if checkpoint_mode == "all":
+-            return True
++            index = getattr(getattr(module, "self_attn", None), "layer_idx", None)
++            return index not in disabled_layers
+         index = getattr(getattr(module, "self_attn", None), "layer_idx", None)
+         return index is not None and index % 2 == 0
+     apply_activation_checkpointing(
+@@ -186,6 +202,8 @@
+     initialize_adam_state(optimizer)
+     scheduler = build_lr_scheduler(optimizer, training_args)
+     accumulation = profile["run"]["gradient_accumulation_steps"]
++    batch_size = profile["run"]["per_rank_batch_size"]
++    prefixes_per_update = accumulation * batch_size
+     total_steps = profile["run"]["total_steps"]
+     stop = args.stop_after or total_steps
+     if not 0 < stop <= total_steps:
+@@ -204,12 +222,14 @@
+         cfg_uncond_token_id=training_args.cfg_uncond_token_id, **asdict(data_args),
+     )
+     packer.set_epoch(data_args.data_seed)
+-    dataset = IndexedPrefixDataset(packer, total_steps * accumulation, data_args.data_seed)
++    dataset = (IndexedPrefixDataset(packer, total_steps * prefixes_per_update, data_args.data_seed)
++               if batch_size == 1 else IndexedPackedPrefixDataset(
++                   packer, total_steps * prefixes_per_update, data_args.data_seed, batch_size))
+     next_step = 0
+     if args.resume_from:
+         state = json.loads((args.resume_from / "trainer_state.json").read_text())
+         next_step = state["next_step"]
+-        if state["next_microstep"] != next_step * accumulation:
++        if state["next_microstep"] != next_step * prefixes_per_update:
+             raise ValueError("Checkpoint is not at the expected accumulation boundary")
+     loader = DataLoader(
+         dataset, batch_size=1, sampler=range(next_step * accumulation, stop * accumulation),
+@@ -301,13 +321,14 @@
+         report = {
+             "backend": args.probe_backend, "diagnostic_only": args.single_gpu_probe,
+             "actual_world_size": world, "activation_checkpointing": checkpoint_mode,
++            "checkpoint_disabled_layers": sorted(disabled_layers), "per_rank_batch_size": batch_size,
+             **{f"perf/{key}": value for key, value in zip(
+                 ("data_wait_seconds", "vae_region_seconds", "model_forward_seconds", "backward_sync_seconds", "vit_seconds"), timing.tolist())},
+             "optimizer_step": completed, **{f"train/{k}": v.item() for k, v in totals.items()},
+             "train/grad_norm": float(grad_norm), "train/lr": lr_used,
+             "train/next_lr": optimizer.param_groups[0]["lr"],
+-            "train/target_exposures": completed * world * accumulation,
+-            "perf/step_time": step_time.item(), "perf/target_videos_per_second": world * accumulation / step_time.item(),
++            "train/target_exposures": completed * world * prefixes_per_update,
++            "perf/step_time": step_time.item(), "perf/target_videos_per_second": world * prefixes_per_update / step_time.item(),
+             "perf/mse_tokens": tokens, "perf/peak_allocated_gib": memory[0].item() / 2**30,
+             "perf/peak_reserved_gib": memory[1].item() / 2**30,
+         }
+@@ -321,14 +342,16 @@
+         if args.smoke:
+             with (run_dir / f"trace.rank-{rank}.jsonl").open("a") as stream:
+                 stream.write(json.dumps({"step": completed, "sample_ids": sample_ids,
+-                                         "loss": totals["loss"].item()}) + "\n")
++                                         "loss": totals["loss"].item(),
++                                         "peak_allocated_gib": torch.cuda.max_memory_allocated(device) / 2**30,
++                                         "peak_reserved_gib": torch.cuda.max_memory_reserved(device) / 2**30}) + "\n")
+         requested_stop = save_and_stop_requested(run_dir, device)
+         save = requested_stop or completed % profile["checkpoint"]["completed_step_interval"] == 0
+         save |= completed == stop and (args.smoke or profile["checkpoint"]["save_final_checkpoint"])
+-        if save and not args.single_gpu_probe:
++        if save and not args.single_gpu_probe and not args.benchmark_only:
+             saved = save_ddp_checkpoint(
+                 run_dir / "checkpoints", completed, bare_model, optimizer, scheduler,
+-                lora_config, contract, completed * accumulation,
++                lora_config, contract, completed * prefixes_per_update,
+                 keep_last=profile["checkpoint"]["keep_last_complete"],
+             )
+             log(f"Complete adapter/Adam/scheduler/RNG/cursor checkpoint: {saved}")
+diff --git a/train/datamake_packed_batch.py b/train/datamake_packed_batch.py
+new file mode 100644
+--- /dev/null
++++ b/train/datamake_packed_batch.py
+@@ -0,0 +1,82 @@
++"""Multiple indexed GT prefixes through Lance's native sequence packer.
++
++Loss slots preserve the batch1/accumulation recipe: slot j is normalized over
++ranks separately, then slots are averaged before gradient accumulation.
++"""
++import hashlib
++
++import torch
++import torch.distributed as dist
++
++from train.datamake_stage2_lora_data import IndexedPrefixDataset, locate_prefix, preprocessing_rng
++
++
++class IndexedPackedPrefixDataset(IndexedPrefixDataset):
++    def __init__(self, packer, total_prefixes, seed, batch_size=2):
++        if batch_size not in (1, 2) or total_prefixes % batch_size:
++            raise ValueError("Packing requires complete batches of one or two prefixes")
++        super().__init__(packer, total_prefixes // batch_size, seed)
++        self.batch_size = batch_size
++        self.single_token_budget = packer.max_num_tokens
++        packer.max_num_tokens = self.single_token_budget * batch_size
++
++    def __getitem__(self, group_index):
++        status = self.packer.set_sequence_status()
++        indexes, counts = [], []
++        for slot in range(self.batch_size):
++            index = group_index * self.batch_size + slot
++            worker, row_index, cycle = locate_prefix(index, [len(rows) for rows in self.rows])
++            row = self.rows[worker][row_index]
++            seed = int.from_bytes(hashlib.sha256(
++                f"{self.seed}:{self.source.local_rank}:{index}".encode()).digest()[:8], "little")
++            with preprocessing_rng(seed):
++                sample = self.source._process_row(row, 0, 0, row_index, worker, self.paths[worker])
++                if sample is None:
++                    raise RuntimeError(f"Failed to decode prefix {row.get('sample_id')} at {index}")
++                estimate = sample['num_tokens'] + 2 * len(sample['sequence_plan'])
++                if estimate > self.packer.max_num_tokens_per_sample:
++                    raise ValueError(f"Prefix exceeds token budget: {estimate}")
++                before, mse_before = status['curr'], len(status['mse_loss_indexes'])
++                status = self.packer.pack_sequence(sample, status)
++                if status['curr'] - before > self.single_token_budget:
++                    raise ValueError("Individual prefix exceeds original token budget")
++                counts.append(len(status['mse_loss_indexes']) - mse_before)
++                indexes.append({**sample['data_indexes'], 'microstep': index, 'cycle': cycle})
++        if any(count <= 0 for count in counts):
++            raise ValueError("Each packed prefix needs its own supervised target")
++        if status['ce_loss_indexes']:
++            raise ValueError("Packed Stage6 recipe supports target MSE supervision only")
++        packed = self.packer.to_tensor(status)
++        packed['batch_data_indexes'] = indexes
++        packed['mse_slot_counts'] = counts
++        return packed
++
++
++def compute_packed_training_loss(loss_dict, counts, training_args, weights=None):
++    if loss_dict['ce'] is not None or loss_dict['frame_mse'] is not None:
++        raise ValueError("Packed Stage6 loss requires MSE-only supervision")
++    mse = loss_dict['mse']
++    if mse is None or any(n <= 0 for n in counts) or sum(counts) != len(mse):
++        raise ValueError("Packed MSE counts do not cover every target token")
++    per_token = mse.mean(dim=-1)
++    if weights is not None and (weights.ndim != 1 or len(weights) != len(mse)):
++        raise ValueError("Packed region weights do not match MSE tokens")
++    weights = torch.ones_like(per_token) if weights is None else weights.to(per_token)
++    nums, denoms, raw_nums = [], [], []
++    for values, slot_weights in zip(per_token.split(counts), weights.split(counts)):
++        nums.append((values * slot_weights).sum())
++        denoms.append(slot_weights.sum())
++        raw_nums.append(values.sum())
++    global_denoms = torch.stack(denoms).detach()
++    token_counts = torch.tensor(counts, device=mse.device, dtype=torch.long)
++    world = dist.get_world_size() if dist.is_initialized() else 1
++    if dist.is_initialized():
++        dist.all_reduce(global_denoms)
++        dist.all_reduce(token_counts)
++    weighted = (torch.stack(nums) * world / global_denoms).mean()
++    raw = (torch.stack(raw_nums) * world / token_counts).mean()
++    zero = torch.zeros((), device=mse.device)
++    metrics = {'ce': zero, 'frame_mse': zero, 'mse': weighted.detach(),
++               'mse_unweighted': raw.detach(), 'edit_region_weight_mean': weights.mean().detach(),
++               'edit_region_weight_max': weights.max().detach()}
++    return weighted * training_args.mse_weight, metrics, zero.long(), token_counts.sum()

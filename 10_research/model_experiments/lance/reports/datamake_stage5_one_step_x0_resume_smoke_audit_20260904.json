@@ -1,0 +1,89 @@
+{
+  "schema_version": "datamake_one_step_x0_resume_smoke_audit_v1",
+  "status": "passed",
+  "date": "2026-09-04",
+  "history_mode": "one_step_x0_history",
+  "profile": {
+    "runtime_sha256": "04c42bfec13798d70ab3a15d76a05972292e2270ba86e70de36e16b8cb3fbfa5",
+    "pre_launch_review_input_sha256": "f4dbb67f3433132fe073e02a9bec83ba5355668de6cb6a82c25c431ec525c9e9",
+    "current_pending_authorization_sha256": "3163ecd4d913d9fae5dcc5cdb4445d78a066975a035403a494555955956e8083",
+    "authorized_sha256": "315a8ef1cec83a16e3ab6f26c01de2d85e298c6145ecf327e85ef4a588637f7d",
+    "post_smoke_delta": "metadata_only_status_transition_and_0013_patch_hash_registration",
+    "post_review_delta": "legacy_forward_output_restoration_and_actual_timestep_shift_contract_only_no_change_to_smoked_one_step_numeric_path",
+    "formal_job_id": "122959",
+    "formal_job_initial_state": "PENDING_PRIORITY"
+  },
+  "jobs": {
+    "continuous_three_steps": {
+      "job_id": "122843",
+      "state": "COMPLETED",
+      "exit_code": "0:0"
+    },
+    "two_step_prefix": {
+      "job_id": "122844",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:06:46"
+    },
+    "resumed_step_three": {
+      "job_id": "122845",
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:04:00"
+    }
+  },
+  "checkpoints": {
+    "continuous": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_one_step_x0_lora_r64_4xh200_v3_smoke_continuous3/checkpoints/0000003",
+    "prefix": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_one_step_x0_lora_r64_4xh200_v3_smoke_resume3/checkpoints/0000002",
+    "resumed": "10_research/model_experiments/lance/outputs/training_runs/datamake_dialogue_one_step_x0_lora_r64_4xh200_v3_smoke_resume3/checkpoints/0000003"
+  },
+  "tolerance": {
+    "absolute": 1e-07,
+    "relative": 1e-06
+  },
+  "adapter": {
+    "tensor_count": 512,
+    "exact_tensor_count": 512,
+    "maximum_absolute_difference": 0.0,
+    "within_tolerance": true
+  },
+  "optimizer": {
+    "tensor_count": 2048,
+    "exact_tensor_count": 2048,
+    "maximum_absolute_difference": 0.0,
+    "within_tolerance": true
+  },
+  "rng": {
+    "tensor_count": 8,
+    "exact_tensor_count": 8,
+    "maximum_absolute_difference": 0.0,
+    "within_tolerance": true
+  },
+  "scheduler_equal": true,
+  "trainer_state_equal": true,
+  "prefix_lora_B": {
+    "tensor_count": 256,
+    "nonzero_tensor_count": 256
+  },
+  "step_three_scalar_continuity": {
+    "mse": 0.168077,
+    "targets": 24,
+    "histories": 16,
+    "gradient_norm": 0.023210,
+    "learning_rate": 1.5e-05,
+    "history_mean_timestep": 0.757446,
+    "history_latent_sum": -560640.238,
+    "history_latent_square_sum": 8335465.06,
+    "history_latent_numel": 9884160,
+    "all_equal_between_continuous_and_resumed": true
+  },
+  "throughput_comparison": {
+    "full_rollout_first_three_step_seconds": [311.78, 279.55, 221.35],
+    "one_step_x0_first_three_step_seconds": [171.19, 138.36, 115.41],
+    "full_rollout_mean_seconds": 270.8933333333333,
+    "one_step_x0_mean_seconds": 141.65333333333334,
+    "speedup": 1.9123653339453217,
+    "time_reduction_fraction": 0.4770918518808406
+  },
+  "conclusion_boundary": "Engineering and exact-resume Gate passed. The one-step history is conditioned on noisy rendered ground truth and is not equivalent to a full model rollout; held-out 30-step autoregressive visual quality remains untested."
+}

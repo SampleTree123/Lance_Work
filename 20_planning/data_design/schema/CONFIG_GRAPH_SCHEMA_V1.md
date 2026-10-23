@@ -9,7 +9,7 @@
 > 上级入口：[`README.md`](./README.md)
 > 采样规则：[`MULTI_ROUND_CHAIN_SAMPLING_V1.md`](../sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md)
 > 文本规则：[`MULTI_ROUND_VIDEO_EDIT_TEXT_SCHEMA_V1.md`](./MULTI_ROUND_VIDEO_EDIT_TEXT_SCHEMA_V1.md)
-> 上游：[`PLAN-2026-08-FIRST-DATA-BATCH.md`](../character_creator/full_process/project_management/plans/active/PLAN-2026-08-FIRST-DATA-BATCH.md)
+> 上游：[`PLAN-2026-08-FIRST-DATA-BATCH.md`](../character_creator/full_process/project_management/history/completed_plans/PLAN-2026-08-FIRST-DATA-BATCH.md)
 > 架构决定：[`ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md`](../character_creator/full_process/project_management/decisions/ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md)
 > 下游：配置图生成器、链采样器、UE 渲染调度器和数据集验证器
 > 最近核验：2026-08-24

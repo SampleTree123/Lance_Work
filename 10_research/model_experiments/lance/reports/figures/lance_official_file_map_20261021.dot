@@ -1,0 +1,29 @@
+digraph G {
+graph [rankdir=TB, bgcolor="#ffffff", pad="0.35", nodesep="0.35", ranksep="0.55", fontname="DejaVu Sans", fontsize=20];
+node [shape=box, style="rounded,filled", fillcolor="#eef4fb", color="#94a3b8", fontname="DejaVu Sans", fontsize=13, margin="0.18,0.12"];
+edge [color="#52677e", arrowsize=0.75];
+
+subgraph cluster_training {
+label="OFFICIAL TRAINING"; color="#b7cde3"; style=rounded;
+t [label="lance/train/\nunified_train.py"];
+u [label="lance/train/\ntrain_utils.py + fsdp_utils.py"];
+d [label="lance/data/datasets_factory/\ndataset_x2v_interleave_local.py"];
+p [label="lance/data/\ndataset_base_train.py"];
+t -> u [style=dashed,label="helpers"]; t -> d -> p;
+}
+subgraph cluster_inference {
+label="OFFICIAL INFERENCE"; color="#b7cde3"; style=rounded;
+i [label="lance/inference_lance.py"];
+v [label="lance/data/datasets_custom/\nvalidation_dataset.py"];
+i -> v;
+}
+subgraph cluster_shared {
+label="SHARED MODEL"; color="#a8d3be"; style=rounded;
+m [label="lance/modeling/lance/lance.py\nforward / sampling",fillcolor="#e7f4ee"];
+q [label="lance/modeling/lance/\nqwen2_navit.py\nTransformer + attention",fillcolor="#e7f4ee"];
+vit [label="lance/modeling/\nqwen2_5_vl/\nViT",fillcolor="#e7f4ee"];
+vae [label="lance/modeling/vae/\nwan/\nVideo VAE",fillcolor="#e7f4ee"];
+m -> q; m -> vit; m -> vae;
+}
+p -> m; v -> m;
+}

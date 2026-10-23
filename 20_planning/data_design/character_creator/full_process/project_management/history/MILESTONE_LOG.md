@@ -4,7 +4,7 @@
 > 文档类型：`history`
 > 生命周期：`current`
 > 权威范围：已完成的重要能力与批次事件摘要
-> 最近核验：2026-08-25
+> 最近核验：2026-09-10
 
 ## 2026-07：CC 自动化基础
 
@@ -52,3 +52,22 @@
 - 媒体均为 2560×1440、30 FPS、150 帧、5 秒；Pose Driver、时间变化和人工代表帧检查通过。
 - 证据位于 `%OUTPUT_ROOT%/unreal_render/first_batch_formal_executor_smoke_20260825_v003/`。该里程碑关闭计划 `R07`，不关闭服务器预检、10 节点基准或完整 `GATE-80`。
 - 文档、脚本目录、输出治理、状态与计划的闭环审计证据升级为 `%OUTPUT_ROOT%/documentation_audit/documentation_rebuild_20260825_v3/`。
+
+## 2026-08-31：第一批数据正式发布
+
+- `dataset_v1` 在独立节点 `JDS9B74/job118880` 上完成候选态全包验证，640 个视频、4,000 条完整链、4,000 条简化链和 15,000 个 Turn 的计数、SHA-256、媒体规格、文本、引用、编号与投影检查全部通过。
+- Manifest 晋升为 `released` 后在同一独立节点再次完整复验通过；链、简化链与有序视频哈希表在晋升前后不变。
+- 发布态报告为 `release_evidence/release_qa/package_verification_released_independent_jds9b74_20260831.json`，发布决定为 `release_evidence/release_qa/release_decision_20260831.json`。
+- `VAL-RELEASE-01`、`R09` 与 `GATE-90 DATASET_RELEASED` 关闭；第一批数据计划归档，工作主线切换到 Lance `dialogue` 首轮正式全参数微调准备。
+
+## 2026-09-03：Lance 第二阶段完成与第三阶段实现评审
+
+- 4×H200 Job `120425` 完成第二阶段 R5×3/区域加权的全部 3,669 optimization steps，主任务 `COMPLETED/0:0`，最终 `0003669` full-state checkpoint 完整且为唯一保留 checkpoint。
+- teacher-forced 身份与换装相较第一阶段明显改善；真正三轮自回灌仍能执行后续指令，但会继承动作轮的相机/背景漂移，因此 L07 关闭、L06 质量状态保持 `partial/in_progress`。
+- 用户提出 r64 generation-only LoRA、LR `1e-4` 与 GT/model-rollout history 对照，并明确本轮只实现和评审、不启动训练。隔离代码、`0010` patch、目标审计和评审配置完成静态/单测，L08 进入 `in_progress`。
+- 证据入口为 `10_research/model_experiments/lance/reports/datamake_dialogue_stage2_results_20260903.md` 与 `datamake_stage3_lora_history_design_20260903.md`。
+
+## 2026-09-10：Lance LoRA优化与完整状态迁移
+
+- L10工程项完成：官方PEFT/DDP、位置求和、选择性检查点与VAE缓存、attention尾部128对齐接入，CPU、真实梯度、四卡吞吐及900/825连续/恢复验收通过。
+- 下一轮两臂已按用户授权提交；实际Job状态和各优化范围由[最终报告](../../../../../../10_research/model_experiments/lance/reports/datamake_padding_optimization_20260910.md)维护。padding本身没有显著额外提速证据，L06/L08质量验收仍独立进行，WF90发布状态不变。

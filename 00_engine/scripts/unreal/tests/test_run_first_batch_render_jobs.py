@@ -194,6 +194,31 @@ class InputLockTests(unittest.TestCase):
             with self.assertRaisesRegex(MODULE.ContractError, "different immutable"):
                 MODULE.ensure_input_lock(context)
 
+    def test_server_runtime_profile_is_locked_and_manifested(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            args = context_args(root, dry_run=False)
+            profile_path = root / "server_profile.json"
+            profile = {
+                "schema_version": "first_batch_server_editor_profile_v1",
+                "profile_id": "h200_vulkan_sm6_test_v1",
+            }
+            profile_path.write_text(json.dumps(profile), encoding="utf-8")
+            args.runtime_profile_record = profile_path
+            context = MODULE.load_context(args)
+            context.run_root.mkdir(parents=True, exist_ok=True)
+
+            MODULE.ensure_input_lock(context)
+            MODULE.ensure_run_manifest(context)
+            lock = MODULE.read_json(context.run_root / "inputs.lock.json")
+            manifest = MODULE.read_json(context.run_root / "manifest.json")
+
+        self.assertIn(
+            "runtime-profile://h200_vulkan_sm6_test_v1",
+            [entry["uri"] for entry in lock["inputs"]],
+        )
+        self.assertEqual(manifest["runtime_profile"], profile)
+
 
 class LeaseTests(unittest.TestCase):
     def test_live_lease_blocks_and_stale_lease_is_archived(self) -> None:
@@ -235,6 +260,74 @@ class LeaseTests(unittest.TestCase):
             lease.release()
             self.assertFalse(lease.acquired)
 
+    def test_same_host_dead_owner_is_archived_without_waiting_for_age(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "node.lock"
+            path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "lease_id": "dead-owner",
+                        "owner": "node",
+                        "hostname": MODULE.socket.gethostname(),
+                        "pid": 987654321,
+                        "created_at_utc": MODULE.utc_now(),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with mock.patch.object(
+                MODULE.os,
+                "kill",
+                side_effect=ProcessLookupError,
+            ):
+                replacement = MODULE.FileLease(
+                    path,
+                    owner="replacement",
+                    stale_after_seconds=3600,
+                ).acquire()
+            replacement.release()
+
+            self.assertTrue(list(Path(temp_dir).glob("node.lock.orphaned.*")))
+
+    def test_other_host_dead_pid_is_not_reclaimed(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "node.lock"
+            path.write_text(
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "lease_id": "remote-owner",
+                        "owner": "node",
+                        "hostname": "another-host",
+                        "pid": 987654321,
+                        "created_at_utc": MODULE.utc_now(),
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaises(MODULE.LeaseUnavailable):
+                MODULE.FileLease(
+                    path,
+                    owner="replacement",
+                    stale_after_seconds=3600,
+                ).acquire()
+
+
+class AttemptRecoveryTests(unittest.TestCase):
+    def test_running_attempt_is_preserved_as_interrupted(self) -> None:
+        attempts = [
+            {"attempt": 0, "status": "running"},
+            {"attempt": 1, "status": "retryable_failed"},
+        ]
+
+        count = MODULE.mark_interrupted_attempts(attempts)
+
+        self.assertEqual(count, 1)
+        self.assertEqual(attempts[0]["status"], "interrupted")
+        self.assertIn("interrupted_at_utc", attempts[0])
+        self.assertEqual(attempts[1]["status"], "retryable_failed")
+
 
 class SidecarResumeTests(unittest.TestCase):
     def test_promoted_output_is_hash_valid_then_rejected_after_tamper(self) -> None:
@@ -258,6 +351,7 @@ class SidecarResumeTests(unittest.TestCase):
                 "sequence": "/Game/TestSequence",
                 "automation_contract": {
                     "pose_driver_contract": {"passed": True},
+                    "evaluation_preroll_contract": {"passed": True},
                     "temporal_motion_contract": {"passed": True},
                 },
             }
@@ -303,6 +397,7 @@ class SidecarResumeTests(unittest.TestCase):
                 "sequence": "/Game/TestSequence",
                 "automation_contract": {
                     "pose_driver_contract": {"passed": True},
+                    "evaluation_preroll_contract": {"passed": True},
                     "temporal_motion_contract": {"passed": True},
                 },
             }
@@ -350,6 +445,7 @@ class ChildProcessRoutingTests(unittest.TestCase):
                 },
                 {
                     "action_id": "ACT_TEST",
+                    "camera_id": "side",
                     "expression_id": "happy",
                     "action_contract": {
                         "action_id": "ACT_TEST",
@@ -367,6 +463,8 @@ class ChildProcessRoutingTests(unittest.TestCase):
         self.assertIn("server_project", command)
         self.assertIn("--engine-root", command)
         self.assertIn("--action-contract-json", command)
+        self.assertIn("--camera-id", command)
+        self.assertIn("side", command)
 
 
 if __name__ == "__main__":

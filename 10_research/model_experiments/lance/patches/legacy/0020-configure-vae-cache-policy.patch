@@ -1,0 +1,59 @@
+--- a/common/val/utils.py
++++ b/common/val/utils.py
+@@ -141,7 +141,7 @@
+ 
+ 
+ @torch.no_grad()
+-def make_padded_latent(padded_videos, data_mode, vae_model):  # Support both online and offline modes.
++def make_padded_latent(padded_videos, data_mode, vae_model, *, empty_cache=True):  # Support both online and offline modes.
+     """
+     for vae:
+     data_mode = data['vae_data_mode']
+@@ -167,7 +167,8 @@
+             padded_latent[idx] = lat[i]
+ 
+     del padded_videos
+-    torch.cuda.empty_cache()
++    if empty_cache:
++        torch.cuda.empty_cache()
+     return padded_latent
+ 
+ 
+--- a/train/datamake_ddp_train.py
++++ b/train/datamake_ddp_train.py
+@@ -53,7 +53,7 @@
+     return HfArgumentParser((ModelArguments, DataArguments, TrainingArguments)).parse_args_into_dataclasses(argv)
+ 
+ 
+-def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events):
++def microbatch_loss(batch, model, vae, model_args, training_args, device, world, phase_events, empty_vae_cache=True):
+     data = batch.cuda(device).to_dict()
+     indexes = data.pop("batch_data_indexes")
+     ce_weights = data.pop("ce_loss_weights", None)
+@@ -64,7 +64,7 @@
+     with torch.autocast("cuda", dtype=torch.bfloat16):
+         mode, videos = data.pop("vae_data_mode"), data.pop("padded_videos")
+         with torch.no_grad():
+-            data["padded_latent"] = make_padded_latent(videos, mode, vae)
++            data["padded_latent"] = make_padded_latent(videos, mode, vae, empty_cache=empty_vae_cache)
+             weights = build_edit_region_mse_weights(
+                 data["padded_latent"], data["patchified_vae_latent_shapes"], roles,
+                 model_args.latent_patch_size, training_args.edit_region_weight_boost,
+@@ -279,7 +279,8 @@
+             context = model.no_sync() if args.probe_backend == "ddp" and micro + 1 < accumulation else nullcontext()
+             with context:
+                 loss, metrics, count, indexes = microbatch_loss(
+-                    batch, model, vae, model_args, training_args, device, world, phase_events)
++                    batch, model, vae, model_args, training_args, device, world, phase_events,
++                    empty_vae_cache=profile["ddp"].get("vae_cache_policy", "release") == "release")
+                 bad = (~torch.isfinite(loss.detach())).int()
+                 dist.all_reduce(bad, op=dist.ReduceOp.MAX)
+                 if bad.item():
+@@ -322,6 +323,7 @@
+             "backend": args.probe_backend, "diagnostic_only": args.single_gpu_probe,
+             "actual_world_size": world, "activation_checkpointing": checkpoint_mode,
+             "checkpoint_disabled_layers": sorted(disabled_layers), "per_rank_batch_size": batch_size,
++            "vae_cache_policy": profile["ddp"].get("vae_cache_policy", "release"),
+             **{f"perf/{key}": value for key, value in zip(
+                 ("data_wait_seconds", "vae_region_seconds", "model_forward_seconds", "backward_sync_seconds", "vit_seconds"), timing.tolist())},
+             "optimizer_step": completed, **{f"train/{k}": v.item() for k, v in totals.items()},

@@ -1,7 +1,9 @@
 # Lance 能力验证计划
 
-> 创建日期：2026-06-28；模型文件树复核日期：2026-07-01；执行状态更新：2026-07-03。
-> 状态：视频分支权重、`xks_lance` 环境和 `video_edit` 脚本已可用；batch8 连续单轮测试已跑完；contextual 多轮 v1 turn1/turn2 已重跑并完成人工抽帧检查，视觉质量失败；v2 role-aware turn2/turn3 已完成 GPU 生成验证。
+> 创建日期：2026-06-28；模型文件树复核日期：2026-07-01；执行状态更新：2026-09-04。
+> 状态：本页保留早期外部模型与contextual推理验证方法；当前训练已转向Stage5 A/B并按用户要求暂停。Stage2为保留基线，tiny/Stage1结果已退役，当前执行状态以[训练接入](./training_integration.md)为准。
+
+旧示例`inputs/`和已有`logs/generated_configs/`已于2026-09-06按用户要求删除；下文依赖这些文件的命令只作历史说明。当前推理输入见[训练接入](./training_integration.md#69-当前-lora-checkpoint-独立视觉检查)。
 
 ## 目标
 
@@ -11,6 +13,9 @@
 - 编辑后主体身份、动作、背景和时序是否保持。
 - 真多轮编辑是否会漂移，需要先实现正确的多轮调用逻辑后再测试。
 - 如后续真多轮测试仍有价值，再判断其失败模式是否能反推 UE 合成数据优先级。
+- 验证 DataMake 正式多轮链能否按 role-aware 结构进入 Lance 训练数据层，并为发布后的微调准备可审计 Gate。
+
+训练接入的字段、代码、验证结果和正式启动条件单独见 [`training_integration.md`](./training_integration.md)，本文件不复制第二份实现说明。
 
 ## 来源
 
@@ -81,13 +86,13 @@ xks_lance
 - Batch8 公开视频测试已完成 8 个领域的三次连续单轮调用；`6.mp4`、`7.mp4` 原始文件损坏，已用 clean 版在 `94644` allocation 上补跑完成。
 - 重要校正：batch8 不是 Lance 真多轮编辑验证。当前脚本没有把多轮 prompt、原始视频和历史上下文一起交给模型，只是多次独立调用单轮 `video_edit`。
 - 已新增 contextual 工具：`10_research/model_experiments/lance/scripts/contextual_video_edit.py`。它可生成 `video -> text -> video -> ... -> current text` 的 Lance config，并用 `--pack --synthetic-media` 检查 Lance 数据层是否会形成多个 VIT/VAE 条件块和一个 target VAE block。
-- 当前 GPU smoke 结论：`contextual_smoke_01` 的 v0 turn1/turn2 已生成成功，但只作为执行链路证明；v1 已改为 `text -> video -> history videos...`，并重跑 `contextual_smoke_v1_01`。抽帧检查显示 turn1/turn2 主体和场景保持失败，记录见 [`reports/contextual_video_edit_smoke.md`](./reports/contextual_video_edit_smoke.md)。
+- 当前 GPU smoke 结论：`contextual_smoke_01` 的 v0 turn1/turn2 已生成成功，但只作为执行链路证明；v1 已改为 `text -> video -> history videos...`，并重跑 `contextual_smoke_v1_01`。抽帧检查显示 turn1/turn2 主体和场景保持失败，记录见 `reports/contextual_video_edit_smoke.md`（历史文件已于2026-09-11清理）。
 - 2026-07-05 代码复查结论：v1 的 all-source 结构会把所有历史视频都打成 clean VAE `ref_source`，导致多个 `ref_source` 对一个 noisy target，破坏 Lance edit 的 source-target 对齐。已新增 v2 role-aware 结构：历史视频只进 VIT，最新视频作为唯一 clean VAE source。`contextual_role_v2_01/turn_02.json` synthetic pack 已通过：2 个 VIT 条件块、1 个 VAE 条件块、1 个 target VAE block，`ref_source == noise == 3390`。
 - 2026-07-05 GPU 结论：v2 turn2/turn3 已在 `94766` H200 allocation 上跑通。turn2 相比 v1 all-source 明显减少场景重绘，并能在 turn1 结果上叠加夕阳光照；turn3 在“小蓝狗项圈”局部编辑上失败，容易把蓝色/灰色绑定到人物外套。单轮项圈对照基本保住红外套，说明多历史上下文会加重局部属性绑定干扰。后续 prompt style 对照显示，复述历史编辑会干扰本轮局部编辑；默认应改为只写当前轮指令，必要时只添加少量保持约束。
 - 2026-07-05 完整 current-only 三轮重跑：`contextual_role_v2_current_only_full_01` 从原视频重新生成 turn1-turn3。turn1 保住双人主体并改红外套；turn2 加夕阳且主体/构图保持较好；turn3 保住红外套和夕阳，并把蓝色加到前景狗脖子/胸背附近，但项圈仍不精确。当前推荐格式确认：v2 role-aware + `current-only`。
 - 重要实现细节：Lance edit 路径会根据输入视频 transform 后的条件张量覆盖目标帧数和尺寸。本次命令请求 25 帧、360p，但实际输出为 352x624、69 帧。后续要控制 token/显存时，应先预处理输入视频。
 
-详细记录见 [`reports/video_edit_batch8_report.md`](./reports/video_edit_batch8_report.md)。
+详细记录见 `reports/video_edit_batch8_report.md`（历史文件已于2026-09-11清理）。
 
 ## 环境要求
 
@@ -212,7 +217,13 @@ bash inference_lance.sh \
 
 ## 后续待办
 
-1. 把 v2 role-aware + `current-only` prompt 作为当前 Lance contextual 默认结构；继续保留 v1 all-source 和长历史 prompt 仅作反例。
-2. 下一轮 Lance 测试应换短片段、清晰主体和更大尺度编辑，避免先用“狗项圈”这种小目标属性作为主判据。
-3. 如果继续测局部编辑，必须同时跑 direct single-turn control，区分模型单轮能力不足和多历史上下文干扰。
-4. 如需图片任务，再单独决定是否下载 `Lance_3B/` 图片分支。
+1. `WF-90`、Released identity、正式 split 与两阶段全参训练均已关闭；Stage 4 checkpoint v5 四卡 smoke Jobs `122758/122827/122836` 已通过，旧 Job `122549` checkpoint 禁用。
+2. `standalone` 暂缓，保留为后续独立单轮消融 Run，不得与首轮 `dialogue` 数据混采。
+3. 把 v2 role-aware + `current-only` prompt 作为当前 Lance contextual 默认结构；继续保留 v1 all-source 和长历史 prompt 仅作反例。
+4. 用户复核 v2 后决定是否重新授权；如授权，只能从官方基座和 fresh LoRA 启动新 Run，之后监控每 step W&B/本地日志和首个 step50 checkpoint。不得从 Job `122549` 恢复，且每个 `testqueue` 段不突破 18 小时。
+5. 在有代表性的中间 adapter checkpoint 上审看真实在线历史与 held-out 多轮输出；训练 loss 只作优化健康指标，不替代视觉质量结论。
+4. 下一轮 Lance 测试应换短片段、清晰主体和更大尺度编辑，避免先用“狗项圈”这种小目标属性作为主判据。
+5. 如果继续测局部编辑，后续消融阶段应补 direct single-turn control，区分模型单轮能力不足和多历史上下文干扰。
+6. ~~Stage 4 必须先在单节点 4×H200 完成连续 step3 与 step2-save/resume-step3 对照，核验有限 loss/grad、内存生成历史和 adapter/AdamW/scheduler/RNG 逐 tensor 连续性。~~ 2026-09-04 已关闭：512 adapter、2,048 optimizer 和 8 RNG tensor 全部 bitwise 一致，256/256 个 `lora_B` 非零；正式 profile 仍需用户重新授权。
+7. 后续按 [`reports/datamake_lora_ablation_registry_20260904.md`](./reports/datamake_lora_ablation_registry_20260904.md) 比较官方/step3669 基座、固定/mixed rollout CFG、teacher-forced/online-full 与 ViT-only 诊断臂。
+8. 如需图片任务，再单独决定是否下载 `Lance_3B/` 图片分支。

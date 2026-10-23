@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
+import tempfile
+import unittest
 from pathlib import Path
 
 
@@ -10,12 +13,46 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
 from build_output_inventory import build_inventory  # noqa: E402
-from build_script_lifecycle_catalog import build_catalog, owner_for  # noqa: E402
+from build_script_lifecycle_catalog import (  # noqa: E402
+    build_catalog,
+    owner_for,
+    scripts_in_scan_root,
+)
 from check_character_factory_docs import (  # noqa: E402
     AuditReport,
     check_output_catalog,
     check_script_catalog,
+    tracked_scripts,
 )
+
+
+class ScriptDiscoveryTests(unittest.TestCase):
+    def test_git_discovery_includes_untracked_and_excludes_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            scripts = root / "00_engine/scripts"
+            scripts.mkdir(parents=True)
+            (scripts / "tracked.py").write_text("pass\n", encoding="utf-8")
+            (scripts / "untracked.py").write_text("pass\n", encoding="utf-8")
+            (scripts / "ignored.py").write_text("pass\n", encoding="utf-8")
+            (root / ".gitignore").write_text("ignored.py\n", encoding="utf-8")
+
+            subprocess.run(
+                ["git", "-C", str(root), "init", "--quiet"], check=True
+            )
+            subprocess.run(
+                ["git", "-C", str(root), "add", "00_engine/scripts/tracked.py"],
+                check=True,
+            )
+
+            for discover in (scripts_in_scan_root, tracked_scripts):
+                actual = {
+                    path.relative_to(root).as_posix()
+                    for path in discover(root, "00_engine")
+                }
+                self.assertIn("00_engine/scripts/tracked.py", actual)
+                self.assertIn("00_engine/scripts/untracked.py", actual)
+                self.assertNotIn("00_engine/scripts/ignored.py", actual)
 
 
 def test_ownership_is_independent_from_retention(tmp_path: Path) -> None:
@@ -115,6 +152,9 @@ def test_script_catalog_covers_engine_subsystems_and_excludes_outputs(
 
 
 def test_specific_transfer_and_catalog_owners() -> None:
+    assert owner_for(
+        "00_engine/projects/UE58VulkanCubeSmoke/Scripts/run_cube_smoke.sh"
+    ) == "technical/rendering_release/SERVER_EXECUTION.md"
     assert owner_for(
         "00_engine/scripts/unreal/run_first_batch_full_reference_import.py"
     ) == "technical/transfer/CC_TO_UE_FULLREFERENCE.md"

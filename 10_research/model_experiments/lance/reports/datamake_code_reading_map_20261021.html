@@ -1,0 +1,351 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lance 官方与当前实现：文件路径地图</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6fb;color:#203047;font:16px/1.8 system-ui,"Microsoft YaHei",sans-serif}main{max-width:1650px;margin:auto;background:white;padding:32px}h1{font-size:28px}h2{margin-top:42px;font-size:23px}code{font-family:ui-monospace,monospace;overflow-wrap:anywhere}a{color:#185fba}.notice{padding:16px;background:#eef4fb;border-left:4px solid #3875b5}.diagram{overflow:auto;border:1px solid #dbe3ed;border-radius:10px;padding:8px}svg{display:block;width:100%;height:auto;min-width:850px}.toolbar{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0}button{padding:7px 13px;cursor:pointer;background:#edf4ff;border:1px solid #b7cde3;border-radius:6px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #dbe3ed;padding:10px;text-align:left}footer{font-size:13px;margin-top:35px;color:#52677e}@media(max-width:700px){main{padding:16px}}@media print{button{display:none}main{padding:0}.diagram{overflow:visible}svg{min-width:0}h2{break-before:page}}
+</style></head><body><div class="notice">2026-10-22提示：本图保留10月21日的源码结构作为历史阅读记录。最新官方基线、公共模块拆分与退役入口请看<a href="datamake_source_migration_20261022.md">源码迁移报告</a>和<a href="../lance/DATAMAKE.md">当前源码导航</a>。</div><main><h1>Lance 官方与当前实现：文件路径地图</h1><p>2026-10-21 · 阅读范围导航 · Technical owner：<a href="../training_integration.md">训练接入</a></p>
+<p>图中所有路径均相对于：</p><p><code>/scratch/prj0000000275/jcy/xks/DataMake/10_research/model_experiments/lance/</code></p>
+<div class="notice">第一张图描述官方提交 <code>9717d91</code>。当前工作区部分同名文件已被修改，不能直接当作官方原版阅读。第二张图描述当前已实现路径。箭头表示主要调用或数据流，不是完整导入图。NEW＝相对官方新增（含移植适配），MODIFIED＝修改官方文件。</div>
+<h2>① 官方训练、推理与共享模型</h2><p>左侧是训练，右侧是推理，下方是二者共享的模型。第一轮先沿训练入口走通。</p>
+<div class="toolbar"><button onclick="zoom('official',1.25)">放大</button><button onclick="zoom('official',0.8)">缩小</button><button onclick="reset('official')">适应宽度</button><a href="figures/lance_official_file_map_20261021.svg">打开SVG</a><a href="figures/lance_official_file_map_20261021.png">打开PNG</a></div>
+<div class="diagram" id="official"><svg width="805pt" height="581pt"
+ viewBox="0.00 0.00 805.40 581.40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(25.2 556.2)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-25.2,25.2 -25.2,-556.2 780.2,-556.2 780.2,25.2 -25.2,25.2"/>
+<g id="clust1" class="cluster">
+<title>cluster_training</title>
+<path fill="#ffffff" stroke="#b7cde3" d="M20,-222C20,-222 491,-222 491,-222 497,-222 503,-228 503,-234 503,-234 503,-511 503,-511 503,-517 497,-523 491,-523 491,-523 20,-523 20,-523 14,-523 8,-517 8,-511 8,-511 8,-234 8,-234 8,-228 14,-222 20,-222"/>
+<text text-anchor="middle" x="255.5" y="-503" font-family="DejaVu Sans" font-size="20.00">OFFICIAL TRAINING</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_inference</title>
+<path fill="#ffffff" stroke="#b7cde3" d="M523,-222C523,-222 735,-222 735,-222 741,-222 747,-228 747,-234 747,-234 747,-384 747,-384 747,-390 741,-396 735,-396 735,-396 523,-396 523,-396 517,-396 511,-390 511,-384 511,-384 511,-234 511,-234 511,-228 517,-222 523,-222"/>
+<text text-anchor="middle" x="629" y="-376" font-family="DejaVu Sans" font-size="20.00">OFFICIAL INFERENCE</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_shared</title>
+<path fill="#ffffff" stroke="#a8d3be" d="M180,-8C180,-8 704,-8 704,-8 710,-8 716,-14 716,-20 716,-20 716,-189 716,-189 716,-195 710,-201 704,-201 704,-201 180,-201 180,-201 174,-201 168,-195 168,-189 168,-189 168,-20 168,-20 168,-14 174,-8 180,-8"/>
+<text text-anchor="middle" x="442" y="-181" font-family="DejaVu Sans" font-size="20.00">SHARED MODEL</text>
+</g>
+<!-- t -->
+<g id="node1" class="node">
+<title>t</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M254.5,-485C254.5,-485 149.5,-485 149.5,-485 143.5,-485 137.5,-479 137.5,-473 137.5,-473 137.5,-451 137.5,-451 137.5,-445 143.5,-439 149.5,-439 149.5,-439 254.5,-439 254.5,-439 260.5,-439 266.5,-445 266.5,-451 266.5,-451 266.5,-473 266.5,-473 266.5,-479 260.5,-485 254.5,-485"/>
+<text text-anchor="middle" x="202" y="-465.6" font-family="DejaVu Sans" font-size="13.00">lance/train/</text>
+<text text-anchor="middle" x="202" y="-451.6" font-family="DejaVu Sans" font-size="13.00">unified_train.py</text>
+</g>
+<!-- u -->
+<g id="node2" class="node">
+<title>u</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M219.5,-363C219.5,-363 28.5,-363 28.5,-363 22.5,-363 16.5,-357 16.5,-351 16.5,-351 16.5,-329 16.5,-329 16.5,-323 22.5,-317 28.5,-317 28.5,-317 219.5,-317 219.5,-317 225.5,-317 231.5,-323 231.5,-329 231.5,-329 231.5,-351 231.5,-351 231.5,-357 225.5,-363 219.5,-363"/>
+<text text-anchor="middle" x="124" y="-343.6" font-family="DejaVu Sans" font-size="13.00">lance/train/</text>
+<text text-anchor="middle" x="124" y="-329.6" font-family="DejaVu Sans" font-size="13.00">train_utils.py + fsdp_utils.py</text>
+</g>
+<!-- t&#45;&gt;u -->
+<g id="edge1" class="edge">
+<title>t&#45;&gt;u</title>
+<path fill="none" stroke="#52677e" stroke-dasharray="5,2" d="M187.69,-438.99C175.02,-419.49 156.43,-390.9 142.61,-369.63"/>
+<polygon fill="#52677e" stroke="#52677e" points="144.77,-368.13 138.48,-363.28 140.37,-371 144.77,-368.13"/>
+<text text-anchor="middle" x="201" y="-407.8" font-family="Times,serif" font-size="14.00">helpers</text>
+</g>
+<!-- d -->
+<g id="node3" class="node">
+<title>d</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M483.5,-363C483.5,-363 268.5,-363 268.5,-363 262.5,-363 256.5,-357 256.5,-351 256.5,-351 256.5,-329 256.5,-329 256.5,-323 262.5,-317 268.5,-317 268.5,-317 483.5,-317 483.5,-317 489.5,-317 495.5,-323 495.5,-329 495.5,-329 495.5,-351 495.5,-351 495.5,-357 489.5,-363 483.5,-363"/>
+<text text-anchor="middle" x="376" y="-343.6" font-family="DejaVu Sans" font-size="13.00">lance/data/datasets_factory/</text>
+<text text-anchor="middle" x="376" y="-329.6" font-family="DejaVu Sans" font-size="13.00">dataset_x2v_interleave_local.py</text>
+</g>
+<!-- t&#45;&gt;d -->
+<g id="edge2" class="edge">
+<title>t&#45;&gt;d</title>
+<path fill="none" stroke="#52677e" d="M233.91,-438.99C263.13,-418.84 306.43,-388.98 337.55,-367.52"/>
+<polygon fill="#52677e" stroke="#52677e" points="339.31,-369.49 343.99,-363.07 336.33,-365.17 339.31,-369.49"/>
+</g>
+<!-- p -->
+<g id="node4" class="node">
+<title>p</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M474.5,-276C474.5,-276 325.5,-276 325.5,-276 319.5,-276 313.5,-270 313.5,-264 313.5,-264 313.5,-242 313.5,-242 313.5,-236 319.5,-230 325.5,-230 325.5,-230 474.5,-230 474.5,-230 480.5,-230 486.5,-236 486.5,-242 486.5,-242 486.5,-264 486.5,-264 486.5,-270 480.5,-276 474.5,-276"/>
+<text text-anchor="middle" x="400" y="-256.6" font-family="DejaVu Sans" font-size="13.00">lance/data/</text>
+<text text-anchor="middle" x="400" y="-242.6" font-family="DejaVu Sans" font-size="13.00">dataset_base_train.py</text>
+</g>
+<!-- d&#45;&gt;p -->
+<g id="edge3" class="edge">
+<title>d&#45;&gt;p</title>
+<path fill="none" stroke="#52677e" d="M382.31,-316.67C385.17,-306.52 388.6,-294.37 391.68,-283.48"/>
+<polygon fill="#52677e" stroke="#52677e" points="394.22,-284.11 393.74,-276.18 389.17,-282.69 394.22,-284.11"/>
+</g>
+<!-- m -->
+<g id="node7" class="node">
+<title>m</title>
+<path fill="#e7f4ee" stroke="#94a3b8" d="M557,-163C557,-163 351,-163 351,-163 345,-163 339,-157 339,-151 339,-151 339,-129 339,-129 339,-123 345,-117 351,-117 351,-117 557,-117 557,-117 563,-117 569,-123 569,-129 569,-129 569,-151 569,-151 569,-157 563,-163 557,-163"/>
+<text text-anchor="middle" x="454" y="-143.6" font-family="DejaVu Sans" font-size="13.00">lance/modeling/lance/lance.py</text>
+<text text-anchor="middle" x="454" y="-129.6" font-family="DejaVu Sans" font-size="13.00">forward / sampling</text>
+</g>
+<!-- p&#45;&gt;m -->
+<g id="edge8" class="edge">
+<title>p&#45;&gt;m</title>
+<path fill="none" stroke="#52677e" d="M410.8,-229.8C419.11,-212.71 430.68,-188.94 439.75,-170.29"/>
+<polygon fill="#52677e" stroke="#52677e" points="442.3,-171.05 443.22,-163.16 437.58,-168.75 442.3,-171.05"/>
+</g>
+<!-- i -->
+<g id="node5" class="node">
+<title>i</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M713,-358C713,-358 545,-358 545,-358 539,-358 533,-352 533,-346 533,-346 533,-334 533,-334 533,-328 539,-322 545,-322 545,-322 713,-322 713,-322 719,-322 725,-328 725,-334 725,-334 725,-346 725,-346 725,-352 719,-358 713,-358"/>
+<text text-anchor="middle" x="629" y="-336.6" font-family="DejaVu Sans" font-size="13.00">lance/inference_lance.py</text>
+</g>
+<!-- v -->
+<g id="node6" class="node">
+<title>v</title>
+<path fill="#eef4fb" stroke="#94a3b8" d="M726.5,-276C726.5,-276 531.5,-276 531.5,-276 525.5,-276 519.5,-270 519.5,-264 519.5,-264 519.5,-242 519.5,-242 519.5,-236 525.5,-230 531.5,-230 531.5,-230 726.5,-230 726.5,-230 732.5,-230 738.5,-236 738.5,-242 738.5,-242 738.5,-264 738.5,-264 738.5,-270 732.5,-276 726.5,-276"/>
+<text text-anchor="middle" x="629" y="-256.6" font-family="DejaVu Sans" font-size="13.00">lance/data/datasets_custom/</text>
+<text text-anchor="middle" x="629" y="-242.6" font-family="DejaVu Sans" font-size="13.00">validation_dataset.py</text>
+</g>
+<!-- i&#45;&gt;v -->
+<g id="edge4" class="edge">
+<title>i&#45;&gt;v</title>
+<path fill="none" stroke="#52677e" d="M629,-321.8C629,-310.87 629,-296.44 629,-283.7"/>
+<polygon fill="#52677e" stroke="#52677e" points="631.63,-283.53 629,-276.03 626.38,-283.53 631.63,-283.53"/>
+</g>
+<!-- v&#45;&gt;m -->
+<g id="edge9" class="edge">
+<title>v&#45;&gt;m</title>
+<path fill="none" stroke="#52677e" d="M594.01,-229.8C565.63,-211.81 525.56,-186.39 495.56,-167.36"/>
+<polygon fill="#52677e" stroke="#52677e" points="496.67,-164.96 488.93,-163.16 493.86,-169.39 496.67,-164.96"/>
+</g>
+<!-- q -->
+<g id="node8" class="node">
+<title>q</title>
+<path fill="#e7f4ee" stroke="#94a3b8" d="M350,-76C350,-76 188,-76 188,-76 182,-76 176,-70 176,-64 176,-64 176,-28 176,-28 176,-22 182,-16 188,-16 188,-16 350,-16 350,-16 356,-16 362,-22 362,-28 362,-28 362,-64 362,-64 362,-70 356,-76 350,-76"/>
+<text text-anchor="middle" x="269" y="-56.6" font-family="DejaVu Sans" font-size="13.00">lance/modeling/lance/</text>
+<text text-anchor="middle" x="269" y="-42.6" font-family="DejaVu Sans" font-size="13.00">qwen2_navit.py</text>
+<text text-anchor="middle" x="269" y="-28.6" font-family="DejaVu Sans" font-size="13.00">Transformer + attention</text>
+</g>
+<!-- m&#45;&gt;q -->
+<g id="edge5" class="edge">
+<title>m&#45;&gt;q</title>
+<path fill="none" stroke="#52677e" d="M409.69,-116.96C387.21,-105.79 359.48,-91.99 334.59,-79.62"/>
+<polygon fill="#52677e" stroke="#52677e" points="335.53,-77.15 327.65,-76.17 333.19,-81.86 335.53,-77.15"/>
+</g>
+<!-- vit -->
+<g id="node9" class="node">
+<title>vit</title>
+<path fill="#e7f4ee" stroke="#94a3b8" d="M508.5,-76C508.5,-76 399.5,-76 399.5,-76 393.5,-76 387.5,-70 387.5,-64 387.5,-64 387.5,-28 387.5,-28 387.5,-22 393.5,-16 399.5,-16 399.5,-16 508.5,-16 508.5,-16 514.5,-16 520.5,-22 520.5,-28 520.5,-28 520.5,-64 520.5,-64 520.5,-70 514.5,-76 508.5,-76"/>
+<text text-anchor="middle" x="454" y="-56.6" font-family="DejaVu Sans" font-size="13.00">lance/modeling/</text>
+<text text-anchor="middle" x="454" y="-42.6" font-family="DejaVu Sans" font-size="13.00">qwen2_5_vl/</text>
+<text text-anchor="middle" x="454" y="-28.6" font-family="DejaVu Sans" font-size="13.00">ViT</text>
+</g>
+<!-- m&#45;&gt;vit -->
+<g id="edge6" class="edge">
+<title>m&#45;&gt;vit</title>
+<path fill="none" stroke="#52677e" d="M454,-116.73C454,-106.79 454,-94.82 454,-83.62"/>
+<polygon fill="#52677e" stroke="#52677e" points="456.63,-83.53 454,-76.03 451.38,-83.53 456.63,-83.53"/>
+</g>
+<!-- vae -->
+<g id="node10" class="node">
+<title>vae</title>
+<path fill="#e7f4ee" stroke="#94a3b8" d="M696,-76C696,-76 558,-76 558,-76 552,-76 546,-70 546,-64 546,-64 546,-28 546,-28 546,-22 552,-16 558,-16 558,-16 696,-16 696,-16 702,-16 708,-22 708,-28 708,-28 708,-64 708,-64 708,-70 702,-76 696,-76"/>
+<text text-anchor="middle" x="627" y="-56.6" font-family="DejaVu Sans" font-size="13.00">lance/modeling/vae/</text>
+<text text-anchor="middle" x="627" y="-42.6" font-family="DejaVu Sans" font-size="13.00">wan/</text>
+<text text-anchor="middle" x="627" y="-28.6" font-family="DejaVu Sans" font-size="13.00">Video VAE</text>
+</g>
+<!-- m&#45;&gt;vae -->
+<g id="edge7" class="edge">
+<title>m&#45;&gt;vae</title>
+<path fill="none" stroke="#52677e" d="M495.44,-116.96C516.36,-105.84 542.17,-92.11 565.37,-79.77"/>
+<polygon fill="#52677e" stroke="#52677e" points="566.77,-82 572.16,-76.17 564.3,-77.37 566.77,-82"/>
+</g>
+</g>
+</svg>
+</div>
+<h2>② 我们当前的训练与多轮推理</h2><p>从左到右：GT历史训练、整链pred_x0训练、多轮推理。蓝色为新增文件，橙色为修改的官方文件。当前GT入口是 <code>datamake_ddp_train.py</code>，不是 <code>unified_train.py</code>。</p>
+<div class="toolbar"><button onclick="zoom('current',1.25)">放大</button><button onclick="zoom('current',0.8)">缩小</button><button onclick="reset('current')">适应宽度</button><a href="figures/lance_current_file_map_20261021.svg">打开SVG</a><a href="figures/lance_current_file_map_20261021.png">打开PNG</a></div>
+<div class="diagram" id="current"><svg width="1063pt" height="620pt"
+ viewBox="0.00 0.00 1063.40 620.40" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(25.2 595.2)">
+<title>G</title>
+<polygon fill="#ffffff" stroke="transparent" points="-25.2,25.2 -25.2,-595.2 1038.2,-595.2 1038.2,25.2 -25.2,25.2"/>
+<g id="clust1" class="cluster">
+<title>cluster_gt</title>
+<path fill="#ffffff" stroke="#b7cde3" d="M20,-192C20,-192 334,-192 334,-192 340,-192 346,-198 346,-204 346,-204 346,-550 346,-550 346,-556 340,-562 334,-562 334,-562 20,-562 20,-562 14,-562 8,-556 8,-550 8,-550 8,-204 8,-204 8,-198 14,-192 20,-192"/>
+<text text-anchor="middle" x="177" y="-542" font-family="DejaVu Sans" font-size="20.00">GT HISTORY TRAINING</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_chain</title>
+<path fill="#ffffff" stroke="#b7cde3" d="M366,-199C366,-199 703,-199 703,-199 709,-199 715,-205 715,-211 715,-211 715,-550 715,-550 715,-556 709,-562 703,-562 703,-562 366,-562 366,-562 360,-562 354,-556 354,-550 354,-550 354,-211 354,-211 354,-205 360,-199 366,-199"/>
+<text text-anchor="middle" x="534.5" y="-542" font-family="DejaVu Sans" font-size="20.00">WHOLE&#45;CHAIN PRED_X0 TRAINING</text>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_chat</title>
+<path fill="#ffffff" stroke="#b7cde3" d="M735,-99C735,-99 993,-99 993,-99 999,-99 1005,-105 1005,-111 1005,-111 1005,-372 1005,-372 1005,-378 999,-384 993,-384 993,-384 735,-384 735,-384 729,-384 723,-378 723,-372 723,-372 723,-111 723,-111 723,-105 729,-99 735,-99"/>
+<text text-anchor="middle" x="864" y="-364" font-family="DejaVu Sans" font-size="20.00">MULTI&#45;TURN INFERENCE</text>
+</g>
+<!-- g0 -->
+<g id="node1" class="node">
+<title>g0</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M280.5,-524C280.5,-524 73.5,-524 73.5,-524 67.5,-524 61.5,-518 61.5,-512 61.5,-512 61.5,-490 61.5,-490 61.5,-484 67.5,-478 73.5,-478 73.5,-478 280.5,-478 280.5,-478 286.5,-478 292.5,-484 292.5,-490 292.5,-490 292.5,-512 292.5,-512 292.5,-518 286.5,-524 280.5,-524"/>
+<text text-anchor="middle" x="177" y="-504.6" font-family="DejaVu Sans" font-size="13.00">[NEW] scripts/</text>
+<text text-anchor="middle" x="177" y="-490.6" font-family="DejaVu Sans" font-size="13.00">run_datamake_ddp_training.py</text>
+</g>
+<!-- g1 -->
+<g id="node2" class="node">
+<title>g1</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M256,-438C256,-438 98,-438 98,-438 92,-438 86,-432 86,-426 86,-426 86,-404 86,-404 86,-398 92,-392 98,-392 98,-392 256,-392 256,-392 262,-392 268,-398 268,-404 268,-404 268,-426 268,-426 268,-432 262,-438 256,-438"/>
+<text text-anchor="middle" x="177" y="-418.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/train/</text>
+<text text-anchor="middle" x="177" y="-404.6" font-family="DejaVu Sans" font-size="13.00">datamake_ddp_train.py</text>
+</g>
+<!-- g0&#45;&gt;g1 -->
+<g id="edge1" class="edge">
+<title>g0&#45;&gt;g1</title>
+<path fill="none" stroke="#52677e" d="M177,-477.93C177,-468.17 177,-456.54 177,-446.01"/>
+<polygon fill="#52677e" stroke="#52677e" points="179.63,-445.71 177,-438.21 174.38,-445.71 179.63,-445.71"/>
+</g>
+<!-- g2 -->
+<g id="node3" class="node">
+<title>g2</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M282,-346C282,-346 72,-346 72,-346 66,-346 60,-340 60,-334 60,-334 60,-312 60,-312 60,-306 66,-300 72,-300 72,-300 282,-300 282,-300 288,-300 294,-306 294,-312 294,-312 294,-334 294,-334 294,-340 288,-346 282,-346"/>
+<text text-anchor="middle" x="177" y="-326.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/train/</text>
+<text text-anchor="middle" x="177" y="-312.6" font-family="DejaVu Sans" font-size="13.00">datamake_stage2_lora_data.py</text>
+</g>
+<!-- g1&#45;&gt;g2 -->
+<g id="edge2" class="edge">
+<title>g1&#45;&gt;g2</title>
+<path fill="none" stroke="#52677e" d="M177,-391.75C177,-380.39 177,-366.41 177,-354.1"/>
+<polygon fill="#52677e" stroke="#52677e" points="179.63,-353.8 177,-346.3 174.38,-353.8 179.63,-353.8"/>
+</g>
+<!-- g3 -->
+<g id="node4" class="node">
+<title>g3</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M325.5,-260C325.5,-260 28.5,-260 28.5,-260 22.5,-260 16.5,-254 16.5,-248 16.5,-248 16.5,-212 16.5,-212 16.5,-206 22.5,-200 28.5,-200 28.5,-200 325.5,-200 325.5,-200 331.5,-200 337.5,-206 337.5,-212 337.5,-212 337.5,-248 337.5,-248 337.5,-254 331.5,-260 325.5,-260"/>
+<text text-anchor="middle" x="177" y="-240.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/data/datasets_factory/</text>
+<text text-anchor="middle" x="177" y="-226.6" font-family="DejaVu Sans" font-size="13.00">dataset_datamake_mixed_v2v_local.py</text>
+<text text-anchor="middle" x="177" y="-212.6" font-family="DejaVu Sans" font-size="13.00">+ dataset_datamake_multiturn_v2v_local.py</text>
+</g>
+<!-- g2&#45;&gt;g3 -->
+<g id="edge3" class="edge">
+<title>g2&#45;&gt;g3</title>
+<path fill="none" stroke="#52677e" d="M177,-299.97C177,-290.32 177,-278.73 177,-267.83"/>
+<polygon fill="#52677e" stroke="#52677e" points="179.63,-267.55 177,-260.05 174.38,-267.55 179.63,-267.55"/>
+</g>
+<!-- p -->
+<g id="node12" class="node">
+<title>p</title>
+<path fill="#fff2db" stroke="#d8aa55" d="M640.5,-160C640.5,-160 427.5,-160 427.5,-160 421.5,-160 415.5,-154 415.5,-148 415.5,-148 415.5,-112 415.5,-112 415.5,-106 421.5,-100 427.5,-100 427.5,-100 640.5,-100 640.5,-100 646.5,-100 652.5,-106 652.5,-112 652.5,-112 652.5,-148 652.5,-148 652.5,-154 646.5,-160 640.5,-160"/>
+<text text-anchor="middle" x="534" y="-140.6" font-family="DejaVu Sans" font-size="13.00">[MODIFIED] lance/data/</text>
+<text text-anchor="middle" x="534" y="-126.6" font-family="DejaVu Sans" font-size="13.00">dataset_base_train.py</text>
+<text text-anchor="middle" x="534" y="-112.6" font-family="DejaVu Sans" font-size="13.00">Official packer + role metadata</text>
+</g>
+<!-- g3&#45;&gt;p -->
+<g id="edge9" class="edge">
+<title>g3&#45;&gt;p</title>
+<path fill="none" stroke="#52677e" d="M282.66,-199.99C326.19,-188.05 376.7,-174.18 420.97,-162.03"/>
+<polygon fill="#52677e" stroke="#52677e" points="421.76,-164.53 428.3,-160.02 420.37,-159.47 421.76,-164.53"/>
+</g>
+<!-- c0 -->
+<g id="node5" class="node">
+<title>c0</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M688.5,-524C688.5,-524 379.5,-524 379.5,-524 373.5,-524 367.5,-518 367.5,-512 367.5,-512 367.5,-490 367.5,-490 367.5,-484 373.5,-478 379.5,-478 379.5,-478 688.5,-478 688.5,-478 694.5,-478 700.5,-484 700.5,-490 700.5,-490 700.5,-512 700.5,-512 700.5,-518 694.5,-524 688.5,-524"/>
+<text text-anchor="middle" x="534" y="-504.6" font-family="DejaVu Sans" font-size="13.00">[NEW] scripts/</text>
+<text text-anchor="middle" x="534" y="-490.6" font-family="DejaVu Sans" font-size="13.00">run_datamake_chain_pred_x0_ddp_training.py</text>
+</g>
+<!-- c1 -->
+<g id="node6" class="node">
+<title>c1</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M664,-438C664,-438 404,-438 404,-438 398,-438 392,-432 392,-426 392,-426 392,-404 392,-404 392,-398 398,-392 404,-392 404,-392 664,-392 664,-392 670,-392 676,-398 676,-404 676,-404 676,-426 676,-426 676,-432 670,-438 664,-438"/>
+<text text-anchor="middle" x="534" y="-418.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/train/</text>
+<text text-anchor="middle" x="534" y="-404.6" font-family="DejaVu Sans" font-size="13.00">datamake_chain_pred_x0_ddp_train.py</text>
+</g>
+<!-- c0&#45;&gt;c1 -->
+<g id="edge4" class="edge">
+<title>c0&#45;&gt;c1</title>
+<path fill="none" stroke="#52677e" d="M534,-477.93C534,-468.17 534,-456.54 534,-446.01"/>
+<polygon fill="#52677e" stroke="#52677e" points="536.63,-445.71 534,-438.21 531.38,-445.71 536.63,-445.71"/>
+</g>
+<!-- c2 -->
+<g id="node7" class="node">
+<title>c2</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M646.5,-346C646.5,-346 421.5,-346 421.5,-346 415.5,-346 409.5,-340 409.5,-334 409.5,-334 409.5,-312 409.5,-312 409.5,-306 415.5,-300 421.5,-300 421.5,-300 646.5,-300 646.5,-300 652.5,-300 658.5,-306 658.5,-312 658.5,-312 658.5,-334 658.5,-334 658.5,-340 652.5,-346 646.5,-346"/>
+<text text-anchor="middle" x="534" y="-326.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/train/</text>
+<text text-anchor="middle" x="534" y="-312.6" font-family="DejaVu Sans" font-size="13.00">datamake_chain_window_data.py</text>
+</g>
+<!-- c1&#45;&gt;c2 -->
+<g id="edge5" class="edge">
+<title>c1&#45;&gt;c2</title>
+<path fill="none" stroke="#52677e" d="M534,-391.75C534,-380.39 534,-366.41 534,-354.1"/>
+<polygon fill="#52677e" stroke="#52677e" points="536.63,-353.8 534,-346.3 531.38,-353.8 536.63,-353.8"/>
+</g>
+<!-- c3 -->
+<g id="node8" class="node">
+<title>c3</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M653,-253C653,-253 415,-253 415,-253 409,-253 403,-247 403,-241 403,-241 403,-219 403,-219 403,-213 409,-207 415,-207 415,-207 653,-207 653,-207 659,-207 665,-213 665,-219 665,-219 665,-241 665,-241 665,-247 659,-253 653,-253"/>
+<text text-anchor="middle" x="534" y="-233.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/data/datasets_factory/</text>
+<text text-anchor="middle" x="534" y="-219.6" font-family="DejaVu Sans" font-size="13.00">datamake_online_rollout_turn.py</text>
+</g>
+<!-- c2&#45;&gt;c3 -->
+<g id="edge6" class="edge">
+<title>c2&#45;&gt;c3</title>
+<path fill="none" stroke="#52677e" d="M534,-299.97C534,-288.21 534,-273.57 534,-260.8"/>
+<polygon fill="#52677e" stroke="#52677e" points="536.63,-260.64 534,-253.14 531.38,-260.64 536.63,-260.64"/>
+</g>
+<!-- c3&#45;&gt;p -->
+<g id="edge10" class="edge">
+<title>c3&#45;&gt;p</title>
+<path fill="none" stroke="#52677e" d="M534,-206.76C534,-195.24 534,-180.88 534,-167.76"/>
+<polygon fill="#52677e" stroke="#52677e" points="536.63,-167.72 534,-160.22 531.38,-167.72 536.63,-167.72"/>
+</g>
+<!-- i0 -->
+<g id="node9" class="node">
+<title>i0</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M984.5,-346C984.5,-346 743.5,-346 743.5,-346 737.5,-346 731.5,-340 731.5,-334 731.5,-334 731.5,-312 731.5,-312 731.5,-306 737.5,-300 743.5,-300 743.5,-300 984.5,-300 984.5,-300 990.5,-300 996.5,-306 996.5,-312 996.5,-312 996.5,-334 996.5,-334 996.5,-340 990.5,-346 984.5,-346"/>
+<text text-anchor="middle" x="864" y="-326.6" font-family="DejaVu Sans" font-size="13.00">[NEW] scripts/run_multiturn_chat.sh</text>
+<text text-anchor="middle" x="864" y="-312.6" font-family="DejaVu Sans" font-size="13.00">&#45;&gt; lance/multiturn_chat.py</text>
+</g>
+<!-- i1 -->
+<g id="node10" class="node">
+<title>i1</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M930,-253C930,-253 776,-253 776,-253 770,-253 764,-247 764,-241 764,-241 764,-219 764,-219 764,-213 770,-207 776,-207 776,-207 930,-207 930,-207 936,-207 942,-213 942,-219 942,-219 942,-241 942,-241 942,-247 936,-253 930,-253"/>
+<text text-anchor="middle" x="853" y="-233.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/multiturn/</text>
+<text text-anchor="middle" x="853" y="-219.6" font-family="DejaVu Sans" font-size="13.00">engine.py</text>
+</g>
+<!-- i0&#45;&gt;i1 -->
+<g id="edge7" class="edge">
+<title>i0&#45;&gt;i1</title>
+<path fill="none" stroke="#52677e" d="M861.34,-299.97C859.92,-288.21 858.15,-273.57 856.6,-260.8"/>
+<polygon fill="#52677e" stroke="#52677e" points="859.18,-260.27 855.68,-253.14 853.97,-260.9 859.18,-260.27"/>
+</g>
+<!-- i2 -->
+<g id="node11" class="node">
+<title>i2</title>
+<path fill="#eaf2ff" stroke="#94a3b8" d="M919,-153C919,-153 765,-153 765,-153 759,-153 753,-147 753,-141 753,-141 753,-119 753,-119 753,-113 759,-107 765,-107 765,-107 919,-107 919,-107 925,-107 931,-113 931,-119 931,-119 931,-141 931,-141 931,-147 925,-153 919,-153"/>
+<text text-anchor="middle" x="842" y="-133.6" font-family="DejaVu Sans" font-size="13.00">[NEW] lance/multiturn/</text>
+<text text-anchor="middle" x="842" y="-119.6" font-family="DejaVu Sans" font-size="13.00">sequence_builder.py</text>
+</g>
+<!-- i1&#45;&gt;i2 -->
+<g id="edge8" class="edge">
+<title>i1&#45;&gt;i2</title>
+<path fill="none" stroke="#52677e" d="M850.5,-206.76C848.97,-193.1 846.99,-175.45 845.32,-160.61"/>
+<polygon fill="#52677e" stroke="#52677e" points="847.93,-160.31 844.49,-153.15 842.71,-160.9 847.93,-160.31"/>
+</g>
+<!-- m -->
+<g id="node13" class="node">
+<title>m</title>
+<path fill="#fff2db" stroke="#d8aa55" d="M810.5,-60C810.5,-60 565.5,-60 565.5,-60 559.5,-60 553.5,-54 553.5,-48 553.5,-48 553.5,-12 553.5,-12 553.5,-6 559.5,0 565.5,0 565.5,0 810.5,0 810.5,0 816.5,0 822.5,-6 822.5,-12 822.5,-12 822.5,-48 822.5,-48 822.5,-54 816.5,-60 810.5,-60"/>
+<text text-anchor="middle" x="688" y="-40.6" font-family="DejaVu Sans" font-size="13.00">[MODIFIED] lance/modeling/lance/</text>
+<text text-anchor="middle" x="688" y="-26.6" font-family="DejaVu Sans" font-size="13.00">lance.py</text>
+<text text-anchor="middle" x="688" y="-12.6" font-family="DejaVu Sans" font-size="13.00">Shared training forward / generation</text>
+</g>
+<!-- i2&#45;&gt;m -->
+<g id="edge12" class="edge">
+<title>i2&#45;&gt;m</title>
+<path fill="none" stroke="#52677e" d="M807.06,-106.76C787.27,-94.17 762.13,-78.17 740.06,-64.13"/>
+<polygon fill="#52677e" stroke="#52677e" points="741.36,-61.85 733.62,-60.03 738.54,-66.27 741.36,-61.85"/>
+</g>
+<!-- p&#45;&gt;m -->
+<g id="edge11" class="edge">
+<title>p&#45;&gt;m</title>
+<path fill="none" stroke="#52677e" d="M579.79,-99.86C597.4,-88.66 617.63,-75.78 635.8,-64.22"/>
+<polygon fill="#52677e" stroke="#52677e" points="637.47,-66.27 642.39,-60.03 634.65,-61.84 637.47,-66.27"/>
+</g>
+</g>
+</svg>
+</div>
+<h2>按功能继续展开</h2><table><tr><th>主题</th><th>路径</th></tr><tr><td>LoRA</td><td><code>lance/train/datamake_peft.py</code><br><code>lance/train/datamake_branch_lora.py</code></td></tr><tr><td>注意力与位置编码</td><td><code>lance/data/data_utils.py</code><br><code>lance/data/common.py</code></td></tr><tr><td>padding</td><td><code>lance/train/datamake_packed_batch.py</code></td></tr><tr><td>整链调度</td><td><code>lance/train/datamake_chain_window_schedule.py</code></td></tr><tr><td>保存恢复</td><td><code>lance/train/datamake_ddp_checkpoint.py</code></td></tr><tr><td>推理对话</td><td><code>lance/multiturn/conversation.py</code></td></tr><tr><td>单张参考图</td><td><code>lance/data/datamake_reference_image.py</code></td></tr></table><p>模型初始化还复用 <code>lance/inference_lance.py</code>；模型内部与官方图对应的Transformer、ViT、VAE仍需一起阅读。为保持图清晰，未绘制全部共享工具与辅助调用。</p><p>分支编辑与多参考扩展仍是讨论项，不标成已实现文件。图中参考图仅指已有的可选单张ViT参考。</p><footer>SVG内嵌在本页，不依赖Mermaid、外部字体下载或网络脚本。保存本HTML即可保留两张图；PNG/SVG下载链接则指向配套文件。</footer></main><script>
+function zoom(id,f){const s=document.querySelector('#'+id+' svg');s.style.width=(s.getBoundingClientRect().width*f)+'px'}function reset(id){document.querySelector('#'+id+' svg').style.width='100%'}
+</script></body></html>
