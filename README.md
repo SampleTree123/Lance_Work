@@ -40,7 +40,7 @@ render(C) -> media(node_id)
 
 ## 决策日志
 
-- 2026-10-23：用户确认通过公开GitHub同步服务器差异；16份UE引擎源码补丁及根目录临时文件保留服务器并忽略，独立robotdata仓库已由用户删除。上传范围已确定，登录节点认证与遗留LFS钩子阻塞已解决，上传结果见审查记录。见[上传审查](20_planning/data_design/character_creator/full_process/project_management/status/GITHUB_SYNC_REVIEW.md)与[认证和同步](20_planning/data_design/character_creator/full_process/technical/rendering_release/DOCUMENT_SYNC.md)。
+- 2026-10-23：用户确认通过公开GitHub同步服务器差异；16份UE引擎源码补丁及根目录临时文件保留服务器并忽略，独立robotdata仓库已由用户删除。已通过登录节点HTTPS认证推送内容提交e0dd61c至main；遗留LFS钩子已备份停用，本地Windows合并待完成。见[上传审查](20_planning/data_design/character_creator/full_process/project_management/status/GITHUB_SYNC_REVIEW.md)与[认证和同步](20_planning/data_design/character_creator/full_process/technical/rendering_release/DOCUMENT_SYNC.md)。
 
 - 2026-10-23讨论记录：按阶段/任务定义ViT和VAE规格，评估生成source/history统一低规格、理解标准ViT和独立参考VAE预算。已复核张量形状及长度算例，参数未冻结，见[规格分析](10_research/model_experiments/lance/reports/datamake_stage_specific_media_specs_20261023.md)。
 

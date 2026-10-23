@@ -1105,12 +1105,12 @@
   },
   "server_documentation_sync": {
     "date": "2026-10-23",
-    "status": "github_scope_and_auth_verified_ready_to_commit_and_push",
+    "status": "github_uploaded_pending_local_merge",
     "scope": "documentation and UE execution stream; model architecture remains owned by separate dialogue",
     "status_document": "20_planning/data_design/character_creator/full_process/project_management/status/SERVER_SYNC_STATUS.md",
     "sync_guide": "20_planning/data_design/character_creator/full_process/technical/rendering_release/DOCUMENT_SYNC.md",
     "manifest": "20_planning/implementation/server_documentation_sync_20261023.json",
-    "next_action": "Commit and push approved server snapshot via orion-login01; then merge local changes before UE preflight",
+    "next_action": "User preserves local uncommitted work, fetches GitHub main and merges both endpoints; then confirm UE inputs and usable engine before new preflight",
     "historical_engine_path_exists": false,
     "installed_build_replacement_validated": false,
     "current_ue_session_gate": "not_run",
@@ -1126,15 +1126,15 @@
     },
     "github_preflight": {
       "date": "2026-10-23",
-      "status": "technical_checks_passed_scope_approved_auth_and_lfs_resolved",
+      "status": "approved_content_commit_pushed_and_remote_verified",
       "report": "20_planning/data_design/character_creator/full_process/project_management/status/GITHUB_SYNC_REVIEW.md",
       "repository": "SampleTree123/Lance_Work",
       "visibility": "public",
       "unit_tests_passed": 277,
       "secret_scan": "no_common_literal_secret_matches_in_changed_candidates",
       "push_dry_run": "passed_on_orion_login01",
-      "committed": false,
-      "pushed": false,
+      "committed": true,
+      "pushed": true,
       "scope_approved_by_user": true,
       "scope_approved_date": "2026-10-23",
       "ue_patch_files_excluded": 16,
@@ -1155,7 +1155,12 @@
         "reachable_objects_checked": 1579,
         "hook_backup": ".git/hooks/pre-push.disabled-no-lfs-20261023",
         "hook_action": "backed_up_and_disabled_obsolete_standard_lfs_hook"
-      }
+      },
+      "uploaded_content_commit": "e0dd61cacecdc6e27ec3a74621f7549bfd42ff0f",
+      "target_branch": "main",
+      "remote_verified": true,
+      "uploaded_at": "2026-10-23T10:13:07+08:00",
+      "followup_status_record": "This status is a subsequent documentation update; its own commit is identified by Git history."
     }
   }
 }

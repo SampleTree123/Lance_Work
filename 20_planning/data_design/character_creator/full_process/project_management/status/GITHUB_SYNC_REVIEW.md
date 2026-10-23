@@ -8,7 +8,7 @@
 
 ## 结论与上传状态
 
-当前技术预检通过，用户于2026-10-23确认按建议范围上传。用户已在orion-login01配置有效HTTPS认证；修复遗留LFS钩子后，登录节点push dry-run返回Everything up-to-date。当前准备正式提交与推送，无需用户新增密钥。以下保留范围与认证处理记录：
+2026-10-23已按用户批准范围完成上传。内容提交[`e0dd61c`](https://github.com/SampleTree123/Lance_Work/commit/e0dd61cacecdc6e27ec3a74621f7549bfd42ff0f)已正常推送至main，远端读取确认一致；共338个文件变更，包含历史路径迁移。登录节点HTTPS认证及遗留LFS钩子问题均已解决，无需用户新增密钥。下面保留范围与验证记录，本页后续提交只补记同步结果。
 
 1. GitHub目标`SampleTree123/Lance_Work`当前为public。候选包含8份UE引擎源码patch的两套副本，共16文件；其中两份各有162/121行原始上下文或删除行，不能按普通自有脚本默认公开。用户已确认保持当前仓库公开，排除这16份patch，仅保留说明/哈希与服务器原件；两处精确路径已写入根.gitignore。本轮不改变仓库可见性、不删patch。
 2. 原HTTPS认证返回Invalid username or token；现有专用SSH身份King-Wood-Shen也无目标仓库写权限。用户随后在orion-login01配置HTTPS令牌与4小时credential-cache，现已验证成功；计算节点8FS9B74不能直接使用登录节点的内存缓存，因此通过已有集群SSH在登录节点执行Git。没有打印、复制或写入任何令牌。
@@ -16,7 +16,7 @@
 
 公开片段及对其他许可方分发的边界见[Epic EULA第5节](https://www.unrealengine.com/eula/unreal)，核对日期2026-10-23。上述是根据实际补丁内容提出的上传范围建议，不替代项目许可证审查。
 
-## 拟上传内容
+## 已上传内容
 
 - DataMake文档、状态、决策、索引和轻量证据；保持另一对话新增的模型架构记录。
 - UE自有Python/shell脚本、轻量项目配置、输入hash清单、发布与恢复实现及测试。
@@ -25,13 +25,13 @@
 
 已批准排除：根目录`chains.json`（两条数据样例）、`html.md`（临时访问命令）、独立嵌套仓库`robotdata/`，以及上述16个UE源码patch。除用户已自行删除的`robotdata/`外，其余原件均保留在服务器；同时核实用户消息中的`robodata/`拼写路径也不存在。精确排除规则已写入根.gitignore，避免再次出现时误加入Git。
 
-详细拟上传路径和哈希见[github_sync_preflight_20261023.json](../../../../../implementation/github_sync_preflight_20261023.json)。候选按本轮工作树明确列出，不使用`git add .`。范围与认证均已确认；清单区分仍保留的排除文件和用户已删除的目录。清单是提交前时点快照，实际上传结果以后续Git提交为准。
+提交前候选路径和哈希见[github_sync_preflight_20261023.json](../../../../../implementation/github_sync_preflight_20261023.json)。候选按本轮工作树明确列出并逐个核对后提交，没有使用`git add .`。范围与认证均已确认；清单区分仍保留的排除文件和用户已删除的目录。清单是提交前时点快照，实际上传结果以后续Git提交为准。
 
 ## 检查结果
 
 | 检查 | 结果与边界 |
 | --- | --- |
-| 远端基线 | fetch后HEAD与origin/main同为b578a02；无提交分叉；上传前再次fetch |
+| 远端基线与上传 | 上传前fetch确认b578a02无分叉；e0dd61c正常推送成功，ls-remote确认一致 |
 | 文档审计 | 通过，0错误/0警告 |
 | 核心现有单元测试 | 文档22＋数据30＋UE脚本80，共132项通过 |
 | Lance现有单元测试 | xks_lance环境145项通过；合计277项 |
@@ -46,6 +46,6 @@
 
 ## 提交与两端同步顺序
 
-用户已确认上传范围，认证与旧钩子阻塞已解决；冻结本次候选并核对是否被另一对话继续修改；按明确路径创建可审阅提交，再正常fast-forward推送。若远端前进，先检查差异并合并，不force-push。
+本次已冻结候选、核对另一对话新增文档并按明确路径提交，正常fast-forward推送完成，未force-push。下一步由用户在Windows保存本地未提交改动，fetch后对比本地分支与origin/main，再合并；服务器上传成功不代表两端已一致。
 
 本地Windows接收前保留自身未提交改动，再通过Git合并。当前没有本地Windows状态，不承诺它可无冲突直接覆盖。`server_documentation_sync_20261023.json`仍是00:33的历史文档快照；后续Git提交应以提交树为准，不把旧快照hash失配误当数据损坏。

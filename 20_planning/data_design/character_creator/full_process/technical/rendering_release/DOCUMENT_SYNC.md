@@ -59,7 +59,7 @@ python 00_engine/scripts/documentation/check_character_factory_docs.py --json
 
 ## 6. GitHub维护与本轮上传审查
 
-用户确认后续仍通过GitHub维护。本次审查与上传准备由本文拥有，见[GITHUB_SYNC_REVIEW](../../project_management/status/GITHUB_SYNC_REVIEW.md)。候选清单`20_planning/implementation/github_sync_preflight_20261023.json`记录已批准范围与hash，不包含凭据、引擎源码正文或Git对象。用户已确认排除16份UE引擎源码patch、根目录chains.json/html.md及独立robotdata仓库；规则写入.gitignore。robotdata已由用户删除，UE补丁和临时文件保留服务器。2026-10-23用户已配置登录节点HTTPS认证，遗留LFS钩子修复后dry-run通过；实际上传结果以审查状态和Git提交为准。
+用户确认后续仍通过GitHub维护。本次审查与上传准备由本文拥有，见[GITHUB_SYNC_REVIEW](../../project_management/status/GITHUB_SYNC_REVIEW.md)。候选清单`20_planning/implementation/github_sync_preflight_20261023.json`记录已批准范围与hash，不包含凭据、引擎源码正文或Git对象。用户已确认排除16份UE引擎源码patch、根目录chains.json/html.md及独立robotdata仓库；规则写入.gitignore。robotdata已由用户删除，UE补丁和临时文件保留服务器。2026-10-23用户已配置登录节点HTTPS认证，遗留LFS钩子修复后dry-run通过；内容提交e0dd61c已推送到main并核验远端。后续状态记录提交以Git日志为准，本地Windows合并仍待完成。
 
 通过Git同步时，以实际提交为内容版本；目录清单只用于提交前的差异核对。生成式Catalog/Inventory应与该提交的脚本/机器范围配套，不单独用旧目录快照覆盖新代码。
 
