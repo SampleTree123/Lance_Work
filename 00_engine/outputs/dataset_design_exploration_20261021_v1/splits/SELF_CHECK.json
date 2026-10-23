@@ -1,0 +1,95 @@
+{
+  "date": "2026-10-21",
+  "status": "pass",
+  "scope": "candidate arithmetic and synthetic branch fixture only; not production graph, catalog, sampler, media or model validation",
+  "checks": [
+    {
+      "id": "A_scene_composition",
+      "budget_sums_pass": true
+    },
+    {
+      "id": "B_scene_composition_identity",
+      "budget_sums_pass": true
+    },
+    {
+      "id": "C_scene_composition_unseen_edit_category",
+      "budget_sums_pass": true
+    },
+    {
+      "id": "uniform_alternative_length_fork_and_turn_counts",
+      "pass": true
+    },
+    {
+      "id": "positive_full_parent_inheritance",
+      "expected_valid": true,
+      "observed_error": null,
+      "pass": true
+    },
+    {
+      "id": "positive_revisit_same_node_distinct_occurrence",
+      "expected_valid": true,
+      "observed_error": null,
+      "pass": true
+    },
+    {
+      "id": "negative_merge_discarded_camera",
+      "expected_valid": false,
+      "observed_error": "not_exact_one_axis_replacement_of_selected_parent",
+      "pass": true
+    },
+    {
+      "id": "negative_future_source",
+      "expected_valid": false,
+      "observed_error": "parent_not_previously_visible",
+      "pass": true
+    },
+    {
+      "id": "positive_autonomous_source_public_view",
+      "expected_valid": true,
+      "observed_error": null,
+      "pass": true
+    },
+    {
+      "id": "negative_parent_gt_in_public_autonomous_view",
+      "expected_valid": false,
+      "observed_error": "hidden_answer_exposed",
+      "pass": true
+    },
+    {
+      "id": "negative_target_frame_as_reference",
+      "expected_valid": false,
+      "observed_error": "future_target_derived_reference",
+      "pass": true
+    },
+    {
+      "id": "positive_unseen_identity_reference_is_input",
+      "expected_valid": true,
+      "observed_error": null,
+      "pass": true
+    }
+  ],
+  "candidate_budget_rechecked_after_scene_priority_revision": true,
+  "primary_candidate_a_test_partition_nodes": [
+    80,
+    340,
+    80
+  ],
+  "primary_candidate_a_test_partition_sessions": [
+    480,
+    2040,
+    480
+  ],
+  "budget_scope_requires_user_decision": true,
+  "length_scheme_reconciliation": {
+    "uniform_alternative_train_test_turns": [
+      42000,
+      10500
+    ],
+    "root_graph_primary_train_test_turns": [
+      44800,
+      11200
+    ],
+    "arithmetic_pass": true,
+    "schemes_must_not_mix": true
+  }
+}

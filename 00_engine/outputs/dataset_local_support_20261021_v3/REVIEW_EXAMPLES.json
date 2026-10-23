@@ -1,0 +1,846 @@
+[
+  {
+    "split": "train",
+    "title": "多属性直链",
+    "session": {
+      "id": "session_000032",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "history": [
+        1626,
+        1628,
+        1620,
+        1594,
+        1600
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 1626,
+          "target": 1628,
+          "axis": "wardrobe",
+          "mode": "whole_outfit"
+        },
+        {
+          "source_position": 1,
+          "source": 1628,
+          "target": 1620,
+          "axis": "hair",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 2,
+          "source": 1620,
+          "target": 1594,
+          "axis": "action",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 3,
+          "source": 1594,
+          "target": 1600,
+          "axis": "hair",
+          "mode": "attribute"
+        }
+      ]
+    },
+    "states": {
+      "1600": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB1_11",
+        "hair_color": "red",
+        "action": "MOTION_CAND_001",
+        "site": "site_2a054574eb",
+        "camera": "orbit_120",
+        "wardrobe": {
+          "family_id": "male.summer",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.summer.asset.88d3de51af97",
+            "pants": "male.summer.asset.f991c0f529d5",
+            "shoes": "male.summer.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1594": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB1_05",
+        "hair_color": "red",
+        "action": "MOTION_CAND_001",
+        "site": "site_2a054574eb",
+        "camera": "orbit_120",
+        "wardrobe": {
+          "family_id": "male.summer",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.summer.asset.88d3de51af97",
+            "pants": "male.summer.asset.f991c0f529d5",
+            "shoes": "male.summer.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1620": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB1_05",
+        "hair_color": "red",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_2a054574eb",
+        "camera": "orbit_120",
+        "wardrobe": {
+          "family_id": "male.summer",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.summer.asset.88d3de51af97",
+            "pants": "male.summer.asset.f991c0f529d5",
+            "shoes": "male.summer.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1626": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB1_11",
+        "hair_color": "red",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_2a054574eb",
+        "camera": "orbit_120",
+        "wardrobe": {
+          "family_id": "male.mercenery",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.mercenery.asset.272ee5f88d2e",
+            "pants": "male.mercenery.asset.86d3bf90649a",
+            "shoes": "male.mercenery.asset.b644afc0908a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1628": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB1_11",
+        "hair_color": "red",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_2a054574eb",
+        "camera": "orbit_120",
+        "wardrobe": {
+          "family_id": "male.summer",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.summer.asset.88d3de51af97",
+            "pants": "male.summer.asset.f991c0f529d5",
+            "shoes": "male.summer.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  },
+  {
+    "split": "train",
+    "title": "使用中间历史版本的分叉",
+    "session": {
+      "id": "session_000026",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "history": [
+        1326,
+        1308,
+        1307,
+        1325,
+        1300
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 1326,
+          "target": 1308,
+          "axis": "action",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 1,
+          "source": 1308,
+          "target": 1307,
+          "axis": "camera",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 2,
+          "source": 1307,
+          "target": 1325,
+          "axis": "action",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 1,
+          "source": 1308,
+          "target": 1300,
+          "axis": "camera",
+          "mode": "attribute"
+        }
+      ]
+    },
+    "states": {
+      "1325": {
+        "sex": "male",
+        "identity": "CFD40_AM_002",
+        "hair": "HAIR_HB1_02",
+        "hair_color": "original",
+        "action": "ACT_F05_TIE_SHOES",
+        "site": "site_05dac27bc7",
+        "camera": "side_upper",
+        "wardrobe": {
+          "family_id": "male.cheer_leader",
+          "group_id": "matched_02",
+          "slot_choices": {
+            "shirts": "male.cheer_leader.asset.49a4c6698aa9",
+            "pants": "male.cheer_leader.asset.f8a659401fe8",
+            "shoes": "male.cheer_leader.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1326": {
+        "sex": "male",
+        "identity": "CFD40_AM_002",
+        "hair": "HAIR_HB1_02",
+        "hair_color": "original",
+        "action": "ACT_F05_TIE_SHOES",
+        "site": "site_05dac27bc7",
+        "camera": "high_full",
+        "wardrobe": {
+          "family_id": "male.cheer_leader",
+          "group_id": "matched_02",
+          "slot_choices": {
+            "shirts": "male.cheer_leader.asset.49a4c6698aa9",
+            "pants": "male.cheer_leader.asset.f8a659401fe8",
+            "shoes": "male.cheer_leader.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1300": {
+        "sex": "male",
+        "identity": "CFD40_AM_002",
+        "hair": "HAIR_HB1_02",
+        "hair_color": "original",
+        "action": "ACT_F01_SEXY_DANCE",
+        "site": "site_05dac27bc7",
+        "camera": "front_three_quarter_upper",
+        "wardrobe": {
+          "family_id": "male.cheer_leader",
+          "group_id": "matched_02",
+          "slot_choices": {
+            "shirts": "male.cheer_leader.asset.49a4c6698aa9",
+            "pants": "male.cheer_leader.asset.f8a659401fe8",
+            "shoes": "male.cheer_leader.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1307": {
+        "sex": "male",
+        "identity": "CFD40_AM_002",
+        "hair": "HAIR_HB1_02",
+        "hair_color": "original",
+        "action": "ACT_F01_SEXY_DANCE",
+        "site": "site_05dac27bc7",
+        "camera": "side_upper",
+        "wardrobe": {
+          "family_id": "male.cheer_leader",
+          "group_id": "matched_02",
+          "slot_choices": {
+            "shirts": "male.cheer_leader.asset.49a4c6698aa9",
+            "pants": "male.cheer_leader.asset.f8a659401fe8",
+            "shoes": "male.cheer_leader.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "1308": {
+        "sex": "male",
+        "identity": "CFD40_AM_002",
+        "hair": "HAIR_HB1_02",
+        "hair_color": "original",
+        "action": "ACT_F01_SEXY_DANCE",
+        "site": "site_05dac27bc7",
+        "camera": "high_full",
+        "wardrobe": {
+          "family_id": "male.cheer_leader",
+          "group_id": "matched_02",
+          "slot_choices": {
+            "shirts": "male.cheer_leader.asset.49a4c6698aa9",
+            "pants": "male.cheer_leader.asset.f8a659401fe8",
+            "shoes": "male.cheer_leader.asset.a7020e1bee1a"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  },
+  {
+    "split": "train",
+    "title": "自然回访示例",
+    "session": {
+      "id": "session_000006",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "history": [
+        160,
+        168,
+        186,
+        160
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 160,
+          "target": 168,
+          "axis": "wardrobe",
+          "mode": "single_piece",
+          "slot": "full_body"
+        },
+        {
+          "source_position": 0,
+          "source": 160,
+          "target": 186,
+          "axis": "action",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 2,
+          "source": 186,
+          "target": 160,
+          "axis": "action",
+          "mode": "attribute"
+        }
+      ]
+    },
+    "states": {
+      "160": {
+        "sex": "female",
+        "identity": "CFD40_AF_003",
+        "hair": "HAIR_HB1_05",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_003",
+        "site": "site_1bbc32217c",
+        "camera": "back_full",
+        "wardrobe": {
+          "family_id": "female.jumpsuits_accessories",
+          "group_id": "default",
+          "slot_choices": {
+            "full_body": "female.jumpsuits_accessories.asset.40a1f9e04a4a"
+          },
+          "optional_asset_ids": [
+            "female.jumpsuits_accessories.asset.bd7c31fc646e"
+          ],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "186": {
+        "sex": "female",
+        "identity": "CFD40_AF_003",
+        "hair": "HAIR_HB1_05",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_030",
+        "site": "site_1bbc32217c",
+        "camera": "back_full",
+        "wardrobe": {
+          "family_id": "female.jumpsuits_accessories",
+          "group_id": "default",
+          "slot_choices": {
+            "full_body": "female.jumpsuits_accessories.asset.40a1f9e04a4a"
+          },
+          "optional_asset_ids": [
+            "female.jumpsuits_accessories.asset.bd7c31fc646e"
+          ],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "168": {
+        "sex": "female",
+        "identity": "CFD40_AF_003",
+        "hair": "HAIR_HB1_05",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_003",
+        "site": "site_1bbc32217c",
+        "camera": "back_full",
+        "wardrobe": {
+          "family_id": "female.jumpsuits_accessories",
+          "group_id": "default",
+          "slot_choices": {
+            "full_body": "female.jumpsuits_accessories.asset.01913375a5cc"
+          },
+          "optional_asset_ids": [
+            "female.jumpsuits_accessories.asset.bd7c31fc646e"
+          ],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  },
+  {
+    "split": "test",
+    "title": "多属性直链",
+    "session": {
+      "id": "session_000057",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "history": [
+        84,
+        83,
+        82,
+        88,
+        92
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 84,
+          "target": 83,
+          "axis": "identity",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 1,
+          "source": 83,
+          "target": 82,
+          "axis": "identity",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 2,
+          "source": 82,
+          "target": 88,
+          "axis": "hair_color",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 3,
+          "source": 88,
+          "target": 92,
+          "axis": "hair",
+          "mode": "attribute"
+        }
+      ]
+    },
+    "states": {
+      "82": {
+        "sex": "female",
+        "identity": "CFD40_BF_003",
+        "hair": "HAIR_HB2_04",
+        "hair_color": "silver_white",
+        "action": "MOTION_CAND_030",
+        "site": "site_f3e2dabbd0",
+        "camera": "front_head",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "skirt_with_shirt",
+          "slot_choices": {
+            "skirts": "female.streetwear_collection.asset.8f0c9c4362e0",
+            "shirts": "female.streetwear_collection.asset.91e5b14dea86"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "83": {
+        "sex": "female",
+        "identity": "CFD40_BF_004",
+        "hair": "HAIR_HB2_04",
+        "hair_color": "silver_white",
+        "action": "MOTION_CAND_030",
+        "site": "site_f3e2dabbd0",
+        "camera": "front_head",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "skirt_with_shirt",
+          "slot_choices": {
+            "skirts": "female.streetwear_collection.asset.8f0c9c4362e0",
+            "shirts": "female.streetwear_collection.asset.91e5b14dea86"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "84": {
+        "sex": "female",
+        "identity": "CFD40_LF_004",
+        "hair": "HAIR_HB2_04",
+        "hair_color": "silver_white",
+        "action": "MOTION_CAND_030",
+        "site": "site_f3e2dabbd0",
+        "camera": "front_head",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "skirt_with_shirt",
+          "slot_choices": {
+            "skirts": "female.streetwear_collection.asset.8f0c9c4362e0",
+            "shirts": "female.streetwear_collection.asset.91e5b14dea86"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "88": {
+        "sex": "female",
+        "identity": "CFD40_BF_003",
+        "hair": "HAIR_HB2_04",
+        "hair_color": "blue",
+        "action": "MOTION_CAND_030",
+        "site": "site_f3e2dabbd0",
+        "camera": "front_head",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "skirt_with_shirt",
+          "slot_choices": {
+            "skirts": "female.streetwear_collection.asset.8f0c9c4362e0",
+            "shirts": "female.streetwear_collection.asset.91e5b14dea86"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "92": {
+        "sex": "female",
+        "identity": "CFD40_BF_003",
+        "hair": "HAIR_HB2_17",
+        "hair_color": "blue",
+        "action": "MOTION_CAND_030",
+        "site": "site_f3e2dabbd0",
+        "camera": "front_head",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "skirt_with_shirt",
+          "slot_choices": {
+            "skirts": "female.streetwear_collection.asset.8f0c9c4362e0",
+            "shirts": "female.streetwear_collection.asset.91e5b14dea86"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  },
+  {
+    "split": "test",
+    "title": "使用中间历史版本的分叉",
+    "session": {
+      "id": "session_000035",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "history": [
+        256,
+        250,
+        254,
+        261,
+        252
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 256,
+          "target": 250,
+          "axis": "camera",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 1,
+          "source": 250,
+          "target": 254,
+          "axis": "wardrobe",
+          "mode": "whole_outfit"
+        },
+        {
+          "source_position": 2,
+          "source": 254,
+          "target": 261,
+          "axis": "site",
+          "mode": "attribute"
+        },
+        {
+          "source_position": 1,
+          "source": 250,
+          "target": 252,
+          "axis": "hair",
+          "mode": "attribute"
+        }
+      ]
+    },
+    "states": {
+      "256": {
+        "sex": "male",
+        "identity": "CFD40_AM_001",
+        "hair": "HAIR_HB1_01",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_001",
+        "site": "site_7ed6554b09",
+        "camera": "dolly_out_front",
+        "wardrobe": {
+          "family_id": "male.casual_01_04",
+          "group_id": "default",
+          "slot_choices": {
+            "coats": "male.casual_01_04.asset.19269ba011f9",
+            "shirts": "male.casual_01_04.asset.1880880da771",
+            "pants": "male.casual_01_04.asset.0c81c8edab50",
+            "shoes": "male.casual_01_04.asset.579c810adb96"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "261": {
+        "sex": "male",
+        "identity": "CFD40_AM_001",
+        "hair": "HAIR_HB1_01",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_001",
+        "site": "site_05dac27bc7",
+        "camera": "dolly_out_back",
+        "wardrobe": {
+          "family_id": "male.white_tie",
+          "group_id": "default",
+          "slot_choices": {
+            "coats": "male.white_tie.asset.cecf3994d437",
+            "pants": "male.white_tie.asset.3264922c4290",
+            "shirts": "male.white_tie.asset.26cbc1eb61a5",
+            "shoes": "male.white_tie.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "250": {
+        "sex": "male",
+        "identity": "CFD40_AM_001",
+        "hair": "HAIR_HB1_01",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_001",
+        "site": "site_7ed6554b09",
+        "camera": "dolly_out_back",
+        "wardrobe": {
+          "family_id": "male.casual_01_04",
+          "group_id": "default",
+          "slot_choices": {
+            "coats": "male.casual_01_04.asset.19269ba011f9",
+            "shirts": "male.casual_01_04.asset.1880880da771",
+            "pants": "male.casual_01_04.asset.0c81c8edab50",
+            "shoes": "male.casual_01_04.asset.579c810adb96"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "252": {
+        "sex": "male",
+        "identity": "CFD40_AM_001",
+        "hair": "HAIR_HB3_05",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_001",
+        "site": "site_7ed6554b09",
+        "camera": "dolly_out_back",
+        "wardrobe": {
+          "family_id": "male.casual_01_04",
+          "group_id": "default",
+          "slot_choices": {
+            "coats": "male.casual_01_04.asset.19269ba011f9",
+            "shirts": "male.casual_01_04.asset.1880880da771",
+            "pants": "male.casual_01_04.asset.0c81c8edab50",
+            "shoes": "male.casual_01_04.asset.579c810adb96"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "254": {
+        "sex": "male",
+        "identity": "CFD40_AM_001",
+        "hair": "HAIR_HB1_01",
+        "hair_color": "gold",
+        "action": "MOTION_CAND_001",
+        "site": "site_7ed6554b09",
+        "camera": "dolly_out_back",
+        "wardrobe": {
+          "family_id": "male.white_tie",
+          "group_id": "default",
+          "slot_choices": {
+            "coats": "male.white_tie.asset.cecf3994d437",
+            "pants": "male.white_tie.asset.3264922c4290",
+            "shirts": "male.white_tie.asset.26cbc1eb61a5",
+            "shoes": "male.white_tie.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  },
+  {
+    "split": "test",
+    "title": "自然回访示例",
+    "session": {
+      "id": "session_000001",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "history": [
+        239,
+        242,
+        239,
+        241
+      ],
+      "steps": [
+        {
+          "source_position": 0,
+          "source": 239,
+          "target": 242,
+          "axis": "wardrobe",
+          "mode": "whole_outfit"
+        },
+        {
+          "source_position": 1,
+          "source": 242,
+          "target": 239,
+          "axis": "wardrobe",
+          "mode": "whole_outfit"
+        },
+        {
+          "source_position": 2,
+          "source": 239,
+          "target": 241,
+          "axis": "wardrobe",
+          "mode": "whole_outfit"
+        }
+      ]
+    },
+    "states": {
+      "241": {
+        "sex": "female",
+        "identity": "CFD40_WF_005",
+        "hair": "HAIR_HB3_17",
+        "hair_color": "black",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_7dbc277564",
+        "camera": "dolly_in_side",
+        "wardrobe": {
+          "family_id": "female.streetwear_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.streetwear_collection.asset.8089de7317db"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "242": {
+        "sex": "female",
+        "identity": "CFD40_WF_005",
+        "hair": "HAIR_HB3_17",
+        "hair_color": "black",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_7dbc277564",
+        "camera": "dolly_in_side",
+        "wardrobe": {
+          "family_id": "female.pretty_dresses",
+          "group_id": "skirts",
+          "slot_choices": {
+            "shirts": "female.pretty_dresses.asset.682960233eff",
+            "skirts": "female.pretty_dresses.asset.746cc0893030"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F004",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      },
+      "239": {
+        "sex": "female",
+        "identity": "CFD40_WF_005",
+        "hair": "HAIR_HB3_17",
+        "hair_color": "black",
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "site": "site_7dbc277564",
+        "camera": "dolly_in_side",
+        "wardrobe": {
+          "family_id": "female.elise",
+          "group_id": "default",
+          "slot_choices": {},
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F022",
+          "hair_id": null
+        },
+        "aspect": "landscape"
+      }
+    }
+  }
+]

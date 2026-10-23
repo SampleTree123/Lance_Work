@@ -29,7 +29,11 @@ def setUpModule() -> None:
     if MODULE.DEFAULT_GRAPH_ROOT.is_dir():
         GRAPH_FIXTURE = MODULE.DEFAULT_GRAPH_ROOT
         return
-    GRAPH_FIXTURE_TEMP = tempfile.TemporaryDirectory()
+    # The lock contract uses repo:// for graph inputs. Keep the generated
+    # fallback inside the repository when the retired default graph is absent.
+    fixture_parent = MODULE.ENGINE_ROOT / "temp"
+    fixture_parent.mkdir(parents=True, exist_ok=True)
+    GRAPH_FIXTURE_TEMP = tempfile.TemporaryDirectory(dir=fixture_parent)
     GRAPH_FIXTURE = Path(GRAPH_FIXTURE_TEMP.name) / "graph"
     builder = MODULE.ROOT / "00_engine/scripts/dataset/build_first_batch_config_graph_v1.py"
     source = MODULE.ROOT / "00_engine/scripts/dataset/first_batch_graph_source_20260824_v1.json"

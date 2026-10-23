@@ -7,7 +7,7 @@
 > 实现所有权：媒体、Sidecar、GT、文本、QA、哈希与交付 Manifest
 > 验证所有权：`VAL-RELEASE-01`
 > 输出契约：`OUT-WF90-DATASET-RELEASE`
-> 最近核验：2026-08-25
+> 最近核验：2026-09-30（交付契约未变；外部完成证据待同步）
 
 ## 1. 交付结构
 
@@ -45,7 +45,7 @@ GT 只来自确定性配置和 UE 实际绑定，不从视频理解模型反推�
 
 ## 5. 当前缺口
 
-第一批结构图和 Prompt 已通过，本地代表媒体已验证；正式 640 节点媒体、统一 Sidecar/GT、媒体 Manifest、服务器重试和最终 Delivery 构建尚未完成。因此当前批次状态不能标记为 released。
+第一批结构图和 Prompt 已通过，本地代表媒体已验证；用户于 2026-09-22 确认服务器正式渲染、打包上传及训练使用已完成。正式媒体、Sidecar/GT、媒体/Delivery Manifest、QA 和 Checksums 未同步本地，因此本地尚不能核验发布 Gate 或标记 released；不能把本地证据缺失写成服务器未完成。准确状态见 [WF-90](../../project_management/status/workflows/WF-90.md)。
 
 ## 6. 失败与恢复
 

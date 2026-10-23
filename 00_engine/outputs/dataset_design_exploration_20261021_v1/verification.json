@@ -1,0 +1,101 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-20T18:12:53.629265+00:00",
+  "scope": "main_and_sourcebalanced_topology_reference_snapshot_links_and_branch_status",
+  "session_checks": [
+    {
+      "prefix": "main_scene_holdout_",
+      "split": "train",
+      "nodes": 2500,
+      "sessions": 12000,
+      "edges": 11800,
+      "quota": {
+        "branch_L3": 800,
+        "branch_L4": 1600,
+        "branch_L5": 1600,
+        "straight_L2": 2000,
+        "straight_L3": 2000,
+        "straight_L4": 2000,
+        "straight_L5": 2000
+      },
+      "branch_source_occurrence_counts": {
+        "0": 3358,
+        "1": 548,
+        "2": 94
+      }
+    },
+    {
+      "prefix": "main_scene_holdout_",
+      "split": "test",
+      "nodes": 500,
+      "sessions": 3000,
+      "edges": 4166,
+      "quota": {
+        "branch_L3": 200,
+        "branch_L4": 400,
+        "branch_L5": 400,
+        "straight_L2": 500,
+        "straight_L3": 500,
+        "straight_L4": 500,
+        "straight_L5": 500
+      },
+      "branch_source_occurrence_counts": {
+        "0": 861,
+        "1": 120,
+        "2": 19
+      }
+    },
+    {
+      "prefix": "sourcebalanced_scene_",
+      "split": "train",
+      "nodes": 2500,
+      "sessions": 12000,
+      "edges": 11800,
+      "quota": {
+        "branch_L3": 800,
+        "branch_L4": 1600,
+        "branch_L5": 1600,
+        "straight_L2": 2000,
+        "straight_L3": 2000,
+        "straight_L4": 2000,
+        "straight_L5": 2000
+      },
+      "branch_source_occurrence_counts": {
+        "2": 300,
+        "0": 1600,
+        "1": 2100
+      }
+    },
+    {
+      "prefix": "sourcebalanced_scene_",
+      "split": "test",
+      "nodes": 500,
+      "sessions": 3000,
+      "edges": 4166,
+      "quota": {
+        "branch_L3": 200,
+        "branch_L4": 400,
+        "branch_L5": 400,
+        "straight_L2": 500,
+        "straight_L3": 500,
+        "straight_L4": 500,
+        "straight_L5": 500
+      },
+      "branch_source_occurrence_counts": {
+        "0": 400,
+        "1": 524,
+        "2": 76
+      }
+    }
+  ],
+  "reference_input_hashes_match": true,
+  "run_markdown_local_links_exist": true,
+  "R17_still_in_progress": true,
+  "not_checked": [
+    "UE rendering",
+    "all wardrobe visibility",
+    "scene asset-family visual independence",
+    "model performance",
+    "full-repository audits"
+  ]
+}

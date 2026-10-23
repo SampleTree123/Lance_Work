@@ -1,0 +1,182 @@
+{
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\train\\nodes.json",
+      "sha256": "1efee68c9ad2b1ce467469a26c407016f039f681cc9e70a8d4f37cb40f173697"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\train\\edges.json",
+      "sha256": "a3c11956d9d9feb0b7e61d0edd63474b8f88ea3414f8eb699a5a57b6580f5102"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\train\\sessions.jsonl",
+      "sha256": "585590f63c04ea43a60e94a47337a796f48102578d3fef63ab2dbda18c2aa3d6"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\test\\nodes.json",
+      "sha256": "1c8f0bf25841e35bf9afee26f6613a115c16d74834b720a7654d7e7db1e33420"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\test\\edges.json",
+      "sha256": "56966218a58e2cef57daa16d8e83a19512387741014d3b54265ec79c6763be9f"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\structural_candidate\\test\\sessions.jsonl",
+      "sha256": "040e281f22cd2b77d98b8be8299b2e326ce5016e8cb3bb6ebbcfdd1932f61eb3"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_action_camera_20261022_v9\\aspect_work\\finish_candidate.py",
+      "sha256": "8ec45fdfd4e6b2d001ea27aa3384e18d944c55423acf460ad37f921d9a86f641"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\partition_agent\\partition.py",
+      "sha256": "ba1c97feb4ee2219009a40d743056b765db35f3f01817e43c55fb85c91a9d5b4"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\materialize.py",
+      "sha256": "d1758664ef335d4a148aa70eae3b2d144840f4151774036eb12c52c81f7523d3"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\audit_agent\\audit_dual_aspect.py",
+      "sha256": "a99209a7dcf3ef2f08ec7e8d5c7fd41049cfc321d9872bdaf617013b6ae66c1b"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\check_references.py",
+      "sha256": "ecdb26fe6d9a6056d32d971a16a30830ff16d25f446da86b70d6ac51a7f5a59e"
+    }
+  ],
+  "partition_trials": {
+    "train": {
+      "economy": {
+        "render_jobs": 5292,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.047815759578643036,
+          "portrait": 0.06241815800960282
+        }
+      }
+    },
+    "test": {
+      "economy": {
+        "render_jobs": 1163,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.11171219908033536,
+          "portrait": 0.174325309992706
+        }
+      },
+      "axis_balanced": {
+        "render_jobs": 1177,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.08092928261424559,
+          "portrait": 0.07372206524531211
+        }
+      }
+    }
+  },
+  "counts": {
+    "train": {
+      "content_nodes": 3947,
+      "render_nodes": 5292,
+      "additional_render_nodes": 1345,
+      "chain_count": 12000,
+      "chain_count_by_aspect": {
+        "portrait": 6023,
+        "landscape": 5977
+      },
+      "render_count_by_aspect": {
+        "landscape": 2749,
+        "portrait": 2543
+      },
+      "edit_count": 43800,
+      "all_original_chains_preserved_once": true
+    },
+    "test": {
+      "content_nodes": 825,
+      "render_nodes": 1177,
+      "additional_render_nodes": 352,
+      "chain_count": 2400,
+      "chain_count_by_aspect": {
+        "portrait": 1200,
+        "landscape": 1200
+      },
+      "render_count_by_aspect": {
+        "landscape": 616,
+        "portrait": 561
+      },
+      "edit_count": 8760,
+      "all_original_chains_preserved_once": true
+    }
+  },
+  "references": {
+    "schema": "trial_reference_summary_20261021_v1",
+    "candidate": "selected_candidate",
+    "seed": 20261022,
+    "media_generated": false,
+    "reference_count_against_main_node_budget": false,
+    "unique_reference_items": 1366,
+    "unique_images": 1005,
+    "unique_motion_clips": 361,
+    "unique_reference_items_by_kind": {
+      "hair": 112,
+      "wardrobe_piece": 574,
+      "motion": 361,
+      "scene": 279,
+      "identity": 40
+    },
+    "unique_hair_ids": 28,
+    "hair_photos_per_unique_hair": 4,
+    "hair_carrier_pairs_per_unique_hair": 2,
+    "reference_link_occurrences": 52560,
+    "unique_used_edges": 30186,
+    "split_counts": {
+      "train": {
+        "sessions": 12000,
+        "edit_step_occurrences": 43800,
+        "axis_hair": 6630,
+        "axis_wardrobe": 6810,
+        "axis_camera": 6810,
+        "no_media_link_occurrences": 13335,
+        "axis_action": 6604,
+        "axis_site": 6606,
+        "axis_hair_color": 6525,
+        "axis_identity": 3815,
+        "unique_used_edges": 25176,
+        "unique_selected_reference_items": 1167
+      },
+      "test": {
+        "sessions": 2400,
+        "edit_step_occurrences": 8760,
+        "axis_camera": 1362,
+        "no_media_link_occurrences": 2711,
+        "axis_action": 1251,
+        "axis_hair": 1201,
+        "axis_site": 1285,
+        "axis_identity": 950,
+        "axis_hair_color": 1349,
+        "axis_wardrobe": 1362,
+        "unique_used_edges": 5010,
+        "unique_selected_reference_items": 304
+      }
+    },
+    "reference_pool_shared_across_splits": true,
+    "hair_carrier_variants_add_structural_sessions": false,
+    "all_media_paths_null": true,
+    "motion_carrier_status": "pending_user_freeze",
+    "scene_initial_frames_status": "symbolic_demands_pending_exact_final_transform",
+    "unfrozen": [
+      "identity_reference_generation_implementation",
+      "hair_reference_generation_implementation",
+      "wardrobe_reference_generation_implementation",
+      "motion_reference_generation_implementation",
+      "reference_and_edit_text_templates",
+      "motion_carrier",
+      "resolution",
+      "fps",
+      "duration"
+    ],
+    "count_scope": "actual_session_used_edges_only; media requirement dedup; not rendered file count"
+  },
+  "history_decay": 0.4,
+  "edge_reuse_soft_target": 2.5,
+  "single_seed_pair_only": true,
+  "elapsed_seconds": 30.942325592041016
+}

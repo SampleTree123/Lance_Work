@@ -1,0 +1,20 @@
+{
+  "source_assignments": {
+    "train": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\partition_agent\\economy\\train\\assignment.jsonl",
+      "sha256": "4938b3306fe54781f4f3ee9dd492800e786830a6d12b30c4a21221e5bb421fdd"
+    },
+    "test": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\partition_agent\\axis_balanced\\test\\assignment.jsonl",
+      "sha256": "715cdfc9eb62b35b12b95c540b9b1fad0503c6dff590233e41f38403d08d0985"
+    }
+  },
+  "policy": {
+    "initial_policy": "economy shared-node hypergraph partition",
+    "refinement_trigger": "either aspect has six-nonidentity-axis deviation above 10% of its own six-axis mean",
+    "refinement_policy": "retain original chains; rebalance aspect allocation of edit axes with soft camera coverage/cost constraints",
+    "train_triggered": false,
+    "test_triggered": true,
+    "ratio_bounds_are_working_targets_not_new_user_hard_rules": true
+  }
+}

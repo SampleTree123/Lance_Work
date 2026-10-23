@@ -1,0 +1,1103 @@
+{
+  "schema": "selected_fixed_aspect_actual_distribution_diagnostics_v1",
+  "scope": "Actual saved-chain events, formal wardrobe eligibility from source clothes/camera; no rendering",
+  "graph_missing_support_is_descriptive_only_for_fixed_sessions": true,
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\audit_agent\\diagnose_selected_aspects.py",
+      "sha256": "efcc5887aff805ae7cdebf4701ddeee635a9c45c00345719c7d33fcdb082ce2e"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\audit_compact.py",
+      "sha256": "0123889c950999863419c11890bf34e45b06622f14e438ff17b6da4c23350b9d"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\train\\nodes.json",
+      "sha256": "eb8944286af77c63dd92106cdda280a127cca54db0ecf08733c30ffcede5a431"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\train\\edges.json",
+      "sha256": "6cb4ee29452e5fb3a964a443135a5918af5db6ce6e0e041a3797cc476b3132e1"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\train\\sessions.jsonl",
+      "sha256": "7a65b4dcd540ff0440403c89a6859d56aa1859d94b732e5762539d40ed422a5c"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\nodes.json",
+      "sha256": "7e6bd423e1239287de10cc7ba02cb52b522002a0bcf27a10cbcf90cfee19b14c"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\edges.json",
+      "sha256": "8a18375b019fb30994c49b4bb5f7e97f4b1a14c81262b37bdbecdd8945cfd6fa"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\sessions.jsonl",
+      "sha256": "b9b2eb69e62fc5e53e8db8529e6661d2de59f388033645c5772545d9d0b267df"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\test\\nodes.json",
+      "sha256": "7c862d46796fcc2f27cab64261c5ed7c68b31bc3e9a1c6569413d2a86678a041"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\test\\edges.json",
+      "sha256": "f3d10318d13b8b1f44c631ef2587493034f6396e7f90c520032613a3c4635474"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate\\test\\sessions.jsonl",
+      "sha256": "e532c572171cd291f707ac9789f6f4692597f0e48af0b5fdce4e96370bbc0310"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\nodes.json",
+      "sha256": "e4205d95921d367a1b937c43a690c14fc536b37ca884623f4e63b66f15a1040a"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\edges.json",
+      "sha256": "c171637c4c8c3e87b6403063576badf0340472cb6845ca8f59d46e1c5f1ddc71"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\sessions.jsonl",
+      "sha256": "70ae573421d1849735308479eb237bf95404827a817937cec0f49a070bb567c1"
+    }
+  ],
+  "splits": {
+    "train": {
+      "overall": {
+        "sessions": 12000,
+        "edits": 43800,
+        "axis_counts": {
+          "hair": 6747,
+          "wardrobe": 6810,
+          "camera": 6810,
+          "action": 6399,
+          "site": 6650,
+          "hair_color": 6611,
+          "identity": 3773
+        },
+        "six_nonidentity_relative_deviation": {
+          "hair": 0.011367327054238343,
+          "hair_color": 0.009018912234241932,
+          "wardrobe": 0.020810952606990236,
+          "action": 0.04079746171334354,
+          "camera": 0.020810952606990236,
+          "site": 0.0031728583206336175
+        },
+        "six_nonidentity_max_relative_deviation": 0.04079746171334354,
+        "wardrobe_modes": {
+          "whole_outfit": 3531,
+          "single_piece": 3279
+        },
+        "formal_single_eligible_modes": {
+          "whole_outfit": 3463,
+          "single_piece": 3279
+        },
+        "formal_single_eligible_single_fraction": 0.4863541975674874,
+        "single_slot_max_absolute_relative_deviation": 0.022774327122153215,
+        "single_slot_diagnostic": {
+          "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+          "no_uniform_five_slot_requirement": true,
+          "single_events": 3279,
+          "formal_single_eligible_wardrobe_events": 6742,
+          "slots": {
+            "shirts": {
+              "actual_single_edit_count": 1727,
+              "formal_conditional_expected_given_actual_single_events": 1709.0,
+              "actual_minus_expected": 18.0,
+              "relative_deviation_when_expected_positive": 0.010532475131656005,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 1735.416666666669,
+              "graph_node_formal_slot_opportunities": 4076,
+              "graph_node_missing_slot_count": 2745,
+              "graph_node_missing_slot_fraction": 0.6734543670264965,
+              "single_event_formal_slot_opportunities": 2771,
+              "single_event_missing_graph_slot_count": 643,
+              "single_event_missing_graph_slot_fraction": 0.23204619271021293,
+              "wardrobe_event_formal_slot_opportunities": 5632,
+              "wardrobe_event_missing_graph_slot_count": 2514,
+              "wardrobe_event_missing_graph_slot_fraction": 0.4463778409090909
+            },
+            "coats": {
+              "actual_single_edit_count": 164,
+              "formal_conditional_expected_given_actual_single_events": 166.0,
+              "actual_minus_expected": -2.0,
+              "relative_deviation_when_expected_positive": -0.012048192771084376,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 178.9166666666665,
+              "graph_node_formal_slot_opportunities": 621,
+              "graph_node_missing_slot_count": 481,
+              "graph_node_missing_slot_fraction": 0.7745571658615137,
+              "single_event_formal_slot_opportunities": 332,
+              "single_event_missing_graph_slot_count": 125,
+              "single_event_missing_graph_slot_fraction": 0.37650602409638556,
+              "wardrobe_event_formal_slot_opportunities": 768,
+              "wardrobe_event_missing_graph_slot_count": 498,
+              "wardrobe_event_missing_graph_slot_fraction": 0.6484375
+            },
+            "pants": {
+              "actual_single_edit_count": 708,
+              "formal_conditional_expected_given_actual_single_events": 724.5,
+              "actual_minus_expected": -16.5,
+              "relative_deviation_when_expected_positive": -0.022774327122153215,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 739.9166666666655,
+              "graph_node_formal_slot_opportunities": 2002,
+              "graph_node_missing_slot_count": 1423,
+              "graph_node_missing_slot_fraction": 0.7107892107892108,
+              "single_event_formal_slot_opportunities": 1449,
+              "single_event_missing_graph_slot_count": 452,
+              "single_event_missing_graph_slot_fraction": 0.3119392684610076,
+              "wardrobe_event_formal_slot_opportunities": 3012,
+              "wardrobe_event_missing_graph_slot_count": 1571,
+              "wardrobe_event_missing_graph_slot_fraction": 0.5215803452855245
+            },
+            "skirts": {
+              "actual_single_edit_count": 172,
+              "formal_conditional_expected_given_actual_single_events": 171.5,
+              "actual_minus_expected": 0.5,
+              "relative_deviation_when_expected_positive": 0.00291545189504383,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 161.75,
+              "graph_node_formal_slot_opportunities": 444,
+              "graph_node_missing_slot_count": 302,
+              "graph_node_missing_slot_fraction": 0.6801801801801802,
+              "single_event_formal_slot_opportunities": 343,
+              "single_event_missing_graph_slot_count": 95,
+              "single_event_missing_graph_slot_fraction": 0.27696793002915454,
+              "wardrobe_event_formal_slot_opportunities": 647,
+              "wardrobe_event_missing_graph_slot_count": 300,
+              "wardrobe_event_missing_graph_slot_fraction": 0.46367851622874806
+            },
+            "full_body": {
+              "actual_single_edit_count": 508,
+              "formal_conditional_expected_given_actual_single_events": 508.0,
+              "actual_minus_expected": 0.0,
+              "relative_deviation_when_expected_positive": 0.0,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 555.0,
+              "graph_node_formal_slot_opportunities": 635,
+              "graph_node_missing_slot_count": 324,
+              "graph_node_missing_slot_fraction": 0.510236220472441,
+              "single_event_formal_slot_opportunities": 508,
+              "single_event_missing_graph_slot_count": 0,
+              "single_event_missing_graph_slot_fraction": 0.0,
+              "wardrobe_event_formal_slot_opportunities": 1110,
+              "wardrobe_event_missing_graph_slot_count": 327,
+              "wardrobe_event_missing_graph_slot_fraction": 0.2945945945945946
+            }
+          },
+          "formal_available_slot_patterns_at_single_events": {
+            "shirts": 647,
+            "pants+shirts": 1449,
+            "full_body": 508,
+            "coats+shirts": 332,
+            "shirts+skirts": 343
+          },
+          "saved_graph_available_slot_patterns_at_single_events": {
+            "shirts": 1319,
+            "pants": 413,
+            "full_body": 508,
+            "pants+shirts": 584,
+            "coats": 125,
+            "coats+shirts": 82,
+            "skirts": 105,
+            "shirts+skirts": 143
+          },
+          "conditional_actual_vs_expected_total_variation": 0.0056419640134187255,
+          "graph_missing_formal_slot_opportunity_fraction": 0.6781949087168938,
+          "illegal_chosen_slot_count": 0,
+          "illegal_chosen_slots_first_20": []
+        },
+        "starting_camera_counts": {
+          "low_full": 522,
+          "front_head": 782,
+          "back_full": 522,
+          "rear_three_quarter_full": 522,
+          "dolly_in_front": 782,
+          "back_upper": 522,
+          "rear_three_quarter_upper": 522,
+          "side_full": 522,
+          "side_upper": 522,
+          "front_upper": 782,
+          "orbit_120": 522,
+          "dolly_out_back": 521,
+          "orbit_360": 522,
+          "dolly_out_side": 521,
+          "dolly_out_front": 782,
+          "front_full": 522,
+          "front_three_quarter_full": 522,
+          "high_full": 522,
+          "front_three_quarter_upper": 522,
+          "dolly_in_side": 522,
+          "dolly_in_back": 522
+        },
+        "starting_sex_counts": {
+          "female": 6261,
+          "male": 5739
+        }
+      },
+      "by_aspect": {
+        "landscape": {
+          "sessions": 5958,
+          "edits": 21816,
+          "axis_counts": {
+            "identity": 2232,
+            "hair": 3314,
+            "site": 3278,
+            "action": 3199,
+            "wardrobe": 3228,
+            "hair_color": 3266,
+            "camera": 3299
+          },
+          "six_nonidentity_relative_deviation": {
+            "hair": 0.015318627450980392,
+            "hair_color": 0.0006127450980392157,
+            "wardrobe": 0.011029411764705883,
+            "action": 0.01991421568627451,
+            "camera": 0.010723039215686275,
+            "site": 0.00428921568627451
+          },
+          "six_nonidentity_max_relative_deviation": 0.01991421568627451,
+          "wardrobe_modes": {
+            "single_piece": 1591,
+            "whole_outfit": 1637
+          },
+          "formal_single_eligible_modes": {
+            "single_piece": 1591,
+            "whole_outfit": 1590
+          },
+          "formal_single_eligible_single_fraction": 0.5001571832756995,
+          "single_slot_max_absolute_relative_deviation": 0.22175732217573219,
+          "single_slot_diagnostic": {
+            "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+            "no_uniform_five_slot_requirement": true,
+            "single_events": 1591,
+            "formal_single_eligible_wardrobe_events": 3181,
+            "slots": {
+              "shirts": {
+                "actual_single_edit_count": 818,
+                "formal_conditional_expected_given_actual_single_events": 769.5,
+                "actual_minus_expected": 48.5,
+                "relative_deviation_when_expected_positive": 0.06302794022092262,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 764.7499999999994,
+                "graph_node_formal_slot_opportunities": 2006,
+                "graph_node_missing_slot_count": 1373,
+                "graph_node_missing_slot_fraction": 0.6844466600199401,
+                "single_event_formal_slot_opportunities": 1300,
+                "single_event_missing_graph_slot_count": 308,
+                "single_event_missing_graph_slot_fraction": 0.23692307692307693,
+                "wardrobe_event_formal_slot_opportunities": 2583,
+                "wardrobe_event_missing_graph_slot_count": 1170,
+                "wardrobe_event_missing_graph_slot_fraction": 0.4529616724738676
+              },
+              "coats": {
+                "actual_single_edit_count": 93,
+                "formal_conditional_expected_given_actual_single_events": 119.5,
+                "actual_minus_expected": -26.5,
+                "relative_deviation_when_expected_positive": -0.22175732217573219,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 133.25000000000003,
+                "graph_node_formal_slot_opportunities": 384,
+                "graph_node_missing_slot_count": 306,
+                "graph_node_missing_slot_fraction": 0.796875,
+                "single_event_formal_slot_opportunities": 239,
+                "single_event_missing_graph_slot_count": 110,
+                "single_event_missing_graph_slot_fraction": 0.4602510460251046,
+                "wardrobe_event_formal_slot_opportunities": 556,
+                "wardrobe_event_missing_graph_slot_count": 377,
+                "wardrobe_event_missing_graph_slot_fraction": 0.6780575539568345
+              },
+              "pants": {
+                "actual_single_edit_count": 300,
+                "formal_conditional_expected_given_actual_single_events": 325.0,
+                "actual_minus_expected": -25.0,
+                "relative_deviation_when_expected_positive": -0.07692307692307687,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 311.2500000000001,
+                "graph_node_formal_slot_opportunities": 1026,
+                "graph_node_missing_slot_count": 774,
+                "graph_node_missing_slot_fraction": 0.7543859649122807,
+                "single_event_formal_slot_opportunities": 650,
+                "single_event_missing_graph_slot_count": 243,
+                "single_event_missing_graph_slot_fraction": 0.37384615384615383,
+                "wardrobe_event_formal_slot_opportunities": 1268,
+                "wardrobe_event_missing_graph_slot_count": 736,
+                "wardrobe_event_missing_graph_slot_fraction": 0.580441640378549
+              },
+              "skirts": {
+                "actual_single_edit_count": 89,
+                "formal_conditional_expected_given_actual_single_events": 86.0,
+                "actual_minus_expected": 3.0,
+                "relative_deviation_when_expected_positive": 0.03488372093023262,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 82.25,
+                "graph_node_formal_slot_opportunities": 222,
+                "graph_node_missing_slot_count": 151,
+                "graph_node_missing_slot_fraction": 0.6801801801801802,
+                "single_event_formal_slot_opportunities": 172,
+                "single_event_missing_graph_slot_count": 45,
+                "single_event_missing_graph_slot_fraction": 0.2616279069767442,
+                "wardrobe_event_formal_slot_opportunities": 329,
+                "wardrobe_event_missing_graph_slot_count": 146,
+                "wardrobe_event_missing_graph_slot_fraction": 0.44376899696048633
+              },
+              "full_body": {
+                "actual_single_edit_count": 291,
+                "formal_conditional_expected_given_actual_single_events": 291.0,
+                "actual_minus_expected": 0.0,
+                "relative_deviation_when_expected_positive": 0.0,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 299.0,
+                "graph_node_formal_slot_opportunities": 438,
+                "graph_node_missing_slot_count": 229,
+                "graph_node_missing_slot_fraction": 0.5228310502283106,
+                "single_event_formal_slot_opportunities": 291,
+                "single_event_missing_graph_slot_count": 0,
+                "single_event_missing_graph_slot_fraction": 0.0,
+                "wardrobe_event_formal_slot_opportunities": 598,
+                "wardrobe_event_missing_graph_slot_count": 175,
+                "wardrobe_event_missing_graph_slot_fraction": 0.29264214046822745
+              }
+            },
+            "formal_available_slot_patterns_at_single_events": {
+              "pants+shirts": 650,
+              "full_body": 291,
+              "shirts": 239,
+              "coats+shirts": 239,
+              "shirts+skirts": 172
+            },
+            "saved_graph_available_slot_patterns_at_single_events": {
+              "pants": 191,
+              "full_body": 291,
+              "pants+shirts": 216,
+              "shirts": 637,
+              "coats+shirts": 69,
+              "coats": 60,
+              "shirts+skirts": 70,
+              "skirts": 57
+            },
+            "conditional_actual_vs_expected_total_variation": 0.03236957888120679,
+            "graph_missing_formal_slot_opportunity_fraction": 0.6950441609421001,
+            "illegal_chosen_slot_count": 0,
+            "illegal_chosen_slots_first_20": []
+          },
+          "starting_camera_counts": {
+            "front_head": 386,
+            "rear_three_quarter_full": 418,
+            "dolly_in_front": 627,
+            "back_upper": 416,
+            "side_upper": 247,
+            "back_full": 103,
+            "orbit_120": 246,
+            "low_full": 103,
+            "side_full": 419,
+            "dolly_out_side": 419,
+            "front_upper": 224,
+            "dolly_out_front": 628,
+            "front_full": 246,
+            "front_three_quarter_full": 103,
+            "high_full": 417,
+            "orbit_360": 103,
+            "dolly_in_back": 419,
+            "front_three_quarter_upper": 104,
+            "dolly_in_side": 108,
+            "rear_three_quarter_upper": 119,
+            "dolly_out_back": 103
+          },
+          "starting_sex_counts": {
+            "female": 3315,
+            "male": 2643
+          }
+        },
+        "portrait": {
+          "sessions": 6042,
+          "edits": 21984,
+          "axis_counts": {
+            "hair": 3433,
+            "wardrobe": 3582,
+            "camera": 3511,
+            "action": 3200,
+            "site": 3372,
+            "hair_color": 3345,
+            "identity": 1541
+          },
+          "six_nonidentity_relative_deviation": {
+            "hair": 0.007582057427970499,
+            "hair_color": 0.01824585432666434,
+            "wardrobe": 0.05131340801252267,
+            "action": 0.06080320892236948,
+            "camera": 0.030474979210487745,
+            "site": 0.010321381401946833
+          },
+          "six_nonidentity_max_relative_deviation": 0.06080320892236948,
+          "wardrobe_modes": {
+            "whole_outfit": 1894,
+            "single_piece": 1688
+          },
+          "formal_single_eligible_modes": {
+            "whole_outfit": 1873,
+            "single_piece": 1688
+          },
+          "formal_single_eligible_single_fraction": 0.47402415051951696,
+          "single_slot_max_absolute_relative_deviation": 0.5268817204301075,
+          "single_slot_diagnostic": {
+            "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+            "no_uniform_five_slot_requirement": true,
+            "single_events": 1688,
+            "formal_single_eligible_wardrobe_events": 3561,
+            "slots": {
+              "shirts": {
+                "actual_single_edit_count": 909,
+                "formal_conditional_expected_given_actual_single_events": 939.5,
+                "actual_minus_expected": -30.5,
+                "relative_deviation_when_expected_positive": -0.03246407663650874,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 970.6666666666661,
+                "graph_node_formal_slot_opportunities": 2070,
+                "graph_node_missing_slot_count": 1372,
+                "graph_node_missing_slot_fraction": 0.6628019323671498,
+                "single_event_formal_slot_opportunities": 1471,
+                "single_event_missing_graph_slot_count": 335,
+                "single_event_missing_graph_slot_fraction": 0.22773623385452074,
+                "wardrobe_event_formal_slot_opportunities": 3049,
+                "wardrobe_event_missing_graph_slot_count": 1344,
+                "wardrobe_event_missing_graph_slot_fraction": 0.4408002623811086
+              },
+              "coats": {
+                "actual_single_edit_count": 71,
+                "formal_conditional_expected_given_actual_single_events": 46.5,
+                "actual_minus_expected": 24.5,
+                "relative_deviation_when_expected_positive": 0.5268817204301075,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 45.66666666666664,
+                "graph_node_formal_slot_opportunities": 237,
+                "graph_node_missing_slot_count": 175,
+                "graph_node_missing_slot_fraction": 0.7383966244725738,
+                "single_event_formal_slot_opportunities": 93,
+                "single_event_missing_graph_slot_count": 15,
+                "single_event_missing_graph_slot_fraction": 0.16129032258064516,
+                "wardrobe_event_formal_slot_opportunities": 212,
+                "wardrobe_event_missing_graph_slot_count": 121,
+                "wardrobe_event_missing_graph_slot_fraction": 0.5707547169811321
+              },
+              "pants": {
+                "actual_single_edit_count": 408,
+                "formal_conditional_expected_given_actual_single_events": 399.5,
+                "actual_minus_expected": 8.5,
+                "relative_deviation_when_expected_positive": 0.02127659574468077,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 428.666666666667,
+                "graph_node_formal_slot_opportunities": 976,
+                "graph_node_missing_slot_count": 649,
+                "graph_node_missing_slot_fraction": 0.6649590163934426,
+                "single_event_formal_slot_opportunities": 799,
+                "single_event_missing_graph_slot_count": 209,
+                "single_event_missing_graph_slot_fraction": 0.2615769712140175,
+                "wardrobe_event_formal_slot_opportunities": 1744,
+                "wardrobe_event_missing_graph_slot_count": 835,
+                "wardrobe_event_missing_graph_slot_fraction": 0.47878440366972475
+              },
+              "skirts": {
+                "actual_single_edit_count": 83,
+                "formal_conditional_expected_given_actual_single_events": 85.5,
+                "actual_minus_expected": -2.5,
+                "relative_deviation_when_expected_positive": -0.0292397660818714,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 79.5,
+                "graph_node_formal_slot_opportunities": 222,
+                "graph_node_missing_slot_count": 151,
+                "graph_node_missing_slot_fraction": 0.6801801801801802,
+                "single_event_formal_slot_opportunities": 171,
+                "single_event_missing_graph_slot_count": 50,
+                "single_event_missing_graph_slot_fraction": 0.29239766081871343,
+                "wardrobe_event_formal_slot_opportunities": 318,
+                "wardrobe_event_missing_graph_slot_count": 154,
+                "wardrobe_event_missing_graph_slot_fraction": 0.48427672955974843
+              },
+              "full_body": {
+                "actual_single_edit_count": 217,
+                "formal_conditional_expected_given_actual_single_events": 217.0,
+                "actual_minus_expected": 0.0,
+                "relative_deviation_when_expected_positive": 0.0,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 256.0,
+                "graph_node_formal_slot_opportunities": 197,
+                "graph_node_missing_slot_count": 95,
+                "graph_node_missing_slot_fraction": 0.48223350253807107,
+                "single_event_formal_slot_opportunities": 217,
+                "single_event_missing_graph_slot_count": 0,
+                "single_event_missing_graph_slot_fraction": 0.0,
+                "wardrobe_event_formal_slot_opportunities": 512,
+                "wardrobe_event_missing_graph_slot_count": 152,
+                "wardrobe_event_missing_graph_slot_fraction": 0.296875
+              }
+            },
+            "formal_available_slot_patterns_at_single_events": {
+              "shirts": 408,
+              "pants+shirts": 799,
+              "full_body": 217,
+              "coats+shirts": 93,
+              "shirts+skirts": 171
+            },
+            "saved_graph_available_slot_patterns_at_single_events": {
+              "shirts": 682,
+              "pants+shirts": 368,
+              "pants": 222,
+              "full_body": 217,
+              "coats": 65,
+              "skirts": 48,
+              "shirts+skirts": 73,
+              "coats+shirts": 13
+            },
+            "conditional_actual_vs_expected_total_variation": 0.019549763033175356,
+            "graph_missing_formal_slot_opportunity_fraction": 0.6596434359805511,
+            "illegal_chosen_slot_count": 0,
+            "illegal_chosen_slots_first_20": []
+          },
+          "starting_camera_counts": {
+            "low_full": 419,
+            "front_head": 396,
+            "back_full": 419,
+            "dolly_in_front": 155,
+            "rear_three_quarter_upper": 403,
+            "side_full": 103,
+            "front_upper": 558,
+            "side_upper": 275,
+            "dolly_out_back": 418,
+            "orbit_360": 419,
+            "orbit_120": 276,
+            "dolly_out_front": 154,
+            "rear_three_quarter_full": 104,
+            "high_full": 105,
+            "front_full": 276,
+            "front_three_quarter_full": 419,
+            "front_three_quarter_upper": 418,
+            "dolly_in_side": 414,
+            "dolly_in_back": 103,
+            "dolly_out_side": 102,
+            "back_upper": 106
+          },
+          "starting_sex_counts": {
+            "female": 2946,
+            "male": 3096
+          }
+        }
+      },
+      "original_overall_event_invariants": {
+        "sessions": true,
+        "edits": true,
+        "axis_counts": true,
+        "wardrobe_modes": true,
+        "formal_single_eligible_modes": true,
+        "formal_single_eligible_single_fraction": true,
+        "starting_camera_counts": true,
+        "starting_sex_counts": true,
+        "actual_slot_counts_and_formal_expectations": true
+      },
+      "all_original_overall_event_invariants_preserved": true
+    },
+    "test": {
+      "overall": {
+        "sessions": 2400,
+        "edits": 8760,
+        "axis_counts": {
+          "identity": 855,
+          "hair_color": 1362,
+          "camera": 1362,
+          "action": 1292,
+          "site": 1301,
+          "hair": 1226,
+          "wardrobe": 1362
+        },
+        "six_nonidentity_relative_deviation": {
+          "hair": 0.06944971537001897,
+          "hair_color": 0.03377609108159393,
+          "wardrobe": 0.03377609108159393,
+          "action": 0.01935483870967742,
+          "camera": 0.03377609108159393,
+          "site": 0.012523719165085389
+        },
+        "six_nonidentity_max_relative_deviation": 0.06944971537001897,
+        "wardrobe_modes": {
+          "whole_outfit": 829,
+          "single_piece": 533
+        },
+        "formal_single_eligible_modes": {
+          "single_piece": 533,
+          "whole_outfit": 493
+        },
+        "formal_single_eligible_single_fraction": 0.5194931773879142,
+        "single_slot_max_absolute_relative_deviation": 0.08571428571428563,
+        "single_slot_diagnostic": {
+          "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+          "no_uniform_five_slot_requirement": true,
+          "single_events": 533,
+          "formal_single_eligible_wardrobe_events": 1026,
+          "slots": {
+            "shirts": {
+              "actual_single_edit_count": 126,
+              "formal_conditional_expected_given_actual_single_events": 127.5,
+              "actual_minus_expected": -1.5,
+              "relative_deviation_when_expected_positive": -0.0117647058823529,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 128.75,
+              "graph_node_formal_slot_opportunities": 413,
+              "graph_node_missing_slot_count": 307,
+              "graph_node_missing_slot_fraction": 0.7433414043583535,
+              "single_event_formal_slot_opportunities": 241,
+              "single_event_missing_graph_slot_count": 88,
+              "single_event_missing_graph_slot_fraction": 0.3651452282157676,
+              "wardrobe_event_formal_slot_opportunities": 487,
+              "wardrobe_event_missing_graph_slot_count": 261,
+              "wardrobe_event_missing_graph_slot_fraction": 0.5359342915811088
+            },
+            "coats": {
+              "actual_single_edit_count": 20,
+              "formal_conditional_expected_given_actual_single_events": 20.0,
+              "actual_minus_expected": 0.0,
+              "relative_deviation_when_expected_positive": 0.0,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 21.5,
+              "graph_node_formal_slot_opportunities": 80,
+              "graph_node_missing_slot_count": 62,
+              "graph_node_missing_slot_fraction": 0.775,
+              "single_event_formal_slot_opportunities": 40,
+              "single_event_missing_graph_slot_count": 18,
+              "single_event_missing_graph_slot_fraction": 0.45,
+              "wardrobe_event_formal_slot_opportunities": 86,
+              "wardrobe_event_missing_graph_slot_count": 51,
+              "wardrobe_event_missing_graph_slot_fraction": 0.5930232558139535
+            },
+            "pants": {
+              "actual_single_edit_count": 57,
+              "formal_conditional_expected_given_actual_single_events": 52.5,
+              "actual_minus_expected": 4.5,
+              "relative_deviation_when_expected_positive": 0.08571428571428563,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 50.25,
+              "graph_node_formal_slot_opportunities": 175,
+              "graph_node_missing_slot_count": 127,
+              "graph_node_missing_slot_fraction": 0.7257142857142858,
+              "single_event_formal_slot_opportunities": 105,
+              "single_event_missing_graph_slot_count": 36,
+              "single_event_missing_graph_slot_fraction": 0.34285714285714286,
+              "wardrobe_event_formal_slot_opportunities": 201,
+              "wardrobe_event_missing_graph_slot_count": 96,
+              "wardrobe_event_missing_graph_slot_fraction": 0.47761194029850745
+            },
+            "skirts": {
+              "actual_single_edit_count": 38,
+              "formal_conditional_expected_given_actual_single_events": 41.0,
+              "actual_minus_expected": -3.0,
+              "relative_deviation_when_expected_positive": -0.07317073170731703,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 43.0,
+              "graph_node_formal_slot_opportunities": 123,
+              "graph_node_missing_slot_count": 92,
+              "graph_node_missing_slot_fraction": 0.7479674796747967,
+              "single_event_formal_slot_opportunities": 82,
+              "single_event_missing_graph_slot_count": 28,
+              "single_event_missing_graph_slot_fraction": 0.34146341463414637,
+              "wardrobe_event_formal_slot_opportunities": 172,
+              "wardrobe_event_missing_graph_slot_count": 93,
+              "wardrobe_event_missing_graph_slot_fraction": 0.5406976744186046
+            },
+            "full_body": {
+              "actual_single_edit_count": 292,
+              "formal_conditional_expected_given_actual_single_events": 292.0,
+              "actual_minus_expected": 0.0,
+              "relative_deviation_when_expected_positive": 0.0,
+              "formal_expected_at_half_of_eligible_wardrobe_events": 269.5,
+              "graph_node_formal_slot_opportunities": 371,
+              "graph_node_missing_slot_count": 180,
+              "graph_node_missing_slot_fraction": 0.48517520215633425,
+              "single_event_formal_slot_opportunities": 292,
+              "single_event_missing_graph_slot_count": 0,
+              "single_event_missing_graph_slot_fraction": 0.0,
+              "wardrobe_event_formal_slot_opportunities": 539,
+              "wardrobe_event_missing_graph_slot_count": 117,
+              "wardrobe_event_missing_graph_slot_fraction": 0.21706864564007422
+            }
+          },
+          "formal_available_slot_patterns_at_single_events": {
+            "pants+shirts": 105,
+            "full_body": 292,
+            "shirts+skirts": 82,
+            "coats+shirts": 40,
+            "shirts": 14
+          },
+          "saved_graph_available_slot_patterns_at_single_events": {
+            "pants": 45,
+            "full_body": 292,
+            "pants+shirts": 24,
+            "shirts": 96,
+            "shirts+skirts": 28,
+            "skirts": 26,
+            "coats+shirts": 5,
+            "coats": 17
+          },
+          "conditional_actual_vs_expected_total_variation": 0.008442776735459663,
+          "graph_missing_formal_slot_opportunity_fraction": 0.6609294320137694,
+          "illegal_chosen_slot_count": 0,
+          "illegal_chosen_slots_first_20": []
+        },
+        "starting_camera_counts": {
+          "dolly_in_front": 157,
+          "front_upper": 157,
+          "dolly_out_front": 157,
+          "low_full": 104,
+          "dolly_out_side": 104,
+          "dolly_in_side": 104,
+          "front_three_quarter_full": 105,
+          "orbit_120": 104,
+          "side_full": 105,
+          "front_full": 105,
+          "dolly_in_back": 104,
+          "dolly_out_back": 104,
+          "rear_three_quarter_full": 105,
+          "back_upper": 104,
+          "front_three_quarter_upper": 104,
+          "orbit_360": 104,
+          "side_upper": 104,
+          "rear_three_quarter_upper": 104,
+          "front_head": 157,
+          "high_full": 104,
+          "back_full": 104
+        },
+        "starting_sex_counts": {
+          "female": 1253,
+          "male": 1147
+        }
+      },
+      "by_aspect": {
+        "landscape": {
+          "sessions": 1198,
+          "edits": 4390,
+          "axis_counts": {
+            "identity": 427,
+            "camera": 681,
+            "site": 651,
+            "hair": 625,
+            "action": 646,
+            "wardrobe": 680,
+            "hair_color": 680
+          },
+          "six_nonidentity_relative_deviation": {
+            "hair": 0.053747161241483724,
+            "hair_color": 0.029523088569265707,
+            "wardrobe": 0.029523088569265707,
+            "action": 0.02195306585919758,
+            "camera": 0.031037093111279335,
+            "site": 0.014383043149129448
+          },
+          "six_nonidentity_max_relative_deviation": 0.053747161241483724,
+          "wardrobe_modes": {
+            "whole_outfit": 404,
+            "single_piece": 276
+          },
+          "formal_single_eligible_modes": {
+            "whole_outfit": 244,
+            "single_piece": 276
+          },
+          "formal_single_eligible_single_fraction": 0.5307692307692308,
+          "single_slot_max_absolute_relative_deviation": 0.16216216216216217,
+          "single_slot_diagnostic": {
+            "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+            "no_uniform_five_slot_requirement": true,
+            "single_events": 276,
+            "formal_single_eligible_wardrobe_events": 520,
+            "slots": {
+              "shirts": {
+                "actual_single_edit_count": 94,
+                "formal_conditional_expected_given_actual_single_events": 94.5,
+                "actual_minus_expected": -0.5,
+                "relative_deviation_when_expected_positive": -0.005291005291005346,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 94.25,
+                "graph_node_formal_slot_opportunities": 278,
+                "graph_node_missing_slot_count": 201,
+                "graph_node_missing_slot_fraction": 0.7230215827338129,
+                "single_event_formal_slot_opportunities": 175,
+                "single_event_missing_graph_slot_count": 60,
+                "single_event_missing_graph_slot_fraction": 0.34285714285714286,
+                "wardrobe_event_formal_slot_opportunities": 350,
+                "wardrobe_event_missing_graph_slot_count": 178,
+                "wardrobe_event_missing_graph_slot_fraction": 0.5085714285714286
+              },
+              "coats": {
+                "actual_single_edit_count": 19,
+                "formal_conditional_expected_given_actual_single_events": 16.5,
+                "actual_minus_expected": 2.5,
+                "relative_deviation_when_expected_positive": 0.1515151515151516,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 19.5,
+                "graph_node_formal_slot_opportunities": 64,
+                "graph_node_missing_slot_count": 47,
+                "graph_node_missing_slot_fraction": 0.734375,
+                "single_event_formal_slot_opportunities": 33,
+                "single_event_missing_graph_slot_count": 12,
+                "single_event_missing_graph_slot_fraction": 0.36363636363636365,
+                "wardrobe_event_formal_slot_opportunities": 78,
+                "wardrobe_event_missing_graph_slot_count": 44,
+                "wardrobe_event_missing_graph_slot_fraction": 0.5641025641025641
+              },
+              "pants": {
+                "actual_single_edit_count": 31,
+                "formal_conditional_expected_given_actual_single_events": 27.0,
+                "actual_minus_expected": 4.0,
+                "relative_deviation_when_expected_positive": 0.14814814814814814,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 24.25,
+                "graph_node_formal_slot_opportunities": 90,
+                "graph_node_missing_slot_count": 63,
+                "graph_node_missing_slot_fraction": 0.7,
+                "single_event_formal_slot_opportunities": 54,
+                "single_event_missing_graph_slot_count": 16,
+                "single_event_missing_graph_slot_fraction": 0.2962962962962963,
+                "wardrobe_event_formal_slot_opportunities": 97,
+                "wardrobe_event_missing_graph_slot_count": 45,
+                "wardrobe_event_missing_graph_slot_fraction": 0.4639175257731959
+              },
+              "skirts": {
+                "actual_single_edit_count": 31,
+                "formal_conditional_expected_given_actual_single_events": 37.0,
+                "actual_minus_expected": -6.0,
+                "relative_deviation_when_expected_positive": -0.16216216216216217,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 37.0,
+                "graph_node_formal_slot_opportunities": 92,
+                "graph_node_missing_slot_count": 65,
+                "graph_node_missing_slot_fraction": 0.7065217391304348,
+                "single_event_formal_slot_opportunities": 74,
+                "single_event_missing_graph_slot_count": 27,
+                "single_event_missing_graph_slot_fraction": 0.36486486486486486,
+                "wardrobe_event_formal_slot_opportunities": 148,
+                "wardrobe_event_missing_graph_slot_count": 79,
+                "wardrobe_event_missing_graph_slot_fraction": 0.5337837837837838
+              },
+              "full_body": {
+                "actual_single_edit_count": 101,
+                "formal_conditional_expected_given_actual_single_events": 101.0,
+                "actual_minus_expected": 0.0,
+                "relative_deviation_when_expected_positive": 0.0,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 85.0,
+                "graph_node_formal_slot_opportunities": 160,
+                "graph_node_missing_slot_count": 87,
+                "graph_node_missing_slot_fraction": 0.54375,
+                "single_event_formal_slot_opportunities": 101,
+                "single_event_missing_graph_slot_count": 0,
+                "single_event_missing_graph_slot_fraction": 0.0,
+                "wardrobe_event_formal_slot_opportunities": 170,
+                "wardrobe_event_missing_graph_slot_count": 41,
+                "wardrobe_event_missing_graph_slot_fraction": 0.2411764705882353
+              }
+            },
+            "formal_available_slot_patterns_at_single_events": {
+              "shirts+skirts": 74,
+              "full_body": 101,
+              "pants+shirts": 54,
+              "coats+shirts": 33,
+              "shirts": 14
+            },
+            "saved_graph_available_slot_patterns_at_single_events": {
+              "shirts": 69,
+              "shirts+skirts": 28,
+              "skirts": 19,
+              "full_body": 101,
+              "pants+shirts": 13,
+              "coats+shirts": 5,
+              "pants": 25,
+              "coats": 16
+            },
+            "conditional_actual_vs_expected_total_variation": 0.02355072463768116,
+            "graph_missing_formal_slot_opportunity_fraction": 0.6769005847953217,
+            "illegal_chosen_slot_count": 0,
+            "illegal_chosen_slots_first_20": []
+          },
+          "starting_camera_counts": {
+            "front_upper": 97,
+            "dolly_in_front": 68,
+            "dolly_out_front": 110,
+            "dolly_in_side": 20,
+            "front_three_quarter_full": 85,
+            "side_full": 77,
+            "front_full": 83,
+            "dolly_out_side": 20,
+            "rear_three_quarter_full": 82,
+            "front_three_quarter_upper": 47,
+            "back_upper": 44,
+            "side_upper": 84,
+            "dolly_out_back": 20,
+            "orbit_360": 51,
+            "front_head": 76,
+            "rear_three_quarter_upper": 67,
+            "high_full": 21,
+            "back_full": 84,
+            "dolly_in_back": 21,
+            "orbit_120": 21,
+            "low_full": 20
+          },
+          "starting_sex_counts": {
+            "male": 562,
+            "female": 636
+          }
+        },
+        "portrait": {
+          "sessions": 1202,
+          "edits": 4370,
+          "axis_counts": {
+            "identity": 428,
+            "hair_color": 682,
+            "camera": 681,
+            "action": 646,
+            "hair": 601,
+            "site": 650,
+            "wardrobe": 682
+          },
+          "six_nonidentity_relative_deviation": {
+            "hair": 0.0852359208523592,
+            "hair_color": 0.0380517503805175,
+            "wardrobe": 0.0380517503805175,
+            "action": 0.0167427701674277,
+            "camera": 0.0365296803652968,
+            "site": 0.0106544901065449
+          },
+          "six_nonidentity_max_relative_deviation": 0.0852359208523592,
+          "wardrobe_modes": {
+            "single_piece": 257,
+            "whole_outfit": 425
+          },
+          "formal_single_eligible_modes": {
+            "single_piece": 257,
+            "whole_outfit": 249
+          },
+          "formal_single_eligible_single_fraction": 0.5079051383399209,
+          "single_slot_max_absolute_relative_deviation": 0.75,
+          "single_slot_diagnostic": {
+            "definition": "For each actual single event, add 1/number_of_formally_available_slots to each source-legal slot; availability includes camera visibility and exact outfit rules.",
+            "no_uniform_five_slot_requirement": true,
+            "single_events": 257,
+            "formal_single_eligible_wardrobe_events": 506,
+            "slots": {
+              "shirts": {
+                "actual_single_edit_count": 32,
+                "formal_conditional_expected_given_actual_single_events": 33.0,
+                "actual_minus_expected": -1.0,
+                "relative_deviation_when_expected_positive": -0.030303030303030276,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 34.5,
+                "graph_node_formal_slot_opportunities": 135,
+                "graph_node_missing_slot_count": 106,
+                "graph_node_missing_slot_fraction": 0.7851851851851852,
+                "single_event_formal_slot_opportunities": 66,
+                "single_event_missing_graph_slot_count": 28,
+                "single_event_missing_graph_slot_fraction": 0.42424242424242425,
+                "wardrobe_event_formal_slot_opportunities": 137,
+                "wardrobe_event_missing_graph_slot_count": 83,
+                "wardrobe_event_missing_graph_slot_fraction": 0.6058394160583942
+              },
+              "coats": {
+                "actual_single_edit_count": 1,
+                "formal_conditional_expected_given_actual_single_events": 3.5,
+                "actual_minus_expected": -2.5,
+                "relative_deviation_when_expected_positive": -0.7142857142857143,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 2.0,
+                "graph_node_formal_slot_opportunities": 16,
+                "graph_node_missing_slot_count": 15,
+                "graph_node_missing_slot_fraction": 0.9375,
+                "single_event_formal_slot_opportunities": 7,
+                "single_event_missing_graph_slot_count": 6,
+                "single_event_missing_graph_slot_fraction": 0.8571428571428571,
+                "wardrobe_event_formal_slot_opportunities": 8,
+                "wardrobe_event_missing_graph_slot_count": 7,
+                "wardrobe_event_missing_graph_slot_fraction": 0.875
+              },
+              "pants": {
+                "actual_single_edit_count": 26,
+                "formal_conditional_expected_given_actual_single_events": 25.5,
+                "actual_minus_expected": 0.5,
+                "relative_deviation_when_expected_positive": 0.019607843137254832,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 26.0,
+                "graph_node_formal_slot_opportunities": 85,
+                "graph_node_missing_slot_count": 64,
+                "graph_node_missing_slot_fraction": 0.7529411764705882,
+                "single_event_formal_slot_opportunities": 51,
+                "single_event_missing_graph_slot_count": 20,
+                "single_event_missing_graph_slot_fraction": 0.39215686274509803,
+                "wardrobe_event_formal_slot_opportunities": 104,
+                "wardrobe_event_missing_graph_slot_count": 51,
+                "wardrobe_event_missing_graph_slot_fraction": 0.49038461538461536
+              },
+              "skirts": {
+                "actual_single_edit_count": 7,
+                "formal_conditional_expected_given_actual_single_events": 4.0,
+                "actual_minus_expected": 3.0,
+                "relative_deviation_when_expected_positive": 0.75,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 6.0,
+                "graph_node_formal_slot_opportunities": 31,
+                "graph_node_missing_slot_count": 27,
+                "graph_node_missing_slot_fraction": 0.8709677419354839,
+                "single_event_formal_slot_opportunities": 8,
+                "single_event_missing_graph_slot_count": 1,
+                "single_event_missing_graph_slot_fraction": 0.125,
+                "wardrobe_event_formal_slot_opportunities": 24,
+                "wardrobe_event_missing_graph_slot_count": 14,
+                "wardrobe_event_missing_graph_slot_fraction": 0.5833333333333334
+              },
+              "full_body": {
+                "actual_single_edit_count": 191,
+                "formal_conditional_expected_given_actual_single_events": 191.0,
+                "actual_minus_expected": 0.0,
+                "relative_deviation_when_expected_positive": 0.0,
+                "formal_expected_at_half_of_eligible_wardrobe_events": 184.5,
+                "graph_node_formal_slot_opportunities": 211,
+                "graph_node_missing_slot_count": 93,
+                "graph_node_missing_slot_fraction": 0.44075829383886256,
+                "single_event_formal_slot_opportunities": 191,
+                "single_event_missing_graph_slot_count": 0,
+                "single_event_missing_graph_slot_fraction": 0.0,
+                "wardrobe_event_formal_slot_opportunities": 369,
+                "wardrobe_event_missing_graph_slot_count": 76,
+                "wardrobe_event_missing_graph_slot_fraction": 0.20596205962059622
+              }
+            },
+            "formal_available_slot_patterns_at_single_events": {
+              "pants+shirts": 51,
+              "full_body": 191,
+              "coats+shirts": 7,
+              "shirts+skirts": 8
+            },
+            "saved_graph_available_slot_patterns_at_single_events": {
+              "pants": 20,
+              "full_body": 191,
+              "pants+shirts": 11,
+              "shirts": 27,
+              "skirts": 7,
+              "coats": 1
+            },
+            "conditional_actual_vs_expected_total_variation": 0.013618677042801557,
+            "graph_missing_formal_slot_opportunity_fraction": 0.6380753138075314,
+            "illegal_chosen_slot_count": 0,
+            "illegal_chosen_slots_first_20": []
+          },
+          "starting_camera_counts": {
+            "dolly_in_front": 89,
+            "front_upper": 60,
+            "dolly_out_front": 47,
+            "low_full": 84,
+            "dolly_out_side": 84,
+            "orbit_120": 83,
+            "dolly_in_back": 83,
+            "dolly_out_back": 84,
+            "side_full": 28,
+            "dolly_in_side": 84,
+            "back_upper": 60,
+            "front_three_quarter_upper": 57,
+            "rear_three_quarter_full": 23,
+            "orbit_360": 53,
+            "front_full": 22,
+            "side_upper": 20,
+            "rear_three_quarter_upper": 37,
+            "front_head": 81,
+            "high_full": 83,
+            "front_three_quarter_full": 20,
+            "back_full": 20
+          },
+          "starting_sex_counts": {
+            "female": 617,
+            "male": 585
+          }
+        }
+      },
+      "original_overall_event_invariants": {
+        "sessions": true,
+        "edits": true,
+        "axis_counts": true,
+        "wardrobe_modes": true,
+        "formal_single_eligible_modes": true,
+        "formal_single_eligible_single_fraction": true,
+        "starting_camera_counts": true,
+        "starting_sex_counts": true,
+        "actual_slot_counts_and_formal_expectations": true
+      },
+      "all_original_overall_event_invariants_preserved": true
+    }
+  },
+  "all_original_overall_event_invariants_preserved": true
+}

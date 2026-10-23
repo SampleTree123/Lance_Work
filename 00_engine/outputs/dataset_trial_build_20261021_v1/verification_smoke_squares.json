@@ -1,0 +1,399 @@
+{
+  "candidate": "smoke_squares",
+  "scope": "offline node/edge/session integrity and sampling diagnostics only",
+  "independent_edge_oracle": "formal wardrobe resolver plus explicit independent semantic checks; build_trial not imported",
+  "rendered": false,
+  "visual_verified": false,
+  "inputs_sha256": {
+    "train/nodes.json": "b7d8dcf6bd5052e1cbca1514bc6eaad5fed3e71276458bf549de632ba78f58b5",
+    "train/edges.json": "fb64971a5486dc9f262cb3e5beb1f89a0dfdc5676a111673885aaf95e762be5d",
+    "train/sessions.jsonl": "5855498659a47c65c0ac0e631609e6019ad1bd7bf8914a3d59ac5fd9ad9abaac",
+    "test/nodes.json": "ae9a1aec720ef6cea476d98aca0888d9f1af01914ec6bf53cd3ebbe5e4ce7cf9",
+    "test/edges.json": "fae5f68689cc07c864d9f925ce05d5bf9cce4cf24d7868d32cc9bd1b17d3895f",
+    "test/sessions.jsonl": "eb40da45bcaebf9bfa907e52fc2c0c2088337a89741ab3737bf10ab14865011f"
+  },
+  "splits": {
+    "train": {
+      "nodes": 180,
+      "registered_edges": 524,
+      "sessions": 80,
+      "structurally_unique_sessions": 80,
+      "length_kind_counts": {
+        "linear_3": 14,
+        "fork_2": 3,
+        "fork_4": 9,
+        "linear_4": 14,
+        "linear_2": 14,
+        "fork_5": 9,
+        "linear_5": 12,
+        "fork_3": 5
+      },
+      "fork_round_counts": {
+        "L2_t2": 3,
+        "L4_t2": 3,
+        "L5_t2": 3,
+        "L3_t2": 2,
+        "L3_t3": 3,
+        "L4_t3": 5,
+        "L5_t4": 2,
+        "L5_t5": 3,
+        "L4_t4": 1,
+        "L5_t3": 1
+      },
+      "fork_parent_conditional_counts": {
+        "L2_t2_p0": 3,
+        "L4_t2_p0": 3,
+        "L5_t2_p0": 3,
+        "L3_t2_p0": 2,
+        "L3_t3_p0": 2,
+        "L4_t3_p0": 3,
+        "L3_t3_p1": 1,
+        "L5_t4_p1": 1,
+        "L4_t3_p1": 2,
+        "L5_t5_p1": 1,
+        "L5_t4_p0": 1,
+        "L5_t5_p0": 1,
+        "L4_t4_p1": 1,
+        "L5_t5_p3": 1,
+        "L5_t3_p1": 1
+      },
+      "start_sex_counts": {
+        "male": 47,
+        "female": 33
+      },
+      "start_distributions": {
+        "identity": {
+          "CFD40_BM_002": 16,
+          "CFD40_WM_004": 20,
+          "CFD40_LM_003": 11,
+          "CFD40_WF_003": 3,
+          "CFD40_AF_002": 5,
+          "CFD40_WF_002": 6,
+          "CFD40_AF_005": 7,
+          "CFD40_WF_004": 6,
+          "CFD40_WF_005": 6
+        },
+        "site": {
+          "site_91fc32ba93": 2,
+          "site_7ed6554b09": 16,
+          "site_9a6519ec02": 7,
+          "site_8c41814f5e": 12,
+          "site_33328cb3f4": 6,
+          "site_05e295695d": 12,
+          "site_1bbc32217c": 1,
+          "site_fa4a18c3dc": 3,
+          "site_6af8ead41a": 4,
+          "site_05dac27bc7": 3,
+          "site_2a054574eb": 6,
+          "site_7b963967ee": 2,
+          "site_2831090e60": 3,
+          "site_f3e2dabbd0": 1,
+          "site_dc3f593a1d": 2
+        },
+        "action": {
+          "MOTION_CAND_030": 32,
+          "MOTION_CAND_009": 9,
+          "MOTION_CAND_008": 7,
+          "MOTION_CAND_035": 1,
+          "ACT_M05_ELEVATOR_GREETING": 5,
+          "MOTION_CAND_002": 2,
+          "MOTION_CAND_022": 7,
+          "MOTION_CAND_020": 3,
+          "MOTION_CAND_036": 4,
+          "ACT_F06_ELEVATOR_GREETING": 7,
+          "MOTION_CAND_033": 1,
+          "MOTION_CAND_003": 1,
+          "MOTION_CAND_029": 1
+        },
+        "camera": {
+          "dolly_in_front": 19,
+          "front_full": 15,
+          "front_head": 4,
+          "front_upper": 8,
+          "side_full": 11,
+          "rear_three_quarter_upper": 5,
+          "dolly_in_back": 3,
+          "high_full": 4,
+          "orbit_120": 6,
+          "back_upper": 1,
+          "dolly_out_front": 3,
+          "dolly_in_side": 1
+        },
+        "hair": {
+          "HAIR_HB1_11": 14,
+          "HAIR_HB1_01": 26,
+          "HAIR_HB1_16": 9,
+          "HAIR_HB3_17": 5,
+          "HAIR_HB3_04": 3,
+          "HAIR_HB2_06": 3,
+          "HAIR_HB1_05": 8,
+          "HAIR_HB2_15": 3,
+          "HAIR_HB3_09": 3,
+          "HAIR_HB3_05": 1,
+          "HAIR_HB1_02": 3,
+          "HAIR_HB3_03": 1,
+          "HAIR_HB2_07": 1
+        },
+        "hair_color": {
+          "black": 8,
+          "silver_white": 16,
+          "blue": 25,
+          "pink": 10,
+          "red": 2,
+          "original": 15,
+          "gold": 4
+        }
+      },
+      "sampling_diagnostics": {
+        "actual_axis_counts": {
+          "wardrobe": 60,
+          "site": 65,
+          "action": 39,
+          "hair": 47,
+          "hair_color": 31,
+          "camera": 25,
+          "identity": 21
+        },
+        "expected_axis_counts_given_formal_eligible_source_axes": {
+          "camera": 43.374999999999915,
+          "wardrobe": 41.54166666666659,
+          "site": 43.374999999999915,
+          "hair": 43.374999999999915,
+          "hair_color": 43.374999999999915,
+          "identity": 31.416666666666664,
+          "action": 41.54166666666659
+        },
+        "expected_axis_counts_given_only_represented_graph_axes": {
+          "wardrobe": 56.76666666666671,
+          "site": 72.11666666666667,
+          "camera": 24.249999999999986,
+          "action": 35.19999999999998,
+          "hair": 44.23333333333334,
+          "hair_color": 30.766666666666648,
+          "identity": 24.666666666666668
+        },
+        "missing_formal_axis_graph_neighbor_opportunities": {
+          "camera": 220,
+          "hair": 184,
+          "hair_color": 205,
+          "identity": 79,
+          "action": 184,
+          "wardrobe": 144,
+          "site": 122
+        },
+        "formal_axis_opportunities": {
+          "camera": 288,
+          "wardrobe": 277,
+          "site": 288,
+          "hair": 288,
+          "hair_color": 288,
+          "identity": 122,
+          "action": 277
+        },
+        "wardrobe_modes": {
+          "whole_outfit": 54,
+          "single_piece": 6
+        },
+        "wardrobe_steps_with_formal_single_available": 38,
+        "of_those_steps_missing_graph_single": 31,
+        "of_those_steps_single_selected": 6,
+        "formal_single_50_percent_target_count": 19.0,
+        "source_wardrobe_whole_axis_availability_assumption": "current catalog has many other-family visible-core targets; no full Cartesian enumeration",
+        "interpretation": "diagnostics expose graph-conditioned sampling; finite-sample differences are not hard integrity failures"
+      }
+    },
+    "test": {
+      "nodes": 80,
+      "registered_edges": 260,
+      "sessions": 20,
+      "structurally_unique_sessions": 20,
+      "length_kind_counts": {
+        "linear_4": 4,
+        "linear_2": 4,
+        "linear_3": 4,
+        "linear_5": 2,
+        "fork_3": 1,
+        "fork_4": 2,
+        "fork_5": 2,
+        "fork_2": 1
+      },
+      "fork_round_counts": {
+        "L3_t2": 1,
+        "L4_t2": 1,
+        "L5_t4": 2,
+        "L2_t2": 1,
+        "L4_t4": 1
+      },
+      "fork_parent_conditional_counts": {
+        "L3_t2_p0": 1,
+        "L4_t2_p0": 1,
+        "L5_t4_p1": 1,
+        "L2_t2_p0": 1,
+        "L4_t4_p2": 1,
+        "L5_t4_p0": 1
+      },
+      "start_sex_counts": {
+        "female": 20
+      },
+      "start_distributions": {
+        "identity": {
+          "CFD40_AF_004": 20
+        },
+        "site": {
+          "site_2831090e60": 3,
+          "site_6af8ead41a": 3,
+          "site_7dbc277564": 1,
+          "site_33328cb3f4": 2,
+          "site_8c41814f5e": 4,
+          "site_7ed6554b09": 1,
+          "site_05e295695d": 2,
+          "site_def046be4c": 3,
+          "site_dc3f593a1d": 1
+        },
+        "action": {
+          "MOTION_CAND_036": 17,
+          "MOTION_CAND_008": 2,
+          "MOTION_CAND_029": 1
+        },
+        "camera": {
+          "front_three_quarter_upper": 1,
+          "side_upper": 16,
+          "rear_three_quarter_upper": 1,
+          "low_full": 2
+        },
+        "hair": {
+          "HAIR_HB1_02": 14,
+          "HAIR_HB3_14": 5,
+          "HAIR_HB1_20": 1
+        },
+        "hair_color": {
+          "black": 14,
+          "original": 1,
+          "silver_white": 2,
+          "red": 1,
+          "blue": 2
+        }
+      },
+      "sampling_diagnostics": {
+        "actual_axis_counts": {
+          "camera": 16,
+          "wardrobe": 8,
+          "action": 11,
+          "site": 19,
+          "hair": 8,
+          "hair_color": 7
+        },
+        "expected_axis_counts_given_formal_eligible_source_axes": {
+          "camera": 11.499999999999993,
+          "wardrobe": 11.499999999999993,
+          "hair": 11.499999999999993,
+          "hair_color": 11.499999999999993,
+          "site": 11.499999999999993,
+          "action": 11.499999999999993
+        },
+        "expected_axis_counts_given_only_represented_graph_axes": {
+          "camera": 13.166666666666666,
+          "wardrobe": 7.833333333333333,
+          "hair_color": 9.75,
+          "action": 8.833333333333334,
+          "site": 22.58333333333333,
+          "hair": 6.833333333333333
+        },
+        "missing_formal_axis_graph_neighbor_opportunities": {
+          "wardrobe": 49,
+          "hair": 50,
+          "hair_color": 41,
+          "site": 16,
+          "action": 46,
+          "camera": 42
+        },
+        "formal_axis_opportunities": {
+          "camera": 69,
+          "wardrobe": 69,
+          "hair": 69,
+          "hair_color": 69,
+          "site": 69,
+          "action": 69
+        },
+        "wardrobe_modes": {
+          "whole_outfit": 7,
+          "single_piece": 1
+        },
+        "wardrobe_steps_with_formal_single_available": 4,
+        "of_those_steps_missing_graph_single": 2,
+        "of_those_steps_single_selected": 1,
+        "formal_single_50_percent_target_count": 2.0,
+        "source_wardrobe_whole_axis_availability_assumption": "current catalog has many other-family visible-core targets; no full Cartesian enumeration",
+        "interpretation": "diagnostics expose graph-conditioned sampling; finite-sample differences are not hard integrity failures"
+      }
+    }
+  },
+  "canonical_cross_split_overlap_count": 0,
+  "passed_checks": {
+    "node_unique_local_id": 260,
+    "node_sex": 260,
+    "node_identity_same_sex": 260,
+    "node_hair_same_sex": 260,
+    "node_color": 260,
+    "node_action": 260,
+    "node_camera": 260,
+    "node_site": 260,
+    "node_symbolic_aspect": 260,
+    "node_saved_exclusions": 260,
+    "node_no_rugged": 260,
+    "node_formal_hair_wardrobe": 260,
+    "node_clothed_core": 260,
+    "node_embedded_hair_not_conflicting": 260,
+    "node_formal_wardrobe_resolution": 260,
+    "node_canonical_state_dedup": 260,
+    "node_canonical_id_unique": 260,
+    "edge_unique_endpoints": 784,
+    "edge_endpoints": 784,
+    "edge_same_sex": 784,
+    "edge_same_symbolic_aspect": 784,
+    "edge_exactly_declared_semantic_axis": 784,
+    "edge_inherit_nonaxis_state": 784,
+    "edge_target_saved_exclusions": 784,
+    "edge_attribute_mode": 618,
+    "edge_identity_camera": 18,
+    "edge_action_camera": 100,
+    "edge_wardrobe_not_head": 166,
+    "edge_wardrobe_not_shoe_only": 166,
+    "edge_whole_other_family": 136,
+    "edge_single_same_family_group": 30,
+    "edge_single_exact_core_slot": 30,
+    "edge_single_preserve_actual_shoes": 30,
+    "edge_single_preserve_noncore_choice": 30,
+    "edge_wardrobe_visible_upper_change": 74,
+    "edge_single_visible_slot": 12,
+    "node_edit_first_provenance": 249,
+    "session_id_unique": 100,
+    "session_length_range": 100,
+    "session_history_length": 100,
+    "session_all_history_nodes_exist": 100,
+    "session_structural_unique": 100,
+    "session_historical_parent_bounds": 357,
+    "session_parent_occurrence_and_target": 357,
+    "session_registered_edge": 357,
+    "session_edge_metadata": 357,
+    "session_linear_no_fork": 68,
+    "session_fork_exactly_one": 32,
+    "budget_main_nodes": 2,
+    "budget_sessions": 2,
+    "session_exact_length_kind_quotas": 2,
+    "split_complete_canonical_main_nodes_disjoint": 1
+  },
+  "errors": {},
+  "error_examples": {},
+  "integrity_success": true,
+  "sampling_claim": "graph-conditioned candidate; not proof of global full-catalog uniform sampling",
+  "implementation_limitations": [
+    "Session starts sample a hierarchy over represented nodes and stop when one node remains; later requested independent marginals are not guaranteed.",
+    "Formal legal axes/targets missing from the finite graph are unavailable to session sampling, shifting the confirmed axis probabilities.",
+    "Formal single-piece availability may be lost in the graph; mode sampling among represented modes then need not be 50/50.",
+    "Whole target selection is hierarchical by represented family/group, then by represented state; core-piece and shoe marginals may be coupled.",
+    "Initial joint rejection on saved exclusions conditions scene/action/camera probabilities; it is not independent uniform marginals.",
+    "Builder canonical lacks explicit sex/aspect/profile-domain prefix; current identity determines sex and all states use one provisional landscape label. This verifier includes sex/aspect and every state field.",
+    "Landscape is a symbolic trial domain. Resolution/fps/duration/aspect are not production-frozen and no media was inspected."
+  ]
+}

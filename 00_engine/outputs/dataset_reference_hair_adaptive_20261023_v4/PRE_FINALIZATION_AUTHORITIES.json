@@ -1,0 +1,2346 @@
+{
+  "video_profile": {
+    "schema_version": 1,
+    "status": "local_clarity_and_reference_presentation_accepted_reference_execution_server_pending",
+    "confirmed_date": "2026-10-22",
+    "applies_to": [
+      "main_video",
+      "motion_reference_video"
+    ],
+    "duration_seconds": 10,
+    "fps": 30,
+    "output_frame_count": 300,
+    "resolution": {
+      "landscape": {
+        "width": 1920,
+        "height": 1080
+      },
+      "portrait": {
+        "width": 1080,
+        "height": 1920
+      }
+    },
+    "pending": [
+      "server_exact_build_plugins_and_resource_profile",
+      "local_render_and_server_sample_comparison",
+      "remaining_current_reference_plan_execution",
+      "user_current_four_shared_hair_image_review"
+    ],
+    "render_started": true,
+    "scope": "Next-stage media settings; does not modify adopted v11 nodes, edges, sessions or reference demand.",
+    "scene_reference_images": {
+      "status": "confirmed",
+      "resolution": {
+        "landscape": {
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "width": 1080,
+          "height": 1920
+        }
+      },
+      "matches_corresponding_video": true,
+      "contains_character": false
+    },
+    "canonical_reference_images": {
+      "status": "confirmed",
+      "applies_to": [
+        "identity",
+        "hair",
+        "wardrobe_piece"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "one_image_per_view": true,
+      "collage": false,
+      "framing": "Keep the target face, hairstyle or garment complete and as large as practical within the frame."
+    },
+    "output_format": {
+      "reference_images": "PNG",
+      "video_container": "MP4",
+      "video_codec": "H.264",
+      "crf_initial_sample": 16,
+      "same_video_encoding_for_main_and_motion_references": true,
+      "render_intermediate": "PNG_sequence",
+      "retention": "Keep final MP4 videos and reference images; intermediate frames may be cleaned only after successful encoding and confirming video usability; retain a small original-frame sample for comparison.",
+      "remaining_encoder_details": "Current local MP4 clarity accepted by user; encoding profile retained. No new encoder adjustment required for clarity.",
+      "compression_quality_validated": false,
+      "encoder": "libx264",
+      "preset": "medium",
+      "pixel_format": "yuv420p",
+      "audio": false,
+      "faststart": true,
+      "reference_png_bits_per_channel": 8,
+      "intermediate_png_bits_per_channel": 8,
+      "video_png_write_alpha": false,
+      "reference_png_background": "use approved reference presentation; garment-only does not imply transparent background",
+      "color_conversion_policy": "opaque RGB/RGBA PNG -> discard alpha -> full-range RGB to BT.709 limited-range yuv420p; libx264 CRF16 medium",
+      "actual_local_png_channels": "RGBA, fully opaque in sampled frames despite write_alpha=False",
+      "local_color_spotcheck": "00_engine/outputs/dataset_render_pilot_20261023_v1/COLOR_SPOTCHECK.json",
+      "compression_quality_validation_scope": "User accepted corrected local MP4 clarity; not a separate colorimetric or cross-platform validation."
+    },
+    "motion_timing": {
+      "mode": "production10",
+      "status": "existing_10_second_motion_processing_completed_reuse_without_retiming",
+      "active_actions": 25,
+      "sex_variants": 50,
+      "fps": 30,
+      "duration_seconds": 10,
+      "output_frames": 300,
+      "contract_path": "00_engine/assets/character_creator/production_motion_library_20261017_v1.json",
+      "runtime_pointer_path": "00_engine/outputs/production_workflow_20261017_v1/production_motion_formal_runtime_active_v1.json",
+      "main_and_motion_reference_policy": "Use the same existing production10 motion and clock for the corresponding action/sex; do not reapply original-source slowdown, repeats or holds to the baked asset.",
+      "render_integration_status": "main_12_clips_use_baked_production10_rate1_start0; dedicated_motion_reference_not_rendered",
+      "dedicated_reference_integration_status": "4_current_policy_production10_reference_pilots_technical_pass_no_rebake"
+    },
+    "render_quality": {
+      "render_pass": "deferred",
+      "spatial_sample_count": 1,
+      "temporal_sample_count": 1,
+      "anti_aliasing_policy": "explicit TSR (r.AntiAliasingMethod=4), screen percentage100, dynamic resolution disabled",
+      "legacy_actual_aa_method": "not recorded in historical render receipt",
+      "local_engine_default_aa_method": "TSR; project/camera overrides can differ",
+      "motion_blur_cvars": {
+        "r.MotionBlurQuality": 0,
+        "r.MotionBlur.Amount": 0
+      },
+      "engine_warm_up_count": 120,
+      "render_warm_up_count": 32,
+      "render_warm_up_frames": true,
+      "use_camera_cut_for_warm_up": false,
+      "warmup_advances_output_clock": false,
+      "cinematic_quality_settings": false,
+      "texture_streaming": "MRQ_FULLY_LOAD_used_textures",
+      "texture_streaming_policy_status": "controlled_cold_cache_AB_and_corrected_12_main_6_reference_complete_user_clarity_accepted",
+      "previous_texture_streaming": "preserve_project_streaming; rejected because cold-cache used textures remained at 64x64 despite bounded warmup",
+      "renderer_policy_version": 2,
+      "texture_residency_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "texture_policy_boundary": "FULLY_LOAD used textures per MRQ job; local corrected clips completed and clarity accepted. Server VRAM/cost remains to be measured.",
+      "assembled_hair_material_persistence": "dataset_persistent_materials_v2 saved owned MICs; six bindings matched after actual map reload; corrected main/reference rendering completed",
+      "force_lod_zero": false,
+      "disable_hlods": false,
+      "force_high_quality_shadows": false,
+      "override_view_distance_scale": false,
+      "flush_streaming_managers": false,
+      "flush_grass_streaming": false,
+      "exposure": "inherit saved source map postprocess; clear camera exposure overrides; do not restore old site EV",
+      "depth_of_field_bloom_tonemapping": "inherit current accepted map/project/camera settings; record actual settings in local pilot; no extra grading",
+      "resolution_binding": "apply final output resolution without multiplying accepted camera distances or changing aspect-specific trajectories",
+      "resolved_cvars": {
+        "r.AntiAliasingMethod": 4,
+        "r.ScreenPercentage": 100,
+        "r.DynamicRes.OperationMode": 0,
+        "r.DynamicGlobalIlluminationMethod": 1,
+        "r.ReflectionMethod": 1,
+        "r.Shadow.Virtual.Enable": 1,
+        "sg.ViewDistanceQuality": 3,
+        "sg.AntiAliasingQuality": 3,
+        "sg.ShadowQuality": 3,
+        "sg.GlobalIlluminationQuality": 3,
+        "sg.ReflectionQuality": 3,
+        "sg.PostProcessQuality": 3,
+        "sg.TextureQuality": 3,
+        "sg.EffectsQuality": 3,
+        "sg.FoliageQuality": 3
+      },
+      "resolved_settings_evidence": "Controlled runtime CVar/residency A/B, corrected render_contract receipts and MATERIAL_RELOAD_CHECK.json under dataset_texture_quality_20261023_v1; server readback pending.",
+      "texture_readiness_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "persistent_material_policy": "dataset_persistent_materials_v2"
+    },
+    "execution_plan": "RENDER_EXECUTION_PLAN.md",
+    "basis": [
+      "00_engine/outputs/production_workflow_20261017_v1/render_receipts/serial4_2b93498ca0_1.json",
+      "00_engine/outputs/production_workflow_20261017_v1/media_receipts/formal_trial_2_front_full.json",
+      "00_engine/outputs/render_readiness_20261021_v1/HANDOFF.md",
+      "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md"
+    ],
+    "formal_production_render_started": false,
+    "last_updated": "2026-10-23",
+    "local_pilot": {
+      "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+      "main_clips": 12,
+      "reference_image_prototypes": 6,
+      "technical_media_pass": true,
+      "user_visual_acceptance": true,
+      "linux_tested": false,
+      "old_pilot_quality_rejected": true,
+      "quality_report": "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md",
+      "user_visual_acceptance_scope": "corrected_local_video_and_image_clarity"
+    },
+    "texture_quality_validation": {
+      "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1",
+      "status": "corrected_local_media_complete_user_clarity_accepted",
+      "controlled_fixture": "same freshly assembled black-hair reference map, camera, light, AA and 1024x1024 output",
+      "warm_cache_result": "both inherited-streaming and FULLY_LOAD runs already had clear/full resident textures; warm-only comparisons do not establish the defect",
+      "cold_cache_result": {
+        "face_diffuse": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            2048,
+            2048
+          ]
+        },
+        "hair_base_color_and_opacity": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            2048,
+            2048
+          ]
+        },
+        "dress_diffuse_and_normal": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            4096,
+            4096
+          ]
+        }
+      },
+      "runtime_readback": {
+        "inherited_fully_load_used_textures": 0,
+        "fully_load_fully_load_used_textures": 1,
+        "texture_streaming_enabled_both": 1,
+        "pool_size_mb_both": 10240
+      },
+      "corrected_run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+      "corrected_main_clips_planned": 12,
+      "corrected_main_clips_complete_at_report_snapshot": 12,
+      "latest_recorded_blocker": null,
+      "driver_resume_guard": "11 focused tests passed; successful media must match current renderer signature and bind to actual completed MRQ receipt; legacy successful MP4 cannot bypass changed rendering policy; valid current-policy MP4 may resume after raw cleanup",
+      "quality_accepted": true,
+      "linux_tested": false,
+      "corrected_reference_images_complete": 6,
+      "quality_acceptance_scope": "corrected_local_video_and_image_clarity"
+    },
+    "user_clarity_acceptance": {
+      "date": "2026-10-23",
+      "source": "user_current_conversation",
+      "statement": "现在修正之后的视频和图片的清晰度足够了",
+      "scope": "corrected_local_video_and_image_clarity",
+      "accepted": true,
+      "does_not_approve": [
+        "reference_presentation_design",
+        "server_rendering",
+        "formal_full_dataset"
+      ]
+    },
+    "motion_reference_presentation": {
+      "status": "assets_selected_4_current_policy_pilot_technical_pass_new_media_review_pending",
+      "confirmed_date": "2026-10-23",
+      "carrier": "one_fixed_existing_male_and_one_fixed_existing_female_matched_to_motion_sex",
+      "carrier_changes_per_action": false,
+      "wardrobe": "fixed_clear_silhouette_top_trousers_shoes; avoid_long_skirts_and_loose_outerwear",
+      "hair": "fixed_short_hair; keep_shoulders_and_back_visible",
+      "background": "neutral_gray_with_simple_ground",
+      "lighting": "fixed_soft_lighting",
+      "camera": "one_video_per_demanded_motion_camera_combination_with_corresponding_aspect_ratio",
+      "timing": "same_production10_asset_speed1_start0_as_main; 10s_30fps_300frames",
+      "selected_character_ids": {
+        "female": "CFD40_AF_001",
+        "male": "CFD40_AM_001"
+      },
+      "selected_wardrobe_ids": {
+        "female": {
+          "family_id": "female.workout_color_outfits",
+          "group_id": "default",
+          "slot_choices": {
+            "full_body": "female.workout_color_outfits.asset.d973df56c996"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F003",
+          "hair_id": "HAIR_HB1_02"
+        },
+        "male": {
+          "family_id": "male.workout",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.workout.asset.79f65ef7f08f",
+            "pants": "male.workout.asset.f991c0f529d5",
+            "shoes": "male.workout.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": "HAIR_HB3_02"
+        }
+      },
+      "selected_hair_ids": {
+        "female": "HAIR_HB1_02",
+        "male": "HAIR_HB3_02"
+      },
+      "asset_selection": "choose_suitable_legal_existing_assets_during_implementation",
+      "information_scope": "reference supplies motion; source video supplies identity clothing hair and scene",
+      "carrier_configuration": "00_engine/outputs/dataset_reference_production_20261023_v1/motion_carriers.json"
+    },
+    "static_reference_presentation": {
+      "status": "shared_hair_four_images_technical_pass_user_review_pending",
+      "confirmed_date": "2026-10-23",
+      "basis": "user_accepted_existing_corrected_sample_presentation",
+      "canonical_background": "neutral_gray",
+      "canonical_lighting": "soft_fixed_lighting",
+      "identity": "two_different_existing_hairstyles_per_identity_all_silver_white_select_one_per_identity_step",
+      "hair": "same_head_relative_camera_both_sexes; most_hair_visible_longest_may_crop; fixed_simple_gray_clothes; retain_two_carriers_front_back_groups",
+      "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+      "scene": "target_scene_corresponding_camera_first_frame_without_character",
+      "canonical_resolution": [
+        1024,
+        1024
+      ],
+      "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+      "changes_to_existing_reference_views_or_counts": true,
+      "identity_hair_color": "silver_white",
+      "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+      "identity_garments_present": false,
+      "hair_garments_present": true,
+      "identity_reference_pool_count": 40,
+      "identity_reference_image_count": 80,
+      "hair_neutral_garment_color": true,
+      "hair_camera": {
+        "policy": "shared_head_shoulders",
+        "distance_cm": 110,
+        "center_z_relative_to_head_cm": 3,
+        "horizontal_fov_degrees": 28,
+        "width": 1024,
+        "height": 1024,
+        "same_numeric_parameters_both_sexes": true,
+        "coverage": "most hair including majority of long hair; longest styles may crop"
+      },
+      "hair_clothing_configuration": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_carrier_clothing.json"
+    },
+    "reference_execution": {
+      "status": "four_hair_images_technical_pass_user_review_pending",
+      "full_plan_ready": true,
+      "full_reference_tasks": 2458,
+      "static_tasks": 1649,
+      "motion_tasks": 809,
+      "identity_portraits": 80,
+      "hair_reference_images": 112,
+      "verified_unique_pilot_tasks": 4,
+      "static_pilot_images": 4,
+      "motion_pilot_clips": 0,
+      "remaining_current_run_tasks": 2454,
+      "new_pilot_visual_acceptance": "pending",
+      "server_verified": false,
+      "focused_tests_passed": 27,
+      "run_root": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3",
+      "report": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REPORT.md",
+      "review": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REVIEW.md",
+      "result": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/EXECUTION_RESULT.json",
+      "full_reference_media_completed": false,
+      "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+      "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+      "prior_accepted_other_samples": 8
+    },
+    "reference_execution_history": [
+      {
+        "full_plan_ready": true,
+        "full_reference_tasks": 2418,
+        "static_tasks": 1609,
+        "motion_tasks": 809,
+        "verified_unique_pilot_tasks": 11,
+        "motion_pilot_clips": 4,
+        "static_pilot_images": 7,
+        "remaining_full_tasks": 2407,
+        "new_pilot_visual_acceptance": "pending",
+        "server_verified": false,
+        "run_root": "00_engine/outputs/dataset_reference_production_20261023_v1",
+        "report": "00_engine/outputs/dataset_reference_production_20261023_v1/REPORT.md",
+        "review": "00_engine/outputs/dataset_reference_production_20261023_v1/REVIEW.md",
+        "result": "00_engine/outputs/dataset_reference_production_20261023_v1/EXECUTION_RESULT.json",
+        "implementation_status": "full_reference_execution_entry_ready",
+        "motion_carrier_selection": "configured",
+        "full_reference_media_completed": false,
+        "focused_tests_passed": 31
+      },
+      {
+        "status": "six_current_policy_images_technical_pass_user_review_pending",
+        "full_plan_ready": true,
+        "full_reference_tasks": 2458,
+        "static_tasks": 1649,
+        "motion_tasks": 809,
+        "identity_logical_requirements": 40,
+        "identity_portraits": 80,
+        "verified_unique_pilot_tasks": 6,
+        "static_pilot_images": 6,
+        "motion_pilot_clips": 0,
+        "remaining_current_run_tasks": 2452,
+        "prior_accepted_other_samples": 8,
+        "new_pilot_visual_acceptance": "pending",
+        "server_verified": false,
+        "focused_tests_passed": 26,
+        "run_root": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+        "report": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REPORT.md",
+        "review": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REVIEW.md",
+        "result": "00_engine/outputs/dataset_reference_portraits_20261023_v2/EXECUTION_RESULT.json",
+        "full_reference_media_completed": false,
+        "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+        "current_run_scope": "six_portrait_images_only"
+      }
+    ]
+  },
+  "dataset_design_branch": {
+    "thread_id": "01a15a2d-7fc5-70c1-ac9a-02cfe1d6bbb4",
+    "status": "2458_reference_plan_shared_hair_four_images_technical_pass_user_review_pending",
+    "run_root": "%OUTPUT_ROOT%/dataset_return_control_20261022_v11/",
+    "previous_round_root": "%OUTPUT_ROOT%/dataset_distributed_graph_20261022_v10/",
+    "technical_document": "technical/dataset/DATASET_DESIGN_EXPLORATION_20261021.md",
+    "confirmed_contract_document": "technical/dataset/DATASET_TRIAL_CONTRACT_20261021.md",
+    "reading_entry": "REPORT.md",
+    "candidate": "selected_candidate",
+    "current_candidate": "CURRENT_CANDIDATE.json",
+    "parent_requirement": "R17",
+    "history_axis_decay": 0.4,
+    "scope": [
+      "history_aware_suffix_resampling_on_unchanged_v10_graph",
+      "explicit_selected_source_ancestor_value_returns_reduced",
+      "initial_nodes_all_parent_positions_kind_length_fork_round_and_aspect_preserved",
+      "original_frequency_coverage_inheritance_and_reference_checks_recomputed",
+      "trial2_selected_with_baseline_edit_mixture_guards",
+      "configuration_content_user_accepted_with_fresh_bounded_reaudit"
+    ],
+    "production_frozen": false,
+    "formal_render_started": false,
+    "shared_UE_modified": true,
+    "training_started": false,
+    "next_action": "审查男女统一相机与简单灰衣物发型4图；身份双白发沿用v2，其余已接受样片沿用，之后继续参考及Linux同节点／资源核验。",
+    "evidence": [
+      "CURRENT_CANDIDATE.json",
+      "REPORT.md",
+      "RULES.json",
+      "return_audit.json",
+      "frequency_audit.json",
+      "inherited_audit.json",
+      "PRESERVATION.json",
+      "reference_binding_check.json",
+      "selected_candidate/reference_manifest.json",
+      "selected_candidate/reference_summary.json",
+      "trial2/train_optimization.json",
+      "trial2/test_optimization.json",
+      "documentation_result_sync.json",
+      "review_20261022/AUDIT_REPORT.md",
+      "review_20261022/fresh_frequency_audit.json",
+      "review_20261022/fresh_inherited_audit.json",
+      "review_20261022/structure_findings.json",
+      "review_20261022/reference_findings.json",
+      "review_20261022/distribution_diagnostics.json",
+      "review_20261022/coverage_and_edits.json",
+      "review_20261022/REFERENCE_REVIEW.md",
+      "review_20261022/documentation_sync.json"
+    ],
+    "new_chain_sampling_for_selected_candidate": true,
+    "structural_integrity_passed": true,
+    "all_experiment_hard_checks_passed": true,
+    "all_registered_nodes_used": true,
+    "target_node_and_session_quotas_filled": true,
+    "overall_diversity_accepted": true,
+    "offline_candidate_selected": true,
+    "wardrobe_conditional_50_50_relaxed": false,
+    "test_full_value_coverage_required": false,
+    "budget_revision": {
+      "user_authorized_moderate_increase_for_dual_aspect": true,
+      "previous_train_max": 5000,
+      "previous_test_max": 800,
+      "aspect_copies_count_as_render_nodes": true,
+      "aspect_copies_count_as_new_content_or_structural_sessions": false
+    },
+    "limitations": {
+      "user_adoption": "accepted_configuration_content_only",
+      "final_media_profile": "partial: media dimensions/formats confirmed; existing production10 action timing inherited; remaining encoder/render settings and new media integration pending",
+      "camera_binding_scope": "existing orientation-specific local trajectory template, not final site world trajectory",
+      "motion_reference_carrier_and_exact_scene_initial_frame_pending": true,
+      "per_value_frequency_uniformity_claimed": false,
+      "action_camera_coverage_sufficient_claimed": false,
+      "graph_redesign_authorized_in_this_change": false,
+      "per_aspect_slot_balance_not_all_uniform": true,
+      "reuse_near_two_is_soft": true,
+      "sampling_stability": "not_assessed; trial1/trial2 constrained searches are not independent-seed stability evidence",
+      "L5_axis_diversity_tradeoff": {
+        "v10": {
+          "train": {
+            "all": 3.1773529411764705,
+            "linear": 3.161,
+            "fork": 3.2007142857142856
+          },
+          "test": {
+            "all": 3.15,
+            "linear": 3.1725,
+            "fork": 3.117857142857143
+          }
+        },
+        "v8_baseline": {
+          "train": 3.9502941176470587,
+          "test": 3.588235294117647
+        },
+        "v11": {
+          "train": {
+            "all": 3.776764705882353,
+            "linear": 3.762,
+            "fork": 3.797857142857143
+          },
+          "test": {
+            "all": 3.7808823529411764,
+            "linear": 3.795,
+            "fork": 3.7607142857142857
+          }
+        }
+      },
+      "mean_reuse_2_5_soft_target_not_exactly_reached": true,
+      "no_per_aspect_full_value_frequency_acceptance_claim": true,
+      "media_and_training_unstarted": true,
+      "implicit_unedited_fork_resets_penalized": false,
+      "remaining_returns_concentrated_in_longer_chains": true,
+      "global_optimum_claimed": false
+    },
+    "previous_v7_result": {
+      "run_root": "%OUTPUT_ROOT%/dataset_dual_aspect_20261022_v7/",
+      "candidate": "selected_candidate",
+      "history_axis_decay": 0.2,
+      "actual_render_nodes_total": 6150,
+      "statistics_and_evidence": "dataset_dual_aspect_20261022_v7/REPORT.md; CURRENT_CANDIDATE.json; audit_agent/audit_selected.json",
+      "immutable_baseline": true
+    },
+    "previous_v6_result": {
+      "thread_id": "01a15a2d-7fc5-70c1-ac9a-02cfe1d6bbb4",
+      "status": "offline_candidate_verified_pending_user_adoption_not_rendered",
+      "run_root": "%OUTPUT_ROOT%/dataset_compact_graph_20261022_v6/",
+      "previous_round_root": "%OUTPUT_ROOT%/dataset_balanced_graph_20261022_v5/",
+      "technical_document": "technical/dataset/DATASET_DESIGN_EXPLORATION_20261021.md",
+      "reading_entry": "REPORT.md",
+      "scope": [
+        "compact_legal_graph_construction",
+        "full_catalog_train_edited_target_coverage",
+        "full_catalog_start_camera_quotas",
+        "formal_conditional_single_slot_balance",
+        "same_graph_three_seed_independent_composite_audit"
+      ],
+      "production_frozen": false,
+      "formal_render_started": false,
+      "shared_UE_modified": false,
+      "parent_requirement": "R17",
+      "next_action": "User reviews selected_seed1 node savings, 21-camera start quotas, legal single-slot balance and the lower test L5 diversity versus v5, decides adoption, then discusses media specifications and references; alternate seeds must not be combined.",
+      "evidence": [
+        "GOAL.md",
+        "RULES.json",
+        "REPORT.md",
+        "FINAL_SELECTION.json",
+        "CURRENT_CANDIDATE.json",
+        "selected_seed1/ASSEMBLY.json",
+        "comparison.json",
+        "sampling_stability.json",
+        "diagnostics_n_t_decay02_v68_three_seed_summary.json",
+        "diagnostics_n_t_decay02_seed1_composite_audit.json",
+        "diagnostics_n_t_decay02_seed2_composite_audit.json",
+        "diagnostics_n_t_decay02_seed3_composite_audit.json",
+        "INPUTS_AND_METHODS.json",
+        "DELIVERY_MANIFEST.json",
+        "delivery_verification.json",
+        "documentation_result_sync.json"
+      ],
+      "confirmed_contract_document": "technical/dataset/DATASET_TRIAL_CONTRACT_20261021.md",
+      "all_confirmed_sampling_rules_satisfied": false,
+      "structural_integrity_passed": true,
+      "local_target_support_decision": {
+        "user_approved": true,
+        "date": "2026-10-21",
+        "per_source_full_catalog_uniformity_required": false,
+        "dataset_wide_diversity_required": true,
+        "fixed_targets_per_node": null,
+        "original_edit_semantics_and_budget_preserved": false,
+        "new_candidate_implemented": true,
+        "authority": "technical/dataset/DATASET_TRIAL_CONTRACT_20261021.md",
+        "original_edit_semantics_preserved": true,
+        "budget_superseded_by": "dataset_compact_graph_20261022_v6/RULES.json"
+      },
+      "candidate": "selected_seed1",
+      "target_node_and_session_quotas_filled": true,
+      "all_registered_nodes_used": true,
+      "overall_diversity_accepted": false,
+      "previous_complete_candidate": "%OUTPUT_ROOT%/dataset_balanced_graph_20261022_v5/candidate_c_seed1/",
+      "cross_attribute_pair_breadth_decision": {
+        "user_accepted_reduction": true,
+        "priority": "individual_attribute_value_coverage_and_chain_diversity",
+        "per_identity_large_pair_breadth_required": false
+      },
+      "wardrobe_conditional_50_50_relaxed": false,
+      "evidence_status": "three_seed_complete_independent_composite_checks_passed_not_rendered",
+      "training_started": false,
+      "test_full_value_coverage_required": false,
+      "minimum_sampling_seeds": 3,
+      "previous_v4_result": {
+        "candidate": "rotated_diagnostic_not_adopted",
+        "structural_integrity_passed": true,
+        "overall_diversity_accepted": false,
+        "run_root": "%OUTPUT_ROOT%/dataset_sequence_graph_20261021_v4/"
+      },
+      "confirmed_rule_revision_date": "2026-10-22",
+      "source_graph": "graph_n/train + graph_t/test",
+      "all_experiment_hard_checks_passed": true,
+      "primary_candidate_statistics": {
+        "train": {
+          "nodes": 3752,
+          "chains": 12000,
+          "edits": 43800,
+          "coverage": {
+            "identity": 40,
+            "hair": 28,
+            "hair_color": 7,
+            "family": 37,
+            "group": 45,
+            "core_asset": 239,
+            "action": 25,
+            "camera": 21,
+            "site": 21
+          },
+          "edited_target_coverage": {
+            "identity": 40,
+            "hair": 28,
+            "hair_color": 7,
+            "family": 37,
+            "group": 45,
+            "core_asset": 239,
+            "action": 25,
+            "camera": 21,
+            "site": 21
+          },
+          "genuinely_introduced_core_coverage": 239,
+          "six_axis_max_relative_deviation": 0.04079746171334354,
+          "conditional_single_fraction": 0.4863541975674874,
+          "single_slot_total_variation": 0.0056419640134187255,
+          "single_slot_max_relative_deviation": 0.022774327122153215,
+          "initial_identity_camera_fraction": 0.26066666666666666,
+          "initial_camera_max_relative_deviation": 0.0014166666666666217,
+          "L5_mean_distinct_axes": 4.215294117647058,
+          "per_axis_mean_reuse": {
+            "identity": 1.7041553748870821,
+            "hair": 2.0146312332039416,
+            "hair_color": 2.036033261472128,
+            "wardrobe": 1.2193375111906894,
+            "action": 2.0366008911521325,
+            "camera": 1.55125284738041,
+            "site": 2.02991452991453
+          }
+        },
+        "test": {
+          "nodes": 800,
+          "chains": 2400,
+          "edits": 8760,
+          "coverage": {
+            "identity": 14,
+            "hair": 6,
+            "hair_color": 6,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "edited_target_coverage": {
+            "identity": 14,
+            "hair": 6,
+            "hair_color": 6,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "genuinely_introduced_core_coverage": 34,
+          "six_axis_max_relative_deviation": 0.06944971537001897,
+          "conditional_single_fraction": 0.5194931773879142,
+          "single_slot_total_variation": 0.008442776735459663,
+          "single_slot_max_relative_deviation": 0.08571428571428563,
+          "initial_identity_camera_fraction": 0.26166666666666666,
+          "initial_camera_max_relative_deviation": 0.006249999999999867,
+          "L5_mean_distinct_axes": 3.8132352941176473,
+          "per_axis_mean_reuse": {
+            "identity": 2.401685393258427,
+            "hair": 2.27037037037037,
+            "hair_color": 2.1181959564541213,
+            "wardrobe": 1.2824858757062148,
+            "action": 2.4149532710280375,
+            "camera": 1.4261780104712043,
+            "site": 2.3315412186379927
+          }
+        },
+        "canonical_split_overlap": 0,
+        "full_chain_split_overlap": 0,
+        "maximum_directed_edge_uses_primary_seed": 3,
+        "four_use_edge_fraction_primary_seed": {
+          "train": 0.0,
+          "test": 0.0
+        },
+        "node_savings_vs_v5": {
+          "train_before": 4670,
+          "train_after": 3752,
+          "test_before": 768,
+          "test_after": 800,
+          "total_reduction": 886,
+          "total_reduction_fraction": 0.1629275468922398
+        }
+      },
+      "sampling_stability": {
+        "same_fixed_graphs": {
+          "train": "graph_n/train",
+          "test": "graph_t/test"
+        },
+        "sampler_version": "v68",
+        "history_axis_decay": 0.2,
+        "sampling_seed_candidates": [
+          "selected_seed1",
+          "selected_seed2",
+          "selected_seed3"
+        ],
+        "source_bindings": [
+          {
+            "assembled_candidate": "selected_seed1",
+            "train": "candidate_n_v68_train_decay02_seed1/train",
+            "test": "candidate_t_v68_test_decay02_seed1/test",
+            "train_seed": 2026102261,
+            "test_seed": 2026102262,
+            "audit": "diagnostics_n_t_decay02_seed1_composite_audit.json"
+          },
+          {
+            "assembled_candidate": "selected_seed2",
+            "train": "candidate_n_v68_train_decay02_seed2/train",
+            "test": "candidate_t_v68_test_decay02_seed2/test",
+            "train_seed": 2026102281,
+            "test_seed": 2026102282,
+            "audit": "diagnostics_n_t_decay02_seed2_composite_audit.json"
+          },
+          {
+            "assembled_candidate": "selected_seed3",
+            "train": "candidate_n_v68_train_decay02_seed3/train",
+            "test": "candidate_t_v68_test_decay02_seed3/test",
+            "train_seed": 2026102301,
+            "test_seed": 2026102302,
+            "audit": "diagnostics_n_t_decay02_seed3_composite_audit.json"
+          }
+        ],
+        "all_independent_hard_checks_passed": true,
+        "all_three_cross_split_disjoint": true,
+        "all_train_core_genuinely_introduced": 239,
+        "maximum_test_four_use_edge_fraction": 0.004583151462243562,
+        "construction_seed_stability_tested": false,
+        "alternatives_must_not_be_combined": true
+      },
+      "limitations": {
+        "initial_camera_full_catalog_marginal_verified": true,
+        "legal_slot_conditional_balance_verified": true,
+        "five_slot_global_uniformity_required": false,
+        "axis_count_balance_proves_value_frequency_balance": false,
+        "per_value_target_frequency_uniformity_claimed": false,
+        "long_tail_values_can_have_few_target_edits": true,
+        "pure_random_conditioned_sampling_claimed": false,
+        "coverage_and_terminal_feedback_and_fallback_disclosed": true,
+        "test_full_value_coverage_required": false,
+        "test_single_piece_slots": [
+          "shirts",
+          "coats",
+          "pants",
+          "skirts",
+          "full_body"
+        ],
+        "test_L5_raw_comparison_to_v5": {
+          "v5": 4.041176470588235,
+          "v6": 3.8132352941176473,
+          "declined": true,
+          "camera_mix_changed": true
+        },
+        "test_seed3_coats": {
+          "actual": 15,
+          "conditional_expected": 17,
+          "absolute_difference": -2,
+          "relative_difference": -0.11764705882352941,
+          "formal_available_graph_slot_missing_fraction": 0,
+          "interpretation": "low_count_residual_not_missing_legal_slot"
+        },
+        "reuse_near_two_is_soft": true,
+        "user_adoption": "pending"
+      },
+      "active_optimization": {
+        "run_root": "%OUTPUT_ROOT%/dataset_compact_graph_20261022_v6/",
+        "status": "offline_candidate_verified_pending_user_adoption_not_rendered",
+        "goal": "%OUTPUT_ROOT%/dataset_compact_graph_20261022_v6/GOAL.md",
+        "started_at": "2026-10-22T00:45:58+08:00",
+        "deadline": "2026-10-22T05:45:58+08:00",
+        "focus": [
+          "fewer_nodes",
+          "initial_camera_distribution",
+          "single_garment_slot_distribution"
+        ],
+        "previous_candidate_retained": "%OUTPUT_ROOT%/dataset_balanced_graph_20261022_v5/candidate_c_seed1/",
+        "new_candidate_selected": true,
+        "ue_changed": false,
+        "selected_candidate": "selected_seed1",
+        "selection": "FINAL_SELECTION.json",
+        "three_sampling_seed_checks_complete": true,
+        "experimentation_stopped": true
+      },
+      "previous_v5_result": {
+        "run_root": "%OUTPUT_ROOT%/dataset_balanced_graph_20261022_v5/",
+        "candidate": "candidate_c_seed1",
+        "source_graph": "candidate_b",
+        "primary_candidate_statistics": {
+          "train": {
+            "nodes": 4670,
+            "chains": 12000,
+            "edits": 43800,
+            "used_core_coverage": 239,
+            "genuinely_introduced_core_coverage": 239,
+            "six_axis_max_relative_deviation": 0.03456133687808583,
+            "conditional_single_fraction": 0.4770627330199384
+          },
+          "test": {
+            "nodes": 768,
+            "chains": 2400,
+            "edits": 8760,
+            "full_value_coverage_required": false,
+            "coverage": {
+              "identity": 8,
+              "hair": 8,
+              "hair_color": 7,
+              "family": 8,
+              "group": 8,
+              "core": 35,
+              "action": 8,
+              "camera": 7,
+              "site": 8
+            },
+            "six_axis_max_relative_deviation": 0.019715497878712195,
+            "conditional_single_fraction": 0.5055803571428571
+          },
+          "canonical_split_overlap": 0,
+          "maximum_directed_edge_uses": 3,
+          "four_use_edge_fraction": 0.0
+        },
+        "sampling_stability": {
+          "same_fixed_graph": "candidate_b",
+          "sampling_seed_candidates": [
+            "candidate_c_seed1",
+            "candidate_c_seed2",
+            "candidate_c_seed3"
+          ],
+          "all_independent_hard_checks_passed": true,
+          "all_train_core_genuinely_introduced": 239,
+          "construction_seed_stability_tested": false,
+          "alternatives_must_not_be_combined": true
+        },
+        "limitations": {
+          "initial_camera_full_catalog_marginal_verified": false,
+          "initial_identity_camera_fraction": {
+            "train": 0.5901666666666666,
+            "test": 0.56625
+          },
+          "axis_count_balance_proves_value_frequency_balance": false,
+          "test_single_piece_slots": [
+            "shirts"
+          ],
+          "reuse_near_two_is_soft": true,
+          "user_adoption": "pending"
+        },
+        "preserved_unchanged": true
+      },
+      "source_graphs": {
+        "train": "graph_n/train",
+        "test": "graph_t/test"
+      },
+      "selection": "FINAL_SELECTION.json",
+      "current_candidate": "CURRENT_CANDIDATE.json",
+      "offline_candidate_selected": true,
+      "history_axis_decay": 0.2,
+      "history_axis_decay_adjustment_recorded": true
+    },
+    "last_verified_v8_result": {
+      "run_root": "%OUTPUT_ROOT%/dataset_decay04_20261022_v8/",
+      "candidate": "selected_candidate",
+      "evidence": [
+        "CURRENT_CANDIDATE.json",
+        "structural_audit.json",
+        "aspect_audit.json",
+        "reference_binding_check.json"
+      ],
+      "history_axis_decay": 0.4,
+      "actual_render_nodes_total": 6439,
+      "primary_candidate_statistics": {
+        "train": {
+          "content_nodes": 3752,
+          "render_nodes": 5256,
+          "additional_render_nodes": 1504,
+          "chain_count": 12000,
+          "chain_count_by_aspect": {
+            "portrait": 5987,
+            "landscape": 6013
+          },
+          "render_count_by_aspect": {
+            "landscape": 2706,
+            "portrait": 2550
+          },
+          "edit_count": 43800,
+          "all_original_chains_preserved_once": true,
+          "coverage": {
+            "identity": 40,
+            "hair": 28,
+            "hair_color": 7,
+            "family": 37,
+            "group": 45,
+            "core_asset": 239,
+            "action": 25,
+            "camera": 21,
+            "site": 21
+          },
+          "edited_target_coverage": {
+            "identity": 40,
+            "hair": 28,
+            "hair_color": 7,
+            "family": 37,
+            "group": 45,
+            "core_asset": 239,
+            "action": 25,
+            "camera": 21,
+            "site": 21
+          },
+          "six_axis_max_relative_deviation": 0.03626631984392981,
+          "conditional_single_fraction": 0.4870120231557073,
+          "single_slot_total_variation": 0.0025906735751295338,
+          "graph_missing_formal_slot_opportunity_fraction": 0.05889549108703251,
+          "maximum_semantic_directed_edge_uses": 3,
+          "semantic_per_axis_mean_reuse": {
+            "identity": 1.709807433945365,
+            "hair": 2.034409257003654,
+            "hair_color": 2.0387116754413133,
+            "wardrobe": 1.2156372724027134,
+            "action": 2.042620865139949,
+            "camera": 1.5537303216974674,
+            "site": 2.0447166921898927
+          },
+          "per_aspect_six_axis_max_relative_deviation": {
+            "landscape": 0.030248306997742613,
+            "portrait": 0.042250710829550564
+          },
+          "sequence_comparison": {
+            "delta_mean_distinct_axes": -0.16049999999999986,
+            "delta_repeated_axis_step_fraction": 0.043972602739726044
+          }
+        },
+        "test": {
+          "content_nodes": 800,
+          "render_nodes": 1183,
+          "additional_render_nodes": 383,
+          "chain_count": 2400,
+          "chain_count_by_aspect": {
+            "landscape": 1200,
+            "portrait": 1200
+          },
+          "render_count_by_aspect": {
+            "landscape": 624,
+            "portrait": 559
+          },
+          "edit_count": 8760,
+          "all_original_chains_preserved_once": true,
+          "coverage": {
+            "identity": 14,
+            "hair": 6,
+            "hair_color": 6,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "edited_target_coverage": {
+            "identity": 14,
+            "hair": 6,
+            "hair_color": 6,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "six_axis_max_relative_deviation": 0.046021939225822664,
+          "conditional_single_fraction": 0.5159362549800797,
+          "single_slot_total_variation": 0.0009652509652509653,
+          "graph_missing_formal_slot_opportunity_fraction": 0.0,
+          "maximum_semantic_directed_edge_uses": 4,
+          "semantic_per_axis_mean_reuse": {
+            "identity": 2.3286516853932584,
+            "hair": 2.345724907063197,
+            "hair_color": 2.141509433962264,
+            "wardrobe": 1.3236151603498543,
+            "action": 2.3570093457943924,
+            "camera": 1.4143302180685358,
+            "site": 2.3481349911190055
+          },
+          "per_aspect_six_axis_max_relative_deviation": {
+            "landscape": 0.045866935483870996,
+            "portrait": 0.05374716124148371
+          },
+          "sequence_comparison": {
+            "delta_mean_distinct_axes": -0.1429166666666668,
+            "delta_repeated_axis_step_fraction": 0.03915525114155252
+          }
+        }
+      },
+      "action_camera_coverage": {
+        "main_camera_count_distribution": {
+          "1": 9,
+          "4": 7,
+          "5": 1,
+          "3": 4,
+          "6": 1,
+          "12": 2,
+          "2": 1
+        },
+        "reference_camera_count_distribution": {
+          "1": 9,
+          "3": 5,
+          "5": 1,
+          "6": 2,
+          "11": 1,
+          "4": 6,
+          "2": 1
+        },
+        "main_action_camera_pairs": 86,
+        "reference_action_camera_pairs": 78,
+        "scope": "unique rendered node demands, not session-weighted appearances; camera counts merge sexes/aspects",
+        "same_graph_support_gap_resolved": false,
+        "v7_train_one_video_actions": 13,
+        "v7_train_top10_video_share": 0.926254281684465
+      },
+      "source_graph": "%OUTPUT_ROOT%/dataset_compact_graph_20261022_v6/selected_seed1/",
+      "sampling_stability": {
+        "sampling_seeds": {
+          "train": 2026102261,
+          "test": 2026102262
+        },
+        "new_seed_pairs_verified": 1,
+        "decay04_three_seed_stability_assessed": false,
+        "previous_decay02_evidence_not_transferred": true
+      },
+      "aspect_selection_policy": {
+        "initial": "economy",
+        "refine_if_either_aspect_six_axis_deviation_above": 0.1,
+        "train_triggered": false,
+        "test_triggered": true,
+        "source": "partition_trials.json"
+      },
+      "all_new_structural_sessions_preserved_exactly_once": true,
+      "all_v7_original_sessions_preserved": false
+    },
+    "new_target": {
+      "training_actions": 25,
+      "minimum_formally_allowed_distinct_cameras_per_action": 10,
+      "coverage_source": "actual chain-used main content nodes; merge sexes and aspects; no unused pool or reference-only counts",
+      "history_axis_decay": 0.4,
+      "mean_semantic_directed_edge_reuse_soft_target": 2.5,
+      "maximum_semantic_directed_edge_uses": 4,
+      "test_full_catalog_coverage_required": false,
+      "all_other_confirmed_rules_retained": true,
+      "frequency_ratio_to_own_mean": [
+        0.5,
+        1.5
+      ],
+      "frequency_fields": [
+        "identity",
+        "action",
+        "hair",
+        "hair_color",
+        "site",
+        "visible_core_garment"
+      ],
+      "frequency_scopes": [
+        "actual_used_unique_content_states_ignoring_aspect",
+        "every_final_chain_history_occurrence_including_initial_abandoned_and_revisited"
+      ],
+      "train_full_catalog_including_zeros": true,
+      "test_selected_values_only": true,
+      "per_action_camera_frequency_ratio_to_own_mean": [
+        0.5,
+        1.5
+      ],
+      "minimum_actions_per_train_core_garment": 3,
+      "minimum_effective_cameras_per_train_core_garment": 3,
+      "complete_action_camera_cross_product_required": false,
+      "garment_identity_minimum": null,
+      "garment_visibility": "head none; upper=intersection(formal upper,core); other=core",
+      "no_unproven_fixed_binding_exceptions": true,
+      "construction": "distributed editable contexts from the beginning; no singleton coverage patch strategy",
+      "test_action_camera_min10_diagnostic_and_soft_target_only": true,
+      "attribute_return_control": {
+        "definition": "edited target axis equals an ancestor value along selected source ancestry; implicit fork inheritance is not a return edit",
+        "proposal_target_weights": {
+          "new_value": 1.0,
+          "immediately_replaced_value": 0.05,
+          "older_ancestor_value": 0.2,
+          "other_branch_seen_value": 0.35
+        },
+        "axis_decay": 0.4,
+        "axis_target_availability": "multiply axis proposal by mean target novelty weight, then sample a target using novelty, capacity and exposure weights",
+        "weights_are_not_final_probabilities": true,
+        "whole_chain_acceptance": "preserve all baseline nodes and actual target coverage; retain .5-1.5 history frequency bounds; soft preference against explicit returns, chronological repeats and full-node revisits; no global prohibition on natural repeats",
+        "per_chain_distinct_axes": "not below that same baseline chain",
+        "initial_nodes_and_parent_positions": "exactly fixed per chain",
+        "identity_edit_count_max_relative_drift_from_v10": 0.02,
+        "each_nonidentity_axis_max_relative_drift_from_v10": 0.05,
+        "six_nonidentity_max_relative_deviation_from_mean": 0.1,
+        "formal_single_opportunity_fraction_guard": [
+          0.47,
+          0.53
+        ],
+        "maximum_directed_edge_use": 4,
+        "four_use_edge_fraction_max": 0.005,
+        "implicit_unedited_fork_resets_penalized": false,
+        "train_and_test_policy_identical": true
+      }
+    },
+    "all_baseline_chain_slots_preserved_exactly_once": true,
+    "evidence_status": "configuration_content_user_accepted; fresh_bounded_structure_frequency_inherited_reference_audits_passed; no_media_acceptance",
+    "prior_v9_method_review": {
+      "run_root": "%OUTPUT_ROOT%/dataset_action_camera_20261022_v9/",
+      "patch_route_adopted": false,
+      "reason": "coverage thresholds alone left concentration and singleton contexts; user requested construction-method discussion then authorized distributed rebuild",
+      "wardrobe_review": "wardrobe_diversity_review.json",
+      "formal_core_assets": 239,
+      "core_assets_only_one_content_state": 153,
+      "core_assets_only_one_identity": 184,
+      "core_assets_only_one_action": 155,
+      "core_assets_only_one_camera": 169,
+      "core_assets_only_one_site": 166,
+      "core_assets_at_most4_genuine_target_occurrences": 103
+    },
+    "wardrobe_binding_precheck": {
+      "formal_core_asset_count": 239,
+      "legal_visible_core_sets": 726,
+      "constructive_continuous_frequency_witness_found": true,
+      "min_ratio_to_own_mean": 0.6307783138716548,
+      "max_ratio_to_own_mean": 1.4601538265083043,
+      "scope": "wardrobe-domain continuous mixture only; not joint graph/session feasibility"
+    },
+    "primary_candidate_statistics": {
+      "train": {
+        "nodes": 5980,
+        "content_nodes": 5980,
+        "chains": 12000,
+        "edits": 43800,
+        "history_occurrences": 55800,
+        "render_nodes_by_aspect": {
+          "landscape": 3234,
+          "portrait": 2746
+        },
+        "chains_by_aspect": {
+          "landscape": 6388,
+          "portrait": 5612
+        },
+        "additional_aspect_versions": 0,
+        "unique_content_frequency_ranges": {
+          "identity": {
+            "values": 40,
+            "min_ratio": 0.8294314381270903,
+            "max_ratio": 1.2040133779264215
+          },
+          "action": {
+            "values": 25,
+            "min_ratio": 0.7525083612040134,
+            "max_ratio": 1.2332775919732442
+          },
+          "hair": {
+            "values": 28,
+            "min_ratio": 0.8802675585284281,
+            "max_ratio": 1.1752508361204013
+          },
+          "hair_color": {
+            "values": 7,
+            "min_ratio": 0.9821070234113711,
+            "max_ratio": 1.0394648829431437
+          },
+          "site": {
+            "values": 21,
+            "min_ratio": 0.8919732441471572,
+            "max_ratio": 1.127257525083612
+          },
+          "core_asset": {
+            "values": 239,
+            "min_ratio": 0.6381842456608812,
+            "max_ratio": 1.4131222582490939
+          }
+        },
+        "history_occurrence_frequency_ranges": {
+          "identity": {
+            "values": 40,
+            "min_ratio": 0.807168458781362,
+            "max_ratio": 1.2795698924731183
+          },
+          "action": {
+            "values": 25,
+            "min_ratio": 0.7267025089605734,
+            "max_ratio": 1.2871863799283154
+          },
+          "hair": {
+            "values": 28,
+            "min_ratio": 0.8525448028673835,
+            "max_ratio": 1.2088172043010752
+          },
+          "hair_color": {
+            "values": 7,
+            "min_ratio": 0.9079928315412186,
+            "max_ratio": 1.0489964157706093
+          },
+          "site": {
+            "values": 21,
+            "min_ratio": 0.84752688172043,
+            "max_ratio": 1.2114516129032258
+          },
+          "core_asset": {
+            "values": 239,
+            "min_ratio": 0.6419829217053211,
+            "max_ratio": 1.4663189690312197
+          }
+        },
+        "minimum_effective_cameras_per_action": 15,
+        "effective_action_camera_pairs": 443,
+        "genuinely_introduced_core": 239,
+        "semantic_edge_reuse": {
+          "ignores_aspect": true,
+          "unique_used_edges": 21600,
+          "edit_occurrences": 43800,
+          "mean": 2.0277777777777777,
+          "maximum": 4,
+          "histogram": {
+            "1": 7159,
+            "2": 6790,
+            "3": 7543,
+            "4": 108
+          },
+          "four_use_edge_fraction": 0.005,
+          "mean_target_2_5_is_soft": true,
+          "four_use_fraction_soft_target": 0.005,
+          "per_axis_mean": {
+            "camera": 2.207812023191944,
+            "action": 2.140454411330776,
+            "site": 2.1888062345023025,
+            "identity": 2.017229002153625,
+            "hair": 2.0881312319073655,
+            "hair_color": 2.130917401240614,
+            "wardrobe": 1.6064672239331281
+          }
+        },
+        "six_axis_max_relative_deviation": 0.09553549646255188,
+        "conditional_single_fraction": 0.4701163888015099,
+        "single_slot_total_variation": 0.02001784320285507,
+        "formal_slot_opportunities_missing_in_graph_fraction": 0.8478826590962858,
+        "L5_mean_distinct_axes": {
+          "all": 3.776764705882353,
+          "linear": 3.762,
+          "fork": 3.797857142857143
+        },
+        "explicit_ancestor_attribute_returns": {
+          "events": 2003,
+          "chains": 1584
+        },
+        "axis_edit_counts": {
+          "identity": 2810,
+          "hair": 6492,
+          "hair_color": 6527,
+          "wardrobe": 7303,
+          "action": 7254,
+          "camera": 7235,
+          "site": 6179
+        }
+      },
+      "test": {
+        "nodes": 1223,
+        "content_nodes": 1223,
+        "chains": 2400,
+        "edits": 8760,
+        "history_occurrences": 11160,
+        "render_nodes_by_aspect": {
+          "landscape": 652,
+          "portrait": 571
+        },
+        "chains_by_aspect": {
+          "portrait": 1148,
+          "landscape": 1252
+        },
+        "additional_aspect_versions": 0,
+        "unique_content_frequency_ranges": {
+          "identity": {
+            "values": 8,
+            "min_ratio": 0.8634505314799673,
+            "max_ratio": 1.2035977105478333
+          },
+          "action": {
+            "values": 6,
+            "min_ratio": 0.8192968111201963,
+            "max_ratio": 1.177432542927228
+          },
+          "hair": {
+            "values": 6,
+            "min_ratio": 0.937040065412919,
+            "max_ratio": 1.0596892886345053
+          },
+          "hair_color": {
+            "values": 7,
+            "min_ratio": 0.9157808667211774,
+            "max_ratio": 1.0645952575633688
+          },
+          "site": {
+            "values": 6,
+            "min_ratio": 0.8830744071954211,
+            "max_ratio": 1.2902698282910874
+          },
+          "core_asset": {
+            "values": 32,
+            "min_ratio": 0.8004764740917213,
+            "max_ratio": 1.1435378201310304
+          }
+        },
+        "history_occurrence_frequency_ranges": {
+          "identity": {
+            "values": 8,
+            "min_ratio": 0.8415770609318997,
+            "max_ratio": 1.1598566308243727
+          },
+          "action": {
+            "values": 6,
+            "min_ratio": 0.8301075268817204,
+            "max_ratio": 1.217741935483871
+          },
+          "hair": {
+            "values": 6,
+            "min_ratio": 0.8956989247311828,
+            "max_ratio": 1.1150537634408602
+          },
+          "hair_color": {
+            "values": 7,
+            "min_ratio": 0.9145161290322581,
+            "max_ratio": 1.1647849462365591
+          },
+          "site": {
+            "values": 6,
+            "min_ratio": 0.8134408602150538,
+            "max_ratio": 1.2489247311827958
+          },
+          "core_asset": {
+            "values": 32,
+            "min_ratio": 0.7474786908712343,
+            "max_ratio": 1.140998113084781
+          }
+        },
+        "minimum_effective_cameras_per_action": 17,
+        "effective_action_camera_pairs": 113,
+        "genuinely_introduced_core": 32,
+        "semantic_edge_reuse": {
+          "ignores_aspect": true,
+          "unique_used_edges": 4301,
+          "edit_occurrences": 8760,
+          "mean": 2.0367356428737504,
+          "maximum": 4,
+          "histogram": {
+            "1": 1424,
+            "2": 1316,
+            "3": 1540,
+            "4": 21
+          },
+          "four_use_edge_fraction": 0.004882585445245292,
+          "mean_target_2_5_is_soft": true,
+          "four_use_fraction_soft_target": 0.005,
+          "per_axis_mean": {
+            "wardrobe": 1.691358024691358,
+            "camera": 2.1988217967599413,
+            "identity": 1.8692307692307693,
+            "hair": 2.079804560260586,
+            "hair_color": 2.0613893376413572,
+            "site": 2.1713286713286712,
+            "action": 2.220720720720721
+          }
+        },
+        "six_axis_max_relative_deviation": 0.09934735315445975,
+        "conditional_single_fraction": 0.47047113470471136,
+        "single_slot_total_variation": 0.10366713681241185,
+        "formal_slot_opportunities_missing_in_graph_fraction": 0.7307921381774866,
+        "L5_mean_distinct_axes": {
+          "all": 3.7808823529411764,
+          "linear": 3.795,
+          "fork": 3.7607142857142857
+        },
+        "explicit_ancestor_attribute_returns": {
+          "events": 344,
+          "chains": 273
+        },
+        "axis_edit_counts": {
+          "identity": 486,
+          "hair": 1277,
+          "hair_color": 1276,
+          "wardrobe": 1507,
+          "action": 1479,
+          "camera": 1493,
+          "site": 1242
+        }
+      }
+    },
+    "actual_render_nodes_total": 7203,
+    "content_nodes_total": 7203,
+    "additional_aspect_versions": 0,
+    "actual_render_increase_vs_v8": 764,
+    "actual_render_fraction_increase_vs_v8": 0.11865196459077487,
+    "canonical_content_train_test_overlap": 0,
+    "structural_chain_train_test_overlap": 0,
+    "explicit_final_semantic_and_distribution_checks_passed": true,
+    "references": {
+      "unrendered_only": true,
+      "counts_by_kind": {
+        "motion": 809,
+        "scene": 893,
+        "identity": 40,
+        "hair": 112,
+        "wardrobe_piece": 564
+      },
+      "images": 1609,
+      "motion_videos": 809,
+      "checked_step_links": 52560
+    },
+    "selection_method": {
+      "source": "%OUTPUT_ROOT%/dataset_distributed_graph_20261022_v10/aspect_work/selected_candidate",
+      "train": "trial2/train_optimization.json",
+      "test": "trial2/test_optimization.json",
+      "trial1_selected": false,
+      "initial_nodes_and_all_parent_positions_preserved": true,
+      "graph_nodes_edges_render_requests_byte_identical": true,
+      "pure_unconditioned_decay04_sampling_claimed": false,
+      "weights_are_proposal_not_final_probabilities": true,
+      "implementation_guards_not_new_user_hard_contract": true
+    },
+    "previous_v10_result": {
+      "run_root": "%OUTPUT_ROOT%/dataset_distributed_graph_20261022_v10/",
+      "candidate": "aspect_work/selected_candidate",
+      "primary_candidate_statistics": {
+        "train": {
+          "nodes": 5980,
+          "content_nodes": 5980,
+          "chains": 12000,
+          "edits": 43800,
+          "history_occurrences": 55800,
+          "render_nodes_by_aspect": {
+            "landscape": 3234,
+            "portrait": 2746
+          },
+          "chains_by_aspect": {
+            "landscape": 6388,
+            "portrait": 5612
+          },
+          "additional_aspect_versions": 0,
+          "unique_content_frequency_ranges": {
+            "identity": {
+              "values": 40,
+              "min_ratio": 0.8294314381270903,
+              "max_ratio": 1.2040133779264215
+            },
+            "action": {
+              "values": 25,
+              "min_ratio": 0.7525083612040134,
+              "max_ratio": 1.2332775919732442
+            },
+            "hair": {
+              "values": 28,
+              "min_ratio": 0.8802675585284281,
+              "max_ratio": 1.1752508361204013
+            },
+            "hair_color": {
+              "values": 7,
+              "min_ratio": 0.9821070234113711,
+              "max_ratio": 1.0394648829431437
+            },
+            "site": {
+              "values": 21,
+              "min_ratio": 0.8919732441471572,
+              "max_ratio": 1.127257525083612
+            },
+            "core_asset": {
+              "values": 239,
+              "min_ratio": 0.6381842456608812,
+              "max_ratio": 1.4131222582490939
+            }
+          },
+          "history_occurrence_frequency_ranges": {
+            "identity": {
+              "values": 40,
+              "min_ratio": 0.7899641577060932,
+              "max_ratio": 1.2903225806451613
+            },
+            "action": {
+              "values": 25,
+              "min_ratio": 0.7168458781362007,
+              "max_ratio": 1.2768817204301075
+            },
+            "hair": {
+              "values": 28,
+              "min_ratio": 0.8234408602150538,
+              "max_ratio": 1.2635125448028675
+            },
+            "hair_color": {
+              "values": 7,
+              "min_ratio": 0.8984587813620072,
+              "max_ratio": 1.0478673835125447
+            },
+            "site": {
+              "values": 21,
+              "min_ratio": 0.802741935483871,
+              "max_ratio": 1.2231182795698923
+            },
+            "core_asset": {
+              "values": 239,
+              "min_ratio": 0.5981882919677454,
+              "max_ratio": 1.4867106503298775
+            }
+          },
+          "minimum_effective_cameras_per_action": 15,
+          "effective_action_camera_pairs": 443,
+          "genuinely_introduced_core": 239,
+          "semantic_edge_reuse": {
+            "ignores_aspect": true,
+            "unique_used_edges": 20496,
+            "edit_occurrences": 43800,
+            "mean": 2.1370023419203745,
+            "maximum": 4,
+            "histogram": {
+              "1": 6129,
+              "2": 5532,
+              "3": 8733,
+              "4": 102
+            },
+            "four_use_edge_fraction": 0.004976580796252928,
+            "mean_target_2_5_is_soft": true,
+            "four_use_fraction_soft_target": 0.005,
+            "per_axis_mean": {
+              "wardrobe": 1.7078320648170882,
+              "action": 2.272278855639592,
+              "identity": 2.2954363490792633,
+              "site": 2.27492130115425,
+              "hair_color": 2.174177053371684,
+              "camera": 2.291089108910891,
+              "hair": 2.18876404494382
+            }
+          },
+          "six_axis_max_relative_deviation": 0.04663718759924759,
+          "conditional_single_fraction": 0.4800527530497857,
+          "single_slot_total_variation": 0.014079670329670467,
+          "formal_slot_opportunities_missing_in_graph_fraction": 0.8478826590962858,
+          "L5_mean_distinct_axes": {
+            "all": 3.1773529411764705,
+            "linear": 3.161,
+            "fork": 3.2007142857142856
+          }
+        },
+        "test": {
+          "nodes": 1223,
+          "content_nodes": 1223,
+          "chains": 2400,
+          "edits": 8760,
+          "history_occurrences": 11160,
+          "render_nodes_by_aspect": {
+            "landscape": 652,
+            "portrait": 571
+          },
+          "chains_by_aspect": {
+            "portrait": 1148,
+            "landscape": 1252
+          },
+          "additional_aspect_versions": 0,
+          "unique_content_frequency_ranges": {
+            "identity": {
+              "values": 8,
+              "min_ratio": 0.8634505314799673,
+              "max_ratio": 1.2035977105478333
+            },
+            "action": {
+              "values": 6,
+              "min_ratio": 0.8192968111201963,
+              "max_ratio": 1.177432542927228
+            },
+            "hair": {
+              "values": 6,
+              "min_ratio": 0.937040065412919,
+              "max_ratio": 1.0596892886345053
+            },
+            "hair_color": {
+              "values": 7,
+              "min_ratio": 0.9157808667211774,
+              "max_ratio": 1.0645952575633688
+            },
+            "site": {
+              "values": 6,
+              "min_ratio": 0.8830744071954211,
+              "max_ratio": 1.2902698282910874
+            },
+            "core_asset": {
+              "values": 32,
+              "min_ratio": 0.8004764740917213,
+              "max_ratio": 1.1435378201310304
+            }
+          },
+          "history_occurrence_frequency_ranges": {
+            "identity": {
+              "values": 8,
+              "min_ratio": 0.807168458781362,
+              "max_ratio": 1.1849462365591399
+            },
+            "action": {
+              "values": 6,
+              "min_ratio": 0.8231182795698925,
+              "max_ratio": 1.1725806451612903
+            },
+            "hair": {
+              "values": 6,
+              "min_ratio": 0.875268817204301,
+              "max_ratio": 1.113978494623656
+            },
+            "hair_color": {
+              "values": 7,
+              "min_ratio": 0.8931899641577061,
+              "max_ratio": 1.1911290322580645
+            },
+            "site": {
+              "values": 6,
+              "min_ratio": 0.7548387096774194,
+              "max_ratio": 1.3005376344086022
+            },
+            "core_asset": {
+              "values": 32,
+              "min_ratio": 0.7049828290027862,
+              "max_ratio": 1.2420138663902027
+            }
+          },
+          "minimum_effective_cameras_per_action": 17,
+          "effective_action_camera_pairs": 113,
+          "genuinely_introduced_core": 32,
+          "semantic_edge_reuse": {
+            "ignores_aspect": true,
+            "unique_used_edges": 4148,
+            "edit_occurrences": 8760,
+            "mean": 2.111861137897782,
+            "maximum": 4,
+            "histogram": {
+              "1": 1274,
+              "2": 1143,
+              "3": 1724,
+              "4": 7
+            },
+            "four_use_edge_fraction": 0.0016875602700096432,
+            "mean_target_2_5_is_soft": true,
+            "four_use_fraction_soft_target": 0.005,
+            "per_axis_mean": {
+              "camera": 2.317741935483871,
+              "action": 2.3563218390804597,
+              "hair": 2.0838509316770186,
+              "site": 2.13255033557047,
+              "hair_color": 2.050381679389313,
+              "identity": 2.190265486725664,
+              "wardrobe": 1.800751879699248
+            }
+          },
+          "six_axis_max_relative_deviation": 0.07731397459165154,
+          "conditional_single_fraction": 0.47390396659707723,
+          "single_slot_total_variation": 0.09177679882525698,
+          "formal_slot_opportunities_missing_in_graph_fraction": 0.7307921381774866,
+          "L5_mean_distinct_axes": {
+            "all": 3.15,
+            "linear": 3.1725,
+            "fork": 3.117857142857143
+          }
+        }
+      },
+      "selection_method": {
+        "train": "trial12/candidate4/SELECTION.json",
+        "test": "test_work/trial12/candidate3/repair_trace.json",
+        "train_unique_chain_pool": 35621,
+        "train_same_kind_length_start_camera_swaps": 673,
+        "pure_unconditioned_decay04_sampling_claimed": false,
+        "unselected_candidate5_is_not_current": true
+      },
+      "references": {
+        "unrendered_only": true,
+        "counts_by_kind": {
+          "scene": 893,
+          "motion": 789,
+          "wardrobe_piece": 564,
+          "identity": 40,
+          "hair": 112
+        },
+        "images": 1609,
+        "motion_videos": 789,
+        "checked_step_links": 52560
+      },
+      "limitations": {
+        "user_adoption": "pending",
+        "final_media_profile": "unfrozen",
+        "camera_binding_scope": "existing orientation-specific local trajectory template, not final site world trajectory",
+        "motion_reference_carrier_and_exact_scene_initial_frame_pending": true,
+        "per_value_frequency_uniformity_claimed": false,
+        "action_camera_coverage_sufficient_claimed": false,
+        "graph_redesign_authorized_in_this_change": true,
+        "per_aspect_slot_balance_not_all_uniform": true,
+        "reuse_near_two_is_soft": true,
+        "sampling_stability": "not_assessed; multiple feedback/selection candidates are not independent-seed stability",
+        "L5_axis_diversity_tradeoff": {
+          "v10": {
+            "train": {
+              "all": 3.1773529411764705,
+              "linear": 3.161,
+              "fork": 3.2007142857142856
+            },
+            "test": {
+              "all": 3.15,
+              "linear": 3.1725,
+              "fork": 3.117857142857143
+            }
+          },
+          "v8_baseline": {
+            "train": 3.9502941176470587,
+            "test": 3.588235294117647
+          }
+        },
+        "mean_reuse_2_5_soft_target_not_exactly_reached": true,
+        "no_per_aspect_full_value_frequency_acceptance_claim": true,
+        "media_and_training_unstarted": true
+      }
+    },
+    "configuration_content_accepted": true,
+    "user_acceptance": {
+      "date": "2026-10-22",
+      "statement": "没关系，现在这样就可以了。",
+      "scope": "v11 configuration and content only",
+      "media_quality_accepted": false,
+      "production_gate_promoted": false
+    },
+    "bounded_reaudit_20261022": {
+      "report": "review_20261022/AUDIT_REPORT.md",
+      "passed_offline_checks": true,
+      "candidate_resampling_required": false,
+      "configuration_content_accepted": true,
+      "sex_and_fork_nominal_proposals_are_not_claimed_final_probabilities": true,
+      "train_start_chain_sex": {
+        "male": 5284,
+        "female": 6716
+      },
+      "per_aspect_six_axis_max_relative_deviation": {
+        "train": {
+          "landscape": 0.0841112857010815,
+          "portrait": 0.13445638693675077
+        },
+        "test": {
+          "landscape": 0.11287313432835822,
+          "portrait": 0.1209232313095836
+        }
+      },
+      "per_aspect_six_axis_ten_percent_hard_gate_exists": false,
+      "reference_documentation_issue": "REFERENCES.md aspect-unfrozen wording corrected; original reference_findings retained",
+      "render_media_accepted": false,
+      "UE_binary_assets_rehashed": false,
+      "full_repository_audit_run": false
+    },
+    "media_profile": {
+      "path": "render_preparation/VIDEO_PROFILE.json",
+      "schema_version": 1,
+      "status": "local_clarity_and_reference_presentation_accepted_reference_execution_server_pending",
+      "confirmed_date": "2026-10-22",
+      "applies_to": [
+        "main_video",
+        "motion_reference_video"
+      ],
+      "duration_seconds": 10,
+      "fps": 30,
+      "output_frame_count": 300,
+      "resolution": {
+        "landscape": {
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "width": 1080,
+          "height": 1920
+        }
+      },
+      "pending": [
+        "server_exact_build_plugins_and_resource_profile",
+        "local_render_and_server_sample_comparison",
+        "remaining_current_reference_plan_execution",
+        "user_current_four_shared_hair_image_review"
+      ],
+      "render_started": true,
+      "scope": "Next-stage media settings; does not modify adopted v11 nodes, edges, sessions or reference demand.",
+      "scene_reference_images": {
+        "status": "confirmed",
+        "resolution": {
+          "landscape": {
+            "width": 1920,
+            "height": 1080
+          },
+          "portrait": {
+            "width": 1080,
+            "height": 1920
+          }
+        },
+        "matches_corresponding_video": true,
+        "contains_character": false
+      },
+      "canonical_reference_images": {
+        "status": "confirmed",
+        "applies_to": [
+          "identity",
+          "hair",
+          "wardrobe_piece"
+        ],
+        "width": 1024,
+        "height": 1024,
+        "one_image_per_view": true,
+        "collage": false,
+        "framing": "Keep the target face, hairstyle or garment complete and as large as practical within the frame."
+      },
+      "output_format": {
+        "reference_images": "PNG",
+        "video_container": "MP4",
+        "video_codec": "H.264",
+        "crf_initial_sample": 16,
+        "same_video_encoding_for_main_and_motion_references": true,
+        "render_intermediate": "PNG_sequence",
+        "retention": "Keep final MP4 videos and reference images; intermediate frames may be cleaned only after successful encoding and confirming video usability; retain a small original-frame sample for comparison.",
+        "remaining_encoder_details": "Current local MP4 clarity accepted by user; encoding profile retained. No new encoder adjustment required for clarity.",
+        "compression_quality_validated": false,
+        "encoder": "libx264",
+        "preset": "medium",
+        "pixel_format": "yuv420p",
+        "audio": false,
+        "faststart": true,
+        "reference_png_bits_per_channel": 8,
+        "intermediate_png_bits_per_channel": 8,
+        "video_png_write_alpha": false,
+        "reference_png_background": "use approved reference presentation; garment-only does not imply transparent background",
+        "color_conversion_policy": "opaque RGB/RGBA PNG -> discard alpha -> full-range RGB to BT.709 limited-range yuv420p; libx264 CRF16 medium",
+        "actual_local_png_channels": "RGBA, fully opaque in sampled frames despite write_alpha=False",
+        "local_color_spotcheck": "00_engine/outputs/dataset_render_pilot_20261023_v1/COLOR_SPOTCHECK.json",
+        "compression_quality_validation_scope": "User accepted corrected local MP4 clarity; not a separate colorimetric or cross-platform validation."
+      },
+      "motion_timing": {
+        "mode": "production10",
+        "status": "existing_10_second_motion_processing_completed_reuse_without_retiming",
+        "active_actions": 25,
+        "sex_variants": 50,
+        "fps": 30,
+        "duration_seconds": 10,
+        "output_frames": 300,
+        "contract_path": "00_engine/assets/character_creator/production_motion_library_20261017_v1.json",
+        "runtime_pointer_path": "00_engine/outputs/production_workflow_20261017_v1/production_motion_formal_runtime_active_v1.json",
+        "main_and_motion_reference_policy": "Use the same existing production10 motion and clock for the corresponding action/sex; do not reapply original-source slowdown, repeats or holds to the baked asset.",
+        "render_integration_status": "main_12_clips_use_baked_production10_rate1_start0; dedicated_motion_reference_not_rendered",
+        "dedicated_reference_integration_status": "4_current_policy_production10_reference_pilots_technical_pass_no_rebake"
+      },
+      "render_quality": {
+        "render_pass": "deferred",
+        "spatial_sample_count": 1,
+        "temporal_sample_count": 1,
+        "anti_aliasing_policy": "explicit TSR (r.AntiAliasingMethod=4), screen percentage100, dynamic resolution disabled",
+        "legacy_actual_aa_method": "not recorded in historical render receipt",
+        "local_engine_default_aa_method": "TSR; project/camera overrides can differ",
+        "motion_blur_cvars": {
+          "r.MotionBlurQuality": 0,
+          "r.MotionBlur.Amount": 0
+        },
+        "engine_warm_up_count": 120,
+        "render_warm_up_count": 32,
+        "render_warm_up_frames": true,
+        "use_camera_cut_for_warm_up": false,
+        "warmup_advances_output_clock": false,
+        "cinematic_quality_settings": false,
+        "texture_streaming": "MRQ_FULLY_LOAD_used_textures",
+        "texture_streaming_policy_status": "controlled_cold_cache_AB_and_corrected_12_main_6_reference_complete_user_clarity_accepted",
+        "previous_texture_streaming": "preserve_project_streaming; rejected because cold-cache used textures remained at 64x64 despite bounded warmup",
+        "renderer_policy_version": 2,
+        "texture_residency_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+        "texture_policy_boundary": "FULLY_LOAD used textures per MRQ job; local corrected clips completed and clarity accepted. Server VRAM/cost remains to be measured.",
+        "assembled_hair_material_persistence": "dataset_persistent_materials_v2 saved owned MICs; six bindings matched after actual map reload; corrected main/reference rendering completed",
+        "force_lod_zero": false,
+        "disable_hlods": false,
+        "force_high_quality_shadows": false,
+        "override_view_distance_scale": false,
+        "flush_streaming_managers": false,
+        "flush_grass_streaming": false,
+        "exposure": "inherit saved source map postprocess; clear camera exposure overrides; do not restore old site EV",
+        "depth_of_field_bloom_tonemapping": "inherit current accepted map/project/camera settings; record actual settings in local pilot; no extra grading",
+        "resolution_binding": "apply final output resolution without multiplying accepted camera distances or changing aspect-specific trajectories",
+        "resolved_cvars": {
+          "r.AntiAliasingMethod": 4,
+          "r.ScreenPercentage": 100,
+          "r.DynamicRes.OperationMode": 0,
+          "r.DynamicGlobalIlluminationMethod": 1,
+          "r.ReflectionMethod": 1,
+          "r.Shadow.Virtual.Enable": 1,
+          "sg.ViewDistanceQuality": 3,
+          "sg.AntiAliasingQuality": 3,
+          "sg.ShadowQuality": 3,
+          "sg.GlobalIlluminationQuality": 3,
+          "sg.ReflectionQuality": 3,
+          "sg.PostProcessQuality": 3,
+          "sg.TextureQuality": 3,
+          "sg.EffectsQuality": 3,
+          "sg.FoliageQuality": 3
+        },
+        "resolved_settings_evidence": "Controlled runtime CVar/residency A/B, corrected render_contract receipts and MATERIAL_RELOAD_CHECK.json under dataset_texture_quality_20261023_v1; server readback pending.",
+        "texture_readiness_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+        "persistent_material_policy": "dataset_persistent_materials_v2"
+      },
+      "execution_plan": "RENDER_EXECUTION_PLAN.md",
+      "basis": [
+        "00_engine/outputs/production_workflow_20261017_v1/render_receipts/serial4_2b93498ca0_1.json",
+        "00_engine/outputs/production_workflow_20261017_v1/media_receipts/formal_trial_2_front_full.json",
+        "00_engine/outputs/render_readiness_20261021_v1/HANDOFF.md",
+        "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+        "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md"
+      ],
+      "formal_production_render_started": false,
+      "last_updated": "2026-10-23",
+      "local_pilot": {
+        "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+        "main_clips": 12,
+        "reference_image_prototypes": 6,
+        "technical_media_pass": true,
+        "user_visual_acceptance": true,
+        "linux_tested": false,
+        "old_pilot_quality_rejected": true,
+        "quality_report": "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md",
+        "user_visual_acceptance_scope": "corrected_local_video_and_image_clarity"
+      },
+      "texture_quality_validation": {
+        "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1",
+        "status": "corrected_local_media_complete_user_clarity_accepted",
+        "controlled_fixture": "same freshly assembled black-hair reference map, camera, light, AA and 1024x1024 output",
+        "warm_cache_result": "both inherited-streaming and FULLY_LOAD runs already had clear/full resident textures; warm-only comparisons do not establish the defect",
+        "cold_cache_result": {
+          "face_diffuse": {
+            "inherited_resident": [
+              64,
+              64
+            ],
+            "fully_load_resident": [
+              2048,
+              2048
+            ]
+          },
+          "hair_base_color_and_opacity": {
+            "inherited_resident": [
+              64,
+              64
+            ],
+            "fully_load_resident": [
+              2048,
+              2048
+            ]
+          },
+          "dress_diffuse_and_normal": {
+            "inherited_resident": [
+              64,
+              64
+            ],
+            "fully_load_resident": [
+              4096,
+              4096
+            ]
+          }
+        },
+        "runtime_readback": {
+          "inherited_fully_load_used_textures": 0,
+          "fully_load_fully_load_used_textures": 1,
+          "texture_streaming_enabled_both": 1,
+          "pool_size_mb_both": 10240
+        },
+        "corrected_run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+        "corrected_main_clips_planned": 12,
+        "corrected_main_clips_complete_at_report_snapshot": 12,
+        "latest_recorded_blocker": null,
+        "driver_resume_guard": "11 focused tests passed; successful media must match current renderer signature and bind to actual completed MRQ receipt; legacy successful MP4 cannot bypass changed rendering policy; valid current-policy MP4 may resume after raw cleanup",
+        "quality_accepted": true,
+        "linux_tested": false,
+        "corrected_reference_images_complete": 6,
+        "quality_acceptance_scope": "corrected_local_video_and_image_clarity"
+      },
+      "user_clarity_acceptance": {
+        "date": "2026-10-23",
+        "source": "user_current_conversation",
+        "statement": "现在修正之后的视频和图片的清晰度足够了",
+        "scope": "corrected_local_video_and_image_clarity",
+        "accepted": true,
+        "does_not_approve": [
+          "reference_presentation_design",
+          "server_rendering",
+          "formal_full_dataset"
+        ]
+      },
+      "motion_reference_presentation": {
+        "status": "assets_selected_4_current_policy_pilot_technical_pass_new_media_review_pending",
+        "confirmed_date": "2026-10-23",
+        "carrier": "one_fixed_existing_male_and_one_fixed_existing_female_matched_to_motion_sex",
+        "carrier_changes_per_action": false,
+        "wardrobe": "fixed_clear_silhouette_top_trousers_shoes; avoid_long_skirts_and_loose_outerwear",
+        "hair": "fixed_short_hair; keep_shoulders_and_back_visible",
+        "background": "neutral_gray_with_simple_ground",
+        "lighting": "fixed_soft_lighting",
+        "camera": "one_video_per_demanded_motion_camera_combination_with_corresponding_aspect_ratio",
+        "timing": "same_production10_asset_speed1_start0_as_main; 10s_30fps_300frames",
+        "selected_character_ids": {
+          "female": "CFD40_AF_001",
+          "male": "CFD40_AM_001"
+        },
+        "selected_wardrobe_ids": {
+          "female": {
+            "family_id": "female.workout_color_outfits",
+            "group_id": "default",
+            "slot_choices": {
+              "full_body": "female.workout_color_outfits.asset.d973df56c996"
+            },
+            "optional_asset_ids": [],
+            "shared_shoe_id": "F003",
+            "hair_id": "HAIR_HB1_02"
+          },
+          "male": {
+            "family_id": "male.workout",
+            "group_id": "default",
+            "slot_choices": {
+              "shirts": "male.workout.asset.79f65ef7f08f",
+              "pants": "male.workout.asset.f991c0f529d5",
+              "shoes": "male.workout.asset.ee823988cfc1"
+            },
+            "optional_asset_ids": [],
+            "shared_shoe_id": null,
+            "hair_id": "HAIR_HB3_02"
+          }
+        },
+        "selected_hair_ids": {
+          "female": "HAIR_HB1_02",
+          "male": "HAIR_HB3_02"
+        },
+        "asset_selection": "choose_suitable_legal_existing_assets_during_implementation",
+        "information_scope": "reference supplies motion; source video supplies identity clothing hair and scene",
+        "carrier_configuration": "00_engine/outputs/dataset_reference_production_20261023_v1/motion_carriers.json"
+      },
+      "static_reference_presentation": {
+        "status": "shared_hair_four_images_technical_pass_user_review_pending",
+        "confirmed_date": "2026-10-23",
+        "basis": "user_accepted_existing_corrected_sample_presentation",
+        "canonical_background": "neutral_gray",
+        "canonical_lighting": "soft_fixed_lighting",
+        "identity": "two_different_existing_hairstyles_per_identity_all_silver_white_select_one_per_identity_step",
+        "hair": "same_head_relative_camera_both_sexes; most_hair_visible_longest_may_crop; fixed_simple_gray_clothes; retain_two_carriers_front_back_groups",
+        "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+        "scene": "target_scene_corresponding_camera_first_frame_without_character",
+        "canonical_resolution": [
+          1024,
+          1024
+        ],
+        "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+        "changes_to_existing_reference_views_or_counts": true,
+        "identity_hair_color": "silver_white",
+        "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+        "identity_garments_present": false,
+        "hair_garments_present": true,
+        "identity_reference_pool_count": 40,
+        "identity_reference_image_count": 80,
+        "hair_neutral_garment_color": true,
+        "hair_camera": {
+          "policy": "shared_head_shoulders",
+          "distance_cm": 110,
+          "center_z_relative_to_head_cm": 3,
+          "horizontal_fov_degrees": 28,
+          "width": 1024,
+          "height": 1024,
+          "same_numeric_parameters_both_sexes": true,
+          "coverage": "most hair including majority of long hair; longest styles may crop"
+        },
+        "hair_clothing_configuration": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_carrier_clothing.json"
+      },
+      "reference_execution": {
+        "status": "four_hair_images_technical_pass_user_review_pending",
+        "full_plan_ready": true,
+        "full_reference_tasks": 2458,
+        "static_tasks": 1649,
+        "motion_tasks": 809,
+        "identity_portraits": 80,
+        "hair_reference_images": 112,
+        "verified_unique_pilot_tasks": 4,
+        "static_pilot_images": 4,
+        "motion_pilot_clips": 0,
+        "remaining_current_run_tasks": 2454,
+        "new_pilot_visual_acceptance": "pending",
+        "server_verified": false,
+        "focused_tests_passed": 27,
+        "run_root": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3",
+        "report": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REPORT.md",
+        "review": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REVIEW.md",
+        "result": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/EXECUTION_RESULT.json",
+        "full_reference_media_completed": false,
+        "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+        "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+        "prior_accepted_other_samples": 8
+      },
+      "reference_execution_history": [
+        {
+          "full_plan_ready": true,
+          "full_reference_tasks": 2418,
+          "static_tasks": 1609,
+          "motion_tasks": 809,
+          "verified_unique_pilot_tasks": 11,
+          "motion_pilot_clips": 4,
+          "static_pilot_images": 7,
+          "remaining_full_tasks": 2407,
+          "new_pilot_visual_acceptance": "pending",
+          "server_verified": false,
+          "run_root": "00_engine/outputs/dataset_reference_production_20261023_v1",
+          "report": "00_engine/outputs/dataset_reference_production_20261023_v1/REPORT.md",
+          "review": "00_engine/outputs/dataset_reference_production_20261023_v1/REVIEW.md",
+          "result": "00_engine/outputs/dataset_reference_production_20261023_v1/EXECUTION_RESULT.json",
+          "implementation_status": "full_reference_execution_entry_ready",
+          "motion_carrier_selection": "configured",
+          "full_reference_media_completed": false,
+          "focused_tests_passed": 31
+        },
+        {
+          "status": "six_current_policy_images_technical_pass_user_review_pending",
+          "full_plan_ready": true,
+          "full_reference_tasks": 2458,
+          "static_tasks": 1649,
+          "motion_tasks": 809,
+          "identity_logical_requirements": 40,
+          "identity_portraits": 80,
+          "verified_unique_pilot_tasks": 6,
+          "static_pilot_images": 6,
+          "motion_pilot_clips": 0,
+          "remaining_current_run_tasks": 2452,
+          "prior_accepted_other_samples": 8,
+          "new_pilot_visual_acceptance": "pending",
+          "server_verified": false,
+          "focused_tests_passed": 26,
+          "run_root": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+          "report": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REPORT.md",
+          "review": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REVIEW.md",
+          "result": "00_engine/outputs/dataset_reference_portraits_20261023_v2/EXECUTION_RESULT.json",
+          "full_reference_media_completed": false,
+          "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+          "current_run_scope": "six_portrait_images_only"
+        }
+      ]
+    },
+    "render_preparation": {
+      "plan": "render_preparation/RENDER_EXECUTION_PLAN.md",
+      "local_machine": "render_preparation/MACHINE_LOCAL.json",
+      "server_machine_template": "render_preparation/MACHINE_SERVER.template.json",
+      "local_engine_version": "5.8.1",
+      "server_os_user_confirmed": "Linux",
+      "server_exact_engine_version": "not_read_user_will_sync_5.8.1",
+      "parameterized_executor_status": "main_executor_local_clarity_accepted_full_reference_executor_pending",
+      "local_pilot_completed": true,
+      "server_upload_started": false,
+      "local_pilot": {
+        "root": "00_engine/outputs/dataset_render_pilot_20261023_v1",
+        "main_clips": 12,
+        "reference_image_prototypes": 6,
+        "report": "00_engine/outputs/dataset_render_pilot_20261023_v1/PILOT_REPORT.json",
+        "review": "00_engine/outputs/dataset_render_pilot_20261023_v1/REVIEW.md",
+        "resume_passed": true,
+        "portable_bootstrap_windows_tested": true,
+        "server_tested": false,
+        "quality_accepted_by_user": false,
+        "dedicated_motion_reference_rendered": false,
+        "visual_quality_rejected": true,
+        "scope": "old12 retained technical decode/resume evidence; corrected review supersedes old quality"
+      },
+      "ue_modification_scope": "Owned capture maps/sequences/reference stages only; user source maps/sites/exposure not saved or changed",
+      "texture_quality_correction": {
+        "root": "00_engine/outputs/dataset_texture_quality_20261023_v1",
+        "corrected_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+        "main_clips": 12,
+        "reference_prototypes": 6,
+        "report": "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md",
+        "review": "00_engine/outputs/dataset_texture_quality_20261023_v1/REVIEW.md",
+        "user_quality_accepted": true,
+        "server_verified": false,
+        "old_12_visual_quality_rejected": true,
+        "user_quality_acceptance_scope": "corrected_local_video_and_image_clarity",
+        "user_acceptance": {
+          "date": "2026-10-23",
+          "source": "user_current_conversation",
+          "statement": "现在修正之后的视频和图片的清晰度足够了",
+          "scope": "corrected_local_video_and_image_clarity",
+          "accepted": true,
+          "does_not_approve": [
+            "reference_presentation_design",
+            "server_rendering",
+            "formal_full_dataset"
+          ]
+        }
+      },
+      "motion_reference_presentation": {
+        "status": "assets_selected_4_current_policy_pilot_technical_pass_new_media_review_pending",
+        "confirmed_date": "2026-10-23",
+        "carrier": "one_fixed_existing_male_and_one_fixed_existing_female_matched_to_motion_sex",
+        "carrier_changes_per_action": false,
+        "wardrobe": "fixed_clear_silhouette_top_trousers_shoes; avoid_long_skirts_and_loose_outerwear",
+        "hair": "fixed_short_hair; keep_shoulders_and_back_visible",
+        "background": "neutral_gray_with_simple_ground",
+        "lighting": "fixed_soft_lighting",
+        "camera": "one_video_per_demanded_motion_camera_combination_with_corresponding_aspect_ratio",
+        "timing": "same_production10_asset_speed1_start0_as_main; 10s_30fps_300frames",
+        "selected_character_ids": {
+          "female": "CFD40_AF_001",
+          "male": "CFD40_AM_001"
+        },
+        "selected_wardrobe_ids": {
+          "female": {
+            "family_id": "female.workout_color_outfits",
+            "group_id": "default",
+            "slot_choices": {
+              "full_body": "female.workout_color_outfits.asset.d973df56c996"
+            },
+            "optional_asset_ids": [],
+            "shared_shoe_id": "F003",
+            "hair_id": "HAIR_HB1_02"
+          },
+          "male": {
+            "family_id": "male.workout",
+            "group_id": "default",
+            "slot_choices": {
+              "shirts": "male.workout.asset.79f65ef7f08f",
+              "pants": "male.workout.asset.f991c0f529d5",
+              "shoes": "male.workout.asset.ee823988cfc1"
+            },
+            "optional_asset_ids": [],
+            "shared_shoe_id": null,
+            "hair_id": "HAIR_HB3_02"
+          }
+        },
+        "selected_hair_ids": {
+          "female": "HAIR_HB1_02",
+          "male": "HAIR_HB3_02"
+        },
+        "asset_selection": "choose_suitable_legal_existing_assets_during_implementation",
+        "information_scope": "reference supplies motion; source video supplies identity clothing hair and scene",
+        "carrier_configuration": "00_engine/outputs/dataset_reference_production_20261023_v1/motion_carriers.json"
+      },
+      "static_reference_presentation": {
+        "status": "shared_hair_four_images_technical_pass_user_review_pending",
+        "confirmed_date": "2026-10-23",
+        "basis": "user_accepted_existing_corrected_sample_presentation",
+        "canonical_background": "neutral_gray",
+        "canonical_lighting": "soft_fixed_lighting",
+        "identity": "two_different_existing_hairstyles_per_identity_all_silver_white_select_one_per_identity_step",
+        "hair": "same_head_relative_camera_both_sexes; most_hair_visible_longest_may_crop; fixed_simple_gray_clothes; retain_two_carriers_front_back_groups",
+        "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+        "scene": "target_scene_corresponding_camera_first_frame_without_character",
+        "canonical_resolution": [
+          1024,
+          1024
+        ],
+        "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+        "changes_to_existing_reference_views_or_counts": true,
+        "identity_hair_color": "silver_white",
+        "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+        "identity_garments_present": false,
+        "hair_garments_present": true,
+        "identity_reference_pool_count": 40,
+        "identity_reference_image_count": 80,
+        "hair_neutral_garment_color": true,
+        "hair_camera": {
+          "policy": "shared_head_shoulders",
+          "distance_cm": 110,
+          "center_z_relative_to_head_cm": 3,
+          "horizontal_fov_degrees": 28,
+          "width": 1024,
+          "height": 1024,
+          "same_numeric_parameters_both_sexes": true,
+          "coverage": "most hair including majority of long hair; longest styles may crop"
+        },
+        "hair_clothing_configuration": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_carrier_clothing.json"
+      },
+      "reference_execution": {
+        "status": "four_hair_images_technical_pass_user_review_pending",
+        "full_plan_ready": true,
+        "full_reference_tasks": 2458,
+        "static_tasks": 1649,
+        "motion_tasks": 809,
+        "identity_portraits": 80,
+        "hair_reference_images": 112,
+        "verified_unique_pilot_tasks": 4,
+        "static_pilot_images": 4,
+        "motion_pilot_clips": 0,
+        "remaining_current_run_tasks": 2454,
+        "new_pilot_visual_acceptance": "pending",
+        "server_verified": false,
+        "focused_tests_passed": 27,
+        "run_root": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3",
+        "report": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REPORT.md",
+        "review": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REVIEW.md",
+        "result": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/EXECUTION_RESULT.json",
+        "full_reference_media_completed": false,
+        "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+        "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+        "prior_accepted_other_samples": 8
+      },
+      "reference_execution_history": [
+        {
+          "full_plan_ready": true,
+          "full_reference_tasks": 2418,
+          "static_tasks": 1609,
+          "motion_tasks": 809,
+          "verified_unique_pilot_tasks": 11,
+          "motion_pilot_clips": 4,
+          "static_pilot_images": 7,
+          "remaining_full_tasks": 2407,
+          "new_pilot_visual_acceptance": "pending",
+          "server_verified": false,
+          "run_root": "00_engine/outputs/dataset_reference_production_20261023_v1",
+          "report": "00_engine/outputs/dataset_reference_production_20261023_v1/REPORT.md",
+          "review": "00_engine/outputs/dataset_reference_production_20261023_v1/REVIEW.md",
+          "result": "00_engine/outputs/dataset_reference_production_20261023_v1/EXECUTION_RESULT.json",
+          "implementation_status": "full_reference_execution_entry_ready",
+          "motion_carrier_selection": "configured",
+          "full_reference_media_completed": false,
+          "focused_tests_passed": 31
+        },
+        {
+          "status": "six_current_policy_images_technical_pass_user_review_pending",
+          "full_plan_ready": true,
+          "full_reference_tasks": 2458,
+          "static_tasks": 1649,
+          "motion_tasks": 809,
+          "identity_logical_requirements": 40,
+          "identity_portraits": 80,
+          "verified_unique_pilot_tasks": 6,
+          "static_pilot_images": 6,
+          "motion_pilot_clips": 0,
+          "remaining_current_run_tasks": 2452,
+          "prior_accepted_other_samples": 8,
+          "new_pilot_visual_acceptance": "pending",
+          "server_verified": false,
+          "focused_tests_passed": 26,
+          "run_root": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+          "report": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REPORT.md",
+          "review": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REVIEW.md",
+          "result": "00_engine/outputs/dataset_reference_portraits_20261023_v2/EXECUTION_RESULT.json",
+          "full_reference_media_completed": false,
+          "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+          "current_run_scope": "six_portrait_images_only"
+        }
+      ]
+    }
+  }
+}

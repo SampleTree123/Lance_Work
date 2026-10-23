@@ -1,0 +1,69 @@
+{
+  "schema": "trial_reference_summary_20261021_v1",
+  "candidate": "selected_candidate",
+  "seed": 20261022,
+  "media_generated": false,
+  "reference_count_against_main_node_budget": false,
+  "unique_reference_items": 1155,
+  "unique_images": 1002,
+  "unique_motion_clips": 153,
+  "unique_reference_items_by_kind": {
+    "hair": 112,
+    "wardrobe_piece": 574,
+    "motion": 153,
+    "scene": 276,
+    "identity": 40
+  },
+  "unique_hair_ids": 28,
+  "hair_photos_per_unique_hair": 4,
+  "hair_carrier_pairs_per_unique_hair": 2,
+  "reference_link_occurrences": 52560,
+  "unique_used_edges": 32621,
+  "split_counts": {
+    "train": {
+      "sessions": 12000,
+      "edit_step_occurrences": 43800,
+      "axis_hair": 6681,
+      "axis_wardrobe": 6810,
+      "axis_camera": 6810,
+      "no_media_link_occurrences": 13393,
+      "axis_action": 6422,
+      "axis_site": 6676,
+      "axis_hair_color": 6583,
+      "axis_identity": 3818,
+      "unique_used_edges": 27299,
+      "unique_selected_reference_items": 983
+    },
+    "test": {
+      "sessions": 2400,
+      "edit_step_occurrences": 8760,
+      "axis_identity": 829,
+      "axis_hair_color": 1362,
+      "no_media_link_occurrences": 2724,
+      "axis_action": 1261,
+      "axis_camera": 1362,
+      "axis_site": 1322,
+      "axis_hair": 1262,
+      "axis_wardrobe": 1362,
+      "unique_used_edges": 5322,
+      "unique_selected_reference_items": 276
+    }
+  },
+  "reference_pool_shared_across_splits": true,
+  "hair_carrier_variants_add_structural_sessions": false,
+  "all_media_paths_null": true,
+  "motion_carrier_status": "pending_user_freeze",
+  "scene_initial_frames_status": "symbolic_demands_pending_exact_final_transform",
+  "unfrozen": [
+    "identity_reference_generation_implementation",
+    "hair_reference_generation_implementation",
+    "wardrobe_reference_generation_implementation",
+    "motion_reference_generation_implementation",
+    "reference_and_edit_text_templates",
+    "motion_carrier",
+    "resolution",
+    "fps",
+    "duration"
+  ],
+  "count_scope": "actual_session_used_edges_only; media requirement dedup; not rendered file count"
+}

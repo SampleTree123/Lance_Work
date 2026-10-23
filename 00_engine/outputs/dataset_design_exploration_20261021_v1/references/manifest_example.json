@@ -1,0 +1,445 @@
+{
+  "schema_status": "illustrative_subset_of_demand_not_frozen",
+  "input_snapshot_sha256s": {
+    "topology_inventory_landscape.json": "10fcae84f4083b3e6eb9f94c02a2742b6349b48905f9f9b43d201067b7c90f38",
+    "site_review_catalog_v1.json": "08e21ce88f941634fa8b89ec0e45ed5f7825586e38ce53855bd4a69fffd966d8",
+    "main_scene_holdout_hybrid_train_graph.json": "a592a4c29a3e72dc7dff802357d1bc9a3f79eec383f370948763e87b8c7eda1b",
+    "main_scene_holdout_hybrid_train_sessions.jsonl": "a7f1b3bdf9a4abba6c774b36b044755fbac7d1d78b713427482fe04e5013cc11",
+    "main_scene_holdout_hybrid_test_graph.json": "695212a901c0dfc40308268adaecfc91fd40b8d94d13302a98e9545d5ae86349",
+    "main_scene_holdout_hybrid_test_sessions.jsonl": "fdbc74ed3779f11a23c95604112de0a97afc036c3b0cbcc8a2127804332a42f5"
+  },
+  "items": [
+    {
+      "ref_id": "ref_train_6a42531406a45eaf",
+      "split": "train",
+      "master_library_ref_id": "ref_6a42531406a45eaf",
+      "semantic_key_sha256": "6a42531406a45eafc09e314676909390a4a5c7e326785e3c9531aaebe9447adf",
+      "kind": "identity_image",
+      "condition": {
+        "identity": "CFD40_AF_002",
+        "view": "canonical_front",
+        "appearance_scope": "identity_definition_pending"
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "target_identity_with_neutral_context",
+      "ignore": [
+        "hair",
+        "outfit",
+        "expression",
+        "lighting",
+        "scene"
+      ],
+      "example_source_node_id": "simn_d04e754b8ff35e6f937c",
+      "example_target_node_id": "simn_31414db1f60a27772aa3",
+      "requested_edge_axis": "identity",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_train_496440e470e86408",
+      "split": "train",
+      "master_library_ref_id": "ref_496440e470e86408",
+      "semantic_key_sha256": "496440e470e864083ccc4c42fb36e9bdd51006a137dec054e0cf4720cffedb80",
+      "kind": "identity_image",
+      "condition": {
+        "identity": "CFD40_AF_003",
+        "view": "canonical_front",
+        "appearance_scope": "identity_definition_pending"
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "target_identity_with_neutral_context",
+      "ignore": [
+        "hair",
+        "outfit",
+        "expression",
+        "lighting",
+        "scene"
+      ],
+      "example_source_node_id": "simn_d04e754b8ff35e6f937c",
+      "example_target_node_id": "simn_3918f1d8a2ee7147bde0",
+      "requested_edge_axis": "identity",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_train_b4a8bc271b1ff290",
+      "split": "train",
+      "master_library_ref_id": "ref_b4a8bc271b1ff290",
+      "semantic_key_sha256": "b4a8bc271b1ff2907894a60c77f0ae1154617b771e411834de27478ff4fe5b70",
+      "kind": "background_clip",
+      "condition": {
+        "site": "site_fbf21a9b6a",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "camera_motion_status": "unresolved_follow_capable_conservative_clip",
+        "lighting_policy": "scene_owned_illumination_and_exposure",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "b39c3496349588535b6e87385b2c748fdb479d66129c324283cf8bf4afc111df"
+        },
+        "motion_and_trajectory": {
+          "motion": "MOTION_CAND_001",
+          "sex": "female",
+          "trajectory_hint_sha256": "cb4db07c590438ff4dd961d000f60c2d90625399ca4edf595e21234d72190b2d",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "no_person_no_person_shadow_no_person_reflection",
+      "camera_binding": "source_motion_dependent_path_in_target_site",
+      "static_camera_rule": "image_if_confirmed_static_else_clip",
+      "needs_final_trajectory_resolution": true,
+      "example_source_node_id": "simn_d04e754b8ff35e6f937c",
+      "example_target_node_id": "simn_863a18da932183114902",
+      "requested_edge_axis": "site",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_train_4c7a9ea5b6427e84",
+      "split": "train",
+      "master_library_ref_id": "ref_4c7a9ea5b6427e84",
+      "semantic_key_sha256": "4c7a9ea5b6427e840e511d30fd097f1c563adb5285b7aff4d84ff54fea794955",
+      "kind": "action_clip",
+      "condition": {
+        "motion": "MOTION_CAND_030",
+        "sex": "female",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "9de89082edd419fc81a349398d73724d1291cf33c6280458219dc50d130d9359"
+        },
+        "trajectory_profile": {
+          "motion": "MOTION_CAND_030",
+          "sex": "female",
+          "trajectory_hint_sha256": "15a93780049d97219277a730727ba7283b3c933301c0b85c5c3dabde269c57a7",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "independent_neutral_reference_carrier_by_sex",
+      "carrier_identity_id": null,
+      "camera_binding": "source_camera_preset_with_target_motion_tracking_rule",
+      "ignore": [
+        "identity",
+        "outfit",
+        "body_shape",
+        "expression",
+        "scene",
+        "lighting"
+      ],
+      "example_source_node_id": "simn_d04e754b8ff35e6f937c",
+      "example_target_node_id": "simn_9204d8a4ee04e8adedf3",
+      "requested_edge_axis": "action",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_train_a1fcb331a9320981",
+      "split": "train",
+      "master_library_ref_id": "ref_a1fcb331a9320981",
+      "semantic_key_sha256": "a1fcb331a93209818772bf3fd1758271734b439773663bf4d88b6ccca5646bb9",
+      "kind": "action_clip",
+      "condition": {
+        "motion": "MOTION_CAND_024",
+        "sex": "female",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "8f9f661a575e72410ae78b7b1487c1e8b07e1c8a27601f53b0028d0f007c31bb"
+        },
+        "trajectory_profile": {
+          "motion": "MOTION_CAND_024",
+          "sex": "female",
+          "trajectory_hint_sha256": "e4396aa6ced2b9d355e4e6449be3bf468cbcc7fbfe1a645f1a1b18de71bb1ce1",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "independent_neutral_reference_carrier_by_sex",
+      "carrier_identity_id": null,
+      "camera_binding": "source_camera_preset_with_target_motion_tracking_rule",
+      "ignore": [
+        "identity",
+        "outfit",
+        "body_shape",
+        "expression",
+        "scene",
+        "lighting"
+      ],
+      "example_source_node_id": "simn_d04e754b8ff35e6f937c",
+      "example_target_node_id": "simn_30beb98d58126089bae1",
+      "requested_edge_axis": "action",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_train_1e14a184dc228772",
+      "split": "train",
+      "master_library_ref_id": "ref_1e14a184dc228772",
+      "semantic_key_sha256": "1e14a184dc228772608ad4a781a0bc5d00e90c42f26c1da40fff5ac6a3a6a8a7",
+      "kind": "background_clip",
+      "condition": {
+        "site": "site_def046be4c",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "camera_motion_status": "unresolved_follow_capable_conservative_clip",
+        "lighting_policy": "scene_owned_illumination_and_exposure",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": null
+        },
+        "motion_and_trajectory": {
+          "motion": "MOTION_CAND_001",
+          "sex": "male",
+          "trajectory_hint_sha256": null,
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "no_person_no_person_shadow_no_person_reflection",
+      "camera_binding": "source_motion_dependent_path_in_target_site",
+      "static_camera_rule": "image_if_confirmed_static_else_clip",
+      "needs_final_trajectory_resolution": true,
+      "example_source_node_id": "simn_0d28ab85f66401ed5d5b",
+      "example_target_node_id": "simn_ef36c423bd89fc1750d3",
+      "requested_edge_axis": "site",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_6a42531406a45eaf",
+      "split": "test",
+      "master_library_ref_id": "ref_6a42531406a45eaf",
+      "semantic_key_sha256": "6a42531406a45eafc09e314676909390a4a5c7e326785e3c9531aaebe9447adf",
+      "kind": "identity_image",
+      "condition": {
+        "identity": "CFD40_AF_002",
+        "view": "canonical_front",
+        "appearance_scope": "identity_definition_pending"
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "target_identity_with_neutral_context",
+      "ignore": [
+        "hair",
+        "outfit",
+        "expression",
+        "lighting",
+        "scene"
+      ],
+      "example_source_node_id": "simn_27ce4ff26817a621798d",
+      "example_target_node_id": "simn_914e3fee9e312b4aabec",
+      "requested_edge_axis": "identity",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_496440e470e86408",
+      "split": "test",
+      "master_library_ref_id": "ref_496440e470e86408",
+      "semantic_key_sha256": "496440e470e864083ccc4c42fb36e9bdd51006a137dec054e0cf4720cffedb80",
+      "kind": "identity_image",
+      "condition": {
+        "identity": "CFD40_AF_003",
+        "view": "canonical_front",
+        "appearance_scope": "identity_definition_pending"
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "target_identity_with_neutral_context",
+      "ignore": [
+        "hair",
+        "outfit",
+        "expression",
+        "lighting",
+        "scene"
+      ],
+      "example_source_node_id": "simn_27ce4ff26817a621798d",
+      "example_target_node_id": "simn_68717c99f14c5904102b",
+      "requested_edge_axis": "identity",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_bbe42f68e963eb4f",
+      "split": "test",
+      "master_library_ref_id": "ref_bbe42f68e963eb4f",
+      "semantic_key_sha256": "bbe42f68e963eb4f47fb38468271c13827f5fb8d1beebdb1ebaa651bcde85b89",
+      "kind": "action_clip",
+      "condition": {
+        "motion": "ACT_F02_CATCH_BREATH",
+        "sex": "female",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "eeaf0c208ab2caa9bae9eb632a0ecf9911ebd8f8ba55afb3ffcb7ff32bf3f691"
+        },
+        "trajectory_profile": {
+          "motion": "ACT_F02_CATCH_BREATH",
+          "sex": "female",
+          "trajectory_hint_sha256": "364d787bcd66490872461f55822afd1d5b5a36224e14435cd0adbb92ff7d4ab3",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "independent_neutral_reference_carrier_by_sex",
+      "carrier_identity_id": null,
+      "camera_binding": "source_camera_preset_with_target_motion_tracking_rule",
+      "ignore": [
+        "identity",
+        "outfit",
+        "body_shape",
+        "expression",
+        "scene",
+        "lighting"
+      ],
+      "example_source_node_id": "simn_27ce4ff26817a621798d",
+      "example_target_node_id": "simn_f62b29bf1b8428125061",
+      "requested_edge_axis": "action",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_9be446f95bf11e42",
+      "split": "test",
+      "master_library_ref_id": "ref_9be446f95bf11e42",
+      "semantic_key_sha256": "9be446f95bf11e42e9064bbd7a60ee8d876f252730f14c8dd96529e9c261815e",
+      "kind": "action_clip",
+      "condition": {
+        "motion": "MOTION_CAND_032",
+        "sex": "male",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": null
+        },
+        "trajectory_profile": {
+          "motion": "MOTION_CAND_032",
+          "sex": "male",
+          "trajectory_hint_sha256": null,
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "independent_neutral_reference_carrier_by_sex",
+      "carrier_identity_id": null,
+      "camera_binding": "source_camera_preset_with_target_motion_tracking_rule",
+      "ignore": [
+        "identity",
+        "outfit",
+        "body_shape",
+        "expression",
+        "scene",
+        "lighting"
+      ],
+      "example_source_node_id": "simn_90a3f6de898e0ac08eaa",
+      "example_target_node_id": "simn_fec68a18121f788a8951",
+      "requested_edge_axis": "action",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_025898b8783bee0e",
+      "split": "test",
+      "master_library_ref_id": "ref_025898b8783bee0e",
+      "semantic_key_sha256": "025898b8783bee0ed8e250da018b1e08b8d0e48fc210fc0a24371ed0917498d0",
+      "kind": "background_clip",
+      "condition": {
+        "site": "site_6af8ead41a",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "camera_motion_status": "unresolved_follow_capable_conservative_clip",
+        "lighting_policy": "scene_owned_illumination_and_exposure",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "b39c3496349588535b6e87385b2c748fdb479d66129c324283cf8bf4afc111df"
+        },
+        "motion_and_trajectory": {
+          "motion": "MOTION_CAND_001",
+          "sex": "female",
+          "trajectory_hint_sha256": "cb4db07c590438ff4dd961d000f60c2d90625399ca4edf595e21234d72190b2d",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "no_person_no_person_shadow_no_person_reflection",
+      "camera_binding": "source_motion_dependent_path_in_target_site",
+      "static_camera_rule": "image_if_confirmed_static_else_clip",
+      "needs_final_trajectory_resolution": true,
+      "example_source_node_id": "simn_cdf84263aa5ad54f0cd6",
+      "example_target_node_id": "simn_981187e73f9dc606adc4",
+      "requested_edge_axis": "site",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    },
+    {
+      "ref_id": "ref_test_15116259e9108a1a",
+      "split": "test",
+      "master_library_ref_id": "ref_15116259e9108a1a",
+      "semantic_key_sha256": "15116259e9108a1af717bde27191d01d22ba2871a1ce9f8939b5ecd6190ec06e",
+      "kind": "background_clip",
+      "condition": {
+        "site": "site_2a054574eb",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "camera_motion_status": "unresolved_follow_capable_conservative_clip",
+        "lighting_policy": "scene_owned_illumination_and_exposure",
+        "timing_profile": {
+          "status": "graph_timing_not_specified",
+          "catalog_clock_hint_sha256": "38c1a5216199825e033632ed58385a9dd1d38a62daa609d8b1c3f1700b2c9ae4"
+        },
+        "motion_and_trajectory": {
+          "motion": "MOTION_CAND_003",
+          "sex": "female",
+          "trajectory_hint_sha256": "2e8ca29971fcbc3a7de55178dc48fc3aae5a94ff8d9ee9f6618688545b2eaf1d",
+          "status": "catalog_hint_not_complete_site_ground_follow_trajectory",
+          "resolved_trajectory_sha256": null
+        }
+      },
+      "carrier_policy_version": "proposal_v1",
+      "carrier_policy": "no_person_no_person_shadow_no_person_reflection",
+      "camera_binding": "source_motion_dependent_path_in_target_site",
+      "static_camera_rule": "image_if_confirmed_static_else_clip",
+      "needs_final_trajectory_resolution": true,
+      "example_source_node_id": "simn_5c9eabad4c92d3949224",
+      "example_target_node_id": "simn_8f7698f83d9e4642a2b1",
+      "requested_edge_axis": "site",
+      "media_path": null,
+      "media_sha256": null,
+      "render_status": "not_rendered",
+      "source_fields_are_private_planning_metadata": true
+    }
+  ]
+}

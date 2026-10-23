@@ -1,0 +1,27 @@
+from pathlib import Path
+from collections import Counter,defaultdict,deque
+import json,hashlib
+HERE=Path(__file__).resolve().parent;FOLDER=HERE/'trial12/candidate3';TEST=FOLDER/'test'
+def read(p):return json.loads(p.read_text(encoding='utf-8'))
+def write(p,v):p.write_text(json.dumps(v,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+def pin(p):return {'path':str(p.resolve()),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+r=read(FOLDER/'audit_test.json');assert r['passed'];m=read(TEST/'metrics.json');inherit=r['inherited'];reuse=r['semantic_directed_edge_reuse'];six=('hair','hair_color','wardrobe','action','camera','site');mean=sum(r['edit_axis_counts'][a] for a in six)/6
+sampling={'sampling_variant':'real_fixed_job_chain_pool_exchange_after_v10_history_feedback','requested_sessions':2400,'sampled_sessions':2400,'complete':True,'planned_edit_steps':8760,'hard_directed_edge_cap':4,'history_axis_decay':.4,'axis_counts':r['edit_axis_counts'],'nonidentity_axis_mean':mean,'nonidentity_relative_deviation':{a:r['edit_axis_counts'][a]/mean-1 for a in six},'nonidentity_balance_within_10_percent':True,'edge_reuse_histogram':reuse['histogram'],'four_use_edge_fraction':reuse['four_use_edge_fraction'],'axis_reuse':reuse['per_axis_mean'],'unused_nodes':0,'start_camera_quota':inherit['initial_camera_integer_quota']['expected'],'start_camera_counts':inherit['initial_camera_integer_quota']['actual'],'start_camera_quota_met':True,'conditional_wardrobe_mode_counts':inherit['wardrobe_formal_opportunity']['formal_single_eligible_modes'],'conditional_single_fraction':inherit['wardrobe_formal_opportunity']['conditional_single_fraction'],'base_sampler_diagnostics':pin(HERE/'trial12/candidate1/test/sampling.json'),'alternate_sampler_diagnostics':pin(HERE/'trial12/candidate2/test/sampling.json'),'repair_trace':pin(FOLDER/'repair_trace.json'),'actual_final_checks':pin(FOLDER/'audit_test.json'),'pre_repair_source_conditioned_sampling_diagnostics_are_not_final_chain_counts':True}
+write(TEST/'sampling.json',sampling);m['construction']['sampling']=sampling;write(TEST/'metrics.json',m)
+nodes=read(TEST/'nodes.json');adj=defaultdict(set)
+for edge in read(TEST/'edges.json'):adj[edge['source']].add(edge['target']);adj[edge['target']].add(edge['source'])
+seen=set();sizes=[]
+for row in nodes:
+    root=row['id']
+    if root in seen:continue
+    q=deque([root]);seen.add(root);n=0
+    while q:
+        u=q.popleft();n+=1
+        for v in adj[u]-seen:seen.add(v);q.append(v)
+    sizes.append(n)
+summary={'status':'complete_offline_test_candidate_passed_before_component_aspect_assignment','candidate_path':str(TEST),'audit_path':str(FOLDER/'audit_test.json'),'passed':True,'counts':r['counts'],'selected_value_counts':{k:len(v['counts']) for k,v in r['unique_content_node_frequency']['distributions'].items()},'unique_and_history_global_frequency_passed':True,'unique_and_history_each_action_camera_frequency_passed':True,'max_six_nonidentity_deviation':r['six_nonidentity_max_relative_deviation'],'edit_axis_counts':r['edit_axis_counts'],'initial_camera_quotas_passed':True,'formal_single_conditional_fraction':sampling['conditional_single_fraction'],'illegal_single_slots':inherit['single_slot_legacy_diagnostic']['illegal_chosen_slot_count'],'semantic_edge_reuse':reuse,'train_disjoint':r['train_disjoint'],'whole_real_chain_swaps':len(read(FOLDER/'repair_trace.json')['swaps']),'connected_components':{'count':len(sizes),'sizes':sorted(sizes,reverse=True),'landscape_only_before_parent_aspect_assignment':True},'source_inputs':[pin(TEST/f) for f in ('nodes.json','edges.json','sessions.jsonl','metrics.json','sampling.json')],'validation_scope':'offline formal legality, actual used states and complete saved chain histories; no UE or render run; selected test values only, full catalog coverage not required; no test garment 3-context or action 10-camera gate','not_yet_done':['whole_connected_component_aspect_assignment','reference_requirement_generation','final_combined_train_test_audit_after_aspect_assignment']}
+summary['actual_edited_target_value_counts']={k:v['distinct'] for k,v in inherit['edited_axis_actual_target_value_coverage'].items()}
+summary['genuinely_introduced_core_target_count']=inherit['genuinely_introduced_core']['distinct']
+write(FOLDER/'SUMMARY_test.json',summary);write(HERE/'CURRENT_TEST_CANDIDATE.json',summary)
+(HERE/'REPORT.md').write_text('''# v10 测试候选\n\n可交给主任务整连通分量分配画幅的测试候选：`trial12/candidate3/test`。\n\n已完成2,400条链、8,760次编辑、11,160个完整历史位置；1,223个内容节点全部实际使用。固定长度/直链回溯配额、21种起始镜头权重配额、正式原子编辑合法性、完整历史继承、单边最多4次、六种非身份编辑±10%均通过。\n\n测试选择8个人物、6个发型、7种发色、6个动作、6个场景、32件可见核心衣物。正式服装规则计算的可见core不包含鞋；半身只取upper与core交集。所选值在实际unique content和完整history occurrences两种统计均在自身均值0.5–1.5倍；每动作内部实际采用镜头（排除front_head）的两种统计也均通过。\n\n服装保持同组单件、整套跨family、整套更新完整服装状态、合法鞋等原条件；有正式单件机会时的实际单件比例47.39%。构图将小服装组直接放入普通多轴可编辑邻域，每组优先两family各两套，不添加singleton coverage leaves。\n\n最终在两份完整真实采样池之间交换3条相同直链/回溯类型、长度、起始镜头、回溯轮次和历史父位置的整链，修正最后一格动作内镜头频率；所有来源见`repair_trace.json`。交换后再次独立检查，不将原采样诊断当最终计数。\n\n最终有向边平均复用2.1119；最多4次，4次边7条，占全部实际边0.1688%。平均2.5为软目标。训练trial12/graph/train的完整状态（忽略画幅）交集为0，训练节点文件哈希保存在审计中；后续若训练图更换，需重算此交集。\n\n`audit_test.json`的passed为true；`CURRENT_TEST_CANDIDATE.json`含机器摘要、哈希与连通分量大小。当前全部landscape，整分量画幅分配、参考需求和合并最终审计由主任务继续。仅离线配置与链条结果，无UE/媒体/训练验收声明。\n''',encoding='utf-8')
+print(json.dumps({'passed':True,'candidate':str(TEST),'components':sorted(sizes,reverse=True),'summary':str(HERE/'CURRENT_TEST_CANDIDATE.json')}))

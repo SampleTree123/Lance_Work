@@ -7,7 +7,7 @@
 > 实现所有权：Git/Python 检查、CC Bridge 健康检查、UE MCP/Remote Execution 和服务器预检
 > 验证所有权：`VAL-ENV-01`
 > 输出契约：`OUT-WF00-SESSION`
-> 最近核验：2026-08-25
+> 最近核验：2026-10-01
 
 ## 1. 能力与边界
 
@@ -75,3 +75,11 @@ bash 20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh --environment-on
 - 当前自动测试全部通过才允许声明代码基线健康。
 - 任一必需通信通道失败时停止依赖它的阶段。
 - 未知模态窗口、权限不一致、路径漂移和项目版本不符均为硬停止条件。
+
+## 9. 清理后的本地环境入口
+
+2026-10-01 清理后，项目编辑器启动关卡为 `/Game/DataMake/Validation/ScalpHairFit/L_DM_ScalpHairFit_Review_v001`；原早期 `/Game/Main` 与旧对照/P0 关卡已审查退役。第一批渲染仍由锁定配置显式指定场景/Sequence，不依赖编辑器启动地图。当前审查入口及加载条件见 [角色运行时](../unreal/CHARACTER_RUNTIME.md)。
+
+独立 UE Python 命令行进程可以在没有可见编辑器窗口时执行包查询、组装、保存与重载；这仍启动了真正的 UE 进程，并非系统 Python 自行读取或渲染 uasset。可见编辑器、命令行进程和 Remote Execution 属于不同会话，不能仅凭是否有窗口推断任务正在运行。核验以对应日志、实际输出、保存态重载和退出结果为准。
+
+旧隔离测试的运行时 profile、Zen 与 shader 工作缓存已按精确清单清除；工程编译依赖、引擎安装、当前素材、未知用途的历史输入仍保留。CC 在本轮保持关闭，原生 Custom 内容只移除六份逐字节相同且有保留替代的 staging 项目；没有重新启动 CC 或将未运行的 CC 会话检查写成通过。详情见 `%OUTPUT_ROOT%/asset_cleanup/cleanup_20261001_v1/README.md`。

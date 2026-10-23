@@ -10,12 +10,26 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
 from build_output_inventory import build_inventory  # noqa: E402
-from build_script_lifecycle_catalog import build_catalog, owner_for  # noqa: E402
+from build_script_lifecycle_catalog import build_catalog, lifecycle_for, owner_for  # noqa: E402
 from check_character_factory_docs import (  # noqa: E402
     AuditReport,
     check_output_catalog,
     check_script_catalog,
 )
+
+
+def test_exact_post_scene_contract_owner_and_lifecycle_do_not_apply_by_basename():
+    exact = "00_engine/scripts/unreal/ue_post_city_compatibility_contract_v1.py"
+    assert owner_for(exact) == "technical/unreal/SCENE_CAMERA_SEQUENCE.md"
+    lifecycle, active, reason = lifecycle_for(exact)
+    assert lifecycle == "production" and active is False
+    assert "normal-RHI pixels" in reason
+    for neighbor in (
+        "00_engine/temp/ue_post_city_compatibility_contract_v1.py",
+        "00_engine/scripts/unreal/ue_post_city_compatibility_contract_v2.py",
+        "00_engine/scripts/unreal/ue_skin_detail_contract_v1.py",
+    ):
+        assert lifecycle_for(neighbor)[2] != reason
 
 
 def test_ownership_is_independent_from_retention(tmp_path: Path) -> None:
@@ -124,6 +138,63 @@ def test_specific_transfer_and_catalog_owners() -> None:
     assert owner_for(
         "00_engine/scripts/documentation/build_output_inventory.py"
     ) == "technical/output/INVENTORY_AND_RETENTION.md"
+
+
+def test_scene_contract_owners_are_exact_without_lifecycle_promotion() -> None:
+    paths = (
+        "00_engine/scripts/unreal/ue_medieval_water_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_medieval_water_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_scene_official_class_alias_v1.py",
+        "00_engine/scripts/unreal/tests/test_scene_user_defined_struct_alias_v1.py",
+        "00_engine/scripts/unreal/tests/test_kowloon_redirector_retirement_v1.py",
+        "00_engine/scripts/unreal/tests/test_japanese_redirector_retirement_v1.py",
+        "00_engine/scripts/unreal/tests/test_urban_material_relocation_v1.py",
+        "00_engine/scripts/unreal/ue_kyoto_showcase_tie_contract_v1.py",
+        "00_engine/scripts/unreal/ue_futuristic_public_owner_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_kyoto_showcase_tie_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_futuristic_public_owner_contract_v1.py",
+    )
+    for relative in paths:
+        assert owner_for(relative) == "technical/unreal/SCENE_CAMERA_SEQUENCE.md"
+        lifecycle, active_batch, _ = lifecycle_for(relative)
+        assert lifecycle == ("utility" if "/tests/" in relative else "validated_pilot")
+        assert active_batch is False
+        same_name_elsewhere = "00_engine/scripts/character_creator/" + Path(relative).name
+        assert owner_for(same_name_elsewhere) != "technical/unreal/SCENE_CAMERA_SEQUENCE.md"
+    assert owner_for(
+        "00_engine/scripts/unreal/ue_kyoto_showcase_tie_contract_v2.py"
+    ) != "technical/unreal/SCENE_CAMERA_SEQUENCE.md"
+
+
+def test_scene_contract_catalog_includes_real_files_not_uncreated_names(tmp_path: Path) -> None:
+    owner = "technical/unreal/SCENE_CAMERA_SEQUENCE.md"
+    real_paths = (
+        "00_engine/scripts/unreal/ue_medieval_water_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_medieval_water_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_scene_user_defined_struct_alias_v1.py",
+        "00_engine/scripts/unreal/tests/test_kyoto_showcase_tie_contract_v1.py",
+        "00_engine/scripts/unreal/tests/test_futuristic_public_owner_contract_v1.py",
+    )
+    reserved_paths = (
+        "00_engine/scripts/unreal/ue_kyoto_showcase_tie_contract_v1.py",
+        "00_engine/scripts/unreal/ue_futuristic_public_owner_contract_v1.py",
+    )
+    doc_root = tmp_path / "docs"
+    document = doc_root / owner
+    document.parent.mkdir(parents=True)
+    document.write_text("\n".join(real_paths), encoding="utf-8")
+    for relative in real_paths:
+        script = tmp_path / relative
+        script.parent.mkdir(parents=True, exist_ok=True)
+        script.write_text("pass\n", encoding="utf-8")
+    catalog = build_catalog(tmp_path, doc_root)
+    entries = {entry["path"]: entry for entry in catalog["scripts"]}
+    assert set(entries) == set(real_paths)
+    for relative in real_paths:
+        assert entries[relative]["owner_document"] == owner
+        assert entries[relative]["owner_exists"] is True
+        assert entries[relative]["document_mentions"] == [owner]
+    assert all(relative not in entries for relative in reserved_paths)
 
 
 def test_script_catalog_rejects_undocumented_production_entry(tmp_path: Path) -> None:

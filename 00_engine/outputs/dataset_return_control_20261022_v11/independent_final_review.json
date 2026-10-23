@@ -1,0 +1,156 @@
+{
+  "schema": "bounded_independent_final_review_v11",
+  "passed": true,
+  "scope": "fresh saved-session counters and implementation-guard checks; saved formal audit/preservation/reference results and their current pins reviewed; no repeated full audit or UE execution",
+  "checks": {
+    "return_saved_audit_passed": true,
+    "frequency_saved_audit_passed": true,
+    "inherited_saved_audit_passed": true,
+    "reference_binding_saved_audit_passed": true,
+    "preservation_saved_audit_passed": true,
+    "train_strict_counts_match_saved_audit_and_summary": true,
+    "train_fullnode_repeats_match": true,
+    "train_axis_counts_match": true,
+    "train_single_fraction_matches_and_guard": true,
+    "train_identity_guard": true,
+    "train_other_axis_guards": true,
+    "train_six_axis_guard": true,
+    "train_edge_reuse_guards": true,
+    "train_start_parent_shape_preserved": true,
+    "train_per_chain_distinct_axes_nondecreasing": true,
+    "train_all_nodes_used": true,
+    "train_immutable_graph_render_files": true,
+    "train_final_history_matches_trial2": true,
+    "train_audit_pins_current": true,
+    "train_optimizer_source_pin_current": true,
+    "test_strict_counts_match_saved_audit_and_summary": true,
+    "test_fullnode_repeats_match": true,
+    "test_axis_counts_match": true,
+    "test_single_fraction_matches_and_guard": true,
+    "test_identity_guard": true,
+    "test_other_axis_guards": true,
+    "test_six_axis_guard": true,
+    "test_edge_reuse_guards": true,
+    "test_start_parent_shape_preserved": true,
+    "test_per_chain_distinct_axes_nondecreasing": true,
+    "test_all_nodes_used": true,
+    "test_immutable_graph_render_files": true,
+    "test_final_history_matches_trial2": true,
+    "test_audit_pins_current": true,
+    "test_optimizer_source_pin_current": true,
+    "current_selected_file_pins_current": true,
+    "reference_binding_inputs_current": true,
+    "reference_counts_match_manifest_and_summaries": true,
+    "reference_link_count_matches_edits": true,
+    "main_node_total_unchanged": true,
+    "train_frequency_audit_inputs_current": true,
+    "test_frequency_audit_inputs_current": true,
+    "train_inherited_audit_inputs_current": true,
+    "test_inherited_audit_inputs_current": true,
+    "v10_motion_reference_count_789_confirmed": true,
+    "train_implicit_fork_reset_count_matches_saved_sessions": true,
+    "test_implicit_fork_reset_count_matches_saved_sessions": true,
+    "current_implementation_pins_current": true
+  },
+  "errors": [],
+  "actual_session_metrics": {
+    "train": {
+      "strict_return_events": 2003,
+      "strict_return_chains": 1584,
+      "full_node_repeat_events": 862,
+      "conditional_single_fraction": 0.4701163888015099,
+      "axis_relative_drift_from_v10": {
+        "identity": -0.01988140913847225,
+        "hair": -0.04781460838955709,
+        "hair_color": -0.04057033661619869,
+        "wardrobe": 0.049884991374353094,
+        "action": 0.04978292329956591,
+        "camera": 0.04220685681359848,
+        "site": -0.04996924969249694
+      },
+      "six_axis_max_relative_deviation": 0.09553549646255188,
+      "four_use_fraction": 0.005,
+      "used_nodes": 5980,
+      "sessions": 12000,
+      "edit_steps": 43800,
+      "implicit_unedited_axis_reset_events": 4929
+    },
+    "test": {
+      "strict_return_events": 344,
+      "strict_return_chains": 273,
+      "full_node_repeat_events": 95,
+      "conditional_single_fraction": 0.47047113470471136,
+      "axis_relative_drift_from_v10": {
+        "identity": -0.018181818181818188,
+        "hair": -0.04843517138599107,
+        "hair_color": -0.04988830975428149,
+        "wardrobe": 0.04871259568545572,
+        "action": 0.030662020905923404,
+        "camera": 0.03897007654836471,
+        "site": -0.022816679779701032
+      },
+      "six_axis_max_relative_deviation": 0.09934735315445975,
+      "four_use_fraction": 0.004882585445245292,
+      "used_nodes": 1223,
+      "sessions": 2400,
+      "edit_steps": 8760,
+      "implicit_unedited_axis_reset_events": 1033
+    }
+  },
+  "reference_counts": {
+    "scene": 893,
+    "motion": 809,
+    "wardrobe_piece": 564,
+    "identity": 40,
+    "hair": 112
+  },
+  "main_video_total": 7203,
+  "implementation_review": {
+    "optimizer": "suffix proposals retain original source_position; proposals use real registered edges; whole-chain acceptance applies frequency, coverage, diversity, edit-mixture and edge guards; target novelty changes proposal weights only",
+    "finalization": "final histories and steps match trial2; final start nodes, nodes/edges/render requests fixed to original v10; selected provenance metadata updated before final auditing and reference planning",
+    "material_issues": []
+  },
+  "disclosures": [
+    "References are updated for actual selected sessions: 809 motion clips versus v10 789; main nodes remain 7203.",
+    "Implicit unedited fork resets are deliberately unpenalized and are separate from explicit ancestor return edits.",
+    "Offline symbolic checks do not establish media quality, rendering acceptance, global optimality or multi-seed stability."
+  ],
+  "reviewed_inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\return_audit.json",
+      "sha256": "2f23f3a5c520c34add6283b96236faa6476b475085ad734b750e42f48c2464d1"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\frequency_audit.json",
+      "sha256": "f4c6d0fadf3f71af874eca7010f4fb373668d7918855716248804e809d76bf60"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\inherited_audit.json",
+      "sha256": "892c486a47a858c357a2a33f595154bd42408cceb9e4f729ebd4fd63f59aadb0"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\reference_binding_check.json",
+      "sha256": "2a9f139ba10d0c431d7de691bd19fce8d3a6e571f44f6962c9a7ab13194eac2e"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\PRESERVATION.json",
+      "sha256": "c36245f1eaad3dfeff32fcab624475e1ddbfb9e33aad89f43eef4843879b9fcd"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\CURRENT_CANDIDATE.json",
+      "sha256": "e41e6c6e6eabac9f8ab88135314fe8bcdaf78f66d292bc6733d79b1d07db6b7f"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\REPORT.md",
+      "sha256": "73bf257aa766b7c04e4f8fa1c27b4c7085a62c76ba5f9b5e6881b2a1fdedb707"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\optimize_returns.py",
+      "sha256": "243cea9e028c7fe6ef437962fc9107dcdba483d5b47e5462a0852ec25efc3b3d"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\finalize_candidate.py",
+      "sha256": "180f4745edeb4481e1509fd308e2d78c6dd1ec7a3444cd2f551810e91c88f22f"
+    }
+  ]
+}

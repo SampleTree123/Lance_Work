@@ -11,6 +11,8 @@
 | `README.md` | 本层索引和维护规则 | 当前 |
 | `study/` | 学习计划、论文阅读、模型架构概念、代码走读和后续讨论沉淀 | 当前 |
 | `tool_surveys/unreal_harness_survey.md` | UE automation / MCP / harness 调研与采用建议 | 2026-07-01 已复核 UE5.8 MCP |
+| [`tool_surveys/cc_ue_transfer_review_20261005.md`](./tool_surveys/cc_ue_transfer_review_20261005.md) | 新角色复用旧服装、身体／自然面部动画合成、CC／UE 接口与数据裁减核查 | 2026-10-05 研究建议，未执行新角色转移 |
+| [`tool_surveys/facial_animation_survey_20261005.md`](./tool_surveys/facial_animation_survey_20261005.md) | 自然面部动画候选、本机素材、Digital Soul／视频捕捉路线与身体动作组合 | 2026-10-05 只读调研，候选未播放验收 |
 | `model_experiments/` | Lance、BAGEL、后续开放模型的验证计划、协议和结果摘要 | Lance 已进入实测 |
 
 ## 维护规则

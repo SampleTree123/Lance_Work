@@ -39,9 +39,9 @@ CAMERAS = (
     ("side", 3),
 )
 EXPRESSIONS = ("happy", "angry", "sad")
-SOURCE_MAP = "/Game/DataMake/Scenes/TokyoStylized/L_DM_TokyoStylized"
+SOURCE_MAP = "/Game/Scenes/TokyoStylizedEnvironment/WorkingMaps/L_DM_TokyoStylized"
 STAGE_MAP = (
-    "/Game/DataMake/Scenes/TokyoStylized/"
+    "/Game/Scenes/TokyoStylizedEnvironment/WorkingMaps/"
     "L_DM_TokyoStylized_FirstBatchRender_v001"
 )
 SOURCE_SEQUENCE = "/Game/DataMake/Sequences/firstweek"

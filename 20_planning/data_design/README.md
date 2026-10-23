@@ -3,6 +3,8 @@
 > 父层：[`../README.md`](../README.md) → [`../../README.md`](../../README.md)。
 > 本层只讲数据本身：任务定义、配置图、编辑原子类型、schema、采样与多轮链。这些规则跨真实视频、大模型生成和 Unreal 合成三种来源。
 
+2026-10-21：用户已开启新版多轮数据集构造与渲染规划分支。新阶段的2–5次单属性编辑、一次历史分叉及参考素材研究见[探索Technical](./character_creator/full_process/technical/dataset/DATASET_DESIGN_EXPLORATION_20261021.md)。本页下方的第一批冻结规模、3–5轮及单轮／复合编辑讨论是历史背景，不能直接作为新版生产参数。
+
 ---
 
 ## 📂 内容说明

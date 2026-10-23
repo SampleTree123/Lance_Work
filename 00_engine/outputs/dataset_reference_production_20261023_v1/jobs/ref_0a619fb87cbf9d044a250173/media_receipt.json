@@ -1,0 +1,171 @@
+{
+  "schema": "dataset_static_media_receipt_v11_v1",
+  "status": "success",
+  "media_kind": "png",
+  "job_id": "ref_0a619fb87cbf9d044a250173",
+  "reference_kind": "hair",
+  "finished_at": "2026-10-23T02:05:35.545084+00:00",
+  "spec_sha256": "4fe9b51076982fbae4e9d2e9453130f9fa85782b49f1739b92e323a944ac9923",
+  "image": "jobs/ref_0a619fb87cbf9d044a250173/frames/frame_0000.png",
+  "image_sha256": "b7fbcc231b2acba6dbd6d62d2dc781e1ab2252920e4ac77799498a82d736fb21",
+  "image_bytes": 1197734,
+  "media": {
+    "format": "PNG",
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "bits_per_channel": 8,
+    "channels": "RGBA",
+    "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+  },
+  "render_signature": "cc7651dc05e0ae27e594aac9d60bd52062b54fb07c19a71053ea446626a9dae5",
+  "render_provenance": {
+    "schema": "dataset_media_render_binding_v11_v1",
+    "signature": "cc7651dc05e0ae27e594aac9d60bd52062b54fb07c19a71053ea446626a9dae5",
+    "worker_module": "ue_dataset_reference_v11",
+    "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\render_receipts\\ref_0a619fb87cbf9d044a250173_fee35093.json",
+    "receipt_relative_path": "render_receipts/ref_0a619fb87cbf9d044a250173_fee35093.json",
+    "receipt_sha256": "03994ccae946dfa8fa690fa404410b6437e4cc0da1e9b68517f45fa8a602a247",
+    "attempt_id": "ref_0a619fb87cbf9d044a250173_fee35093",
+    "job_signature": "cc7651dc05e0ae27e594aac9d60bd52062b54fb07c19a71053ea446626a9dae5",
+    "submitted_at": "2026-10-23T02:05:30.696258+00:00",
+    "finished_at": "2026-10-23T02:05:33.820724+00:00",
+    "status": "completed",
+    "success": true,
+    "render_contract": {
+      "fps": 30,
+      "frame_counts_by_shot": {
+        "ref_0a619fb87cbf9d044a250173": 1
+      },
+      "range_start_inclusive": 0,
+      "range_end_exclusive": "per-shot sequence end",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG",
+      "spatial_samples": 1,
+      "temporal_samples": 1,
+      "engine_warmup_count": 120,
+      "render_warmup_count": 32,
+      "camera_cut_warmup_shot_ids": [],
+      "motion_blur_cvars": {
+        "r.MotionBlurQuality": 0.0,
+        "r.MotionBlur.Amount": 0.0
+      },
+      "profile_scope": "v11_local_pilot",
+      "scene_resources": {
+        "policy": "scene_inherited_resources_v1",
+        "requested_settings": {
+          "cinematic_quality_settings": false,
+          "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+          "use_lod_zero": false,
+          "disable_hlods": false,
+          "override_view_distance_scale": false,
+          "use_high_quality_shadows": false,
+          "flush_streaming_managers": false,
+          "override_virtual_texture_feedback_factor": false,
+          "flush_grass_streaming": false,
+          "override_grass_cull_distance_scale": false
+        },
+        "readback_by_job": [
+          {
+            "job_name": "ref_0a619fb87cbf9d044a250173",
+            "settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            }
+          }
+        ],
+        "source_maps_and_materials_unchanged": true,
+        "output_camera_and_aa_sampling_unchanged": true,
+        "scalability": "inherit current project settings; do not force Cinematic maxima",
+        "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+        "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+        "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+        "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+      },
+      "streaming_warmup": {
+        "policy": "streamed_first_view_warmup_v1",
+        "requested_settings": {
+          "engine_warm_up_count": 120,
+          "render_warm_up_count": 32,
+          "render_warm_up_frames": true,
+          "use_camera_cut_for_warm_up": false
+        },
+        "readback_by_job": [
+          {
+            "job_name": "ref_0a619fb87cbf9d044a250173",
+            "settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "texture_pool_cvar": {
+              "name": "r.Streaming.PoolSize",
+              "value": 10240.0,
+              "is_enabled": true
+            }
+          }
+        ],
+        "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+        "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+        "texture_pool": {
+          "source": "explicit_parameter",
+          "pool_size_mb": 10240,
+          "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+        },
+        "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+        "blocking_streaming_flush": false,
+        "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+      },
+      "baseline_cvars": {
+        "r.AntiAliasingMethod": 4,
+        "r.ScreenPercentage": 100,
+        "r.DynamicRes.OperationMode": 0,
+        "r.DynamicGlobalIlluminationMethod": 1,
+        "r.ReflectionMethod": 1,
+        "r.Shadow.Virtual.Enable": 1,
+        "sg.ViewDistanceQuality": 3,
+        "sg.AntiAliasingQuality": 3,
+        "sg.ShadowQuality": 3,
+        "sg.GlobalIlluminationQuality": 3,
+        "sg.ReflectionQuality": 3,
+        "sg.PostProcessQuality": 3,
+        "sg.TextureQuality": 3,
+        "sg.EffectsQuality": 3,
+        "sg.FoliageQuality": 3
+      },
+      "texture_readiness": {
+        "policy": "fully_load_used_textures_v2",
+        "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+        "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+        "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+      }
+    },
+    "bound_at": "2026-10-23T02:05:35.545084+00:00"
+  },
+  "output_policy": {
+    "format": "PNG",
+    "frames": 1,
+    "bits_per_channel": 8,
+    "channels": [
+      "RGB",
+      "RGBA"
+    ],
+    "alpha_policy": "preserve original PNG without conversion",
+    "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+  },
+  "timing": {
+    "verification_seconds": 0.09400000001187436
+  },
+  "visual_acceptance": "pending",
+  "source_png_modified": false
+}

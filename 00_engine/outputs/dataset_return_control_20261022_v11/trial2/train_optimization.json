@@ -1,0 +1,422 @@
+{
+  "source": "00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate",
+  "seed": 2026102211,
+  "seconds": 180,
+  "sampler": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\optimize_returns.py",
+    "sha256": "243cea9e028c7fe6ef437962fc9107dcdba483d5b47e5462a0852ec25efc3b3d"
+  },
+  "proposal_weights": {
+    "axis_decay": 0.4,
+    "immediate_old_value": 0.05,
+    "older_ancestor_value": 0.2,
+    "other_branch_seen_value": 0.35,
+    "new_value": 1
+  },
+  "acceptance": "existing coverage and frequency gates; lower return/revisit objective; nondecreasing per-chain distinct axes; initial node and parent-position topology fixed",
+  "baseline": {
+    "chains": 12000,
+    "return_events": 8035,
+    "return_chains": 6107,
+    "other_branch_repeat_events": 1381,
+    "full_node_repeats": 6405,
+    "by_length": {
+      "2": {
+        "chains": 2400,
+        "return_events": 313,
+        "return_chains": 313,
+        "mean_distinct_axes": 1.7741666666666667
+      },
+      "3": {
+        "chains": 2800,
+        "return_events": 1021,
+        "return_chains": 979,
+        "mean_distinct_axes": 2.411785714285714
+      },
+      "4": {
+        "chains": 3400,
+        "return_events": 2504,
+        "return_chains": 2140,
+        "mean_distinct_axes": 2.855294117647059
+      },
+      "5": {
+        "chains": 3400,
+        "return_events": 4197,
+        "return_chains": 2675,
+        "mean_distinct_axes": 3.1773529411764705
+      }
+    },
+    "axis_counts": {
+      "identity": 2867,
+      "hair": 6818,
+      "hair_color": 6803,
+      "wardrobe": 6956,
+      "action": 6910,
+      "camera": 6942,
+      "site": 6504
+    },
+    "used_edges": 20496,
+    "four_use_edges": 102,
+    "conditional_single_fraction": 0.4800527530497857
+  },
+  "final": {
+    "chains": 12000,
+    "return_events": 2003,
+    "return_chains": 1584,
+    "other_branch_repeat_events": 697,
+    "full_node_repeats": 862,
+    "by_length": {
+      "2": {
+        "chains": 2400,
+        "return_events": 15,
+        "return_chains": 15,
+        "mean_distinct_axes": 1.9533333333333334
+      },
+      "3": {
+        "chains": 2800,
+        "return_events": 84,
+        "return_chains": 81,
+        "mean_distinct_axes": 2.8507142857142855
+      },
+      "4": {
+        "chains": 3400,
+        "return_events": 488,
+        "return_chains": 453,
+        "mean_distinct_axes": 3.356176470588235
+      },
+      "5": {
+        "chains": 3400,
+        "return_events": 1416,
+        "return_chains": 1035,
+        "mean_distinct_axes": 3.776764705882353
+      }
+    },
+    "axis_counts": {
+      "identity": 2810,
+      "hair": 6492,
+      "hair_color": 6527,
+      "wardrobe": 7303,
+      "action": 7254,
+      "camera": 7235,
+      "site": 6179
+    },
+    "used_edges": 21600,
+    "four_use_edges": 108,
+    "conditional_single_fraction": 0.4701163888015099
+  },
+  "accepted": 15842,
+  "attempts": 450000,
+  "rejects": {
+    "four_use": 150191,
+    "objective": 72009,
+    "frequency": 6033,
+    "axis_diversity": 46319,
+    "axis_counts": 70694,
+    "single_balance": 5605,
+    "node_coverage": 8
+  },
+  "trace": [
+    {
+      "elapsed": 0.0,
+      "accepted": 0,
+      "attempts": 8,
+      "chains": 12000,
+      "return_events": 8035,
+      "return_chains": 6107,
+      "other_branch_repeat_events": 1381,
+      "full_node_repeats": 6405,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 313,
+          "return_chains": 313,
+          "mean_distinct_axes": 1.7741666666666667
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 1021,
+          "return_chains": 979,
+          "mean_distinct_axes": 2.411785714285714
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 2504,
+          "return_chains": 2140,
+          "mean_distinct_axes": 2.855294117647059
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 4197,
+          "return_chains": 2675,
+          "mean_distinct_axes": 3.1773529411764705
+        }
+      },
+      "axis_counts": {
+        "identity": 2867,
+        "hair": 6818,
+        "hair_color": 6803,
+        "wardrobe": 6956,
+        "action": 6910,
+        "camera": 6942,
+        "site": 6504
+      },
+      "used_edges": 20496,
+      "four_use_edges": 102,
+      "conditional_single_fraction": 0.4800527530497857
+    },
+    {
+      "elapsed": 30.0,
+      "accepted": 8228,
+      "attempts": 72448,
+      "chains": 12000,
+      "return_events": 3150,
+      "return_chains": 2495,
+      "other_branch_repeat_events": 1047,
+      "full_node_repeats": 1829,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 37,
+          "return_chains": 37,
+          "mean_distinct_axes": 1.90875
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 162,
+          "return_chains": 155,
+          "mean_distinct_axes": 2.7471428571428573
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 852,
+          "return_chains": 785,
+          "mean_distinct_axes": 3.2008823529411763
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 2099,
+          "return_chains": 1518,
+          "mean_distinct_axes": 3.5573529411764704
+        }
+      },
+      "axis_counts": {
+        "identity": 2810,
+        "hair": 6662,
+        "hair_color": 6684,
+        "wardrobe": 7302,
+        "action": 7101,
+        "camera": 7058,
+        "site": 6183
+      },
+      "used_edges": 21602,
+      "four_use_edges": 108,
+      "conditional_single_fraction": 0.4707643814026793
+    },
+    {
+      "elapsed": 60.0,
+      "accepted": 11050,
+      "attempts": 151337,
+      "chains": 12000,
+      "return_events": 2493,
+      "return_chains": 1978,
+      "other_branch_repeat_events": 870,
+      "full_node_repeats": 1218,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 25,
+          "return_chains": 25,
+          "mean_distinct_axes": 1.9254166666666668
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 115,
+          "return_chains": 111,
+          "mean_distinct_axes": 2.789285714285714
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 635,
+          "return_chains": 585,
+          "mean_distinct_axes": 3.2720588235294117
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 1718,
+          "return_chains": 1257,
+          "mean_distinct_axes": 3.6608823529411763
+        }
+      },
+      "axis_counts": {
+        "identity": 2810,
+        "hair": 6554,
+        "hair_color": 6605,
+        "wardrobe": 7303,
+        "action": 7185,
+        "camera": 7164,
+        "site": 6179
+      },
+      "used_edges": 21603,
+      "four_use_edges": 108,
+      "conditional_single_fraction": 0.47145110410094637
+    },
+    {
+      "elapsed": 90.0,
+      "accepted": 12821,
+      "attempts": 233465,
+      "chains": 12000,
+      "return_events": 2267,
+      "return_chains": 1794,
+      "other_branch_repeat_events": 785,
+      "full_node_repeats": 1067,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 18,
+          "return_chains": 18,
+          "mean_distinct_axes": 1.9395833333333334
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 105,
+          "return_chains": 101,
+          "mean_distinct_axes": 2.8139285714285713
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 571,
+          "return_chains": 524,
+          "mean_distinct_axes": 3.3041176470588236
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 1573,
+          "return_chains": 1151,
+          "mean_distinct_axes": 3.7123529411764706
+        }
+      },
+      "axis_counts": {
+        "identity": 2810,
+        "hair": 6502,
+        "hair_color": 6557,
+        "wardrobe": 7303,
+        "action": 7253,
+        "camera": 7196,
+        "site": 6179
+      },
+      "used_edges": 21601,
+      "four_use_edges": 108,
+      "conditional_single_fraction": 0.47004099653106274
+    },
+    {
+      "elapsed": 120.0,
+      "accepted": 14095,
+      "attempts": 312289,
+      "chains": 12000,
+      "return_events": 2145,
+      "return_chains": 1697,
+      "other_branch_repeat_events": 751,
+      "full_node_repeats": 972,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 16,
+          "return_chains": 16,
+          "mean_distinct_axes": 1.9470833333333333
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 98,
+          "return_chains": 94,
+          "mean_distinct_axes": 2.824642857142857
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 529,
+          "return_chains": 487,
+          "mean_distinct_axes": 3.328529411764706
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 1502,
+          "return_chains": 1100,
+          "mean_distinct_axes": 3.735
+        }
+      },
+      "axis_counts": {
+        "identity": 2810,
+        "hair": 6482,
+        "hair_color": 6544,
+        "wardrobe": 7303,
+        "action": 7255,
+        "camera": 7221,
+        "site": 6185
+      },
+      "used_edges": 21611,
+      "four_use_edges": 108,
+      "conditional_single_fraction": 0.47018095987411485
+    },
+    {
+      "elapsed": 150.0,
+      "accepted": 15189,
+      "attempts": 393094,
+      "chains": 12000,
+      "return_events": 2036,
+      "return_chains": 1611,
+      "other_branch_repeat_events": 712,
+      "full_node_repeats": 894,
+      "by_length": {
+        "2": {
+          "chains": 2400,
+          "return_events": 16,
+          "return_chains": 16,
+          "mean_distinct_axes": 1.95125
+        },
+        "3": {
+          "chains": 2800,
+          "return_events": 87,
+          "return_chains": 84,
+          "mean_distinct_axes": 2.842142857142857
+        },
+        "4": {
+          "chains": 3400,
+          "return_events": 496,
+          "return_chains": 459,
+          "mean_distinct_axes": 3.346764705882353
+        },
+        "5": {
+          "chains": 3400,
+          "return_events": 1437,
+          "return_chains": 1052,
+          "mean_distinct_axes": 3.761470588235294
+        }
+      },
+      "axis_counts": {
+        "identity": 2810,
+        "hair": 6485,
+        "hair_color": 6512,
+        "wardrobe": 7302,
+        "action": 7255,
+        "camera": 7256,
+        "site": 6180
+      },
+      "used_edges": 21600,
+      "four_use_edges": 108,
+      "conditional_single_fraction": 0.4700236034618411
+    }
+  ],
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\train\\nodes.json",
+      "sha256": "7a63339348b33cae8fe7ef7f65498c4252b46ba086297c359e11fd5bc67a3cf5"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\train\\edges.json",
+      "sha256": "04bf7310ce90c875e15b99b8e7dbb27d1c37c9e978ce6366c357348c360ff173"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\train\\sessions.jsonl",
+      "sha256": "ec8a04a0f804e4a000aed271777071adb15f71d7b8f53ef7337e9fc5bfde2447"
+    }
+  ]
+}

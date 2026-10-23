@@ -1,0 +1,306 @@
+{
+  "generated_at_utc": "2026-10-20T18:23:04.212832+00:00",
+  "input_pins": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\topology_inventory_landscape.json",
+      "sha256": "10fcae84f4083b3e6eb9f94c02a2742b6349b48905f9f9b43d201067b7c90f38",
+      "bytes": 7274
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\geometry.json",
+      "sha256": "91b6c0dce0e1c390a099fd06014da36d5b697e8ab97b4fbc8cd9755cf72ca745",
+      "bytes": 8418959
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_train_graph.json",
+      "sha256": "a592a4c29a3e72dc7dff802357d1bc9a3f79eec383f370948763e87b8c7eda1b",
+      "bytes": 2085080
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_train_sessions.jsonl",
+      "sha256": "a7f1b3bdf9a4abba6c774b36b044755fbac7d1d78b713427482fe04e5013cc11",
+      "bytes": 2141734
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_test_graph.json",
+      "sha256": "695212a901c0dfc40308268adaecfc91fd40b8d94d13302a98e9545d5ae86349",
+      "bytes": 584153
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_test_sessions.jsonl",
+      "sha256": "fdbc74ed3779f11a23c95604112de0a97afc036c3b0cbcc8a2127804332a42f5",
+      "bytes": 526333
+    }
+  ],
+  "scope": "Real round-1 used edges; media-free metadata analyses; no model performance measured",
+  "used_unique_edges_by_split": {
+    "train": 10104,
+    "test": 2240
+  },
+  "cost_scenario_rows": 40,
+  "budget_assumptions": {
+    "view_buckets_are_semantic_not_geometric": true,
+    "timing_profile_counts_are_scenarios_not_observed": true,
+    "background_clips_conservative_follow_capable": true,
+    "union_across_scene_holdout_splits": true
+  },
+  "leakage_diagnostics": [
+    {
+      "split": "test",
+      "axis": "action",
+      "treatment": "axis_only",
+      "branch_requests": 219,
+      "candidate_retained_states_before": 533,
+      "candidate_retained_states_after": 533,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "test",
+      "axis": "action",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 219,
+      "candidate_retained_states_before": 533,
+      "candidate_retained_states_after": 420,
+      "unique_source_retained_state_from_reference_metadata": 66,
+      "latest_wrong_state_excluded": 81
+    },
+    {
+      "split": "test",
+      "axis": "action",
+      "treatment": "camera_view",
+      "branch_requests": 219,
+      "candidate_retained_states_before": 533,
+      "candidate_retained_states_after": 420,
+      "unique_source_retained_state_from_reference_metadata": 66,
+      "latest_wrong_state_excluded": 81
+    },
+    {
+      "split": "test",
+      "axis": "identity",
+      "treatment": "axis_only",
+      "branch_requests": 272,
+      "candidate_retained_states_before": 635,
+      "candidate_retained_states_after": 635,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "test",
+      "axis": "identity",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 272,
+      "candidate_retained_states_before": 635,
+      "candidate_retained_states_after": 635,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "test",
+      "axis": "identity",
+      "treatment": "camera_view",
+      "branch_requests": 272,
+      "candidate_retained_states_before": 635,
+      "candidate_retained_states_after": 635,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "test",
+      "axis": "site",
+      "treatment": "axis_only",
+      "branch_requests": 193,
+      "candidate_retained_states_before": 461,
+      "candidate_retained_states_after": 461,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "test",
+      "axis": "site",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 193,
+      "candidate_retained_states_before": 461,
+      "candidate_retained_states_after": 304,
+      "unique_source_retained_state_from_reference_metadata": 97,
+      "latest_wrong_state_excluded": 114
+    },
+    {
+      "split": "test",
+      "axis": "site",
+      "treatment": "camera_view",
+      "branch_requests": 193,
+      "candidate_retained_states_before": 461,
+      "candidate_retained_states_after": 417,
+      "unique_source_retained_state_from_reference_metadata": 19,
+      "latest_wrong_state_excluded": 30
+    },
+    {
+      "split": "train",
+      "axis": "action",
+      "treatment": "axis_only",
+      "branch_requests": 778,
+      "candidate_retained_states_before": 1857,
+      "candidate_retained_states_after": 1857,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "train",
+      "axis": "action",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 778,
+      "candidate_retained_states_before": 1857,
+      "candidate_retained_states_after": 1543,
+      "unique_source_retained_state_from_reference_metadata": 174,
+      "latest_wrong_state_excluded": 235
+    },
+    {
+      "split": "train",
+      "axis": "action",
+      "treatment": "camera_view",
+      "branch_requests": 778,
+      "candidate_retained_states_before": 1857,
+      "candidate_retained_states_after": 1543,
+      "unique_source_retained_state_from_reference_metadata": 174,
+      "latest_wrong_state_excluded": 235
+    },
+    {
+      "split": "train",
+      "axis": "identity",
+      "treatment": "axis_only",
+      "branch_requests": 845,
+      "candidate_retained_states_before": 2021,
+      "candidate_retained_states_after": 2021,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "train",
+      "axis": "identity",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 845,
+      "candidate_retained_states_before": 2021,
+      "candidate_retained_states_after": 2021,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "train",
+      "axis": "identity",
+      "treatment": "camera_view",
+      "branch_requests": 845,
+      "candidate_retained_states_before": 2021,
+      "candidate_retained_states_after": 2021,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "train",
+      "axis": "site",
+      "treatment": "axis_only",
+      "branch_requests": 722,
+      "candidate_retained_states_before": 1728,
+      "candidate_retained_states_after": 1728,
+      "unique_source_retained_state_from_reference_metadata": 0,
+      "latest_wrong_state_excluded": 0
+    },
+    {
+      "split": "train",
+      "axis": "site",
+      "treatment": "camera_motion_fingerprint",
+      "branch_requests": 722,
+      "candidate_retained_states_before": 1728,
+      "candidate_retained_states_after": 1189,
+      "unique_source_retained_state_from_reference_metadata": 320,
+      "latest_wrong_state_excluded": 385
+    },
+    {
+      "split": "train",
+      "axis": "site",
+      "treatment": "camera_view",
+      "branch_requests": 722,
+      "candidate_retained_states_before": 1728,
+      "candidate_retained_states_after": 1470,
+      "unique_source_retained_state_from_reference_metadata": 131,
+      "latest_wrong_state_excluded": 179
+    }
+  ],
+  "history_reference_task_candidates": [
+    {
+      "split": "test",
+      "task": "copy_only_one_axis_from_historical_video",
+      "turns": 310,
+      "sessions": 303
+    },
+    {
+      "split": "test",
+      "task": "correct_prior_reference_choice",
+      "turns": 1547,
+      "sessions": 1187
+    },
+    {
+      "split": "test",
+      "task": "reuse_previously_introduced_reference",
+      "turns": 137,
+      "sessions": 137
+    },
+    {
+      "split": "test",
+      "task": "revive_abandoned_branch_reference",
+      "turns": 126,
+      "sessions": 126
+    },
+    {
+      "split": "train",
+      "task": "copy_only_one_axis_from_historical_video",
+      "turns": 854,
+      "sessions": 840
+    },
+    {
+      "split": "train",
+      "task": "correct_prior_reference_choice",
+      "turns": 6091,
+      "sessions": 4812
+    },
+    {
+      "split": "train",
+      "task": "reuse_previously_introduced_reference",
+      "turns": 417,
+      "sessions": 416
+    },
+    {
+      "split": "train",
+      "task": "revive_abandoned_branch_reference",
+      "turns": 378,
+      "sessions": 377
+    }
+  ],
+  "strong_reference_counterfactual_pairs": {
+    "total_requests": 818,
+    "unique_unordered_target_pairs": 536,
+    "unique_pairs_by_split_axis": {
+      "train:identity": 192,
+      "train:site": 100,
+      "train:action": 141,
+      "test:action": 41,
+      "test:site": 16,
+      "test:identity": 46
+    },
+    "by_split_axis": {
+      "train:identity": 303,
+      "train:site": 149,
+      "train:action": 192,
+      "test:action": 68,
+      "test:site": 30,
+      "test:identity": 76
+    },
+    "no_new_video_endpoint_required": true
+  },
+  "limitations": [
+    "No physical view/visibility or clip timing verified",
+    "Reference metadata decodability is a theoretical shortcut upper potential, not observed image-model leakage",
+    "History task counts are rewrite candidates, not existing annotated reference tasks",
+    "Current graph fixes wardrobe/hair shape; reference-conflict tasks for those axes require new data"
+  ]
+}

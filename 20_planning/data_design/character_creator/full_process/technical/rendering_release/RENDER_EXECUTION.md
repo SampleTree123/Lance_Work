@@ -8,13 +8,13 @@
 > 验证所有权：`VAL-RENDER-01`
 > 输出契约：`OUT-WF80-NODE-MEDIA`
 > 运行环境：系统 Python、UE 5.8 Editor/MRQ
-> 最近核验：2026-08-25
+> 最近核验：2026-09-30（状态对齐；未重验服务器或执行器）
 
 ## 1. 当前能力边界
 
 正式生产入口是 `00_engine/scripts/unreal/run_first_batch_render_jobs.py`。它逐条读取冻结的 `render_jobs.jsonl`，把节点配置映射到已验证的 UE Sequence/MRQ 管线，并负责输入锁、Lease、attempt、Sidecar、媒体哈希、原子晋升与断点续跑。
 
-`run_first_batch_render_matrix.py` 仍是底层矩阵/代表样例执行能力，也是正式执行器调用的 UE 舞台与 MRQ 实现；它不单独拥有正式节点状态。当前已经通过 2 个真实节点的本地正式执行器 Smoke 和同一 Run Root 的零重渲染恢复测试。当前目标服务器像素环境验证失败，10 节点基准和正式 640 节点媒体仍未完成；准确阻塞见 [服务器执行](./SERVER_EXECUTION.md)。
+`run_first_batch_render_matrix.py` 仍是底层矩阵/代表样例执行能力，也是正式执行器调用的 UE 舞台与 MRQ 实现；它不单独拥有正式节点状态。当前已经通过 2 个真实节点的本地正式执行器 Smoke 和同一 Run Root 的零重渲染恢复测试。用户于 2026-09-22 确认服务器正式渲染完成；成功运行的预检/基准、正式媒体 Manifest 与 QA 尚未同步到本地，准确证据边界见 [WF-80 状态](../../project_management/status/workflows/WF-80.md)。旧像素失败只代表当时精确环境，不能作为当前阻塞。
 
 ## 2. 正式输入与入口
 

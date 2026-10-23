@@ -1,0 +1,1971 @@
+{
+  "schema": "production_motion_library_v1",
+  "created_date": "2026-10-17",
+  "status": "offline_contract_assets_pending",
+  "removed_motion_ids": [
+    "MOTION_CAND_018",
+    "MOTION_CAND_034",
+    "ACT_M02_AUDIENCE_01",
+    "ACT_M01_BATTLE_DANCE"
+  ],
+  "sources": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\scene_site_review_20261014_v1\\site_review_catalog_v1.json",
+      "sha256": "08e21ce88f941634fa8b89ec0e45ed5f7825586e38ce53855bd4a69fffd966d8"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\all_motion_samples_v1.json",
+      "sha256": "aced09b0123a09cda6ebb50a51de708992eef9822454d5b7c1b10d88ac89bc73"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\legacy_cross_sex_candidates_v1.json",
+      "sha256": "32fe13b9d82526c7fef2dc8bb7e43a6ee767b708a5a280d0a7ce1355b67aa73c"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\user_cross_sex_acceptance_20261012_v1.json",
+      "sha256": "c655b2f45ba08017008febfb96fd0056805e9ff86739409ed50921ddfca9c0ad"
+    }
+  ],
+  "views": {
+    "full": "Preserve existing selected review clock",
+    "source_full": "Entire reusable original source clip",
+    "production10": "Exactly 10 seconds with the user-approved trim/slow/hold/repeat policy"
+  },
+  "camera_policy": "Body and camera use map_output_time; retime or regenerate trajectories. Never reuse unchanged old duration keys.",
+  "repeat_seam_policy": "0.2s smoothstep local-pose blend centered at5s, no root rebasing. Visual naturalness remains pending.",
+  "face_policy": "BodyOnly output; accepted native face is composed afterwards on its independent unchanged clock.",
+  "motions": [
+    {
+      "motion_id": "MOTION_CAND_001",
+      "label_zh": "摆臂转身",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 13.933333333333334,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 13.933333333333334,
+        "frame_count": 418,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_001_female_v1/A_motion_cand_001_female_v1_BodyOnly.A_motion_cand_001_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_001_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_001_female_v1/A_motion_cand_001_female_v1_BodyOnly.A_motion_cand_001_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_001_female_v1\\A_motion_cand_001_female_v1_BodyOnly.uasset",
+            "sha256": "7be58a980d9762f306698418f415e97323f42f7e9623320c4424aa84ef798f46"
+          },
+          "source_duration_seconds": 13.95,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 837,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_001_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_001_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_001_male_v1/A_motion_cand_001_male_v1_BodyOnly.A_motion_cand_001_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_001_male_v1\\A_motion_cand_001_male_v1_BodyOnly.uasset",
+            "sha256": "d74b1c1f54056f464fa16ee0f92a99fded250fce604e39a8a01632f33236d19f"
+          },
+          "source_duration_seconds": 13.95,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 837,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_001_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_002",
+      "label_zh": "调整站姿",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 15.366666666666667,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 15.366666666666667,
+        "frame_count": 461,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_002_female_v1/A_motion_cand_002_female_v1_BodyOnly.A_motion_cand_002_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_002_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_002_female_v1/A_motion_cand_002_female_v1_BodyOnly.A_motion_cand_002_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_002_female_v1\\A_motion_cand_002_female_v1_BodyOnly.uasset",
+            "sha256": "f0d41d5e33d0de6534131bc56aceb4d3bc3a22becf8956a4d5a10e8c00dcabf8"
+          },
+          "source_duration_seconds": 15.366666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 922,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_002_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_002_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_002_male_v1/A_motion_cand_002_male_v1_BodyOnly.A_motion_cand_002_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_002_male_v1\\A_motion_cand_002_male_v1_BodyOnly.uasset",
+            "sha256": "af8fea8376cc1082c6b9331fbfeade61bde7452b33bc7c122002a2fb2001cc42"
+          },
+          "source_duration_seconds": 15.366666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 922,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_002_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_002_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_003",
+      "label_zh": "弯腰伸展",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 12.366666666666667,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 12.366666666666667,
+        "frame_count": 371,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_003_female_v1/A_motion_cand_003_female_v1_BodyOnly.A_motion_cand_003_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_003_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_003_female_v1/A_motion_cand_003_female_v1_BodyOnly.A_motion_cand_003_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_003_female_v1\\A_motion_cand_003_female_v1_BodyOnly.uasset",
+            "sha256": "517895ae3300b17569f1fd1f1749ccc7f4b9484a36e26981231dc0fee68eb618"
+          },
+          "source_duration_seconds": 12.366666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 742,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_003_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_003_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_003_male_v1/A_motion_cand_003_male_v1_BodyOnly.A_motion_cand_003_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_003_male_v1\\A_motion_cand_003_male_v1_BodyOnly.uasset",
+            "sha256": "61b3d4a5dd56253d23a098b1c45307aa750a0eb21fcb2b7bfc6bf23eebf5a168"
+          },
+          "source_duration_seconds": 12.366666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 742,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_003_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_003_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_007",
+      "label_zh": "四周张望",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 15.066666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 15.066666666666666,
+        "frame_count": 452,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_007_female_v1/A_motion_cand_007_female_v1_BodyOnly.A_motion_cand_007_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_007_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_007_female_v1/A_motion_cand_007_female_v1_BodyOnly.A_motion_cand_007_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_007_female_v1\\A_motion_cand_007_female_v1_BodyOnly.uasset",
+            "sha256": "76743348993036ff2cfa40c0ce99f6252d9c99888b5821db01f456fd3d3cd41c"
+          },
+          "source_duration_seconds": 15.066666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 904,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_007_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_007_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_007_male_v1/A_motion_cand_007_male_v1_BodyOnly.A_motion_cand_007_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_007_male_v1\\A_motion_cand_007_male_v1_BodyOnly.uasset",
+            "sha256": "980c95d83ddcc77d6577dc11bbc193f47b54e91b2c280c50a33c4ffbc69dde8e"
+          },
+          "source_duration_seconds": 15.066666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 904,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_007_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_007_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_008",
+      "label_zh": "向前行走",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 0.6,
+        "source_end_seconds": 6.0,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 10.0,
+        "frame_count": 300,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_008_female_v1/A_motion_cand_008_female_v1_BodyOnly.A_motion_cand_008_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_008_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 6.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "preserve_first6_at_0.6",
+        "body_play_rate": 0.6
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_008_female_v1/A_motion_cand_008_female_v1_BodyOnly.A_motion_cand_008_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_008_female_v1\\A_motion_cand_008_female_v1_BodyOnly.uasset",
+            "sha256": "515885e4ad7537772f9f7ea1220d4d215421a62fadc54b174eace3c9d6ddbfab"
+          },
+          "source_duration_seconds": 11.383333333333333,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 683,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_008_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_008_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_008_male_v1/A_motion_cand_008_male_v1_BodyOnly.A_motion_cand_008_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_008_male_v1\\A_motion_cand_008_male_v1_BodyOnly.uasset",
+            "sha256": "c9e1fd0486a10402c3b318178013c9f2a8bdd307bea50bc912458dbe549aebb1"
+          },
+          "source_duration_seconds": 11.383333333333333,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 683,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_008_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_008_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_009",
+      "label_zh": "摆姿",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 13.9,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 13.9,
+        "frame_count": 417,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_009_female_v1/A_motion_cand_009_female_v1_BodyOnly.A_motion_cand_009_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_009_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_009_female_v1/A_motion_cand_009_female_v1_BodyOnly.A_motion_cand_009_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_009_female_v1\\A_motion_cand_009_female_v1_BodyOnly.uasset",
+            "sha256": "9e4f753cca6435e2f1c4761d605954b77c0c62e30062f6b6ac44d6c0b27c2981"
+          },
+          "source_duration_seconds": 13.916666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 835,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_009_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_009_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_009_male_v1/A_motion_cand_009_male_v1_BodyOnly.A_motion_cand_009_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_009_male_v1\\A_motion_cand_009_male_v1_BodyOnly.uasset",
+            "sha256": "be2111941e2a1d377950bedfee389f7d1830ebcaa9605f4fa368998b7c705cc5"
+          },
+          "source_duration_seconds": 13.916666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 835,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_009_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_009_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_017",
+      "label_zh": "打喷嚏",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 6.4,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 6.4,
+        "frame_count": 192,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_017_female_v1/A_motion_cand_017_female_v1_BodyOnly.A_motion_cand_017_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_017_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 6.4,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_uniform_slowdown_to10",
+        "body_play_rate": 0.64
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_017_female_v1/A_motion_cand_017_female_v1_BodyOnly.A_motion_cand_017_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_017_female_v1\\A_motion_cand_017_female_v1_BodyOnly.uasset",
+            "sha256": "59b136130a6f565ae9938364bf39824de96479f533c846fa962c0ab0bf553f41"
+          },
+          "source_duration_seconds": 6.416666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 385,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_017_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_017_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_017_male_v1/A_motion_cand_017_male_v1_BodyOnly.A_motion_cand_017_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_017_male_v1\\A_motion_cand_017_male_v1_BodyOnly.uasset",
+            "sha256": "90c3d10bb50f2a55874c1ba43353a071f9aee156a3122e605be80e4b7f043bd3"
+          },
+          "source_duration_seconds": 6.416666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 385,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_017_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_017_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_019",
+      "label_zh": "思考",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 9.866666666666667,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 9.866666666666667,
+        "frame_count": 296,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_019_female_v1/A_motion_cand_019_female_v1_BodyOnly.A_motion_cand_019_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_019_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 9.866666666666667,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_uniform_slowdown_to10",
+        "body_play_rate": 0.9866666666666667
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_019_female_v1/A_motion_cand_019_female_v1_BodyOnly.A_motion_cand_019_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_019_female_v1\\A_motion_cand_019_female_v1_BodyOnly.uasset",
+            "sha256": "b8f1e385db32919a8c93b7cae3a1028725c7d742944f3e793c78a4a69d916f23"
+          },
+          "source_duration_seconds": 9.883333333333333,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 593,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_019_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_019_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_019_male_v1/A_motion_cand_019_male_v1_BodyOnly.A_motion_cand_019_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_019_male_v1\\A_motion_cand_019_male_v1_BodyOnly.uasset",
+            "sha256": "020890a6443fad3c0028d1816efcfc72c92696a97d695fb798f1010e548d0e34"
+          },
+          "source_duration_seconds": 9.883333333333333,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 593,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_019_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_019_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_020",
+      "label_zh": "扶额",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 8.433333333333334,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 8.433333333333334,
+        "frame_count": 253,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_020_female_v1/A_motion_cand_020_female_v1_BodyOnly.A_motion_cand_020_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_020_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 8.433333333333334,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_uniform_slowdown_to10",
+        "body_play_rate": 0.8433333333333334
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_020_female_v1/A_motion_cand_020_female_v1_BodyOnly.A_motion_cand_020_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_020_female_v1\\A_motion_cand_020_female_v1_BodyOnly.uasset",
+            "sha256": "6c90a6ea5d35ff9eda574c2f39d3b695c0a07fc79330d27bdbd07618b56e16f1"
+          },
+          "source_duration_seconds": 8.433333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 506,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_020_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_020_male_v1/A_motion_cand_020_male_v1_BodyOnly.A_motion_cand_020_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_020_male_v1\\A_motion_cand_020_male_v1_BodyOnly.uasset",
+            "sha256": "8ce01af3a9abb685698538ce8d1a02ae93b12c96c96963756d2c8de9ddd8e663"
+          },
+          "source_duration_seconds": 8.433333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 506,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_020_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_020_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_022",
+      "label_zh": "举拳庆祝",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 7.566666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 7.566666666666666,
+        "frame_count": 227,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_022_female_v1/A_motion_cand_022_female_v1_BodyOnly.A_motion_cand_022_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_022_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 7.566666666666666,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 1.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "slow_body_to9_hold_end1",
+        "body_play_rate": 0.8407407407407407
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_022_female_v1/A_motion_cand_022_female_v1_BodyOnly.A_motion_cand_022_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_022_female_v1\\A_motion_cand_022_female_v1_BodyOnly.uasset",
+            "sha256": "949f00a7222f14ba2c870024e8e1028a13fdb7b34344f5e378a9034f15dcf663"
+          },
+          "source_duration_seconds": 7.566666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 454,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_022_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_022_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_022_male_v1/A_motion_cand_022_male_v1_BodyOnly.A_motion_cand_022_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_022_male_v1\\A_motion_cand_022_male_v1_BodyOnly.uasset",
+            "sha256": "0ce636ae8f7c0b1285c10804ede43a28f1b3c532c70bb7f005e9b8f128cf5ab4"
+          },
+          "source_duration_seconds": 7.566666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 454,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_022_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_022_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_023",
+      "label_zh": "挥手",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 5.2,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 5.2,
+        "frame_count": 156,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_023_female_v1/A_motion_cand_023_female_v1_BodyOnly.A_motion_cand_023_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_023_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 5.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 2,
+        "seam_transition_seconds": 0.2,
+        "rule": "first5_repeat_twice_smooth_seam",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_023_female_v1/A_motion_cand_023_female_v1_BodyOnly.A_motion_cand_023_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_023_female_v1\\A_motion_cand_023_female_v1_BodyOnly.uasset",
+            "sha256": "2fe5b688cbe429f9966d5bd32ca8bcde8902222145590544c1b83c5bcf9510fa"
+          },
+          "source_duration_seconds": 5.216666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 313,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_023_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_023_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_023_male_v1/A_motion_cand_023_male_v1_BodyOnly.A_motion_cand_023_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_023_male_v1\\A_motion_cand_023_male_v1_BodyOnly.uasset",
+            "sha256": "45783d8da137ecb01c71777585c6ad9a905a5fb75a6aa211c9abe9d7152f1906"
+          },
+          "source_duration_seconds": 5.216666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 313,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_023_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_023_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_024",
+      "label_zh": "鞠躬",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 6.066666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 6.066666666666666,
+        "frame_count": 182,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_024_female_v1/A_motion_cand_024_female_v1_BodyOnly.A_motion_cand_024_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_024_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 6.066666666666666,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 1.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "slow_body_to9_hold_end1",
+        "body_play_rate": 0.674074074074074
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_024_female_v1/A_motion_cand_024_female_v1_BodyOnly.A_motion_cand_024_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_024_female_v1\\A_motion_cand_024_female_v1_BodyOnly.uasset",
+            "sha256": "775808af6865bbefc3ba22490f9ea128c05294c8bb6e7aca2aac953d63236a43"
+          },
+          "source_duration_seconds": 6.066666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 364,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_024_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_024_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_024_male_v1/A_motion_cand_024_male_v1_BodyOnly.A_motion_cand_024_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_024_male_v1\\A_motion_cand_024_male_v1_BodyOnly.uasset",
+            "sha256": "c7bc13c3232607e22e621cbfd5fe9ace1c16d92ddeb93f1717a8e9bf5c21fa2b"
+          },
+          "source_duration_seconds": 6.066666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 364,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_024_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_024_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_029",
+      "label_zh": "甩头转身",
+      "preview_sex": "male",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 13.533333333333333,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 13.533333333333333,
+        "frame_count": 406,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_029_male_v1/A_motion_cand_029_male_v1_BodyOnly.A_motion_cand_029_male_v1_BodyOnly",
+        "source_clip_id": "motion_cand_029_male"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_029_female_v1/A_motion_cand_029_female_v1_BodyOnly.A_motion_cand_029_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_029_female_v1\\A_motion_cand_029_female_v1_BodyOnly.uasset",
+            "sha256": "be04c011aa51e4b41310d60cf76af0692bf433ff4f2827369650ace01e3beac2"
+          },
+          "source_duration_seconds": 13.55,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 813,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_029_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_029_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_029_male_v1/A_motion_cand_029_male_v1_BodyOnly.A_motion_cand_029_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_029_male_v1\\A_motion_cand_029_male_v1_BodyOnly.uasset",
+            "sha256": "118b3da3ca404a99eafa747601570191df381e6424ad67d859ae7dbc7407fde9"
+          },
+          "source_duration_seconds": 13.55,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 813,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_029_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_029_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_030",
+      "label_zh": "舒展舞步",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 23.2,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 23.2,
+        "frame_count": 696,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_030_female_v1/A_motion_cand_030_female_v1_BodyOnly.A_motion_cand_030_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_030_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_030_female_v1/A_motion_cand_030_female_v1_BodyOnly.A_motion_cand_030_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_030_female_v1\\A_motion_cand_030_female_v1_BodyOnly.uasset",
+            "sha256": "aced8e1b1b70fc422c77d04445bfe725f6537121a578e236b9b14c9b46e09d5e"
+          },
+          "source_duration_seconds": 23.216666666666665,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 1393,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_030_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_030_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_030_male_v1/A_motion_cand_030_male_v1_BodyOnly.A_motion_cand_030_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_030_male_v1\\A_motion_cand_030_male_v1_BodyOnly.uasset",
+            "sha256": "8439ec99fb612d7676b09e0945fe97c9e26f1584647f9657f5fd02cc733a0554"
+          },
+          "source_duration_seconds": 23.216666666666665,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 1393,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_030_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_030_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_032",
+      "label_zh": "随乐舞动",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 10.333333333333334,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 10.333333333333334,
+        "frame_count": 310,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_032_female_v1/A_motion_cand_032_female_v1_BodyOnly.A_motion_cand_032_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_032_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_032_female_v1/A_motion_cand_032_female_v1_BodyOnly.A_motion_cand_032_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_032_female_v1\\A_motion_cand_032_female_v1_BodyOnly.uasset",
+            "sha256": "1b7610169236bafb9a64606e98abf6073cddd7f74e600ed375f2db7973db24ef"
+          },
+          "source_duration_seconds": 10.333333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 620,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_032_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_032_male_v1/A_motion_cand_032_male_v1_BodyOnly.A_motion_cand_032_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_032_male_v1\\A_motion_cand_032_male_v1_BodyOnly.uasset",
+            "sha256": "908497f4c06ec14321f0e50929b2c83f583d3559c093a0a0aa847507545f32db"
+          },
+          "source_duration_seconds": 10.333333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 620,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_032_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_032_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_033",
+      "label_zh": "欢呼跳跃",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 6.366666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 6.366666666666666,
+        "frame_count": 191,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_033_female_v1/A_motion_cand_033_female_v1_BodyOnly.A_motion_cand_033_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_033_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 6.366666666666666,
+        "hold_start_seconds": 1.0,
+        "hold_end_seconds": 1.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "hold_start1_slow_body8_hold_end1",
+        "body_play_rate": 0.7958333333333333
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_033_female_v1/A_motion_cand_033_female_v1_BodyOnly.A_motion_cand_033_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_033_female_v1\\A_motion_cand_033_female_v1_BodyOnly.uasset",
+            "sha256": "ff9eda806513ccf04ea7ed63ce13aab9d593c678b0416f9e2a05ac818db1e93b"
+          },
+          "source_duration_seconds": 6.383333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 383,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_033_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_033_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_033_male_v1/A_motion_cand_033_male_v1_BodyOnly.A_motion_cand_033_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_033_male_v1\\A_motion_cand_033_male_v1_BodyOnly.uasset",
+            "sha256": "285c1ec589ffb4896c9dc56f6b6ef4847480e027b247482d84632d935a6442e8"
+          },
+          "source_duration_seconds": 6.383333333333334,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 383,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_033_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_033_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_035",
+      "label_zh": "边走边思考",
+      "preview_sex": "male",
+      "selected_clock": {
+        "source_start_seconds": 5.9,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 27.200000000000003,
+        "window_start_seconds": 5.9,
+        "duration_seconds": 21.3,
+        "frame_count": 639,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_035_male_v1/A_motion_cand_035_male_v1_BodyOnly.A_motion_cand_035_male_v1_BodyOnly",
+        "source_clip_id": "motion_cand_035_male"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 5.9,
+        "source_end_seconds": 15.9,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_035_female_v1/A_motion_cand_035_female_v1_BodyOnly.A_motion_cand_035_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_035_female_v1\\A_motion_cand_035_female_v1_BodyOnly.uasset",
+            "sha256": "a1fe5649ece45f65ed6e5c46e3a146f4f1c80b655c536697ddf3190b196157f4"
+          },
+          "source_duration_seconds": 34.016666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 2041,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_035_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_035_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_035_male_v1/A_motion_cand_035_male_v1_BodyOnly.A_motion_cand_035_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_035_male_v1\\A_motion_cand_035_male_v1_BodyOnly.uasset",
+            "sha256": "8d6028ea3c31423eba32be205ff0206c16887d5dad05af16b361f7a5dc4b6114"
+          },
+          "source_duration_seconds": 34.016666666666666,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 2041,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_035_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_035_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "MOTION_CAND_036",
+      "label_zh": "模特步行",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 7.0,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 7.0,
+        "frame_count": 210,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_036_female_v1/A_motion_cand_036_female_v1_BodyOnly.A_motion_cand_036_female_v1_BodyOnly",
+        "source_clip_id": "motion_cand_036_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 7.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_first7_uniform_slowdown_to10",
+        "body_play_rate": 0.7
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/female/motion_cand_036_female_v1/A_motion_cand_036_female_v1_BodyOnly.A_motion_cand_036_female_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\female\\motion_cand_036_female_v1\\A_motion_cand_036_female_v1_BodyOnly.uasset",
+            "sha256": "e54543822186b45fb79942371e20daa7722c935277024fe962e1cc14c6c33c6c"
+          },
+          "source_duration_seconds": 15.016666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 901,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_MOTION_CAND_036_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_036_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "asset": "/Game/DataMake/Validation/MotionLibraryExpansion20261009/male/motion_cand_036_male_v1/A_motion_cand_036_male_v1_BodyOnly.A_motion_cand_036_male_v1_BodyOnly",
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\MotionLibraryExpansion20261009\\male\\motion_cand_036_male_v1\\A_motion_cand_036_male_v1_BodyOnly.uasset",
+            "sha256": "fa7349e923cacb468d44526ee1147b9b52ee2e980ddaafb97231960aec71a8f7"
+          },
+          "source_duration_seconds": 15.016666666666667,
+          "source_frame_rate": {
+            "numerator": 60,
+            "denominator": 1
+          },
+          "source_frame_count": 901,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "native_sex_export_bodyonly",
+          "numeric_validation": [],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_MOTION_CAND_036_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_036_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_F03_AUDIENCE_01",
+      "label_zh": "观众回应",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 4.533333333333333,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 4.533333333333333,
+        "frame_count": 136,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/A_DM_F03_AUDIENCE_01_BodyOnly_v001.A_DM_F03_AUDIENCE_01_BodyOnly_v001",
+        "source_clip_id": "act_f03_audience_01_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 4.533333333333333,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 2,
+        "seam_transition_seconds": 0.2,
+        "rule": "slow_body5_repeat_twice_smooth_seam",
+        "body_play_rate": 0.9066666666666666
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Female\\A_CCWH_F03_AUDIENCE_01_v002.uasset",
+            "sha256": "a38d796294927e010109c4c4f6a95aa599c2bc917eeb6d67dbbf2a6ace69d459",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Female/A_CCWH_F03_AUDIENCE_01_v002.A_CCWH_F03_AUDIENCE_01_v002"
+          },
+          "source_duration_seconds": 4.533333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 136,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_F03_AUDIENCE_01_v002.json",
+              "sha256": "986e5bad69ad0df151ebe7d6c2efc34d0d330b326c1d8829d83cb52b19ef6bc3"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_F03_AUDIENCE_01_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F03_AUDIENCE_01_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Male\\A_F03_AUDIENCE_01_Male_v1.uasset",
+            "sha256": "8cb3aa84fe282812bfae21a5e5db2568c31166d5efaa70354c3cf242419e9bdb",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Male/A_F03_AUDIENCE_01_Male_v1.A_F03_AUDIENCE_01_Male_v1"
+          },
+          "source_duration_seconds": 4.533333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 136,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_F03_AUDIENCE_01_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_F03_AUDIENCE_01_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_F02_CATCH_BREATH",
+      "label_zh": "喘气恢复",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 13.033333333333333,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 13.033333333333333,
+        "frame_count": 391,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/A_DM_F02_CATCH_BREATH_BodyOnly_v001.A_DM_F02_CATCH_BREATH_BodyOnly_v001",
+        "source_clip_id": "act_f02_catch_breath_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Female\\A_CCWH_F02_CATCH_BREATH_v002.uasset",
+            "sha256": "7ff82c4e9ade667273701521bf41f50a01596d8f526fdfdf3cbf3ddbb0f89a08",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Female/A_CCWH_F02_CATCH_BREATH_v002.A_CCWH_F02_CATCH_BREATH_v002"
+          },
+          "source_duration_seconds": 13.033333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 391,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_F02_CATCH_BREATH_v002.json",
+              "sha256": "dd3ebeb3bee9c6d2cc47d9528df10562ec492f28a01cadc280ce325e65e8e1a4"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_F02_CATCH_BREATH_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F02_CATCH_BREATH_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Male\\A_F02_CATCH_BREATH_Male_v1.uasset",
+            "sha256": "6eef6dd7c8b0fc1c56e726513dc95e10fec54c81cb1733feee46c9b32089a3b1",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Male/A_F02_CATCH_BREATH_Male_v1.A_F02_CATCH_BREATH_Male_v1"
+          },
+          "source_duration_seconds": 13.033333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 391,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_F02_CATCH_BREATH_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_F02_CATCH_BREATH_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_F05_TIE_SHOES",
+      "label_zh": "系鞋带",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 9.766666666666667,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 9.766666666666667,
+        "frame_count": 293,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/A_DM_F05_TIE_SHOES_BodyOnly_v001.A_DM_F05_TIE_SHOES_BodyOnly_v001",
+        "source_clip_id": "act_f05_tie_shoes_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 9.766666666666667,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_uniform_slowdown_to10",
+        "body_play_rate": 0.9766666666666668
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Female\\A_CCWH_F05_TIE_SHOES_v002.uasset",
+            "sha256": "e0d55860f41729d555d922d302d1286bb3f14858e3d26aee61417d3c5de1d8e9",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Female/A_CCWH_F05_TIE_SHOES_v002.A_CCWH_F05_TIE_SHOES_v002"
+          },
+          "source_duration_seconds": 9.766666666666667,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 293,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_F05_TIE_SHOES_v002.json",
+              "sha256": "dceb573ccb2881e621275bd400fc90fbc1c03496c7af0d26ceacb1ad17802544"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_F05_TIE_SHOES_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F05_TIE_SHOES_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Male\\A_F05_TIE_SHOES_Male_v1.uasset",
+            "sha256": "cc86004eba1e17f9248162e5feea7dd93ef7bbeffd30327844e2f5126be162ad",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Male/A_F05_TIE_SHOES_Male_v1.A_F05_TIE_SHOES_Male_v1"
+          },
+          "source_duration_seconds": 9.766666666666667,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 293,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_F05_TIE_SHOES_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_F05_TIE_SHOES_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_F06_ELEVATOR_GREETING",
+      "label_zh": "打招呼A",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 7.066666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 7.066666666666666,
+        "frame_count": 212,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/A_DM_F06_ELEVATOR_GREETING_BodyOnly_v001.A_DM_F06_ELEVATOR_GREETING_BodyOnly_v001",
+        "source_clip_id": "act_f06_elevator_greeting_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 7.066666666666666,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 1.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "slow_body_to9_hold_end1",
+        "body_play_rate": 0.7851851851851852
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Female\\A_CCWH_F06_ELEVATOR_GREETING_v002.uasset",
+            "sha256": "d00242cb2ad1659ffe03de5d05add7351bd34ab2b93dbf96bee80fbc8812e068",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Female/A_CCWH_F06_ELEVATOR_GREETING_v002.A_CCWH_F06_ELEVATOR_GREETING_v002"
+          },
+          "source_duration_seconds": 7.066666666666666,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 212,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_F06_ELEVATOR_GREETING_v002.json",
+              "sha256": "da469588f64e29ff7b63aee2470cdbbea668d5679fcfdc4e8a70695cadb5793e"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_F06_ELEVATOR_GREETING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F06_ELEVATOR_GREETING_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Male\\A_F06_ELEVATOR_GREETING_Male_v1.uasset",
+            "sha256": "91956cdc8ea5670e79c52ad3496ce5b8e479809377e695eca374c17b51b5f58d",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Male/A_F06_ELEVATOR_GREETING_Male_v1.A_F06_ELEVATOR_GREETING_Male_v1"
+          },
+          "source_duration_seconds": 7.066666666666666,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 212,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_F06_ELEVATOR_GREETING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_F06_ELEVATOR_GREETING_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_F01_SEXY_DANCE",
+      "label_zh": "舒展舞蹈",
+      "preview_sex": "female",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 8.633333333333333,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 8.633333333333333,
+        "frame_count": 259,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Female/BodyOnly/A_DM_F01_SEXY_DANCE_BodyOnly_v001.A_DM_F01_SEXY_DANCE_BodyOnly_v001",
+        "source_clip_id": "act_f01_sexy_dance_female"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 8.633333333333333,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_uniform_slowdown_to10",
+        "body_play_rate": 0.8633333333333333
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Female\\A_CCWH_F01_SEXY_DANCE_v002.uasset",
+            "sha256": "df3c6ba0a9525348328f376bcbf8cd467990c8e83f4e537d419a2414b75eb000",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Female/A_CCWH_F01_SEXY_DANCE_v002.A_CCWH_F01_SEXY_DANCE_v002"
+          },
+          "source_duration_seconds": 8.633333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 259,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_F01_SEXY_DANCE_v002.json",
+              "sha256": "27b2162f1f52c05ff62a4298aaad16f61e844b435dca54f96918c5127860a2fe"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_F01_SEXY_DANCE_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F01_SEXY_DANCE_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Male\\A_F01_SEXY_DANCE_Male_v1.uasset",
+            "sha256": "b02888dcb991e0f075c10c5e3112f55629f9d52058ebe52298b2ed0c2c062c31",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Male/A_F01_SEXY_DANCE_Male_v1.A_F01_SEXY_DANCE_Male_v1"
+          },
+          "source_duration_seconds": 8.633333333333333,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 259,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_F01_SEXY_DANCE_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_F01_SEXY_DANCE_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_M05_ELEVATOR_GREETING",
+      "label_zh": "打招呼B",
+      "preview_sex": "male",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 7.066666666666666,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 7.066666666666666,
+        "frame_count": 212,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/BodyOnly/A_DM_M05_ELEVATOR_GREETING_BodyOnly_v001.A_DM_M05_ELEVATOR_GREETING_BodyOnly_v001",
+        "source_clip_id": "act_m05_elevator_greeting_male"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 7.066666666666666,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 1.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "slow_body_to9_hold_end1",
+        "body_play_rate": 0.7851851851851852
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Female\\A_M05_ELEVATOR_GREETING_Female_v1.uasset",
+            "sha256": "b0b745ace197d20f2b64a19645c69cf1815a57d74f9e0fd7fdec837cf179857e",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Female/A_M05_ELEVATOR_GREETING_Female_v1.A_M05_ELEVATOR_GREETING_Female_v1"
+          },
+          "source_duration_seconds": 7.066666666666666,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 212,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_M05_ELEVATOR_GREETING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_M05_ELEVATOR_GREETING_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Male\\A_CCWH_M05_ELEVATOR_GREETING_v002.uasset",
+            "sha256": "3a9e6319d7c927704d8ee08c18a23948b003451a38fe020b92e886c479178a74",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Male/A_CCWH_M05_ELEVATOR_GREETING_v002.A_CCWH_M05_ELEVATOR_GREETING_v002"
+          },
+          "source_duration_seconds": 7.066666666666666,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 212,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_M05_ELEVATOR_GREETING_v002.json",
+              "sha256": "fec384e1bb3a3073b7d79678e4ae85d7471346f8d4b9c036efa5900816f53dad"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_M05_ELEVATOR_GREETING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M05_ELEVATOR_GREETING_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_M04_LIVING_ROOM_SWING",
+      "label_zh": "摇摆舞",
+      "preview_sex": "male",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 11.8,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 11.8,
+        "frame_count": 354,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/BodyOnly/A_DM_M04_LIVING_ROOM_SWING_BodyOnly_v001.A_DM_M04_LIVING_ROOM_SWING_BodyOnly_v001",
+        "source_clip_id": "act_m04_living_room_swing_male"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Female\\A_M04_LIVING_ROOM_SWING_Female_v1.uasset",
+            "sha256": "d960a077effe732efd33428782f5789e8c2755a96b41316a69f0d8c89ad04403",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Female/A_M04_LIVING_ROOM_SWING_Female_v1.A_M04_LIVING_ROOM_SWING_Female_v1"
+          },
+          "source_duration_seconds": 19.5,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 585,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_M04_LIVING_ROOM_SWING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_M04_LIVING_ROOM_SWING_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Male\\A_CCWH_M04_LIVING_ROOM_SWING_v002.uasset",
+            "sha256": "abb9193251673a4367d7583838bdd1a97905e38575ea5e0b48b1bab6b8f7d422",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Male/A_CCWH_M04_LIVING_ROOM_SWING_v002.A_CCWH_M04_LIVING_ROOM_SWING_v002"
+          },
+          "source_duration_seconds": 19.5,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 585,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_M04_LIVING_ROOM_SWING_v002.json",
+              "sha256": "fbff5483cfcafa12d3d6e287c6402aad3ae8d3427319706533f6e7675dea8aa0"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_M04_LIVING_ROOM_SWING_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M04_LIVING_ROOM_SWING_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    },
+    {
+      "motion_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+      "label_zh": "踏步欢舞",
+      "preview_sex": "male",
+      "selected_clock": {
+        "source_start_seconds": 0.0,
+        "source_body_play_rate": 1.0,
+        "source_end_seconds": 10.9,
+        "window_start_seconds": 0.0,
+        "duration_seconds": 10.9,
+        "frame_count": 327,
+        "fps": 30,
+        "source_animation": "/Game/DataMake/Animations/CC5/FirstDataBatch/Male/BodyOnly/A_DM_M06_CHEER_HANDS_STEP_DANCE_BodyOnly_v001.A_DM_M06_CHEER_HANDS_STEP_DANCE_BodyOnly_v001",
+        "source_clip_id": "act_m06_cheer_hands_step_dance_male"
+      },
+      "production10": {
+        "duration_seconds": 10.0,
+        "source_start_seconds": 0.0,
+        "source_end_seconds": 10.0,
+        "hold_start_seconds": 0.0,
+        "hold_end_seconds": 0.0,
+        "repeat_count": 1,
+        "seam_transition_seconds": 0.0,
+        "rule": "selected_window_first10_original_rate",
+        "body_play_rate": 1.0
+      },
+      "variants": {
+        "female": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CameraMotionSceneAlignment20261012\\LegacyCrossSex\\Female\\A_M06_CHEER_HANDS_STEP_DANCE_Female_v1.uasset",
+            "sha256": "e252209652572e1b54df8e475f87faf3c6266443d6643d411350f07ec3727542",
+            "asset": "/Game/DataMake/Validation/CameraMotionSceneAlignment20261012/LegacyCrossSex/Female/A_M06_CHEER_HANDS_STEP_DANCE_Female_v1.A_M06_CHEER_HANDS_STEP_DANCE_Female_v1"
+          },
+          "source_duration_seconds": 10.9,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 327,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "origin_type": "current_opposite_sex_body_track_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\camera_motion_scene_alignment_20261012_v1\\legacy_motion\\validation_v1.json",
+              "sha256": "5fcbecfe7b746fe35fac008e1292a8046589dd5008990e82497ce5503c095d14"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/female/A_ACT_M06_CHEER_HANDS_STEP_DANCE_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/female/A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s",
+          "source_created": false,
+          "production_created": false
+        },
+        "male": {
+          "source": {
+            "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Validation\\CFDNativeBatch4020261006\\ModularReview\\Animations\\Male\\A_CCWH_M06_CHEER_HANDS_STEP_DANCE_v002.uasset",
+            "sha256": "af434deddf39214f2fc7516288b25172fcd1b2ae102f3253992d0872824de2c5",
+            "asset": "/Game/DataMake/Validation/CFDNativeBatch4020261006/ModularReview/Animations/Male/A_CCWH_M06_CHEER_HANDS_STEP_DANCE_v002.A_CCWH_M06_CHEER_HANDS_STEP_DANCE_v002"
+          },
+          "source_duration_seconds": 10.9,
+          "source_frame_rate": {
+            "numerator": 30,
+            "denominator": 1
+          },
+          "source_frame_count": 327,
+          "shared_skeleton": "/Game/DataMake/Validation/CFDNativeBatch4020261006/SharedSkeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "origin_type": "existing_same_sex_shared_skeleton_body_reconstruction",
+          "numeric_validation": [
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\motion_portrait_scene_pilot_20261011_v1\\legacy_shared_motion_reuse_v2.json",
+              "sha256": "79b786064af8bef014a70fdc1a025e584feeca61c152b7b0a77973256f3dfaaf"
+            },
+            {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\unreal_character_import\\cfd_native_batch40_20261006_v1\\runtime\\modular_review_20261007_v1\\animations\\ACT_M06_CHEER_HANDS_STEP_DANCE_v002.json",
+              "sha256": "d8995428a7465466199ea8c130b1a9cbb6d37c4834951cce346b643f0547ec22"
+            }
+          ],
+          "source_destination": "/Game/DataMake/Animations/Body/Source/male/A_ACT_M06_CHEER_HANDS_STEP_DANCE_Source",
+          "production_destination": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s",
+          "source_created": false,
+          "production_created": false
+        }
+      },
+      "visual_acceptance": "pending_new_10s_review"
+    }
+  ]
+}

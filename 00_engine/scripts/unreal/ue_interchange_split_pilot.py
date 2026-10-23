@@ -1,5 +1,15 @@
 """Import the CC5 pilot FBX as separate skeletal meshes using Interchange."""
 
+# RETIRED_EXECUTION_ENTRY_20261001: no current import consumers.
+# This script performs asset writes at module top level. Block import as well
+# as direct execution; current reimports use the canonical batch manifest and
+# /Game/DataMake/Config/Import/DM_Interchange_Split_Pipeline_v1.
+raise RuntimeError(
+    "Retired Interchange split pilot. Do not rebuild deleted legacy assets; "
+    "use the formal wardrobe/hair pipeline and current technical owners."
+)
+
+
 import json
 from pathlib import Path
 import unreal

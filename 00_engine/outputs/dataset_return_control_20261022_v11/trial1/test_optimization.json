@@ -1,0 +1,473 @@
+{
+  "source": "00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate",
+  "seed": 2026102211,
+  "seconds": 180,
+  "sampler": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\optimize_returns.py",
+    "sha256": "883015786ea3bd6951cb739e7a5ad1244a4bae6b65811602e0f3641d859c01d3"
+  },
+  "proposal_weights": {
+    "axis_decay": 0.4,
+    "immediate_old_value": 0.05,
+    "older_ancestor_value": 0.2,
+    "other_branch_seen_value": 0.35,
+    "new_value": 1
+  },
+  "acceptance": "existing coverage and frequency gates; lower return/revisit objective; nondecreasing per-chain distinct axes; initial node and parent-position topology fixed",
+  "baseline": {
+    "chains": 2400,
+    "return_events": 1567,
+    "return_chains": 1192,
+    "other_branch_repeat_events": 275,
+    "full_node_repeats": 1218,
+    "by_length": {
+      "2": {
+        "chains": 480,
+        "return_events": 57,
+        "return_chains": 57,
+        "mean_distinct_axes": 1.8041666666666667
+      },
+      "3": {
+        "chains": 560,
+        "return_events": 169,
+        "return_chains": 165,
+        "mean_distinct_axes": 2.4785714285714286
+      },
+      "4": {
+        "chains": 680,
+        "return_events": 476,
+        "return_chains": 411,
+        "mean_distinct_axes": 2.8911764705882352
+      },
+      "5": {
+        "chains": 680,
+        "return_events": 865,
+        "return_chains": 559,
+        "mean_distinct_axes": 3.15
+      }
+    },
+    "axis_counts": {
+      "identity": 495,
+      "hair": 1342,
+      "hair_color": 1343,
+      "wardrobe": 1437,
+      "action": 1435,
+      "camera": 1437,
+      "site": 1271
+    },
+    "used_edges": 4148,
+    "four_use_edges": 7,
+    "conditional_single_fraction": 0.47390396659707723
+  },
+  "final": {
+    "chains": 2400,
+    "return_events": 283,
+    "return_chains": 226,
+    "other_branch_repeat_events": 119,
+    "full_node_repeats": 72,
+    "by_length": {
+      "2": {
+        "chains": 480,
+        "return_events": 1,
+        "return_chains": 1,
+        "mean_distinct_axes": 1.98125
+      },
+      "3": {
+        "chains": 560,
+        "return_events": 7,
+        "return_chains": 7,
+        "mean_distinct_axes": 2.9464285714285716
+      },
+      "4": {
+        "chains": 680,
+        "return_events": 65,
+        "return_chains": 63,
+        "mean_distinct_axes": 3.4823529411764707
+      },
+      "5": {
+        "chains": 680,
+        "return_events": 210,
+        "return_chains": 155,
+        "mean_distinct_axes": 3.9647058823529413
+      }
+    },
+    "axis_counts": {
+      "identity": 471,
+      "hair": 1269,
+      "hair_color": 1266,
+      "wardrobe": 1518,
+      "action": 1474,
+      "camera": 1517,
+      "site": 1245
+    },
+    "used_edges": 4400,
+    "four_use_edges": 22,
+    "conditional_single_fraction": 0.4512516469038208
+  },
+  "accepted": 5120,
+  "attempts": 526715,
+  "rejects": {
+    "objective": 91783,
+    "axis_diversity": 73946,
+    "four_use": 129157,
+    "frequency": 191,
+    "axis_counts": 112973,
+    "single_balance": 8347
+  },
+  "trace": [
+    {
+      "elapsed": 0.0,
+      "accepted": 0,
+      "attempts": 2,
+      "chains": 2400,
+      "return_events": 1567,
+      "return_chains": 1192,
+      "other_branch_repeat_events": 275,
+      "full_node_repeats": 1218,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 57,
+          "return_chains": 57,
+          "mean_distinct_axes": 1.8041666666666667
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 169,
+          "return_chains": 165,
+          "mean_distinct_axes": 2.4785714285714286
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 476,
+          "return_chains": 411,
+          "mean_distinct_axes": 2.8911764705882352
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 865,
+          "return_chains": 559,
+          "mean_distinct_axes": 3.15
+        }
+      },
+      "axis_counts": {
+        "identity": 495,
+        "hair": 1342,
+        "hair_color": 1343,
+        "wardrobe": 1437,
+        "action": 1435,
+        "camera": 1437,
+        "site": 1271
+      },
+      "used_edges": 4148,
+      "four_use_edges": 7,
+      "conditional_single_fraction": 0.47390396659707723
+    },
+    {
+      "elapsed": 30.0,
+      "accepted": 3189,
+      "attempts": 78644,
+      "chains": 2400,
+      "return_events": 359,
+      "return_chains": 282,
+      "other_branch_repeat_events": 154,
+      "full_node_repeats": 101,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 2,
+          "return_chains": 2,
+          "mean_distinct_axes": 1.9708333333333334
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 9,
+          "return_chains": 9,
+          "mean_distinct_axes": 2.9035714285714285
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 88,
+          "return_chains": 86,
+          "mean_distinct_axes": 3.3705882352941177
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 260,
+          "return_chains": 185,
+          "mean_distinct_axes": 3.751470588235294
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1271,
+        "hair_color": 1249,
+        "wardrobe": 1518,
+        "action": 1489,
+        "camera": 1518,
+        "site": 1244
+      },
+      "used_edges": 4400,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.4505928853754941
+    },
+    {
+      "elapsed": 60.0,
+      "accepted": 4018,
+      "attempts": 168053,
+      "chains": 2400,
+      "return_events": 320,
+      "return_chains": 253,
+      "other_branch_repeat_events": 135,
+      "full_node_repeats": 88,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 2,
+          "return_chains": 2,
+          "mean_distinct_axes": 1.9770833333333333
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 8,
+          "return_chains": 8,
+          "mean_distinct_axes": 2.9339285714285714
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 76,
+          "return_chains": 74,
+          "mean_distinct_axes": 3.4220588235294116
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 234,
+          "return_chains": 169,
+          "mean_distinct_axes": 3.8426470588235295
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1254,
+        "hair_color": 1262,
+        "wardrobe": 1519,
+        "action": 1493,
+        "camera": 1517,
+        "site": 1244
+      },
+      "used_edges": 4400,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.45029624753127057
+    },
+    {
+      "elapsed": 90.0,
+      "accepted": 4467,
+      "attempts": 256839,
+      "chains": 2400,
+      "return_events": 303,
+      "return_chains": 242,
+      "other_branch_repeat_events": 124,
+      "full_node_repeats": 82,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 2,
+          "return_chains": 2,
+          "mean_distinct_axes": 1.9791666666666667
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 8,
+          "return_chains": 8,
+          "mean_distinct_axes": 2.9410714285714286
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 71,
+          "return_chains": 69,
+          "mean_distinct_axes": 3.4441176470588237
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 222,
+          "return_chains": 163,
+          "mean_distinct_axes": 3.911764705882353
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1254,
+        "hair_color": 1265,
+        "wardrobe": 1519,
+        "action": 1490,
+        "camera": 1516,
+        "site": 1245
+      },
+      "used_edges": 4400,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.4509545753785385
+    },
+    {
+      "elapsed": 120.0,
+      "accepted": 4731,
+      "attempts": 347802,
+      "chains": 2400,
+      "return_events": 293,
+      "return_chains": 234,
+      "other_branch_repeat_events": 121,
+      "full_node_repeats": 75,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 1,
+          "return_chains": 1,
+          "mean_distinct_axes": 1.98125
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 8,
+          "return_chains": 8,
+          "mean_distinct_axes": 2.9410714285714286
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 70,
+          "return_chains": 68,
+          "mean_distinct_axes": 3.4544117647058825
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 214,
+          "return_chains": 157,
+          "mean_distinct_axes": 3.9338235294117645
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1256,
+        "hair_color": 1261,
+        "wardrobe": 1519,
+        "action": 1490,
+        "camera": 1519,
+        "site": 1244
+      },
+      "used_edges": 4400,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.45029624753127057
+    },
+    {
+      "elapsed": 150.0,
+      "accepted": 4957,
+      "attempts": 437992,
+      "chains": 2400,
+      "return_events": 287,
+      "return_chains": 228,
+      "other_branch_repeat_events": 119,
+      "full_node_repeats": 73,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 1,
+          "return_chains": 1,
+          "mean_distinct_axes": 1.98125
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 8,
+          "return_chains": 8,
+          "mean_distinct_axes": 2.9464285714285716
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 66,
+          "return_chains": 64,
+          "mean_distinct_axes": 3.4779411764705883
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 212,
+          "return_chains": 155,
+          "mean_distinct_axes": 3.9558823529411766
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1273,
+        "hair_color": 1263,
+        "wardrobe": 1519,
+        "action": 1475,
+        "camera": 1515,
+        "site": 1244
+      },
+      "used_edges": 4402,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.4509545753785385
+    },
+    {
+      "elapsed": 180.0,
+      "accepted": 5120,
+      "attempts": 526715,
+      "chains": 2400,
+      "return_events": 283,
+      "return_chains": 226,
+      "other_branch_repeat_events": 119,
+      "full_node_repeats": 72,
+      "by_length": {
+        "2": {
+          "chains": 480,
+          "return_events": 1,
+          "return_chains": 1,
+          "mean_distinct_axes": 1.98125
+        },
+        "3": {
+          "chains": 560,
+          "return_events": 7,
+          "return_chains": 7,
+          "mean_distinct_axes": 2.9464285714285716
+        },
+        "4": {
+          "chains": 680,
+          "return_events": 65,
+          "return_chains": 63,
+          "mean_distinct_axes": 3.4823529411764707
+        },
+        "5": {
+          "chains": 680,
+          "return_events": 210,
+          "return_chains": 155,
+          "mean_distinct_axes": 3.9647058823529413
+        }
+      },
+      "axis_counts": {
+        "identity": 471,
+        "hair": 1269,
+        "hair_color": 1266,
+        "wardrobe": 1518,
+        "action": 1474,
+        "camera": 1517,
+        "site": 1245
+      },
+      "used_edges": 4400,
+      "four_use_edges": 22,
+      "conditional_single_fraction": 0.4512516469038208
+    }
+  ],
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\test\\nodes.json",
+      "sha256": "f2d44e2717265e42a4e4fc8b43c8c79e39448839c72ce48f11162f085d194859"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\test\\edges.json",
+      "sha256": "744d6d6390d317edeaf8a8962e0b216b4559fc18b1819010d817805d698cd860"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_distributed_graph_20261022_v10\\aspect_work\\selected_candidate\\test\\sessions.jsonl",
+      "sha256": "ab6924d56fd34e2f1f0170d3b58ec31bf874df6e647a3a744afdf9f7120537f5"
+    }
+  ],
+  "archived_sampler_snapshot": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\optimize_returns_trial1_snapshot.py",
+    "sha256": "883015786ea3bd6951cb739e7a5ad1244a4bae6b65811602e0f3641d859c01d3"
+  }
+}

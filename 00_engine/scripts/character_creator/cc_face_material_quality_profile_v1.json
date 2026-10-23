@@ -138,5 +138,14 @@
     "production_profile_status": "approved_2026-08-05",
     "do_not_overwrite_skin_identity_color": true,
     "do_not_apply_deferred_groups_globally": true
+  },
+  "source_project_lifecycle": {
+    "role": "historical_material_benchmark_provenance_not_runtime_input",
+    "cleanup_date": "2026-10-12",
+    "status": "retired_deleted_by_authorized_cleanup",
+    "physical_replay_required": false,
+    "notes": "保留此材质参数知识配置；source_project仅指历史实验来源，已获授权退役，不作为当前角色创建/皮肤实验的运行依赖。实际删除以workspace_cleanup_20261012_v1执行回执为准；旧实验不可据此字段直接重放。",
+    "cleanup_run": "00_engine/outputs/workspace_cleanup_20261012_v1",
+    "retirement_evidence": "00_engine/outputs/workspace_cleanup_20261012_v1/showcase_protection_retirement_v1.json"
   }
 }

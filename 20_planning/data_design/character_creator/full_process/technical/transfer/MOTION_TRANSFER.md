@@ -23,6 +23,10 @@
 
 首批生产动作已经收敛为女性 5 个、男性 5 个。每个动作固定五秒窗口；短动作按登记策略补齐。只有 `ACT_F02_CATCH_BREATH` 使用批准的 InPlace Override，其余保留源 Root Motion。
 
+### 2.1 第二批候选边界
+
+第二批动作数量暂不冻结，先从现有动作候选池筛选并复用相同的 CC→FBX→同性 Skeleton 导入链。当前范围排除需要道具、手部接触或复杂交互依赖的动作；新增候选必须先完成五秒窗口、Root Motion/InPlace、面部轨道分类和服装压力抽检，再进入第二批矩阵。
+
 动作选择到 UE 导出工作单由以下正式入口顺序编译：
 
 | 入口 | 作用 |
@@ -81,3 +85,15 @@ python .\00_engine\scripts\unreal\run_first_batch_motion_import.py `
 ## 7. 失败与恢复
 
 单动作导出或导入失败时按 `action_id` 隔离重跑，不重新导入已接受动作。Skeleton、窗口或 Root Motion 策略错误必须修复 Registry/Bundle 并生成新版本；不得在 UE 中手工拖动关键帧后仍沿用原动作 ID。许可或未知 CC 弹窗交由用户处理，不能以空动画或 T-pose 代替失败资产。
+
+## 8. 完整角色现成面部表演转移
+
+2026-10-07现成面部库若需要从已打开的CC实例导出并导入UE，本节拥有`%OUTPUT_ROOT%/unreal_character_import/character_runtime_face_library_20261007_v1/transfer/`：源表演定位、区间与导出设置、传输文件/伴随信息SHA、导入对象/目标Skeleton及实际轨道和曲线清单。沿用WF-40/OUT-WF40-TRANSFER-BUNDLE，默认unclassified保护；本轮实际现成表演转移已用于60项组合的来源闭包，不改第一批历史动作契约。
+
+CC已由用户手动打开，root可以使用当前实例但不自行启动；只转移本轮筛选需要的现成表演，不扩大为身体动作库或全角色重导。转移成功后由[Animation §7](../unreal/ANIMATION_EXPRESSION_MORPH.md#7-现成面部表演库与完整角色组合)判断面部/身体通道及视觉兼容，再接入完整角色运行时；文件存在或导入命令成功不等同于可用表情。
+
+本阶段实验导入入口为`%LANCE_ROOT%/00_engine/scripts/unreal/ue_import_native_face_clip_v1.py`，只允许核对SHA的本地FBX导入独立`/Game/DataMake/Validation/NativeFaceLibrary20261007`命名空间，目标限定现有男女共享Skeleton。读取真实曲线和骨骼采样作为证据，不覆盖源Skeleton、不修改审查关卡；成功导入不能替代Animation §7的筛选与身体兼容验证。当前仍为实验入口；本轮技术交付来源由60项审查库逐项绑定实际导入回执，用户表情接受另记pending。
+
+本轮实际原生导入回执另位于`%OUTPUT_ROOT%/unreal_character_import/character_runtime_face_library_20261007_v1/face_imports/`，同归本节WF-40/OUT-WF40-TRANSFER-BUNDLE、unclassified保护；它们验证转移来源/Skeleton/曲线，不替代组合及运行接受。
+
+本Run根目录实验派发脚本`run_native_import.py`、`run_native_worker.py`归本节，调用隔离CC/UE转移或worker并保存原始回执；不自动接受表情效果，不自动覆盖已有资产。

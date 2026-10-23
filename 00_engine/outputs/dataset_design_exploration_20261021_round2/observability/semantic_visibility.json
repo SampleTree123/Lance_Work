@@ -1,0 +1,729 @@
+{
+  "status": "configuration_and_sparse_geometry_diagnostic_not_pixel_acceptance",
+  "interpretation": {
+    "hair_color_without_hair": "Scalp-hair color has no active hair asset to affect. Exclude as an ordinary visible edit; canonicalize inactive state separately.",
+    "hair_shape_with_asset_dependent_original_color": "Review candidate: original is not a fixed cross-asset color. Not proof every pair changes perceived color.",
+    "male_pants_edit_lower_proxy_absent": "Sparse representative skeleton lower-body envelope out of frame; likely unobservable pants change, but not pixel or shadow proof.",
+    "identity_edit_without_64px_front_head_proxy": "Reference-based face identity evidence may be weak. Identity can still change visible body/skin; not an invalid edge automatically."
+  },
+  "results": {
+    "train": {
+      "nodes": 2500,
+      "sessions": 12000,
+      "unique_used_edges": 9094,
+      "counts": {
+        "no_hair_nodes": 147,
+        "edit_occurrences": 44800,
+        "axis_occurrences_identity": 8754,
+        "axis_occurrences_garment_slot": 4770,
+        "axis_occurrences_action": 8322,
+        "axis_occurrences_site": 7338,
+        "axis_occurrences_hair_color": 4722,
+        "axis_occurrences_hair": 4769,
+        "occurrences_identity_edit_without_64px_front_head_proxy": 2064,
+        "axis_occurrences_camera": 6125,
+        "occurrences_hair_shape_with_asset_dependent_original_color": 692,
+        "occurrences_male_pants_edit_lower_proxy_absent": 110
+      },
+      "flagged_unique_edges": {
+        "identity_edit_without_64px_front_head_proxy": 474,
+        "hair_shape_with_asset_dependent_original_color": 130,
+        "male_pants_edit_lower_proxy_absent": 18
+      },
+      "flagged_sessions": {
+        "identity_edit_without_64px_front_head_proxy": 1648,
+        "hair_shape_with_asset_dependent_original_color": 517,
+        "male_pants_edit_lower_proxy_absent": 102
+      },
+      "inactive_hair_color_alias_groups": 0,
+      "inactive_hair_color_redundant_nodes": 0,
+      "alias_examples": [],
+      "sources": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_train_uq1_ab3_graph.json",
+          "sha256": "6bf20b0f3c0ca6fe88e9b7a062d3c4532fe096ba240f5b9a5b01773713991648"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_train_uq1_ab3_sessions.jsonl",
+          "sha256": "204c813dc001b6c402eae81c38e62c7790689851c51b82ff631b39d4165385dd"
+        }
+      ]
+    },
+    "test": {
+      "nodes": 500,
+      "sessions": 3000,
+      "unique_used_edges": 1466,
+      "counts": {
+        "no_hair_nodes": 30,
+        "edit_occurrences": 11200,
+        "axis_occurrences_garment_slot": 1161,
+        "axis_occurrences_hair": 1354,
+        "axis_occurrences_camera": 2018,
+        "axis_occurrences_action": 2541,
+        "axis_occurrences_site": 1332,
+        "axis_occurrences_identity": 1743,
+        "axis_occurrences_hair_color": 1051,
+        "occurrences_identity_edit_without_64px_front_head_proxy": 368,
+        "occurrences_hair_shape_with_asset_dependent_original_color": 137
+      },
+      "flagged_unique_edges": {
+        "identity_edit_without_64px_front_head_proxy": 44,
+        "hair_shape_with_asset_dependent_original_color": 16
+      },
+      "flagged_sessions": {
+        "identity_edit_without_64px_front_head_proxy": 334,
+        "hair_shape_with_asset_dependent_original_color": 119
+      },
+      "inactive_hair_color_alias_groups": 0,
+      "inactive_hair_color_redundant_nodes": 0,
+      "alias_examples": [],
+      "sources": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_test_uq1_ab3_graph.json",
+          "sha256": "a406d8967c71b9963d41140026be365e8a1331d78d6e5b3040265c9e154fe83c"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_test_uq1_ab3_sessions.jsonl",
+          "sha256": "db6464fa67fdc804644af7188436939c2940919c9087c237624ada23c3574741"
+        }
+      ]
+    }
+  },
+  "examples": {
+    "train_identity_edit_without_64px_front_head_proxy": [
+      {
+        "session_id": "sims_9ef41d659e45dda49e7c",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_AF_004",
+          "action": "MOTION_CAND_036",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_4e6b9c18d9",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB3_03"
+        },
+        "target": {
+          "identity": "CFD40_LF_004",
+          "action": "MOTION_CAND_036",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_4e6b9c18d9",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB3_03"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_036_landscape_rear_three_quarter_full"
+      },
+      {
+        "session_id": "sims_2903a291d5b3c88f4ddd",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_BF_002",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "back_upper",
+          "aspect": "landscape",
+          "site": "site_1bbc32217c",
+          "hair_color": "black",
+          "garment_slot": "female.streetwear_collection.asset.5347ce3fc6a1",
+          "hair": "HAIR_HB1_01"
+        },
+        "target": {
+          "identity": "CFD40_LF_002",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "back_upper",
+          "aspect": "landscape",
+          "site": "site_1bbc32217c",
+          "hair_color": "black",
+          "garment_slot": "female.streetwear_collection.asset.5347ce3fc6a1",
+          "hair": "HAIR_HB1_01"
+        },
+        "proxy_shot_id": "production_production10_act_m05_elevator_greeting_landscape_back_upper"
+      },
+      {
+        "session_id": "sims_3bd77174a04c8ecbbfe0",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_WF_001",
+          "action": "ACT_F03_AUDIENCE_01",
+          "camera": "rear_three_quarter_upper",
+          "aspect": "landscape",
+          "site": "site_05dac27bc7",
+          "hair_color": "blue",
+          "garment_slot": "female.streetwear_collection.asset.b47b6209ecba",
+          "hair": "HAIR_HB1_20"
+        },
+        "target": {
+          "identity": "CFD40_BF_001",
+          "action": "ACT_F03_AUDIENCE_01",
+          "camera": "rear_three_quarter_upper",
+          "aspect": "landscape",
+          "site": "site_05dac27bc7",
+          "hair_color": "blue",
+          "garment_slot": "female.streetwear_collection.asset.b47b6209ecba",
+          "hair": "HAIR_HB1_20"
+        },
+        "proxy_shot_id": "production_production10_act_f03_audience_01_landscape_rear_three_quarter_upper"
+      },
+      {
+        "session_id": "sims_a7205de18eaf31a65ce8",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_BM_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.05bdaf6c7f02",
+          "hair": "HAIR_HB3_05"
+        },
+        "target": {
+          "identity": "CFD40_WM_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.05bdaf6c7f02",
+          "hair": "HAIR_HB3_05"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_008_landscape_rear_three_quarter_full"
+      },
+      {
+        "session_id": "sims_a7205de18eaf31a65ce8",
+        "target_occurrence": 4,
+        "source": {
+          "identity": "CFD40_WM_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.05bdaf6c7f02",
+          "hair": "HAIR_HB1_05"
+        },
+        "target": {
+          "identity": "CFD40_AM_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.05bdaf6c7f02",
+          "hair": "HAIR_HB1_05"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_008_landscape_rear_three_quarter_full"
+      }
+    ],
+    "train_hair_shape_with_asset_dependent_original_color": [
+      {
+        "session_id": "sims_5e557b48db3f301417ce",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_AF_001",
+          "action": "MOTION_CAND_001",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_4e6b9c18d9",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "HAIR_HB3_03"
+        },
+        "target": {
+          "identity": "CFD40_AF_001",
+          "action": "MOTION_CAND_001",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_4e6b9c18d9",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "HAIR_HB1_17"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_001_landscape_front_full"
+      },
+      {
+        "session_id": "sims_df0dc338345ad46da67e",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_BF_001",
+          "action": "MOTION_CAND_019",
+          "camera": "dolly_in_side",
+          "aspect": "landscape",
+          "site": "site_7ed6554b09",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.19cbe40f55c1",
+          "hair": "HAIR_HB3_17"
+        },
+        "target": {
+          "identity": "CFD40_BF_001",
+          "action": "MOTION_CAND_019",
+          "camera": "dolly_in_side",
+          "aspect": "landscape",
+          "site": "site_7ed6554b09",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.19cbe40f55c1",
+          "hair": "HAIR_HB1_20"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_019_landscape_dolly_in_side"
+      },
+      {
+        "session_id": "sims_1302a222ac5c80890e3e",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_AF_001",
+          "action": "MOTION_CAND_001",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_9a6519ec02",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "HAIR_HB3_03"
+        },
+        "target": {
+          "identity": "CFD40_AF_001",
+          "action": "MOTION_CAND_001",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_9a6519ec02",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "none"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_001_landscape_front_full"
+      },
+      {
+        "session_id": "sims_8616c97824d10a61ec4c",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "site": "site_7b963967ee",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_05"
+        },
+        "target": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "site": "site_7b963967ee",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "none"
+        },
+        "proxy_shot_id": "production_production10_act_m05_elevator_greeting_landscape_low_full"
+      },
+      {
+        "session_id": "sims_8616c97824d10a61ec4c",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_WM_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "site": "site_7b963967ee",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "none"
+        },
+        "target": {
+          "identity": "CFD40_WM_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "site": "site_7b963967ee",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_05"
+        },
+        "proxy_shot_id": "production_production10_act_m05_elevator_greeting_landscape_low_full"
+      }
+    ],
+    "train_male_pants_edit_lower_proxy_absent": [
+      {
+        "session_id": "sims_53089fbae693c75bfa3a",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_WM_002",
+          "action": "MOTION_CAND_020",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_def046be4c",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.f456f57eb13f",
+          "hair": "HAIR_HB1_20"
+        },
+        "target": {
+          "identity": "CFD40_WM_002",
+          "action": "MOTION_CAND_020",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_def046be4c",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.5183a0fb4596",
+          "hair": "HAIR_HB1_20"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_020_landscape_front_head"
+      },
+      {
+        "session_id": "sims_099b1cac2111d9af0ca0",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_WM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.5183a0fb4596",
+          "hair": "HAIR_HB1_20"
+        },
+        "target": {
+          "identity": "CFD40_WM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_33328cb3f4",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.f456f57eb13f",
+          "hair": "HAIR_HB1_20"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_023_landscape_front_head"
+      },
+      {
+        "session_id": "sims_cd3912e5a42a6cf7bddd",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_BM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.5183a0fb4596",
+          "hair": "HAIR_HB3_16"
+        },
+        "target": {
+          "identity": "CFD40_BM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.12310057d1a0",
+          "hair": "HAIR_HB3_16"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_023_landscape_front_head"
+      },
+      {
+        "session_id": "sims_cd3912e5a42a6cf7bddd",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_LM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.12310057d1a0",
+          "hair": "HAIR_HB3_16"
+        },
+        "target": {
+          "identity": "CFD40_LM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.5183a0fb4596",
+          "hair": "HAIR_HB3_16"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_023_landscape_front_head"
+      },
+      {
+        "session_id": "sims_28d345d237381991108a",
+        "target_occurrence": 3,
+        "source": {
+          "identity": "CFD40_LM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.5183a0fb4596",
+          "hair": "HAIR_HB3_16"
+        },
+        "target": {
+          "identity": "CFD40_LM_002",
+          "action": "MOTION_CAND_023",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "site": "site_dc3f593a1d",
+          "hair_color": "black",
+          "garment_slot": "male.1920s_collection.asset.12310057d1a0",
+          "hair": "HAIR_HB3_16"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_023_landscape_front_head"
+      }
+    ],
+    "test_identity_edit_without_64px_front_head_proxy": [
+      {
+        "session_id": "sims_8856816357d7a82c2a01",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_AF_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "red",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB1_05"
+        },
+        "target": {
+          "identity": "CFD40_WF_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_full",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "red",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB1_05"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_008_landscape_rear_three_quarter_full"
+      },
+      {
+        "session_id": "sims_ded462cf05e5e67a62e6",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_WF_004",
+          "action": "MOTION_CAND_024",
+          "camera": "side_upper",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.dfc093238f2a",
+          "hair": "HAIR_HB2_07"
+        },
+        "target": {
+          "identity": "CFD40_BF_004",
+          "action": "MOTION_CAND_024",
+          "camera": "side_upper",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.dfc093238f2a",
+          "hair": "HAIR_HB2_07"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_024_landscape_side_upper"
+      },
+      {
+        "session_id": "sims_5faacadd660e01609028",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_BF_005",
+          "action": "MOTION_CAND_020",
+          "camera": "dolly_out_back",
+          "aspect": "landscape",
+          "site": "site_91fc32ba93",
+          "hair_color": "pink",
+          "garment_slot": "female.streetwear_collection.asset.d2cebf9c8179",
+          "hair": "HAIR_HB3_14"
+        },
+        "target": {
+          "identity": "CFD40_LF_005",
+          "action": "MOTION_CAND_020",
+          "camera": "dolly_out_back",
+          "aspect": "landscape",
+          "site": "site_91fc32ba93",
+          "hair_color": "pink",
+          "garment_slot": "female.streetwear_collection.asset.d2cebf9c8179",
+          "hair": "HAIR_HB3_14"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_020_landscape_dolly_out_back"
+      },
+      {
+        "session_id": "sims_a0cd33500bd02f13ba5f",
+        "target_occurrence": 4,
+        "source": {
+          "identity": "CFD40_WF_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_upper",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB1_05"
+        },
+        "target": {
+          "identity": "CFD40_AF_004",
+          "action": "MOTION_CAND_008",
+          "camera": "rear_three_quarter_upper",
+          "aspect": "landscape",
+          "site": "site_7dbc277564",
+          "hair_color": "silver_white",
+          "garment_slot": "female.streetwear_collection.asset.e653995cc239",
+          "hair": "HAIR_HB1_05"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_008_landscape_rear_three_quarter_upper"
+      },
+      {
+        "session_id": "sims_89317a699160e2f12ad9",
+        "target_occurrence": 5,
+        "source": {
+          "identity": "CFD40_WM_004",
+          "action": "MOTION_CAND_020",
+          "camera": "dolly_out_side",
+          "aspect": "landscape",
+          "site": "site_2a054574eb",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_16"
+        },
+        "target": {
+          "identity": "CFD40_BM_004",
+          "action": "MOTION_CAND_020",
+          "camera": "dolly_out_side",
+          "aspect": "landscape",
+          "site": "site_2a054574eb",
+          "hair_color": "silver_white",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_16"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_020_landscape_dolly_out_side"
+      }
+    ],
+    "test_hair_shape_with_asset_dependent_original_color": [
+      {
+        "session_id": "sims_5f5fd19d5dc23392bbfc",
+        "target_occurrence": 4,
+        "source": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "site": "site_7f07230597",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_04"
+        },
+        "target": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "site": "site_7f07230597",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "none"
+        },
+        "proxy_shot_id": "production_production10_act_f02_catch_breath_landscape_front_upper"
+      },
+      {
+        "session_id": "sims_85d7c5f8924210a45264",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_LF_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "dolly_in_back",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.0e6d0f352335",
+          "hair": "HAIR_HB3_17"
+        },
+        "target": {
+          "identity": "CFD40_LF_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "dolly_in_back",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.0e6d0f352335",
+          "hair": "HAIR_HB1_16"
+        },
+        "proxy_shot_id": "production_production10_act_f02_catch_breath_landscape_dolly_in_back"
+      },
+      {
+        "session_id": "sims_a7bad92336068aa88c73",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "site": "site_7f07230597",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "none"
+        },
+        "target": {
+          "identity": "CFD40_BM_001",
+          "action": "ACT_F02_CATCH_BREATH",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "site": "site_7f07230597",
+          "hair_color": "original",
+          "garment_slot": "male.1920s_collection.asset.62897933e569",
+          "hair": "HAIR_HB3_04"
+        },
+        "proxy_shot_id": "production_production10_act_f02_catch_breath_landscape_front_upper"
+      },
+      {
+        "session_id": "sims_86ea8a173cd22c9ab496",
+        "target_occurrence": 2,
+        "source": {
+          "identity": "CFD40_AF_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "dolly_in_back",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.0e6d0f352335",
+          "hair": "HAIR_HB3_17"
+        },
+        "target": {
+          "identity": "CFD40_AF_001",
+          "action": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "dolly_in_back",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.0e6d0f352335",
+          "hair": "none"
+        },
+        "proxy_shot_id": "production_production10_act_m05_elevator_greeting_landscape_dolly_in_back"
+      },
+      {
+        "session_id": "sims_4752749102fcca61025a",
+        "target_occurrence": 1,
+        "source": {
+          "identity": "CFD40_WF_001",
+          "action": "MOTION_CAND_022",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "HAIR_HB2_17"
+        },
+        "target": {
+          "identity": "CFD40_WF_001",
+          "action": "MOTION_CAND_022",
+          "camera": "front_full",
+          "aspect": "landscape",
+          "site": "site_6af8ead41a",
+          "hair_color": "original",
+          "garment_slot": "female.streetwear_collection.asset.e8cbcb665a1e",
+          "hair": "none"
+        },
+        "proxy_shot_id": "production_production10_motion_cand_022_landscape_front_full"
+      }
+    ]
+  }
+}

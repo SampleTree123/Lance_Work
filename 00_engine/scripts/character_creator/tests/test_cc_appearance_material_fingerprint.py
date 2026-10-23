@@ -35,6 +35,7 @@ def load_subject():
 
     pyside = types.ModuleType("PySide2")
     pyside.QtCore = types.SimpleNamespace()
+    pyside.QtGui = types.SimpleNamespace()
     pyside.QtWidgets = types.SimpleNamespace()
     sys.modules["PySide2"] = pyside
 

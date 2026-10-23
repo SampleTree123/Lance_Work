@@ -68,3 +68,14 @@ python 00_engine/scripts/documentation/build_output_inventory.py
 python 00_engine/scripts/documentation/check_character_factory_docs.py --json
 python -m pytest 00_engine/scripts/documentation/tests 00_engine/scripts/dataset/tests 00_engine/scripts/unreal/tests -q
 ```
+
+
+## 数据集设计决定入口
+
+2026-10-21：新阶段节点/边/链与参考素材的已确认规则见[试构建契约](./20_planning/data_design/character_creator/full_process/technical/dataset/DATASET_TRIAL_CONTRACT_20261021.md)。执行状态仍由PROJECT_STATUS拥有，旧探索不自动成为正式渲染规格。
+
+同日补充：用户接受每个视频只安排部分合法编辑目标，以整个数据集的多样性为前提；不再要求每个源视频具备全目录目标。具体边界见上述契约“最新确认”节，旧试构建保留为历史实验。
+
+2026-10-21第四轮反馈：用户明确以单项属性值覆盖为主，接受每个人物的服装/发型等搭配范围缩小；不要求恢复旧版跨属性搭配数量。服装条件比例另行澄清，详见上述试构建契约。
+
+2026-10-22：用户已授权第五轮离线平衡构图，训练要求实际使用节点与编辑目标全单项值覆盖，测试不强求所有具体值、保持七轴充分样本并尽量广覆盖；保留服装条件50/50并加入有向边复用上限与全历史权重衰减。规则入口仍为[试构建契约](./20_planning/data_design/character_creator/full_process/technical/dataset/DATASET_TRIAL_CONTRACT_20261021.md)最新修订；第五轮离线候选及同图三sampling seed检查已完成，是否采用待用户审查；初始镜头分布仍受图影响，旧实验保留，未启动渲染。

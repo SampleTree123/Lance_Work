@@ -1,0 +1,42 @@
+{
+  "status": "offline_planning_sensitivity_not_final_reference_budget",
+  "input_pins": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\observability\\camera_observability.json",
+      "sha256": "cd9afb7f75df48961efcc09e64b4be8e244d3634db3637970c41392b9322b0bd"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\references\\input_control_suite.json",
+      "sha256": "8acf10057301d5facaa0b10846af6ec4a3b4862aedf762c60424761510caca64"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_train_graph.json",
+      "sha256": "a592a4c29a3e72dc7dff802357d1bc9a3f79eec383f370948763e87b8c7eda1b"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_test_graph.json",
+      "sha256": "695212a901c0dfc40308268adaecfc91fd40b8d94d13302a98e9545d5ae86349"
+    }
+  ],
+  "formal_shot_count": 1050,
+  "approximately_static_count": 0,
+  "conservative_motion_sex_camera_site_reference_clips": 845,
+  "representative_trajectory_hash_site_reference_clips": 808,
+  "possible_reduction_if_all_sexes_share_same_resolved_camera_path": 37,
+  "coverage": {
+    "matched_unique_edges": 2159
+  },
+  "interpretation": "Trajectory dedup can supersede sex labels only if actual identity/sex adaptation uses the same numeric camera path; current planner representatives do not prove that.",
+  "limitations": [
+    "Bone positions are representative planner data, not every identity mesh.",
+    "Sparse body probes do not prove absence between sample times.",
+    "World-axis envelopes do not encode hair/clothing silhouette or occlusion.",
+    "Torso facing is not eye/head orientation; threshold sweeps are sensitivity, not accepted visibility rules.",
+    "No source scene geometry, shadows, lighting, skin or garment texture is evaluated.",
+    "Production follow-ground transform can add further camera motion.",
+    "Translation parallax scale assumes lateral motion and fixed approximate depth, not measured image error.",
+    "Site ground-follow and exposure remain unresolved in these topology-only keys",
+    "No reference or output pixel inspected",
+    "Hash-equal paths are planned path equality, not proof of identical rendered backgrounds"
+  ]
+}

@@ -96,6 +96,6 @@ Require every independent subsystem check to pass before accepting the cross-lay
 - Never revert unrelated worktree changes.
 - Never delete outputs, UE assets, CC projects, or legacy documentation as part of routine maintenance without an explicit reviewed cleanup decision.
 - Keep the Master human-readable. Do not commit generated line-by-line link traces into the active tree.
-- Preserve one and only one `current` primary plan.
+- During authorized execution, preserve one and only one `current` primary plan. Only after the completed plan is moved to History and no next task is authorized, record `PROJECT_STATE.project_phase=idle_after_completed_plan` with an explicit `current_plan_id=null`; this state requires zero current plans. Multiple current plans are always invalid. Do not promote queued work merely to fill the index or pass an audit.
 
 Finish with a concise report naming changed authorities, current plan/workflow, audit results, skipped checks, and any unresolved discrepancy.

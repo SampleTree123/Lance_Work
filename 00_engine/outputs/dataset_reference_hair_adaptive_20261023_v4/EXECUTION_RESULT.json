@@ -1,0 +1,301 @@
+{
+  "schema": "dataset_hair_adaptive_execution_result_v11_v4",
+  "status": "four_adaptive_hair_images_user_accepted",
+  "full_plan_ready": true,
+  "full_reference_tasks": 2458,
+  "static_tasks": 1649,
+  "motion_tasks": 809,
+  "identity_portraits": 80,
+  "hair_reference_images": 112,
+  "verified_unique_pilot_tasks": 4,
+  "static_pilot_images": 4,
+  "motion_pilot_clips": 0,
+  "remaining_current_run_tasks": 2454,
+  "new_pilot_visual_acceptance": "accepted",
+  "focused_tests_passed": 28,
+  "focused_test_scope": "16 driver + 6 planner + 5 portrait + 1 projection tests reported by root; not rerun by finalizer",
+  "camera": {
+    "policy": "adaptive_complete_hair",
+    "distance_policy": "actual_hair_bounds_plus_compact_head_proxy",
+    "horizontal_fov_degrees": 28,
+    "fit_margin": 1.12,
+    "width": 1024,
+    "height": 1024,
+    "distance_varies_with_actual_hair": true,
+    "minimum_distance_100cm": false,
+    "coverage": "complete hairstyle; short closer long farther; no body/clothing in fit"
+  },
+  "garments_present": true,
+  "neutral_garment_color": true,
+  "worker_versions": {
+    "reference_version": 2,
+    "main_policy_version": 2
+  },
+  "records": [
+    {
+      "job_id": "ref_0a619fb87cbf9d044a250173",
+      "sex": "male",
+      "view": "front",
+      "hair_id": "HAIR_HB3_02",
+      "carrier_identity": "CFD40_BM_001",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "c839cf16bfbf87be9c8e5f4d5e70edc5d680f0aff619cb4680c55ca0d70e9aa6",
+      "render_signature": "97fd0c564e4ef8be330fd6becd33d36660df14192df54aeaae40667db83c69cc",
+      "media": "jobs/ref_0a619fb87cbf9d044a250173/frames/frame_0000.png",
+      "image_sha256": "10db1cd7e849c52d4d834f017be466952e173dfe9f08e8d859a248873ac14097",
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "camera_readback": {
+        "position": [
+          -0.0015529354924730399,
+          75.87685120508517,
+          166.6431302403837
+        ],
+        "rotation_pitch_yaw_roll": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "horizontal_fov_degrees": 28.0,
+        "bounds_center": [
+          -0.0015529354924730399,
+          -1.311734676361084,
+          166.6431302403837
+        ],
+        "bounds_extent": [
+          12.0,
+          12.559025287628174,
+          14.3874636316866
+        ],
+        "view": "front",
+        "focus_kind": "hair",
+        "head_socket": [
+          -0.0015529354924730399,
+          -1.8622172596047177,
+          158.2556666086971
+        ],
+        "head_proxy_extent_cm": [
+          12.0,
+          10.0,
+          14.0
+        ],
+        "camera_distance_cm": 77.18858588144626,
+        "fit_margin": 1.12,
+        "framing_scope": "complete actual hairstyle plus compact head; adaptive distance; body/clothes excluded from fit",
+        "presentation_status": "adaptive_framing_sample_review"
+      },
+      "media_receipt": "jobs/ref_0a619fb87cbf9d044a250173/media_receipt.json",
+      "mrq_receipt": "render_receipts/ref_0a619fb87cbf9d044a250173_d7dedac7.json"
+    },
+    {
+      "job_id": "ref_4e863251d8337df6439af55f",
+      "sex": "female",
+      "view": "front",
+      "hair_id": "HAIR_HB2_04",
+      "carrier_identity": "CFD40_LF_003",
+      "source_job_id": "ref_carrier_hair_05375a4c5230106b01dd",
+      "source_job_sha256": "cd21e981b292f75dd544f63154c8ad9bfb178ef3e9bfe65fe8fc2efdbe68b5c5",
+      "render_signature": "f0fc2afc2dcd947d3362eb8c07568547e3e9426c136a6e585c63985054ae4a0d",
+      "media": "jobs/ref_4e863251d8337df6439af55f/frames/frame_0000.png",
+      "image_sha256": "bb0f9d88385d6d10b90324797dc26816556e1d2117537863f514f34bb6789aa3",
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "camera_readback": {
+        "position": [
+          -0.16812515258789062,
+          132.1645222304262,
+          148.7960548400879
+        ],
+        "rotation_pitch_yaw_roll": [
+          0.0,
+          -90.0,
+          0.0
+        ],
+        "horizontal_fov_degrees": 28.0,
+        "bounds_center": [
+          -0.16812515258789062,
+          -4.565602779388428,
+          148.7960548400879
+        ],
+        "bounds_extent": [
+          16.5360164642334,
+          14.826891422271729,
+          27.137401580810547
+        ],
+        "view": "front",
+        "focus_kind": "hair",
+        "head_socket": [
+          0.007734596317921838,
+          -2.0860940970498154,
+          150.7399479167931
+        ],
+        "head_proxy_extent_cm": [
+          12.0,
+          10.0,
+          14.0
+        ],
+        "camera_distance_cm": 136.73012500981463,
+        "fit_margin": 1.12,
+        "framing_scope": "complete actual hairstyle plus compact head; adaptive distance; body/clothes excluded from fit",
+        "presentation_status": "adaptive_framing_sample_review"
+      },
+      "media_receipt": "jobs/ref_4e863251d8337df6439af55f/media_receipt.json",
+      "mrq_receipt": "render_receipts/ref_4e863251d8337df6439af55f_9d16342d.json"
+    },
+    {
+      "job_id": "ref_a59412485d4b9444be94b35a",
+      "sex": "female",
+      "view": "back",
+      "hair_id": "HAIR_HB2_04",
+      "carrier_identity": "CFD40_LF_003",
+      "source_job_id": "ref_carrier_hair_05375a4c5230106b01dd",
+      "source_job_sha256": "cd21e981b292f75dd544f63154c8ad9bfb178ef3e9bfe65fe8fc2efdbe68b5c5",
+      "render_signature": "611dd7daa7048b711c8dcdbc5e405fc97faab17418f878bc13a4bc4d1d532dae",
+      "media": "jobs/ref_a59412485d4b9444be94b35a/frames/frame_0000.png",
+      "image_sha256": "42cc3b12ac1a892a3584c14a84a81836ae53f9591723568c610f9a6f067741d8",
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "camera_readback": {
+        "position": [
+          -0.16812515258789062,
+          -141.29572778920306,
+          148.7960548400879
+        ],
+        "rotation_pitch_yaw_roll": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "horizontal_fov_degrees": 28.0,
+        "bounds_center": [
+          -0.16812515258789062,
+          -4.565602779388428,
+          148.7960548400879
+        ],
+        "bounds_extent": [
+          16.5360164642334,
+          14.826891422271729,
+          27.137401580810547
+        ],
+        "view": "back",
+        "focus_kind": "hair",
+        "head_socket": [
+          0.007734596317921838,
+          -2.0860940970498154,
+          150.7399479167931
+        ],
+        "head_proxy_extent_cm": [
+          12.0,
+          10.0,
+          14.0
+        ],
+        "camera_distance_cm": 136.73012500981463,
+        "fit_margin": 1.12,
+        "framing_scope": "complete actual hairstyle plus compact head; adaptive distance; body/clothes excluded from fit",
+        "presentation_status": "adaptive_framing_sample_review"
+      },
+      "media_receipt": "jobs/ref_a59412485d4b9444be94b35a/media_receipt.json",
+      "mrq_receipt": "render_receipts/ref_a59412485d4b9444be94b35a_b47d78c6.json"
+    },
+    {
+      "job_id": "ref_ffda7f1e0282c093be77ae72",
+      "sex": "male",
+      "view": "back",
+      "hair_id": "HAIR_HB3_02",
+      "carrier_identity": "CFD40_BM_001",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "c839cf16bfbf87be9c8e5f4d5e70edc5d680f0aff619cb4680c55ca0d70e9aa6",
+      "render_signature": "02f9089ed89e06ce85ef79edf003d847197d3d6f93f169cabb9eb6879a1f78bc",
+      "media": "jobs/ref_ffda7f1e0282c093be77ae72/frames/frame_0000.png",
+      "image_sha256": "e561212c89e5f8bdc6c9c0d62a02a7ba0cf775207116acdb263773a2d4078c8d",
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "camera_readback": {
+        "position": [
+          -0.0015529354924730399,
+          -78.50032055780734,
+          166.6431302403837
+        ],
+        "rotation_pitch_yaw_roll": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "horizontal_fov_degrees": 28.0,
+        "bounds_center": [
+          -0.0015529354924730399,
+          -1.311734676361084,
+          166.6431302403837
+        ],
+        "bounds_extent": [
+          12.0,
+          12.559025287628174,
+          14.3874636316866
+        ],
+        "view": "back",
+        "focus_kind": "hair",
+        "head_socket": [
+          -0.0015529354924730399,
+          -1.8622172596047177,
+          158.2556666086971
+        ],
+        "head_proxy_extent_cm": [
+          12.0,
+          10.0,
+          14.0
+        ],
+        "camera_distance_cm": 77.18858588144626,
+        "fit_margin": 1.12,
+        "framing_scope": "complete actual hairstyle plus compact head; adaptive distance; body/clothes excluded from fit",
+        "presentation_status": "adaptive_framing_sample_review"
+      },
+      "media_receipt": "jobs/ref_ffda7f1e0282c093be77ae72/media_receipt.json",
+      "mrq_receipt": "render_receipts/ref_ffda7f1e0282c093be77ae72_f49349ef.json"
+    }
+  ],
+  "identity_jobs_unchanged_from_v2": true,
+  "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+  "prior_accepted_other_samples": 8,
+  "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+  "candidate_or_jobs_modified_by_finalizer": false,
+  "server_verified": false,
+  "whole_dataset_media_verified": false,
+  "whole_repository_audit_run": false,
+  "transfer_manifest_current_for_this_run": false,
+  "upload_next_step": "Regenerate transfer manifest with current v4 --run-root at upload time",
+  "user_acceptance": {
+    "date": "2026-10-23",
+    "source": "current_chat_explicit_user_confirmation",
+    "user_statement": "可以，这样就可以了。",
+    "scope": "adaptive_hair_framing_policy_and_four_pilot_images",
+    "full_reference_batch_accepted": false
+  }
+}

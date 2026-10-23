@@ -54,7 +54,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--map-path",
         default=(
-            "/Game/DataMake/Scenes/TokyoStylized/"
+            "/Game/Scenes/TokyoStylizedEnvironment/WorkingMaps/"
             "L_DM_TokyoStylized.L_DM_TokyoStylized"
         ),
     )

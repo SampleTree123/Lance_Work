@@ -1,0 +1,78 @@
+{
+  "schema": "render_readiness_bounded_validation_v1",
+  "updated_on": "2026-10-21",
+  "status": "bounded_static_smoke_passed",
+  "formal_render_started": false,
+  "receipt": "render_receipts/readiness_budget10240_v1.json",
+  "frames": [
+    {
+      "path": "renders\\readiness_budget10240_v1\\readiness_3frames\\frame_0000.png",
+      "size": [
+        1024,
+        576
+      ],
+      "sha256": "7d04fb094b58097e3404ef1cf2461003e62c28925a6d2d8a85c693dc6fe7d332"
+    },
+    {
+      "path": "renders\\readiness_budget10240_v1\\readiness_3frames\\frame_0001.png",
+      "size": [
+        1024,
+        576
+      ],
+      "sha256": "9ece3a567ff458e7415b2ef3878ca4c5545dec10904e65d96170c377ac5fb09a"
+    },
+    {
+      "path": "renders\\readiness_budget10240_v1\\readiness_3frames\\frame_0002.png",
+      "size": [
+        1024,
+        576
+      ],
+      "sha256": "d9b9859d39fb40dcc8bd47728d3a2c8bcb63ab2aee72612a56901205457422da"
+    }
+  ],
+  "visual_review": {
+    "observed_frames": [
+      0,
+      2
+    ],
+    "finding": "Clothing plaid, facial and background detail restored relative to the same 1024x576 smoke with 7000 MB pool.",
+    "scope": "Static copied preview only, not acceptance of all characters, motion, eyelashes or formal look serialization."
+  },
+  "warmup": {
+    "engine_frames": 120,
+    "render_frames": 32,
+    "full_texture_residency_guaranteed": false
+  },
+  "pool": {
+    "editor_mb": 7000,
+    "mrq_mb": 10240,
+    "restored_editor_mb": 7000,
+    "machine_bound": true,
+    "all_scene_or_resolution_budget_verified": false
+  },
+  "gpu_observation": {
+    "samples": 35,
+    "max_used_mib": 10015,
+    "min_free_mib": 1981,
+    "continuous_peak_measurement": false
+  },
+  "preservation": {
+    "source_map_unchanged": true,
+    "site_unchanged": true,
+    "preview_unchanged": true,
+    "appearance_unchanged": true,
+    "post_process_volumes_unchanged": true
+  },
+  "tests": {
+    "passed": 83,
+    "failed": 1,
+    "failure": "test_gallery_keeps_pending_cards_and_does_not_claim_all1260_visual_acceptance: older gallery Chinese wording assertion, unrelated to exposure/warmup; not changed.",
+    "scope": [
+      "test_mrq_streaming_warmup_v1.py",
+      "test_primary_scene_samples_v1.py"
+    ],
+    "separate_exposure_old_prepared_guard_tests_passed": 2,
+    "full_repository_tests_run": false
+  },
+  "environment_note": "First PIE run prompted for existing BP_TestPlayer compile error; continued this bounded smoke. Three later runs completed without another prompt. Blueprint itself not repaired."
+}

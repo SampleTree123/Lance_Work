@@ -1,0 +1,1437 @@
+{
+  "candidate": "full_squares_uniform_nodes",
+  "scope": "符号状态／历史源的对抗检查案例；说明文本仅用于审阅，不是冻结训练指令模板。",
+  "main_graph_mutated": false,
+  "rendered": false,
+  "visual_verified": false,
+  "existing_case_count": 11,
+  "extra_diagnostic_count": 0,
+  "cases": [
+    {
+      "id": "upper_whole_then_full",
+      "title_zh": "半身整套换装后改全身镜头",
+      "purpose_zh": "检查半身换整套时，未入镜的下装和鞋也已更新；随后全身镜头必须继承完整目标服装。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000142",
+      "session": {
+        "id": "session_000142",
+        "kind": "linear",
+        "length": 5,
+        "fork_round": null,
+        "history": [
+          1296,
+          1297,
+          1295,
+          1297,
+          1295,
+          416
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1296,
+            "target": 1297,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 1,
+            "source": 1297,
+            "target": 1295,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1295,
+            "target": 1297,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 1297,
+            "target": 1295,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 4,
+            "source": 1295,
+            "target": 416,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 1296,
+            "target": 1297,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_BM_002",
+            "hair": "HAIR_HB1_01",
+            "hair_color": "black",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_fbf21a9b6a",
+            "camera": "back_upper",
+            "wardrobe": {
+              "family_id": "male.hippasuta",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.hippasuta.asset.272ee5f88d2e",
+                "pants": "male.hippasuta.asset.86d3bf90649a",
+                "shoes": "male.hippasuta.asset.8f98380dc047"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_BM_002",
+            "hair": "HAIR_HB1_01",
+            "hair_color": "black",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_fbf21a9b6a",
+            "camera": "back_upper",
+            "wardrobe": {
+              "family_id": "male.mesh_it_up",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.mesh_it_up.asset.b637e5071085",
+                "pants": "male.mesh_it_up.asset.bdef73564949",
+                "shoes": "male.mesh_it_up.asset.d8e8d6907abf"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。整套换装：Hippasuta / Default → Mesh it Up / Default；目标鞋：male.mesh_it_up.asset.d8e8d6907abf。"
+        },
+        {
+          "round": 2,
+          "source_position": 1,
+          "edge": {
+            "source_position": 1,
+            "source": 1297,
+            "target": 1295,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_BM_002",
+            "hair": "HAIR_HB1_01",
+            "hair_color": "black",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_fbf21a9b6a",
+            "camera": "back_upper",
+            "wardrobe": {
+              "family_id": "male.mesh_it_up",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.mesh_it_up.asset.b637e5071085",
+                "pants": "male.mesh_it_up.asset.bdef73564949",
+                "shoes": "male.mesh_it_up.asset.d8e8d6907abf"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_BM_002",
+            "hair": "HAIR_HB1_01",
+            "hair_color": "black",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_fbf21a9b6a",
+            "camera": "front_full",
+            "wardrobe": {
+              "family_id": "male.mesh_it_up",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.mesh_it_up.asset.b637e5071085",
+                "pants": "male.mesh_it_up.asset.bdef73564949",
+                "shoes": "male.mesh_it_up.asset.d8e8d6907abf"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第2轮从历史位置1继续。修改镜头：背面上半身 → 正面全身。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "single_preserves_shoes",
+      "title_zh": "单件换装保持鞋子",
+      "purpose_zh": "检查只换一个核心槽，实际鞋资产完整保持；不能把换鞋藏入单件编辑。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000013",
+      "session": {
+        "id": "session_000013",
+        "kind": "linear",
+        "length": 4,
+        "fork_round": null,
+        "history": [
+          2392,
+          2394,
+          2392,
+          1635,
+          1637
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 2392,
+            "target": 2394,
+            "axis": "wardrobe",
+            "mode": "single_piece",
+            "slot": "shirts"
+          },
+          {
+            "source_position": 1,
+            "source": 2394,
+            "target": 2392,
+            "axis": "wardrobe",
+            "mode": "single_piece",
+            "slot": "shirts"
+          },
+          {
+            "source_position": 2,
+            "source": 2392,
+            "target": 1635,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 1635,
+            "target": 1637,
+            "axis": "action",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 2392,
+            "target": 2394,
+            "axis": "wardrobe",
+            "mode": "single_piece",
+            "slot": "shirts"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_001",
+            "hair": "HAIR_HB3_04",
+            "hair_color": "blue",
+            "action": "MOTION_CAND_022",
+            "site": "site_8c41814f5e",
+            "camera": "front_full",
+            "wardrobe": {
+              "family_id": "male.pop_style",
+              "group_id": "default",
+              "slot_choices": {
+                "coats": "male.pop_style.asset.9234b2ae5d5b",
+                "shirts": "male.pop_style.asset.49a4c6698aa9",
+                "pants": "male.pop_style.asset.86d3bf90649a",
+                "shoes": "male.pop_style.asset.ee823988cfc1"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_001",
+            "hair": "HAIR_HB3_04",
+            "hair_color": "blue",
+            "action": "MOTION_CAND_022",
+            "site": "site_8c41814f5e",
+            "camera": "front_full",
+            "wardrobe": {
+              "family_id": "male.pop_style",
+              "group_id": "default",
+              "slot_choices": {
+                "coats": "male.pop_style.asset.9234b2ae5d5b",
+                "shirts": "male.pop_style.asset.26cbc1eb61a5",
+                "pants": "male.pop_style.asset.86d3bf90649a",
+                "shoes": "male.pop_style.asset.ee823988cfc1"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。只换 shirts 单件：Pop Style / Default → Pop Style / Default；单件资产 male.pop_style.asset.49a4c6698aa9 → male.pop_style.asset.26cbc1eb61a5；目标鞋：male.pop_style.asset.ee823988cfc1。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "fork_intermediate",
+      "title_zh": "从中间历史版本分叉",
+      "purpose_zh": "检查完整继承选中的中间版本，不合并最新版本或弃支属性。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000001",
+      "session": {
+        "id": "session_000001",
+        "kind": "fork",
+        "length": 5,
+        "fork_round": 5,
+        "history": [
+          1868,
+          1576,
+          1868,
+          1869,
+          1868,
+          1867
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1868,
+            "target": 1576,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 1576,
+            "target": 1868,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1868,
+            "target": 1869,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1868,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1867,
+            "axis": "hair_color",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 5,
+          "source_position": 3,
+          "edge": {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1867,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "red",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.bikini_ruana",
+              "group_id": "default",
+              "slot_choices": {
+                "pants": "female.bikini_ruana.asset.44be85280d19",
+                "shirts": "female.bikini_ruana.asset.905bf58b22bb",
+                "coats": null
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F023",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "silver_white",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.bikini_ruana",
+              "group_id": "default",
+              "slot_choices": {
+                "pants": "female.bikini_ruana.asset.44be85280d19",
+                "shirts": "female.bikini_ruana.asset.905bf58b22bb",
+                "coats": null
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F023",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第5轮从历史位置3继续。修改发色：红色 → 银白色。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "fork_terminal",
+      "title_zh": "最后一轮分叉",
+      "purpose_zh": "检查末轮直接选旧版本是合法结构，不要求分叉后再编辑。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000001",
+      "session": {
+        "id": "session_000001",
+        "kind": "fork",
+        "length": 5,
+        "fork_round": 5,
+        "history": [
+          1868,
+          1576,
+          1868,
+          1869,
+          1868,
+          1867
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1868,
+            "target": 1576,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 1576,
+            "target": 1868,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1868,
+            "target": 1869,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1868,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1867,
+            "axis": "hair_color",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 5,
+          "source_position": 3,
+          "edge": {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1867,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "red",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.bikini_ruana",
+              "group_id": "default",
+              "slot_choices": {
+                "pants": "female.bikini_ruana.asset.44be85280d19",
+                "shirts": "female.bikini_ruana.asset.905bf58b22bb",
+                "coats": null
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F023",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "silver_white",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.bikini_ruana",
+              "group_id": "default",
+              "slot_choices": {
+                "pants": "female.bikini_ruana.asset.44be85280d19",
+                "shirts": "female.bikini_ruana.asset.905bf58b22bb",
+                "coats": null
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F023",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第5轮从历史位置3继续。修改发色：红色 → 银白色。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "fork_root",
+      "title_zh": "回到初始视频分叉",
+      "purpose_zh": "检查历史位置0是初始视频，不与第1轮结果混淆。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000002",
+      "session": {
+        "id": "session_000002",
+        "kind": "fork",
+        "length": 4,
+        "fork_round": 2,
+        "history": [
+          1100,
+          890,
+          1101,
+          1100,
+          1101
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1100,
+            "target": 890,
+            "axis": "site",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 0,
+            "source": 1100,
+            "target": 1101,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1101,
+            "target": 1100,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 1100,
+            "target": 1101,
+            "axis": "hair_color",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 2,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 1100,
+            "target": 1101,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_LM_003",
+            "hair": "HAIR_HB3_02",
+            "hair_color": "black",
+            "action": "MOTION_CAND_003",
+            "site": "site_7ed6554b09",
+            "camera": "side_full",
+            "wardrobe": {
+              "family_id": "male.lederhosen",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.lederhosen.asset.272ee5f88d2e",
+                "pants": "male.lederhosen.asset.86d3bf90649a",
+                "shoes": "male.lederhosen.asset.8f98380dc047"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_LM_003",
+            "hair": "HAIR_HB3_02",
+            "hair_color": "silver_white",
+            "action": "MOTION_CAND_003",
+            "site": "site_7ed6554b09",
+            "camera": "side_full",
+            "wardrobe": {
+              "family_id": "male.lederhosen",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.lederhosen.asset.272ee5f88d2e",
+                "pants": "male.lederhosen.asset.86d3bf90649a",
+                "shoes": "male.lederhosen.asset.8f98380dc047"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第2轮从历史位置0继续。修改发色：黑色 → 银白色。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "same_axis_return",
+      "title_zh": "同一属性连续修改后恢复原状态",
+      "purpose_zh": "检查合法恢复会复用先前canonical视频节点；这不是文本改写，也不需要强制换另一编辑轴。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000001",
+      "session": {
+        "id": "session_000001",
+        "kind": "fork",
+        "length": 5,
+        "fork_round": 5,
+        "history": [
+          1868,
+          1576,
+          1868,
+          1869,
+          1868,
+          1867
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1868,
+            "target": 1576,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 1576,
+            "target": 1868,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1868,
+            "target": 1869,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1868,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 3,
+            "source": 1869,
+            "target": 1867,
+            "axis": "hair_color",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 1868,
+            "target": 1576,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "red",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.b220452d0cb7"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.47eb552ffee4"
+              ],
+              "shared_shoe_id": "F022",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "silver_white",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.b220452d0cb7"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.47eb552ffee4"
+              ],
+              "shared_shoe_id": "F022",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。修改发色：红色 → 银白色。"
+        },
+        {
+          "round": 2,
+          "source_position": 1,
+          "edge": {
+            "source_position": 1,
+            "source": 1576,
+            "target": 1868,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "silver_white",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.b220452d0cb7"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.47eb552ffee4"
+              ],
+              "shared_shoe_id": "F022",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_14",
+            "hair_color": "red",
+            "action": "ACT_F06_ELEVATOR_GREETING",
+            "site": "site_7dbc277564",
+            "camera": "back_full",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.b220452d0cb7"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.47eb552ffee4"
+              ],
+              "shared_shoe_id": "F022",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第2轮从历史位置1继续。修改发色：银白色 → 红色。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "mono_axis_session",
+      "title_zh": "整条会话只修改一个属性",
+      "purpose_zh": "检查不强制至少两个编辑轴；不同实际属性值与历史父位置仍形成不同结构。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000035",
+      "session": {
+        "id": "session_000035",
+        "kind": "linear",
+        "length": 2,
+        "fork_round": null,
+        "history": [
+          2056,
+          2054,
+          2056
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 2056,
+            "target": 2054,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 2054,
+            "target": 2056,
+            "axis": "camera",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 2056,
+            "target": 2054,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_005",
+            "hair": "HAIR_HB1_13",
+            "hair_color": "blue",
+            "action": "ACT_F05_TIE_SHOES",
+            "site": "site_fa4a18c3dc",
+            "camera": "dolly_out_front",
+            "wardrobe": {
+              "family_id": "male.workout",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.workout.asset.91886d6d7894",
+                "pants": "male.workout.asset.13301aa60ca8",
+                "shoes": "male.workout.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_005",
+            "hair": "HAIR_HB1_13",
+            "hair_color": "blue",
+            "action": "ACT_F05_TIE_SHOES",
+            "site": "site_fa4a18c3dc",
+            "camera": "dolly_in_side",
+            "wardrobe": {
+              "family_id": "male.workout",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.workout.asset.91886d6d7894",
+                "pants": "male.workout.asset.13301aa60ca8",
+                "shoes": "male.workout.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。修改镜头：正面拉远 → 侧面推进。"
+        },
+        {
+          "round": 2,
+          "source_position": 1,
+          "edge": {
+            "source_position": 1,
+            "source": 2054,
+            "target": 2056,
+            "axis": "camera",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_005",
+            "hair": "HAIR_HB1_13",
+            "hair_color": "blue",
+            "action": "ACT_F05_TIE_SHOES",
+            "site": "site_fa4a18c3dc",
+            "camera": "dolly_in_side",
+            "wardrobe": {
+              "family_id": "male.workout",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.workout.asset.91886d6d7894",
+                "pants": "male.workout.asset.13301aa60ca8",
+                "shoes": "male.workout.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_005",
+            "hair": "HAIR_HB1_13",
+            "hair_color": "blue",
+            "action": "ACT_F05_TIE_SHOES",
+            "site": "site_fa4a18c3dc",
+            "camera": "dolly_out_front",
+            "wardrobe": {
+              "family_id": "male.workout",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.workout.asset.91886d6d7894",
+                "pants": "male.workout.asset.13301aa60ca8",
+                "shoes": "male.workout.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第2轮从历史位置1继续。修改镜头：侧面推进 → 正面拉远。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "identity_dolly_in_front",
+      "title_zh": "身份编辑：dolly_in_front",
+      "purpose_zh": "检查同sex换身份只在四个允许镜头内发生，服装、头发、动作、场景和镜头规则继承。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000020",
+      "session": {
+        "id": "session_000020",
+        "kind": "linear",
+        "length": 3,
+        "fork_round": null,
+        "history": [
+          1538,
+          1539,
+          1538,
+          448
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1538,
+            "target": 1539,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 1539,
+            "target": 1538,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1538,
+            "target": 448,
+            "axis": "action",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 1538,
+            "target": 1539,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_AF_003",
+            "hair": "HAIR_HB3_14",
+            "hair_color": "black",
+            "action": "MOTION_CAND_017",
+            "site": "site_2831090e60",
+            "camera": "dolly_in_front",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.3f7477fd29de"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.e9bbf4c4b19a"
+              ],
+              "shared_shoe_id": "F025",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_004",
+            "hair": "HAIR_HB3_14",
+            "hair_color": "black",
+            "action": "MOTION_CAND_017",
+            "site": "site_2831090e60",
+            "camera": "dolly_in_front",
+            "wardrobe": {
+              "family_id": "female.dress_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.dress_collection.asset.3f7477fd29de"
+              },
+              "optional_asset_ids": [
+                "female.dress_collection.asset.e9bbf4c4b19a"
+              ],
+              "shared_shoe_id": "F025",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。修改人物身份：CFD40_AF_003 → CFD40_LF_004。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "identity_dolly_out_front",
+      "title_zh": "身份编辑：dolly_out_front",
+      "purpose_zh": "检查同sex换身份只在四个允许镜头内发生，服装、头发、动作、场景和镜头规则继承。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000027",
+      "session": {
+        "id": "session_000027",
+        "kind": "linear",
+        "length": 5,
+        "fork_round": null,
+        "history": [
+          2164,
+          1464,
+          1462,
+          1464,
+          1462,
+          1117
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 2164,
+            "target": 1464,
+            "axis": "wardrobe",
+            "mode": "whole_outfit"
+          },
+          {
+            "source_position": 1,
+            "source": 1464,
+            "target": 1462,
+            "axis": "hair",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 1462,
+            "target": 1464,
+            "axis": "hair",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 1464,
+            "target": 1462,
+            "axis": "hair",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 4,
+            "source": 1462,
+            "target": 1117,
+            "axis": "identity",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 5,
+          "source_position": 4,
+          "edge": {
+            "source_position": 4,
+            "source": 1462,
+            "target": 1117,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "female",
+            "identity": "CFD40_BF_001",
+            "hair": "HAIR_HB2_17",
+            "hair_color": "black",
+            "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+            "site": "site_f3e2dabbd0",
+            "camera": "dolly_out_front",
+            "wardrobe": {
+              "family_id": "female.streetwear_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.streetwear_collection.asset.e653995cc239"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F024",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "female",
+            "identity": "CFD40_LF_002",
+            "hair": "HAIR_HB2_17",
+            "hair_color": "black",
+            "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+            "site": "site_f3e2dabbd0",
+            "camera": "dolly_out_front",
+            "wardrobe": {
+              "family_id": "female.streetwear_collection",
+              "group_id": "full_body",
+              "slot_choices": {
+                "full_body": "female.streetwear_collection.asset.e653995cc239"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": "F024",
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第5轮从历史位置4继续。修改人物身份：CFD40_BF_001 → CFD40_LF_002。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "identity_front_head",
+      "title_zh": "身份编辑：front_head",
+      "purpose_zh": "检查同sex换身份只在四个允许镜头内发生，服装、头发、动作、场景和镜头规则继承。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000007",
+      "session": {
+        "id": "session_000007",
+        "kind": "linear",
+        "length": 4,
+        "fork_round": null,
+        "history": [
+          253,
+          818,
+          819,
+          817,
+          819
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 253,
+            "target": 818,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 818,
+            "target": 819,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 819,
+            "target": 817,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 817,
+            "target": 819,
+            "axis": "identity",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 1,
+          "source_position": 0,
+          "edge": {
+            "source_position": 0,
+            "source": 253,
+            "target": 818,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_LM_002",
+            "hair": "HAIR_HB3_16",
+            "hair_color": "original",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_dc3f593a1d",
+            "camera": "front_head",
+            "wardrobe": {
+              "family_id": "male.cheer_leader",
+              "group_id": "matched_03",
+              "slot_choices": {
+                "shirts": "male.cheer_leader.asset.8d019c53d19f",
+                "pants": "male.cheer_leader.asset.bdef73564949",
+                "shoes": "male.cheer_leader.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_BM_003",
+            "hair": "HAIR_HB3_16",
+            "hair_color": "original",
+            "action": "ACT_F01_SEXY_DANCE",
+            "site": "site_dc3f593a1d",
+            "camera": "front_head",
+            "wardrobe": {
+              "family_id": "male.cheer_leader",
+              "group_id": "matched_03",
+              "slot_choices": {
+                "shirts": "male.cheer_leader.asset.8d019c53d19f",
+                "pants": "male.cheer_leader.asset.bdef73564949",
+                "shoes": "male.cheer_leader.asset.4024e6a6cf8a"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第1轮从历史位置0继续。修改人物身份：CFD40_LM_002 → CFD40_BM_003。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    },
+    {
+      "id": "identity_front_upper",
+      "title_zh": "身份编辑：front_upper",
+      "purpose_zh": "检查同sex换身份只在四个允许镜头内发生，服装、头发、动作、场景和镜头规则继承。",
+      "origin": "existing_sampled_session",
+      "candidate": "full_squares_uniform_nodes",
+      "split": "train",
+      "session_id": "session_000000",
+      "session": {
+        "id": "session_000000",
+        "kind": "linear",
+        "length": 5,
+        "fork_round": null,
+        "history": [
+          1653,
+          1652,
+          385,
+          386,
+          1383,
+          1384
+        ],
+        "steps": [
+          {
+            "source_position": 0,
+            "source": 1653,
+            "target": 1652,
+            "axis": "action",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 1,
+            "source": 1652,
+            "target": 385,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 2,
+            "source": 385,
+            "target": 386,
+            "axis": "hair_color",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 3,
+            "source": 386,
+            "target": 1383,
+            "axis": "site",
+            "mode": "attribute"
+          },
+          {
+            "source_position": 4,
+            "source": 1383,
+            "target": 1384,
+            "axis": "action",
+            "mode": "attribute"
+          }
+        ]
+      },
+      "focus_steps": [
+        {
+          "round": 2,
+          "source_position": 1,
+          "edge": {
+            "source_position": 1,
+            "source": 1652,
+            "target": 385,
+            "axis": "identity",
+            "mode": "attribute"
+          },
+          "source_state": {
+            "sex": "male",
+            "identity": "CFD40_AM_003",
+            "hair": "HAIR_HB1_20",
+            "hair_color": "red",
+            "action": "MOTION_CAND_020",
+            "site": "site_fbf21a9b6a",
+            "camera": "front_upper",
+            "wardrobe": {
+              "family_id": "male.vacation",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.vacation.asset.272ee5f88d2e",
+                "pants": "male.vacation.asset.dda2c4a63452",
+                "shoes": "male.vacation.asset.81c3cc66c0e0"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "target_state": {
+            "sex": "male",
+            "identity": "CFD40_LM_004",
+            "hair": "HAIR_HB1_20",
+            "hair_color": "red",
+            "action": "MOTION_CAND_020",
+            "site": "site_fbf21a9b6a",
+            "camera": "front_upper",
+            "wardrobe": {
+              "family_id": "male.vacation",
+              "group_id": "default",
+              "slot_choices": {
+                "shirts": "male.vacation.asset.272ee5f88d2e",
+                "pants": "male.vacation.asset.dda2c4a63452",
+                "shoes": "male.vacation.asset.81c3cc66c0e0"
+              },
+              "optional_asset_ids": [],
+              "shared_shoe_id": null,
+              "hair_id": null
+            },
+            "aspect": "landscape"
+          },
+          "human_readable": "第2轮从历史位置1继续。修改人物身份：CFD40_AM_003 → CFD40_LM_004。"
+        }
+      ],
+      "media_status": "not_rendered_not_visual_verified",
+      "counts_as_new_main_budget": false
+    }
+  ],
+  "extra_diagnostic_file": "diagnostic_cases.json"
+}

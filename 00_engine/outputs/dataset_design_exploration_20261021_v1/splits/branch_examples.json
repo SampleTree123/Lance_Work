@@ -1,0 +1,89 @@
+{
+  "schema_version": "branch_semantics_examples_v1",
+  "status": "synthetic_examples_not_asset_catalog_or_production_sessions",
+  "warning": "audit fixture includes hidden answers; never serialize complete fixture into model inputs",
+  "state_axes": ["identity", "outfit", "action", "scene", "camera"],
+  "examples": [
+    {
+      "id": "positive_full_parent_inheritance",
+      "expected_valid": true,
+      "root": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "near"},
+      "turns": [
+        {"occurrence": 1, "parent_occurrence": 0, "axis": "outfit", "value": "blue", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "near"}},
+        {"occurrence": 2, "parent_occurrence": 1, "axis": "camera", "value": "far", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "far"}},
+        {"occurrence": 3, "parent_occurrence": 1, "axis": "action", "value": "run", "target_state": {"identity": "person_a", "outfit": "blue", "action": "run", "scene": "studio", "camera": "near"}},
+        {"occurrence": 4, "parent_occurrence": 3, "axis": "outfit", "value": "red", "target_state": {"identity": "person_a", "outfit": "red", "action": "run", "scene": "studio", "camera": "near"}}
+      ],
+      "expected_fork_count": 1,
+      "note": "turn3 differs from chronological latest in camera and action but differs from selected parent only in action"
+    },
+    {
+      "id": "positive_revisit_same_node_distinct_occurrence",
+      "expected_valid": true,
+      "root": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "near"},
+      "turns": [
+        {"occurrence": 1, "parent_occurrence": 0, "axis": "outfit", "value": "blue", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "near"}},
+        {"occurrence": 2, "parent_occurrence": 1, "axis": "outfit", "value": "red", "target_state": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "near"}},
+        {"occurrence": 3, "parent_occurrence": 2, "axis": "camera", "value": "far", "target_state": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "far"}},
+        {"occurrence": 4, "parent_occurrence": 0, "axis": "action", "value": "run", "target_state": {"identity": "person_a", "outfit": "red", "action": "run", "scene": "studio", "camera": "near"}}
+      ],
+      "expected_fork_count": 1,
+      "repeated_full_state_occurrences": [0, 2],
+      "source_scoring": {"canonical_parent": 0, "equivalent_state_sources": [0, 2], "ambiguous_state_description_accepts": [0, 2], "explicit_initial_version_strict_accepts": [0]},
+      "note": "root and occurrence2 share canonical node/video but have different lineage; partial matching outfit alone is insufficient"
+    },
+    {
+      "id": "negative_merge_discarded_camera",
+      "expected_valid": false,
+      "expected_error": "not_exact_one_axis_replacement_of_selected_parent",
+      "root": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "near"},
+      "turns": [
+        {"occurrence": 1, "parent_occurrence": 0, "axis": "outfit", "value": "blue", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "near"}},
+        {"occurrence": 2, "parent_occurrence": 1, "axis": "camera", "value": "far", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "far"}},
+        {"occurrence": 3, "parent_occurrence": 1, "axis": "action", "value": "run", "target_state": {"identity": "person_a", "outfit": "blue", "action": "run", "scene": "studio", "camera": "far"}}
+      ]
+    },
+    {
+      "id": "negative_future_source",
+      "expected_valid": false,
+      "expected_error": "parent_not_previously_visible",
+      "root": {"identity": "person_a", "outfit": "red", "action": "walk", "scene": "studio", "camera": "near"},
+      "turns": [
+        {"occurrence": 1, "parent_occurrence": 2, "axis": "outfit", "value": "blue", "target_state": {"identity": "person_a", "outfit": "blue", "action": "walk", "scene": "studio", "camera": "near"}},
+        {"occurrence": 2, "parent_occurrence": 1, "axis": "action", "value": "run", "target_state": {"identity": "person_a", "outfit": "blue", "action": "run", "scene": "studio", "camera": "near"}}
+      ]
+    }
+  ],
+  "public_hidden_boundary_examples": [
+    {
+      "id": "positive_autonomous_source_public_view",
+      "expected_valid": true,
+      "protocol": "autonomous_source_gt_history_diagnostic",
+      "public": {"current_instruction": "从换蓝衣后的那版继续，只把走路改成跑步。", "history_slots": [{"slot": 0, "media_handle": "history_0"}, {"slot": 1, "media_handle": "history_1"}, {"slot": 2, "media_handle": "history_2"}], "historical_media_mode": "video", "target_reference": null},
+      "hidden": {"parent_occurrence_id": 1, "target_media_handle": "answer_3", "target_state": {"outfit": "blue", "action": "run", "camera": "near"}}
+    },
+    {
+      "id": "negative_parent_gt_in_public_autonomous_view",
+      "expected_valid": false,
+      "expected_error": "hidden_answer_exposed",
+      "protocol": "autonomous_source_rollout",
+      "public": {"current_instruction": "从换蓝衣后的那版继续，只把走路改成跑步。", "history_slots": [{"slot": 0, "media_handle": "generated_0"}, {"slot": 1, "media_handle": "generated_1"}, {"slot": 2, "media_handle": "generated_2"}], "parent_occurrence_id": 1},
+      "hidden": {"parent_occurrence_id": 1}
+    },
+    {
+      "id": "negative_target_frame_as_reference",
+      "expected_valid": false,
+      "expected_error": "future_target_derived_reference",
+      "protocol": "known_reference_single_turn",
+      "public": {"source_media_handle": "input_0", "current_instruction": "把人物换成参考中的人。", "target_reference": {"media_handle": "reference_1", "derived_from_future_target": true}},
+      "hidden": {"target_media_handle": "answer_1"}
+    },
+    {
+      "id": "positive_unseen_identity_reference_is_input",
+      "expected_valid": true,
+      "protocol": "known_reference_single_turn",
+      "public": {"source_media_handle": "input_0", "current_instruction": "把人物换成参考中的人，其余保持不变。", "target_reference": {"media_handle": "heldout_identity_portrait", "derived_from_future_target": false, "condition_mode": "image_reference"}},
+      "hidden": {"identity_seen_in_dataset_training": false, "pretraining_seen_status": "unknown", "reference_target_overlap": ["identity"], "target_media_handle": "answer_1"}
+    }
+  ]
+}

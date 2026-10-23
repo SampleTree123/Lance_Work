@@ -23,6 +23,12 @@ ALLOWED_COMMANDS = {
     "apply_face_recipe_preview",
     "validate_bodyfit_library",
 }
+SOURCE_PROJECT_ONLY_BODYFIT_MODES = frozenset(
+    (
+        "outfit_compatibility_gate",
+        "outfit_motion_stress_gate",
+    )
+)
 
 
 class BridgeError(RuntimeError):
@@ -31,6 +37,29 @@ class BridgeError(RuntimeError):
 
 class JobRejected(BridgeError):
     pass
+
+
+def bodyfit_preset_input_paths(document, preset):
+    """Return the preset files required by the selected execution mode."""
+    if document.get("diagnostic_mode") in SOURCE_PROJECT_ONLY_BODYFIT_MODES:
+        source_project = (preset.get("source_project") or {}).get("path")
+        if not isinstance(source_project, str) or not source_project:
+            raise ValueError("source_project.path is required")
+        return (source_project,)
+
+    try:
+        base_path = preset["base_avatar"]["path"]
+        source_path = preset["source_project"]["path"]
+    except Exception as exc:
+        raise ValueError("base_avatar.path and source_project.path are required") from exc
+    if (
+        not isinstance(base_path, str)
+        or not base_path
+        or not isinstance(source_path, str)
+        or not source_path
+    ):
+        raise ValueError("base_avatar.path and source_project.path are required")
+    return (base_path, source_path)
 
 
 def now():
@@ -676,14 +705,13 @@ class BridgeService(QtCore.QObject):
         for preset_id in selected_ids:
             preset = by_id[preset_id]
             try:
-                base_path = preset["base_avatar"]["path"]
-                source_path = preset["source_project"]["path"]
-            except Exception:
+                input_paths = bodyfit_preset_input_paths(document, preset)
+            except ValueError:
                 raise JobRejected(
                     "BodyFit preset {} has invalid source paths".format(preset_id)
                 )
-            self._checked_input_path(base_path)
-            self._checked_input_path(source_path)
+            for input_path in input_paths:
+                self._checked_input_path(input_path)
         if document.get("preview_lightroom"):
             self._checked_input_path(document["preview_lightroom"])
 

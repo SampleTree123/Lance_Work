@@ -1,0 +1,631 @@
+{
+  "schema_version": 10,
+  "rule_set_id": "dataset_distributed_graph_20261022_v10",
+  "date": "2026-10-22",
+  "status": "authorized_distributed_rebuild_in_progress",
+  "scope": {
+    "render": false,
+    "shared_ue_changes": false,
+    "visual_verified": false,
+    "production_promoted": false,
+    "document": "PLAN.md; RULES.json; eventual REPORT.md and CURRENT_CANDIDATE.json",
+    "technical_owner": "technical/dataset/DATASET_DESIGN_EXPLORATION_20261021.md",
+    "historical_snapshots_mutated": false,
+    "model_training": false,
+    "offline_only": true
+  },
+  "budgets": {
+    "train": {
+      "main_canonical_nodes_max": null,
+      "structural_sessions_target": 12000,
+      "structural_sessions_max": 12000,
+      "edit_occurrences_target": 43800,
+      "edit_occurrences_max": 43800,
+      "previous_main_canonical_nodes_max": 5000,
+      "user_authorized_moderate_increase_for_dual_aspect": true
+    },
+    "test": {
+      "main_canonical_nodes_max": null,
+      "structural_sessions_target": 2400,
+      "structural_sessions_max": 2400,
+      "edit_occurrences_target": 8760,
+      "edit_occurrences_max": 8760,
+      "previous_main_canonical_nodes_max": 800,
+      "user_authorized_moderate_increase_for_dual_aspect": true
+    },
+    "references_count_against_main_budget": false,
+    "node_budget_counts_only_actual_used_complete_canonical_states": true,
+    "unused_registered_pool_nodes_count_as_coverage": false
+  },
+  "split": {
+    "disjoint_key": "complete_canonical_content_state_excluding_aspect",
+    "scene_holdout": false,
+    "person_holdout": false,
+    "other_attribute_holdouts": false,
+    "same_split_node_and_edge_reuse": true,
+    "same_split_attribute_reuse": true,
+    "cross_split_equal_state_with_different_id_allowed": false,
+    "claims_unseen_scene_or_person_generalization": false
+  },
+  "graph": {
+    "construction_order": [
+      "choose_legal_edit",
+      "expand_target_from_selected_source",
+      "deduplicate_complete_state"
+    ],
+    "atomic_semantic_axis_count": 1,
+    "inheritance": "full_selected_parent_state_then_apply_edit",
+    "merge_abandoned_branch": false,
+    "history_parent_is_occurrence_index": true,
+    "same_axis_consecutive_edits_allowed": true,
+    "return_to_prior_value_allowed": true,
+    "revisit_prior_state_allowed": true,
+    "minimum_distinct_edit_axes": 1,
+    "enforce_acyclic_session": false,
+    "text_variants_count_as_new_structure": false,
+    "reference_carrier_variants_count_as_new_structure": false,
+    "require_wrong_latest_source_observably_different": false,
+    "require_all_historical_sources_result_distinct": false,
+    "no_op_edits_allowed": false,
+    "construction_policy": "Value and combination deficits drive local editable contexts from the beginning; do not form a few rich palette blocks and add missing values as singleton leaves."
+  },
+  "sessions": {
+    "length_unit": "edit_count_excluding_initial_video",
+    "lengths": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "type_ratio": {
+      "linear": 2,
+      "fork": 1
+    },
+    "length_probabilities": {
+      "linear": {
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25
+      },
+      "fork": {
+        "2": 0.1,
+        "3": 0.2,
+        "4": 0.35,
+        "5": 0.35
+      }
+    },
+    "exact_counts": {
+      "train": {
+        "linear": {
+          "2": 2000,
+          "3": 2000,
+          "4": 2000,
+          "5": 2000
+        },
+        "fork": {
+          "2": 400,
+          "3": 800,
+          "4": 1400,
+          "5": 1400
+        }
+      },
+      "test": {
+        "linear": {
+          "2": 400,
+          "3": 400,
+          "4": 400,
+          "5": 400
+        },
+        "fork": {
+          "2": 80,
+          "3": 160,
+          "4": 280,
+          "5": 280
+        }
+      }
+    },
+    "linear_parent": "latest_history_occurrence",
+    "fork": {
+      "exact_nonlatest_parent_rounds": 1,
+      "round_t_index_base": 1,
+      "history_parent_index_base": 0,
+      "round_t_sampling": "uniform_inclusive_2_to_L",
+      "parent_sampling_given_t": "uniform_inclusive_0_to_t_minus_2",
+      "other_round_parent": "latest_history_occurrence",
+      "terminal_fork_allowed": true,
+      "require_post_fork_edit": false,
+      "fixed_root_vs_intermediate_quota": null
+    }
+  },
+  "initial_sampling": {
+    "sex_probabilities": {
+      "male": 0.5,
+      "female": 0.5
+    },
+    "identity_given_sex": "random legal with global identity-frequency correction; no garment-specific identity quota",
+    "scene": "uniform_legal_saved_point_candidates",
+    "action": "uniform_legal",
+    "hair": "uniform_legal",
+    "color": "uniform_legal",
+    "camera_weights": {
+      "front_head": 1.5,
+      "front_upper": 1.5,
+      "dolly_in_front": 1.5,
+      "dolly_out_front": 1.5,
+      "other_legal_camera_each": 1
+    },
+    "wardrobe": "deficit-aware legal choices for agreed global garment frequency; original legal family/group/slot and shoe rules retained",
+    "saved_combination_exclusions_preserved": true
+  },
+  "edit_sampling": {
+    "axis_weights": {
+      "identity": 2,
+      "hair": 1,
+      "color": 1,
+      "wardrobe": 1,
+      "action": 1,
+      "camera": 1,
+      "site": 1
+    },
+    "axis_eligibility": "has_legal_non_noop_target_for_selected_source",
+    "weights_renormalized_over_eligible_axes": true,
+    "target_sampling_default": "subset_of_formally_legal_alternatives_planned_per_source",
+    "identity": {
+      "same_sex_only": true,
+      "source_camera_allowlist": [
+        "front_head",
+        "front_upper",
+        "dolly_in_front",
+        "dolly_out_front"
+      ],
+      "can_change_full_body_skin_and_shape": true
+    },
+    "action": {
+      "forbidden_source_cameras": [
+        "front_head"
+      ],
+      "preserve_camera_rule": true,
+      "derived_camera_trajectory_allowed": true
+    },
+    "hair": {
+      "all_cameras_allowed": true,
+      "exclude_no_hair_rugged_wardrobe": true
+    },
+    "color": {
+      "values": [
+        "original",
+        "black",
+        "gold",
+        "silver_white",
+        "red",
+        "blue",
+        "pink"
+      ],
+      "all_distinct_value_transitions_allowed": true,
+      "original_to_gold_allowed": true
+    },
+    "camera": {
+      "preserve_other_semantic_axes": true,
+      "legal_combination_required": true,
+      "derived_trajectory_allowed": true
+    },
+    "site": {
+      "preserve_other_semantic_axes": true,
+      "saved_point_required": true,
+      "valid_action_camera_required": true,
+      "source_camera_rule_required": true
+    }
+  },
+  "wardrobe": {
+    "family_definition": "source_wardrobe_family",
+    "group_definition": "legal_outfit_combination_group_within_family",
+    "initial_hierarchy_each_level_uniform": [
+      "family",
+      "legal_group",
+      "core_piece_options",
+      "legal_shoe"
+    ],
+    "mode_probabilities_when_single_available": {
+      "single_piece": 0.5,
+      "whole_outfit": 0.5
+    },
+    "mode_probabilities_when_single_unavailable": {
+      "single_piece": 0,
+      "whole_outfit": 1
+    },
+    "illegal_or_no_target_mode_selectable": false,
+    "single_piece": {
+      "same_group_only": true,
+      "slot_sampling": "uniform_eligible_core_slot",
+      "value_sampling": "uniform_legal_alternative_value",
+      "preserve_shoe": true
+    },
+    "whole_outfit": {
+      "other_family_only": true,
+      "same_family_cross_group_allowed": false,
+      "selection_order": [
+        "other_eligible_family",
+        "legal_group",
+        "legal_core_options",
+        "legal_shoe"
+      ],
+      "legal_shoe_random_including_whitelisted_barefoot": true,
+      "update_complete_outfit_state_even_for_upper_camera": true
+    },
+    "shoe_independent_edit_allowed": false,
+    "shoe_only_change_counts_as_edit": false,
+    "barefoot_requires_current_whitelist": true,
+    "front_head": {
+      "wardrobe_edit_allowed": false
+    },
+    "upper": {
+      "views": [
+        "front",
+        "side",
+        "back",
+        "front_oblique",
+        "back_oblique"
+      ],
+      "single_visible_upper_core_only": true,
+      "lower_single_allowed": false,
+      "whole_allowed": true,
+      "whole_requires_actual_upper_change": true
+    },
+    "full_dolly_orbit": {
+      "core_single_allowed": true,
+      "whole_allowed": true
+    },
+    "saved_scene_combination_exclusions_preserved": true,
+    "no_legal_target_means_axis_unavailable": true,
+    "exclude_family_ids": [
+      "male.rugged_trendy"
+    ]
+  },
+  "scene_camera": {
+    "scene_requires_saved_point": true,
+    "valid_action_camera_and_source_camera_rule_required": true,
+    "saved_combination_exclusions_preserved": true,
+    "camera_contract": "preserve_rule_allow_derived_trajectory",
+    "fixed_world_trajectory_required": false,
+    "exposure_policy": "inherit_saved_map_exposure",
+    "lighting_change_on_scene_edit_allowed": true
+  },
+  "references": {
+    "demand_from_actual_used_graph": true,
+    "deduplicate_by_reference_requirement": true,
+    "count_against_main_budget": false,
+    "media_generated_in_this_trial": false,
+    "identity": {
+      "images_per_identity": 1,
+      "view": "front_face",
+      "full_body_skin_and_shape_edit_allowed": true
+    },
+    "hair": {
+      "carriers_per_hair": 2,
+      "carrier_source": "random_library_identity",
+      "views_per_carrier": [
+        "front",
+        "back"
+      ],
+      "hair_color": "black",
+      "photos_per_hair": 4,
+      "input": "random_one_same_carrier_front_back_pair",
+      "variant_counts_as_new_chain": false
+    },
+    "motion": {
+      "key": [
+        "actual_required_action",
+        "camera"
+      ],
+      "type": "clip",
+      "match_target": [
+        "camera_rule",
+        "phase",
+        "speed",
+        "duration"
+      ],
+      "carrier": null
+    },
+    "scene": {
+      "type": "single_empty_background_image",
+      "key": [
+        "required_scene_saved_point",
+        "camera_initial_frame"
+      ],
+      "person_present": false,
+      "clip_required": false
+    },
+    "wardrobe": {
+      "type": "garments_only",
+      "body_present": false,
+      "preserve_3d_shape": true,
+      "background": "neutral",
+      "views_per_piece": [
+        "front",
+        "back"
+      ],
+      "single_input": "target_piece_front_back_pair_only",
+      "whole_input": "all_target_core_pieces_and_target_shoe_front_back_pairs",
+      "barefoot_shoe_image": false,
+      "barefoot_instruction_explicit": true,
+      "upper_whole_input": "same_full_target_core_and_shoe_references",
+      "upper_whole_state_update": "complete_target_outfit"
+    }
+  },
+  "unfrozen": [
+    "identity_reference_generation_implementation",
+    "hair_reference_generation_implementation",
+    "wardrobe_reference_generation_implementation",
+    "motion_reference_generation_implementation",
+    "reference_and_edit_text_templates",
+    "motion_carrier",
+    "resolution",
+    "fps",
+    "duration"
+  ],
+  "supersedes": [
+    {
+      "old": "test_3000_sessions",
+      "current": "test_2400_sessions"
+    },
+    {
+      "old": "scene_or_person_or_attribute_holdout",
+      "current": "canonical_main_video_node_disjoint_only"
+    },
+    {
+      "old": "root_40_intermediate_60_or_other_source_quota",
+      "current": "uniform_t_then_uniform_historical_parent"
+    },
+    {
+      "old": "require_post_fork_continuation_or_forbid_terminal_fork",
+      "current": "terminal_fork_allowed_and_exactly_one_nonlatest_parent"
+    },
+    {
+      "old": "fork_length_3_to_5_only",
+      "current": "fork_L2_L3_L4_L5_10_20_35_35_percent"
+    },
+    {
+      "old": "minimum_two_axes_no_revisit_or_no_same_axis_revision",
+      "current": "natural_same_axis_return_revisit_allowed"
+    },
+    {
+      "old": "mandatory_wrong_latest_source_observable_difference",
+      "current": "no_added_observability_rejection_constraint"
+    },
+    {
+      "old": "restricted_night_wardrobe_subdomains_and_motif_quotas",
+      "current": "current_legal_catalog_and_confirmed_sampling_rules"
+    },
+    {
+      "old": "wardrobe_single_only_or_undefined_whole",
+      "current": "single_whole_mode_rules_and_other_family_whole"
+    },
+    {
+      "old": "independent_shoe_edit_or_same_family_cross_group_whole",
+      "current": "shoe_not_independent_and_whole_other_family_only"
+    },
+    {
+      "old": "rugged_available_with_hair_disabled",
+      "current": "rugged_excluded_from_trial_candidates"
+    },
+    {
+      "old": "original_to_gold_forbidden",
+      "current": "all_distinct_seven_color_transitions_allowed"
+    },
+    {
+      "old": "exact_background_clip_or_canonical_single_camera_motion_shortcut",
+      "current": "scene_initial_frame_image_and_actual_action_camera_motion_clip"
+    },
+    {
+      "old": "fixed_absolute_camera_trajectory",
+      "current": "camera_rule_preserved_trajectory_may_be_derived"
+    },
+    {
+      "old": "production10_media_parameters_or_old_cost_scenario_defaults",
+      "current": "resolution_fps_duration_aspect_unfrozen"
+    },
+    {
+      "old": "reuse_old_graph_reference_counts_or_submit_old_pilot_as_production",
+      "current": "independent_offline_trial_no_render_no_visual_claim"
+    }
+  ],
+  "historical_sources": [
+    "../dataset_design_exploration_20261021_v1/DISCUSSION_RECAP.md",
+    "../dataset_design_exploration_20261021_round2/MORNING_BRIEF.md",
+    "../dataset_design_exploration_20261021_round2/wardrobe_domains/WARDROBE_DOMAINS.md",
+    "../dataset_design_exploration_20261021_round2/references/REFERENCE_ROUTES_ROUND2.md",
+    "../dataset_sequence_graph_20261021_v4/REPORT.md"
+  ],
+  "local_target_support": {
+    "user_approved": true,
+    "full_catalog_conditional_uniformity_required": false,
+    "dataset_wide_diversity_required": true,
+    "fixed_target_count_per_source": null,
+    "existing_axis_weights_and_wardrobe_mode_targets_retained": true,
+    "base_rules_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\rules.json",
+    "base_rules_sha256": "e0f54e3d23ea76263c889848fdd07aa06f838d2264e321df3bafef8f969d8e08",
+    "candidate_sampling_implementation": "new distributed construction and sampling; actual source and parameters to be pinned with results"
+  },
+  "coverage": {
+    "train": {
+      "all_catalog_values_required_on_actual_used_nodes": true,
+      "all_catalog_values_required_as_corresponding_edit_targets": true,
+      "expected_catalog_counts": {
+        "identity": 40,
+        "hair": 28,
+        "color": 7,
+        "wardrobe_family": 37,
+        "wardrobe_group": 45,
+        "wardrobe_core_piece": 239,
+        "action": 25,
+        "camera": 21,
+        "site": 21
+      },
+      "core_piece_excludes_shoes": true
+    },
+    "test": {
+      "all_catalog_values_required": false,
+      "all_seven_axes_require_substantial_sample_support": true,
+      "maximize_legal_value_coverage_within_budget": true,
+      "report_actual_used_node_and_edit_target_coverage": true,
+      "arbitrary_numeric_minimum_not_user_frozen": true
+    },
+    "per_identity_cross_attribute_pair_breadth_required": false,
+    "all_cross_attribute_value_pairs_required": false,
+    "all_registered_nodes_must_be_referenced_by_sessions": true
+  },
+  "balancing": {
+    "apply_independently_to_splits": [
+      "train",
+      "test"
+    ],
+    "nonidentity_axes": [
+      "hair",
+      "color",
+      "wardrobe",
+      "action",
+      "camera",
+      "site"
+    ],
+    "nonidentity_axis_occurrence_max_relative_deviation_from_six_axis_mean": 0.1,
+    "deviation_formula": "abs(axis_edit_occurrences / mean_of_six_nonidentity_axis_edit_occurrences - 1)",
+    "identity_equal_to_nonidentity_axis_required": false,
+    "base_axis_weights": {
+      "identity": 2,
+      "hair": 1,
+      "color": 1,
+      "wardrobe": 1,
+      "action": 1,
+      "camera": 1,
+      "site": 1
+    },
+    "history_axis_penalty_base": 0.4,
+    "history_axis_penalty_exponent": "count_of_prior_edit_occurrences_on_this_axis_in_entire_session_history_including_abandoned_branches",
+    "history_axis_penalty_formula": "base_axis_weight * (0.4 ** prior_axis_occurrence_count)",
+    "evidence_based_adjustment_authorized": true,
+    "adjustment_requires_parameter_and_outcome_record": true,
+    "legal_revisits_remain_allowed": true,
+    "previous_v5_penalty_base": 0.5
+  },
+  "reuse": {
+    "scope": "each_split_independently_across_all_session_edit_occurrences",
+    "edge_key": [
+      "complete_canonical_source_state",
+      "complete_canonical_target_state"
+    ],
+    "directed": true,
+    "distinct_ids_do_not_bypass_cap": true,
+    "directed_edge_occurrence_cap_hard": 4,
+    "four_use_unique_edge_fraction_soft_max": 0.005,
+    "four_use_fraction_denominator": "number_of_distinct_used_directed_canonical_edges",
+    "also_report_four_use_occurrence_fraction": true,
+    "per_axis_mean_reuse_soft_target": 2.5,
+    "per_axis_mean_reuse_formula": "axis_edit_occurrences / distinct_used_directed_canonical_edges_on_axis",
+    "soft_targets_are_not_automatic_hard_failures": true
+  },
+  "stability": {
+    "status": "not_yet_assessed",
+    "do_not_inherit_old_seed_passes": true
+  },
+  "supersedes_for_this_run": [
+    "v9 coverage patch method",
+    "v8 sampling frequency policy"
+  ],
+  "inherited_rule_snapshot": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\RULES.json",
+  "optimization": {
+    "baseline_content_nodes": {
+      "train": 3752,
+      "test": 800
+    },
+    "baseline_v8_actual_render_nodes": {
+      "train": 5256,
+      "test": 1183
+    },
+    "objective": "distributed coverage and frequency during graph construction; minimize actual main render requests subject to agreed diversity targets",
+    "baseline_v9_patch_not_accepted": true,
+    "same_graph_as_v6": false
+  },
+  "actual_implementation": {
+    "status": "pending_generated_candidate",
+    "candidate": null,
+    "rendered": false
+  },
+  "aspect_policy": {
+    "values": [
+      "landscape",
+      "portrait"
+    ],
+    "fixed_for_entire_history_and_forks": true,
+    "is_edit_axis": false,
+    "chain_counts_approximately_balanced": true,
+    "exact_half_required": false,
+    "render_versions_count_against_main_budget": true,
+    "content_configuration_not_counted_twice_as_new_content": true,
+    "same_content_across_train_test_even_with_different_aspect_forbidden": true,
+    "per_aspect_full_value_coverage_required": false,
+    "each_aspect_has_both_sexes_all_start_cameras_all_edit_axes": true,
+    "selection_policy": {
+      "initial": "whole-chain graph partition minimizing extra render states",
+      "refinement": "report per-aspect edit-axis deviations and extra render cost; no additional per-aspect full value frequency gate"
+    }
+  },
+  "value_frequency_balance": {
+    "ratio_to_dimension_mean": [
+      0.5,
+      1.5
+    ],
+    "dimensions": [
+      "identity",
+      "action",
+      "hair",
+      "hair_color",
+      "site",
+      "visible_core_garment"
+    ],
+    "scopes": [
+      "actual_used_unique_content_states_ignoring_aspect",
+      "session_history_occurrences_including_initial_discarded_branches_and_revisits"
+    ],
+    "train_pools": "full approved catalog including zero counts",
+    "test_pools": "selected represented values; all-catalog coverage not required",
+    "primary_camera_marginal_equal_frequency_required": false,
+    "balance_inside_range_prefer_underrepresented_values": true,
+    "fixed_bundle_exceptions_must_be_explicit_not_automatic": true,
+    "node_and_history_counts_must_pass_separately": true,
+    "per_aspect_value_balance_not_required": true
+  },
+  "action_camera_diversity": {
+    "train_minimum_legal_cameras_per_action": 10,
+    "counts_only_actual_used_nodes": true,
+    "within_each_action_actual_camera_frequency_ratio": [
+      0.5,
+      1.5
+    ],
+    "scopes": [
+      "unique_content_states",
+      "history_occurrences"
+    ],
+    "all_21_cameras_per_action_required": false,
+    "test_all_actions_required": false,
+    "effective_camera_definition": "20 editable camera rules excluding front_head; every actual state remains subject to saved site/action/aspect exclusions",
+    "global_action_value_frequency_includes_front_head": true,
+    "within_action_camera_frequency_excludes_front_head": true,
+    "front_head_action_concentration_must_be_reported_for_both_frequency_scopes": true,
+    "front_head_interpretation": "front_head cannot supply action edit targets, so it does not count toward minimum10 or effective within-action-camera frequency; it is never silently removed from global action frequencies"
+  },
+  "garment_diversity": {
+    "frequency_priority": true,
+    "minimum_distinct_actions_per_core_garment_train": 3,
+    "minimum_distinct_effective_cameras_per_core_garment_train": 3,
+    "all_action_camera_cross_products_required": false,
+    "identity_assignment": "random legal sex-compatible; no per-garment identity minimum",
+    "visibility_proxy": {
+      "front_head": "no core garment counted",
+      "upper_cameras": "formal upper_asset_ids intersect core_asset_ids",
+      "other_cameras": "formal core_asset_ids"
+    },
+    "pixel_visibility_verified": false,
+    "shoes_are_not_core_diversity_axis": true
+  }
+}

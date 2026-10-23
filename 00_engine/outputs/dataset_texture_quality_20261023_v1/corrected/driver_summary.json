@@ -1,0 +1,1346 @@
+{
+  "started_at": "2026-10-23T00:57:47.408143+00:00",
+  "jobs": [
+    {
+      "job_id": "train_node_000000",
+      "timing": {
+        "total_seconds": 1.875
+      },
+      "status": "reused_verified_receipt"
+    },
+    {
+      "job_id": "train_node_000001",
+      "timing": {
+        "total_seconds": 1.6570000000065193
+      },
+      "status": "reused_verified_receipt"
+    },
+    {
+      "job_id": "train_node_000002",
+      "timing": {
+        "total_seconds": 1.5460000000020955
+      },
+      "status": "reused_verified_receipt"
+    },
+    {
+      "job_id": "train_node_000005",
+      "timing": {
+        "encode_seconds": 7.0310000000172295,
+        "total_seconds": 7.719000000011874
+      },
+      "reused_render": {
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000005_8ec32421.json",
+        "signature": "8d13fd58ba36e63ce0cfff0978d8ad0ca4f7e8fbe7d11bfb27422d821b20645e",
+        "frames_directory": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\jobs\\train_node_000005\\frames"
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_000005\", \"video_bytes\": 24074512, \"encode_seconds\": 4.442190500005381}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "8d13fd58ba36e63ce0cfff0978d8ad0ca4f7e8fbe7d11bfb27422d821b20645e",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000005_8ec32421.json",
+        "receipt_relative_path": "render_receipts/train_node_000005_8ec32421.json",
+        "receipt_sha256": "24d03283db4d820de75faf049ea601b8474020e3c79e33eb1fc09b4fb637bc58",
+        "attempt_id": "train_node_000005_8ec32421",
+        "job_signature": "8d13fd58ba36e63ce0cfff0978d8ad0ca4f7e8fbe7d11bfb27422d821b20645e",
+        "submitted_at": "2026-10-23T00:50:42.417276+00:00",
+        "finished_at": "2026-10-23T00:51:31.523916+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_000005": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1920,
+          "height": 1080,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000005",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000005",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T00:58:00.229159+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_000018",
+      "timing": {
+        "prepare_seconds": 16.078000000008615,
+        "render_seconds": 29.39100000000326,
+        "encode_seconds": 7.25,
+        "total_seconds": 53.35999999998603
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_000018\", \"video_bytes\": 23984598, \"encode_seconds\": 4.680694499984384}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "f6bef0843f55109426f2360f05516942e69d187d8830bff40253b14ae0f120a4",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000018_68917ce3.json",
+        "receipt_relative_path": "render_receipts/train_node_000018_68917ce3.json",
+        "receipt_sha256": "2194725c893a2ea9c5866c0739628ec2e7fad69978f76ad3e29f5e3e8a6c6434",
+        "attempt_id": "train_node_000018_68917ce3",
+        "job_signature": "f6bef0843f55109426f2360f05516942e69d187d8830bff40253b14ae0f120a4",
+        "submitted_at": "2026-10-23T00:58:20.116137+00:00",
+        "finished_at": "2026-10-23T00:58:45.878250+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_000018": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1920,
+          "height": 1080,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000018",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000018",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T00:58:53.580026+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_003775",
+      "timing": {
+        "prepare_seconds": 19.421999999991385,
+        "render_seconds": 28.078000000008615,
+        "encode_seconds": 6.296999999991385,
+        "total_seconds": 54.437000000005355
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_003775\", \"video_bytes\": 20141118, \"encode_seconds\": 4.077078300004359}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "1a65613344526fe586491a6a33983eeff47cae48a987b617cdc89cf29a387937",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_003775_75a37dac.json",
+        "receipt_relative_path": "render_receipts/train_node_003775_75a37dac.json",
+        "receipt_sha256": "4e02c4f81dad4b06a01206700bfe9bf7a9bbce370a87a6bb4afaf8e622108dd3",
+        "attempt_id": "train_node_003775_75a37dac",
+        "job_signature": "1a65613344526fe586491a6a33983eeff47cae48a987b617cdc89cf29a387937",
+        "submitted_at": "2026-10-23T00:59:16.580632+00:00",
+        "finished_at": "2026-10-23T00:59:41.513886+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_003775": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1080,
+          "height": 1920,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_003775",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_003775",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T00:59:48.016599+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_003792",
+      "timing": {
+        "prepare_seconds": 19.0,
+        "render_seconds": 25.125,
+        "encode_seconds": 6.405999999988126,
+        "total_seconds": 51.171999999991385
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_003792\", \"video_bytes\": 20117828, \"encode_seconds\": 4.21050909999758}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "a713f35db79943149b8437d3fb0ef8aea233a1086edd2b9f9de39596edbc541a",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_003792_f82e6329.json",
+        "receipt_relative_path": "render_receipts/train_node_003792_f82e6329.json",
+        "receipt_sha256": "a19224b11390dbc3adaa930d628d59c17795c9754f2bf76e147d49c09f71e9f8",
+        "attempt_id": "train_node_003792_f82e6329",
+        "job_signature": "a713f35db79943149b8437d3fb0ef8aea233a1086edd2b9f9de39596edbc541a",
+        "submitted_at": "2026-10-23T01:00:10.520696+00:00",
+        "finished_at": "2026-10-23T01:00:32.539530+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_003792": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1080,
+          "height": 1920,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_003792",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_003792",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:00:39.188623+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_000967",
+      "timing": {
+        "prepare_seconds": 10.187000000005355,
+        "render_seconds": 23.828000000008615,
+        "encode_seconds": 7.25,
+        "total_seconds": 41.90600000001723
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_000967\", \"video_bytes\": 28869515, \"encode_seconds\": 4.592851900000824}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "0151c453074aca5f0e8f71b2be0bc408fe6e4b3afedec55e59a252a081376995",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000967_0ec0ee31.json",
+        "receipt_relative_path": "render_receipts/train_node_000967_0ec0ee31.json",
+        "receipt_sha256": "51cec012a6158af564c5d06a411f35cde519882f097a8360695cb2872be618ca",
+        "attempt_id": "train_node_000967_0ec0ee31",
+        "job_signature": "0151c453074aca5f0e8f71b2be0bc408fe6e4b3afedec55e59a252a081376995",
+        "submitted_at": "2026-10-23T01:00:52.668412+00:00",
+        "finished_at": "2026-10-23T01:01:13.133292+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_000967": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1920,
+          "height": 1080,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000967",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000967",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:01:21.106160+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_000978",
+      "timing": {
+        "prepare_seconds": 7.75,
+        "render_seconds": 40.828999999997905,
+        "encode_seconds": 7.625,
+        "total_seconds": 56.85999999998603
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_000978\", \"video_bytes\": 29044774, \"encode_seconds\": 4.981910200003767}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "b7ea17d401acd5c79e8e33feadcbaa89611ad715973e6cab349648e1a302aa8b",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000978_a1022b21.json",
+        "receipt_relative_path": "render_receipts/train_node_000978_a1022b21.json",
+        "receipt_sha256": "f80b08804f1a9648a339e7e7094fef1cad696bb3133cfbf723577959aed4927c",
+        "attempt_id": "train_node_000978_a1022b21",
+        "job_signature": "b7ea17d401acd5c79e8e33feadcbaa89611ad715973e6cab349648e1a302aa8b",
+        "submitted_at": "2026-10-23T01:01:33.373064+00:00",
+        "finished_at": "2026-10-23T01:02:10.098376+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_000978": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1920,
+          "height": 1080,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000978",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000978",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:02:17.951855+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_000979",
+      "timing": {
+        "prepare_seconds": 7.7189999999827705,
+        "render_seconds": 18.937000000005355,
+        "encode_seconds": 7.282000000006519,
+        "total_seconds": 34.578000000008615
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_000979\", \"video_bytes\": 28844115, \"encode_seconds\": 4.600629199994728}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "4e797e67e1118be645d3cc749bda2a773a45dfb7614db92c155c8545c153740b",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_000979_6fbaedd4.json",
+        "receipt_relative_path": "render_receipts/train_node_000979_6fbaedd4.json",
+        "receipt_sha256": "41cfe8a7175a28a545558b8e4e5daa2e89495f2b68df4a59ea5331d8d9bb0e08",
+        "attempt_id": "train_node_000979_6fbaedd4",
+        "job_signature": "4e797e67e1118be645d3cc749bda2a773a45dfb7614db92c155c8545c153740b",
+        "submitted_at": "2026-10-23T01:02:28.785044+00:00",
+        "finished_at": "2026-10-23T01:02:43.725458+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_000979": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1920,
+          "height": 1080,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000979",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_000979",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:02:52.536915+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_004040",
+      "timing": {
+        "prepare_seconds": 15.078000000008615,
+        "render_seconds": 23.5,
+        "encode_seconds": 11.75,
+        "total_seconds": 50.98399999999674
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_004040\", \"video_bytes\": 19740175, \"encode_seconds\": 4.6676956999872345}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "1e8a0628ebe17991277eef4c07719524b08d2a00f347543122115e37673fa35c",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_004040_a6dd846b.json",
+        "receipt_relative_path": "render_receipts/train_node_004040_a6dd846b.json",
+        "receipt_sha256": "3a9366756cd09f8e588f02d0e5a95be73e91c83a0fa464a20a14e6ebe4cad2fa",
+        "attempt_id": "train_node_004040_a6dd846b",
+        "job_signature": "1e8a0628ebe17991277eef4c07719524b08d2a00f347543122115e37673fa35c",
+        "submitted_at": "2026-10-23T01:03:10.922810+00:00",
+        "finished_at": "2026-10-23T01:03:31.635239+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_004040": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1080,
+          "height": 1920,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_004040",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_004040",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:03:43.415109+00:00"
+      },
+      "status": "success"
+    },
+    {
+      "job_id": "train_node_004058",
+      "timing": {
+        "prepare_seconds": 13.639999999984866,
+        "render_seconds": 23.578000000008615,
+        "encode_seconds": 7.280999999988126,
+        "total_seconds": 45.155999999988126
+      },
+      "encoder_output": {
+        "stdout": "{\"status\": \"success\", \"job_id\": \"train_node_004058\", \"video_bytes\": 19712556, \"encode_seconds\": 4.733277100021951}\n",
+        "stderr": ""
+      },
+      "render_provenance": {
+        "schema": "dataset_media_render_binding_v11_v1",
+        "signature": "ed0285eb2170728014e4e750d2e176058036c38c4d30f1c6c12beb8cf6f2169a",
+        "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\render_receipts\\train_node_004058_a5a249ba.json",
+        "receipt_relative_path": "render_receipts/train_node_004058_a5a249ba.json",
+        "receipt_sha256": "803bae8f9870f0b030d418ead95bbc3b4a85d23a081a84eaf8afce4c728f652f",
+        "attempt_id": "train_node_004058_a5a249ba",
+        "job_signature": "ed0285eb2170728014e4e750d2e176058036c38c4d30f1c6c12beb8cf6f2169a",
+        "submitted_at": "2026-10-23T01:04:00.620823+00:00",
+        "finished_at": "2026-10-23T01:04:18.815918+00:00",
+        "status": "completed",
+        "success": true,
+        "render_contract": {
+          "fps": 30,
+          "frame_counts_by_shot": {
+            "train_node_004058": 300
+          },
+          "range_start_inclusive": 0,
+          "range_end_exclusive": "per-shot sequence end",
+          "width": 1080,
+          "height": 1920,
+          "format": "PNG",
+          "spatial_samples": 1,
+          "temporal_samples": 1,
+          "engine_warmup_count": 120,
+          "render_warmup_count": 32,
+          "camera_cut_warmup_shot_ids": [],
+          "motion_blur_cvars": {
+            "r.MotionBlurQuality": 0.0,
+            "r.MotionBlur.Amount": 0.0
+          },
+          "profile_scope": "v11_local_pilot",
+          "scene_resources": {
+            "policy": "scene_inherited_resources_v1",
+            "requested_settings": {
+              "cinematic_quality_settings": false,
+              "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+              "use_lod_zero": false,
+              "disable_hlods": false,
+              "override_view_distance_scale": false,
+              "use_high_quality_shadows": false,
+              "flush_streaming_managers": false,
+              "override_virtual_texture_feedback_factor": false,
+              "flush_grass_streaming": false,
+              "override_grass_cull_distance_scale": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_004058",
+                "settings": {
+                  "cinematic_quality_settings": false,
+                  "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                  "use_lod_zero": false,
+                  "disable_hlods": false,
+                  "override_view_distance_scale": false,
+                  "use_high_quality_shadows": false,
+                  "flush_streaming_managers": false,
+                  "override_virtual_texture_feedback_factor": false,
+                  "flush_grass_streaming": false,
+                  "override_grass_cull_distance_scale": false
+                }
+              }
+            ],
+            "source_maps_and_materials_unchanged": true,
+            "output_camera_and_aa_sampling_unchanged": true,
+            "scalability": "inherit current project settings; do not force Cinematic maxima",
+            "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+            "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+            "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review",
+            "effective_texture_override": "FULLY_LOAD (supersedes inherited NONE)"
+          },
+          "streaming_warmup": {
+            "policy": "streamed_first_view_warmup_v1",
+            "requested_settings": {
+              "engine_warm_up_count": 120,
+              "render_warm_up_count": 32,
+              "render_warm_up_frames": true,
+              "use_camera_cut_for_warm_up": false
+            },
+            "readback_by_job": [
+              {
+                "job_name": "train_node_004058",
+                "settings": {
+                  "engine_warm_up_count": 120,
+                  "render_warm_up_count": 32,
+                  "render_warm_up_frames": true,
+                  "use_camera_cut_for_warm_up": false
+                },
+                "texture_pool_cvar": {
+                  "name": "r.Streaming.PoolSize",
+                  "value": 10240.0,
+                  "is_enabled": true
+                }
+              }
+            ],
+            "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+            "streaming_policy": "fully_load_used_textures_with_rendered_warmup",
+            "texture_pool": {
+              "source": "explicit_parameter",
+              "pool_size_mb": 10240,
+              "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+            },
+            "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+            "blocking_streaming_flush": false,
+            "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+          },
+          "baseline_cvars": {
+            "r.AntiAliasingMethod": 4,
+            "r.ScreenPercentage": 100,
+            "r.DynamicRes.OperationMode": 0,
+            "r.DynamicGlobalIlluminationMethod": 1,
+            "r.ReflectionMethod": 1,
+            "r.Shadow.Virtual.Enable": 1,
+            "sg.ViewDistanceQuality": 3,
+            "sg.AntiAliasingQuality": 3,
+            "sg.ShadowQuality": 3,
+            "sg.GlobalIlluminationQuality": 3,
+            "sg.ReflectionQuality": 3,
+            "sg.PostProcessQuality": 3,
+            "sg.TextureQuality": 3,
+            "sg.EffectsQuality": 3,
+            "sg.FoliageQuality": 3
+          },
+          "texture_readiness": {
+            "policy": "fully_load_used_textures_v2",
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+            "scope": "Load used textures at full available resolution before output; keep original camera and LOD settings",
+            "evidence": "dataset_texture_quality_20261023_v1 cold-cache A/B: face diffuse 64x64 -> 2048x2048"
+          }
+        },
+        "bound_at": "2026-10-23T01:04:28.673663+00:00"
+      },
+      "status": "success"
+    }
+  ],
+  "finished_at": "2026-10-23T01:04:28.676664+00:00",
+  "queue_stopped": false,
+  "status": "success"
+}

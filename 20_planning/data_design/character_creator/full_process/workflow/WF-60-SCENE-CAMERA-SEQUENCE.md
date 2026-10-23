@@ -28,10 +28,12 @@
 | 1. 冻结场景与锚点 | 选择 DataMake 场景引用、角色位置、朝向和安全活动范围 | 当前 Object Path/矩阵由 [`first_batch_local_render_matrix_20260824_v1.json`](../../../../../00_engine/scripts/unreal/first_batch_local_render_matrix_20260824_v1.json) 冻结；规则见 [场景 Technical](../technical/unreal/SCENE_CAMERA_SEQUENCE.md#3-相机与锚点) | Scene/Anchor Registry |
 | 2. 冻结相机 | 建立稳定 Camera ID、构图、焦距和裁切规则 | 相机定义由同一矩阵与 [场景 Technical](../technical/unreal/SCENE_CAMERA_SEQUENCE.md#1-第一批输入与冻结配置) 共同解释 | Camera Registry |
 | 3. 构建验证 Sequence | 将动作窗口、InPlace Override、角色和四相机绑定到 DataMake Sequence | 系统入口 [`run_first_batch_20s_sequence.py`](../../../../../00_engine/scripts/unreal/run_first_batch_20s_sequence.py)，UE Payload [`ue_build_first_batch_20s_sequence.py`](../../../../../00_engine/scripts/unreal/ue_build_first_batch_20s_sequence.py) | 版本化验证/自动化 Sequence |
-| 4. 构建渲染 Profile | 固定 5 秒、30 FPS、分辨率和 MRQ 设置 | [`run_first_batch_render_profile.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_profile.py) 与 [`ue_build_first_batch_render_profile.py`](../../../../../00_engine/scripts/unreal/ue_build_first_batch_render_profile.py)；参数所有者见 [渲染 Technical](../technical/rendering_release/RENDER_EXECUTION.md) | 版本化 MRQ Profile |
-| 5. 审计与视觉验收 | 检查 Actor/Camera Cut/动画绑定、帧范围、时间运动、T-pose 和构图 | [`ue_audit_first_batch_day3_layout_motion.py`](../../../../../00_engine/scripts/unreal/ue_audit_first_batch_day3_layout_motion.py) 与 [视觉审查](../technical/validation/VISUAL_REVIEW.md) | `VAL-SCENE-01` 报告与视觉证据 |
+| 4. 构建渲染 Profile | 按批次冻结时长、FPS、分辨率和MRQ设置；第一批为5秒/30FPS | [`run_first_batch_render_profile.py`](../../../../../00_engine/scripts/unreal/run_first_batch_render_profile.py) 与 [`ue_build_first_batch_render_profile.py`](../../../../../00_engine/scripts/unreal/ue_build_first_batch_render_profile.py)；参数所有者见 [渲染 Technical](../technical/rendering_release/RENDER_EXECUTION.md) | 版本化 MRQ Profile |
+| 5. 审计与视觉验收 | 检查 Actor/Camera Cut/动画绑定、帧范围、时间运动、T-pose 和构图 | `ue_audit_first_batch_day3_layout_motion.py`（历史脚本已退役） 与 [视觉审查](../technical/validation/VISUAL_REVIEW.md) | `VAL-SCENE-01` 报告与视觉证据 |
 
-正式节点每次只绑定一个 `camera_id` 和 150 帧，不要求把四个视角并行渲染或永久拼在一个 20 秒 Sequence 中。
+第一批正式节点每次只绑定一个 `camera_id` 和150帧，不要求把四个视角并行渲染或永久拼在一个20秒Sequence中。新版本相机/时长pilot见[场景Technical §7](../technical/unreal/SCENE_CAMERA_SEQUENCE.md#7-相机动作小样2026-10-09)：只作独立试验，冻结精确窗口/轨迹和编辑对共享输入后验证，不回写第一批或自动取得生产Gate。
+
+实验性动作替换的镜头配方/派生轨迹关系见[ADR-0018](../project_management/decisions/ADR-0018-ACTION-DEPENDENT-STABLE-CAMERA.md)：同配方可按新动作生成新平滑轨迹；外观编辑继续共享冻结轨迹，第一批生产配置不自动改变。具体实施见[Technical §9](../technical/unreal/SCENE_CAMERA_SEQUENCE.md#9-稳定跟拍镜头试验2026-10-10)。
 
 ## 5. 输出契约
 

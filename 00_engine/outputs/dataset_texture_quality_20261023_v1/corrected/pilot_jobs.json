@@ -1,0 +1,2511 @@
+{
+  "schema": "dataset_render_jobs_v11_v1",
+  "path_base": "workspace",
+  "output_path_base": "run_root",
+  "profile": {
+    "schema_version": 1,
+    "status": "local_corrected_clarity_accepted_reference_production_and_server_pending",
+    "confirmed_date": "2026-10-22",
+    "applies_to": [
+      "main_video",
+      "motion_reference_video"
+    ],
+    "duration_seconds": 10,
+    "fps": 30,
+    "output_frame_count": 300,
+    "resolution": {
+      "landscape": {
+        "width": 1920,
+        "height": 1080
+      },
+      "portrait": {
+        "width": 1080,
+        "height": 1920
+      }
+    },
+    "pending": [
+      "reference_presentation_and_motion_carrier",
+      "full_reference_manifest_execution",
+      "server_exact_build_plugins_and_resource_profile",
+      "local_render_and_server_sample_comparison"
+    ],
+    "render_started": true,
+    "scope": "Next-stage media settings; does not modify adopted v11 nodes, edges, sessions or reference demand.",
+    "scene_reference_images": {
+      "status": "confirmed",
+      "resolution": {
+        "landscape": {
+          "width": 1920,
+          "height": 1080
+        },
+        "portrait": {
+          "width": 1080,
+          "height": 1920
+        }
+      },
+      "matches_corresponding_video": true,
+      "contains_character": false
+    },
+    "canonical_reference_images": {
+      "status": "confirmed",
+      "applies_to": [
+        "identity",
+        "hair",
+        "wardrobe_piece"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "one_image_per_view": true,
+      "collage": false,
+      "framing": "Keep the target face, hairstyle or garment complete and as large as practical within the frame."
+    },
+    "output_format": {
+      "reference_images": "PNG",
+      "video_container": "MP4",
+      "video_codec": "H.264",
+      "crf_initial_sample": 16,
+      "same_video_encoding_for_main_and_motion_references": true,
+      "render_intermediate": "PNG_sequence",
+      "retention": "Keep final MP4 videos and reference images; intermediate frames may be cleaned only after successful encoding and confirming video usability; retain a small original-frame sample for comparison.",
+      "remaining_encoder_details": "Current local MP4 clarity accepted by user; encoding profile retained. No new encoder adjustment required for clarity.",
+      "compression_quality_validated": false,
+      "encoder": "libx264",
+      "preset": "medium",
+      "pixel_format": "yuv420p",
+      "audio": false,
+      "faststart": true,
+      "reference_png_bits_per_channel": 8,
+      "intermediate_png_bits_per_channel": 8,
+      "video_png_write_alpha": false,
+      "reference_png_background": "use approved reference presentation; garment-only does not imply transparent background",
+      "color_conversion_policy": "opaque RGB/RGBA PNG -> discard alpha -> full-range RGB to BT.709 limited-range yuv420p; libx264 CRF16 medium",
+      "actual_local_png_channels": "RGBA, fully opaque in sampled frames despite write_alpha=False",
+      "local_color_spotcheck": "00_engine/outputs/dataset_render_pilot_20261023_v1/COLOR_SPOTCHECK.json",
+      "compression_quality_validation_scope": "User accepted corrected local MP4 clarity; not a separate colorimetric or cross-platform validation."
+    },
+    "motion_timing": {
+      "mode": "production10",
+      "status": "existing_10_second_motion_processing_completed_reuse_without_retiming",
+      "active_actions": 25,
+      "sex_variants": 50,
+      "fps": 30,
+      "duration_seconds": 10,
+      "output_frames": 300,
+      "contract_path": "00_engine/assets/character_creator/production_motion_library_20261017_v1.json",
+      "runtime_pointer_path": "00_engine/outputs/production_workflow_20261017_v1/production_motion_formal_runtime_active_v1.json",
+      "main_and_motion_reference_policy": "Use the same existing production10 motion and clock for the corresponding action/sex; do not reapply original-source slowdown, repeats or holds to the baked asset.",
+      "render_integration_status": "main_12_clips_use_baked_production10_rate1_start0; dedicated_motion_reference_not_rendered"
+    },
+    "render_quality": {
+      "render_pass": "deferred",
+      "spatial_sample_count": 1,
+      "temporal_sample_count": 1,
+      "anti_aliasing_policy": "explicit TSR (r.AntiAliasingMethod=4), screen percentage100, dynamic resolution disabled",
+      "legacy_actual_aa_method": "not recorded in historical render receipt",
+      "local_engine_default_aa_method": "TSR; project/camera overrides can differ",
+      "motion_blur_cvars": {
+        "r.MotionBlurQuality": 0,
+        "r.MotionBlur.Amount": 0
+      },
+      "engine_warm_up_count": 120,
+      "render_warm_up_count": 32,
+      "render_warm_up_frames": true,
+      "use_camera_cut_for_warm_up": false,
+      "warmup_advances_output_clock": false,
+      "cinematic_quality_settings": false,
+      "texture_streaming": "MRQ_FULLY_LOAD_used_textures",
+      "texture_streaming_policy_status": "controlled_cold_cache_AB_and_corrected_12_main_6_reference_complete_user_clarity_accepted",
+      "previous_texture_streaming": "preserve_project_streaming; rejected because cold-cache used textures remained at 64x64 despite bounded warmup",
+      "renderer_policy_version": 2,
+      "texture_residency_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "texture_policy_boundary": "FULLY_LOAD used textures per MRQ job; local corrected clips completed and clarity accepted. Server VRAM/cost remains to be measured.",
+      "assembled_hair_material_persistence": "dataset_persistent_materials_v2 saved owned MICs; six bindings matched after actual map reload; corrected main/reference rendering completed",
+      "force_lod_zero": false,
+      "disable_hlods": false,
+      "force_high_quality_shadows": false,
+      "override_view_distance_scale": false,
+      "flush_streaming_managers": false,
+      "flush_grass_streaming": false,
+      "exposure": "inherit saved source map postprocess; clear camera exposure overrides; do not restore old site EV",
+      "depth_of_field_bloom_tonemapping": "inherit current accepted map/project/camera settings; record actual settings in local pilot; no extra grading",
+      "resolution_binding": "apply final output resolution without multiplying accepted camera distances or changing aspect-specific trajectories",
+      "resolved_cvars": {
+        "r.AntiAliasingMethod": 4,
+        "r.ScreenPercentage": 100,
+        "r.DynamicRes.OperationMode": 0,
+        "r.DynamicGlobalIlluminationMethod": 1,
+        "r.ReflectionMethod": 1,
+        "r.Shadow.Virtual.Enable": 1,
+        "sg.ViewDistanceQuality": 3,
+        "sg.AntiAliasingQuality": 3,
+        "sg.ShadowQuality": 3,
+        "sg.GlobalIlluminationQuality": 3,
+        "sg.ReflectionQuality": 3,
+        "sg.PostProcessQuality": 3,
+        "sg.TextureQuality": 3,
+        "sg.EffectsQuality": 3,
+        "sg.FoliageQuality": 3
+      },
+      "resolved_settings_evidence": "Controlled runtime CVar/residency A/B, corrected render_contract receipts and MATERIAL_RELOAD_CHECK.json under dataset_texture_quality_20261023_v1; server readback pending.",
+      "texture_readiness_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "persistent_material_policy": "dataset_persistent_materials_v2"
+    },
+    "execution_plan": "RENDER_EXECUTION_PLAN.md",
+    "basis": [
+      "00_engine/outputs/production_workflow_20261017_v1/render_receipts/serial4_2b93498ca0_1.json",
+      "00_engine/outputs/production_workflow_20261017_v1/media_receipts/formal_trial_2_front_full.json",
+      "00_engine/outputs/render_readiness_20261021_v1/HANDOFF.md",
+      "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+      "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md"
+    ],
+    "formal_production_render_started": false,
+    "last_updated": "2026-10-23",
+    "local_pilot": {
+      "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+      "main_clips": 12,
+      "reference_image_prototypes": 6,
+      "technical_media_pass": true,
+      "user_visual_acceptance": true,
+      "linux_tested": false,
+      "old_pilot_quality_rejected": true,
+      "quality_report": "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md",
+      "user_visual_acceptance_scope": "corrected_local_video_and_image_clarity"
+    },
+    "texture_quality_validation": {
+      "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1",
+      "status": "corrected_local_media_complete_user_clarity_accepted",
+      "controlled_fixture": "same freshly assembled black-hair reference map, camera, light, AA and 1024x1024 output",
+      "warm_cache_result": "both inherited-streaming and FULLY_LOAD runs already had clear/full resident textures; warm-only comparisons do not establish the defect",
+      "cold_cache_result": {
+        "face_diffuse": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            2048,
+            2048
+          ]
+        },
+        "hair_base_color_and_opacity": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            2048,
+            2048
+          ]
+        },
+        "dress_diffuse_and_normal": {
+          "inherited_resident": [
+            64,
+            64
+          ],
+          "fully_load_resident": [
+            4096,
+            4096
+          ]
+        }
+      },
+      "runtime_readback": {
+        "inherited_fully_load_used_textures": 0,
+        "fully_load_fully_load_used_textures": 1,
+        "texture_streaming_enabled_both": 1,
+        "pool_size_mb_both": 10240
+      },
+      "corrected_run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+      "corrected_main_clips_planned": 12,
+      "corrected_main_clips_complete_at_report_snapshot": 12,
+      "latest_recorded_blocker": null,
+      "driver_resume_guard": "11 focused tests passed; successful media must match current renderer signature and bind to actual completed MRQ receipt; legacy successful MP4 cannot bypass changed rendering policy; valid current-policy MP4 may resume after raw cleanup",
+      "quality_accepted": true,
+      "linux_tested": false,
+      "corrected_reference_images_complete": 6,
+      "quality_acceptance_scope": "corrected_local_video_and_image_clarity"
+    },
+    "user_clarity_acceptance": {
+      "date": "2026-10-23",
+      "source": "user_current_conversation",
+      "statement": "现在修正之后的视频和图片的清晰度足够了",
+      "scope": "corrected_local_video_and_image_clarity",
+      "accepted": true,
+      "does_not_approve": [
+        "reference_presentation_design",
+        "server_rendering",
+        "formal_full_dataset"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/reference_manifest.json",
+      "sha256": "93eaadb391dabd8e229cf9ad0a9f7860be210a39945f5d3cb1b43bdb2b24d4f9"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/render_preparation/VIDEO_PROFILE.json",
+      "sha256": "a3100b87566674c53876d26e3f28b27ac8eff62918893bef4ce78d24a6161952"
+    },
+    {
+      "path": "00_engine/outputs/dataset_trial_build_20261021_v1/catalog.json",
+      "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/train/render_requests.json",
+      "sha256": "2d773ffdd63b7c54274dfae89f7a59f6f61ed89d5c228923eb08ebf9fda770f2"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/test/render_requests.json",
+      "sha256": "ffccc73c7798201d279b506be61fd050974ee85fe8b5b2505ec18e02cd127d1a"
+    }
+  ],
+  "offline_only": true,
+  "state_policy": "exact copy of adopted render_requests state",
+  "job_count": 12,
+  "jobs": [
+    {
+      "job_id": "train_node_000000",
+      "split": "train",
+      "node_id": 0,
+      "original_node_id": 0,
+      "content_id": "content_1b57978576e21a529fb156c7",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_AF_004",
+        "hair": "HAIR_HB2_19",
+        "hair_color": "blue",
+        "site": "site_7f07230597",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.dress_collection.asset.24f8fe15fbfe"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.e9bbf4c4b19a",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_020",
+        "camera": "dolly_in_front"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_020_landscape_dolly_in_front",
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "dolly_in_front",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "4ef6c7df9498bf92dddbc401bd067d8161901c91994040930c26464368ffc33f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_AF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_19",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "high_side_part_ponytail_base",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_base.high_side_part_ponytail_base",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_12_Transparency_Pbr_StrandsV2.MI_Hair_12_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_23_Transparency_Pbr_StrandsV2.MI_Hair_23_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "high_side_part_ponytail_straight",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_straight.high_side_part_ponytail_straight",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_13_Transparency_Pbr_StrandsV2.MI_Hair_13_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_22_Transparency_Pbr_StrandsV2.MI_Hair_22_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "two_tone_bold_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/two_tone_bold_bangs.two_tone_bold_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_T5_Transparency_Pbr_StrandsV2.MI_Hair_T5_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_B5_Transparency_Pbr_StrandsV2.MI_Hair_B5_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.24f8fe15fbfe",
+            "label": "White_lace_dress",
+            "slot": "full_body",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+            "label": "Black_bow",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_bow/Meshes/bow_1.bow_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F025",
+            "label": "Sandals 02",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Sandals_02/Meshes/vacation_sandles_16578_shape.vacation_sandles_16578_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_020",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000000/frames",
+        "video": "jobs/train_node_000000/video.mp4",
+        "receipt": "jobs/train_node_000000/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000001",
+      "split": "train",
+      "node_id": 1,
+      "original_node_id": 1,
+      "content_id": "content_c9c1587b452a993c0492e1f4",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_AF_004",
+        "hair": "HAIR_HB2_19",
+        "hair_color": "blue",
+        "site": "site_7f07230597",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.dress_collection.asset.24f8fe15fbfe"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.e9bbf4c4b19a",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_020",
+        "camera": "dolly_in_back"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_020_landscape_dolly_in_back",
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "dolly_in_back",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "372ccce4a8f7d35c2848ab0bf3f814f296bd6df5bb98e43c07405ab399e3172d",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_AF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_19",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "high_side_part_ponytail_base",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_base.high_side_part_ponytail_base",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_12_Transparency_Pbr_StrandsV2.MI_Hair_12_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_23_Transparency_Pbr_StrandsV2.MI_Hair_23_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "high_side_part_ponytail_straight",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_straight.high_side_part_ponytail_straight",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_13_Transparency_Pbr_StrandsV2.MI_Hair_13_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_22_Transparency_Pbr_StrandsV2.MI_Hair_22_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "two_tone_bold_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/two_tone_bold_bangs.two_tone_bold_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_T5_Transparency_Pbr_StrandsV2.MI_Hair_T5_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_B5_Transparency_Pbr_StrandsV2.MI_Hair_B5_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.24f8fe15fbfe",
+            "label": "White_lace_dress",
+            "slot": "full_body",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+            "label": "Black_bow",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_bow/Meshes/bow_1.bow_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F025",
+            "label": "Sandals 02",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Sandals_02/Meshes/vacation_sandles_16578_shape.vacation_sandles_16578_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_020",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000001/frames",
+        "video": "jobs/train_node_000001/video.mp4",
+        "receipt": "jobs/train_node_000001/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000002",
+      "split": "train",
+      "node_id": 2,
+      "original_node_id": 2,
+      "content_id": "content_a145d2995ff567d6a90d0c1f",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_AF_004",
+        "hair": "HAIR_HB2_19",
+        "hair_color": "blue",
+        "site": "site_7f07230597",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.dress_collection.asset.24f8fe15fbfe"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.e9bbf4c4b19a",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_003",
+        "camera": "dolly_in_front"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_003_landscape_dolly_in_front",
+        "motion_id": "MOTION_CAND_003",
+        "camera_id": "dolly_in_front",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "a326c32a158f46c8cf5c0a985bb8ff1ada7df0a55fcee0915a10abc4825e0ed4",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_AF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_19",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "high_side_part_ponytail_base",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_base.high_side_part_ponytail_base",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_12_Transparency_Pbr_StrandsV2.MI_Hair_12_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_23_Transparency_Pbr_StrandsV2.MI_Hair_23_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "high_side_part_ponytail_straight",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_straight.high_side_part_ponytail_straight",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_13_Transparency_Pbr_StrandsV2.MI_Hair_13_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_22_Transparency_Pbr_StrandsV2.MI_Hair_22_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "two_tone_bold_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/two_tone_bold_bangs.two_tone_bold_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_T5_Transparency_Pbr_StrandsV2.MI_Hair_T5_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_B5_Transparency_Pbr_StrandsV2.MI_Hair_B5_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.24f8fe15fbfe",
+            "label": "White_lace_dress",
+            "slot": "full_body",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+            "label": "Black_bow",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_bow/Meshes/bow_1.bow_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F025",
+            "label": "Sandals 02",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Sandals_02/Meshes/vacation_sandles_16578_shape.vacation_sandles_16578_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_003",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_003_10s.A_MOTION_CAND_003_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000002/frames",
+        "video": "jobs/train_node_000002/video.mp4",
+        "receipt": "jobs/train_node_000002/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000005",
+      "split": "train",
+      "node_id": 5,
+      "original_node_id": 5,
+      "content_id": "content_7e57c8081a0f3a088e25fc15",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_AF_004",
+        "hair": "HAIR_HB2_19",
+        "hair_color": "blue",
+        "site": "site_7f07230597",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.dress_collection.asset.0421e2cbed91"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.e9bbf4c4b19a",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_020",
+        "camera": "dolly_in_front"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_020_landscape_dolly_in_front",
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "dolly_in_front",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "4ef6c7df9498bf92dddbc401bd067d8161901c91994040930c26464368ffc33f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_AF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_AF_004/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_19",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "high_side_part_ponytail_base",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_base.high_side_part_ponytail_base",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_12_Transparency_Pbr_StrandsV2.MI_Hair_12_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_23_Transparency_Pbr_StrandsV2.MI_Hair_23_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "high_side_part_ponytail_straight",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_straight.high_side_part_ponytail_straight",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_13_Transparency_Pbr_StrandsV2.MI_Hair_13_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_22_Transparency_Pbr_StrandsV2.MI_Hair_22_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "two_tone_bold_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/two_tone_bold_bangs.two_tone_bold_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_T5_Transparency_Pbr_StrandsV2.MI_Hair_T5_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_B5_Transparency_Pbr_StrandsV2.MI_Hair_B5_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.0421e2cbed91",
+            "label": "Satin",
+            "slot": "full_body",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/Satin/Meshes/gown_1.gown_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+            "label": "Black_bow",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_bow/Meshes/bow_1.bow_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F025",
+            "label": "Sandals 02",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Sandals_02/Meshes/vacation_sandles_16578_shape.vacation_sandles_16578_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_020",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000005/frames",
+        "video": "jobs/train_node_000005/video.mp4",
+        "receipt": "jobs/train_node_000005/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000018",
+      "split": "train",
+      "node_id": 18,
+      "original_node_id": 18,
+      "content_id": "content_c70642e508fb1655ba4da05d",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_LF_005",
+        "hair": "HAIR_HB2_19",
+        "hair_color": "blue",
+        "site": "site_7f07230597",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "full_body",
+          "slot_choices": {
+            "full_body": "female.dress_collection.asset.0421e2cbed91"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.e9bbf4c4b19a",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F025",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_020",
+        "camera": "dolly_in_front"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_020_landscape_dolly_in_front",
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "dolly_in_front",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "4ef6c7df9498bf92dddbc401bd067d8161901c91994040930c26464368ffc33f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_LF_005",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/lash_up_downward.lash_up_downward",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/lash_up_short_sparse.lash_up_short_sparse",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/lash_low_sparse.lash_low_sparse",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_005/Meshes/lash_low_short_sparse.lash_low_short_sparse",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_19",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "high_side_part_ponytail_base",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_base.high_side_part_ponytail_base",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_12_Transparency_Pbr_StrandsV2.MI_Hair_12_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_23_Transparency_Pbr_StrandsV2.MI_Hair_23_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "high_side_part_ponytail_straight",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/high_side_part_ponytail_straight.high_side_part_ponytail_straight",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_13_Transparency_Pbr_StrandsV2.MI_Hair_13_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_22_Transparency_Pbr_StrandsV2.MI_Hair_22_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "two_tone_bold_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Meshes/two_tone_bold_bangs.two_tone_bold_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_T5_Transparency_Pbr_StrandsV2.MI_Hair_T5_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_19/Female/Materials/MI_Hair_B5_Transparency_Pbr_StrandsV2.MI_Hair_B5_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.0421e2cbed91",
+            "label": "Satin",
+            "slot": "full_body",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/Satin/Meshes/gown_1.gown_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+            "label": "Black_bow",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_bow/Meshes/bow_1.bow_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F025",
+            "label": "Sandals 02",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Sandals_02/Meshes/vacation_sandles_16578_shape.vacation_sandles_16578_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_020",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000018/frames",
+        "video": "jobs/train_node_000018/video.mp4",
+        "receipt": "jobs/train_node_000018/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_003775",
+      "split": "train",
+      "node_id": 3775,
+      "original_node_id": 1250,
+      "content_id": "content_14dec26d1b14b4a49586fc1d",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_BF_004",
+        "hair": "HAIR_HB2_15",
+        "hair_color": "black",
+        "site": "site_7f07230597",
+        "aspect": "portrait",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "shirt_with_skirt",
+          "slot_choices": {
+            "shirts": "female.dress_collection.asset.18dbd4de50c1",
+            "skirts": "female.dress_collection.asset.866c55f4f8f0"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.47eb552ffee4",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_035",
+        "camera": "front_full"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_035_portrait_front_full",
+        "motion_id": "MOTION_CAND_035",
+        "camera_id": "front_full",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "c0b598b6bd0f5d12c51f67173261edec6b82b0aa8fe846a5ce51d82dd9d377dc",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_BF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/lash_up_curly.lash_up_curly",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/lash_low_short_bushy.lash_low_short_bushy",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB2_15",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "hair_bows_m",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Meshes/hair_bows_m.hair_bows_m",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Materials/MI_Hair85_Transparency_Pbr_StrandsV2.MI_Hair85_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "straight_long_low",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Meshes/straight_long_low.straight_long_low",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Materials/MI_Hair84_Transparency_Pbr_StrandsV2.MI_Hair84_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "twist_half_up",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Meshes/twist_half_up.twist_half_up",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Materials/MI_Hair86_Transparency_Pbr_StrandsV2.MI_Hair86_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "two_tone_choppy_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Meshes/two_tone_choppy_bangs.two_tone_choppy_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Materials/MI_Hair_L1_Transparency_Pbr_StrandsV2.MI_Hair_L1_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_15/Female/Materials/MI_Hair_R1_Transparency_Pbr_StrandsV2.MI_Hair_R1_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "black"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.18dbd4de50c1",
+            "label": "Stripes_shirt",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Shirts/Stripes_shirt/Meshes/stripes_shirt_1.stripes_shirt_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.866c55f4f8f0",
+            "label": "Leg_skirt",
+            "slot": "skirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Skirts/Leg_skirt/Meshes/skirt_mod_1.skirt_mod_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.47eb552ffee4",
+            "label": "Black_Gloves",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_Gloves/Meshes/gloves.gloves"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F023",
+            "label": "Flip Flops",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_035",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_035_10s.A_MOTION_CAND_035_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_003775/frames",
+        "video": "jobs/train_node_003775/video.mp4",
+        "receipt": "jobs/train_node_003775/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_003792",
+      "split": "train",
+      "node_id": 3792,
+      "original_node_id": 1267,
+      "content_id": "content_a1d4b34977002cd7096afdff",
+      "state": {
+        "sex": "female",
+        "identity": "CFD40_BF_004",
+        "hair": "HAIR_HB1_17",
+        "hair_color": "black",
+        "site": "site_7f07230597",
+        "aspect": "portrait",
+        "wardrobe": {
+          "family_id": "female.dress_collection",
+          "group_id": "shirt_with_skirt",
+          "slot_choices": {
+            "shirts": "female.dress_collection.asset.18dbd4de50c1",
+            "skirts": "female.dress_collection.asset.866c55f4f8f0"
+          },
+          "optional_asset_ids": [
+            "female.dress_collection.asset.47eb552ffee4",
+            "female.dress_collection.asset.1ce369094ea7"
+          ],
+          "shared_shoe_id": "F023",
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_035",
+        "camera": "front_full"
+      },
+      "site": {
+        "site_id": "site_7f07230597",
+        "name": "合成波城市/1",
+        "map": "/Game/Scenes/Synthwave_city/Level/L_showcase_synthwave_city",
+        "position": {
+          "x": -23400.0,
+          "y": 150.0,
+          "z": -49.999
+        },
+        "yaw": -90.00000000000001,
+        "appearance_config_id": "appearance_df365efc8a264ae2be033964f3775a47",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_035_portrait_front_full",
+        "motion_id": "MOTION_CAND_035",
+        "camera_id": "front_full",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "c0b598b6bd0f5d12c51f67173261edec6b82b0aa8fe846a5ce51d82dd9d377dc",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_BF_004",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Female_v1.SKEL_CFDShared_Female_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/lash_up_curly.lash_up_curly",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BF_004/Meshes/lash_low_short_bushy.lash_low_short_bushy",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB1_17",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Female/CombinedBase/CC_FIXED_HEAD_FEMALE_Skeleton.CC_FIXED_HEAD_FEMALE_Skeleton",
+            "meshes": [
+              {
+                "name": "baby_bangs",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Meshes/baby_bangs.baby_bangs",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Materials/MI_Hair42_Transparency_Pbr_StrandsV2.MI_Hair42_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "double_low",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Meshes/double_low.double_low",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Materials/MI_Hair44_Transparency_Pbr_StrandsV2.MI_Hair44_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "space_bun_l",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Meshes/space_bun_l.space_bun_l",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Materials/MI_Hair43_Transparency_Pbr_StrandsV2.MI_Hair43_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "space_bun_r",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Meshes/space_bun_r.space_bun_r",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB1_17/Female/Materials/MI_Hair45_Transparency_Pbr_StrandsV2.MI_Hair45_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "black"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "female.dress_collection.asset.18dbd4de50c1",
+            "label": "Stripes_shirt",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Shirts/Stripes_shirt/Meshes/stripes_shirt_1.stripes_shirt_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.866c55f4f8f0",
+            "label": "Leg_skirt",
+            "slot": "skirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Skirts/Leg_skirt/Meshes/skirt_mod_1.skirt_mod_1"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.47eb552ffee4",
+            "label": "Black_Gloves",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/Black_Gloves/Meshes/gloves.gloves"
+            ]
+          },
+          {
+            "asset_id": "female.dress_collection.asset.1ce369094ea7",
+            "label": "white_wrap",
+            "slot": "family_accessory",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/Accessories/white_wrap/Meshes/wrap.wrap"
+            ]
+          },
+          {
+            "asset_id": "F023",
+            "label": "Flip Flops",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_035",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_035_10s.A_MOTION_CAND_035_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_003792/frames",
+        "video": "jobs/train_node_003792/video.mp4",
+        "receipt": "jobs/train_node_003792/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000967",
+      "split": "train",
+      "node_id": 967,
+      "original_node_id": 1701,
+      "content_id": "content_827fbce95fcaa8c915a8ab37",
+      "state": {
+        "sex": "male",
+        "identity": "CFD40_WM_001",
+        "hair": "HAIR_HB3_01",
+        "hair_color": "pink",
+        "site": "site_7b963967ee",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "male.streetstyle",
+          "group_id": "default",
+          "slot_choices": {
+            "pants": "male.streetstyle.asset.bdef73564949",
+            "shirts": "male.streetstyle.asset.49a4c6698aa9",
+            "shoes": "male.streetstyle.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_001",
+        "camera": "front_full"
+      },
+      "site": {
+        "site_id": "site_7b963967ee",
+        "name": "傍晚公路 / 1",
+        "map": "/Game/Scenes/Evening_Highway/Maps/demo_level",
+        "position": {
+          "x": -510.0,
+          "y": 4340.0,
+          "z": 5.07108577494364e-05
+        },
+        "yaw": 0.0,
+        "appearance_config_id": "appearance_d22cc011774547be90e4b17dd947c157",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_WM_001",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_up_curly.lash_up_curly",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_low_short_bushy.lash_low_short_bushy",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB3_01",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Male/CombinedBase/CC_FIXED_HEAD_MALE_Skeleton.CC_FIXED_HEAD_MALE_Skeleton",
+            "meshes": [
+              {
+                "name": "back_swept_top",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Meshes/back_swept_top.back_swept_top",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Materials/MI_Hair90_Transparency_Pbr_StrandsV2.MI_Hair90_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "crew_cut",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Meshes/crew_cut.crew_cut",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Materials/MI_Hair91_Transparency_Pbr_StrandsV2.MI_Hair91_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              }
+            ]
+          },
+          "color": "pink"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "male.streetstyle.asset.bdef73564949",
+            "label": "Pants 03",
+            "slot": "pants",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Pants/Pants_03/Meshes/jeans_13977_shape.jeans_13977_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.49a4c6698aa9",
+            "label": "Shirt 02",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shirts/Shirt_02/Meshes/shirt_11996_shape.shirt_11996_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.ee823988cfc1",
+            "label": "Shoes 01",
+            "slot": "shoes",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shoes/Shoes_01/Meshes/shoes_28632_shape.shoes_28632_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_001",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000967/frames",
+        "video": "jobs/train_node_000967/video.mp4",
+        "receipt": "jobs/train_node_000967/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000978",
+      "split": "train",
+      "node_id": 978,
+      "original_node_id": 1712,
+      "content_id": "content_6d2848e9705d9f81c41bea9f",
+      "state": {
+        "sex": "male",
+        "identity": "CFD40_WM_001",
+        "hair": "HAIR_HB3_01",
+        "hair_color": "gold",
+        "site": "site_7b963967ee",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "male.streetstyle",
+          "group_id": "default",
+          "slot_choices": {
+            "pants": "male.streetstyle.asset.bdef73564949",
+            "shirts": "male.streetstyle.asset.49a4c6698aa9",
+            "shoes": "male.streetstyle.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_001",
+        "camera": "front_full"
+      },
+      "site": {
+        "site_id": "site_7b963967ee",
+        "name": "傍晚公路 / 1",
+        "map": "/Game/Scenes/Evening_Highway/Maps/demo_level",
+        "position": {
+          "x": -510.0,
+          "y": 4340.0,
+          "z": 5.07108577494364e-05
+        },
+        "yaw": 0.0,
+        "appearance_config_id": "appearance_d22cc011774547be90e4b17dd947c157",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_WM_001",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_up_curly.lash_up_curly",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_low_short_bushy.lash_low_short_bushy",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB3_01",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Male/CombinedBase/CC_FIXED_HEAD_MALE_Skeleton.CC_FIXED_HEAD_MALE_Skeleton",
+            "meshes": [
+              {
+                "name": "back_swept_top",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Meshes/back_swept_top.back_swept_top",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Materials/MI_Hair90_Transparency_Pbr_StrandsV2.MI_Hair90_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "crew_cut",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Meshes/crew_cut.crew_cut",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_01/Male/Materials/MI_Hair91_Transparency_Pbr_StrandsV2.MI_Hair91_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              }
+            ]
+          },
+          "color": "gold"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "male.streetstyle.asset.bdef73564949",
+            "label": "Pants 03",
+            "slot": "pants",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Pants/Pants_03/Meshes/jeans_13977_shape.jeans_13977_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.49a4c6698aa9",
+            "label": "Shirt 02",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shirts/Shirt_02/Meshes/shirt_11996_shape.shirt_11996_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.ee823988cfc1",
+            "label": "Shoes 01",
+            "slot": "shoes",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shoes/Shoes_01/Meshes/shoes_28632_shape.shoes_28632_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_001",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000978/frames",
+        "video": "jobs/train_node_000978/video.mp4",
+        "receipt": "jobs/train_node_000978/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_000979",
+      "split": "train",
+      "node_id": 979,
+      "original_node_id": 1713,
+      "content_id": "content_f7184d12111f59d766b92ab7",
+      "state": {
+        "sex": "male",
+        "identity": "CFD40_WM_001",
+        "hair": "HAIR_HB3_07",
+        "hair_color": "pink",
+        "site": "site_7b963967ee",
+        "aspect": "landscape",
+        "wardrobe": {
+          "family_id": "male.streetstyle",
+          "group_id": "default",
+          "slot_choices": {
+            "pants": "male.streetstyle.asset.bdef73564949",
+            "shirts": "male.streetstyle.asset.49a4c6698aa9",
+            "shoes": "male.streetstyle.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_001",
+        "camera": "front_full"
+      },
+      "site": {
+        "site_id": "site_7b963967ee",
+        "name": "傍晚公路 / 1",
+        "map": "/Game/Scenes/Evening_Highway/Maps/demo_level",
+        "position": {
+          "x": -510.0,
+          "y": 4340.0,
+          "z": 5.07108577494364e-05
+        },
+        "yaw": 0.0,
+        "appearance_config_id": "appearance_d22cc011774547be90e4b17dd947c157",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_WM_001",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_up_curly.lash_up_curly",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_WM_001/Meshes/lash_low_short_bushy.lash_low_short_bushy",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB3_07",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Male/CombinedBase/CC_FIXED_HEAD_MALE_Skeleton.CC_FIXED_HEAD_MALE_Skeleton",
+            "meshes": [
+              {
+                "name": "layered_mop_top",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/layered_mop_top.layered_mop_top",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair105_Transparency_Pbr_StrandsV2.MI_Hair105_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "mullet_hair",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/mullet_hair.mullet_hair",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair106_Transparency_Pbr_StrandsV2.MI_Hair106_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "straight_hair_l",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_l.straight_hair_l",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair107_Transparency_Pbr_StrandsV2.MI_Hair107_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "straight_hair_r",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_r.straight_hair_r",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair108_Transparency_Pbr_StrandsV2.MI_Hair108_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "pink"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "male.streetstyle.asset.bdef73564949",
+            "label": "Pants 03",
+            "slot": "pants",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Pants/Pants_03/Meshes/jeans_13977_shape.jeans_13977_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.49a4c6698aa9",
+            "label": "Shirt 02",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shirts/Shirt_02/Meshes/shirt_11996_shape.shirt_11996_shape"
+            ]
+          },
+          {
+            "asset_id": "male.streetstyle.asset.ee823988cfc1",
+            "label": "Shoes 01",
+            "slot": "shoes",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/streetstyle/Shoes/Shoes_01/Meshes/shoes_28632_shape.shoes_28632_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_001",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_000979/frames",
+        "video": "jobs/train_node_000979/video.mp4",
+        "receipt": "jobs/train_node_000979/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_004040",
+      "split": "train",
+      "node_id": 4040,
+      "original_node_id": 2029,
+      "content_id": "content_2dfa5b65278042d55b7bf3c3",
+      "state": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB3_07",
+        "hair_color": "blue",
+        "site": "site_05e295695d",
+        "aspect": "portrait",
+        "wardrobe": {
+          "family_id": "male.oahu",
+          "group_id": "default",
+          "slot_choices": {
+            "pants": "male.oahu.asset.f991c0f529d5",
+            "shirts": "male.oahu.asset.26cbc1eb61a5",
+            "shoes": "male.oahu.asset.ec02dbaf262c"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_022",
+        "camera": "orbit_120"
+      },
+      "site": {
+        "site_id": "site_05e295695d",
+        "name": "红色沙漠 / 1",
+        "map": "/Game/Scenes/RedDesertPack/Maps/Showcase",
+        "position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 69.606
+        },
+        "yaw": 89.99999999999999,
+        "appearance_config_id": "appearance_4e65cb19659d4cd8b8e6a0fd332a7eb7",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_022_portrait_orbit_120",
+        "motion_id": "MOTION_CAND_022",
+        "camera_id": "orbit_120",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "954b59774d4394af878a89a82d0317ad3077abdcaa1bd3d052fea07d1eae295f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_BM_001",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB3_07",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Male/CombinedBase/CC_FIXED_HEAD_MALE_Skeleton.CC_FIXED_HEAD_MALE_Skeleton",
+            "meshes": [
+              {
+                "name": "layered_mop_top",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/layered_mop_top.layered_mop_top",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair105_Transparency_Pbr_StrandsV2.MI_Hair105_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "mullet_hair",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/mullet_hair.mullet_hair",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair106_Transparency_Pbr_StrandsV2.MI_Hair106_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "straight_hair_l",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_l.straight_hair_l",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair107_Transparency_Pbr_StrandsV2.MI_Hair107_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "straight_hair_r",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_r.straight_hair_r",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair108_Transparency_Pbr_StrandsV2.MI_Hair108_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "blue"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "male.oahu.asset.f991c0f529d5",
+            "label": "Shorts 01",
+            "slot": "pants",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Pants/Shorts_01/Meshes/poolsideoahushorts_3354_shape.poolsideoahushorts_3354_shape"
+            ]
+          },
+          {
+            "asset_id": "male.oahu.asset.26cbc1eb61a5",
+            "label": "Shirt 01",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Shirts/Shirt_01/Meshes/poolsideoahushirt_shape.poolsideoahushirt_shape"
+            ]
+          },
+          {
+            "asset_id": "male.oahu.asset.ec02dbaf262c",
+            "label": "Flip Flops",
+            "slot": "shoes",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_022",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_022_10s.A_MOTION_CAND_022_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_004040/frames",
+        "video": "jobs/train_node_004040/video.mp4",
+        "receipt": "jobs/train_node_004040/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    },
+    {
+      "job_id": "train_node_004058",
+      "split": "train",
+      "node_id": 4058,
+      "original_node_id": 2047,
+      "content_id": "content_406332f906d425a75ebb5896",
+      "state": {
+        "sex": "male",
+        "identity": "CFD40_BM_001",
+        "hair": "HAIR_HB3_07",
+        "hair_color": "black",
+        "site": "site_05e295695d",
+        "aspect": "portrait",
+        "wardrobe": {
+          "family_id": "male.oahu",
+          "group_id": "default",
+          "slot_choices": {
+            "pants": "male.oahu.asset.f991c0f529d5",
+            "shirts": "male.oahu.asset.26cbc1eb61a5",
+            "shoes": "male.oahu.asset.ec02dbaf262c"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": null
+        },
+        "action": "MOTION_CAND_022",
+        "camera": "orbit_120"
+      },
+      "site": {
+        "site_id": "site_05e295695d",
+        "name": "红色沙漠 / 1",
+        "map": "/Game/Scenes/RedDesertPack/Maps/Showcase",
+        "position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 69.606
+        },
+        "yaw": 89.99999999999999,
+        "appearance_config_id": "appearance_4e65cb19659d4cd8b8e6a0fd332a7eb7",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_022_portrait_orbit_120",
+        "motion_id": "MOTION_CAND_022",
+        "camera_id": "orbit_120",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "954b59774d4394af878a89a82d0317ad3077abdcaa1bd3d052fea07d1eae295f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "appearance": {
+        "identity": {
+          "character_id": "CFD40_BM_001",
+          "skeleton": "/Game/DataMake/Characters/Skeletons/SKEL_CFDShared_Male_v1.SKEL_CFDShared_Male_v1",
+          "meshes": [
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_tongue.cc_base_tongue",
+              "role": "tongue",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_body.cc_base_body",
+              "role": "body",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_eye.cc_base_eye",
+              "role": "eyes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_teeth.cc_base_teeth",
+              "role": "teeth",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_tearline.cc_base_tearline",
+              "role": "tearline",
+              "morph_count": 439
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+              "role": "eye_occlusion",
+              "morph_count": 436
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/lash_up_wavy.lash_up_wavy",
+              "role": "eyelashes",
+              "morph_count": 395
+            },
+            {
+              "path": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_BM_001/Meshes/lash_low_clustered.lash_low_clustered",
+              "role": "eyelashes",
+              "morph_count": 395
+            }
+          ]
+        },
+        "hair": {
+          "hair_id": "HAIR_HB3_07",
+          "fit": {
+            "skeleton_path": "/Game/DataMake/Appearance/FixedHeadHair/Shared/Male/CombinedBase/CC_FIXED_HEAD_MALE_Skeleton.CC_FIXED_HEAD_MALE_Skeleton",
+            "meshes": [
+              {
+                "name": "layered_mop_top",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/layered_mop_top.layered_mop_top",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair105_Transparency_Pbr_StrandsV2.MI_Hair105_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "mullet_hair",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/mullet_hair.mullet_hair",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair106_Transparency_Pbr_StrandsV2.MI_Hair106_Transparency_Pbr_StrandsV2",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask"
+                ]
+              },
+              {
+                "name": "straight_hair_l",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_l.straight_hair_l",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair107_Transparency_Pbr_StrandsV2.MI_Hair107_Transparency_Pbr_StrandsV2"
+                ]
+              },
+              {
+                "name": "straight_hair_r",
+                "path": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Meshes/straight_hair_r.straight_hair_r",
+                "materials": [
+                  "/Game/DataMake/Appearance/FixedHeadHair/Shared/Materials/M_Coverage_ZeroMask.M_Coverage_ZeroMask",
+                  "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB3_07/Male/Materials/MI_Hair108_Transparency_Pbr_StrandsV2.MI_Hair108_Transparency_Pbr_StrandsV2"
+                ]
+              }
+            ]
+          },
+          "color": "black"
+        },
+        "wardrobe_assets": [
+          {
+            "asset_id": "male.oahu.asset.f991c0f529d5",
+            "label": "Shorts 01",
+            "slot": "pants",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Pants/Shorts_01/Meshes/poolsideoahushorts_3354_shape.poolsideoahushorts_3354_shape"
+            ]
+          },
+          {
+            "asset_id": "male.oahu.asset.26cbc1eb61a5",
+            "label": "Shirt 01",
+            "slot": "shirts",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Shirts/Shirt_01/Meshes/poolsideoahushirt_shape.poolsideoahushirt_shape"
+            ]
+          },
+          {
+            "asset_id": "male.oahu.asset.ec02dbaf262c",
+            "label": "Flip Flops",
+            "slot": "shoes",
+            "mesh_paths": [
+              "/Game/DataMake/Appearance/Wardrobe/Male/oahu/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+            ]
+          }
+        ]
+      },
+      "motion": {
+        "action_id": "MOTION_CAND_022",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_022_10s.A_MOTION_CAND_022_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "frames": 300,
+      "paths": {
+        "frames": "jobs/train_node_004058/frames",
+        "video": "jobs/train_node_004058/video.mp4",
+        "receipt": "jobs/train_node_004058/media_receipt.json"
+      },
+      "status": "planned_not_rendered"
+    }
+  ]
+}

@@ -1,0 +1,2244 @@
+{
+  "sampling_variant": "v6.8_tail_live_source_fallback",
+  "requested_sessions": 2400,
+  "sampled_sessions": 2400,
+  "complete": true,
+  "quota_counts": {
+    "fork_4": 280,
+    "linear_5": 400,
+    "fork_5": 280,
+    "linear_3": 400,
+    "linear_4": 400,
+    "fork_3": 160,
+    "linear_2": 400,
+    "fork_2": 80
+  },
+  "failed_jobs": [],
+  "errors_and_retries": {
+    "dead_end_or_cap_attempts": 4495,
+    "no_live_start_at_current_cap": 36
+  },
+  "hard_directed_edge_cap": 4,
+  "attempt_cap_counts": {
+    "2": 6235,
+    "3": 694,
+    "4": 2
+  },
+  "edge_reuse_histogram": {
+    "1": 1492,
+    "2": 2119,
+    "3": 1006,
+    "4": 3
+  },
+  "four_use_edge_fraction": 0.0006493506493506494,
+  "four_use_edge_soft_target": 0.005,
+  "axis_counts": {
+    "identity": 829,
+    "hair_color": 1362,
+    "action": 1261,
+    "camera": 1362,
+    "site": 1322,
+    "hair": 1262,
+    "wardrobe": 1362
+  },
+  "nonidentity_axis_mean": 1321.8333333333333,
+  "nonidentity_relative_deviation": {
+    "hair": -0.045265414197453,
+    "hair_color": 0.03038708863951589,
+    "wardrobe": 0.03038708863951589,
+    "action": -0.04602193922582265,
+    "camera": 0.03038708863951589,
+    "site": 0.00012608750472842267
+  },
+  "nonidentity_balance_within_10_percent": true,
+  "axis_reuse": {
+    "identity": {
+      "steps": 829,
+      "used_directed_edges": 356,
+      "mean": 2.3286516853932584,
+      "available_directed_edges": 384
+    },
+    "hair": {
+      "steps": 1262,
+      "used_directed_edges": 538,
+      "mean": 2.345724907063197,
+      "available_directed_edges": 548
+    },
+    "hair_color": {
+      "steps": 1362,
+      "used_directed_edges": 636,
+      "mean": 2.141509433962264,
+      "available_directed_edges": 660
+    },
+    "wardrobe": {
+      "steps": 1362,
+      "used_directed_edges": 1029,
+      "mean": 1.3236151603498543,
+      "available_directed_edges": 2208
+    },
+    "action": {
+      "steps": 1261,
+      "used_directed_edges": 535,
+      "mean": 2.3570093457943924,
+      "available_directed_edges": 544
+    },
+    "camera": {
+      "steps": 1362,
+      "used_directed_edges": 963,
+      "mean": 1.4143302180685358,
+      "available_directed_edges": 1950
+    },
+    "site": {
+      "steps": 1322,
+      "used_directed_edges": 563,
+      "mean": 2.3481349911190055,
+      "available_directed_edges": 568
+    }
+  },
+  "source_conditioned_formal_axis_expectation": {
+    "identity": 616.0833333333335,
+    "hair": 1384.3749999999964,
+    "hair_color": 1384.3749999999964,
+    "wardrobe": 1303.2083333333305,
+    "action": 1303.2083333333305,
+    "camera": 1384.3749999999964,
+    "site": 1384.3749999999964
+  },
+  "conditional_wardrobe_mode_counts": {
+    "whole_outfit": 486,
+    "single_piece": 518
+  },
+  "conditional_wardrobe_mode_expectation": {
+    "single_piece": 502.0,
+    "whole_outfit": 502.0
+  },
+  "single_piece_slot_actual": {
+    "shirts": 129,
+    "skirts": 40,
+    "full_body": 276,
+    "pants": 59,
+    "coats": 14
+  },
+  "source_support_lookahead_strength": 1.0,
+  "start_live_axis_support_exponent": 4.0,
+  "tail_source_fallback_after_attempts": 120,
+  "tail_source_fallback_counts": {
+    "source_selection_attempts": 115,
+    "successful_jobs": 1
+  },
+  "tail_source_fallback_jobs": [
+    {
+      "job": 2385,
+      "session_id": "session_002385",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "start_camera": "front_three_quarter_upper",
+      "accepted_attempt": 235,
+      "cap": 4,
+      "source": 330,
+      "previous_rejections": {
+        "no_live_start_at_current_cap": 12,
+        "dead_end_under_cap_or_axis_budget": 222
+      },
+      "reason": "Normal retries exceeded the configured threshold; broaden source selection within the fixed camera while preserving the complete job and edge caps."
+    }
+  ],
+  "tail_source_fallback_policy": "After normal retries, select among all real live nodes in the already fixed start camera, weighted by residual directed-edge capacity and axis breadth. Only the soft identity/unseen source partition is bypassed; kind, length, fork, camera quota and every cap remain fixed.",
+  "start_live_axis_support_policy": "Retain soft identity-count compensation, multiplied by real unsaturated distinct-axis support relative to job length. A two-axis source is neutral for L2 and softly downweighted for L5; no repeat or low-diversity session is hard rejected.",
+  "source_support_lookahead_policy": "Softly prefer starts and target nodes with real unsaturated wardrobe edges serving formal single-piece slot deficits and conditional 50:50 mode deficits. Does not invent absent slots or replace source-conditioned formal expectations.",
+  "single_piece_slot_source_conditioned_expectation": {
+    "shirts": 128.5,
+    "pants": 59.0,
+    "skirts": 40.5,
+    "full_body": 276.0,
+    "coats": 14.0
+  },
+  "single_piece_slot_relative_to_expectation": {
+    "shirts": 0.0038910505836575737,
+    "pants": 0.0,
+    "skirts": -0.012345679012345734,
+    "full_body": 0.0,
+    "coats": 0.0
+  },
+  "single_piece_slot_missing_graph_or_cap_support": {
+    "shirts": 5,
+    "pants": 3,
+    "coats": 1,
+    "skirts": 1
+  },
+  "single_piece_slot_actual_by_camera": {
+    "front_upper": {
+      "shirts": 15
+    },
+    "high_full": {
+      "shirts": 18,
+      "pants": 18
+    },
+    "front_full": {
+      "skirts": 10,
+      "shirts": 12
+    },
+    "orbit_120": {
+      "full_body": 27
+    },
+    "back_upper": {
+      "full_body": 31
+    },
+    "rear_three_quarter_full": {
+      "shirts": 17,
+      "skirts": 18
+    },
+    "rear_three_quarter_upper": {
+      "full_body": 29
+    },
+    "dolly_in_back": {
+      "full_body": 33
+    },
+    "orbit_360": {
+      "full_body": 35
+    },
+    "dolly_out_back": {
+      "full_body": 31
+    },
+    "low_full": {
+      "shirts": 16,
+      "pants": 14
+    },
+    "back_full": {
+      "pants": 14,
+      "shirts": 15
+    },
+    "dolly_out_side": {
+      "full_body": 19
+    },
+    "front_three_quarter_full": {
+      "shirts": 10,
+      "pants": 13
+    },
+    "dolly_in_side": {
+      "full_body": 24
+    },
+    "side_upper": {
+      "coats": 9,
+      "shirts": 9
+    },
+    "dolly_out_front": {
+      "shirts": 5,
+      "coats": 5
+    },
+    "front_three_quarter_upper": {
+      "full_body": 25
+    },
+    "side_full": {
+      "shirts": 12,
+      "skirts": 12
+    },
+    "dolly_in_front": {
+      "full_body": 22
+    }
+  },
+  "single_piece_slot_expectation_by_camera": {
+    "front_upper": {
+      "shirts": 15.0
+    },
+    "high_full": {
+      "pants": 18.0,
+      "shirts": 18.0
+    },
+    "front_full": {
+      "shirts": 11.0,
+      "skirts": 11.0
+    },
+    "orbit_120": {
+      "full_body": 27.0
+    },
+    "back_upper": {
+      "full_body": 31.0
+    },
+    "rear_three_quarter_full": {
+      "shirts": 17.5,
+      "skirts": 17.5
+    },
+    "rear_three_quarter_upper": {
+      "full_body": 29.0
+    },
+    "dolly_in_back": {
+      "full_body": 33.0
+    },
+    "orbit_360": {
+      "full_body": 35.0
+    },
+    "dolly_out_back": {
+      "full_body": 31.0
+    },
+    "low_full": {
+      "pants": 15.0,
+      "shirts": 15.0
+    },
+    "back_full": {
+      "pants": 14.5,
+      "shirts": 14.5
+    },
+    "dolly_out_side": {
+      "full_body": 19.0
+    },
+    "front_three_quarter_full": {
+      "pants": 11.5,
+      "shirts": 11.5
+    },
+    "dolly_in_side": {
+      "full_body": 24.0
+    },
+    "side_upper": {
+      "coats": 9.0,
+      "shirts": 9.0
+    },
+    "dolly_out_front": {
+      "coats": 5.0,
+      "shirts": 5.0
+    },
+    "front_three_quarter_upper": {
+      "full_body": 25.0
+    },
+    "side_full": {
+      "shirts": 12.0,
+      "skirts": 12.0
+    },
+    "dolly_in_front": {
+      "full_body": 22.0
+    }
+  },
+  "start_camera_quota": {
+    "front_full": 105,
+    "front_three_quarter_full": 105,
+    "side_full": 105,
+    "rear_three_quarter_full": 105,
+    "back_full": 104,
+    "front_upper": 157,
+    "front_three_quarter_upper": 104,
+    "side_upper": 104,
+    "rear_three_quarter_upper": 104,
+    "back_upper": 104,
+    "high_full": 104,
+    "low_full": 104,
+    "orbit_360": 104,
+    "orbit_120": 104,
+    "dolly_in_front": 157,
+    "dolly_in_side": 104,
+    "dolly_in_back": 104,
+    "dolly_out_front": 157,
+    "dolly_out_side": 104,
+    "dolly_out_back": 104,
+    "front_head": 157
+  },
+  "start_camera_counts": {
+    "front_full": 105,
+    "front_three_quarter_full": 105,
+    "side_full": 105,
+    "rear_three_quarter_full": 105,
+    "back_full": 104,
+    "front_upper": 157,
+    "front_three_quarter_upper": 104,
+    "side_upper": 104,
+    "rear_three_quarter_upper": 104,
+    "back_upper": 104,
+    "high_full": 104,
+    "low_full": 104,
+    "orbit_360": 104,
+    "orbit_120": 104,
+    "dolly_in_front": 157,
+    "dolly_in_side": 104,
+    "dolly_in_back": 104,
+    "dolly_out_front": 157,
+    "dolly_out_side": 104,
+    "dolly_out_back": 104,
+    "front_head": 157
+  },
+  "start_camera_quota_deficits": {
+    "front_full": 0,
+    "front_three_quarter_full": 0,
+    "side_full": 0,
+    "rear_three_quarter_full": 0,
+    "back_full": 0,
+    "front_upper": 0,
+    "front_three_quarter_upper": 0,
+    "side_upper": 0,
+    "rear_three_quarter_upper": 0,
+    "back_upper": 0,
+    "high_full": 0,
+    "low_full": 0,
+    "orbit_360": 0,
+    "orbit_120": 0,
+    "dolly_in_front": 0,
+    "dolly_in_side": 0,
+    "dolly_in_back": 0,
+    "dolly_out_front": 0,
+    "dolly_out_side": 0,
+    "dolly_out_back": 0,
+    "front_head": 0
+  },
+  "start_camera_quota_met": true,
+  "start_camera_graph_support": {
+    "front_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 348,
+      "hard_first_step_capacity": 1392,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 337,
+      "hard_first_step_capacity": 1348,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "side_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 348,
+      "hard_first_step_capacity": 1392,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 348,
+      "hard_first_step_capacity": 1392,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "back_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 337,
+      "hard_first_step_capacity": 1348,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "front_upper": {
+      "start_nodes": 58,
+      "outgoing_directed_edges": 447,
+      "hard_first_step_capacity": 1788,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_upper": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 330,
+      "hard_first_step_capacity": 1320,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "side_upper": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 299,
+      "hard_first_step_capacity": 1196,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_upper": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 330,
+      "hard_first_step_capacity": 1320,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "back_upper": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 330,
+      "hard_first_step_capacity": 1320,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "high_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 297,
+      "hard_first_step_capacity": 1188,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "low_full": {
+      "start_nodes": 40,
+      "outgoing_directed_edges": 297,
+      "hard_first_step_capacity": 1188,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_360": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 330,
+      "hard_first_step_capacity": 1320,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_120": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 277,
+      "hard_first_step_capacity": 1108,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_front": {
+      "start_nodes": 50,
+      "outgoing_directed_edges": 472,
+      "hard_first_step_capacity": 1888,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_side": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 261,
+      "hard_first_step_capacity": 1044,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_back": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 277,
+      "hard_first_step_capacity": 1108,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_front": {
+      "start_nodes": 58,
+      "outgoing_directed_edges": 441,
+      "hard_first_step_capacity": 1764,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_side": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 277,
+      "hard_first_step_capacity": 1108,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_back": {
+      "start_nodes": 32,
+      "outgoing_directed_edges": 277,
+      "hard_first_step_capacity": 1108,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "front_head": {
+      "start_nodes": 26,
+      "outgoing_directed_edges": 202,
+      "hard_first_step_capacity": 808,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    }
+  },
+  "start_camera_quota_policy": "Largest-remainder integer quotas over the full catalog: each of the four identity cameras has weight 1.5, every other camera weight 1. Core-coverage starts consume these same quotas. Select a camera once per job, retry within that camera, and never redistribute unsupported quota.",
+  "unused_nodes": 0,
+  "unused_start_nodes": 0,
+  "isolated_start_nodes": 0,
+  "identity_start_counts": {
+    "('female', 'CFD40_AF_005')": 1028,
+    "('female', 'CFD40_BF_004')": 29,
+    "('female', 'CFD40_LF_002')": 30,
+    "('female', 'CFD40_LF_005')": 73,
+    "('female', 'CFD40_WF_001')": 29,
+    "('female', 'CFD40_WF_004')": 33,
+    "('female', 'CFD40_WF_005')": 31,
+    "('male', 'CFD40_AM_001')": 64,
+    "('male', 'CFD40_AM_004')": 28,
+    "('male', 'CFD40_BM_001')": 28,
+    "('male', 'CFD40_BM_003')": 28,
+    "('male', 'CFD40_BM_005')": 947,
+    "('male', 'CFD40_LM_005')": 27,
+    "('male', 'CFD40_WM_002')": 25
+  },
+  "edited_attribute_target_coverage": {
+    "hair": {
+      "represented_values": 6,
+      "covered_values": 6,
+      "missing_values": []
+    },
+    "hair_color": {
+      "represented_values": 6,
+      "covered_values": 6,
+      "missing_values": []
+    },
+    "wardrobe_family": {
+      "represented_values": 8,
+      "covered_values": 8,
+      "missing_values": []
+    },
+    "wardrobe_group": {
+      "represented_values": 8,
+      "covered_values": 8,
+      "missing_values": []
+    },
+    "wardrobe_core": {
+      "represented_values": 34,
+      "covered_values": 34,
+      "missing_values": []
+    },
+    "camera": {
+      "represented_values": 21,
+      "covered_values": 21,
+      "missing_values": []
+    },
+    "site": {
+      "represented_values": 7,
+      "covered_values": 7,
+      "missing_values": []
+    },
+    "identity": {
+      "represented_values": 14,
+      "covered_values": 14,
+      "missing_values": []
+    },
+    "action": {
+      "represented_values": 6,
+      "covered_values": 6,
+      "missing_values": []
+    }
+  },
+  "history_axis_decay": 0.4,
+  "history_revisits_allowed": true,
+  "history_decay_override_from_v5": true,
+  "start_policy": "exact catalog-camera quotas; soft identity balance within camera; unused nodes; residual edge support",
+  "axis_policy": "legal identity=2/other=1; whole-history 0.4**n; global count feedback",
+  "feedback_exponent": 4.0,
+  "planned_edit_steps": 8760,
+  "soft_identity_target_fraction": 0.09,
+  "nonidentity_axis_terminal_target": 1328.6000000000001,
+  "nonidentity_axis_hard_upper": 1362,
+  "nonidentity_upper_slack": 0.025,
+  "cap2_attempts_before_cap3": 12,
+  "core_coverage_warmup_enabled": true,
+  "attribute_target_coverage_warmup_enabled": true,
+  "forced_coverage_job_count": 8,
+  "forced_coverage_jobs": [
+    {
+      "job": 16,
+      "session_id": "session_000016",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 465,
+      "target": 462,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.pop_style.asset.26cbc1eb61a5"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.26cbc1eb61a5"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.86d3bf90649a"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.cecf3994d437"
+          ]
+        },
+        {
+          "field": "wardrobe_family",
+          "value": [
+            "male",
+            "male.pop_style"
+          ]
+        },
+        {
+          "field": "wardrobe_group",
+          "value": [
+            "male",
+            "male.pop_style",
+            "default"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.86d3bf90649a"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.cecf3994d437"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 17,
+      "session_id": "session_000017",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 530,
+      "target": 536,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.pop_style.asset.9234b2ae5d5b"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.49a4c6698aa9"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.9234b2ae5d5b"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.9234b2ae5d5b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.49a4c6698aa9"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.9234b2ae5d5b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 18,
+      "session_id": "session_000018",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 578,
+      "target": 580,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.summer_girl_four_colors.asset.1099a24fc984"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.summer_girl_four_colors.asset.1099a24fc984"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.summer_girl_four_colors.asset.ce980960242b"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.summer_girl_four_colors.asset.1099a24fc984"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.1099a24fc984"
+        ],
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.ce980960242b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 23,
+      "session_id": "session_000023",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 148,
+      "target": 149,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.jiving.asset.3264922c4290"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.jiving.asset.3264922c4290"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.jiving.asset.3264922c4290"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 30,
+      "session_id": "session_000030",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 115,
+      "target": 117,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.pretty_dresses.asset.c7bdcbf37ae1"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.pretty_dresses.asset.c7bdcbf37ae1"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.c7bdcbf37ae1"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.c7bdcbf37ae1"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 31,
+      "session_id": "session_000031",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 421,
+      "target": 423,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 32,
+      "session_id": "session_000032",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 324,
+      "target": 328,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.off_shoulder_dresses.asset.e0ec1cc76613"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.off_shoulder_dresses.asset.e0ec1cc76613"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.e0ec1cc76613"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.e0ec1cc76613"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 33,
+      "session_id": "session_000033",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 666,
+      "target": 655,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.1920s_collection.asset.a664a631725a"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.1920s_collection.asset.a664a631725a"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.a664a631725a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.a664a631725a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    }
+  ],
+  "forced_allaxis_coverage_job_count": 38,
+  "forced_allaxis_coverage_jobs": [
+    {
+      "job": 0,
+      "session_id": "session_000000",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 444,
+      "target": 446,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_WF_001"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_WF_001"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 1,
+      "session_id": "session_000001",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 275,
+      "target": 276,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "male",
+          "CFD40_WM_002"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "male",
+            "CFD40_WM_002"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 2,
+      "session_id": "session_000002",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 448,
+      "target": 445,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_LF_002"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_LF_002"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 3,
+      "session_id": "session_000003",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 188,
+      "target": 271,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "male",
+          "CFD40_AM_004"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "male",
+            "CFD40_AM_004"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 4,
+      "session_id": "session_000004",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 300,
+      "target": 454,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_WF_004"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_WF_004"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 5,
+      "session_id": "session_000005",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 552,
+      "target": 551,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "male",
+          "CFD40_BM_001"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "male",
+            "CFD40_BM_001"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 6,
+      "session_id": "session_000006",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 135,
+      "target": 139,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_BF_004"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_BF_004"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 7,
+      "session_id": "session_000007",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 188,
+      "target": 267,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "male",
+          "CFD40_LM_005"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "male",
+            "CFD40_LM_005"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 8,
+      "session_id": "session_000008",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 44,
+      "target": 142,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_LF_005"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_LF_005"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 9,
+      "session_id": "session_000009",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 266,
+      "target": 188,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "male",
+          "CFD40_BM_005"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "male",
+            "CFD40_BM_005"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 10,
+      "session_id": "session_000010",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 449,
+      "target": 287,
+      "axis": "identity",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "identity",
+        "value": [
+          "female",
+          "CFD40_AF_005"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "identity",
+          "value": [
+            "female",
+            "CFD40_AF_005"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 11,
+      "session_id": "session_000011",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 618,
+      "target": 632,
+      "axis": "hair_color",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "hair_color",
+        "value": "blue"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "hair_color",
+          "value": "blue"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 12,
+      "session_id": "session_000012",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 564,
+      "target": 580,
+      "axis": "hair",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "hair",
+        "value": [
+          "female",
+          "HAIR_HB2_20"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "hair",
+          "value": [
+            "female",
+            "HAIR_HB2_20"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 13,
+      "session_id": "session_000013",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 479,
+      "target": 489,
+      "axis": "action",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "action",
+        "value": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "action",
+          "value": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 14,
+      "session_id": "session_000014",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 646,
+      "target": 654,
+      "axis": "site",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "site",
+        "value": "site_fbf21a9b6a"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "site",
+          "value": "site_fbf21a9b6a"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 15,
+      "session_id": "session_000015",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 724,
+      "target": 734,
+      "axis": "hair",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "hair",
+        "value": [
+          "male",
+          "HAIR_HB1_11"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "hair",
+          "value": [
+            "male",
+            "HAIR_HB1_11"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 16,
+      "session_id": "session_000016",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 465,
+      "target": 462,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.pop_style.asset.26cbc1eb61a5"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.26cbc1eb61a5"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.86d3bf90649a"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.cecf3994d437"
+          ]
+        },
+        {
+          "field": "wardrobe_family",
+          "value": [
+            "male",
+            "male.pop_style"
+          ]
+        },
+        {
+          "field": "wardrobe_group",
+          "value": [
+            "male",
+            "male.pop_style",
+            "default"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.86d3bf90649a"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.cecf3994d437"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 17,
+      "session_id": "session_000017",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 530,
+      "target": 536,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.pop_style.asset.9234b2ae5d5b"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.49a4c6698aa9"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.pop_style.asset.9234b2ae5d5b"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.9234b2ae5d5b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.49a4c6698aa9"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.9234b2ae5d5b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 18,
+      "session_id": "session_000018",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 578,
+      "target": 580,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.summer_girl_four_colors.asset.1099a24fc984"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.summer_girl_four_colors.asset.1099a24fc984"
+          ]
+        },
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.summer_girl_four_colors.asset.ce980960242b"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.summer_girl_four_colors.asset.1099a24fc984"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.1099a24fc984"
+        ],
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.ce980960242b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 19,
+      "session_id": "session_000019",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 713,
+      "target": 725,
+      "axis": "hair_color",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "hair_color",
+        "value": "original"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "hair_color",
+          "value": "original"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 20,
+      "session_id": "session_000020",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 32,
+      "target": 36,
+      "axis": "site",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "site",
+        "value": "site_2831090e60"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "site",
+          "value": "site_2831090e60"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 21,
+      "session_id": "session_000021",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 6,
+      "target": 22,
+      "axis": "hair",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "hair",
+        "value": [
+          "female",
+          "HAIR_HB1_16"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "hair",
+          "value": [
+            "female",
+            "HAIR_HB1_16"
+          ]
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 22,
+      "session_id": "session_000022",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 719,
+      "target": 688,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "dolly_in_side"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "dolly_in_side"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 23,
+      "session_id": "session_000023",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 148,
+      "target": 149,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.jiving.asset.3264922c4290"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.jiving.asset.3264922c4290"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.jiving.asset.3264922c4290"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 24,
+      "session_id": "session_000024",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 678,
+      "target": 687,
+      "axis": "action",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "action",
+        "value": "MOTION_CAND_020"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "action",
+          "value": "MOTION_CAND_020"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 25,
+      "session_id": "session_000025",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 363,
+      "target": 354,
+      "axis": "action",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "action",
+        "value": "ACT_M05_ELEVATOR_GREETING"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "action",
+          "value": "ACT_M05_ELEVATOR_GREETING"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 26,
+      "session_id": "session_000026",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 785,
+      "target": 716,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "dolly_in_back"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "dolly_in_back"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 27,
+      "session_id": "session_000027",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 792,
+      "target": 755,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "dolly_out_side"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "dolly_out_side"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 28,
+      "session_id": "session_000028",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 196,
+      "target": 156,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "front_three_quarter_full"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "front_three_quarter_full"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 29,
+      "session_id": "session_000029",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 180,
+      "target": 260,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "back_full"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "back_full"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 30,
+      "session_id": "session_000030",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 115,
+      "target": 117,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.pretty_dresses.asset.c7bdcbf37ae1"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.pretty_dresses.asset.c7bdcbf37ae1"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.c7bdcbf37ae1"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.c7bdcbf37ae1"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 31,
+      "session_id": "session_000031",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 421,
+      "target": 423,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 32,
+      "session_id": "session_000032",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 324,
+      "target": 328,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "female",
+          "female.off_shoulder_dresses.asset.e0ec1cc76613"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "female",
+            "female.off_shoulder_dresses.asset.e0ec1cc76613"
+          ]
+        }
+      ],
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.e0ec1cc76613"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.e0ec1cc76613"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 33,
+      "session_id": "session_000033",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 666,
+      "target": 655,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_attribute": {
+        "field": "wardrobe_core",
+        "value": [
+          "male",
+          "male.1920s_collection.asset.a664a631725a"
+        ]
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "wardrobe_core",
+          "value": [
+            "male",
+            "male.1920s_collection.asset.a664a631725a"
+          ]
+        }
+      ],
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.a664a631725a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.a664a631725a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 34,
+      "session_id": "session_000034",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 320,
+      "target": 416,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "orbit_360"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "orbit_360"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 35,
+      "session_id": "session_000035",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 330,
+      "target": 362,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "rear_three_quarter_upper"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "rear_three_quarter_upper"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 36,
+      "session_id": "session_000036",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 414,
+      "target": 382,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "back_upper"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "back_upper"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 37,
+      "session_id": "session_000037",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 366,
+      "target": 334,
+      "axis": "camera",
+      "mode": "attribute",
+      "requested_attribute": {
+        "field": "camera",
+        "value": "front_three_quarter_upper"
+      },
+      "new_attribute_target_gains": [
+        {
+          "field": "camera",
+          "value": "front_three_quarter_upper"
+        }
+      ],
+      "requested_core": null,
+      "new_core_gains": [],
+      "edge_reuse_before": 0
+    }
+  ],
+  "core_coverage_override_policy": "For missing edited attribute targets including genuinely changed-in core values, lock a real directed edge as round one of an existing fixed job; prioritize scarce incoming support, low reuse, and new-value gain. Kind, length, start-camera quota, fork round and fork source remain unchanged. Explicit coverage sampling, not pure random selection.",
+  "reuse_note": "Reuse below two can result from coverage, zero/one-use preference, fixed fork jobs, and local graph support; no missing edge is invented to raise reuse.",
+  "full_catalog_target_uniformity_claimed": false
+}

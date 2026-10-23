@@ -1,0 +1,3401 @@
+{
+  "scope": "actual selected candidate; supplemental independent starts/aspect/fork/identifier/render binding statistics; no candidate mutation",
+  "splits": {
+    "train": {
+      "inputs": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\nodes.json",
+          "sha256": "7a63339348b33cae8fe7ef7f65498c4252b46ba086297c359e11fd5bc67a3cf5"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\edges.json",
+          "sha256": "04bf7310ce90c875e15b99b8e7dbb27d1c37c9e978ce6366c357348c360ff173"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\sessions.jsonl",
+          "sha256": "e755589ed144e1d2504aadd372a88b9b6b7df0c3f289f38004eb033a798edadf"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\render_requests.json",
+          "sha256": "2d773ffdd63b7c54274dfae89f7a59f6f61ed89d5c228923eb08ebf9fda770f2"
+        }
+      ],
+      "errors": {},
+      "start_sex": {
+        "male": 5284,
+        "female": 6716
+      },
+      "sessions_by_aspect": {
+        "landscape": 6388,
+        "portrait": 5612
+      },
+      "start_sex_by_aspect": {
+        "landscape/male": 2921,
+        "landscape/female": 3467,
+        "portrait/male": 2363,
+        "portrait/female": 3249
+      },
+      "used_nodes_by_aspect": {
+        "landscape": 3234,
+        "portrait": 2746
+      },
+      "used_nodes_by_sex": {
+        "female": 3424,
+        "male": 2556
+      },
+      "start_cameras_by_aspect": {
+        "landscape": {
+          "back_full": 189,
+          "back_upper": 429,
+          "dolly_in_back": 200,
+          "dolly_in_front": 291,
+          "dolly_in_side": 225,
+          "dolly_out_back": 297,
+          "dolly_out_front": 515,
+          "dolly_out_side": 386,
+          "front_full": 273,
+          "front_head": 604,
+          "front_three_quarter_full": 224,
+          "front_three_quarter_upper": 215,
+          "front_upper": 361,
+          "high_full": 399,
+          "low_full": 331,
+          "orbit_120": 279,
+          "orbit_360": 214,
+          "rear_three_quarter_full": 315,
+          "rear_three_quarter_upper": 260,
+          "side_full": 303,
+          "side_upper": 78
+        },
+        "portrait": {
+          "back_full": 333,
+          "back_upper": 93,
+          "dolly_in_back": 322,
+          "dolly_in_front": 491,
+          "dolly_in_side": 297,
+          "dolly_out_back": 224,
+          "dolly_out_front": 267,
+          "dolly_out_side": 135,
+          "front_full": 249,
+          "front_head": 178,
+          "front_three_quarter_full": 298,
+          "front_three_quarter_upper": 307,
+          "front_upper": 421,
+          "high_full": 123,
+          "low_full": 191,
+          "orbit_120": 243,
+          "orbit_360": 308,
+          "rear_three_quarter_full": 207,
+          "rear_three_quarter_upper": 262,
+          "side_full": 219,
+          "side_upper": 444
+        }
+      },
+      "edit_axes_by_aspect": {
+        "landscape": {
+          "action": 3729,
+          "camera": 3737,
+          "hair": 3590,
+          "hair_color": 3635,
+          "identity": 1707,
+          "site": 3303,
+          "wardrobe": 3644
+        },
+        "portrait": {
+          "action": 3525,
+          "camera": 3498,
+          "hair": 2902,
+          "hair_color": 2892,
+          "identity": 1103,
+          "site": 2876,
+          "wardrobe": 3659
+        }
+      },
+      "fork_topology": {
+        "2": {
+          "chains": 400,
+          "round_counts": {
+            "2": 400
+          },
+          "round_expected_each": 400.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 400
+          },
+          "parent_counts": {
+            "root": 400
+          },
+          "terminal_forks": 400,
+          "expected_terminal_forks": 400.0
+        },
+        "3": {
+          "chains": 800,
+          "round_counts": {
+            "2": 409,
+            "3": 391
+          },
+          "round_expected_each": 400.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 409,
+            "t3_p0": 198,
+            "t3_p1": 193
+          },
+          "parent_counts": {
+            "root": 607,
+            "intermediate": 193
+          },
+          "terminal_forks": 391,
+          "expected_terminal_forks": 400.0
+        },
+        "4": {
+          "chains": 1400,
+          "round_counts": {
+            "2": 462,
+            "3": 475,
+            "4": 463
+          },
+          "round_expected_each": 466.6666666666667,
+          "round_parent_joint_counts": {
+            "t2_p0": 462,
+            "t3_p0": 226,
+            "t3_p1": 249,
+            "t4_p0": 154,
+            "t4_p1": 153,
+            "t4_p2": 156
+          },
+          "parent_counts": {
+            "intermediate": 558,
+            "root": 842
+          },
+          "terminal_forks": 463,
+          "expected_terminal_forks": 466.6666666666667
+        },
+        "5": {
+          "chains": 1400,
+          "round_counts": {
+            "2": 340,
+            "3": 367,
+            "4": 364,
+            "5": 329
+          },
+          "round_expected_each": 350.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 340,
+            "t3_p0": 151,
+            "t3_p1": 216,
+            "t4_p0": 120,
+            "t4_p1": 112,
+            "t4_p2": 132,
+            "t5_p0": 67,
+            "t5_p1": 92,
+            "t5_p2": 79,
+            "t5_p3": 91
+          },
+          "parent_counts": {
+            "intermediate": 722,
+            "root": 678
+          },
+          "terminal_forks": 329,
+          "expected_terminal_forks": 350.0
+        }
+      },
+      "unique_parent_topologies": 24,
+      "unique_axis_sequences": 2220,
+      "maximum_axis_sequence_reuse": 222,
+      "distinct_axis_histogram_by_length": {
+        "2": {
+          "1": 112,
+          "2": 2288
+        },
+        "3": {
+          "1": 13,
+          "2": 392,
+          "3": 2395
+        },
+        "4": {
+          "1": 9,
+          "2": 114,
+          "3": 1934,
+          "4": 1343
+        },
+        "5": {
+          "1": 2,
+          "2": 34,
+          "3": 1415,
+          "4": 1219,
+          "5": 730
+        }
+      },
+      "repeated_axis_chains": 5244,
+      "consecutive_same_axis_chains": 2335,
+      "full_node_repeat_chains": 749,
+      "fresh_repeat_audit": {
+        "passed_structural_checks": true,
+        "counts": {
+          "nodes": 5980,
+          "edges": 26330,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "fork_steps": 4000,
+          "unique_canonical_nodes": 5980
+        },
+        "strict_explicit_ancestor_returns": {
+          "events": 2003,
+          "chains": 1584,
+          "per_axis": {
+            "identity": {
+              "events": 331,
+              "chains": 294
+            },
+            "hair": {
+              "events": 432,
+              "chains": 413
+            },
+            "hair_color": {
+              "events": 495,
+              "chains": 483
+            },
+            "wardrobe": {
+              "events": 55,
+              "chains": 43
+            },
+            "action": {
+              "events": 60,
+              "chains": 58
+            },
+            "camera": {
+              "events": 26,
+              "chains": 26
+            },
+            "site": {
+              "events": 604,
+              "chains": 580
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 13,
+              "chains": 11,
+              "event_count_histogram": {
+                "0": 789,
+                "1": 9,
+                "2": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 5,
+                  "chains": 4
+                },
+                "hair": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "hair_color": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "wardrobe": {
+                  "events": 3,
+                  "chains": 2
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_4": {
+              "events": 67,
+              "chains": 58,
+              "event_count_histogram": {
+                "0": 1342,
+                "1": 49,
+                "2": 9
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 30,
+                  "chains": 25
+                },
+                "hair": {
+                  "events": 7,
+                  "chains": 6
+                },
+                "hair_color": {
+                  "events": 11,
+                  "chains": 11
+                },
+                "wardrobe": {
+                  "events": 6,
+                  "chains": 3
+                },
+                "action": {
+                  "events": 4,
+                  "chains": 4
+                },
+                "camera": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "site": {
+                  "events": 7,
+                  "chains": 7
+                }
+              }
+            },
+            "fork_5": {
+              "events": 298,
+              "chains": 266,
+              "event_count_histogram": {
+                "0": 1134,
+                "1": 236,
+                "2": 28,
+                "3": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 50,
+                  "chains": 42
+                },
+                "hair": {
+                  "events": 58,
+                  "chains": 55
+                },
+                "hair_color": {
+                  "events": 58,
+                  "chains": 57
+                },
+                "wardrobe": {
+                  "events": 15,
+                  "chains": 12
+                },
+                "action": {
+                  "events": 13,
+                  "chains": 13
+                },
+                "camera": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "site": {
+                  "events": 95,
+                  "chains": 94
+                }
+              }
+            },
+            "linear_2": {
+              "events": 15,
+              "chains": 15,
+              "event_count_histogram": {
+                "0": 1985,
+                "1": 15
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "hair_color": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 1,
+                  "chains": 1
+                }
+              }
+            },
+            "linear_3": {
+              "events": 71,
+              "chains": 70,
+              "event_count_histogram": {
+                "0": 1930,
+                "1": 69,
+                "2": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 41,
+                  "chains": 41
+                },
+                "hair": {
+                  "events": 11,
+                  "chains": 11
+                },
+                "hair_color": {
+                  "events": 12,
+                  "chains": 12
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 2,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 4,
+                  "chains": 4
+                }
+              }
+            },
+            "linear_4": {
+              "events": 421,
+              "chains": 395,
+              "event_count_histogram": {
+                "0": 1605,
+                "1": 375,
+                "2": 14,
+                "3": 6
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 58,
+                  "chains": 49
+                },
+                "hair": {
+                  "events": 86,
+                  "chains": 84
+                },
+                "hair_color": {
+                  "events": 114,
+                  "chains": 114
+                },
+                "wardrobe": {
+                  "events": 9,
+                  "chains": 7
+                },
+                "action": {
+                  "events": 10,
+                  "chains": 10
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 144,
+                  "chains": 142
+                }
+              }
+            },
+            "linear_5": {
+              "events": 1118,
+              "chains": 769,
+              "event_count_histogram": {
+                "0": 1231,
+                "1": 430,
+                "2": 329,
+                "3": 10
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 138,
+                  "chains": 124
+                },
+                "hair": {
+                  "events": 265,
+                  "chains": 252
+                },
+                "hair_color": {
+                  "events": 295,
+                  "chains": 284
+                },
+                "wardrobe": {
+                  "events": 21,
+                  "chains": 18
+                },
+                "action": {
+                  "events": 31,
+                  "chains": 30
+                },
+                "camera": {
+                  "events": 15,
+                  "chains": 15
+                },
+                "site": {
+                  "events": 353,
+                  "chains": 332
+                }
+              }
+            }
+          }
+        },
+        "chronological_edited_target_repeats": {
+          "events": 2700,
+          "chains": 2123,
+          "per_axis": {
+            "identity": {
+              "events": 362,
+              "chains": 320
+            },
+            "hair": {
+              "events": 634,
+              "chains": 613
+            },
+            "hair_color": {
+              "events": 687,
+              "chains": 671
+            },
+            "wardrobe": {
+              "events": 86,
+              "chains": 71
+            },
+            "action": {
+              "events": 81,
+              "chains": 79
+            },
+            "camera": {
+              "events": 52,
+              "chains": 52
+            },
+            "site": {
+              "events": 798,
+              "chains": 771
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 10,
+              "chains": 10,
+              "event_count_histogram": {
+                "0": 390,
+                "1": 10
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 28,
+              "chains": 26,
+              "event_count_histogram": {
+                "0": 774,
+                "1": 24,
+                "2": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 10,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 4,
+                  "chains": 4
+                },
+                "hair_color": {
+                  "events": 6,
+                  "chains": 6
+                },
+                "wardrobe": {
+                  "events": 4,
+                  "chains": 3
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "site": {
+                  "events": 2,
+                  "chains": 2
+                }
+              }
+            },
+            "fork_4": {
+              "events": 344,
+              "chains": 328,
+              "event_count_histogram": {
+                "0": 1072,
+                "1": 312,
+                "2": 16
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 40,
+                  "chains": 34
+                },
+                "hair": {
+                  "events": 95,
+                  "chains": 94
+                },
+                "hair_color": {
+                  "events": 89,
+                  "chains": 88
+                },
+                "wardrobe": {
+                  "events": 11,
+                  "chains": 8
+                },
+                "action": {
+                  "events": 11,
+                  "chains": 11
+                },
+                "camera": {
+                  "events": 7,
+                  "chains": 7
+                },
+                "site": {
+                  "events": 91,
+                  "chains": 91
+                }
+              }
+            },
+            "fork_5": {
+              "events": 693,
+              "chains": 510,
+              "event_count_histogram": {
+                "0": 890,
+                "1": 331,
+                "2": 175,
+                "3": 4
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 57,
+                  "chains": 45
+                },
+                "hair": {
+                  "events": 169,
+                  "chains": 164
+                },
+                "hair_color": {
+                  "events": 169,
+                  "chains": 165
+                },
+                "wardrobe": {
+                  "events": 40,
+                  "chains": 34
+                },
+                "action": {
+                  "events": 27,
+                  "chains": 27
+                },
+                "camera": {
+                  "events": 28,
+                  "chains": 28
+                },
+                "site": {
+                  "events": 203,
+                  "chains": 199
+                }
+              }
+            },
+            "linear_2": {
+              "events": 15,
+              "chains": 15,
+              "event_count_histogram": {
+                "0": 1985,
+                "1": 15
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "hair_color": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 1,
+                  "chains": 1
+                }
+              }
+            },
+            "linear_3": {
+              "events": 71,
+              "chains": 70,
+              "event_count_histogram": {
+                "0": 1930,
+                "1": 69,
+                "2": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 41,
+                  "chains": 41
+                },
+                "hair": {
+                  "events": 11,
+                  "chains": 11
+                },
+                "hair_color": {
+                  "events": 12,
+                  "chains": 12
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 2,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 4,
+                  "chains": 4
+                }
+              }
+            },
+            "linear_4": {
+              "events": 421,
+              "chains": 395,
+              "event_count_histogram": {
+                "0": 1605,
+                "1": 375,
+                "2": 14,
+                "3": 6
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 58,
+                  "chains": 49
+                },
+                "hair": {
+                  "events": 86,
+                  "chains": 84
+                },
+                "hair_color": {
+                  "events": 114,
+                  "chains": 114
+                },
+                "wardrobe": {
+                  "events": 9,
+                  "chains": 7
+                },
+                "action": {
+                  "events": 10,
+                  "chains": 10
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 144,
+                  "chains": 142
+                }
+              }
+            },
+            "linear_5": {
+              "events": 1118,
+              "chains": 769,
+              "event_count_histogram": {
+                "0": 1231,
+                "1": 430,
+                "2": 329,
+                "3": 10
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 138,
+                  "chains": 124
+                },
+                "hair": {
+                  "events": 265,
+                  "chains": 252
+                },
+                "hair_color": {
+                  "events": 295,
+                  "chains": 284
+                },
+                "wardrobe": {
+                  "events": 21,
+                  "chains": 18
+                },
+                "action": {
+                  "events": 31,
+                  "chains": 30
+                },
+                "camera": {
+                  "events": 15,
+                  "chains": 15
+                },
+                "site": {
+                  "events": 353,
+                  "chains": 332
+                }
+              }
+            }
+          }
+        },
+        "other_branch_edited_target_repeats": {
+          "events": 697,
+          "chains": 653,
+          "per_axis": {
+            "identity": {
+              "events": 31,
+              "chains": 31
+            },
+            "hair": {
+              "events": 202,
+              "chains": 202
+            },
+            "hair_color": {
+              "events": 192,
+              "chains": 192
+            },
+            "wardrobe": {
+              "events": 31,
+              "chains": 30
+            },
+            "action": {
+              "events": 21,
+              "chains": 21
+            },
+            "camera": {
+              "events": 26,
+              "chains": 26
+            },
+            "site": {
+              "events": 194,
+              "chains": 194
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 10,
+              "chains": 10,
+              "event_count_histogram": {
+                "0": 390,
+                "1": 10
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 15,
+              "chains": 15,
+              "event_count_histogram": {
+                "0": 785,
+                "1": 15
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 5,
+                  "chains": 5
+                },
+                "hair": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "hair_color": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "site": {
+                  "events": 2,
+                  "chains": 2
+                }
+              }
+            },
+            "fork_4": {
+              "events": 277,
+              "chains": 277,
+              "event_count_histogram": {
+                "0": 1123,
+                "1": 277
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 10,
+                  "chains": 10
+                },
+                "hair": {
+                  "events": 88,
+                  "chains": 88
+                },
+                "hair_color": {
+                  "events": 78,
+                  "chains": 78
+                },
+                "wardrobe": {
+                  "events": 5,
+                  "chains": 5
+                },
+                "action": {
+                  "events": 7,
+                  "chains": 7
+                },
+                "camera": {
+                  "events": 5,
+                  "chains": 5
+                },
+                "site": {
+                  "events": 84,
+                  "chains": 84
+                }
+              }
+            },
+            "fork_5": {
+              "events": 395,
+              "chains": 351,
+              "event_count_histogram": {
+                "0": 1049,
+                "1": 307,
+                "2": 44
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 7,
+                  "chains": 7
+                },
+                "hair": {
+                  "events": 111,
+                  "chains": 111
+                },
+                "hair_color": {
+                  "events": 111,
+                  "chains": 111
+                },
+                "wardrobe": {
+                  "events": 25,
+                  "chains": 24
+                },
+                "action": {
+                  "events": 14,
+                  "chains": 14
+                },
+                "camera": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "site": {
+                  "events": 108,
+                  "chains": 108
+                }
+              }
+            },
+            "linear_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_5": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            }
+          }
+        },
+        "implicit_unedited_axis_resets_vs_latest": {
+          "events": 4929,
+          "chains": 3706,
+          "per_axis": {
+            "identity": {
+              "events": 211,
+              "chains": 211
+            },
+            "hair": {
+              "events": 762,
+              "chains": 762
+            },
+            "hair_color": {
+              "events": 793,
+              "chains": 793
+            },
+            "wardrobe": {
+              "events": 757,
+              "chains": 757
+            },
+            "action": {
+              "events": 841,
+              "chains": 841
+            },
+            "camera": {
+              "events": 791,
+              "chains": 791
+            },
+            "site": {
+              "events": 774,
+              "chains": 774
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 373,
+              "chains": 373,
+              "event_count_histogram": {
+                "0": 27,
+                "1": 373
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 22,
+                  "chains": 22
+                },
+                "hair": {
+                  "events": 38,
+                  "chains": 38
+                },
+                "hair_color": {
+                  "events": 61,
+                  "chains": 61
+                },
+                "wardrobe": {
+                  "events": 59,
+                  "chains": 59
+                },
+                "action": {
+                  "events": 73,
+                  "chains": 73
+                },
+                "camera": {
+                  "events": 67,
+                  "chains": 67
+                },
+                "site": {
+                  "events": 53,
+                  "chains": 53
+                }
+              }
+            },
+            "fork_3": {
+              "events": 939,
+              "chains": 763,
+              "event_count_histogram": {
+                "0": 37,
+                "1": 587,
+                "2": 176
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 45,
+                  "chains": 45
+                },
+                "hair": {
+                  "events": 141,
+                  "chains": 141
+                },
+                "hair_color": {
+                  "events": 160,
+                  "chains": 160
+                },
+                "wardrobe": {
+                  "events": 150,
+                  "chains": 150
+                },
+                "action": {
+                  "events": 152,
+                  "chains": 152
+                },
+                "camera": {
+                  "events": 158,
+                  "chains": 158
+                },
+                "site": {
+                  "events": 133,
+                  "chains": 133
+                }
+              }
+            },
+            "fork_4": {
+              "events": 1743,
+              "chains": 1292,
+              "event_count_histogram": {
+                "0": 108,
+                "1": 905,
+                "2": 323,
+                "3": 64
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 87,
+                  "chains": 87
+                },
+                "hair": {
+                  "events": 290,
+                  "chains": 290
+                },
+                "hair_color": {
+                  "events": 262,
+                  "chains": 262
+                },
+                "wardrobe": {
+                  "events": 272,
+                  "chains": 272
+                },
+                "action": {
+                  "events": 293,
+                  "chains": 293
+                },
+                "camera": {
+                  "events": 266,
+                  "chains": 266
+                },
+                "site": {
+                  "events": 273,
+                  "chains": 273
+                }
+              }
+            },
+            "fork_5": {
+              "events": 1874,
+              "chains": 1278,
+              "event_count_histogram": {
+                "0": 122,
+                "1": 822,
+                "2": 335,
+                "3": 102,
+                "4": 19
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 57,
+                  "chains": 57
+                },
+                "hair": {
+                  "events": 293,
+                  "chains": 293
+                },
+                "hair_color": {
+                  "events": 310,
+                  "chains": 310
+                },
+                "wardrobe": {
+                  "events": 276,
+                  "chains": 276
+                },
+                "action": {
+                  "events": 323,
+                  "chains": 323
+                },
+                "camera": {
+                  "events": 300,
+                  "chains": 300
+                },
+                "site": {
+                  "events": 315,
+                  "chains": 315
+                }
+              }
+            },
+            "linear_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_5": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 2000
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            }
+          }
+        },
+        "full_node_repeats": {
+          "events": 862,
+          "chains": 749,
+          "per_length_kind_events": {
+            "fork_2": 10,
+            "fork_3": 26,
+            "fork_4": 121,
+            "fork_5": 245,
+            "linear_2": 15,
+            "linear_3": 53,
+            "linear_4": 124,
+            "linear_5": 268
+          },
+          "equality": "formal canonical rendered state including sex and aspect"
+        },
+        "distinct_axes": {
+          "fork_2": {
+            "histogram": {
+              "1": 27,
+              "2": 373
+            },
+            "mean": 1.9325
+          },
+          "fork_3": {
+            "histogram": {
+              "1": 5,
+              "2": 102,
+              "3": 693
+            },
+            "mean": 2.86
+          },
+          "fork_4": {
+            "histogram": {
+              "1": 2,
+              "2": 51,
+              "3": 820,
+              "4": 527
+            },
+            "mean": 3.337142857142857
+          },
+          "fork_5": {
+            "histogram": {
+              "1": 1,
+              "2": 14,
+              "3": 564,
+              "4": 509,
+              "5": 312
+            },
+            "mean": 3.797857142857143
+          },
+          "linear_2": {
+            "histogram": {
+              "1": 85,
+              "2": 1915
+            },
+            "mean": 1.9575
+          },
+          "linear_3": {
+            "histogram": {
+              "1": 8,
+              "2": 290,
+              "3": 1702
+            },
+            "mean": 2.847
+          },
+          "linear_4": {
+            "histogram": {
+              "1": 7,
+              "2": 63,
+              "3": 1114,
+              "4": 816
+            },
+            "mean": 3.3695
+          },
+          "linear_5": {
+            "histogram": {
+              "1": 1,
+              "2": 20,
+              "3": 851,
+              "4": 710,
+              "5": 418
+            },
+            "mean": 3.762
+          }
+        },
+        "edge_reuse_histogram": {
+          "1": 7159,
+          "2": 6790,
+          "3": 7543,
+          "4": 108
+        }
+      }
+    },
+    "test": {
+      "inputs": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\nodes.json",
+          "sha256": "f2d44e2717265e42a4e4fc8b43c8c79e39448839c72ce48f11162f085d194859"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\edges.json",
+          "sha256": "744d6d6390d317edeaf8a8962e0b216b4559fc18b1819010d817805d698cd860"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\sessions.jsonl",
+          "sha256": "c7c61cdda16f99e37298e6179517a9c825604af1d17fe2b96e4e9da21e6d6d16"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\render_requests.json",
+          "sha256": "ffccc73c7798201d279b506be61fd050974ee85fe8b5b2505ec18e02cd127d1a"
+        }
+      ],
+      "errors": {},
+      "start_sex": {
+        "female": 1214,
+        "male": 1186
+      },
+      "sessions_by_aspect": {
+        "portrait": 1148,
+        "landscape": 1252
+      },
+      "start_sex_by_aspect": {
+        "portrait/female": 634,
+        "landscape/female": 580,
+        "landscape/male": 672,
+        "portrait/male": 514
+      },
+      "used_nodes_by_aspect": {
+        "landscape": 652,
+        "portrait": 571
+      },
+      "used_nodes_by_sex": {
+        "male": 592,
+        "female": 631
+      },
+      "start_cameras_by_aspect": {
+        "portrait": {
+          "back_full": 29,
+          "back_upper": 34,
+          "dolly_in_back": 65,
+          "dolly_in_front": 78,
+          "dolly_in_side": 32,
+          "dolly_out_back": 54,
+          "dolly_out_front": 118,
+          "dolly_out_side": 54,
+          "front_full": 40,
+          "front_head": 37,
+          "front_three_quarter_full": 48,
+          "front_three_quarter_upper": 44,
+          "front_upper": 96,
+          "high_full": 40,
+          "low_full": 56,
+          "orbit_120": 66,
+          "orbit_360": 61,
+          "rear_three_quarter_full": 43,
+          "rear_three_quarter_upper": 66,
+          "side_full": 39,
+          "side_upper": 48
+        },
+        "landscape": {
+          "back_full": 75,
+          "back_upper": 70,
+          "dolly_in_back": 39,
+          "dolly_in_front": 79,
+          "dolly_in_side": 72,
+          "dolly_out_back": 50,
+          "dolly_out_front": 39,
+          "dolly_out_side": 50,
+          "front_full": 65,
+          "front_head": 120,
+          "front_three_quarter_full": 57,
+          "front_three_quarter_upper": 60,
+          "front_upper": 61,
+          "high_full": 64,
+          "low_full": 48,
+          "orbit_120": 38,
+          "orbit_360": 43,
+          "rear_three_quarter_full": 62,
+          "rear_three_quarter_upper": 38,
+          "side_full": 66,
+          "side_upper": 56
+        }
+      },
+      "edit_axes_by_aspect": {
+        "portrait": {
+          "action": 735,
+          "camera": 721,
+          "hair": 584,
+          "hair_color": 606,
+          "identity": 196,
+          "site": 608,
+          "wardrobe": 732
+        },
+        "landscape": {
+          "action": 744,
+          "camera": 772,
+          "hair": 693,
+          "hair_color": 670,
+          "identity": 290,
+          "site": 634,
+          "wardrobe": 775
+        }
+      },
+      "fork_topology": {
+        "2": {
+          "chains": 80,
+          "round_counts": {
+            "2": 80
+          },
+          "round_expected_each": 80.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 80
+          },
+          "parent_counts": {
+            "root": 80
+          },
+          "terminal_forks": 80,
+          "expected_terminal_forks": 80.0
+        },
+        "3": {
+          "chains": 160,
+          "round_counts": {
+            "2": 78,
+            "3": 82
+          },
+          "round_expected_each": 80.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 78,
+            "t3_p0": 42,
+            "t3_p1": 40
+          },
+          "parent_counts": {
+            "root": 120,
+            "intermediate": 40
+          },
+          "terminal_forks": 82,
+          "expected_terminal_forks": 80.0
+        },
+        "4": {
+          "chains": 280,
+          "round_counts": {
+            "2": 80,
+            "3": 103,
+            "4": 97
+          },
+          "round_expected_each": 93.33333333333333,
+          "round_parent_joint_counts": {
+            "t2_p0": 80,
+            "t3_p0": 57,
+            "t3_p1": 46,
+            "t4_p0": 37,
+            "t4_p1": 25,
+            "t4_p2": 35
+          },
+          "parent_counts": {
+            "intermediate": 106,
+            "root": 174
+          },
+          "terminal_forks": 97,
+          "expected_terminal_forks": 93.33333333333333
+        },
+        "5": {
+          "chains": 280,
+          "round_counts": {
+            "2": 72,
+            "3": 51,
+            "4": 77,
+            "5": 80
+          },
+          "round_expected_each": 70.0,
+          "round_parent_joint_counts": {
+            "t2_p0": 72,
+            "t3_p0": 35,
+            "t3_p1": 16,
+            "t4_p0": 29,
+            "t4_p1": 17,
+            "t4_p2": 31,
+            "t5_p0": 27,
+            "t5_p1": 15,
+            "t5_p2": 20,
+            "t5_p3": 18
+          },
+          "parent_counts": {
+            "root": 163,
+            "intermediate": 117
+          },
+          "terminal_forks": 80,
+          "expected_terminal_forks": 70.0
+        }
+      },
+      "unique_parent_topologies": 24,
+      "unique_axis_sequences": 874,
+      "maximum_axis_sequence_reuse": 45,
+      "distinct_axis_histogram_by_length": {
+        "2": {
+          "1": 15,
+          "2": 465
+        },
+        "3": {
+          "1": 1,
+          "2": 38,
+          "3": 521
+        },
+        "4": {
+          "2": 11,
+          "3": 370,
+          "4": 299
+        },
+        "5": {
+          "2": 4,
+          "3": 293,
+          "4": 231,
+          "5": 152
+        }
+      },
+      "repeated_axis_chains": 963,
+      "consecutive_same_axis_chains": 385,
+      "full_node_repeat_chains": 88,
+      "fresh_repeat_audit": {
+        "passed_structural_checks": true,
+        "counts": {
+          "nodes": 1223,
+          "edges": 5376,
+          "sessions": 2400,
+          "edit_steps": 8760,
+          "fork_steps": 800,
+          "unique_canonical_nodes": 1223
+        },
+        "strict_explicit_ancestor_returns": {
+          "events": 344,
+          "chains": 273,
+          "per_axis": {
+            "identity": {
+              "events": 31,
+              "chains": 27
+            },
+            "hair": {
+              "events": 90,
+              "chains": 90
+            },
+            "hair_color": {
+              "events": 92,
+              "chains": 91
+            },
+            "wardrobe": {
+              "events": 11,
+              "chains": 10
+            },
+            "action": {
+              "events": 2,
+              "chains": 2
+            },
+            "camera": {
+              "events": 4,
+              "chains": 4
+            },
+            "site": {
+              "events": 114,
+              "chains": 111
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 80
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 159,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_4": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 279,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 1,
+                  "chains": 1
+                }
+              }
+            },
+            "fork_5": {
+              "events": 62,
+              "chains": 59,
+              "event_count_histogram": {
+                "0": 221,
+                "1": 56,
+                "2": 3
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 8,
+                  "chains": 7
+                },
+                "hair": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "hair_color": {
+                  "events": 16,
+                  "chains": 16
+                },
+                "wardrobe": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "action": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 16,
+                  "chains": 16
+                }
+              }
+            },
+            "linear_2": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 399,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 3,
+              "chains": 3,
+              "event_count_histogram": {
+                "0": 397,
+                "1": 3
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 72,
+              "chains": 70,
+              "event_count_histogram": {
+                "0": 330,
+                "1": 68,
+                "2": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 6,
+                  "chains": 4
+                },
+                "hair": {
+                  "events": 20,
+                  "chains": 20
+                },
+                "hair_color": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "site": {
+                  "events": 26,
+                  "chains": 26
+                }
+              }
+            },
+            "linear_5": {
+              "events": 204,
+              "chains": 138,
+              "event_count_histogram": {
+                "0": 262,
+                "1": 72,
+                "2": 66
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 14,
+                  "chains": 13
+                },
+                "hair": {
+                  "events": 51,
+                  "chains": 51
+                },
+                "hair_color": {
+                  "events": 56,
+                  "chains": 55
+                },
+                "wardrobe": {
+                  "events": 8,
+                  "chains": 7
+                },
+                "action": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "site": {
+                  "events": 71,
+                  "chains": 68
+                }
+              }
+            }
+          }
+        },
+        "chronological_edited_target_repeats": {
+          "events": 493,
+          "chains": 378,
+          "per_axis": {
+            "identity": {
+              "events": 36,
+              "chains": 31
+            },
+            "hair": {
+              "events": 137,
+              "chains": 136
+            },
+            "hair_color": {
+              "events": 137,
+              "chains": 135
+            },
+            "wardrobe": {
+              "events": 14,
+              "chains": 12
+            },
+            "action": {
+              "events": 5,
+              "chains": 5
+            },
+            "camera": {
+              "events": 8,
+              "chains": 8
+            },
+            "site": {
+              "events": 156,
+              "chains": 153
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 79,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 3,
+              "chains": 3,
+              "event_count_histogram": {
+                "0": 157,
+                "1": 3
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_4": {
+              "events": 62,
+              "chains": 62,
+              "event_count_histogram": {
+                "0": 218,
+                "1": 62
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 18,
+                  "chains": 18
+                },
+                "hair_color": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 22,
+                  "chains": 22
+                }
+              }
+            },
+            "fork_5": {
+              "events": 147,
+              "chains": 100,
+              "event_count_histogram": {
+                "0": 180,
+                "1": 54,
+                "2": 45,
+                "3": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 10,
+                  "chains": 8
+                },
+                "hair": {
+                  "events": 48,
+                  "chains": 47
+                },
+                "hair_color": {
+                  "events": 42,
+                  "chains": 41
+                },
+                "wardrobe": {
+                  "events": 4,
+                  "chains": 3
+                },
+                "action": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "camera": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "site": {
+                  "events": 37,
+                  "chains": 37
+                }
+              }
+            },
+            "linear_2": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 399,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 3,
+              "chains": 3,
+              "event_count_histogram": {
+                "0": 397,
+                "1": 3
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 72,
+              "chains": 70,
+              "event_count_histogram": {
+                "0": 330,
+                "1": 68,
+                "2": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 6,
+                  "chains": 4
+                },
+                "hair": {
+                  "events": 20,
+                  "chains": 20
+                },
+                "hair_color": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "site": {
+                  "events": 26,
+                  "chains": 26
+                }
+              }
+            },
+            "linear_5": {
+              "events": 204,
+              "chains": 138,
+              "event_count_histogram": {
+                "0": 262,
+                "1": 72,
+                "2": 66
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 14,
+                  "chains": 13
+                },
+                "hair": {
+                  "events": 51,
+                  "chains": 51
+                },
+                "hair_color": {
+                  "events": 56,
+                  "chains": 55
+                },
+                "wardrobe": {
+                  "events": 8,
+                  "chains": 7
+                },
+                "action": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "site": {
+                  "events": 71,
+                  "chains": 68
+                }
+              }
+            }
+          }
+        },
+        "other_branch_edited_target_repeats": {
+          "events": 149,
+          "chains": 141,
+          "per_axis": {
+            "identity": {
+              "events": 5,
+              "chains": 5
+            },
+            "hair": {
+              "events": 47,
+              "chains": 47
+            },
+            "hair_color": {
+              "events": 45,
+              "chains": 45
+            },
+            "wardrobe": {
+              "events": 3,
+              "chains": 3
+            },
+            "action": {
+              "events": 3,
+              "chains": 3
+            },
+            "camera": {
+              "events": 4,
+              "chains": 4
+            },
+            "site": {
+              "events": 42,
+              "chains": 42
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 1,
+              "chains": 1,
+              "event_count_histogram": {
+                "0": 79,
+                "1": 1
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_3": {
+              "events": 2,
+              "chains": 2,
+              "event_count_histogram": {
+                "0": 158,
+                "1": 2
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "fork_4": {
+              "events": 61,
+              "chains": 61,
+              "event_count_histogram": {
+                "0": 219,
+                "1": 61
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "hair": {
+                  "events": 18,
+                  "chains": 18
+                },
+                "hair_color": {
+                  "events": 19,
+                  "chains": 19
+                },
+                "wardrobe": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "action": {
+                  "events": 1,
+                  "chains": 1
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 21,
+                  "chains": 21
+                }
+              }
+            },
+            "fork_5": {
+              "events": 85,
+              "chains": 77,
+              "event_count_histogram": {
+                "0": 203,
+                "1": 69,
+                "2": 8
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "hair": {
+                  "events": 29,
+                  "chains": 29
+                },
+                "hair_color": {
+                  "events": 26,
+                  "chains": 26
+                },
+                "wardrobe": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "action": {
+                  "events": 2,
+                  "chains": 2
+                },
+                "camera": {
+                  "events": 3,
+                  "chains": 3
+                },
+                "site": {
+                  "events": 21,
+                  "chains": 21
+                }
+              }
+            },
+            "linear_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_5": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            }
+          }
+        },
+        "implicit_unedited_axis_resets_vs_latest": {
+          "events": 1033,
+          "chains": 746,
+          "per_axis": {
+            "identity": {
+              "events": 35,
+              "chains": 35
+            },
+            "hair": {
+              "events": 167,
+              "chains": 167
+            },
+            "hair_color": {
+              "events": 165,
+              "chains": 165
+            },
+            "wardrobe": {
+              "events": 164,
+              "chains": 164
+            },
+            "action": {
+              "events": 176,
+              "chains": 176
+            },
+            "camera": {
+              "events": 186,
+              "chains": 186
+            },
+            "site": {
+              "events": 140,
+              "chains": 140
+            }
+          },
+          "per_length_kind": {
+            "fork_2": {
+              "events": 76,
+              "chains": 76,
+              "event_count_histogram": {
+                "0": 4,
+                "1": 76
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 5,
+                  "chains": 5
+                },
+                "hair": {
+                  "events": 8,
+                  "chains": 8
+                },
+                "hair_color": {
+                  "events": 6,
+                  "chains": 6
+                },
+                "wardrobe": {
+                  "events": 20,
+                  "chains": 20
+                },
+                "action": {
+                  "events": 16,
+                  "chains": 16
+                },
+                "camera": {
+                  "events": 12,
+                  "chains": 12
+                },
+                "site": {
+                  "events": 9,
+                  "chains": 9
+                }
+              }
+            },
+            "fork_3": {
+              "events": 195,
+              "chains": 157,
+              "event_count_histogram": {
+                "0": 3,
+                "1": 119,
+                "2": 38
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 6,
+                  "chains": 6
+                },
+                "hair": {
+                  "events": 31,
+                  "chains": 31
+                },
+                "hair_color": {
+                  "events": 23,
+                  "chains": 23
+                },
+                "wardrobe": {
+                  "events": 30,
+                  "chains": 30
+                },
+                "action": {
+                  "events": 34,
+                  "chains": 34
+                },
+                "camera": {
+                  "events": 45,
+                  "chains": 45
+                },
+                "site": {
+                  "events": 26,
+                  "chains": 26
+                }
+              }
+            },
+            "fork_4": {
+              "events": 375,
+              "chains": 255,
+              "event_count_histogram": {
+                "0": 25,
+                "1": 156,
+                "2": 78,
+                "3": 21
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 15,
+                  "chains": 15
+                },
+                "hair": {
+                  "events": 65,
+                  "chains": 65
+                },
+                "hair_color": {
+                  "events": 76,
+                  "chains": 76
+                },
+                "wardrobe": {
+                  "events": 54,
+                  "chains": 54
+                },
+                "action": {
+                  "events": 52,
+                  "chains": 52
+                },
+                "camera": {
+                  "events": 62,
+                  "chains": 62
+                },
+                "site": {
+                  "events": 51,
+                  "chains": 51
+                }
+              }
+            },
+            "fork_5": {
+              "events": 387,
+              "chains": 258,
+              "event_count_histogram": {
+                "0": 22,
+                "1": 160,
+                "2": 72,
+                "3": 21,
+                "4": 5
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 9,
+                  "chains": 9
+                },
+                "hair": {
+                  "events": 63,
+                  "chains": 63
+                },
+                "hair_color": {
+                  "events": 60,
+                  "chains": 60
+                },
+                "wardrobe": {
+                  "events": 60,
+                  "chains": 60
+                },
+                "action": {
+                  "events": 74,
+                  "chains": 74
+                },
+                "camera": {
+                  "events": 67,
+                  "chains": 67
+                },
+                "site": {
+                  "events": 54,
+                  "chains": 54
+                }
+              }
+            },
+            "linear_2": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_3": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_4": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            },
+            "linear_5": {
+              "events": 0,
+              "chains": 0,
+              "event_count_histogram": {
+                "0": 400
+              },
+              "per_axis": {
+                "identity": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "hair_color": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "wardrobe": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "action": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "camera": {
+                  "events": 0,
+                  "chains": 0
+                },
+                "site": {
+                  "events": 0,
+                  "chains": 0
+                }
+              }
+            }
+          }
+        },
+        "full_node_repeats": {
+          "events": 95,
+          "chains": 88,
+          "per_length_kind_events": {
+            "fork_2": 1,
+            "fork_3": 3,
+            "fork_4": 13,
+            "fork_5": 37,
+            "linear_2": 1,
+            "linear_3": 3,
+            "linear_4": 9,
+            "linear_5": 28
+          },
+          "equality": "formal canonical rendered state including sex and aspect"
+        },
+        "distinct_axes": {
+          "fork_2": {
+            "histogram": {
+              "1": 4,
+              "2": 76
+            },
+            "mean": 1.95
+          },
+          "fork_3": {
+            "histogram": {
+              "2": 13,
+              "3": 147
+            },
+            "mean": 2.91875
+          },
+          "fork_4": {
+            "histogram": {
+              "2": 4,
+              "3": 163,
+              "4": 113
+            },
+            "mean": 3.3892857142857142
+          },
+          "fork_5": {
+            "histogram": {
+              "2": 2,
+              "3": 122,
+              "4": 97,
+              "5": 59
+            },
+            "mean": 3.7607142857142857
+          },
+          "linear_2": {
+            "histogram": {
+              "1": 11,
+              "2": 389
+            },
+            "mean": 1.9725
+          },
+          "linear_3": {
+            "histogram": {
+              "1": 1,
+              "2": 25,
+              "3": 374
+            },
+            "mean": 2.9325
+          },
+          "linear_4": {
+            "histogram": {
+              "2": 7,
+              "3": 207,
+              "4": 186
+            },
+            "mean": 3.4475
+          },
+          "linear_5": {
+            "histogram": {
+              "2": 2,
+              "3": 171,
+              "4": 134,
+              "5": 93
+            },
+            "mean": 3.795
+          }
+        },
+        "edge_reuse_histogram": {
+          "1": 1424,
+          "2": 1316,
+          "3": 1540,
+          "4": 21
+        }
+      }
+    }
+  },
+  "cross_split_complete_content_overlap_ignoring_aspect": 0,
+  "passed_supplemental_checks": true
+}

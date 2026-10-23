@@ -1,0 +1,200 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/ref_hair_train_node_000000_front_fully_load",
+    "source_run": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_render_pilot_20261023_v1",
+    "job_id": "ref_hair_train_node_000000_front",
+    "texture_mode": "fully_load",
+    "action": "render",
+    "request_id": "56c9a73cf76d479fb534fd9b72e96477"
+  },
+  "started_at": "2026-10-23T00:14:09.435347+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_texture_probe_v1 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/ref_hair_train_node_000000_front_fully_load', 'source_run': 'D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_render_pilot_20261023_v1', 'job_id': 'ref_hair_train_node_000000_front', 'texture_mode': 'fully_load', 'action': 'render', 'request_id': '56c9a73cf76d479fb534fd9b72e96477'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"subsystem_rendering\": false, \"active_executor_path\": \"/Engine/Transient.DisplayClusterEditorEngine_0:MoviePipelineQueueSubsystem_0.MoviePipelinePIEExecutor_30\", \"owned_attempt_id\": \"ref_hair_train_node_000000_front_510f67b0\", \"owned_executor_active\": true, \"receipt_path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_texture_quality_20261023_v1\\\\ref_hair_train_node_000000_front_fully_load\\\\render_receipts\\\\ref_hair_train_node_000000_front_510f67b0.json\", \"receipt\": {\"schema\": \"camera_pilot_render_receipt_v1\", \"attempt_id\": \"ref_hair_train_node_000000_front_510f67b0\", \"created_at\": \"2026-10-23T00:14:09.863146+00:00\", \"status\": \"submitted\", \"success\": false, \"jobs\": [{\"shot_id\": \"ref_hair_train_node_000000_front\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_hair_train_node_000000_front_7484dade89.L_ref_hair_train_node_000000_front_7484dade89\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_hair_train_node_000000_front_7484dade89.LS_ref_hair_train_node_000000_front_7484dade89\"}], \"inputs\": [{\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\ReferencePilot\\\\Maps\\\\L_ref_hair_train_node_000000_front_7484dade89.umap\", \"size\": 61621, \"mtime_ns\": 1792693404364402400}, {\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\ReferencePilot\\\\Sequences\\\\LS_ref_hair_train_node_000000_front_7484dade89.uasset\", \"size\": 13407, \"mtime_ns\": 1792693403731496500}], \"global_queue_before\": {\"queue_path\": \"/Engine/Transient.DisplayClusterEditorEngine_0:MoviePipelineQueueSubsystem_0.EditorMoviePipelineQueue\", \"dirty\": false, \"jobs\": [], \"scope\": \"queue identity, dirty state and job identity/references; not a serialization of every configuration field\"}, \"output_root\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_texture_quality_20261023_v1\\\\ref_hair_train_node_000000_front_fully_load\\\\renders\\\\ref_hair_train_node_000000_front_510f67b0\", \"media_validation\": \"pending_external_frame_count_decode_and_visual_checks\", \"render_contract\": {\"fps\": 30, \"frame_counts_by_shot\": {\"ref_hair_train_node_000000_front\": 1}, \"range_start_inclusive\": 0, \"range_end_exclusive\": \"per-shot sequence end\", \"width\": 1024, \"height\": 1024, \"format\": \"PNG\", \"spatial_samples\": 1, \"temporal_samples\": 1, \"engine_warmup_count\": 120, \"render_warmup_count\": 32, \"camera_cut_warmup_shot_ids\": [], \"motion_blur_cvars\": {\"r.MotionBlurQuality\": 0.0, \"r.MotionBlur.Amount\": 0.0}, \"profile_scope\": \"v11_local_pilot\", \"scene_resources\": {\"policy\": \"scene_inherited_resources_v1\", \"requested_settings\": {\"cinematic_quality_settings\": false, \"texture_streaming\": \"<MoviePipelineTextureStreamingMethod.NONE: 0>\", \"use_lod_zero\": false, \"disable_hlods\": false, \"override_view_distance_scale\": false, \"use_high_quality_shadows\": false, \"flush_streaming_managers\": false, \"override_virtual_texture_feedback_factor\": false, \"flush_grass_streaming\": false, \"override_grass_cull_distance_scale\": false}, \"readback_by_job\": [{\"job_name\": \"ref_hair_train_node_000000_front\", \"settings\": {\"cinematic_quality_settings\": false, \"texture_streaming\": \"<MoviePipelineTextureStreamingMethod.NONE: 0>\", \"use_lod_zero\": false, \"disable_hlods\": false, \"override_view_distance_scale\": false, \"use_high_quality_shadows\": false, \"flush_streaming_managers\": false, \"override_virtual_texture_feedback_factor\": false, \"flush_grass_streaming\": false, \"override_grass_cull_distance_scale\": false}}], \"source_maps_and_materials_unchanged\": true, \"output_camera_and_aa_sampling_unchanged\": true, \"scalability\": \"inherit current project settings; do not force Cinematic maxima\", \"texture_streaming\": \"NONE means do not override existing texture streaming, not disable it\", \"hlod\": \"do not force HLOD off; does not repair HLOD state changed by earlier jobs\", \"visual_review\": \"scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review\"}, \"streaming_warmup\": {\"policy\": \"streamed_first_view_warmup_v1\", \"requested_settings\": {\"engine_warm_up_count\": 120, \"render_warm_up_count\": 32, \"render_warm_up_frames\": true, \"use_camera_cut_for_warm_up\": false}, \"readback_by_job\": [{\"job_name\": \"ref_hair_train_node_000000_front\", \"settings\": {\"engine_warm_up_count\": 120, \"render_warm_up_count\": 32, \"render_warm_up_frames\": true, \"use_camera_cut_for_warm_up\": false}, \"texture_pool_cvar\": {\"name\": \"r.Streaming.PoolSize\", \"value\": 10240.0, \"is_enabled\": true}}], \"sequence_time\": \"hold first output frame; no camera-cut preroll or output-range changes\", \"streaming_policy\": \"inherit scene texture streaming; optional local pool budget; no forced full residency\", \"texture_pool\": {\"source\": \"explicit_parameter\", \"pool_size_mb\": 10240, \"restore_policy\": \"MRQ ConsoleVariableSetting restores prior values on pipeline teardown\"}, \"streaming_completion\": \"not measured; bounded warmup frames do not guarantee complete texture residency\", \"blocking_streaming_flush\": false, \"boundary\": \"first-view warmup only; later camera reveals and insufficient pool budget still require visual review\"}, \"baseline_cvars\": {\"r.AntiAliasingMethod\": 4, \"r.ScreenPercentage\": 100, \"r.DynamicRes.OperationMode\": 0, \"r.DynamicGlobalIlluminationMethod\": 1, \"r.ReflectionMethod\": 1, \"r.Shadow.Virtual.Enable\": 1, \"sg.ViewDistanceQuality\": 3, \"sg.AntiAliasingQuality\": 3, \"sg.ShadowQuality\": 3, \"sg.GlobalIlluminationQuality\": 3, \"sg.ReflectionQuality\": 3, \"sg.PostProcessQuality\": 3, \"sg.TextureQuality\": 3, \"sg.EffectsQuality\": 3, \"sg.FoliageQuality\": 3}}, \"errors\": [], \"job_results\": [], \"submitted_at\": \"2026-10-23T00:14:09.880415+00:00\", \"frames_directory\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_texture_quality_20261023_v1\\\\ref_hair_train_node_000000_front_fully_load\\\\jobs\\\\ref_hair_train_node_000000_front\\\\frames\", \"job_signature\": \"443e2fb9919b65bd96d2c4d574e4f6567f57646d322375180fdf11b18dc7b796\", \"texture_probe\": {\"mode\": \"fully_load\", \"method\": \"<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>\", \"same_saved_map_and_sequence\": {\"shot_id\": \"ref_hair_train_node_000000_front\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_hair_train_node_000000_front_7484dade89.L_ref_hair_train_node_000000_front_7484dade89\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_hair_train_node_000000_front_7484dade89.LS_ref_hair_train_node_000000_front_7484dade89\"}, \"scope\": \"texture loading only; no resolution, camera, lighting, AA or LOD changes\"}}}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "subsystem_rendering": false,
+    "active_executor_path": "/Engine/Transient.DisplayClusterEditorEngine_0:MoviePipelineQueueSubsystem_0.MoviePipelinePIEExecutor_30",
+    "owned_attempt_id": "ref_hair_train_node_000000_front_510f67b0",
+    "owned_executor_active": true,
+    "receipt_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\ref_hair_train_node_000000_front_fully_load\\render_receipts\\ref_hair_train_node_000000_front_510f67b0.json",
+    "receipt": {
+      "schema": "camera_pilot_render_receipt_v1",
+      "attempt_id": "ref_hair_train_node_000000_front_510f67b0",
+      "created_at": "2026-10-23T00:14:09.863146+00:00",
+      "status": "submitted",
+      "success": false,
+      "jobs": [
+        {
+          "shot_id": "ref_hair_train_node_000000_front",
+          "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_hair_train_node_000000_front_7484dade89.L_ref_hair_train_node_000000_front_7484dade89",
+          "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_hair_train_node_000000_front_7484dade89.LS_ref_hair_train_node_000000_front_7484dade89"
+        }
+      ],
+      "inputs": [
+        {
+          "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\ReferencePilot\\Maps\\L_ref_hair_train_node_000000_front_7484dade89.umap",
+          "size": 61621,
+          "mtime_ns": 1792693404364402400
+        },
+        {
+          "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\ReferencePilot\\Sequences\\LS_ref_hair_train_node_000000_front_7484dade89.uasset",
+          "size": 13407,
+          "mtime_ns": 1792693403731496500
+        }
+      ],
+      "global_queue_before": {
+        "queue_path": "/Engine/Transient.DisplayClusterEditorEngine_0:MoviePipelineQueueSubsystem_0.EditorMoviePipelineQueue",
+        "dirty": false,
+        "jobs": [],
+        "scope": "queue identity, dirty state and job identity/references; not a serialization of every configuration field"
+      },
+      "output_root": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\ref_hair_train_node_000000_front_fully_load\\renders\\ref_hair_train_node_000000_front_510f67b0",
+      "media_validation": "pending_external_frame_count_decode_and_visual_checks",
+      "render_contract": {
+        "fps": 30,
+        "frame_counts_by_shot": {
+          "ref_hair_train_node_000000_front": 1
+        },
+        "range_start_inclusive": 0,
+        "range_end_exclusive": "per-shot sequence end",
+        "width": 1024,
+        "height": 1024,
+        "format": "PNG",
+        "spatial_samples": 1,
+        "temporal_samples": 1,
+        "engine_warmup_count": 120,
+        "render_warmup_count": 32,
+        "camera_cut_warmup_shot_ids": [],
+        "motion_blur_cvars": {
+          "r.MotionBlurQuality": 0.0,
+          "r.MotionBlur.Amount": 0.0
+        },
+        "profile_scope": "v11_local_pilot",
+        "scene_resources": {
+          "policy": "scene_inherited_resources_v1",
+          "requested_settings": {
+            "cinematic_quality_settings": false,
+            "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+            "use_lod_zero": false,
+            "disable_hlods": false,
+            "override_view_distance_scale": false,
+            "use_high_quality_shadows": false,
+            "flush_streaming_managers": false,
+            "override_virtual_texture_feedback_factor": false,
+            "flush_grass_streaming": false,
+            "override_grass_cull_distance_scale": false
+          },
+          "readback_by_job": [
+            {
+              "job_name": "ref_hair_train_node_000000_front",
+              "settings": {
+                "cinematic_quality_settings": false,
+                "texture_streaming": "<MoviePipelineTextureStreamingMethod.NONE: 0>",
+                "use_lod_zero": false,
+                "disable_hlods": false,
+                "override_view_distance_scale": false,
+                "use_high_quality_shadows": false,
+                "flush_streaming_managers": false,
+                "override_virtual_texture_feedback_factor": false,
+                "flush_grass_streaming": false,
+                "override_grass_cull_distance_scale": false
+              }
+            }
+          ],
+          "source_maps_and_materials_unchanged": true,
+          "output_camera_and_aa_sampling_unchanged": true,
+          "scalability": "inherit current project settings; do not force Cinematic maxima",
+          "texture_streaming": "NONE means do not override existing texture streaming, not disable it",
+          "hlod": "do not force HLOD off; does not repair HLOD state changed by earlier jobs",
+          "visual_review": "scene streaming and LOD may differ from prior forced-max renders; background detail and pop-in remain to review"
+        },
+        "streaming_warmup": {
+          "policy": "streamed_first_view_warmup_v1",
+          "requested_settings": {
+            "engine_warm_up_count": 120,
+            "render_warm_up_count": 32,
+            "render_warm_up_frames": true,
+            "use_camera_cut_for_warm_up": false
+          },
+          "readback_by_job": [
+            {
+              "job_name": "ref_hair_train_node_000000_front",
+              "settings": {
+                "engine_warm_up_count": 120,
+                "render_warm_up_count": 32,
+                "render_warm_up_frames": true,
+                "use_camera_cut_for_warm_up": false
+              },
+              "texture_pool_cvar": {
+                "name": "r.Streaming.PoolSize",
+                "value": 10240.0,
+                "is_enabled": true
+              }
+            }
+          ],
+          "sequence_time": "hold first output frame; no camera-cut preroll or output-range changes",
+          "streaming_policy": "inherit scene texture streaming; optional local pool budget; no forced full residency",
+          "texture_pool": {
+            "source": "explicit_parameter",
+            "pool_size_mb": 10240,
+            "restore_policy": "MRQ ConsoleVariableSetting restores prior values on pipeline teardown"
+          },
+          "streaming_completion": "not measured; bounded warmup frames do not guarantee complete texture residency",
+          "blocking_streaming_flush": false,
+          "boundary": "first-view warmup only; later camera reveals and insufficient pool budget still require visual review"
+        },
+        "baseline_cvars": {
+          "r.AntiAliasingMethod": 4,
+          "r.ScreenPercentage": 100,
+          "r.DynamicRes.OperationMode": 0,
+          "r.DynamicGlobalIlluminationMethod": 1,
+          "r.ReflectionMethod": 1,
+          "r.Shadow.Virtual.Enable": 1,
+          "sg.ViewDistanceQuality": 3,
+          "sg.AntiAliasingQuality": 3,
+          "sg.ShadowQuality": 3,
+          "sg.GlobalIlluminationQuality": 3,
+          "sg.ReflectionQuality": 3,
+          "sg.PostProcessQuality": 3,
+          "sg.TextureQuality": 3,
+          "sg.EffectsQuality": 3,
+          "sg.FoliageQuality": 3
+        }
+      },
+      "errors": [],
+      "job_results": [],
+      "submitted_at": "2026-10-23T00:14:09.880415+00:00",
+      "frames_directory": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\ref_hair_train_node_000000_front_fully_load\\jobs\\ref_hair_train_node_000000_front\\frames",
+      "job_signature": "443e2fb9919b65bd96d2c4d574e4f6567f57646d322375180fdf11b18dc7b796",
+      "texture_probe": {
+        "mode": "fully_load",
+        "method": "<MoviePipelineTextureStreamingMethod.FULLY_LOAD: 2>",
+        "same_saved_map_and_sequence": {
+          "shot_id": "ref_hair_train_node_000000_front",
+          "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_hair_train_node_000000_front_7484dade89.L_ref_hair_train_node_000000_front_7484dade89",
+          "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_hair_train_node_000000_front_7484dade89.LS_ref_hair_train_node_000000_front_7484dade89"
+        },
+        "scope": "texture loading only; no resolution, camera, lighting, AA or LOD changes"
+      }
+    }
+  },
+  "finished_at": "2026-10-23T00:14:10.105699+00:00",
+  "seconds": 0.6720000000204891
+}

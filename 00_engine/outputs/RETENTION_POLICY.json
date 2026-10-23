@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-25",
+  "updated_at": "2026-10-21",
   "default_retention": "unclassified",
   "policy": "No output may be deleted solely because it is old. A path must be classified, have an owner, and satisfy the replacement/evidence rule in full_process/GOVERNANCE.md before cleanup.",
   "retention_classes": {
@@ -103,6 +103,34 @@
       "reason": "Configuration graph, chain, prompt and render-job outputs."
     },
     {
+      "path_prefix": "unreal_character_import/asset_restructure_pilot_20260928_v1",
+      "workflow": "WF-40/WF-50",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Fixed-scope UE asset dependency audit, additive copy and fresh-process structural verification."
+    },
+    {
+      "path_prefix": "unreal_character_import/formal_registry_runtime_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Formal UE registry parity and v003 wardrobe/hair editor runtime verification."
+    },
+    {
+      "path_prefix": "unreal_character_import/hair_sex_fit_review_20260929_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Bounded F02/M02 six-view evidence, material repair, scalp/Hairline grid visual decision and exact future visibility targets; formal visibility persistence and male fit remain unverified."
+    },
+    {
+      "path_prefix": "unreal_character_import/asset_restructure_full_20260929_v1",
+      "workflow": "WF-40/WF-50",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Accepted original migration map, frozen source plans and structural/deletion evidence. Current editable review entry plans moved to current_reviews_20261001_v1."
+    },
+    {
       "path_prefix": "unreal_character_import",
       "workflow": "WF-40/WF-50/WF-60",
       "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
@@ -115,9 +143,562 @@
       "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
       "output_contract_id": "OUT-WF80-NODE-MEDIA",
       "reason": "Local and production render outputs."
+    },
+    {
+      "path_prefix": "asset_cleanup",
+      "workflow": "global/WF-30/WF-40/WF-50",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "Authorized comprehensive CC/UE/export/output cleanup inventories, dependency graphs, reviewed replacement mappings, deletion receipts and retained-input verification."
+    },
+    {
+      "path_prefix": "unreal_character_import/current_reviews_20261001_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Current v003 wardrobe-coverage and hair/outfit compatibility review plans, minimal body metadata, launchers and runtime checks; accepted frozen source plans remain historical evidence."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/headshot_fixed_scalp_20261002_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Headshot photo API and fixed-scalp experiments; candidates are not accepted production identities."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/headshot_route_compare_20261002_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Headshot photo API and fixed-scalp experiments; candidates are not accepted production identities."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/fixed_head_hair_20261004_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Fixed-head hair source copies, source manifest, CC case reports and active acceptance policy; source/old accepted inputs remain protected."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_hair_20261004_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "New-version fixed-head hair UE import and registry publication reports; no implicit batch acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_hair_20261004_v1/pilot_review.json",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Representative hairstyle on both fixed reference heads; bounded review evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_hair_20261004_v1/pilot_captures",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Representative dual-reference capture evidence only."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_hair_20261004_v1/final_runtime_audit.json",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Actual published-index load and retained support closure for all 80 fixed-reference fit variants; no full-library visual acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_hair_manual_review_20261005_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Dedicated dual-reference manual hairstyle review interface, configuration and representative loading evidence; no captures or implicit full-library human acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/fixed_head_material_repair_20261005_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Source-driven braid shader and fixed-reference skin remediation, rollback journals, bounded material comparisons and publication evidence; source geometry/CC inputs retained."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/headshot_base_assembly_20261005_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/ASSEMBLY_AND_ACCEPTANCE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Simplified Headshot base-appearance assembly experiment: independent input copy, config/seed, actual capture self-check, per-step geometry receipts, save/failure recovery and representative acceptance. Ownership does not promote experimental scripts or retention classification."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/headshot_character_creation_20261005_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Unified photo/raw generation-correction-assembly config/source SHA, independent projects, stage and durable recovery evidence. Reuses Assembly9 without duplicate script owner; retention remains protected/unclassified until reviewed."
+    },
+    {
+      "path_prefix": "unreal_character_import/complete_character_skeleton_pilot_20261005_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Existing full male/female FBX source closure, independent UE import and Skeleton standard comparison pilot; no new CC export or library reimport. Default protection retained."
+    },
+    {
+      "path_prefix": "unreal_character_import/complete_character_skeleton_pilot_20261005_v1/runtime",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Scoped runtime scene and one existing hair per sex representative reuse/verification, no full library or batch."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_pair_20261006_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Two CFD-main native character sampling/source, complete export/import and scoped execution evidence; no production batch. Retention remains separately unclassified/protected."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_pair_20261006_v1/runtime",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Isolated new CFD pair fixed-slot review runtime and direct human acceptance evidence; no inherited old scene acceptance."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/cfd_native_pair_export_preparation_20261006_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "One-off export preparation candidates/patches/tests/manifests; not new production entry and no applied core change yet."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_batch40_20261006_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Authorized40 native CFD-main balanced-group character creation references and complete export/import batch scope; independent from other current primary plan; protected/unclassified."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_batch40_20261006_v1/runtime",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Authorized simple40-character review level delivery/readback and human review scope; no animation/full-wardrobe validation expansion."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_shared_skeleton_probe_20261006_v1",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Batch40 R00 existing native pair shared-sex Skeleton representative gate, reference comparison and independent import/integrity/runtime evidence; no new primary plan; protected/unclassified."
+    },
+    {
+      "path_prefix": "character_creator_analysis/cfd_face_diversity_20261007_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/BODYFIT_IDENTITY_AGE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Offline CFD photo morphology selection aid and bounded CC facial diversity options research; not a frozen Identity matrix or new character acceptance. Retention remains unclassified."
+    },
+    {
+      "path_prefix": "unreal_character_import/cfd_native_batch40_20261006_v1/runtime/modular_review_20261007_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Runtime3.16 authorized forty-identity two-character fixed38-slot modular review, source checks, bounded backend validation and human panel outputs; independent from historical static pages; protected/unclassified."
+    },
+    {
+      "path_prefix": "unreal_character_import/female_shared_shoes_hair_color_20261007_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Runtime3.17 female shared-shoe selection, separate-sex six-style review, bounded color experiments and scoped evidence; unclassified protection, no source asset deletion or human acceptance inference."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Runtime3.18 complete-character palette/configuration persistence and combined review evidence; bounded R01/R02 runtime checkpoint passed, face work and final user review pending; protected/unclassified."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/face_library",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation7 existing local facial-performance provenance, selection, bounded adaptation and male/female body compatibility; no hand-authored emotion curve replacement."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/transfer",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/MOTION_TRANSFER.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "MotionTransfer8 optional current-session CC source export and UE import evidence for scoped existing face performances; no new body library or full character export."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/native_face_library_20261007_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation7 isolated CC copies and existing local face performance inspection; source provenance and native clip evidence, protected/unclassified."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/research",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation7 offline source inventory and channel mapping research; candidates are not selected or accepted face clips."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/compositions",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Scoped native facial source/composition/preview or transfer evidence; actual success and visual/runtime acceptance remain separate; protected unclassified, no cleanup authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/face_previews",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Scoped native facial source/composition/preview or transfer evidence; actual success and visual/runtime acceptance remain separate; protected unclassified, no cleanup authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/normalized_face_compositions_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Scoped native facial source/composition/preview or transfer evidence; actual success and visual/runtime acceptance remain separate; protected unclassified, no cleanup authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/native_face_library_registry_v1.json",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Scoped native facial source/composition/preview or transfer evidence; actual success and visual/runtime acceptance remain separate; protected unclassified, no cleanup authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/face_imports",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/MOTION_TRANSFER.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Scoped native facial source/composition/preview or transfer evidence; actual success and visual/runtime acceptance remain separate; protected unclassified, no cleanup authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/registry_history",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation7.5 immutable previous registry bytes and evidence for contract-only source rebinding; all60 entries and other sources must remain equal. Protected/unclassified; ownership registration is not migration success."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/contract_cache_registry_migration_v1.json",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation7.5 immutable previous registry bytes and evidence for contract-only source rebinding; all60 entries and other sources must remain equal. Protected/unclassified; ownership registration is not migration success."
+    },
+    {
+      "path_prefix": "unreal_character_import/native_face_five_second_20261008_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation8 owns bounded natural five-second candidate experiments, independent user feedback, source/timing/composition/runtime/review/delivery and documentation evidence. Default unclassified protection; ownership is not acceptance or permission to replace the prior review registry."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/native_face_five_second_20261008_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation8 explicit experiment_id CC branch: independent native inspection/export, source hashes and Bridge receipts for the natural five-second study. Default unclassified protection; no new visual or runtime acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/native_face_panel_integration_20261009_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Runtime 3.19 owns accepted four-face five-second integration, publication, panel/configuration validation and delivery evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/motion_library_expansion_20261009_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation 9 owns scoped disk review, motion-source selection, five-second motion expansion and runtime review evidence."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/motion_library_expansion_20261009_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Animation9 owns scoped CC motion duration screening, independent carrier export and source-preservation evidence; no automatic publication or visual acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/full_motion_loop_review_20261009_v1",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/ANIMATION_EXPRESSION_MORPH.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Full-length body and repeated accepted five-second facial animation review; implementation, runtime controls, actual loop evidence and closure. Ownership only, default unclassified, no deletion authorization."
+    },
+    {
+      "path_prefix": "unreal_character_import/camera_motion_pilot_20261009_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Versioned camera direction/framing/trajectory pilot and uniform ten-second review media; user allows >=10s source windows at 1x and 7-10s uniform slowdown, <7s excluded, facial clips remain original speed. Paired camera/reproducibility evidence and limited prior-loop feedback; ownership only, default unclassified, no production promotion or deletion."
+    },
+    {
+      "path_prefix": "unreal_character_import/camera_library_expansion_20261010_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Shared camera direction/framing/motion library, scoped prior-shot user feedback, revised dolly amplitude and uncovered action-camera candidate review. Ownership only; unclassified remains protected. No automatic full-combination acceptance or production promotion."
+    },
+    {
+      "path_prefix": "unreal_character_import/camera_stable_follow_20261010_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Stable-follow 15-camera by three-motion prototype planning, independent UE assets, rendered review media and validation; ownership only, unclassified protected."
+    },
+    {
+      "path_prefix": "unreal_character_import/camera_complete_angles_20261010_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Complete-angle 21-presets by seven-action prototype plans, UE assets, review media and validation; ownership only, unclassified protected."
+    },
+    {
+      "path_prefix": "cleanup_current_pipeline_20261011_v1",
+      "workflow": "global",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "User-authorized current-pipeline cleanup: reviewed dependency graph, exact removal manifest, acceptance and post-cleanup verification."
+    },
+    {
+      "path_prefix": "unreal_character_import/motion_portrait_scene_pilot_20261011_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Motion window audit, portrait framing and three scene-anchor pilot inputs, media and review evidence; protected experimental scope pending human review."
+    },
+    {
+      "path_prefix": "character_creator_bridge/artifacts/skin_detail_optimization_20261012_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/ASSEMBLY_AND_ACCEPTANCE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Authorized one-male/one-female skin-detail experiment: independent CC copies, recipes and geometry evidence; no production promotion."
+    },
+    {
+      "path_prefix": "unreal_character_import/skin_detail_optimization_20261012_v1",
+      "workflow": "WF-40/WF-50/WF-80",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Authorized independent skin A/B/C comparison, exact execution state, isolated UE variants, same-condition media and review delivery."
+    },
+    {
+      "path_prefix": "camera_motion_scene_alignment_20261012_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Current authorized camera calibration, legacy cross-sex validation and scene import; ownership only, no deletion or production acceptance."
+    },
+    {
+      "path_prefix": "scene_folder_organization_20261012_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Authorized scene-specific Content/Scenes organization pilot, reference-safe path overlays, migration and verification evidence; no automatic camera resume or historical evidence rewriting."
+    },
+    {
+      "path_prefix": "production_workflow_20261017_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "R17 scoped motion/asset integration, trial media, exact repair and delivery/resource evidence; unclassified retention remains protected."
+    },
+    {
+      "path_prefix": "production_motion_library_20261017_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "R17 scoped motion/asset integration, trial media, exact repair and delivery/resource evidence; unclassified retention remains protected."
+    },
+    {
+      "path_prefix": "character_refresh_20261018_v1",
+      "workflow": "WF-30",
+      "owner_document": "technical/character_creator/ASSEMBLY_AND_ACCEPTANCE.md",
+      "output_contract_id": "OUT-WF30-CC-ASSETS",
+      "reason": "Authorized CFD40 repair run plans, assembly/geometry/material-pixel experiments, exact source/config manifests and scoped diagnostic evidence; ownership only, retention remains separately reviewed."
+    },
+    {
+      "path_prefix": "character_refresh_20261018_v1/representative_assembly",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CFD40_REFRESH_CANDIDATE_TRANSFER_20261018.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Run-private derived completed-assembly input receipts, full export preparation/inventory or isolated representative import evidence produced by the scoped Transfer wrappers; candidate-only, ownership does not promote acceptance or retention."
+    },
+    {
+      "path_prefix": "character_refresh_20261018_v1/representative_exports",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CFD40_REFRESH_CANDIDATE_TRANSFER_20261018.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Run-private derived completed-assembly input receipts, full export preparation/inventory or isolated representative import evidence produced by the scoped Transfer wrappers; candidate-only, ownership does not promote acceptance or retention."
+    },
+    {
+      "path_prefix": "character_refresh_20261018_v1/representative_import_jobs",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CFD40_REFRESH_CANDIDATE_TRANSFER_20261018.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Run-private derived completed-assembly input receipts, full export preparation/inventory or isolated representative import evidence produced by the scoped Transfer wrappers; candidate-only, ownership does not promote acceptance or retention."
+    },
+    {
+      "path_prefix": "scene_review_iteration_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "R17 continued scene iteration: mutable-review baseline, exact camera before snapshots/derivation, targeted ground/runtime evidence and next-step checkpoint; no final freeze or production promotion. Default unclassified retention remains protected."
+    },
+    {
+      "path_prefix": "church_camera_occlusion_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Camera occlusion diagnostics and private review supplement; Technical 22.9."
+    },
+    {
+      "path_prefix": "site_exclusion_persistence_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Site-bound manual exclusions, recovery backups and private panel validation; Technical 22.10."
+    },
+    {
+      "path_prefix": "scene_review_checkpoint_20261020_v2",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "R17 current scene/motion selection, saved-site and manual-exclusion checkpoint, offline camera audit and bounded private runtime evidence; Technical22.11. Retained source libraries/history and independent import handoff unchanged; default unclassified protected."
+    },
+    {
+      "path_prefix": "night_character_panel_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Private existing scene panel integration of completed night40 exact base and independent lash paths, bounded runtime handoff; Technical22.12. Default unclassified protected; source assets and import history preserved."
+    },
+    {
+      "path_prefix": "appearance_choices_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Current seven-hair-color and RedSoul hood/hair choices over loaded runtime copies, bounded readbacks and unresolved female barefoot feedback; Technical22.13. Default unclassified protected; no source asset deletion/frozen manifest edits."
+    },
+    {
+      "path_prefix": "hair_selection_availability_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Hair control availability from current family and selected-piece policy;324 catalog/resolver cases and3 actualTk states, Technical22.14. No source asset, point or lighting edits; default unclassified protected."
+    },
+    {
+      "path_prefix": "level_exposure_inheritance_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Bounded scene-review maintenance or paused exposure integration; status and evidence limits in sections22.16–22.18, no automatic promotion or cleanup."
+    },
+    {
+      "path_prefix": "saved_hair_postprocess_20261020_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Bounded scene-review maintenance or paused exposure integration; status and evidence limits in sections22.16–22.18, no automatic promotion or cleanup."
+    },
+    {
+      "path_prefix": "texture_streaming_recovery_20261021_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Bounded scene-review maintenance or paused exposure integration; status and evidence limits in sections22.16–22.18, no automatic promotion or cleanup."
+    },
+    {
+      "path_prefix": "review_progress_sync_20261021_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Bounded scene-review maintenance or paused exposure integration; status and evidence limits in sections22.16–22.18, no automatic promotion or cleanup."
+    },
+    {
+      "path_prefix": "render_readiness_20261021_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Technical22.19 bounded saved-level exposure helper/live-camera verification, failed-budget diagnostics and final isolated HongKongStreet3-frame1024x576 MRQ smoke with configuration/media/restoration evidence; default unclassified protected, not fresh character/motion or all-scene production acceptance."
+    },
+    {
+      "path_prefix": "local_render_profile_v1",
+      "workflow": "WF-60",
+      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
+      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
+      "reason": "Technical22.19 machine-scoped separate review-session and reversible MRQ texture-pool budgets, including legacy single-budget compatibility; hardware-specific current local input, not a portable quality preset; default unclassified protected, no cleanup or production Gate promotion."
     }
   ],
   "rules": [
+    {
+      "path_prefix": "character_creator_bridge/artifacts/wardrobe_average",
+      "retention": "retained_evidence",
+      "workflow": "WF-30/WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Average-bodyfit wardrobe source assembly and export evidence; not automatic visual acceptance."
+    },
+    {
+      "path_prefix": "unreal_character_import/asset_restructure_pilot_20260928_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-40/WF-50",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Historical pilot copy, fresh-load evidence and the user-accepted old/new visual comparison remain traceable after the pilot UE packages were removed."
+    },
+    {
+      "path_prefix": "unreal_character_import/formal_registry_runtime_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Current parity, saved Blueprint build, stage transitions and independent process reload evidence for the formal registry editor runtime."
+    },
+    {
+      "path_prefix": "unreal_character_import/hair_sex_fit_review_20260929_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Bounded F02/M02 six-view evidence, material repair, scalp/Hairline grid visual decision and exact future visibility targets; formal visibility persistence and male fit remain unverified."
+    },
+    {
+      "path_prefix": "unreal_character_import/asset_restructure_full_20260929_v1",
+      "retention": "authoritative",
+      "workflow": "WF-40/WF-50",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Accepted original migration map, frozen source plans and structural/deletion evidence. Current editable review entry plans moved to current_reviews_20261001_v1."
+    },
+    {
+      "path_prefix": "unreal_character_import/wardrobe_average_20260906_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Wardrobe reference, split, material mapping and transfer validation evidence."
+    },
+    {
+      "path_prefix": "unreal_character_import/wardrobe_average_20260906_v1/coverage_review_20260912_v1",
+      "retention": "retained_evidence",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Mesh coverage plan, loaded assembly checks and manual review decisions; not exhaustive compatibility approval."
+    },
     {
       "path_prefix": "documentation_audit/documentation_rebuild_20260825_v1",
       "retention": "superseded",
@@ -143,12 +724,28 @@
       "reason": "Accepted documentation audit after formal Render Job executor implementation, local Gate evidence, R07 closure and server-next-step reconciliation."
     },
     {
-      "path_prefix": "first_batch_dataset/graph_20260824_v1",
-      "retention": "authoritative",
-      "workflow": "WF-70",
-      "owner_document": "technical/dataset/CONFIG_GRAPH_AND_CHAINS.md",
-      "output_contract_id": "OUT-WF70-JOB-GRAPH",
-      "reason": "Accepted first-batch graph, chains, render jobs, review sample, and current v2 prompt layer; superseded prompt v1 was reviewed and removed on 2026-08-25."
+      "path_prefix": "documentation_audit/documentation_modular_outfit_pilot_20260830_v1",
+      "retention": "disposable",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Failed pre-inventory audit: the newly created audit scope was not yet present in OUTPUT_INVENTORY; tests passed but VAL-DOC-01 did not."
+    },
+    {
+      "path_prefix": "documentation_audit/documentation_modular_outfit_pilot_20260830_v2",
+      "retention": "disposable",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Failed owner-link audit: all tests and 15 subsystems passed, but the v1 physical prefix was not directly named by its owner document."
+    },
+    {
+      "path_prefix": "documentation_audit/documentation_modular_outfit_pilot_20260830_v3",
+      "retention": "superseded",
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Superseded by documentation_full_sync_20260930_v1 for current documentation state; keep historical pilot audit unchanged."
     },
     {
       "path_prefix": "character_creator_bridge/artifacts/first_batch_identity_references/full_20260824_v001",
@@ -159,84 +756,115 @@
       "reason": "Accepted eight-identity reference images used by the prompt layer."
     },
     {
-      "path_prefix": "unreal_render/first_batch_32look_matrix_20260824_v002",
+      "path_prefix": "character_creator_bridge/artifacts/modular_outfit_pilot/run_20260830_v3",
       "retention": "retained_evidence",
-      "workflow": "WF-50",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Accepted 32-Look local visual matrix."
+      "workflow": "WF-30/WF-40",
+      "owner_document": "technical/transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md",
+      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
+      "reason": "Successful 14-case CC modular-outfit pilot export and finalized source evidence."
     },
     {
-      "path_prefix": "unreal_render/first_batch_chain_visual_smoke_20260824_v1",
+      "path_prefix": "unreal_character_import/modular_outfit_pilot_20260829_v1",
       "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Accepted chain-level local render smoke evidence."
+      "workflow": "WF-40/WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-GLOBAL-VALIDATION-EVIDENCE",
+      "reason": "Accepted M02/F02 transfer and motion evidence plus v002 fixed-slot machine/manual evidence. The superseded v001 runtime Blueprints and Review Level were removed after reference audit; retain the shared evidence root for traceability."
     },
     {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v001",
-      "retention": "disposable",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Failed pre-media probe from the corrected attempt-directory ownership defect; no accepted node media was produced."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v002",
-      "retention": "superseded",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Superseded by v003 after the portable transitive input lock and resume behavior were finalized."
-    },
-    {
-      "path_prefix": "unreal_render/first_batch_formal_executor_smoke_20260825_v003",
+      "path_prefix": "documentation_audit/documentation_full_sync_20260930_v1",
       "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Accepted local formal-executor evidence: two real nodes rendered and accepted, then reused by SHA-validated resume without rerendering."
+      "workflow": "global",
+      "owner_document": "technical/validation/DOCUMENTATION_VALIDATION.md",
+      "output_contract_id": "OUT-GLOBAL-DOC-AUDIT",
+      "reason": "Full reconciliation of current docs, user-accepted scalp/Hairline grid visibility, independent subsystem review, asset evidence checks and regression results."
     },
     {
-      "path_prefix": "unreal_character_import/first_batch_day2_20260822_v1",
+      "path_prefix": "asset_cleanup/cleanup_20261001_v1",
       "retention": "retained_evidence",
+      "workflow": "global/WF-30/WF-40/WF-50",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "Current authorized comprehensive cleanup; exact reviewed paths, retained proofs, migration mapping, receipts and post-cleanup validation must remain traceable."
+    },
+    {
+      "path_prefix": "unreal_character_import/current_reviews_20261001_v1",
       "workflow": "WF-50",
       "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
       "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Day-2 runtime validation evidence."
+      "reason": "Current v003 wardrobe-coverage and hair/outfit compatibility review plans, minimal body metadata, launchers and runtime checks; accepted frozen source plans remain historical evidence.",
+      "retention": "authoritative"
     },
     {
-      "path_prefix": "unreal_character_import/first_batch_day3_20260823_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-60",
-      "owner_document": "technical/unreal/SCENE_CAMERA_SEQUENCE.md",
-      "output_contract_id": "OUT-WF60-SEQUENCE-TEMPLATE",
-      "reason": "Accepted scene, camera, and sequence evidence."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_render_audit_20260824_v1",
-      "retention": "retained_evidence",
-      "workflow": "WF-80",
-      "owner_document": "technical/rendering_release/RENDER_EXECUTION.md",
-      "output_contract_id": "OUT-WF80-NODE-MEDIA",
-      "reason": "Current local render asset audit."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_full_reference_expansion_20260822_v2",
-      "retention": "retained_evidence",
-      "workflow": "WF-40",
-      "owner_document": "technical/transfer/CC_TO_UE_FULLREFERENCE.md",
-      "output_contract_id": "OUT-WF40-TRANSFER-BUNDLE",
-      "reason": "Accepted 32-Look FullReference expansion evidence."
-    },
-    {
-      "path_prefix": "unreal_character_import/first_batch_motions_20260822_v1",
-      "retention": "retained_evidence",
+      "path_prefix": "unreal_character_import/female_shared_shoes_hair_color_20261007_v1/shoe_publication",
       "workflow": "WF-50",
-      "owner_document": "technical/transfer/MOTION_TRANSFER.md",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
       "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
-      "reason": "Accepted first-batch motion import evidence."
+      "reason": "Runtime3.17 current v4 publication depends on the immutable v3/v4 feedback, mapping, protected-source and selection SHA chain; retain until an explicitly accepted replacement chain exists. No asset cleanup authorized.",
+      "retention": "retained_evidence"
+    },
+    {
+      "path_prefix": "unreal_character_import/female_shared_shoes_hair_color_20261007_v1/hair_palette_v2_20261007/publication",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "retention": "retained_evidence",
+      "reason": "Runtime3.17.4 current v5 direct sex-specific hair selection depends on immutable feedback/mapping/selection/protection publication SHA chain and preceding retained v4/v3 chain; retain until accepted replacement. No source asset cleanup authorized."
+    },
+    {
+      "path_prefix": "unreal_character_import/female_shared_shoes_hair_color_20261007_v1/hair_palette_v3_20261007",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "retention": "retained_evidence",
+      "reason": "Runtime3.17.5 direct user final palette acceptance, exact retained choices, bounded source-protected switching, panel snapshot, regression and closure evidence; preserve until accepted replacement, no asset deletion."
+    },
+    {
+      "path_prefix": "unreal_character_import/character_runtime_face_library_20261007_v1/final_hair_palette_user_acceptance_v1.json",
+      "workflow": "WF-50",
+      "owner_document": "technical/unreal/CHARACTER_RUNTIME.md",
+      "output_contract_id": "OUT-WF50-RUNTIME-ACCEPTANCE",
+      "reason": "Independent direct user acceptance of final ten hair colors bound to immutable prior palette/registry SHA; preserves old pending receipts, does not accept new runtime face work.",
+      "retention": "retained_evidence"
+    },
+    {
+      "path_prefix": "asset_cleanup/cleanup_20261011_deep_v1",
+      "retention": "retained_evidence",
+      "workflow": "global/WF-30/WF-40/WF-50",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "Authorized whole-workspace cleanup: exact disposable/superseded file decisions, protected hashes, checkpoint retirement boundaries, execution receipts and post-cleanup verification."
+    },
+    {
+      "path_prefix": "workspace_cleanup_20261012_v1",
+      "retention": "retained_evidence",
+      "workflow": "global",
+      "owner_document": "technical/output/INVENTORY_AND_RETENTION.md",
+      "output_contract_id": "OUT-GLOBAL-OUTPUT-INVENTORY",
+      "reason": "2026-10-12 explicitly authorized workspace cleanup, current dependency recovery, retirement and verification receipts; no blanket preservation of historical binaries."
+    }
+  ],
+  "reviewed_cleanup_runs": [
+    {
+      "run_root": "asset_cleanup/cleanup_20261001_v1",
+      "reviewed_date": "2026-10-01",
+      "manifest": "asset_cleanup/cleanup_20261001_v1/output_cleanup_review.json",
+      "receipt": "asset_cleanup/cleanup_20261001_v1/output_cleanup_receipt.json",
+      "selection": "Exact per-file reviewed superseded/disposable targets; parent evidence roots remain retained."
+    },
+    {
+      "run_root": "cleanup_current_pipeline_20261011_v1",
+      "reviewed_date": "2026-10-11",
+      "manifest": "cleanup_current_pipeline_20261011_v1/raw_render_candidate_files.json",
+      "receipt": "cleanup_current_pipeline_20261011_v1/raw_cleanup_execution_receipt.json",
+      "selection": "294 exact reviewed raw-frame shot directories; executed rules archived in executed_retention_rules.json. UE asset cleanup recorded separately in ue_deletion_manifest.json and ue_cleanup_offline_execution.json."
+    },
+    {
+      "run_root": "asset_cleanup/cleanup_20261011_deep_v1",
+      "reviewed_date": "2026-10-11",
+      "manifest": "asset_cleanup/cleanup_20261011_deep_v1/reviewed_plan.json",
+      "receipt": "asset_cleanup/cleanup_20261011_deep_v1/execution_receipt.json",
+      "selection": "Exact cache directories, older matched autosave files and completed CFD40 calibration projects. Final/raw-photo projects, special recoveries and formal UE assets remain protected. Main-thread state unchanged."
     }
   ]
 }

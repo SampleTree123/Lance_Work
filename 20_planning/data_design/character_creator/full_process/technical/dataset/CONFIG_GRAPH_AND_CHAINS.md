@@ -12,6 +12,8 @@
 
 ## 1. 权威规范
 
+2026-10-21补充：下文的冻结数字与直链规则属于历史首批V1。新阶段2–5次编辑、一次历史源分叉及参考素材正在独立探索，见[新版设计探索](./DATASET_DESIGN_EXPLORATION_20261021.md)；未用探索输出替换本页的历史契约。
+
 - Schema：`20_planning/data_design/schema/CONFIG_GRAPH_SCHEMA_V1.md`
 - 链策略：`20_planning/data_design/sampling/MULTI_ROUND_CHAIN_SAMPLING_V1.md`
 - 架构决定：`project_management/decisions/ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md`

@@ -1,0 +1,331 @@
+{
+  "schema": "dataset_reference_jobs_v11_v1",
+  "path_base": "workspace",
+  "output_path_base": "run_root",
+  "offline_only": true,
+  "media_generated": false,
+  "source_manifest_unchanged": true,
+  "static_presentation": {
+    "status": "design_confirmed_full_batch_not_rendered",
+    "confirmed_date": "2026-10-23",
+    "basis": "user_accepted_existing_corrected_sample_presentation",
+    "canonical_background": "neutral_gray",
+    "canonical_lighting": "soft_fixed_lighting",
+    "identity": "one_clear_complete_front_face_photo",
+    "hair": "existing_views_and_fixed_color; two_distinct_existing_carriers_per_hairstyle; randomly_select_one_complete_reference_group",
+    "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+    "scene": "target_scene_corresponding_camera_first_frame_without_character",
+    "canonical_resolution": [
+      1024,
+      1024
+    ],
+    "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+    "changes_to_existing_reference_views_or_counts": false
+  },
+  "sources": [
+    {
+      "path": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected/main_jobs.json",
+      "sha256": "381bb857fb5cf818ff7195e033fb414bb74c44538099bb06b31d425a515c317e"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/reference_manifest.json",
+      "sha256": "93eaadb391dabd8e229cf9ad0a9f7860be210a39945f5d3cb1b43bdb2b24d4f9"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/render_preparation/VIDEO_PROFILE.json",
+      "sha256": "3b19b58eba4d3f116c37b231d9689d5a7dad73cad5fcc27ce19fdb700acfa23f"
+    },
+    {
+      "path": "00_engine/outputs/dataset_trial_build_20261021_v1/catalog.json",
+      "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131"
+    },
+    {
+      "path": "00_engine/outputs/dataset_reference_production_20261023_v1/motion_carriers.json",
+      "sha256": "e5e7e04b2dae493ca759350271085e39c37ce3fbaef55726cf7ca164905138a7"
+    }
+  ],
+  "job_count": 7,
+  "jobs": [
+    {
+      "job_id": "ref_483aff5be6d54f4edbca2560",
+      "reference_id": "ref_483aff5be6d54f4edbca2560",
+      "requirement_kind": "scene",
+      "reference_kind": "scene",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "site": "site_7b963967ee",
+        "action": "MOTION_CAND_001",
+        "camera": "front_full",
+        "sex": "male",
+        "symbolic_aspect": "landscape",
+        "camera_profile": "pending_unfrozen_main_profile"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "target_camera_initial_frame",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "width": 1920,
+      "height": 1080,
+      "stage": "source_scene_without_character",
+      "site": {
+        "site_id": "site_7b963967ee",
+        "name": "傍晚公路 / 1",
+        "map": "/Game/Scenes/Evening_Highway/Maps/demo_level",
+        "position": {
+          "x": -510.0,
+          "y": 4340.0,
+          "z": 5.07108577494364e-05
+        },
+        "yaw": 0.0,
+        "appearance_config_id": "appearance_d22cc011774547be90e4b17dd947c157",
+        "source_mode": "production10"
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "exact_initial_camera_policy": "prepare exact source main sequence; read frame-zero keys; remove character/followers on owned copy",
+      "person_present": false,
+      "source_main_job_id": "train_node_000967",
+      "source_job_id": "train_node_000967",
+      "source_job_sha256": "dd9fdffb0046b40127ded1d727562b9f7835d35ad3dcfe7c813049a4b84d8ab8",
+      "paths": {
+        "frames": "jobs/ref_483aff5be6d54f4edbca2560/frames",
+        "receipt": "jobs/ref_483aff5be6d54f4edbca2560/media_receipt.json",
+        "media": "jobs/ref_483aff5be6d54f4edbca2560/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_022843d18619e8a25d8153a9",
+      "reference_id": "ref_022843d18619e8a25d8153a9",
+      "requirement_kind": "wardrobe_piece",
+      "reference_kind": "garment",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "asset_id": "male.jiving.asset.49a4c6698aa9",
+        "view": "front"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "front",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "asset_id": "male.jiving.asset.49a4c6698aa9",
+      "slot": "shirts",
+      "mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Male/jiving/Shirts/Shirt_02/Meshes/shirt_13653_shape.shirt_13653_shape"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "body_present": false,
+      "render_view": "front",
+      "actual_item_is_all_listed_meshes": true,
+      "preserve_3d_shape": true,
+      "source_job_id": "ref_carrier_garment_58d4037875311cf9f2a8",
+      "source_job_sha256": "7cd297d4836da3cbc28774f58989e89d98e5ce88294c7b3772c9a9fc9a620b20",
+      "paths": {
+        "frames": "jobs/ref_022843d18619e8a25d8153a9/frames",
+        "receipt": "jobs/ref_022843d18619e8a25d8153a9/media_receipt.json",
+        "media": "jobs/ref_022843d18619e8a25d8153a9/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_4aef3d17ec27c9c95e278a51",
+      "reference_id": "ref_4aef3d17ec27c9c95e278a51",
+      "requirement_kind": "wardrobe_piece",
+      "reference_kind": "garment",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "asset_id": "F023",
+        "view": "front"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "front",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "asset_id": "F023",
+      "slot": "shoes",
+      "mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "body_present": false,
+      "render_view": "front",
+      "actual_item_is_all_listed_meshes": true,
+      "preserve_3d_shape": true,
+      "source_job_id": "ref_carrier_garment_acbfcf43c5ce95ef1b49",
+      "source_job_sha256": "ff3e0ea6ff4630416cb014e577f3ba1e20cd9b21064139c144c8329c0e6d7ab4",
+      "paths": {
+        "frames": "jobs/ref_4aef3d17ec27c9c95e278a51/frames",
+        "receipt": "jobs/ref_4aef3d17ec27c9c95e278a51/media_receipt.json",
+        "media": "jobs/ref_4aef3d17ec27c9c95e278a51/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_0e82a6c82a88e459e23b217e",
+      "reference_id": "ref_0e82a6c82a88e459e23b217e",
+      "requirement_kind": "wardrobe_piece",
+      "reference_kind": "garment",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "asset_id": "male.vacation.asset.32b33be523e3",
+        "view": "front"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "front",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "asset_id": "male.vacation.asset.32b33be523e3",
+      "slot": "family_accessory",
+      "mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape"
+      ],
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "body_present": false,
+      "render_view": "front",
+      "actual_item_is_all_listed_meshes": true,
+      "preserve_3d_shape": true,
+      "source_job_id": "ref_carrier_garment_db9ef7aba29a507981d9",
+      "source_job_sha256": "f9f54a90aad5c5315e97c511a8b0c5b723e0209d9a75e449ef93a8950bbaaeb5",
+      "paths": {
+        "frames": "jobs/ref_0e82a6c82a88e459e23b217e/frames",
+        "receipt": "jobs/ref_0e82a6c82a88e459e23b217e/media_receipt.json",
+        "media": "jobs/ref_0e82a6c82a88e459e23b217e/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_034fe76953945e723876d253",
+      "reference_id": "ref_034fe76953945e723876d253",
+      "requirement_kind": "identity",
+      "reference_kind": "identity",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "identity": "CFD40_WF_002",
+        "view": "front_face"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "front_face",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "target_identity": "CFD40_WF_002",
+      "hair_id": "HAIR_HB2_20",
+      "render_view": "front",
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "face_id": "none",
+      "pose_policy": "static_imported_reference_pose",
+      "source_job_id": "ref_carrier_identity_CFD40_WF_002",
+      "source_job_sha256": "28cdb180a90c8f42a35917f06ada750060ba2c59a19cd344abccbe31ca3825d1",
+      "paths": {
+        "frames": "jobs/ref_034fe76953945e723876d253/frames",
+        "receipt": "jobs/ref_034fe76953945e723876d253/media_receipt.json",
+        "media": "jobs/ref_034fe76953945e723876d253/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_0a619fb87cbf9d044a250173",
+      "reference_id": "ref_0a619fb87cbf9d044a250173",
+      "requirement_kind": "hair",
+      "reference_kind": "hair",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "hair_id": "HAIR_HB3_02",
+        "carrier_identity": "CFD40_BM_001",
+        "fit_sex": "male",
+        "view": "front",
+        "hair_color": "black"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "front",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "target_identity": "CFD40_BM_001",
+      "carrier_identity": "CFD40_BM_001",
+      "carrier_sex": "male",
+      "hair_id": "HAIR_HB3_02",
+      "hair_color": "black",
+      "render_view": "front",
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "face_id": "none",
+      "pose_policy": "static_imported_reference_pose",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "052738a562c6987dbf5e9e1b8eb3c50de4b07b447107155fb91e19897ca43470",
+      "paths": {
+        "frames": "jobs/ref_0a619fb87cbf9d044a250173/frames",
+        "receipt": "jobs/ref_0a619fb87cbf9d044a250173/media_receipt.json",
+        "media": "jobs/ref_0a619fb87cbf9d044a250173/frames/frame_0000.png"
+      }
+    },
+    {
+      "job_id": "ref_ffda7f1e0282c093be77ae72",
+      "reference_id": "ref_ffda7f1e0282c093be77ae72",
+      "requirement_kind": "hair",
+      "reference_kind": "hair",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "hair_id": "HAIR_HB3_02",
+        "carrier_identity": "CFD40_BM_001",
+        "fit_sex": "male",
+        "view": "back",
+        "hair_color": "black"
+      },
+      "fps": 30,
+      "frames": 1,
+      "status": "planned_not_rendered",
+      "view": "back",
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "target_identity": "CFD40_BM_001",
+      "carrier_identity": "CFD40_BM_001",
+      "carrier_sex": "male",
+      "hair_id": "HAIR_HB3_02",
+      "hair_color": "black",
+      "render_view": "back",
+      "width": 1024,
+      "height": 1024,
+      "stage": "neutral_static",
+      "face_id": "none",
+      "pose_policy": "static_imported_reference_pose",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "052738a562c6987dbf5e9e1b8eb3c50de4b07b447107155fb91e19897ca43470",
+      "paths": {
+        "frames": "jobs/ref_ffda7f1e0282c093be77ae72/frames",
+        "receipt": "jobs/ref_ffda7f1e0282c093be77ae72/media_receipt.json",
+        "media": "jobs/ref_ffda7f1e0282c093be77ae72/frames/frame_0000.png"
+      }
+    }
+  ],
+  "selection_note": "One background, shirt, shared shoes, accessory, identity, matching front/back hair carrier"
+}

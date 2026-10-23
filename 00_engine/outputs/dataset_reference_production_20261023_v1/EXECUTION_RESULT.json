@@ -1,0 +1,342 @@
+{
+  "schema": "dataset_reference_pilot_execution_result_v11_v1",
+  "status": "11_current_policy_pilot_tasks_technical_pass_new_media_review_pending",
+  "full_plan_ready": true,
+  "full_reference_tasks": 2418,
+  "static_tasks": 1609,
+  "motion_tasks": 809,
+  "verified_unique_pilot_tasks": 11,
+  "motion_pilot_clips": 4,
+  "static_pilot_images": 7,
+  "remaining_full_tasks": 2407,
+  "worker_versions": {
+    "reference_version": 2,
+    "main_policy_version": 2
+  },
+  "motion_carriers": {
+    "female": {
+      "selection": {
+        "character_id": "CFD40_AF_001",
+        "sex": "female",
+        "hair_color": "black",
+        "eye_color": "original",
+        "face_id": "none",
+        "choice": {
+          "family_id": "female.workout_color_outfits",
+          "group_id": "default",
+          "slot_choices": {
+            "full_body": "female.workout_color_outfits.asset.d973df56c996"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": "F003",
+          "hair_id": "HAIR_HB1_02"
+        }
+      },
+      "wardrobe_labels": [
+        "Workout_BlueOutfit",
+        "Shoes3"
+      ],
+      "source_job_id": "train_node_000000"
+    },
+    "male": {
+      "selection": {
+        "character_id": "CFD40_AM_001",
+        "sex": "male",
+        "hair_color": "black",
+        "eye_color": "original",
+        "face_id": "none",
+        "choice": {
+          "family_id": "male.workout",
+          "group_id": "default",
+          "slot_choices": {
+            "shirts": "male.workout.asset.79f65ef7f08f",
+            "pants": "male.workout.asset.f991c0f529d5",
+            "shoes": "male.workout.asset.ee823988cfc1"
+          },
+          "optional_asset_ids": [],
+          "shared_shoe_id": null,
+          "hair_id": "HAIR_HB3_02"
+        }
+      },
+      "wardrobe_labels": [
+        "Top 01",
+        "Shorts 01",
+        "Shoes 01"
+      ],
+      "source_job_id": "train_node_000967"
+    }
+  },
+  "user_presentation_design_accepted": true,
+  "focused_tests_passed": 31,
+  "focused_test_evidence_scope": "main session reported 31 focused tests passed; finalizer does not rerun tests",
+  "shoe_framing": {
+    "version": 1,
+    "front_and_back_elevation_degrees": 25,
+    "pilot_rendered_views": [
+      "front"
+    ],
+    "signature_scope": "garment shoes only; other six static tasks retain resume compatibility"
+  },
+  "prior_clear_12_main_6_reference_quality_accepted": true,
+  "new_pilot_visual_acceptance": "pending",
+  "server_verified": false,
+  "whole_dataset_media_verified": false,
+  "whole_repository_audit_run": false,
+  "candidate_modified": false,
+  "jobs_modified_by_finalizer": false,
+  "ue_operations_by_finalizer": false,
+  "validation_scope": "this 11-job receipt/hash/source-signature chain only; no fresh decode or UE operations",
+  "records": [
+    {
+      "job_id": "ref_f752597252c97a92e70bb469",
+      "reference_kind": "motion",
+      "source_job_id": "ref_carrier_motion_f752597252c97a92e70bb469",
+      "source_job_sha256": "e1e17160739f49c3c6df607fe7b5f54f7830a57772dda6f5ed1e235c33084e70",
+      "render_signature": "0c7c0883dcd4865d76f9e79305463404b11804657bd14d7ba9753afb7b4fe318",
+      "media": "jobs/ref_f752597252c97a92e70bb469/video.mp4",
+      "bytes": 2614907,
+      "media_check": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "decoded_frames": 300,
+        "duration_seconds": 10.0,
+        "audio_streams": 0,
+        "color_range": "tv",
+        "colorspace": "bt709",
+        "stream_description": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709/unknown/unknown, progressive), 1920x1080, 2088 kb/s, 30 fps, 30 tbr, 15360 tbn (default)",
+        "verification": "full_ffmpeg_decode_xerror"
+      },
+      "mrq_receipt": "render_receipts/ref_f752597252c97a92e70bb469_4ad931d9.json",
+      "media_receipt": "jobs/ref_f752597252c97a92e70bb469/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_7454f04fb9c2b89b132899c1",
+      "reference_kind": "motion",
+      "source_job_id": "ref_carrier_motion_7454f04fb9c2b89b132899c1",
+      "source_job_sha256": "0c362ad639673441096176dfb431eb27afa2445e0b862084357c5da58e4c1c3e",
+      "render_signature": "3d816bb068a198710b8ab4fb37c9ff06655193efc666a2f60c3cedc6277075d7",
+      "media": "jobs/ref_7454f04fb9c2b89b132899c1/video.mp4",
+      "bytes": 3405620,
+      "media_check": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "width": 1920,
+        "height": 1080,
+        "fps": 30,
+        "decoded_frames": 300,
+        "duration_seconds": 10.0,
+        "audio_streams": 0,
+        "color_range": "tv",
+        "colorspace": "bt709",
+        "stream_description": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709/unknown/unknown, progressive), 1920x1080, 2720 kb/s, 30 fps, 30 tbr, 15360 tbn (default)",
+        "verification": "full_ffmpeg_decode_xerror"
+      },
+      "mrq_receipt": "render_receipts/ref_7454f04fb9c2b89b132899c1_394fbfc9.json",
+      "media_receipt": "jobs/ref_7454f04fb9c2b89b132899c1/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_88d4c930ae0374d3deac04b6",
+      "reference_kind": "motion",
+      "source_job_id": "ref_carrier_motion_88d4c930ae0374d3deac04b6",
+      "source_job_sha256": "fc768468dc5a8a909c1b3e3ed801b643f6df10a4d1f5d6535c2e77f1a3083ef1",
+      "render_signature": "75cda34ed4e12eeff43ae33f1050d493bf1ad07069d12c12232710b7ab85cf97",
+      "media": "jobs/ref_88d4c930ae0374d3deac04b6/video.mp4",
+      "bytes": 6199463,
+      "media_check": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "width": 1080,
+        "height": 1920,
+        "fps": 30,
+        "decoded_frames": 300,
+        "duration_seconds": 10.0,
+        "audio_streams": 0,
+        "color_range": "tv",
+        "colorspace": "bt709",
+        "stream_description": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709/unknown/unknown, progressive), 1080x1920, 4955 kb/s, 30 fps, 30 tbr, 15360 tbn (default)",
+        "verification": "full_ffmpeg_decode_xerror"
+      },
+      "mrq_receipt": "render_receipts/ref_88d4c930ae0374d3deac04b6_67bce425.json",
+      "media_receipt": "jobs/ref_88d4c930ae0374d3deac04b6/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_babb48f602439f382fc45647",
+      "reference_kind": "motion",
+      "source_job_id": "ref_carrier_motion_babb48f602439f382fc45647",
+      "source_job_sha256": "d3c86540d91d277c6a5e409d6dbb8730cf776ac2094f3a046b4c17958af3143b",
+      "render_signature": "cbecfa966c1657beeb4071feb28c2d726e50ba5b61ae00b64cf7921074ebd4bc",
+      "media": "jobs/ref_babb48f602439f382fc45647/video.mp4",
+      "bytes": 5392746,
+      "media_check": {
+        "codec": "h264",
+        "pixel_format": "yuv420p",
+        "width": 1080,
+        "height": 1920,
+        "fps": 30,
+        "decoded_frames": 300,
+        "duration_seconds": 10.0,
+        "audio_streams": 0,
+        "color_range": "tv",
+        "colorspace": "bt709",
+        "stream_description": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709/unknown/unknown, progressive), 1080x1920, 4310 kb/s, 30 fps, 30 tbr, 15360 tbn (default)",
+        "verification": "full_ffmpeg_decode_xerror"
+      },
+      "mrq_receipt": "render_receipts/ref_babb48f602439f382fc45647_da654f17.json",
+      "media_receipt": "jobs/ref_babb48f602439f382fc45647/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_483aff5be6d54f4edbca2560",
+      "reference_kind": "scene",
+      "source_job_id": "train_node_000967",
+      "source_job_sha256": "dd9fdffb0046b40127ded1d727562b9f7835d35ad3dcfe7c813049a4b84d8ab8",
+      "render_signature": "29b420376f84b601035be31f096428d632eb978087a111a277d4624179b065f4",
+      "media": "jobs/ref_483aff5be6d54f4edbca2560/frames/frame_0000.png",
+      "bytes": 4077632,
+      "media_check": {
+        "format": "PNG",
+        "width": 1920,
+        "height": 1080,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_483aff5be6d54f4edbca2560_95d59d62.json",
+      "media_receipt": "jobs/ref_483aff5be6d54f4edbca2560/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_022843d18619e8a25d8153a9",
+      "reference_kind": "garment",
+      "source_job_id": "ref_carrier_garment_58d4037875311cf9f2a8",
+      "source_job_sha256": "7cd297d4836da3cbc28774f58989e89d98e5ce88294c7b3772c9a9fc9a620b20",
+      "render_signature": "fdc233f14d395bc34c7175215e0c6f3e91d202af56f2829474712949bdb86426",
+      "media": "jobs/ref_022843d18619e8a25d8153a9/frames/frame_0000.png",
+      "bytes": 991779,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_022843d18619e8a25d8153a9_f4fd598e.json",
+      "media_receipt": "jobs/ref_022843d18619e8a25d8153a9/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_4aef3d17ec27c9c95e278a51",
+      "reference_kind": "garment",
+      "source_job_id": "ref_carrier_garment_acbfcf43c5ce95ef1b49",
+      "source_job_sha256": "ff3e0ea6ff4630416cb014e577f3ba1e20cd9b21064139c144c8329c0e6d7ab4",
+      "render_signature": "65671a478602bfa3aeb334193cfc05514e792e397f29680ac0f5bec7fd9463e1",
+      "media": "jobs/ref_4aef3d17ec27c9c95e278a51/frames/frame_0000.png",
+      "bytes": 939724,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_4aef3d17ec27c9c95e278a51_4478fb12.json",
+      "media_receipt": "jobs/ref_4aef3d17ec27c9c95e278a51/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_0e82a6c82a88e459e23b217e",
+      "reference_kind": "garment",
+      "source_job_id": "ref_carrier_garment_db9ef7aba29a507981d9",
+      "source_job_sha256": "f9f54a90aad5c5315e97c511a8b0c5b723e0209d9a75e449ef93a8950bbaaeb5",
+      "render_signature": "bec6df95a16d0821f7e1de1f25ba8d14b688c5da59939564ad09ca86fa7f68e7",
+      "media": "jobs/ref_0e82a6c82a88e459e23b217e/frames/frame_0000.png",
+      "bytes": 849819,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_0e82a6c82a88e459e23b217e_3eac17c4.json",
+      "media_receipt": "jobs/ref_0e82a6c82a88e459e23b217e/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_034fe76953945e723876d253",
+      "reference_kind": "identity",
+      "source_job_id": "ref_carrier_identity_CFD40_WF_002",
+      "source_job_sha256": "28cdb180a90c8f42a35917f06ada750060ba2c59a19cd344abccbe31ca3825d1",
+      "render_signature": "1bd306978395f723e4077bed4976a50764261bc301868f79cadb90205d7ad712",
+      "media": "jobs/ref_034fe76953945e723876d253/frames/frame_0000.png",
+      "bytes": 1292675,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_034fe76953945e723876d253_a6727a49.json",
+      "media_receipt": "jobs/ref_034fe76953945e723876d253/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_0a619fb87cbf9d044a250173",
+      "reference_kind": "hair",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "052738a562c6987dbf5e9e1b8eb3c50de4b07b447107155fb91e19897ca43470",
+      "render_signature": "cc7651dc05e0ae27e594aac9d60bd52062b54fb07c19a71053ea446626a9dae5",
+      "media": "jobs/ref_0a619fb87cbf9d044a250173/frames/frame_0000.png",
+      "bytes": 1197734,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_0a619fb87cbf9d044a250173_fee35093.json",
+      "media_receipt": "jobs/ref_0a619fb87cbf9d044a250173/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    },
+    {
+      "job_id": "ref_ffda7f1e0282c093be77ae72",
+      "reference_kind": "hair",
+      "source_job_id": "ref_carrier_hair_16e719f2903e68102496",
+      "source_job_sha256": "052738a562c6987dbf5e9e1b8eb3c50de4b07b447107155fb91e19897ca43470",
+      "render_signature": "4106a1d848fc3ae7f476c21c53aa3a5a7efba8d4b9d578185a4091c1ee982c91",
+      "media": "jobs/ref_ffda7f1e0282c093be77ae72/frames/frame_0000.png",
+      "bytes": 1147638,
+      "media_check": {
+        "format": "PNG",
+        "width": 1024,
+        "height": 1024,
+        "frames": 1,
+        "bits_per_channel": 8,
+        "channels": "RGBA",
+        "verification": "all_chunk_crc_and_full_idat_zlib_decode"
+      },
+      "mrq_receipt": "render_receipts/ref_ffda7f1e0282c093be77ae72_74753ee0.json",
+      "media_receipt": "jobs/ref_ffda7f1e0282c093be77ae72/media_receipt.json",
+      "visual_acceptance": "pending_new_pilot_review"
+    }
+  ]
+}

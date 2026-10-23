@@ -1,0 +1,200 @@
+{
+  "schema_status": "proposal_not_frozen",
+  "created_at": "2026-10-21",
+  "scope": "Reference data and supervision separation only; no model architecture",
+  "media_status": "Illustrative identifiers and paths; no media were created",
+  "public_reference_records": [
+    {
+      "ref_id": "r_hair_01",
+      "display_label": "参考图A",
+      "introduced_at_turn": 1,
+      "modality": "image",
+      "visible_instruction": "只采用参考图A中的发型；保留源人物的脸、发色、表情和衣服。",
+      "media": [
+        {
+          "view": "front",
+          "uri": "refs/opaque_h01_front.png"
+        }
+      ]
+    },
+    {
+      "ref_id": "r_top_01",
+      "display_label": "参考图B",
+      "introduced_at_turn": 2,
+      "modality": "image_set",
+      "visible_instruction": "只替换上衣，采用参考图B这件外套；保留裤子、鞋和其他内容。两张图片是同一件衣服的不同视角。",
+      "media": [
+        {
+          "view": "front",
+          "uri": "refs/opaque_g01_front.png"
+        },
+        {
+          "view": "character_left",
+          "uri": "refs/opaque_g01_left.png"
+        }
+      ]
+    },
+    {
+      "ref_id": "r_motion_01",
+      "display_label": "动作视频C",
+      "introduced_at_turn": 3,
+      "modality": "video",
+      "visible_instruction": "只把身体动作改为动作视频C中的动作；保持源人物的脸、发型、表情、衣服、背景和镜头。本例要求模仿动作语义，不要求逐帧完全同步。",
+      "media": [
+        {
+          "view": "matched_source_camera",
+          "uri": "refs/opaque_a01.mp4",
+          "audio": "absent"
+        }
+      ]
+    }
+  ],
+  "public_turn_example": {
+    "turn_id": 3,
+    "instruction": "回到换发型后的那一步，只把身体动作改成动作视频C那样。",
+    "history_policy": "all_prior_turns_including_abandoned_branch",
+    "history": [
+      {
+        "turn_id": 0,
+        "shown_video_id": "n0",
+        "shown_video_uri": "history/opaque_n0.mp4"
+      },
+      {
+        "turn_id": 1,
+        "instruction": "只把发型改成参考图A那样，发色和其他内容保持。",
+        "shown_reference_ids": ["r_hair_01"],
+        "shown_video_id": "n1",
+        "shown_video_uri": "history/opaque_n1.mp4"
+      },
+      {
+        "turn_id": 2,
+        "instruction": "只把上衣换成参考图B这件外套。",
+        "shown_reference_ids": ["r_top_01"],
+        "shown_video_id": "n2",
+        "shown_video_uri": "history/opaque_n2.mp4"
+      }
+    ],
+    "new_reference_ids": ["r_motion_01"],
+    "future_references_visible": false,
+    "oracle_source_label_visible": false
+  },
+  "private_reference_audit_records": [
+    {
+      "ref_id": "r_hair_01",
+      "authority_axis": "hair_style",
+      "ignore_axes": ["identity", "hair_color", "expression", "body_fit", "outfit", "lighting", "scene"],
+      "target_attribute_asset_id": "example_hair_asset",
+      "asset_family_id": "example_hair_family",
+      "carrier_identity_family_id": "declared_reference_carrier_01",
+      "carrier_policy": "predeclared_and_independent_of_target_identity",
+      "split": "train",
+      "camera_policy": "canonical",
+      "color_policy": "neutral_hair_color",
+      "render_rule_version": "suggested_v1",
+      "derived_from_gt_media": false,
+      "render_before_gt_possible": true,
+      "semantic_key": "hair_style|family|carrier|front|neutral_light|rule_v1",
+      "media_sha256": null
+    },
+    {
+      "ref_id": "r_top_01",
+      "authority_axis": "outfit.top",
+      "ignore_axes": ["identity", "body_fit", "action", "outfit.bottom", "outfit.shoes", "scene", "lighting"],
+      "target_attribute_asset_id": "example_atomic_top_asset",
+      "asset_family_id": "example_garment_family",
+      "atomic_slot_verified": false,
+      "carrier_policy": "standard_faceless_mannequin",
+      "camera_policy": "canonical_four_view_library",
+      "selection_policy": "source_camera_and_source_visibility_only",
+      "selected_views": ["front", "character_left"],
+      "all_library_views": ["front", "character_left", "back", "character_right"],
+      "view_selection_reads_gt": false,
+      "source_clip_visibility_pass": null,
+      "derived_from_gt_media": false,
+      "render_before_gt_possible": true,
+      "split": "train",
+      "media_sha256": null
+    },
+    {
+      "ref_id": "r_motion_01",
+      "authority_axis": "body_action",
+      "ignore_axes": ["identity", "hair_style", "hair_color", "body_fit", "outfit", "expression", "scene", "lighting"],
+      "asset_family_id": "example_original_motion_family",
+      "target_attribute_asset_id": "example_target_motion",
+      "carrier_identity_family_id": "declared_reference_carrier_01",
+      "carrier_fit_id": "example_fit_female",
+      "carrier_appearance_policy": "neutral_face_and_neutral_close_fitting_outfit",
+      "camera_policy": "matched_source_camera",
+      "source_camera_parameter_hash": "placeholder_not_real_hash",
+      "camera_fit_uses_target_projection": false,
+      "motion_relation": "semantic",
+      "timing_alignment": "not_required",
+      "time_window_seconds": [0, 5],
+      "playback_rate": 1,
+      "mirrored": false,
+      "fps": 24,
+      "duration_seconds": 5,
+      "width": 768,
+      "height": 432,
+      "audio_present": false,
+      "derived_from_gt_media": false,
+      "render_before_gt_possible": true,
+      "split": "train",
+      "reference_capability_track": "rgb_reference",
+      "media_sha256": null
+    }
+  ],
+  "private_turn_supervision": {
+    "turn_id": 3,
+    "oracle_source_node_id": "n1",
+    "target_node_id": "n3",
+    "abandoned_but_observed_node_ids": ["n2"],
+    "atomic_edit": {
+      "axis": "body_action",
+      "before": "example_initial_motion",
+      "after": "example_target_motion"
+    },
+    "inherited_state_note": "n3 inherits every non-body_action field from n1; the top change in n2 does not carry into n3",
+    "resolved_target_state_available_to_model": false,
+    "gt_video_uri": "supervision/opaque_n3.mp4",
+    "source_selection_evaluation": "Requires resolving public history; no source pointer is inserted into model input"
+  },
+  "background_reference_example": {
+    "status": "separate_example_not_visible_in_turn_3",
+    "authority_axis": "scene_site",
+    "modality": "image",
+    "camera_policy": "new_scene_from_source_camera_parameters",
+    "reference_capability_track": "background_exact_view",
+    "person_present": false,
+    "person_shadow_present": false,
+    "person_reflection_present": false,
+    "dynamic_source_camera_allowed": false,
+      "lighting_policy": "scene_owned_illumination_and_exposure_are_declared_derived_changes",
+    "derived_from_gt_media": false
+  },
+  "split_contract_example": {
+    "root_graph_family_single_split": true,
+    "target_holdout_claim": "example_identity_holdout_only_if_manifest_confirms",
+    "forbidden_train_overlap_for_heldout_identity": ["main_video", "derived_node", "face_reference", "hair_carrier", "motion_carrier", "history_media"],
+    "motion_family_grouping": ["original_clip", "crop", "mirror", "rate_variant"],
+    "shared_carrier_exception": "May be declared, but these carriers are excluded from unseen-identity claims"
+  },
+  "rejection_examples": [
+    {
+      "case": "replace_invisible_shoes",
+      "reason": "Requested slot is not observable anywhere in the source clip"
+    },
+    {
+      "case": "gt_pose_given_as_rgb_only_reference",
+      "reason": "Structure-assisted input is mislabeled as RGB-reference capability"
+    },
+    {
+      "case": "replace_top_and_bottom_in_one_edge",
+      "reason": "Two independently editable outfit slots change"
+    },
+    {
+      "case": "use_previous_black_trousers_with_two_equal_candidates",
+      "reason": "Public history does not uniquely resolve the intended garment or source"
+    }
+  ]
+}

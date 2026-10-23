@@ -4,7 +4,7 @@
 > 文档类型：`master`
 > 生命周期：`current`
 > 权威范围：角色工厂从批次定义到数据集发布的长期流程、文档导航和信息边界
-> 最近核验：2026-08-25
+> 最近核验：2026-10-05（执行中唯一计划与显式结项空闲规则）
 
 ## 目录
 
@@ -45,6 +45,20 @@ Master -> Current Status -> Workflow
                            -> Registry（机器真值在哪里）
                            -> Workflow / Batch Status（当前是否接受）
 ```
+
+查找当前批次的数据输出时不需要逐个翻阅全部 Workflow，使用以下专用路由：
+
+```text
+Master
+  -> Project Status（找到活动批次）
+  -> Active Batch Status / 权威机器产物（找到当前物理路径与完成状态）
+     -> Dataset Technical（图、链、Prompt 和 Render Job 格式）
+     -> Render Technical（节点媒体、Sidecar 和 Run Root 格式）
+     -> Package Technical（最终统一交付包格式）
+     -> Output Contract（确认逻辑组成、所有者和保留语义）
+```
+
+当前活动批次可直接从 [项目状态的活动对象](./project_management/status/PROJECT_STATUS.md#活动对象) 进入；该批次的“权威机器产物”表是查找第一批数据当前位置的唯一人类入口。最终交付包在 `WF-90` 通过前可能尚不存在，不能把图根或本地 Smoke 误称为完整数据集。
 
 发生冲突时，先停止受影响阶段，再按 [治理规则](./GOVERNANCE.md#2-冲突裁决) 判断事实维度：运行证据描述实际行为，机器配置决定精确输入，长期契约决定是否合规，Status 决定当前是否允许生产。任何一项不能替另一项掩盖差异。
 
@@ -106,7 +120,7 @@ Output 是独立控制面，拥有稳定 `OUT-*`、存储类别、Run Root、Man
 ### 4.5 [`project_management/`](./project_management/README.md)
 
 - [`status/`](./project_management/status/README.md)：当前项目、Workflow 和活动批次事实。
-- [`plans/`](./project_management/plans/README.md)：未来需求及落实状态；恰好一个 current 主计划。
+- [`plans/`](./project_management/plans/README.md)：未来需求及落实状态；执行中恰好一个 current 主计划，显式结项空闲状态没有 current。
 - [`decisions/`](./project_management/decisions/README.md)：长期架构和语义 ADR。
 - [`history/`](./project_management/history/README.md)：关闭计划、里程碑和报告，不决定当前行为。
 - [`templates/`](./project_management/templates/README.md)：未来新文档的结构契约。
@@ -165,7 +179,7 @@ WF-00 -> WF-10 -> WF-20 -> WF-30 -> WF-40
 
 ### 6.2 计划
 
-[计划索引](./project_management/plans/PLAN_INDEX.md) 必须明确恰好一个 `current` 主计划。计划使用需求 ID，例如 `PLAN-.../R03`；受影响的 Workflow 状态必须说明需求已经完成、部分完成或尚未开始。
+[计划索引](./project_management/plans/PLAN_INDEX.md) 在执行中必须明确恰好一个 `current` 主计划。完成计划全部归档且尚无下一任务授权时，项目可处于显式 `idle_after_completed_plan`：机器状态 `current_plan_id=null`，零 current；排队计划继续 queued，不能为维持索引数量自动启动。规则见 [Governance 7.2](./GOVERNANCE.md#72-计划)。计划使用需求 ID，例如 `PLAN-.../R03`；受影响的 Workflow 状态必须说明需求已经完成、部分完成或尚未开始。
 
 计划生命周期只使用：
 
@@ -186,8 +200,9 @@ queued -> current -> completed -> history/completed_plans
 ## 7. 从哪里开始
 
 - 新对话或应用重启：从 [`WF-00`](./workflow/WF-00-ENVIRONMENT-PREFLIGHT.md) 开始。
-- 继续当前工作：先读 [项目状态](./project_management/status/PROJECT_STATUS.md) 的“唯一下一步”。
+- 继续当前工作：先读 [项目状态](./project_management/status/PROJECT_STATUS.md) 的“唯一下一步”；当前下一阶段方案定义、已完成清理与暂停的第一批证据收口通过 [Plan 索引](./project_management/plans/PLAN_INDEX.md) 分流。
 - 创建新数据批次：从 [`WF-10`](./workflow/WF-10-BATCH-DEFINITION.md) 开始。
+- 查找当前批次的数据、媒体或交付包：从 [项目状态的当前或关联批次](./project_management/status/PROJECT_STATUS.md#活动对象) 进入其“权威机器产物”表，再按表中的格式文档定位字段和目录结构。
 - 修改系统能力：先创建或更新计划，再进入对应 Technical 文档，不把开发实验直接写入生产 Workflow。
 - 发生失败：从失败阶段链接到 [恢复索引](./technical/validation/RECOVERY.md)，恢复后从该阶段入口条件重新开始。
 - 已知资产、配置或脚本名但不知道归属：从 [Registry](./registry/README.md) 反向定位；定位后回到对应 Technical/Workflow。

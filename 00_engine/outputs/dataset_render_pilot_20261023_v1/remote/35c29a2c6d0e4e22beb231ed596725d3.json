@@ -1,0 +1,30 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1/pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "action": "prepare",
+    "job_id": "train_node_000000",
+    "request_id": "35c29a2c6d0e4e22beb231ed596725d3"
+  },
+  "started_at": "2026-10-22T17:32:42.652013+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": false,
+    "command": "import sys, json\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_render_v11 as _dataset_v11\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1/pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'action': 'prepare', 'job_id': 'train_node_000000', 'request_id': '35c29a2c6d0e4e22beb231ed596725d3'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "Traceback (most recent call last):\n\n  File \"<string>\", line 4, in <module>\n\n  File \"D:\\UE/Lance_Work/00_engine/scripts/unreal\\ue_dataset_render_v11.py\", line 183, in dispatch\n    if action=='prepare': return prepare(u,run,job)\n                                 ^^^^^^^^^^^^^^^^^^\n\n  File \"D:\\UE/Lance_Work/00_engine/scripts/unreal\\ue_dataset_render_v11.py\", line 114, in prepare\n    applied=current['assembly'].apply_actor(u,actor,selected,0.,motion,body_action_id=job['state']['action'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n  File \"D:\\UE/Lance_Work/00_engine/scripts/unreal\\ue_pair_revision_runtime_20261019_v1.py\", line 388, in apply_actor\n    result = original(api, actor, selection, t, motion, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n  File \"D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\ue_scene_site_appearance_v1.py\", line 175, in apply_actor\n    raise ValueError('只允许修改拍摄点专用临时角色。')\n\nValueError: 只允许修改拍摄点专用临时角色。\n",
+    "output": []
+  },
+  "error": "Editor command failed: {'success': False, 'command': \"import sys, json\\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\\nimport ue_dataset_render_v11 as _dataset_v11\\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1/pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'action': 'prepare', 'job_id': 'train_node_000000', 'request_id': '35c29a2c6d0e4e22beb231ed596725d3'})\\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))\", 'result': 'Traceback (most recent call last):\\n\\n  File \"<string>\", line 4, in <module>\\n\\n  File \"D:\\\\UE/Lance_Work/00_engine/scripts/unreal\\\\ue_dataset_render_v11.py\", line 183, in dispatch\\n    if action==\\'prepare\\': return prepare(u,run,job)\\n                                 ^^^^^^^^^^^^^^^^^^\\n\\n  File \"D:\\\\UE/Lance_Work/00_engine/scripts/unreal\\\\ue_dataset_render_v11.py\", line 114, in prepare\\n    applied=current[\\'assembly\\'].apply_actor(u,actor,selected,0.,motion,body_action_id=job[\\'state\\'][\\'action\\'])\\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n\\n  File \"D:\\\\UE/Lance_Work/00_engine/scripts/unreal\\\\ue_pair_revision_runtime_20261019_v1.py\", line 388, in apply_actor\\n    result = original(api, actor, selection, t, motion, **kwargs)\\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n\\n  File \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\scripts\\\\unreal\\\\ue_scene_site_appearance_v1.py\", line 175, in apply_actor\\n    raise ValueError(\\'只允许修改拍摄点专用临时角色。\\')\\n\\nValueError: 只允许修改拍摄点专用临时角色。\\n', 'output': []}",
+  "finished_at": "2026-10-22T17:33:41.094584+00:00",
+  "seconds": 58.453999999997905
+}

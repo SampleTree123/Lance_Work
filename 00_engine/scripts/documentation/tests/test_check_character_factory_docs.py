@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 
@@ -11,6 +13,8 @@ SCRIPT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPT_DIR))
 
 from check_character_factory_docs import audit_docs  # noqa: E402
+from check_character_factory_docs import tracked_scripts  # noqa: E402
+from build_script_lifecycle_catalog import scripts_in_scan_root  # noqa: E402
 
 
 WORKFLOW_IDS = tuple(f"WF-{value:02d}" for value in range(0, 100, 10))
@@ -462,7 +466,10 @@ class DocumentationAuditTests(unittest.TestCase):
             build_valid_tree(root)
             if mutator:
                 mutator(root)
-            return audit_docs(root)
+            # These are isolated document fixtures, even when TEMP is inside the
+            # workspace. Do not accidentally audit the enclosing real repository.
+            with patch("check_character_factory_docs.infer_repo_root", return_value=None):
+                return audit_docs(root)
 
     def test_valid_tree_passes(self):
         report = self.run_fixture()
@@ -672,6 +679,108 @@ class DocumentationAuditTests(unittest.TestCase):
 
         report = self.run_fixture(mutate)
         self.assertTrue(any("current_plan_id" in error for error in report.errors))
+
+    def test_plan_cardinality_idle_with_zero_current_passes(self):
+        def mutate(root: Path) -> None:
+            (root / "project_management/plans/active/PLAN-CURRENT.md").unlink()
+            write(root / "project_management/plans/active/README.md",
+                  "# Active\n" + meta("PLAN-ACTIVE-INDEX", "plan_index") + "\nNo active plan.")
+            path = root / "project_management/status/PROJECT_STATE.json"
+            state = json.loads(path.read_text(encoding="utf-8"))
+            state.update(project_phase="idle_after_completed_plan", current_plan_id=None,
+                         active_workflow_id=None)
+            path.write_text(json.dumps(state), encoding="utf-8")
+
+        report = self.run_fixture(mutate)
+        self.assertTrue(report.success, report.errors)
+        self.assertTrue(report.subsystems["Plan"]["success"])
+        self.assertTrue(report.cross_layer["success"])
+
+    def test_plan_cardinality_idle_requires_no_current_and_explicit_null(self):
+        for identifier in (None, "PLAN-CURRENT", "missing"):
+            with self.subTest(current_plan_id=identifier):
+                def mutate(root: Path) -> None:
+                    path = root / "project_management/status/PROJECT_STATE.json"
+                    state = json.loads(path.read_text(encoding="utf-8"))
+                    state["project_phase"] = "idle_after_completed_plan"
+                    if identifier == "missing":
+                        del state["current_plan_id"]
+                    else:
+                        state["current_plan_id"] = identifier
+                    path.write_text(json.dumps(state), encoding="utf-8")
+
+                report = self.run_fixture(mutate)
+                self.assertTrue(any("expected zero current plans" in error for error in report.errors))
+                if identifier is not None:
+                    self.assertTrue(any("explicit current_plan_id=null" in error for error in report.errors))
+
+    def test_active_phase_requires_an_active_workflow(self):
+        def mutate(root: Path) -> None:
+            path = root / "project_management/status/PROJECT_STATE.json"
+            state = json.loads(path.read_text(encoding="utf-8"))
+            state["active_workflow_id"] = None
+            path.write_text(json.dumps(state), encoding="utf-8")
+
+        report = self.run_fixture(mutate)
+        self.assertTrue(any("invalid active_workflow_id" in error for error in report.errors))
+
+    def test_idle_missing_workflow_field_is_not_explicit_null(self):
+        def mutate(root: Path) -> None:
+            path = root / "project_management/status/PROJECT_STATE.json"
+            state = json.loads(path.read_text(encoding="utf-8"))
+            state.update(project_phase="idle_after_completed_plan", current_plan_id=None)
+            del state["active_workflow_id"]
+            path.write_text(json.dumps(state), encoding="utf-8")
+
+        report = self.run_fixture(mutate)
+        self.assertTrue(any("invalid active_workflow_id" in error for error in report.errors))
+
+    def test_plan_cardinality_active_with_zero_current_is_rejected(self):
+        def mutate(root: Path) -> None:
+            (root / "project_management/plans/active/PLAN-CURRENT.md").unlink()
+            write(root / "project_management/plans/active/README.md",
+                  "# Active\n" + meta("PLAN-ACTIVE-INDEX", "plan_index"))
+            path = root / "project_management/status/PROJECT_STATE.json"
+            state = json.loads(path.read_text(encoding="utf-8"))
+            state.update(project_phase="work_in_progress", current_plan_id=None)
+            path.write_text(json.dumps(state), encoding="utf-8")
+
+        report = self.run_fixture(mutate)
+        self.assertTrue(any("expected exactly one current plan, found 0" in error for error in report.errors))
+
+    def test_plan_cardinality_multiple_currents_are_rejected_in_all_phases(self):
+        for phase in ("work_in_progress", "idle_after_completed_plan"):
+            with self.subTest(project_phase=phase):
+                def mutate(root: Path) -> None:
+                    path = root / "project_management/plans/active/PLAN-SECOND.md"
+                    write(path, "# Second\n" + meta("PLAN-SECOND", "plan")
+                          + "\n> 计划状态：`current`")
+                    readme = root / "project_management/plans/active/README.md"
+                    readme.write_text(readme.read_text(encoding="utf-8")
+                                      + "[Second](PLAN-SECOND.md)\n", encoding="utf-8")
+                    path = root / "project_management/status/PROJECT_STATE.json"
+                    state = json.loads(path.read_text(encoding="utf-8"))
+                    state.update(project_phase=phase,
+                                 current_plan_id=None if phase == "idle_after_completed_plan" else "PLAN-CURRENT")
+                    path.write_text(json.dumps(state), encoding="utf-8")
+
+                report = self.run_fixture(mutate)
+                self.assertTrue(any("current plan" in error and "found 2" in error for error in report.errors))
+
+
+class ScriptDiscoveryTests(unittest.TestCase):
+    def test_catalog_and_audit_include_new_scripts_but_not_ignored_files(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            subprocess.run(["git", "init", "-q", str(root)], check=True)
+            write(root / ".gitignore", "ignored.py")
+            for name in ("tracked.py", "new.py", "ignored.py"):
+                write(root / "00_engine" / name, "pass")
+            subprocess.run(["git", "-C", str(root), "add", ".gitignore",
+                            "00_engine/tracked.py"], check=True)
+            expected = {root / "00_engine/tracked.py", root / "00_engine/new.py"}
+            self.assertEqual(set(scripts_in_scan_root(root, "00_engine")), expected)
+            self.assertEqual(set(tracked_scripts(root, "00_engine")), expected)
 
 
 if __name__ == "__main__":

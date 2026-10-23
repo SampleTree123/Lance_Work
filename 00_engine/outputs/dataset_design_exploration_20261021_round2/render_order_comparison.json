@@ -1,0 +1,79 @@
+{
+  "status": "offline_order_only_simulation_no_runtime_benchmark",
+  "sources": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_train_uq1_ab3_graph.json",
+      "sha256": "6bf20b0f3c0ca6fe88e9b7a062d3c4532fe096ba240f5b9a5b01773713991648"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_test_uq1_ab3_graph.json",
+      "sha256": "a406d8967c71b9963d41140026be365e8a1331d78d6e5b3040265c9e154fe83c"
+    }
+  ],
+  "jobs": 3000,
+  "definitions": "Each count is first setup + consecutive changes of that state key; not actual cache misses, additive time or asset loads.",
+  "counts": {
+    "graph_growth_order": {
+      "site": 1471,
+      "identity": 1928,
+      "action": 1780,
+      "camera": 1564,
+      "garment_slot": 1418,
+      "hair": 1444,
+      "hair_color": 1352
+    },
+    "seeded_random_order": {
+      "site": 2854,
+      "identity": 2946,
+      "action": 2882,
+      "camera": 2865,
+      "garment_slot": 2823,
+      "hair": 2888,
+      "hair_color": 2578
+    },
+    "scene_identity_first": {
+      "site": 21,
+      "identity": 699,
+      "action": 1873,
+      "camera": 1846,
+      "garment_slot": 985,
+      "hair": 1158,
+      "hair_color": 1111
+    },
+    "scene_motion_first": {
+      "site": 21,
+      "identity": 1580,
+      "action": 499,
+      "camera": 1086,
+      "garment_slot": 1377,
+      "hair": 1469,
+      "hair_color": 1359
+    },
+    "identity_scene_first": {
+      "site": 699,
+      "identity": 40,
+      "action": 1823,
+      "camera": 1770,
+      "garment_slot": 723,
+      "hair": 1055,
+      "hair_color": 881
+    }
+  },
+  "unique_values": {
+    "site": 21,
+    "identity": 40,
+    "action": 25,
+    "camera": 21,
+    "garment_slot": 21,
+    "hair": 29,
+    "hair_color": 7
+  },
+  "quality_invariants": [
+    "All orderings contain exactly the same 3000 node jobs and no repeats.",
+    "Ordering is not model training order; sessions remain chronological.",
+    "Render state and clocks must reset per job; seed tied to node/profile rather than queue index.",
+    "Do not remove per-shot warmup based on ordering alone.",
+    "No reference jobs included: current reference planner is tied to first-round five-axis graph.",
+    "Scene snapshots and source assets unchanged."
+  ]
+}

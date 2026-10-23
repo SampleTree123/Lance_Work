@@ -1,0 +1,280 @@
+{
+  "schema_status": "offline_projection_not_render_manifest",
+  "generated_at_utc": "2026-10-20T18:06:14.694578+00:00",
+  "input_snapshot_policy": "Each input read once; SHA256 identifies exact bytes; end check uses size+mtime only; multiple files are not an atomic filesystem snapshot",
+  "input_snapshots": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\topology_inventory_landscape.json",
+      "sha256": "10fcae84f4083b3e6eb9f94c02a2742b6349b48905f9f9b43d201067b7c90f38",
+      "bytes": 7274,
+      "mtime_ns_at_read": 1792519034378948100,
+      "metadata_unchanged_after_projection": true
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\site_review_catalog_v1.json",
+      "sha256": "08e21ce88f941634fa8b89ec0e45ed5f7825586e38ce53855bd4a69fffd966d8",
+      "bytes": 378307,
+      "mtime_ns_at_read": 1792402507920778600,
+      "metadata_unchanged_after_projection": true
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_train_graph.json",
+      "sha256": "a592a4c29a3e72dc7dff802357d1bc9a3f79eec383f370948763e87b8c7eda1b",
+      "bytes": 2085080,
+      "mtime_ns_at_read": 1792519467865988300,
+      "metadata_unchanged_after_projection": true
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_train_sessions.jsonl",
+      "sha256": "a7f1b3bdf9a4abba6c774b36b044755fbac7d1d78b713427482fe04e5013cc11",
+      "bytes": 2141734,
+      "mtime_ns_at_read": 1792519468007895000,
+      "metadata_unchanged_after_projection": true
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_test_graph.json",
+      "sha256": "695212a901c0dfc40308268adaecfc91fd40b8d94d13302a98e9545d5ae86349",
+      "bytes": 584153,
+      "mtime_ns_at_read": 1792519474130435400,
+      "metadata_unchanged_after_projection": true
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\graph\\main_scene_holdout_hybrid_test_sessions.jsonl",
+      "sha256": "fdbc74ed3779f11a23c95604112de0a97afc036c3b0cbcc8a2127804332a42f5",
+      "bytes": 526333,
+      "mtime_ns_at_read": 1792519474161985400,
+      "metadata_unchanged_after_projection": true
+    }
+  ],
+  "graph_prefix": "main_scene_holdout_hybrid",
+  "split_regime": "scene_holdout",
+  "scope_is_partial_reference_demand_not_full_budget": true,
+  "supported_axes": [
+    "identity",
+    "action",
+    "site",
+    "hair_color",
+    "camera",
+    "aspect"
+  ],
+  "varying_axes_in_inputs": [
+    "action",
+    "camera",
+    "hair_color",
+    "identity",
+    "site"
+  ],
+  "six_state_fields": [
+    "identity",
+    "action",
+    "site",
+    "hair_color",
+    "camera",
+    "aspect"
+  ],
+  "fixed_axes_not_projected": [
+    "hair_style",
+    "outfit",
+    "expression",
+    "independent_lighting"
+  ],
+  "split_summaries": {
+    "train": {
+      "main_node_video_plan_count": 2500,
+      "session_count": 12000,
+      "node_value_counts": {
+        "identity": 40,
+        "action": 25,
+        "camera": 21,
+        "aspect": 1,
+        "site": 16,
+        "hair_color": 7
+      },
+      "identity_edges_cross_sex": 0,
+      "edit_occurrences": 44800,
+      "unique_used_edges": 10104,
+      "all_graph_edges": 11800,
+      "session_edge_occurrences_by_axis": {
+        "identity": 9162,
+        "action": 9647,
+        "camera": 9231,
+        "aspect": 0,
+        "site": 8656,
+        "hair_color": 8104
+      },
+      "demand_derived_from_actual_session_edges": {
+        "unique_reference_requests": 1215,
+        "by_kind": {
+          "identity_image": 40,
+          "background_clip": 735,
+          "action_clip": 440
+        },
+        "background_requests_by_camera_motion_status": {
+          "unresolved_follow_capable_conservative_clip": 522,
+          "moving_preset": 213
+        },
+        "unique_edges_by_axis": {
+          "identity": 2070,
+          "site": 1934,
+          "action": 2311,
+          "hair_color": 1609,
+          "camera": 2180
+        },
+        "text_only_edges_by_axis": {
+          "hair_color": 1609,
+          "camera": 2180
+        },
+        "reference_keyset_sha256": "030c2fd5862a366b3f87b29dd0cbca8cfe1dc05c7cd5f8ed7c51e5048bd8fa7a",
+        "additional_reference_clips": 1175,
+        "additional_reference_images": 40
+      },
+      "upper_bound_relative_to_these_sessions_from_all_graph_edges": {
+        "unique_reference_requests": 1216,
+        "by_kind": {
+          "identity_image": 40,
+          "background_clip": 735,
+          "action_clip": 441
+        },
+        "background_requests_by_camera_motion_status": {
+          "unresolved_follow_capable_conservative_clip": 522,
+          "moving_preset": 213
+        },
+        "unique_edges_by_axis": {
+          "identity": 2454,
+          "site": 2122,
+          "action": 3022,
+          "hair_color": 1614,
+          "camera": 2588
+        },
+        "text_only_edges_by_axis": {
+          "hair_color": 1614,
+          "camera": 2588
+        },
+        "reference_keyset_sha256": "67f74d250da580c73625ef5f99ad25f774fe2b5d394a89d7f2e4595b4409b5b7",
+        "additional_reference_clips": 1176,
+        "additional_reference_images": 40
+      }
+    },
+    "test": {
+      "main_node_video_plan_count": 500,
+      "session_count": 3000,
+      "node_value_counts": {
+        "identity": 40,
+        "action": 25,
+        "camera": 21,
+        "aspect": 1,
+        "site": 5,
+        "hair_color": 7
+      },
+      "identity_edges_cross_sex": 0,
+      "edit_occurrences": 11200,
+      "unique_used_edges": 2240,
+      "all_graph_edges": 4166,
+      "session_edge_occurrences_by_axis": {
+        "identity": 2641,
+        "action": 2581,
+        "camera": 2374,
+        "aspect": 0,
+        "site": 1759,
+        "hair_color": 1845
+      },
+      "demand_derived_from_actual_session_edges": {
+        "unique_reference_requests": 273,
+        "by_kind": {
+          "identity_image": 40,
+          "action_clip": 123,
+          "background_clip": 110
+        },
+        "background_requests_by_camera_motion_status": {
+          "unresolved_follow_capable_conservative_clip": 87,
+          "moving_preset": 23
+        },
+        "unique_edges_by_axis": {
+          "identity": 556,
+          "action": 677,
+          "hair_color": 274,
+          "camera": 508,
+          "site": 225
+        },
+        "text_only_edges_by_axis": {
+          "hair_color": 274,
+          "camera": 508
+        },
+        "reference_keyset_sha256": "4bb156350ea41cd04469212c03c6538df2409c5631d84fafbdf389c2600272af",
+        "additional_reference_clips": 233,
+        "additional_reference_images": 40
+      },
+      "upper_bound_relative_to_these_sessions_from_all_graph_edges": {
+        "unique_reference_requests": 273,
+        "by_kind": {
+          "identity_image": 40,
+          "action_clip": 123,
+          "background_clip": 110
+        },
+        "background_requests_by_camera_motion_status": {
+          "unresolved_follow_capable_conservative_clip": 87,
+          "moving_preset": 23
+        },
+        "unique_edges_by_axis": {
+          "identity": 1068,
+          "action": 1480,
+          "hair_color": 290,
+          "camera": 1102,
+          "site": 226
+        },
+        "text_only_edges_by_axis": {
+          "hair_color": 290,
+          "camera": 1102
+        },
+        "reference_keyset_sha256": "4bb156350ea41cd04469212c03c6538df2409c5631d84fafbdf389c2600272af",
+        "additional_reference_clips": 233,
+        "additional_reference_images": 40
+      }
+    }
+  },
+  "main_node_video_plan_count_total": 3000,
+  "main_3000_target_met_by_input_node_count": true,
+  "additional_reference_clips_total_split_local": 1408,
+  "additional_reference_images_total_split_local": 80,
+  "master_library_union_demand": {
+    "by_kind": {
+      "identity_image": 40,
+      "background_clip": 845,
+      "action_clip": 487
+    },
+    "additional_reference_clips": 1332,
+    "additional_reference_images": 40,
+    "total_references": 1372
+  },
+  "master_library_union_upper_bound_from_all_graph_edges": {
+    "by_kind": {
+      "identity_image": 40,
+      "background_clip": 845,
+      "action_clip": 488
+    },
+    "additional_reference_clips": 1333,
+    "additional_reference_images": 40,
+    "total_references": 1373
+  },
+  "rendered_main_videos_by_this_script": 0,
+  "rendered_reference_media_by_this_script": 0,
+  "shared_semantic_keys_between_splits": 116,
+  "shared_semantic_keys_by_kind": {
+    "identity_image": 40,
+    "action_clip": 76
+  },
+  "cross_split_policy": "Scene holdout: canonical identity photos and site-independent matched action refs may share a declared seen-identity neutral carrier; master library uses union keys. Site-specific background refs remain site-held-out. Carrier identity must be declared and not claimed unseen.",
+  "confirmed_static_camera_overrides": [],
+  "background_camera_policy": "Only explicit static confirmation yields image; orbit/dolly or unresolved follow-capable cameras yield clip; key includes motion+trajectory hint",
+  "timing_policy": "Graph has no timing profile; per-motion catalog clock hash is only a planning hint. New windows/rates need new keys",
+  "upper_bound_scope": "All graph edges upper-bound used-session requests for this exact projection only; not a universal render/storage bound",
+  "limitations": [
+    "No UE/asset/media access or rendering",
+    "Graph is an abstract projection, not complete render state",
+    "Catalog trajectory hashes do not resolve site ground-follow, carrier fitting or all current runtime corrections",
+    "No media counted as produced; null media paths only",
+    "Counts conditional on one unresolved timing profile per motion/sex",
+    "Conservative background clips may become images after final trajectory confirms static; keys must then be regenerated",
+    "Independent reference carriers are roles only and require asset/split selection before rendering"
+  ]
+}

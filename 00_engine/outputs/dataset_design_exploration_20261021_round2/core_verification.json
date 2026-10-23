@@ -1,0 +1,93 @@
+{
+  "status": "passed_scoped_structural_verification",
+  "scope": "Stable seven-axis five-family candidate only; not every experiment in this run.",
+  "not_checked": [
+    "UE/renderability",
+    "pixel observability",
+    "final split representativeness",
+    "cross-family transition coverage",
+    "learned model performance"
+  ],
+  "checks": {
+    "train": {
+      "nodes": 2500,
+      "sessions": 12000,
+      "unique_used_edges": 9094,
+      "all_nodes_used": true,
+      "strict_unique_fork_source": true,
+      "types": {
+        "linear_3": 2000,
+        "fork_3": 800,
+        "linear_2": 2000,
+        "linear_4": 2000,
+        "fork_4": 1600,
+        "linear_5": 2000,
+        "fork_5": 1600
+      },
+      "fork_sources": {
+        "root": 1600,
+        "nonroot": 2400
+      },
+      "axis_occurrences": {
+        "identity": 8754,
+        "garment_slot": 4770,
+        "action": 8322,
+        "site": 7338,
+        "hair_color": 4722,
+        "hair": 4769,
+        "camera": 6125
+      },
+      "sources": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_train_uq1_ab3_graph.json",
+          "sha256": "6bf20b0f3c0ca6fe88e9b7a062d3c4532fe096ba240f5b9a5b01773713991648"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_train_uq1_ab3_sessions.jsonl",
+          "sha256": "204c813dc001b6c402eae81c38e62c7790689851c51b82ff631b39d4165385dd"
+        }
+      ]
+    },
+    "test": {
+      "nodes": 500,
+      "sessions": 3000,
+      "unique_used_edges": 1466,
+      "all_nodes_used": true,
+      "strict_unique_fork_source": true,
+      "types": {
+        "linear_3": 500,
+        "linear_4": 500,
+        "linear_5": 500,
+        "linear_2": 500,
+        "fork_4": 400,
+        "fork_3": 200,
+        "fork_5": 400
+      },
+      "fork_sources": {
+        "nonroot": 600,
+        "root": 400
+      },
+      "axis_occurrences": {
+        "garment_slot": 1161,
+        "hair": 1354,
+        "camera": 2018,
+        "action": 2541,
+        "site": 1332,
+        "identity": 1743,
+        "hair_color": 1051
+      },
+      "sources": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_test_uq1_ab3_graph.json",
+          "sha256": "a406d8967c71b9963d41140026be365e8a1331d78d6e5b3040265c9e154fe83c"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\motif_a7_f5_n3000_s20261021_test_uq1_ab3_sessions.jsonl",
+          "sha256": "db6464fa67fdc804644af7188436939c2940919c9087c237624ada23c3574741"
+        }
+      ]
+    }
+  },
+  "train_test_state_overlap": 0,
+  "train_test_site_overlap": 0
+}

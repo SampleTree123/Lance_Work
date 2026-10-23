@@ -1,0 +1,25 @@
+{
+  "schema": "dataset_reference_pilot_offline_validation_v1",
+  "fake_tests_passed": 5,
+  "tested": [
+    "actual source sequence frame-zero transform/FOV extraction and receipt mismatch rejection",
+    "load source, save map copy, explicitly load copy ordering",
+    "single worn garment asset all meshes and full bounds framing",
+    "CC native front camera +Y/back -Y and head closeup versus complete long hair envelope",
+    "hair mesh reference bounds transformed without inheriting Body bounds"
+  ],
+  "ue_operations": false,
+  "ue_execution_validated": false,
+  "visual_acceptance": "pending",
+  "formal_reference_manifest_generated": false,
+  "implementation_version": 2,
+  "new_identity_hair_ue_execution_validated": false,
+  "prototype_exposure_bias": -1.0,
+  "axis_correction": {
+    "old_garment_front_result": "side view; retain as superseded prototype",
+    "corrected_front_axis": "+Y",
+    "corrected_back_axis": "-Y",
+    "new_render_required": true
+  },
+  "scope": "offline implementation checks only; actual UE outputs and success are recorded in individual job receipts by the main session"
+}

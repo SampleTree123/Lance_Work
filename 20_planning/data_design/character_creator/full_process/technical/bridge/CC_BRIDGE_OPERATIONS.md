@@ -7,7 +7,7 @@
 > 实现所有权：`00_engine/character_creator_bridge/`、CC `OpenPlugin` 和 `cc_validate_body_reconstruction.py`
 > 验证所有权：`VAL-BRIDGE-01`
 > 输出契约：`OUT-WF00-SESSION`、`OUT-WF30-CC-ASSETS`
-> 最近核验：2026-08-25
+> 最近核验：2026-10-02（弹窗处理实现静态核对；不扩大运行验收范围）
 
 ## 1. 能力与边界
 
@@ -71,6 +71,14 @@ Undo 守卫只在以下全部匹配时点击 `OK`：CC 进程 ID、窗口标题�
 
 资产替换、许可、保存、Apply Cloth Options 和未知窗口不允许通用自动确认。
 
+`validate-bodies --auto-dismiss-undo-warning` 启动 `cc_undo_dialog_guard.ps1`，通过 Windows 控件 `InvokePattern` 执行精确匹配按钮；该守卫不调用前台激活或模拟鼠标输入。CC 内部另有 `ExactUndoWarningGuard` 的 Qt 定时器以及 `load_file_with_known_cc_dialogs` 的素材专用处理，直接调用已识别控件。内部定时器能否处理同步原生调用期间的弹窗取决于事件循环，不能代替所有外部恢复。当前外部守卫还精确识别导出许可不足提示，记录 `fatal_dialog.json` 后关闭该提示；这不购买许可、不解锁内容、不使失败导出通过。未知窗口只记录。
+
+2026-10-02 Headshot diagnostic 模式在 `run_library` 中提前分发，跳过上述通用运行期守卫，故本轮曾改用 Computer Use。用户于 2026-10-03 先停止、随后重新允许必要时使用 Computer Use，用完停止；当前优先接口和后台专用处理，不长期占用前台。已核对旧代码与历史日志；本次静态核对不等于守卫已在当前 Headshot 会话重新启用。触发 Undo 的眼部 SDK 查询已在实验模式避开，但面部配置升级仍曾触发同类提示，不能宣称全流程无弹窗。
+
+2026-10-03 路线验证器的眼睛/牙齿支持加载重新接入既有 Qt `load_file_with_material_only_dialog`，仅允许 `.ccEye/.ccTeeth` 并校验来源 SHA。`headshot_route_compare_20261002_v1/r1_male_02_texture_validation_v1/route_validation_report.json` 已记录两次精确匹配、各点击一次 Material Only，未占用 Computer Use。整套 `.ccSkin` 预处理另复用已识别的皮肤设置弹窗处理。该小范围实测不等于 Headshot 的所有弹窗均能自动处理，未知弹窗仍须观察。
+
+同轮材质诊断新增 `load_file_with_known_cc_dialogs` 的显式 `preserve_head_textures=True`，仅在已要求皮肤材质策略时允许使用：局部复制开关集合，把 Ignore Head Diffuse Texture 与 Ignore Head Normal Texture 设为 true，不修改默认策略。`r1_male_02_preserve_head_skin_v1` 记录一次精确匹配和一次 Apply；头部照片保留，但严格 SHA 检查失败且头身色差未解决。隐藏的 Apply Head Color to Body 控件不算可见操作或功能生效证据。此模式是诊断支持，不是已接受的肤色修复，结果 owner 为 [BodyFit Technical 10.1](../character_creator/BODYFIT_IDENTITY_AGE.md#101-颈部异常的输入溯源与修复试验)。
+
 ## 7. 输出与保留
 
 作业目录至少保留 Request、Result、运行配置、失败窗口和关键报告。生产角色/Look 作业为 `retained_evidence`；Heartbeat、临时 staging 和无异常轮询日志为 `disposable`。
@@ -84,3 +92,5 @@ Undo 守卫只在以下全部匹配时点击 `OK`：CC 进程 ID、窗口标题�
 5. 资源持续增长时按角色/Look 分批并在批间由用户重启 CC。
 
 完整故障分类见 [恢复手册](../validation/RECOVERY.md)。
+
+2026-10-04 人工照片后处理已在原离线 CC 实例验证两种无需前台激活的内部 Qt 调用：眼/牙 Material Only 沿用精确弹窗处理；最终阶段 Bake Slider 精确匹配唯一启用的 `qtBakeToolButton`、文字/tooltip 及 AvatarCreatorShaping 祖先，直接 click，不改变禁用状态，不移动鼠标。隐藏标签中的已启用控件也被记录为内部调用，不能写作可见菜单点击。该烘焙必须位于独立角色完成几何补偿之后；立即局部网格不变及随后细分/重载结果由 [BodyFit Technical 10.6](../character_creator/BODYFIT_IDENTITY_AGE.md#106-人工照片角色的独立副本后处理2026-10-04) 拥有。未知控件仍不自动确认，单例成功不扩大为通用 UI/早期烘焙支持。

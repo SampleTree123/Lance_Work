@@ -11,6 +11,7 @@ import os
 import shutil
 import struct
 import subprocess
+import tempfile
 import time
 import traceback
 
@@ -151,6 +152,7 @@ VIEWPORT_PREVIEW_WIDTH = DEFAULT_VIEWPORT_PREVIEW_WIDTH
 VIEWPORT_PREVIEW_HEIGHT = DEFAULT_VIEWPORT_PREVIEW_HEIGHT
 PIXEL_STREAM_PREVIEW_SIZE = 1024
 PREVIEW_CAPTURE_MODE = "render_image"
+EYE_SNAPSHOT_MODE = "sdk_t_pose"
 FACE_EVIDENCE_MIN_RMSE = 0.35
 COMPLETE_PRIMARY_FACE_PIPELINE = (
     "complete_primary_face_plus_local_morphs_v1"
@@ -2859,6 +2861,8 @@ def apply_shared_hair_pigmentation(
     avatar,
     hair_color,
     visible_gray_fraction,
+    *,
+    target_domains=None,
 ):
     if not isinstance(hair_color, dict):
         raise ReconstructionError("Hair color payload must be an object")
@@ -2871,10 +2875,37 @@ def apply_shared_hair_pigmentation(
         )
         for field, parameter in SMART_HAIR_COLOR_PARAMETERS.items()
     }
+    # Resolve the whole requested scope before any material mutation. The legacy
+    # default still colors all present hair domains and requires scalp + brows.
+    valid_domains = {"scalp_hair", "eyebrows", "facial_hair"}
+    if target_domains is None:
+        selected_domains = valid_domains
+        required_domains = {"scalp_hair", "eyebrows"}
+        if avatar_parts_of_type(
+            avatar, avatar_part_type_for_slot("facial_hair")
+        ):
+            required_domains.add("facial_hair")
+    else:
+        if isinstance(target_domains, str):
+            raise ReconstructionError("Target hair domains must be a collection")
+        try:
+            selected_domains = set(target_domains)
+        except TypeError:
+            raise ReconstructionError("Target hair domains must be a collection")
+        if not selected_domains or not selected_domains <= valid_domains:
+            raise ReconstructionError(
+                "Target hair domains must be a nonempty subset of {}".format(
+                    sorted(valid_domains)
+                )
+            )
+        required_domains = selected_domains
     owners = current_hair_material_owners(avatar)
     domain_counts = collections.Counter()
     material_records = []
+    approved_materials = []
     for owner, domain in owners:
+        if domain not in selected_domains:
+            continue
         component, component_source = hair_material_component(
             avatar, owner
         )
@@ -2935,147 +2966,150 @@ def apply_shared_hair_pigmentation(
                             missing,
                         )
                     )
-                before = {}
-                for parameter, target in sorted(target_colors.items()):
-                    before[parameter] = material_value(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    checked(
-                        "Set Smart Hair {} {} {}".format(
-                            domain, material_name, parameter
-                        ),
-                        component.SetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                            target,
-                        ),
-                    )
-                scalar_before = {}
-                for parameter, target in sorted(
-                    SMART_HAIR_SCALAR_PARAMETERS.items()
-                ):
-                    if parameter not in parameter_names:
-                        continue
-                    scalar_before[parameter] = material_value(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    checked(
-                        "Set Smart Hair scalar {} {} {}".format(
-                            domain, material_name, parameter
-                        ),
-                        component.SetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                            (target,),
-                        ),
-                    )
-                after = {
-                    parameter: material_value(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    for parameter in target_colors
-                }
-                scalar_after = {
-                    parameter: material_value(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    for parameter in SMART_HAIR_SCALAR_PARAMETERS
-                    if parameter in parameter_names
-                }
-                color_mismatches = []
-                for parameter, target in target_colors.items():
-                    actual = shader_parameter_triplet(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    if actual is None or any(
-                        abs(left - right) > 1e-5
-                        for left, right in zip(actual, target)
-                    ):
-                        color_mismatches.append(
-                            {
-                                "actual": actual,
-                                "parameter": parameter,
-                                "target": target,
-                            }
-                        )
-                scalar_mismatches = []
-                for parameter, target in (
-                    SMART_HAIR_SCALAR_PARAMETERS.items()
-                ):
-                    if parameter not in parameter_names:
-                        continue
-                    actual = shader_parameter_scalar(
-                        component.GetShaderParameter(
-                            mesh_name,
-                            material_name,
-                            parameter,
-                        )
-                    )
-                    if actual is None or abs(actual - target) > 1e-5:
-                        scalar_mismatches.append(
-                            {
-                                "actual": actual,
-                                "parameter": parameter,
-                                "target": target,
-                            }
-                        )
-                if color_mismatches or scalar_mismatches:
-                    raise ReconstructionError(
-                        "Smart Hair parameter write did not round-trip: "
-                        "{} {}".format(
-                            color_mismatches,
-                            scalar_mismatches,
-                        )
-                    )
                 domain_counts[domain] += 1
-                material_records.append(
-                    {
-                        "after": after,
-                        "before": before,
-                        "domain": domain,
-                        "material": material_name,
-                        "mesh": mesh_name,
-                        "owner_id": scene_object_id(owner),
-                        "owner_name": scene_object_name(owner),
-                        "material_component_source": component_source,
-                        "scalar_after": scalar_after,
-                        "scalar_before": scalar_before,
-                        "shader": shader,
-                    }
+                approved_materials.append(
+                    (owner, domain, component, component_source,
+                     mesh_name, material_name, shader, parameter_names)
                 )
-    required_domains = {"scalp_hair", "eyebrows"}
-    if avatar_parts_of_type(
-        avatar, avatar_part_type_for_slot("facial_hair")
-    ):
-        required_domains.add("facial_hair")
     missing_domains = sorted(required_domains - set(domain_counts))
     if missing_domains:
         raise ReconstructionError(
             "No approved Smart Hair material was found for domains: {}".format(
                 missing_domains
             )
+        )
+    # No SetShaderParameter has occurred above. SDK write/readback errors below
+    # can still leave partial writes; callers must restore their input copy.
+    for (owner, domain, component, component_source,
+         mesh_name, material_name, shader, parameter_names) in approved_materials:
+        before = {}
+        for parameter, target in sorted(target_colors.items()):
+            before[parameter] = material_value(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            checked(
+                "Set Smart Hair {} {} {}".format(
+                    domain, material_name, parameter
+                ),
+                component.SetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                    target,
+                ),
+            )
+        scalar_before = {}
+        for parameter, target in sorted(
+            SMART_HAIR_SCALAR_PARAMETERS.items()
+        ):
+            if parameter not in parameter_names:
+                continue
+            scalar_before[parameter] = material_value(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            checked(
+                "Set Smart Hair scalar {} {} {}".format(
+                    domain, material_name, parameter
+                ),
+                component.SetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                    (target,),
+                ),
+            )
+        after = {
+            parameter: material_value(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            for parameter in target_colors
+        }
+        scalar_after = {
+            parameter: material_value(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            for parameter in SMART_HAIR_SCALAR_PARAMETERS
+            if parameter in parameter_names
+        }
+        color_mismatches = []
+        for parameter, target in target_colors.items():
+            actual = shader_parameter_triplet(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            if actual is None or any(
+                abs(left - right) > 1e-5
+                for left, right in zip(actual, target)
+            ):
+                color_mismatches.append(
+                    {
+                        "actual": actual,
+                        "parameter": parameter,
+                        "target": target,
+                    }
+                )
+        scalar_mismatches = []
+        for parameter, target in (
+            SMART_HAIR_SCALAR_PARAMETERS.items()
+        ):
+            if parameter not in parameter_names:
+                continue
+            actual = shader_parameter_scalar(
+                component.GetShaderParameter(
+                    mesh_name,
+                    material_name,
+                    parameter,
+                )
+            )
+            if actual is None or abs(actual - target) > 1e-5:
+                scalar_mismatches.append(
+                    {
+                        "actual": actual,
+                        "parameter": parameter,
+                        "target": target,
+                    }
+                )
+        if color_mismatches or scalar_mismatches:
+            raise ReconstructionError(
+                "Smart Hair parameter write did not round-trip: "
+                "{} {}".format(
+                    color_mismatches,
+                    scalar_mismatches,
+                )
+            )
+        material_records.append(
+            {
+                "after": after,
+                "before": before,
+                "domain": domain,
+                "material": material_name,
+                "mesh": mesh_name,
+                "owner_id": scene_object_id(owner),
+                "owner_name": scene_object_name(owner),
+                "material_component_source": component_source,
+                "scalar_after": scalar_after,
+                "scalar_before": scalar_before,
+                "shader": shader,
+            }
         )
     checked(
         "Refresh shared hair pigmentation",
@@ -3087,6 +3121,8 @@ def apply_shared_hair_pigmentation(
     return {
         "domain_material_counts": dict(sorted(domain_counts.items())),
         "material_count": len(material_records),
+        "target_domains": sorted(selected_domains),
+        "required_domains": sorted(required_domains),
         "materials": material_records,
         "shader": SMART_HAIR_SHADER,
         "target_colors": {
@@ -5249,6 +5285,7 @@ def load_file_with_known_cc_dialogs(
     require_skin_material=False,
     allow_skin_material=False,
     character_preset_checkbox_states=None,
+    preserve_head_textures=False,
 ):
     if (require_character_preset or allow_character_preset) and (
         require_skin_material or allow_skin_material
@@ -5256,6 +5293,13 @@ def load_file_with_known_cc_dialogs(
         raise ReconstructionError(
             "Only one CC dialog policy may be active"
         )
+    if preserve_head_textures and not (require_skin_material or allow_skin_material):
+        raise ReconstructionError("Preserving head textures requires skin material policy")
+    skin_material_checkbox_states = tuple(
+        (name, True if preserve_head_textures and name in
+         ("Ignore Head Diffuse Texture", "Ignore Head Normal Texture") else value)
+        for name, value in SKIN_MATERIAL_CHECKBOX_STATES
+    )
     character_preset_enabled = bool(
         require_character_preset or allow_character_preset
     )
@@ -5323,7 +5367,7 @@ def load_file_with_known_cc_dialogs(
             "required": bool(require_skin_material),
             "required_title": SKIN_MATERIAL_DIALOG_TITLE,
             "required_checkbox_states": dict(
-                SKIN_MATERIAL_CHECKBOX_STATES
+                skin_material_checkbox_states
             ),
             "target_button": "Apply",
             "matched_count": 0,
@@ -5496,7 +5540,7 @@ def load_file_with_known_cc_dialogs(
             skin_checkbox_matches = {}
             if has_skin_material_title:
                 for checkbox_text, unused_state in (
-                    SKIN_MATERIAL_CHECKBOX_STATES
+                    skin_material_checkbox_states
                 ):
                     skin_checkbox_matches[checkbox_text] = (
                         exact_dialog_buttons(
@@ -5521,7 +5565,7 @@ def load_file_with_known_cc_dialogs(
                 and all(
                     len(skin_checkbox_matches[item]) == 1
                     for item, unused_state
-                    in SKIN_MATERIAL_CHECKBOX_STATES
+                    in skin_material_checkbox_states
                 )
                 and len(skin_apply_buttons) == 1
                 and len(skin_cancel_buttons) == 1
@@ -5539,10 +5583,10 @@ def load_file_with_known_cc_dialogs(
                         skin_checkbox_matches[item][0].isChecked()
                     )
                     for item, unused_state
-                    in SKIN_MATERIAL_CHECKBOX_STATES
+                    in skin_material_checkbox_states
                 }
                 for checkbox_text, target_state in (
-                    SKIN_MATERIAL_CHECKBOX_STATES
+                    skin_material_checkbox_states
                 ):
                     skin_checkbox_matches[checkbox_text][0].setChecked(
                         bool(target_state)
@@ -5552,10 +5596,10 @@ def load_file_with_known_cc_dialogs(
                         skin_checkbox_matches[item][0].isChecked()
                     )
                     for item, unused_state
-                    in SKIN_MATERIAL_CHECKBOX_STATES
+                    in skin_material_checkbox_states
                 }
                 expected_states = dict(
-                    SKIN_MATERIAL_CHECKBOX_STATES
+                    skin_material_checkbox_states
                 )
                 if skin_report["checkbox_state_after"] != expected_states:
                     skin_report["configuration_error"] = (
@@ -6239,6 +6283,27 @@ def load_file_with_replace_dialog(path, label):
             pass
 
 
+def appearance_eye_material_noop_verified(item, status, dialog_policy,
+                                         before, after, geometry_preserved, support_preserved):
+    """Require source SHA, successful load, exact dialog and eye readback.
+
+    Equal fingerprints alone are insufficient. Used only by the explicitly
+    enabled slim assembly mode; legacy callers retain their original policy.
+    """
+    expected_sha = item.get("sha256")
+    return bool(
+        item.get("slot") == "eyes"
+        and str(item.get("path", "")).lower().endswith(".cceye")
+        and isinstance(expected_sha, str)
+        and sha256_file(item["path"]) == expected_sha
+        and status.get("returned") is True and status.get("is_error") is False
+        and (dialog_policy or {}).get("clicked_count") == 1
+        and geometry_preserved is True and support_preserved is True
+        and before and after and isinstance(before.get("digest"), str) and before.get("digest")
+        and before.get("digest") == after.get("digest")
+    )
+
+
 def apply_appearance_assets(
     avatar,
     assets,
@@ -6246,6 +6311,7 @@ def apply_appearance_assets(
     allow_missing_cleanup=False,
     progress_callback=None,
     asset_load_pacing=None,
+    allow_verified_material_noop=False,
 ):
     asset_load_pacing = asset_load_pacing or {
         "default_after_seconds": 0.0,
@@ -6448,6 +6514,11 @@ def apply_appearance_assets(
                 != after_mesh_digests.get(mesh_name)
             )
             previous_material = material_after
+        material_noop_verified = False
+        if allow_verified_material_noop and not material_changed and material_only_dialog:
+            material_noop_verified = appearance_eye_material_noop_verified(
+                item, status, dialog_policy, material_before, material_after,
+                eye_geometry_preserved, eye_support_preserved)
         material_only_verified = None
         if material_only_dialog:
             material_only_verified = bool(
@@ -6455,8 +6526,8 @@ def apply_appearance_assets(
                 and dialog_policy.get("clicked_count") == 1
                 and eye_geometry_preserved is True
                 and eye_support_preserved is True
-                and material_changed is True
-                and material_changed_meshes == ["CC_Base_Eye"]
+                and ((material_changed is True and material_changed_meshes == ["CC_Base_Eye"])
+                     or (material_noop_verified and material_changed_meshes == []))
             )
         step = {
             "asset_id": item["asset_id"],
@@ -6485,6 +6556,7 @@ def apply_appearance_assets(
             "material_only_verified": material_only_verified,
             "scene_changed": scene_changed,
             "material_changed": material_changed,
+            "material_noop_verified": material_noop_verified,
             "material_changed_meshes": material_changed_meshes,
             "material_before": material_before,
             "material_after": material_after,
@@ -6528,6 +6600,7 @@ def apply_appearance_assets(
             verification_mode == "material_fingerprint"
             and not material_changed
             and not replacement_verified
+            and not material_noop_verified
         ):
             raise ReconstructionError(
                 "Appearance load produced no material fingerprint change: {}".format(
@@ -7078,13 +7151,14 @@ def render_preview(path, render_time=None):
         os.remove(path)
     original_view_size = current_view_size()
     try:
-        checked(
-            "Set deterministic render size",
-            RLPy.RGlobal.SetViewSize(
-                VIEWPORT_PREVIEW_WIDTH,
-                VIEWPORT_PREVIEW_HEIGHT,
-            ),
-        )
+        if PREVIEW_CAPTURE_MODE != "render_image_native_aspect":
+            checked(
+                "Set deterministic render size",
+                RLPy.RGlobal.SetViewSize(
+                    VIEWPORT_PREVIEW_WIDTH,
+                    VIEWPORT_PREVIEW_HEIGHT,
+                ),
+            )
         checked("Set render time", RLPy.RGlobal.SetTime(render_time, True))
         settle_cc_ui(RENDER_PREVIEW_SETTLE_SECONDS)
         checked("Render preview", RLPy.RGlobal.RenderImage(path))
@@ -10787,12 +10861,18 @@ def _capture_eye_bones(skeleton):
             "basis_transform": _transform_data(bone.BasisTransform()),
             "world_transform": _transform_data(bone.WorldTransform()),
         }
-        try:
-            item["t_pose_position"] = _vector3_data(
-                skeleton.GetBoneTPosePosition(bone)
-            )
-        except Exception as exc:
-            item["t_pose_position_error"] = str(exc)
+        if EYE_SNAPSHOT_MODE == "transforms_only":
+            # CC5's T-pose getter entered Adjust Bones and raised Undo Manager
+            # modals in the recorded 20261002 route probe. Do not call it from
+            # that experiment's repeated observations or invent a substitute.
+            item["t_pose_position_status"] = "not_sampled_sdk_modal_side_effect"
+        else:
+            try:
+                item["t_pose_position"] = _vector3_data(
+                    skeleton.GetBoneTPosePosition(bone)
+                )
+            except Exception as exc:
+                item["t_pose_position_error"] = str(exc)
         try:
             item["is_animated"] = bool(skeleton.IsBoneAnimated(bone))
         except Exception as exc:
@@ -10818,6 +10898,7 @@ def capture_eye_integrity_state(avatar):
         else []
     )
     state = {
+        "capture_mode": EYE_SNAPSHOT_MODE,
         "eyeball_move": {
             "id": EYEBALL_MOVE_MORPH_ID,
             "available": morph is not None,
@@ -11002,6 +11083,11 @@ def compare_neutral_eye_states(
             }
         )
 
+    before_mode = before.get("capture_mode", "sdk_t_pose")
+    after_mode = after.get("capture_mode", "sdk_t_pose")
+    if before_mode != after_mode:
+        differences.append({"field": "capture_mode", "before": before_mode, "after": after_mode})
+    compare_t_pose = not (before_mode == after_mode == "transforms_only")
     vector_paths = [
         (("local_transform", "s"), ("x", "y", "z")),
         (("local_transform", "translation"), ("x", "y", "z")),
@@ -11009,8 +11095,9 @@ def compare_neutral_eye_states(
         (("basis_transform", "s"), ("x", "y", "z")),
         (("basis_transform", "translation"), ("x", "y", "z")),
         (("basis_transform", "rotation"), ("w", "x", "y", "z")),
-        (("t_pose_position",), ("x", "y", "z")),
     ]
+    if compare_t_pose:
+        vector_paths.append((("t_pose_position",), ("x", "y", "z")))
     if include_world:
         vector_paths.extend(
             [
@@ -11084,6 +11171,7 @@ def compare_neutral_eye_states(
         "include_world": include_world,
         "include_runtime_ids": include_runtime_ids,
         "matches": not differences,
+        "t_pose_comparison": "sampled" if compare_t_pose else "not_sampled_sdk_modal_side_effect",
         "t_pose_tolerance": float(t_pose_tolerance),
         "tolerance": tolerance,
         "world_translation_tolerance": world_translation_tolerance,
@@ -18707,6 +18795,69 @@ def validate_preset(
                         ]["differences"]
                     )
                 )
+        production_output = preset.get("production_output")
+        if production_output is not None:
+            if not isinstance(production_output, dict):
+                raise ReconstructionError(
+                    "production_output must be an object"
+                )
+            project_path = os.path.realpath(
+                os.path.abspath(production_output.get("project_path", ""))
+            )
+            export_root = os.path.realpath(
+                os.path.abspath(production_output.get("export_root", ""))
+            )
+            export_basename = production_output.get("export_basename")
+            if not project_path.lower().endswith(".ccproject"):
+                raise ReconstructionError(
+                    "production_output.project_path must end in .ccProject"
+                )
+            if (
+                not isinstance(export_basename, str)
+                or not export_basename
+                or os.path.basename(export_basename) != export_basename
+            ):
+                raise ReconstructionError(
+                    "production_output.export_basename is invalid"
+                )
+            if os.path.exists(project_path):
+                raise ReconstructionError(
+                    "Production project already exists: {}".format(project_path)
+                )
+            timeout_seconds = float(
+                production_output.get("export_timeout_seconds", 900.0)
+            )
+            if timeout_seconds < 30.0 or timeout_seconds > 3600.0:
+                raise ReconstructionError(
+                    "Production export timeout must be from 30 to 3600 seconds"
+                )
+            os.makedirs(os.path.dirname(project_path), exist_ok=True)
+            mark_phase("save_production_project", {"path": project_path})
+            result["production_project"] = save_bodyfit_project(
+                project_path,
+                "Save assembled scalp-hair character project",
+            )
+            set_avatar_yaw(avatar, 90.0)
+            force_avatar_scene_evaluation(avatar, settle_seconds=0.5)
+            mark_phase(
+                "export_production_reference",
+                {
+                    "export_basename": export_basename,
+                    "export_root": export_root,
+                },
+            )
+            result["production_export"] = (
+                _outfit_gate_export_reference_character(
+                    avatar,
+                    export_root,
+                    export_basename,
+                    preset_dir,
+                    timeout_seconds,
+                    export_motion=bool(
+                        production_output.get("export_motion", False)
+                    ),
+                )
+            )
         if save_character_project:
             mark_phase("save_character_project")
             result["character_project"] = save_bodyfit_project(
@@ -20361,6 +20512,204 @@ def run_animation_p0_dynamic_gate(
     return write_checkpoint("complete")
 
 
+MOTION_DURATION_CARRIER_SHA256 = {
+    "CFD40_AF_001.ccProject": "6ad3e0a06686e5afebb06901f2945b32852195cc99017d5868148d3e89bed16d",
+    "CFD40_AM_001.ccProject": "e49a2c1afd12f208141274918e44648054a222ab51c8dbd2d5df43bd7cd35f0c",
+}
+
+
+def validate_motion_library_duration_request(library, output_dir):
+    """Pin this bounded inspection to new copies, never arbitrary script inputs."""
+    payload = library.get("motion_library_duration_probe") or {}
+    stage = os.path.realpath(os.path.join(
+        SCRIPT_DIR, "runtime_staging", "motion_library_expansion_20261009_v1"
+    ))
+    output_root = os.path.realpath(os.path.join(
+        ENGINE_ROOT, "outputs", "character_creator_bridge", "artifacts",
+        "motion_library_expansion_20261009_v1"
+    ))
+    output_dir = os.path.realpath(output_dir)
+    if output_dir == output_root or os.path.commonpath([output_root, output_dir]) != output_root:
+        raise ReconstructionError("Duration probe output must be a new M3 artifact subdirectory")
+    if os.path.exists(output_dir) and (not os.path.isdir(output_dir) or os.listdir(output_dir)):
+        raise ReconstructionError("Duration probe refuses nonempty output")
+
+    def verified(record, directory, extensions):
+        if not isinstance(record, dict) or not isinstance(record.get("path"), str):
+            raise ReconstructionError("Duration probe requires source records")
+        path = os.path.realpath(record["path"])
+        if os.path.commonpath([directory, path]) != directory or not os.path.isfile(path):
+            raise ReconstructionError("Duration source must be an existing isolated copy")
+        if os.path.splitext(path)[1].lower() not in extensions:
+            raise ReconstructionError("Unsupported duration source format")
+        digest = record.get("sha256")
+        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+            raise ReconstructionError("Duration source requires lowercase SHA256")
+        size = record.get("bytes")
+        if isinstance(size, bool) or not isinstance(size, int) or os.path.getsize(path) != size or sha256_file(path) != digest:
+            raise ReconstructionError("Duration source hash or size changed")
+        return {"path": path, "sha256": digest, "bytes": size}
+
+    project = verified(payload.get("project_copy"), os.path.join(stage, "source_copies"), (".ccproject",))
+    if MOTION_DURATION_CARRIER_SHA256.get(os.path.basename(project["path"])) != project["sha256"]:
+        raise ReconstructionError("Duration probe carrier is not an approved CFD copy")
+    raw = payload.get("motions")
+    if not isinstance(raw, list) or not 1 <= len(raw) <= 30:
+        raise ReconstructionError("Duration probe requires 1 to 30 motions")
+    motions, ids, paths = [], set(), set()
+    for entry in raw:
+        cid = entry.get("candidate_id") if isinstance(entry, dict) else None
+        if not isinstance(cid, str) or not cid or len(cid) > 64 or any(c not in "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_" for c in cid):
+            raise ReconstructionError("Invalid duration candidate ID")
+        motion = verified(entry.get("source"), os.path.join(stage, "motion_copies"), (".rlmotion", ".imotion"))
+        if cid in ids or motion["path"] in paths:
+            raise ReconstructionError("Duplicate duration candidate or source")
+        ids.add(cid)
+        paths.add(motion["path"])
+        motions.append({"candidate_id": cid, "source": motion})
+    return project, motions, output_dir
+
+
+def probe_motion_library_durations(library, output_dir, log):
+    """Load one disposable carrier, then inspect at most 30 native clips; no export."""
+    project, motions, output_dir = validate_motion_library_duration_request(library, output_dir)
+    os.makedirs(output_dir, exist_ok=True)
+    report_path = os.path.join(output_dir, "motion_duration_probe.json")
+    report = {"schema_version": 1, "diagnostic_mode": "motion_library_duration_probe",
+              "success": False, "project_copy": project, "results": [],
+              "source_count": len(motions), "phase": "loading_copy", "started_at": now(),
+              "exported": False, "rendered": False, "project_saved": False,
+              "preload_motion_used": False, "carrier_load_count": 0,
+              "visual_prop_independence": "pending_not_proven_by_zero_scene_props",
+              "cross_sex_compatibility": "not_tested_by_duration_probe"}
+    avatar = None
+    saved_times = None
+    def checkpoint():
+        write_json(report, report_path)
+    def same_sources():
+        return all(os.path.getsize(r["path"]) == r["bytes"] and sha256_file(r["path"]) == r["sha256"]
+                   for r in [project] + [m["source"] for m in motions])
+    def props_change(before, after):
+        # CC editions can omit RScene.GetProps. Duration is still measurable;
+        # missing observation must never be reported as zero prop dependence.
+        if not before.get("available") or not after.get("available"):
+            return "props_unobservable"
+        return "unchanged" if before.get("objects") == after.get("objects") else "changed_requires_review"
+    checkpoint()
+    try:
+        # Direct native loading: no renderer, timer callback, dialog automation,
+        # source project save, authored keys, speed changes, or loop extension.
+        checked("Load isolated duration carrier", RLPy.RFileIO.LoadFile(project["path"], False))
+        report["carrier_load_count"] = 1
+        avatar, avatars = resolve_avatar()
+        if len(avatars) != 1:
+            raise ReconstructionError("Duration probe requires exactly one carrier avatar")
+        RLPy.RScene.SelectObject(avatar)
+        saved_times = (RLPy.RGlobal.GetTime(), RLPy.RGlobal.GetStartTime(), RLPy.RGlobal.GetEndTime())
+        if RLPy.RGlobal.IsPlaying():
+            RLPy.RGlobal.Stop()
+        report["initial_cleanup"] = clear_avatar_motion(avatar)
+        report["scene_props_baseline"] = _motion_scene_prop_inventory()
+        for entry in motions:
+            report["phase"] = "loading_" + entry["candidate_id"]
+            checkpoint()
+            source = entry["source"]
+            if sha256_file(source["path"]) != source["sha256"]:
+                raise ReconstructionError("Duration motion changed before load")
+            clear_avatar_motion(avatar)
+            fps = RLPy.RGlobal.GetFps()
+            checked("Rewind duration carrier", RLPy.RGlobal.SetTime(RLPy.IndexedFrameTime(0, fps), True))
+            props_before = _motion_scene_prop_inventory()
+            checked("Load duration candidate", RLPy.RFileIO.LoadFile(source["path"], False))
+            QtWidgets.QApplication.processEvents()
+            current_avatar, avatars = resolve_avatar()
+            if len(avatars) != 1 or scene_object_id(current_avatar) != scene_object_id(avatar):
+                raise ReconstructionError("Duration motion replaced the carrier")
+            skeleton, face = avatar.GetSkeletonComponent(), avatar.GetFaceComponent()
+            if skeleton is None or int(skeleton.GetClipCount()) != 1:
+                raise ReconstructionError("Duration candidate must load exactly one body clip")
+            fps = RLPy.RGlobal.GetFps()
+            fps_value = float(fps.ToFloat())
+            if not math.isfinite(fps_value) or fps_value <= 0:
+                raise ReconstructionError("Invalid duration frame rate")
+            clip = skeleton.GetClip(0)
+            length, original_length = clip.GetLength(), clip.GetClipLength()
+            seconds = float(RLPy.RTick.ToSecond(length.ToInt64()))
+            original_seconds = float(RLPy.RTick.ToSecond(original_length.ToInt64()))
+            speed, loops = float(clip.GetSpeed()), float(clip.GetLoopCount())
+            if not all(math.isfinite(v) for v in (seconds, original_seconds, speed, loops)) or seconds <= 0:
+                raise ReconstructionError("Invalid native clip duration")
+            props_after = _motion_scene_prop_inventory()
+            row = {"candidate_id": entry["candidate_id"], "source": source,
+                   "duration_seconds": seconds, "clip_length_seconds": original_seconds,
+                   "length_ticks": int(length.ToInt64()), "clip_length_ticks": int(original_length.ToInt64()),
+                   "length_frames": int(fps.GetFrameIndex(length)), "fps": fps_value,
+                   "speed": speed, "loop_count": loops,
+                   "native_five_second_candidate": bool(seconds >= 5 and original_seconds >= 5 and abs(speed - 1) < 1e-6),
+                   "body_clip_count": int(skeleton.GetClipCount()),
+                   "face_clip_count": int(face.GetClipCount()) if face is not None else 0,
+                   "scene_props_before": props_before, "scene_props_after": props_after,
+                   "scene_prop_observation": props_change(props_before, props_after),
+                   "prop_free_visual_acceptance": False, "time_warp_or_repeat_authored": False}
+            row["cleanup"] = clear_avatar_motion(avatar)
+            row["source_unchanged"] = sha256_file(source["path"]) == source["sha256"]
+            if not row["source_unchanged"]:
+                raise ReconstructionError("Duration motion changed during inspection")
+            report["results"].append(row)
+            log("Duration {}: {:.6f} seconds".format(entry["candidate_id"], seconds))
+            checkpoint()
+        report["success"] = True
+        report["phase"] = "complete"
+    except Exception:
+        report["error"] = traceback.format_exc()
+        report["phase"] = "failed"
+        raise
+    finally:
+        try:
+            if avatar is not None:
+                report["final_cleanup"] = clear_avatar_motion(avatar)
+            if saved_times is not None:
+                RLPy.RGlobal.SetStartTime(saved_times[1])
+                RLPy.RGlobal.SetEndTime(saved_times[2])
+                RLPy.RGlobal.SetTime(saved_times[0], True)
+            report["sources_unchanged"] = same_sources()
+            if not report["sources_unchanged"]:
+                raise ReconstructionError("Duration probe source files changed")
+        except Exception:
+            report["success"] = False
+            report["cleanup_error"] = traceback.format_exc()
+            raise
+        finally:
+            report["finished_at"] = now()
+            checkpoint()
+    return {"success": report["success"], "diagnostic_mode": "motion_library_duration_probe",
+            "summary_path": report_path, "requested_count": len(motions),
+            "success_count": len(report["results"]), "failure_count": 0}
+
+
+def validate_single_motion_export_source(payload):
+    """Keep legacy rlMotion behavior; opt-in iMotion is pinned to new M3 copies."""
+    motion_path = canonical_existing_file(payload.get("motion_path"), "Single motion FBX export")
+    allow_imotion = payload.get("allow_imotion", False)
+    if not isinstance(allow_imotion, bool):
+        raise ReconstructionError("allow_imotion must be a boolean")
+    if os.path.splitext(motion_path)[1].lower() == ".imotion" and allow_imotion:
+        root = os.path.realpath(os.path.join(SCRIPT_DIR, "runtime_staging", "motion_library_expansion_20261009_v1", "motion_copies"))
+        if os.path.commonpath([root, motion_path]) != root:
+            raise ReconstructionError("Opt-in iMotion must be an isolated M3 copy")
+        record = payload.get("motion_source")
+        digest = record.get("sha256") if isinstance(record, dict) else None
+        size = record.get("bytes") if isinstance(record, dict) else None
+        if not isinstance(digest, str) or len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest) or isinstance(size, bool) or not isinstance(size, int):
+            raise ReconstructionError("Opt-in iMotion requires exact source bytes and SHA256")
+        source = _animation_p0_verified_file(record, "Opt-in iMotion source")
+        if source["path"] != motion_path:
+            raise ReconstructionError("Opt-in iMotion source path differs")
+    else:
+        require_file_extension(motion_path, ".rlmotion", "rlMotion FBX export")
+    return motion_path
+
+
 def export_current_rlmotion_fbx(library, output_dir):
     os.makedirs(output_dir, exist_ok=True)
     payload = library.get("rlmotion_fbx_export") or {}
@@ -20403,15 +20752,7 @@ def export_current_rlmotion_fbx(library, output_dir):
                 len(avatars)
             )
         )
-    motion_path = canonical_existing_file(
-        payload.get("motion_path"),
-        "rlMotion FBX export",
-    )
-    require_file_extension(
-        motion_path,
-        ".rlmotion",
-        "rlMotion FBX export",
-    )
+    motion_path = validate_single_motion_export_source(payload)
     output_filename = payload.get("output_filename")
     if (
         not isinstance(output_filename, str)
@@ -20671,6 +21012,12 @@ def export_current_rlmotion_fbx(library, output_dir):
 
     if source_project_path and sha256_file(source_project_path) != source_project_sha256:
         raise ReconstructionError("rlMotion FBX carrier project changed during export")
+
+    if os.path.splitext(motion_path)[1].lower() == ".imotion":
+        validate_single_motion_export_source(payload)
+        report["motion_source"] = _animation_p0_verified_file(payload["motion_source"], "Exported iMotion source")
+        report["source_format"] = ".imotion"
+        report["imotion_explicit_opt_in"] = True
 
     report_path = os.path.join(output_dir, "rlmotion_fbx_export.json")
     write_json(report, report_path)
@@ -25199,25 +25546,74 @@ def _outfit_gate_optional_directory_state(path):
     return state
 
 
+def _outfit_gate_selected_assets(preset, execution_policy):
+    selected_assets = preset.get("selected_assets")
+    if not isinstance(selected_assets, list):
+        raise ReconstructionError(
+            "Outfit gate selected_assets must be a list: {}".format(
+                preset.get("preset_id")
+            )
+        )
+    if selected_assets:
+        return selected_assets
+
+    case_allows_empty = preset.get("allow_empty_selected_assets") is True
+    policy_allows_empty = (
+        execution_policy.get("allow_empty_selected_assets") is True
+    )
+    if not (case_allows_empty and policy_allows_empty):
+        raise ReconstructionError(
+            "Outfit gate case has no selected assets: {}".format(
+                preset.get("preset_id")
+            )
+        )
+    return selected_assets
+
+
+def _outfit_gate_export_attempt_root(export_root):
+    container = os.path.realpath(export_root)
+    while True:
+        parent = os.path.dirname(container)
+        if (os.path.basename(container).lower() == "character_creator"
+                and os.path.basename(parent).lower() == "exports"):
+            # CC's auxiliary texture writer can fail silently beyond MAX_PATH.
+            stage_parent = os.path.join(container, ".fbx_stage")
+            resolved_stage = os.path.realpath(stage_parent)
+            if os.path.commonpath([container, resolved_stage]) != container:
+                raise ReconstructionError("FBX staging directory escapes the export root")
+            os.makedirs(stage_parent, exist_ok=True)
+            return tempfile.mkdtemp(prefix="w_", dir=stage_parent)
+        if parent == container:
+            break
+        container = parent
+    attempt = "{}.partial_{}_{}".format(export_root, os.getpid(), int(time.time() * 1000))
+    os.makedirs(attempt, exist_ok=False)
+    return attempt
+
+
 def _outfit_gate_export_reference_character(
     avatar,
     export_root,
     export_basename,
     diagnostic_output_dir,
     timeout_seconds,
+    license_wait_seconds=0,
+    export_motion=False,
 ):
     if os.path.exists(export_root):
         raise ReconstructionError(
             "First-batch export root already exists: {}".format(export_root)
         )
-    attempt_root = "{}.partial_{}_{}".format(
-        export_root,
-        os.getpid(),
-        int(time.time() * 1000),
-    )
-    os.makedirs(attempt_root, exist_ok=False)
+    attempt_root = _outfit_gate_export_attempt_root(export_root)
     fbx_path = os.path.join(attempt_root, export_basename + ".fbx")
     json_path = os.path.join(attempt_root, export_basename + ".json")
+    write_json({
+        "attempt_root": attempt_root,
+        "final_root": export_root,
+        "fbx_path": fbx_path,
+        "fbx_path_characters": len(fbx_path),
+        "preserve_failed_attempt": True,
+    }, os.path.join(diagnostic_output_dir, export_basename + "_export_attempt.json"))
 
     export_option = RLPy.EExportFbxOptions__None
     export_option |= RLPy.EExportFbxOptions_AutoSkinRigidMesh
@@ -25242,8 +25638,8 @@ def _outfit_gate_export_reference_character(
 
     setting = RLPy.RExportFbxSetting()
     checked(
-        "Disable first-batch reference motion export",
-        setting.EnableExportMotion(False),
+        "Configure first-batch reference motion export",
+        setting.EnableExportMotion(bool(export_motion)),
     )
     checked(
         "Set first-batch reference primary options",
@@ -25280,7 +25676,16 @@ def _outfit_gate_export_reference_character(
         "Check first-batch reference export license",
         RLPy.RFileIO.CheckExportFbxHasLicense(avatar),
     )
+    write_json(
+        {
+            "license_status": license_status,
+            "wait_seconds": int(max(0, license_wait_seconds)),
+        },
+        os.path.join(diagnostic_output_dir, export_basename + "_license_check.json"),
+    )
     raise_if_fatal_cc_dialog(diagnostic_output_dir)
+    if license_wait_seconds:
+        time.sleep(float(license_wait_seconds))
     status = checked(
         "Export first-batch FullReference character",
         RLPy.RFileIO.ExportFbxFile(avatar, fbx_path, setting),
@@ -25314,6 +25719,7 @@ def _outfit_gate_export_reference_character(
             "sha256": sha256_file(json_path),
         },
         "license_status": license_status,
+        "export_attempt_root": attempt_root,
         "options": {
             "auto_skin_rigid_mesh": True,
             "export_json": True,
@@ -25387,13 +25793,10 @@ def _outfit_gate_case(
             "Outfit gate source project {}".format(preset_id),
             verified_file_cache,
         )
-        selected_assets = preset.get("selected_assets")
-        if not isinstance(selected_assets, list) or not selected_assets:
-            raise ReconstructionError(
-                "Outfit gate case has no selected assets: {}".format(
-                    preset_id
-                )
-            )
+        selected_assets = _outfit_gate_selected_assets(
+            preset,
+            execution_policy,
+        )
         capture_views = preset.get("capture_views")
         if not isinstance(capture_views, list) or not capture_views:
             raise ReconstructionError(
@@ -26179,6 +26582,557 @@ def run_outfit_compatibility_gate(
     return checkpoint(len(selected_ids), None, "complete")
 
 
+def run_scalp_hair_export_existing_project(
+    library_path,
+    library,
+    all_presets,
+    output_dir,
+    log,
+    preset_ids=None,
+):
+    """Export one hair asset from a source project after the full pilot passed."""
+    appearance_catalog = load_appearance_catalog(library)
+    by_id = dict((item.get("preset_id"), item) for item in all_presets)
+    selected_ids = list(preset_ids or [item.get("preset_id") for item in all_presets])
+    if not selected_ids or len(selected_ids) != len(set(selected_ids)):
+        raise ReconstructionError("Selected scalp-hair export IDs must be unique")
+    missing = sorted(set(selected_ids) - set(by_id))
+    if missing:
+        raise ReconstructionError("Unknown scalp-hair export IDs: {}".format(missing))
+
+    started_at = now()
+    results = []
+    for preset_id in selected_ids:
+        preset = by_id[preset_id]
+        preset_dir = os.path.join(output_dir, preset_id)
+        os.makedirs(preset_dir, exist_ok=False)
+        result = {
+            "preset_id": preset_id,
+            "schema_version": 1,
+            "sex": preset.get("sex"),
+            "success": False,
+            "source_project": preset.get("source_project"),
+            "appearance_asset_ids": preset.get("appearance_asset_ids"),
+        }
+        result_path = os.path.join(preset_dir, "result.json")
+
+        def mark(message, detail=None):
+            progress = {
+                "detail": detail,
+                "phase": message,
+                "preset_id": preset_id,
+                "schema_version": 1,
+                "updated_at": now(),
+            }
+            write_json(progress, os.path.join(preset_dir, "progress.json"))
+            log("{} {}".format(preset_id, message))
+            QtWidgets.QApplication.processEvents()
+
+        try:
+            source_record = preset.get("source_project") or {}
+            source_project = canonical_existing_file(
+                source_record.get("path"),
+                "Scalp-hair source project",
+            )
+            mark("load_source_project", {"path": source_project})
+            load_status, dialogs = load_file_with_optional_undo_warning(
+                source_project,
+                "Load scalp-hair source project",
+            )
+            result["file_load"] = {"status": load_status, "dialogs": dialogs}
+            settle_cc_ui(2.0)
+            avatar, avatars = resolve_avatar()
+            if len(avatars) != 1:
+                raise ReconstructionError(
+                    "Scalp-hair export expected one avatar, found {}".format(len(avatars))
+                )
+            assets = resolve_appearance_assets(preset, appearance_catalog)
+            hair_assets = [item for item in assets if item.get("slot") == "scalp_hair"]
+            if len(hair_assets) != 1:
+                raise ReconstructionError(
+                    "Scalp-hair export requires exactly one scalp_hair asset"
+                )
+            mark("apply_scalp_hair", {"asset_id": hair_assets[0].get("asset_id")})
+            avatar, result["appearance_application"] = apply_appearance_assets(
+                avatar,
+                hair_assets,
+                cleanup_names=[],
+                allow_missing_cleanup=True,
+                progress_callback=lambda phase, detail=None: mark(phase, detail),
+                asset_load_pacing=resolve_asset_load_pacing(preset),
+            )
+            production_output = preset.get("production_output") or {}
+            export_root = os.path.realpath(
+                os.path.abspath(production_output.get("export_root", ""))
+            )
+            export_basename = production_output.get("export_basename")
+            timeout_seconds = float(
+                production_output.get("export_timeout_seconds", 900.0)
+            )
+            if not export_root or not isinstance(export_basename, str) or not export_basename:
+                raise ReconstructionError("Scalp-hair export production_output is incomplete")
+            project_path = os.path.realpath(
+                os.path.abspath(production_output.get("project_path", ""))
+            )
+            if project_path and not os.path.exists(project_path):
+                os.makedirs(os.path.dirname(project_path), exist_ok=True)
+                mark("save_production_project", {"path": project_path})
+                result["production_project"] = save_bodyfit_project(
+                    project_path,
+                    "Save scalp-hair export pilot project",
+                )
+            set_avatar_yaw(avatar, 90.0)
+            force_avatar_scene_evaluation(avatar, settle_seconds=0.5)
+            mark("export_production_reference", {
+                "export_basename": export_basename,
+                "export_root": export_root,
+            })
+            result["production_export"] = _outfit_gate_export_reference_character(
+                avatar,
+                export_root,
+                export_basename,
+                preset_dir,
+                timeout_seconds,
+                license_wait_seconds=120,
+                export_motion=bool(
+                    production_output.get("export_motion", False)
+                ),
+            )
+            result["success"] = True
+            mark("complete")
+        except Exception as exc:
+            result["error"] = {
+                "type": type(exc).__name__,
+                "message": str(exc),
+                "traceback": traceback.format_exc(),
+            }
+            mark("failed", {"type": type(exc).__name__, "message": str(exc)})
+        write_json(result, result_path)
+        results.append(result)
+        QtWidgets.QApplication.processEvents()
+
+    failures = [item for item in results if not item.get("success")]
+    summary = {
+        "schema_version": 1,
+        "run_id": os.path.basename(output_dir),
+        "started_at": started_at,
+        "finished_at": now(),
+        "started_from_library": library_path,
+        "library_id": library.get("library_id"),
+        "requested_count": len(selected_ids),
+        "success_count": len(results) - len(failures),
+        "failure_count": len(failures),
+        "success": not bool(failures) and len(results) == len(selected_ids),
+        "results": results,
+    }
+    summary_path = os.path.join(output_dir, "validation_result.json")
+    write_json(summary, summary_path)
+    summary["summary_path"] = summary_path
+    return summary
+
+
+def probe_headshot_mesh_replace(library, output_dir, log):
+    """Reversible mesh replacement experiment on a saved candidate copy."""
+    config = library["headshot_mesh_replace"]
+    allowed_roots = [os.path.realpath(p) for p in (
+        r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts\headshot_fixed_scalp_20261002_v1",
+        r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts\headshot_route_compare_20261002_v1",
+        r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts\headshot_character_creation_20261005_v1")]
+    root = os.path.realpath(config.get("experiment_root", allowed_roots[0]))
+    if root not in allowed_roots:
+        raise ReconstructionError("Unsupported mesh probe experiment root")
+
+    def verified(record):
+        path = os.path.realpath(record["path"])
+        input_roots = [root]
+        if root == allowed_roots[-1]:
+            input_roots.append(os.path.join(SCRIPT_DIR, "runtime_staging", "headshot_character_creation_20261005_v1"))
+        if not path_is_within(path, input_roots) or sha256_file(path) != record["sha256"]:
+            raise ReconstructionError("Mesh probe input path/hash mismatch")
+        return path
+
+    source = verified(config["source_project"])
+    checked("Load mesh probe candidate", RLPy.RFileIO.LoadFile(source))
+    avatar = list(RLPy.RScene.GetAvatars())[0]
+    working_subdivision = int(avatar.GetSubdivMeshLevel())
+    # The inactive low cage's GetVertices(True) does not represent its posed
+    # world geometry when the avatar is displaying level 1 (live CC5 evidence).
+    # Keep capture_only available for diagnosis, but never use that data to
+    # replace meshes or build a hair reference at the wrong working level.
+    if working_subdivision != 0 and config["mode"] != "capture_only":
+        raise ReconstructionError("Base-body world replacement/hair capture requires working SubD 0")
+    checked("Evaluate mesh probe scene", RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True))
+    QtWidgets.QApplication.processEvents()
+    meshes = [m for m in avatar.GetMeshes(False) if m.GetName() == "CC_Base_Body" and m.GetVerticesCount() == 14164]
+    if len(meshes) != 1:
+        raise ReconstructionError("Expected one CC3+ base body mesh")
+    mesh = meshes[0]
+    before = [[float(v.x),float(v.y),float(v.z)] for v in mesh.GetVertices(False)]
+    before_world = [[float(v.x),float(v.y),float(v.z)] for v in mesh.GetVertices(True)]
+    faces = [list(mesh.GetFace(i)) for i in range(mesh.GetFacesCount())]
+    write_json({"vertices": before, "faces": faces}, os.path.join(output_dir,"before_mesh.json"))
+    write_json({"vertices": before_world, "avatar_transform": _transform_data(avatar.WorldTransform()),
+                "working_subdivision_level": working_subdivision,
+                "world_target_eligible": working_subdivision == 0},
+               os.path.join(output_dir,"before_world_mesh.json"))
+    before_obj = os.path.join(output_dir,"before_body.obj")
+    checked("Export pre-replace body", RLPy.RFileIO.ExportObjFile(avatar,before_obj,RLPy.EExport3DFileOption_BodyPart))
+    report = {"success":False,"started_at":now(),"source_project":source,"mode":config["mode"],
+              "working_subdivision_level": working_subdivision,
+              "world_target_eligible": working_subdivision == 0,
+              "implementation_sha256": sha256_file(__file__)}
+    if config["mode"] == "hair_capture":
+        catalog_path = os.path.join(os.path.dirname(__file__), "cc_scalp_hair_asset_catalog_v1.json")
+        with open(catalog_path, encoding="utf-8-sig") as stream:
+            catalog = json.load(stream)
+        matches = [a for a in catalog["assets"] if a["asset_id"] == config["hair_asset_id"]]
+        if len(matches) != 1:
+            raise ReconstructionError("Expected one catalog hair asset")
+        hair_path = matches[0]["preferred_path"]
+        RLPy.RScene.SelectObject(avatar)
+        checked("Load representative hair", RLPy.RFileIO.LoadFile(hair_path))
+        checked("Evaluate representative hair", RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True))
+        QtWidgets.QApplication.processEvents()
+        captures = []
+        for hair in avatar.GetHairs() or []:
+            for hm in hair.GetMeshes(False) or []:
+                captures.append({"hair": hair.GetName(), "mesh": hm.GetName(),
+                    "vertices": [[float(v.x),float(v.y),float(v.z)] for v in hm.GetVertices(True)],
+                    "faces": [list(hm.GetFace(i)) for i in range(hm.GetFacesCount())],
+                    "materials": [m.GetName() for m in hm.GetStdMaterials()]})
+        write_json(captures, os.path.join(output_dir, "hair_world_meshes.json"))
+        report.update(success=bool(captures), hair_path=hair_path, hair_sha256=sha256_file(hair_path), hair_mesh_count=len(captures))
+        report["project_path"] = os.path.join(output_dir,"hair_reference.ccProject")
+        checked("Save representative hair candidate",RLPy.RFileIO.SaveProject(report["project_path"]))
+        write_json(report, os.path.join(output_dir, "validation_result.json"))
+        return report
+    if config["mode"] == "capture_only":
+        report.update(success=True, obj_path=before_obj)
+        write_json(report, os.path.join(output_dir, "validation_result.json"))
+        return report
+    if config["mode"] == "raw_identity":
+        replacement = os.path.join(output_dir,"raw_identity.obj")
+        with open(replacement,"w",encoding="utf-8") as stream:
+            stream.write("o CC_Base_Body\n")
+            for v in before:
+                stream.write("v {:.12f} {:.12f} {:.12f}\n".format(*v))
+            for face in faces:
+                stream.write("f " + " ".join(str(int(i)+1) for i in face) + "\n")
+    elif config["mode"] == "world_identity":
+        replacement = os.path.join(output_dir, "world_identity.obj")
+        with open(before_obj, encoding="utf-8-sig") as stream:
+            lines = stream.readlines()
+        # The exported body can follow tongue vertices; use its face references.
+        group, body_ids = "", set()
+        for line in lines:
+            parts = line.split()
+            if parts and parts[0] in ("g", "o"):
+                group = parts[1]
+            elif parts and parts[0] == "f" and group == "CC_Base_Body":
+                body_ids.update(int(item.split('/')[0])-1 for item in parts[1:])
+        ids = sorted(body_ids)
+        if len(ids) != len(before_world) or ids != list(range(ids[0], ids[0]+len(ids))):
+            raise ReconstructionError("Export body vertex layout changed")
+        vertex_index = 0
+        with open(replacement, "w", encoding="utf-8") as stream:
+            for line in lines:
+                if line.startswith("v "):
+                    if vertex_index in body_ids:
+                        line = "v {:.12f} {:.12f} {:.12f}\n".format(*before_world[vertex_index-ids[0]])
+                    vertex_index += 1
+                stream.write(line)
+    elif config["mode"] in ("export_identity", "normalized"):
+        replacement = verified(config["replacement_obj"])
+    else:
+        raise ReconstructionError("Unknown bounded replacement mode")
+    report["replacement_obj"] = replacement
+    report["implementation_sha256"] = sha256_file(__file__)
+    normalize_replacement = config.get("subdivision_roundtrip_after_replace", False)
+    if not isinstance(normalize_replacement, bool):
+        raise ReconstructionError("subdivision_roundtrip_after_replace must be boolean")
+    if normalize_replacement and (
+        avatar.GetSubdivMeshLevel() != 0 or avatar.GetMaxSubdivMeshLevel() < 1
+    ):
+        raise ReconstructionError("Replacement normalization requires working level 0 and existing level 1")
+    report["subdivision_roundtrip_after_replace"] = normalize_replacement
+    refinement_strategy = config.get("refinement_strategy", "accumulate_residual")
+    if refinement_strategy not in ("accumulate_residual", "resubmit_target"):
+        raise ReconstructionError("Unsupported mesh refinement strategy")
+    report["refinement_strategy"] = refinement_strategy
+    replacement_backend = config.get("replacement_backend", "mesh")
+    if replacement_backend not in ("mesh", "avatar"):
+        raise ReconstructionError("Unsupported bounded replacement backend")
+    report["replacement_backend"] = replacement_backend
+    report["replacement_normalizations"] = []
+
+    def replace_body(current_avatar, current_mesh, path, label):
+        if replacement_backend == "avatar":
+            return checked(label, current_avatar.ReplaceMesh("CC_Base_Body", path))
+        return checked(label, current_mesh.ReplaceMesh(path, RLPy.EReplaceMeshOption_ZUp, False))
+
+    def normalize_after_replace(current_avatar, label):
+        if not normalize_replacement:
+            return
+        levels = []
+        for level in (1, 0):
+            checked("Normalize replacement subdivision", current_avatar.SwitchSubdivMeshLevel(level))
+            force_avatar_scene_evaluation(current_avatar)
+            actual = int(current_avatar.GetSubdivMeshLevel())
+            if actual != level:
+                raise ReconstructionError("Replacement normalization did not reach requested subdivision")
+            levels.append(actual)
+        report["replacement_normalizations"].append({"label": label, "actual_levels": levels})
+
+    log("Replacing candidate mesh: " + config["mode"])
+    report["replace_status"] = replace_body(avatar, mesh, replacement, "Replace candidate body mesh")
+    normalize_after_replace(avatar, "initial_replace")
+    report["project_path"] = os.path.join(output_dir,"replacement_candidate.ccProject")
+    checked("Save replacement candidate",RLPy.RFileIO.SaveProject(report["project_path"]))
+    report["project_sha256"] = sha256_file(report["project_path"])
+    checked("Reload replacement candidate",RLPy.RFileIO.LoadFile(report["project_path"]))
+    avatar = list(RLPy.RScene.GetAvatars())[0]
+    # ReplaceMesh inverse skinning has a small measurable round-trip residual.
+    # Correct only a bounded candidate against the originally requested world mesh.
+    refinements = int(config.get("refinement_iterations", 0))
+    if refinements < 0 or refinements > 3:
+        raise ReconstructionError("Mesh refinement iterations must be 0..3")
+    if refinements:
+        with open(replacement, encoding="utf-8-sig") as stream:
+            replacement_lines = stream.readlines()
+        group, ids = "", set()
+        all_vertices = []
+        for line in replacement_lines:
+            parts = line.split()
+            if parts and parts[0] == "v":
+                all_vertices.append([float(x) for x in parts[1:4]])
+            elif parts and parts[0] in ("g", "o"):
+                group = parts[1]
+            elif parts and parts[0] == "f" and group == "CC_Base_Body":
+                ids.update(int(t.split('/')[0])-1 for t in parts[1:])
+        ordered = sorted(ids)
+        if len(ordered) != 14164 or ordered != list(range(ordered[0], ordered[0]+14164)):
+            raise ReconstructionError("Refinement input topology mismatch")
+        target = [all_vertices[i][:] for i in ordered]
+        submitted = [v[:] for v in target]
+        report["refinements"] = []
+        for iteration in range(refinements):
+            checked("Evaluate refinement candidate", RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True))
+            QtWidgets.QApplication.processEvents()
+            current_mesh = [m for m in avatar.GetMeshes(False) if m.GetName()=="CC_Base_Body" and m.GetVerticesCount()==14164][0]
+            actual = [[float(v.x),float(v.y),float(v.z)] for v in current_mesh.GetVertices(True)]
+            error = [[target[i][j]-actual[i][j] for j in range(3)] for i in range(14164)]
+            maximum = max(math.sqrt(sum(x*x for x in v))*10 for v in error)
+            report["refinements"].append({"iteration":iteration,"maximum_world_error_mm":maximum})
+            if maximum < 0.005:
+                break
+            if refinement_strategy == "resubmit_target":
+                submitted = [v[:] for v in target]
+            else:
+                submitted = [[submitted[i][j]+error[i][j] for j in range(3)] for i in range(14164)]
+            corrected_path = os.path.join(output_dir,"refinement_{}.obj".format(iteration+1))
+            with open(corrected_path,"w",encoding="utf-8") as stream:
+                vi = 0
+                for line in replacement_lines:
+                    if line.startswith("v "):
+                        if vi in ids:
+                            line = "v {:.12f} {:.12f} {:.12f}\n".format(*submitted[vi-ordered[0]])
+                        vi += 1
+                    stream.write(line)
+            replace_body(avatar, current_mesh, corrected_path, "Refine replacement candidate")
+            normalize_after_replace(avatar, "refinement_{}".format(iteration+1))
+            checked("Save refined candidate",RLPy.RFileIO.SaveProject(report["project_path"]))
+            checked("Reload refined candidate",RLPy.RFileIO.LoadFile(report["project_path"]))
+            avatar = list(RLPy.RScene.GetAvatars())[0]
+        report["project_sha256"] = sha256_file(report["project_path"])
+    mesh = [m for m in avatar.GetMeshes(False) if m.GetName()=="CC_Base_Body" and m.GetVerticesCount()==14164][0]
+    write_json({"vertices":[[float(v.x),float(v.y),float(v.z)] for v in mesh.GetVertices(True)]},os.path.join(output_dir,"after_world_mesh.json"))
+    write_json({"vertices":[[float(v.x),float(v.y),float(v.z)] for v in mesh.GetVertices(False)],
+                "faces":[list(mesh.GetFace(i)) for i in range(mesh.GetFacesCount())]},os.path.join(output_dir,"after_mesh.json"))
+    report["obj_path"] = os.path.join(output_dir,"after_body.obj")
+    checked("Export replacement body",RLPy.RFileIO.ExportObjFile(avatar,report["obj_path"],RLPy.EExport3DFileOption_BodyPart))
+    report["vectors"] = capture_vectors(avatar)
+    report["success"] = True
+    report["summary_path"] = os.path.join(output_dir,"validation_result.json")
+    write_json(report,report["summary_path"])
+    return report
+
+
+def probe_headshot_photo_generation(library, output_dir, log):
+    """One bounded, local photo experiment; never promotes a production identity."""
+    config = library["headshot_photo_probe"]
+    # The installed UI preset is the authority; Soft Skin alone is not Clean Soft.
+    if config.get("skin_preset") != "Clean Soft":
+        raise ReconstructionError("Only the user-required Clean Soft preset is permitted")
+    import configparser
+    preset_ini = r"D:\CharacterCreator\Character Creator 5\Resource\CCHeadshot\TexturePresetG3Plus.ini"
+    parser = configparser.ConfigParser(interpolation=None)
+    parser.read(preset_ini, encoding="utf-8-sig")
+    clean = {key: value.strip().strip('"') for key, value in parser.items("Preset2")}
+    if (clean["name"], clean["base0"], clean["mask0"], clean["mask1"]) != ("Clean Soft", "Soft Skin", "Default Even", "Minimum Eyelid Rim"):
+        raise ReconstructionError("Installed Clean Soft preset mapping changed")
+    photo = os.path.realpath(config["photo_path"])
+    photo_roots = [os.path.realpath(r"D:\UE\Lance_Work\CFD Version 3.0")]
+    if library.get("diagnostic_mode") == "cc_character_creation":
+        photo_roots.append(os.path.join(SCRIPT_DIR, "runtime_staging", "headshot_character_creation_20261005_v1"))
+    if not path_is_within(photo, photo_roots):
+        raise ReconstructionError("Photo must be inside the CFD directory or bounded creation staging")
+    if sha256_file(photo) != config["photo_sha256"]:
+        raise ReconstructionError("Photo hash changed")
+    preset = library["presets"][0]
+    source = preset["source_project"]
+    if sha256_file(source["path"]) != source["sha256"]:
+        raise ReconstructionError("Average source project hash changed")
+    canonical_source = source
+    if config.get("prepared_source_project"):
+        prepared = config["prepared_source_project"]
+        prepared_path = os.path.realpath(prepared["path"])
+        prepared_root = os.path.realpath(r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts\headshot_route_compare_20261002_v1")
+        if os.path.commonpath([prepared_root, prepared_path]) != prepared_root or sha256_file(prepared_path) != prepared["sha256"]:
+            raise ReconstructionError("Prepared Headshot source path/hash mismatch")
+        source = prepared
+    report = {"diagnostic_mode": "headshot_photo_generation_probe", "started_at": now(),
+              "photo_path": photo, "photo_sha256": config["photo_sha256"],
+              "preset_id": preset["preset_id"], "success": False,
+              "canonical_source_project": canonical_source, "generation_source_project": source}
+    report_path = os.path.join(output_dir, "photo_generation_report.json")
+
+    def checkpoint(stage):
+        report["stage"] = stage
+        report["updated_at"] = now()
+        write_json(report, report_path)
+        log("Headshot probe: " + stage)
+
+    def capture_geometry(avatar, label):
+        result = []
+        for mesh in avatar.GetMeshes(False) or []:
+            entry = {"name": mesh.GetName(), "vertex_count": mesh.GetVerticesCount(),
+                     "face_count": mesh.GetFacesCount()}
+            try:
+                vertices = [[float(v.x), float(v.y), float(v.z)] for v in mesh.GetVertices(False)]
+                filename = label + "_mesh_" + str(len(result)) + ".json"
+                write_json({"name": entry["name"], "vertices": vertices}, os.path.join(output_dir, filename))
+                entry["vertices_file"] = filename
+            except Exception as exc:
+                entry["vertex_capture_error"] = str(exc)
+            result.append(entry)
+        return result
+
+    def capture_skin_textures(avatar, label):
+        if not config.get("capture_skin_texture_stages"):
+            return
+        component = avatar.GetMaterialComponent()
+        rows = []
+        for material in ("Std_Skin_Head", "Std_Skin_Body", "Std_Skin_Arm", "Std_Skin_Leg"):
+            for channel_name in ("Diffuse", "Bump"):
+                channel = getattr(RLPy, "EMaterialTextureChannel_" + channel_name)
+                image = component.GetImage("CC_Base_Body", material, channel)
+                image_path = os.path.join(output_dir, label + "_" + material + "_" + channel_name + ".png")
+                checked("Capture Headshot skin stage", image.SaveFile(image_path))
+                rows.append({"material": material, "channel": channel_name,
+                             "width": image.GetWidth(), "height": image.GetHeight(),
+                             "file": bodyfit_freeze_file_record(image_path)})
+        report.setdefault("skin_texture_stages", {})[label] = rows
+
+    try:
+        if RLPy.RScene.GetAvatars():
+            checked("Save pre-probe scene", RLPy.RFileIO.SaveProject(os.path.join(output_dir, "scene_before_probe.ccProject")))
+        checkpoint("loading_average_source")
+        report["load_status"] = checked("Load Average source", RLPy.RFileIO.LoadFile(source["path"]))
+        avatars = list(RLPy.RScene.GetAvatars() or [])
+        if len(avatars) != 1:
+            raise ReconstructionError("Expected exactly one Average avatar")
+        avatar = avatars[0]
+        RLPy.RScene.SelectObject(avatar)
+        report["source_subdiv_level"] = int(avatar.GetSubdivMeshLevel())
+        if "pre_generation_subdiv_level" in config:
+            if config["pre_generation_subdiv_level"] != 0:
+                raise ReconstructionError("Headshot route comparison requires pre-generation SubD 0")
+            checked("Set SubD 0 before Headshot generation", avatar.SwitchSubdivMeshLevel(0))
+            force_avatar_scene_evaluation(avatar)
+            report["pre_generation_subdiv_level"] = int(avatar.GetSubdivMeshLevel())
+            if report["pre_generation_subdiv_level"] != 0:
+                raise ReconstructionError("Pre-generation SubD 0 did not take effect")
+            report["before_obj_path"] = os.path.join(output_dir, "average_before_body.obj")
+            checked("Export pre-generation Average", RLPy.RFileIO.ExportObjFile(avatar, report["before_obj_path"], RLPy.EExport3DFileOption_BodyPart))
+            force_avatar_scene_evaluation(avatar)
+        report["before_profile"] = {"uid":str(avatar.GetFaceComponent().GetExpressionSetUid()),
+            "expression_count":len(avatar.GetFaceComponent().GetExpressionNames(""))}
+        report["before_vectors"] = capture_vectors(avatar)
+        report["before_meshes"] = capture_geometry(avatar, "before")
+        capture_skin_textures(avatar, "before_generation")
+        option = RLPy.RHeadshotOption()
+        option.strSkin = clean["base0"]
+        option.strFaceMask = clean["mask0"]
+        option.strEyelidMask = clean["mask1"]
+        report["skin_preset"] = {"name": "Clean Soft", "ini_path": preset_ini, "ini_sha256": sha256_file(preset_ini), "definition": clean}
+        option.eBodyType = {"current": RLPy.EHSBodyType_Current, "female": RLPy.EHSBodyType_Female,
+                            "male": RLPy.EHSBodyType_Male}[config.get("body_type", "current")]
+        report["options"] = {name: getattr(option, name) for name in
+                             ("eBodyType", "strSkin", "strScalp", "strBread", "strFaceMask", "strEyelidMask", "strMouthMask", "strNeckMask", "bBaby")}
+        checkpoint("calling_create_head_from_photo_pro")
+        status = RLPy.RHeadshot.CreateHeadFromPhoto(photo, RLPy.EHSMode_Pro, option)
+        report["return_type"] = type(status).__name__
+        report["return_repr"] = str(status)
+        report["generation_status"] = checked("Headshot CreateHeadFromPhoto", status)
+        if status is False:
+            raise ReconstructionError("Headshot returned False")
+        checkpoint("generation_call_returned")
+        avatars = list(RLPy.RScene.GetAvatars() or [])
+        if len(avatars) != 1:
+            raise ReconstructionError("Expected exactly one generated avatar")
+        avatar = avatars[0]
+        report["after_vectors"] = capture_vectors(avatar)
+        report["after_meshes"] = capture_geometry(avatar, "after")
+        capture_skin_textures(avatar, "after_generation_before_save")
+        path = os.path.join(output_dir, "headshot_photo_candidate.ccProject")
+        report["save_status"] = checked("Save Headshot candidate", RLPy.RFileIO.SaveProject(path))
+        report["project_path"] = path
+        report["project_sha256"] = sha256_file(path)
+        checkpoint("reloading_saved_candidate")
+        checked("Reload Headshot candidate", RLPy.RFileIO.LoadFile(path))
+        checked("Refresh reloaded candidate", RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True))
+        avatar = list(RLPy.RScene.GetAvatars())[0]
+        checked("Evaluate base mesh", avatar.SwitchSubdivMeshLevel(0))
+        report["reloaded_meshes"] = capture_geometry(avatar, "reloaded")
+        report["reloaded_vectors"] = capture_vectors(avatar)
+        report["reloaded_profile"] = {"uid":str(avatar.GetFaceComponent().GetExpressionSetUid()),
+            "expression_count":len(avatar.GetFaceComponent().GetExpressionNames(""))}
+        capture_skin_textures(avatar, "after_reload_subd0")
+        obj_path = os.path.join(output_dir, "evaluated_body.obj")
+        report["obj_export_status"] = checked("Export evaluated body OBJ", RLPy.RFileIO.ExportObjFile(avatar, obj_path, RLPy.EExport3DFileOption_BodyPart))
+        report["obj_path"] = obj_path
+        if config.get("capture_route_previews"):
+            checkpoint("rendering_route_previews")
+            sex = config["preview_sex"]
+            camera = r"D:\CharacterCreator_sucai\Reallusion Templates\Stage\Camera\Headshot Ref\Ref Cam {} L.ccCam".format("Female" if sex=="female" else "Male")
+            lightroom = r"D:\CharacterCreator_sucai\Reallusion Templates\Stage\Light Room\Default\Default_CC5.ccLightroom"
+            checked("Load route Lightroom",RLPy.RFileIO.LoadFile(lightroom))
+            checked("Load route face camera",RLPy.RFileIO.LoadFile(camera))
+            set_avatar_position(avatar,0.0,8.0,6.0)
+            set_avatar_yaw(avatar,90.0)
+            force_avatar_scene_evaluation(avatar)
+            render_preview(os.path.join(output_dir,"neutral_subd0_front.png"))
+            checked("Restore route preview SubD 1",avatar.SwitchSubdivMeshLevel(1))
+            force_avatar_scene_evaluation(avatar)
+            render_preview(os.path.join(output_dir,"neutral_subd1_front.png"))
+            set_avatar_position(avatar,0.0,4.0,6.0)
+            set_avatar_yaw(avatar,45.0)
+            force_avatar_scene_evaluation(avatar)
+            render_preview(os.path.join(output_dir,"neutral_subd1_three_quarter.png"))
+            checked("Restore saved route generation project", RLPy.RFileIO.LoadFile(path))
+        report["body_morph_fingerprint_unchanged"] = (report["before_vectors"]["groups"]["body"]["fingerprint_sha256"] == report["after_vectors"]["groups"]["body"]["fingerprint_sha256"])
+        report["success"] = True
+        report["acceptance"] = "API experiment only; fixed scalp and visual quality not verified"
+        checkpoint("saved_candidate")
+    except Exception as exc:
+        report["error"] = str(exc)
+        checkpoint("failed")
+    summary = {"success": report["success"], "diagnostic_mode": report["diagnostic_mode"],
+               "report_path": report_path, "summary_path": os.path.join(output_dir, "validation_result.json")}
+    write_json(summary, summary["summary_path"])
+    return summary
+
+
 def _run_library_without_dialog_guard(
     library_path,
     output_dir,
@@ -26194,13 +27148,21 @@ def _run_library_without_dialog_guard(
     os.makedirs(output_dir, exist_ok=True)
     library = read_json(library_path)
     global PREVIEW_CAPTURE_MODE
+    global EYE_SNAPSHOT_MODE
     global VIEWPORT_PREVIEW_WIDTH
     global VIEWPORT_PREVIEW_HEIGHT
+    EYE_SNAPSHOT_MODE = library.get("eye_snapshot_mode", "sdk_t_pose")
+    if EYE_SNAPSHOT_MODE not in ("sdk_t_pose", "transforms_only"):
+        raise ReconstructionError("Unsupported eye_snapshot_mode")
+    if EYE_SNAPSHOT_MODE == "transforms_only" and library.get("diagnostic_mode") not in (
+        "headshot_route_validation", "headshot_mesh_replace_probe", "fixed_head_hair_batch", "cc_character_creation", "native_face_library", "makeup_probe", "skingen_controls", "character_refresh", "character_refresh_normals", "refresh_visual_probe", "refresh_eyelash_probe", "refresh_eye_support_diagnostic", "refresh_eye_support_identity", "refresh_delicate_support_restore", "refresh_delicate_prelash_combined", "refresh_delicate_male_prelash", "refresh_registered_lash_prelash", "refresh_skin_material_readonly", "refresh_pbr_export_ab", "refresh_skin_normal_restore", "refresh_skin_normal_restore_bound", "recover_saved_candidate", "finalize_partial", "verify_prelash"
+    ):
+        raise ReconstructionError("Transforms-only eye snapshots require an explicit supported mode")
     PREVIEW_CAPTURE_MODE = library.get(
         "preview_capture_mode",
         "render_image",
     )
-    if PREVIEW_CAPTURE_MODE not in ("render_image", "pixel_stream"):
+    if PREVIEW_CAPTURE_MODE not in ("render_image", "render_image_native_aspect", "pixel_stream"):
         raise ReconstructionError(
             "Unsupported preview_capture_mode: {}".format(
                 PREVIEW_CAPTURE_MODE
@@ -26228,6 +27190,16 @@ def _run_library_without_dialog_guard(
     VIEWPORT_PREVIEW_WIDTH = int(preview_resolution[0])
     VIEWPORT_PREVIEW_HEIGHT = int(preview_resolution[1])
     all_presets = validate_library_document(library)
+    if library.get("diagnostic_mode") == "scalp_hair_export_existing_project":
+        log("Exporting one saved scalp-hair project without rerunning face validation")
+        return run_scalp_hair_export_existing_project(
+            library_path,
+            library,
+            all_presets,
+            output_dir,
+            log,
+            preset_ids,
+        )
     if library.get("diagnostic_mode") == "resource_release_probe":
         log("Releasing disposable CC scene and Python/Qt cache resources")
         return probe_resource_release(library, output_dir, log)
@@ -26339,6 +27311,81 @@ def _run_library_without_dialog_guard(
             log,
             preset_ids,
         )
+    if library.get("diagnostic_mode") == "cc_character_creation":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_run_character_creation_v1.py")
+        spec = importlib.util.spec_from_file_location("cc_character_creation", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") in ("skingen_controls", "character_refresh", "character_refresh_normals", "refresh_visual_probe", "refresh_eyelash_probe", "refresh_eye_support_diagnostic", "refresh_eye_support_identity", "refresh_delicate_support_restore", "refresh_delicate_prelash_combined", "refresh_delicate_male_prelash", "refresh_registered_lash_prelash", "refresh_skin_material_readonly", "refresh_pbr_export_ab", "refresh_skin_normal_restore", "refresh_skin_normal_restore_bound", "recover_saved_candidate", "finalize_partial", "verify_prelash"):
+        import importlib.util
+        import types
+        module_name = {
+            "skingen_controls": "cc_skingen_controls_v1",
+            "character_refresh": "cc_run_character_refresh_v1",
+            "character_refresh_normals": "cc_refresh_skin_normal_closure_v1",
+            "refresh_visual_probe": "cc_refresh_visual_probe_v1",
+            "refresh_eyelash_probe": "cc_refresh_eyelash_probe_v1",
+            "refresh_eye_support_diagnostic": "cc_refresh_eye_support_diagnostic_v1",
+            "refresh_eye_support_identity": "cc_probe_eye_support_identity_v5",
+            "refresh_delicate_support_restore": "cc_probe_delicate_support_restore_v3",
+            "refresh_delicate_prelash_combined": "cc_probe_delicate_support_restore_v4",
+            "refresh_delicate_male_prelash": "cc_probe_delicate_male_prelash_v1",
+            "refresh_registered_lash_prelash": "cc_probe_registered_lash_prelash_v1",
+            "refresh_skin_material_readonly": "cc_probe_refresh_skin_material_readonly_v1",
+            "refresh_pbr_export_ab": "cc_probe_refresh_pbr_export_ab_v1",
+            "refresh_skin_normal_restore": "cc_probe_refresh_skin_normal_restore_v1",
+            "refresh_skin_normal_restore_bound": "cc_probe_refresh_skin_normal_restore_bound_v1",
+            "recover_saved_candidate": "cc_recover_refresh_saved_candidate_v1",
+            "finalize_partial": "cc_finalize_refresh_partial_v1",
+            "verify_prelash": "cc_verify_refresh_prelash_v1",
+        }[library["diagnostic_mode"]]
+        module_path = os.path.join(os.path.dirname(__file__), module_name + ".py")
+        spec = importlib.util.spec_from_file_location(module_name, module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "makeup_probe":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_makeup_probe_v1.py")
+        spec = importlib.util.spec_from_file_location("cc_makeup_probe", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "skin_detail_experiment":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_skin_detail_experiment_v1.py")
+        spec = importlib.util.spec_from_file_location("skin_detail_experiment", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "headshot_base_assembly":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_run_headshot_base_assembly_v1.py")
+        spec = importlib.util.spec_from_file_location("headshot_base_assembly", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "assembly_geometry_self_check":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_capture_assembly_geometry_v1.py")
+        spec = importlib.util.spec_from_file_location("assembly_geometry_capture_self_check", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        avatars = list(RLPy.RScene.GetAvatars() or [])
+        if len(avatars) != 1:
+            raise ReconstructionError("Geometry self-check requires exactly one loaded avatar")
+        summary = module.self_check(avatars[0], api=types.SimpleNamespace(**globals()))
+        log("Assembly geometry self-check: " + json.dumps(summary, ensure_ascii=False))
+        return {"success": True, "geometry_self_check": summary,
+                "numpy_available": importlib.util.find_spec("numpy") is not None,
+                "scene_mutations": "No load, save, morph, subdivision or mesh edits; scene evaluation only"}
     if library.get("diagnostic_mode") == "source_project_load":
         log("Loading one source project without face or appearance operations")
         return probe_source_project_load(library, output_dir)
@@ -26351,6 +27398,138 @@ def _run_library_without_dialog_guard(
     if library.get("diagnostic_mode") == "facial_profile_upgrade":
         log("Creating and validating one derived CC5 HD Facial Profile project")
         return probe_facial_profile_upgrade(library, output_dir, log)
+    if library.get("diagnostic_mode") == "motion_library_duration_probe":
+        return probe_motion_library_durations(library, output_dir, log)
+    if library.get("diagnostic_mode") == "native_face_library":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_native_face_library_v1.py")
+        spec = importlib.util.spec_from_file_location("native_face_library", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "headshot_route_validation":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_headshot_route_validation_v1.py")
+        spec = importlib.util.spec_from_file_location("headshot_route_validation", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "fixed_head_hair_batch":
+        import importlib.util
+        import types
+        module_path = os.path.join(os.path.dirname(__file__), "cc_fixed_head_hair_batch_v1.py")
+        spec = importlib.util.spec_from_file_location("fixed_head_hair_batch", module_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        return module.run(library, output_dir, log, types.SimpleNamespace(**globals()))
+    if library.get("diagnostic_mode") == "headshot_mesh_replace_probe":
+        return probe_headshot_mesh_replace(library, output_dir, log)
+    if library.get("diagnostic_mode") == "headshot_current_measurement":
+        avatars = list(RLPy.RScene.GetAvatars() or [])
+        if len(avatars) != 1:
+            raise ReconstructionError("Measurement requires exactly one current avatar")
+        avatar = avatars[0]
+        report = {"success": False, "captured_at": now(), "avatar_name": avatar.GetName(),
+                  "skin_preset": "Clean Soft", "skin_preset_evidence": "user_confirmed_manual_generation",
+                  "subdivision_level": avatar.GetSubdivMeshLevel(),
+                  "current_time": str(RLPy.RGlobal.GetTime()),
+                  "avatar_world_transform": _transform_data(avatar.WorldTransform()),
+                  "bounds": capture_bounds(avatar), "vectors": capture_vectors(avatar),
+                  "scene_mutations": "No load, generation, pose, morph, subdivision or mesh edits; saved independent project copy and exported current-pose OBJ"}
+        shaping, catalog, unused_categories = morph_catalog(avatar)
+        report["head_morphs"] = [{"id": key, "display": item["display"], "weight": float(shaping.GetShapingMorphWeight(key))}
+                                  for key, item in sorted(catalog.items())
+                                  if any(term in item["display"].lower() for term in ("head", "skull", "forehead", "temple"))]
+        report["bones"] = [{"name": bone.GetName(), "world_transform": _transform_data(bone.WorldTransform()),
+                            "local_transform": _transform_data(bone.LocalTransform())}
+                           for bone in avatar.GetSkeletonComponent().GetSkinBones()]
+        report["project_path"] = os.path.join(output_dir, "manual_clean_soft_baseline.ccProject")
+        checked("Save independent manual baseline", RLPy.RFileIO.SaveProject(report["project_path"]))
+        report["project_sha256"] = sha256_file(report["project_path"])
+        report["obj_path"] = os.path.join(output_dir, "current_pose_body.obj")
+        checked("Export current geometry", RLPy.RFileIO.ExportObjFile(avatar, report["obj_path"], RLPy.EExport3DFileOption_BodyPart))
+        report["meshes"] = []
+        for index, mesh in enumerate(avatar.GetMeshes(False) or []):
+            path = os.path.join(output_dir, "mesh_{}.json".format(index))
+            vertices = [[float(v.x), float(v.y), float(v.z)] for v in mesh.GetVertices(False)]
+            faces = [list(mesh.GetFace(i)) for i in range(mesh.GetFacesCount())]
+            write_json({"name": mesh.GetName(), "vertices": vertices, "faces": faces}, path)
+            report["meshes"].append({"name": mesh.GetName(), "vertex_count": len(vertices), "path": path})
+        report["success"] = True
+        report["summary_path"] = os.path.join(output_dir, "validation_result.json")
+        write_json(report, report["summary_path"])
+        return report
+    if library.get("diagnostic_mode") == "headshot_mesh_level_probe":
+        candidate = library.get("headshot_candidate")
+        if candidate:
+            candidate_path = os.path.realpath(candidate["path"])
+            allowed = os.path.realpath(r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts\headshot_fixed_scalp_20261002_v1")
+            if os.path.commonpath([candidate_path, allowed]) != allowed or sha256_file(candidate_path) != candidate["sha256"]:
+                raise ReconstructionError("Headshot candidate path/hash mismatch")
+            checked("Load saved Headshot candidate", RLPy.RFileIO.LoadFile(candidate_path))
+        avatar = list(RLPy.RScene.GetAvatars())[0]
+        bodyfit_application = None
+        if library.get("headshot_apply_bodyfit") is True:
+            preset = library["presets"][0]
+            bodyfit_application = apply_bodyfit(avatar, preset["target_body_morphs"], preset["target_junction_morphs"])
+            force_avatar_scene_evaluation(avatar)
+        original_level = avatar.GetSubdivMeshLevel()
+        records = []
+        try:
+            for level in (0, 1):
+                checked("Switch subdivision level", avatar.SwitchSubdivMeshLevel(level))
+                checked("Refresh mesh level", RLPy.RGlobal.SetTime(RLPy.RGlobal.GetStartTime(), True))
+                meshes = []
+                for index, mesh in enumerate(avatar.GetMeshes(False) or []):
+                    path = os.path.join(output_dir, "level_{}_mesh_{}.json".format(level, index))
+                    vertices = [[float(v.x), float(v.y), float(v.z)] for v in mesh.GetVertices(False)]
+                    faces = [list(mesh.GetFace(i)) for i in range(mesh.GetFacesCount())]
+                    write_json({"name": mesh.GetName(), "vertices": vertices, "faces": faces}, path)
+                    meshes.append({"name": mesh.GetName(), "vertex_count": len(vertices), "path": path})
+                records.append({"requested_level": level, "actual_level": avatar.GetSubdivMeshLevel(), "meshes": meshes})
+        finally:
+            checked("Restore subdivision level", avatar.SwitchSubdivMeshLevel(original_level))
+        summary = {"success": True, "original_level": original_level, "levels": records,
+                   "summary_path": os.path.join(output_dir, "validation_result.json")}
+        if library.get("headshot_apply_bodyfit") is True:
+            summary["bodyfit_application"] = bodyfit_application
+            summary["vectors"] = capture_vectors(avatar)
+            summary["project_path"] = os.path.join(output_dir, "bodyfit_candidate.ccProject")
+            checked("Save BodyFit Headshot candidate", RLPy.RFileIO.SaveProject(summary["project_path"]))
+            summary["project_sha256"] = sha256_file(summary["project_path"])
+        write_json(summary, summary["summary_path"])
+        return summary
+    if library.get("diagnostic_mode") == "headshot_photo_generation_probe":
+        return probe_headshot_photo_generation(library, output_dir, log)
+    if library.get("diagnostic_mode") == "headshot_api_probe":
+        log("Inspecting installed Headshot API without changing the scene")
+        option = RLPy.RHeadshotOption()
+        fields = ("eBodyType", "strSkin", "strScalp", "strBread", "strFaceMask", "strEyelidMask", "strMouthMask", "strNeckMask", "bBaby")
+        obj_signature = None
+        try:
+            RLPy.RFileIO.ExportObjFile()
+        except TypeError as exc:
+            obj_signature = str(exc)
+        report = {
+            "diagnostic_mode": "headshot_api_probe",
+            "captured_at": now(),
+            "headshot_symbols": [name for name in dir(RLPy) if "Headshot" in name or name.startswith("EHS")],
+            "headshot_methods": [name for name in dir(RLPy.RHeadshot) if not name.startswith("_")],
+            "default_options": {name: getattr(option, name) for name in fields},
+            "create_head_doc": RLPy.RHeadshot.CreateHeadFromPhoto.__doc__,
+            "mesh_methods": [name for name in dir(RLPy.RIMesh) if not name.startswith("_")],
+            "obj_export_signature": obj_signature,
+            "scene_avatar_names": [a.GetName() for a in RLPy.RScene.GetAvatars()],
+            "scene_modified": False,
+            "success": True,
+        }
+        report_path = os.path.join(output_dir, "api_probe.json")
+        write_json(report, report_path)
+        summary = {"success": True, "diagnostic_mode": "headshot_api_probe", "report_path": report_path, "summary_path": os.path.join(output_dir, "validation_result.json")}
+        write_json(summary, summary["summary_path"])
+        return summary
     if library.get("diagnostic_mode") == "facial_profile_api_probe":
         log("Inspecting the current Facial Profile API without changing the scene")
         return probe_current_facial_profile_api(library, output_dir)
@@ -26542,6 +27721,8 @@ def _run_library_without_dialog_guard(
 
 
 def run_library(library_path, output_dir, log, preset_ids=None):
+    if read_json(library_path).get("diagnostic_mode") in ("headshot_api_probe", "headshot_photo_generation_probe", "headshot_mesh_level_probe", "headshot_current_measurement", "headshot_mesh_replace_probe", "headshot_route_validation", "native_face_library", "motion_library_duration_probe", "makeup_probe", "skingen_controls", "character_refresh", "character_refresh_normals"):
+        return _run_library_without_dialog_guard(library_path, output_dir, log, preset_ids)
     undo_guard = ExactUndoWarningGuard(output_dir)
     undo_guard.start()
     try:

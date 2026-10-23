@@ -1,0 +1,707 @@
+{
+  "scope": "partial offline symbolic candidates; no render; residuals diagnostic, not independent-sample p-values",
+  "camera_target_policy": "weighted_four",
+  "candidates": {
+    "alternative_roots40": {
+      "structural_integrity_success": true,
+      "quota_complete": false,
+      "shortfalls": [
+        {
+          "category": "budget_main_nodes",
+          "split": "train",
+          "actual": 2499,
+          "target": 2500,
+          "deficit": 1
+        },
+        {
+          "category": "budget_sessions",
+          "split": "train",
+          "actual": 699,
+          "target": 12000,
+          "deficit": 11301
+        },
+        {
+          "category": "session_exact_length_kind_quotas",
+          "split": "train",
+          "deficit": {
+            "linear_2": 1895,
+            "linear_3": 1898,
+            "linear_4": 1888,
+            "linear_5": 1859,
+            "fork_2": 378,
+            "fork_3": 757,
+            "fork_4": 1316,
+            "fork_5": 1310
+          }
+        },
+        {
+          "category": "budget_main_nodes",
+          "split": "test",
+          "actual": 499,
+          "target": 500,
+          "deficit": 1
+        },
+        {
+          "category": "budget_sessions",
+          "split": "test",
+          "actual": 122,
+          "target": 2400,
+          "deficit": 2278
+        },
+        {
+          "category": "session_exact_length_kind_quotas",
+          "split": "test",
+          "deficit": {
+            "linear_2": 383,
+            "linear_3": 382,
+            "linear_4": 376,
+            "linear_5": 372,
+            "fork_2": 77,
+            "fork_3": 153,
+            "fork_4": 267,
+            "fork_5": 268
+          }
+        }
+      ],
+      "splits": {
+        "train": {
+          "nodes": 2499,
+          "sessions": 699,
+          "max_deviations_n_at_least_50": {
+            "axis": {
+              "condition": {
+                "kind": "fork",
+                "L": 5,
+                "round": 1
+              },
+              "n": 90,
+              "max_abs_standardized_residual": 2.398501404786757,
+              "total_variation": 0.088888888888889
+            },
+            "target": {
+              "condition": {
+                "axis": "identity",
+                "source_camera": "dolly_in_front"
+              },
+              "n": 51,
+              "max_abs_standardized_residual": 3.6324157862838966,
+              "total_variation": 0.3560371517027863
+            },
+            "initial_hair": {
+              "condition": {
+                "sex": "female"
+              },
+              "n": 366,
+              "max_abs_standardized_residual": 13.838482397040758,
+              "total_variation": 0.4035519125683057
+            },
+            "initial_family": {
+              "condition": {
+                "sex": "male"
+              },
+              "n": 333,
+              "max_abs_standardized_residual": 8.299963216146814,
+              "total_variation": 0.37189189189189203
+            },
+            "fork_round": {
+              "condition": {
+                "L": 4
+              },
+              "n": 84,
+              "max_abs_standardized_residual": 1.620185174601959,
+              "total_variation": 0.08333333333333352
+            },
+            "history_known_target_mass": {
+              "condition": {
+                "axis": "hair",
+                "N": 12,
+                "K": 1
+              },
+              "n": 51,
+              "max_abs_standardized_residual": 1.8999014891433705,
+              "total_variation": 0.07352941176470566
+            },
+            "full_history_node_return": {
+              "condition": {
+                "axis": "hair"
+              },
+              "n": 419,
+              "max_abs_standardized_residual": 1.4148435356322095,
+              "total_variation": 0.0066469873968935935
+            }
+          },
+          "full_history_node_returns": {
+            "action": {
+              "observed": 3,
+              "expected": 2.1268115942029,
+              "inflation": 1.4105621805792155
+            },
+            "camera": {
+              "observed": 3,
+              "expected": 2.9986981195059523,
+              "inflation": 1.0004341485678665
+            },
+            "hair": {
+              "observed": 7,
+              "expected": 4.214912280701756,
+              "inflation": 1.6607700312174811
+            },
+            "hair_color": {
+              "observed": 11,
+              "expected": 9.999999999999998,
+              "inflation": 1.1
+            },
+            "identity": {
+              "observed": 1,
+              "expected": 2.210526315789473,
+              "inflation": 0.4523809523809525
+            },
+            "site": {
+              "observed": 2,
+              "expected": 2.290643274853801,
+              "inflation": 0.8731171815164668
+            }
+          },
+          "same_axis_returns": {
+            "action": {
+              "opportunities": 44,
+              "observed": 3,
+              "expected": 1.835144927536233,
+              "graph_uniform_expected": 43.5
+            },
+            "site": {
+              "opportunities": 34,
+              "observed": 2,
+              "expected": 1.8491228070175443,
+              "graph_uniform_expected": 33.5
+            },
+            "hair_color": {
+              "opportunities": 47,
+              "observed": 9,
+              "expected": 7.833333333333338,
+              "graph_uniform_expected": 45.5
+            },
+            "identity": {
+              "opportunities": 32,
+              "observed": 1,
+              "expected": 1.6842105263157883,
+              "graph_uniform_expected": 29.0
+            },
+            "hair": {
+              "opportunities": 54,
+              "observed": 5,
+              "expected": 3.67105263157895,
+              "graph_uniform_expected": 52.5
+            },
+            "camera": {
+              "opportunities": 42,
+              "observed": 3,
+              "expected": 2.40673194614443,
+              "graph_uniform_expected": 42.0
+            },
+            "wardrobe": {
+              "opportunities": 37,
+              "observed": 4,
+              "expected": 3.0498465329624764,
+              "graph_uniform_expected": 0.0
+            }
+          },
+          "single_piece_given_formal_single_available": {
+            "observed": 172,
+            "expected": 154.5,
+            "n": 309,
+            "standardized_residual": 1.9910804339600099
+          }
+        },
+        "test": {
+          "nodes": 499,
+          "sessions": 122,
+          "max_deviations_n_at_least_50": {
+            "axis": {
+              "condition": {
+                "eligible": [
+                  "action",
+                  "camera",
+                  "hair",
+                  "hair_color",
+                  "identity",
+                  "site",
+                  "wardrobe"
+                ]
+              },
+              "n": 103,
+              "max_abs_standardized_residual": 1.0808722355782912,
+              "total_variation": 0.06432038834951456
+            },
+            "initial_hair": {
+              "condition": {
+                "sex": "male"
+              },
+              "n": 61,
+              "max_abs_standardized_residual": 6.874757819877527,
+              "total_variation": 0.38083228247162676
+            },
+            "initial_family": {
+              "condition": {
+                "sex": "female"
+              },
+              "n": 61,
+              "max_abs_standardized_residual": 5.0571989089582985,
+              "total_variation": 0.3866120218579235
+            },
+            "history_known_target_mass": {
+              "condition": {
+                "axis": "camera",
+                "N": 20,
+                "K": 0
+              },
+              "n": 56,
+              "max_abs_standardized_residual": 0,
+              "total_variation": 0.0
+            },
+            "full_history_node_return": {
+              "condition": {
+                "axis": "hair"
+              },
+              "n": 72,
+              "max_abs_standardized_residual": 1.4849511298457498,
+              "total_variation": 0.017178362573099362
+            }
+          },
+          "full_history_node_returns": {
+            "action": {
+              "observed": 0,
+              "expected": 0.20833333333333331,
+              "inflation": 0.0
+            },
+            "camera": {
+              "observed": 0,
+              "expected": 0.3409090909090909,
+              "inflation": 0.0
+            },
+            "hair": {
+              "observed": 2,
+              "expected": 0.763157894736842,
+              "inflation": 2.620689655172414
+            },
+            "hair_color": {
+              "observed": 1,
+              "expected": 1.5000000000000002,
+              "inflation": 0.6666666666666665
+            },
+            "identity": {
+              "observed": 0,
+              "expected": 0.15789473684210525,
+              "inflation": 0.0
+            },
+            "site": {
+              "observed": 0,
+              "expected": 0.5912280701754387,
+              "inflation": 0.0
+            }
+          },
+          "same_axis_returns": {
+            "camera": {
+              "opportunities": 5,
+              "observed": 0,
+              "expected": 0.2727272727272727,
+              "graph_uniform_expected": 5.0
+            },
+            "identity": {
+              "opportunities": 3,
+              "observed": 0,
+              "expected": 0.15789473684210525,
+              "graph_uniform_expected": 3.0
+            },
+            "site": {
+              "opportunities": 10,
+              "observed": 0,
+              "expected": 0.5385964912280702,
+              "graph_uniform_expected": 10.0
+            },
+            "wardrobe": {
+              "opportunities": 7,
+              "observed": 0,
+              "expected": 0.8752784090909091,
+              "graph_uniform_expected": 0.0
+            },
+            "hair": {
+              "opportunities": 9,
+              "observed": 2,
+              "expected": 0.6271929824561403,
+              "graph_uniform_expected": 9.0
+            },
+            "hair_color": {
+              "opportunities": 8,
+              "observed": 1,
+              "expected": 1.3333333333333333,
+              "graph_uniform_expected": 8.0
+            },
+            "action": {
+              "opportunities": 3,
+              "observed": 0,
+              "expected": 0.125,
+              "graph_uniform_expected": 3.0
+            }
+          },
+          "single_piece_given_formal_single_available": {
+            "observed": 25,
+            "expected": 22.5,
+            "n": 45,
+            "standardized_residual": 0.7453559924999299
+          }
+        }
+      }
+    },
+    "joint_reserve35": {
+      "structural_integrity_success": true,
+      "quota_complete": false,
+      "shortfalls": [
+        {
+          "category": "budget_sessions",
+          "split": "train",
+          "actual": 1897,
+          "target": 12000,
+          "deficit": 10103
+        },
+        {
+          "category": "session_exact_length_kind_quotas",
+          "split": "train",
+          "deficit": {
+            "linear_2": 1167,
+            "linear_3": 1642,
+            "linear_4": 1852,
+            "linear_5": 1916,
+            "fork_2": 224,
+            "fork_3": 660,
+            "fork_4": 1299,
+            "fork_5": 1343
+          }
+        },
+        {
+          "category": "budget_sessions",
+          "split": "test",
+          "actual": 242,
+          "target": 2400,
+          "deficit": 2158
+        },
+        {
+          "category": "session_exact_length_kind_quotas",
+          "split": "test",
+          "deficit": {
+            "linear_2": 305,
+            "linear_3": 345,
+            "linear_4": 371,
+            "linear_5": 389,
+            "fork_2": 65,
+            "fork_3": 140,
+            "fork_4": 269,
+            "fork_5": 274
+          }
+        }
+      ],
+      "splits": {
+        "train": {
+          "nodes": 2500,
+          "sessions": 1897,
+          "max_deviations_n_at_least_50": {
+            "axis": {
+              "condition": {
+                "eligible": [
+                  "action",
+                  "camera",
+                  "hair",
+                  "hair_color",
+                  "site",
+                  "wardrobe"
+                ]
+              },
+              "n": 3836,
+              "max_abs_standardized_residual": 8.520355311854567,
+              "total_variation": 0.0610879388251636
+            },
+            "target": {
+              "condition": {
+                "axis": "hair",
+                "source_camera": "front_head"
+              },
+              "n": 107,
+              "max_abs_standardized_residual": 14.047854719572745,
+              "total_variation": 0.555213969503197
+            },
+            "initial_hair": {
+              "condition": {
+                "sex": "female"
+              },
+              "n": 924,
+              "max_abs_standardized_residual": 9.932146188547982,
+              "total_variation": 0.22445887445887341
+            },
+            "initial_family": {
+              "condition": {
+                "sex": "male"
+              },
+              "n": 973,
+              "max_abs_standardized_residual": 19.317650843756297,
+              "total_variation": 0.2854265159301107
+            },
+            "fork_round": {
+              "condition": {
+                "L": 4
+              },
+              "n": 101,
+              "max_abs_standardized_residual": 2.462591406556016,
+              "total_variation": 0.1155115511551157
+            },
+            "fork_parent": {
+              "condition": {
+                "L": 3,
+                "t": 3
+              },
+              "n": 68,
+              "max_abs_standardized_residual": 0.48507125007266594,
+              "total_variation": 0.029411764705882353
+            },
+            "history_known_target_mass": {
+              "condition": {
+                "axis": "camera",
+                "N": 20,
+                "K": 1
+              },
+              "n": 157,
+              "max_abs_standardized_residual": 7.231655514033479,
+              "total_variation": 0.12367191392521025
+            },
+            "full_history_node_return": {
+              "condition": {
+                "axis": "hair_color"
+              },
+              "n": 816,
+              "max_abs_standardized_residual": 4.6615225139226135,
+              "total_variation": 0.01981209150326831
+            }
+          },
+          "full_history_node_returns": {
+            "action": {
+              "observed": 8,
+              "expected": 2.929347826086956,
+              "inflation": 2.7309833024118744
+            },
+            "camera": {
+              "observed": 15,
+              "expected": 6.367419606097708,
+              "inflation": 2.355742345868862
+            },
+            "hair": {
+              "observed": 7,
+              "expected": 3.719298245614037,
+              "inflation": 1.8820754716981123
+            },
+            "hair_color": {
+              "observed": 31,
+              "expected": 14.833333333333314,
+              "inflation": 2.089887640449441
+            },
+            "identity": {
+              "observed": 3,
+              "expected": 5.631578947368418,
+              "inflation": 0.5327102803738321
+            },
+            "site": {
+              "observed": 9,
+              "expected": 3.1149122807017533,
+              "inflation": 2.889326950154887
+            }
+          },
+          "same_axis_returns": {
+            "wardrobe": {
+              "opportunities": 53,
+              "observed": 15,
+              "expected": 5.2027414946185875,
+              "graph_uniform_expected": 0.0
+            },
+            "site": {
+              "opportunities": 50,
+              "observed": 8,
+              "expected": 2.69298245614035,
+              "graph_uniform_expected": 25.249999999999993
+            },
+            "hair": {
+              "opportunities": 43,
+              "observed": 6,
+              "expected": 3.061403508771931,
+              "graph_uniform_expected": 24.166666666666664
+            },
+            "identity": {
+              "opportunities": 89,
+              "observed": 3,
+              "expected": 4.68421052631579,
+              "graph_uniform_expected": 42.99999999999999
+            },
+            "camera": {
+              "opportunities": 102,
+              "observed": 13,
+              "expected": 4.905474574385229,
+              "graph_uniform_expected": 47.91666666666669
+            },
+            "hair_color": {
+              "opportunities": 74,
+              "observed": 25,
+              "expected": 12.333333333333323,
+              "graph_uniform_expected": 46.166666666666664
+            },
+            "action": {
+              "opportunities": 60,
+              "observed": 7,
+              "expected": 2.509057971014493,
+              "graph_uniform_expected": 31.166666666666668
+            }
+          },
+          "single_piece_given_formal_single_available": {
+            "observed": 206,
+            "expected": 220.5,
+            "n": 441,
+            "standardized_residual": -1.380952380952381
+          }
+        },
+        "test": {
+          "nodes": 500,
+          "sessions": 242,
+          "max_deviations_n_at_least_50": {
+            "axis": {
+              "condition": {
+                "eligible": [
+                  "action",
+                  "camera",
+                  "hair",
+                  "hair_color",
+                  "site",
+                  "wardrobe"
+                ]
+              },
+              "n": 576,
+              "max_abs_standardized_residual": 3.913118960624717,
+              "total_variation": 0.06423611111111018
+            },
+            "initial_hair": {
+              "condition": {
+                "sex": "female"
+              },
+              "n": 76,
+              "max_abs_standardized_residual": 14.842105263157903,
+              "total_variation": 0.6605263157894734
+            },
+            "initial_family": {
+              "condition": {
+                "sex": "male"
+              },
+              "n": 166,
+              "max_abs_standardized_residual": 16.777849532635518,
+              "total_variation": 0.5693975903614459
+            },
+            "history_known_target_mass": {
+              "condition": {
+                "axis": "hair",
+                "N": 12,
+                "K": 0
+              },
+              "n": 71,
+              "max_abs_standardized_residual": 0,
+              "total_variation": 0.0
+            },
+            "full_history_node_return": {
+              "condition": {
+                "axis": "hair"
+              },
+              "n": 116,
+              "max_abs_standardized_residual": 3.5951662156568687,
+              "total_variation": 0.02143829401088932
+            }
+          },
+          "full_history_node_returns": {
+            "action": {
+              "observed": 1,
+              "expected": 0.5,
+              "inflation": 2.0
+            },
+            "camera": {
+              "observed": 1,
+              "expected": 0.6475687103594079,
+              "inflation": 1.5442376754815543
+            },
+            "hair": {
+              "observed": 3,
+              "expected": 0.513157894736842,
+              "inflation": 5.846153846153847
+            },
+            "hair_color": {
+              "observed": 3,
+              "expected": 1.3333333333333333,
+              "inflation": 2.25
+            },
+            "identity": {
+              "observed": 0,
+              "expected": 0.8947368421052628,
+              "inflation": 0.0
+            },
+            "site": {
+              "observed": 0,
+              "expected": 0.26929824561403504,
+              "inflation": 0.0
+            }
+          },
+          "same_axis_returns": {
+            "site": {
+              "opportunities": 5,
+              "observed": 0,
+              "expected": 0.26929824561403504,
+              "graph_uniform_expected": 2.5
+            },
+            "hair": {
+              "opportunities": 7,
+              "observed": 2,
+              "expected": 0.4298245614035087,
+              "graph_uniform_expected": 4.0
+            },
+            "action": {
+              "opportunities": 10,
+              "observed": 1,
+              "expected": 0.4166666666666667,
+              "graph_uniform_expected": 5.5
+            },
+            "camera": {
+              "opportunities": 10,
+              "observed": 1,
+              "expected": 0.5112050739957718,
+              "graph_uniform_expected": 4.833333333333334
+            },
+            "identity": {
+              "opportunities": 10,
+              "observed": 0,
+              "expected": 0.5263157894736842,
+              "graph_uniform_expected": 3.25
+            },
+            "wardrobe": {
+              "opportunities": 5,
+              "observed": 3,
+              "expected": 0.5,
+              "graph_uniform_expected": 0.0
+            },
+            "hair_color": {
+              "opportunities": 8,
+              "observed": 3,
+              "expected": 1.3333333333333333,
+              "graph_uniform_expected": 5.5
+            }
+          },
+          "single_piece_given_formal_single_available": {
+            "observed": 12,
+            "expected": 15.5,
+            "n": 31,
+            "standardized_residual": -1.2572371141874243
+          }
+        }
+      }
+    }
+  }
+}

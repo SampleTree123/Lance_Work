@@ -24,11 +24,16 @@ Master -> Current Status -> Active Workflow -> Technical -> Validation
 current_plan_id
 active_batch_id
 active_workflow_id
+local_work.scope
+asset_cleanup_20261001_v1
+next_stage_definition
 next_action
 blocking_issues
 ```
 
 随后核对对应 Plan Requirement、Workflow Status 和 Batch Status。若三者冲突，停止执行并按 [`GOVERNANCE.md`](./20_planning/data_design/character_creator/full_process/GOVERNANCE.md) 的权威顺序处理。
+
+具体完成范围从PROJECT_STATUS与对应Workflow/Batch Status读取，历史计划从completed_plans反查；不从旧运行PID、旧阶段快照或已清理中间文件推断当前可恢复性。
 
 ## 本地、Git 与服务器边界
 
@@ -72,3 +77,14 @@ python 00_engine/scripts/documentation/check_character_factory_docs.py --json
 ```
 
 重构快照和旧文档只用于审计，不能作为当前执行入口。
+
+## 2026-10-12 清理与会话协作边界
+
+用户已接受前序动作、横竖屏和三个场景样片，整个D:/UE清理已完成，完成记录保存在PROJECT_STATE.workspace_cleanup_20261012_v1。当前新授权为PLAN-2026-10-CAMERA-MOTION-SCENE-ALIGNMENT：先诊断竖屏舞蹈/伸展人物大小差异，再统一校对全部动作镜头；并行准备旧10动作跨性别验证和完整下载场景导入。精确进度从PROJECT_STATE.local_work及当前Plan读取，当前不再idle。场景只导入不选点位；相机审查结果需交付网页，不以脚本准备代替实际验证。
+
+面部皮肤细节由另会话负责，skin_detail_optimization_20261012_v1及现用输入保持。共享UE/CC的状态修改由主agent串行协调，不同时覆盖。当前审查网页入口为 http://127.0.0.1:8880/gallery/index.html ，有效媒体与再生成配置保留；旧原帧、CC中间快照或关卡若已退休，必须按最新清理回执判断恢复方式，不能直接沿用旧resume命令。
+
+旧pixel-exact失败未修复，人工视觉接受不等于正式生产Gate；本轮新任务由用户明确授权，旧清理不重新启动。
+
+
+2026-10-12最新协调：旧10动作人工接受完成，相机批量及原goal仍由用户暂停；新授权仅为场景目录整理，沿用唯一current计划R06，先Synthwave_city再分批迁入Content/Scenes。新Run scene_folder_organization_20261012_v1、Technical§13拥有；当前准备/执行中不宣称迁移完成，当前路径overlay与冻结历史分离。皮肤会话状态不改。

@@ -1,0 +1,3005 @@
+{
+  "schema_version": 1,
+  "pilot_id": "cc_modular_outfit_pilot_20260829_v1",
+  "revision_id": "average_bodyfit_structural_coverage_v1",
+  "frozen_at": "2026-08-29T00:00:00+08:00",
+  "source_spec": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\character_creator\\cc_modular_outfit_pilot_source_v1.json",
+    "sha256": "f7c1e93a50686d4454e3f1b50fe8727ddac14ce56ccdc4f8eef5ce3702142abf"
+  },
+  "scope": {
+    "bodyfits": [
+      "M02_Average",
+      "F02_Average"
+    ],
+    "runtime_switching": "registered_and_validated_modules_within_frozen_family_rules",
+    "cross_family_cartesian_mixing": false,
+    "runtime_body_morph": false,
+    "purpose": "prove identity-preserving modular clothing before expanding the production library"
+  },
+  "manual_followup_requirements": [
+    {
+      "requirement_id": "GARMENT_SIZE_CONFORM_REVIEW",
+      "owner": "manual_curation",
+      "status": "recorded_not_started",
+      "description": "Review and record per-garment conform or size corrections for slight clipping."
+    },
+    {
+      "requirement_id": "HAIR_OUTFIT_COMPATIBILITY_REVIEW",
+      "owner": "manual_curation",
+      "status": "recorded_not_started",
+      "description": "Review hair against collars, hoods, hats, and head-covering garments; freeze compatible combinations."
+    }
+  ],
+  "counts": {
+    "case_count": 14,
+    "cases_by_sex": {
+      "male": 8,
+      "female": 6
+    },
+    "base_case_count": 2,
+    "outfit_case_count": 12,
+    "source_module_count": 40,
+    "runtime_variant_count": 20,
+    "families": 10,
+    "coverage_tags": {
+      "barefoot_toggle": 1,
+      "base_body": 2,
+      "family_accessory_fixed": 2,
+      "family_accessory_optional": 2,
+      "female_average": 6,
+      "full_body_single": 4,
+      "integrated_footwear": 2,
+      "layered_shirt_coat": 2,
+      "locked_bundle": 2,
+      "male_average": 8,
+      "native_footwear": 7,
+      "optional_coat": 2,
+      "shared_footwear": 3,
+      "shirt_skirt": 1,
+      "standard_separates": 4
+    }
+  },
+  "manifest_id": "cc_modular_outfit_pilot_20260829_v1_ue_runtime",
+  "status": "cc_export_passed",
+  "output_root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1",
+  "bodyfits": [
+    {
+      "bodyfit_id": "M02_Average",
+      "sex": "male",
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      }
+    },
+    {
+      "bodyfit_id": "F02_Average",
+      "sex": "female",
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      }
+    }
+  ],
+  "families": [
+    {
+      "family_id": "female.bikini_ruana",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\outfit_family.json",
+        "size_bytes": 7553,
+        "sha256": "0a5c95680da9df3c0eb5c521665bf97f2f6fa05e6312594f7c4b54a102e29fba"
+      },
+      "footwear_policy": {
+        "mode": "shared_pool",
+        "allowed_shared_shoe_ids": [
+          "F022",
+          "F023",
+          "F024",
+          "F025"
+        ],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": true,
+        "shared_inventory_ref": {
+          "library_id": "cc_shared_shoes_v1",
+          "revision_id": "curated_20260814_v2_cross_sex"
+        }
+      }
+    },
+    {
+      "family_id": "female.dress_collection",
+      "assembly_mode": "slot_groups",
+      "group_id": "shirt_with_skirt",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\outfit_family.json",
+        "size_bytes": 9966,
+        "sha256": "fc1ae6239c4706ceddc82c0553c16d4c6c47ca0604135fcf63de23d60d1984c0"
+      },
+      "footwear_policy": {
+        "mode": "native_pool",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "female.misaki",
+      "assembly_mode": "locked_bundle",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\outfit_family.json",
+        "size_bytes": 3335,
+        "sha256": "3045fcf6501c575e5bbe6731f407467c8f8b8cdfb0f94647328d7dfad213a532"
+      },
+      "footwear_policy": {
+        "mode": "shared_pool",
+        "allowed_shared_shoe_ids": [
+          "F010",
+          "F011",
+          "F012",
+          "F013",
+          "F014",
+          "F015",
+          "F016",
+          "F017",
+          "F018",
+          "F019",
+          "F020",
+          "F021"
+        ],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": {
+          "library_id": "cc_shared_shoes_v1",
+          "revision_id": "curated_20260814_v2_cross_sex"
+        }
+      }
+    },
+    {
+      "family_id": "female.rugged_trendy",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Rugged & Trendy Collection\\outfit_family.json",
+        "size_bytes": 1655,
+        "sha256": "b3025557262316f621faa8b2539598729007822c8f8a433199db37b560088049"
+      },
+      "footwear_policy": {
+        "mode": "integrated_footwear",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "male.1920s_collection",
+      "assembly_mode": "slot_groups",
+      "group_id": "full_body",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\outfit_family.json",
+        "size_bytes": 8943,
+        "sha256": "a5f0923de84caad9e6673983edb9616f04f155cf39d90c2c2fcd1552bfe9ecee"
+      },
+      "footwear_policy": {
+        "mode": "native_pool",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "male.jiving",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\outfit_family.json",
+        "size_bytes": 4001,
+        "sha256": "edf0225560bfb5eb1acf7d7793747a5bf85a94ef19cefad0101c98b6fc20d528"
+      },
+      "footwear_policy": {
+        "mode": "shared_pool",
+        "allowed_shared_shoe_ids": [
+          "M005",
+          "M006",
+          "M007",
+          "M008",
+          "M009",
+          "M010",
+          "M011",
+          "M023",
+          "M024"
+        ],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": {
+          "library_id": "cc_shared_shoes_v1",
+          "revision_id": "curated_20260814_v2_cross_sex"
+        }
+      }
+    },
+    {
+      "family_id": "male.kilt",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\outfit_family.json",
+        "size_bytes": 2321,
+        "sha256": "8fbfebcf31db3f723d2650a80114b9fdfa23e48f3369833527fc6b5dfa6b4224"
+      },
+      "footwear_policy": {
+        "mode": "native_pool",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "male.mercenery",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\outfit_family.json",
+        "size_bytes": 2912,
+        "sha256": "25b7c8664dc244c03198c5f665d7d13b1568395ce6948b431c936d88e011464a"
+      },
+      "footwear_policy": {
+        "mode": "native_pool",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "male.redsoul",
+      "assembly_mode": "locked_bundle",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\outfit_family.json",
+        "size_bytes": 3565,
+        "sha256": "1df40c8d1cb81cb1180012a78f451c826e490631b15bddfb8c13018ad23e4102"
+      },
+      "footwear_policy": {
+        "mode": "native_pool",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    },
+    {
+      "family_id": "male.rugged_trendy",
+      "assembly_mode": "slot_groups",
+      "group_id": "default",
+      "manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Rugged & Trendy Collection\\outfit_family.json",
+        "size_bytes": 1641,
+        "sha256": "27dd10b632729928f6b8de3064c20d2d13461f811108333f39582cf3cbe95667"
+      },
+      "footwear_policy": {
+        "mode": "integrated_footwear",
+        "allowed_shared_shoe_ids": [],
+        "default_shared_shoe_id": null,
+        "allow_barefoot": false,
+        "shared_inventory_ref": null
+      }
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "M_BASE",
+      "case_role": "base_body",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": null,
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\CC_MOD_M_BASE_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\CC_MOD_M_BASE_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_BASE.ccProject"
+      },
+      "modules": [],
+      "runtime_variants": [
+        {
+          "variant_id": "base",
+          "enabled_modules": [],
+          "disabled_modules": [],
+          "purpose": "clothing-free identity and animation leader"
+        }
+      ],
+      "coverage_tags": [
+        "base_body",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\CC_MOD_M_BASE_UE58.fbx",
+          "size_bytes": 146947344,
+          "sha256": "114bbe9074efa46828b018b8792509a53596534039de4d6f1bf78193c19c8da7"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\CC_MOD_M_BASE_UE58.json",
+          "size_bytes": 332065,
+          "sha256": "2a8ee8920780383dc898001452552f96d137ff3066429c4edbb356c830a3762d"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_BASE.ccProject",
+          "size_bytes": 35688642,
+          "sha256": "31925e038bff2b70a1a89b1f99c77ec37de20e3e3a782aee1255847eae4a111c"
+        },
+        "fbm": {
+          "file_count": 25,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\CC_MOD_M_BASE_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 4003579
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_BASE\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 0,
+        "clothing_object_count": 0,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_BASE\\result.json",
+        "sha256": "28f8e5dc4c93311d62b1072201c31b1ebf4957d9a0343beb0d4bf909a77d3bac"
+      }
+    },
+    {
+      "case_id": "M_1920_LAYERED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.1920s_collection",
+        "assembly_mode": "slot_groups",
+        "group_id": "separates",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\outfit_family.json",
+          "size_bytes": 8943,
+          "sha256": "a5f0923de84caad9e6673983edb9616f04f155cf39d90c2c2fcd1552bfe9ecee"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\CC_MOD_M_1920_LAYERED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\CC_MOD_M_1920_LAYERED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_1920_LAYERED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.1920s_collection.asset.05bdaf6c7f02",
+          "display_name": "1920_Tux_Pants",
+          "slot": "pants",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Pants\\1920_Tux_Pants.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Pants\\1920_Tux_Pants.ccCloth",
+          "size_bytes": 4727878,
+          "sha256": "e5890901bcdc325d4acb841010ad055ee61892c9a43c17ab4b2f86a954a77207",
+          "family_relative_path": "Pants/1920_Tux_Pants.ccCloth",
+          "module_key": "Pants/1920_Tux_Pants.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "_920_M_Tuxedo_Pants",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.1920s_collection.asset.ae0d04906a0b",
+          "display_name": "tux_shirt",
+          "slot": "shirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shirts\\tux_shirt.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shirts\\tux_shirt.ccCloth",
+          "size_bytes": 3228827,
+          "sha256": "12642e56e946214a9cd81383488e755885c9cc296da06dc937d0bbddbec6565e",
+          "family_relative_path": "Shirts/tux_shirt.ccCloth",
+          "module_key": "Shirts/tux_shirt.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "_920_Tux_Shirt_Vest",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.1920s_collection.asset.9e172cfc87eb",
+          "display_name": "1920_M_Jacket_2",
+          "slot": "coats",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Coats\\1920_M_Jacket_2.cccloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Coats\\1920_M_Jacket_2.cccloth",
+          "size_bytes": 3296120,
+          "sha256": "fe5732fccf7df5a79c2cfb3bcb2c6a28e9522351d8acbb78b83073be454c98df",
+          "family_relative_path": "Coats/1920_M_Jacket_2.cccloth",
+          "module_key": "Coats/1920_M_Jacket_2.cccloth",
+          "cloth_options_policy": "keep_cloth_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "_920_M_Jacket",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "keep_cloth_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.1920s_collection.asset.548846a12ac4",
+          "display_name": "1920_M_Shoes_1",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shoes\\1920_M_Shoes_1.ccshoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shoes\\1920_M_Shoes_1.ccshoes",
+          "size_bytes": 10236690,
+          "sha256": "d07bf5ddce26ed53e40abfd62b9330bf58f0105858082d9714a9e6af9382c9af",
+          "family_relative_path": "Shoes/1920_M_Shoes_1.ccshoes",
+          "module_key": "Shoes/1920_M_Shoes_1.ccshoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shoes",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "coat_on",
+          "enabled_modules": [
+            "Pants/1920_Tux_Pants.ccCloth",
+            "Shirts/tux_shirt.ccCloth",
+            "Coats/1920_M_Jacket_2.cccloth",
+            "Shoes/1920_M_Shoes_1.ccshoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "shirt plus coat layering"
+        },
+        {
+          "variant_id": "coat_off",
+          "enabled_modules": [
+            "Pants/1920_Tux_Pants.ccCloth",
+            "Shirts/tux_shirt.ccCloth",
+            "Shoes/1920_M_Shoes_1.ccshoes"
+          ],
+          "disabled_modules": [
+            "Coats/1920_M_Jacket_2.cccloth"
+          ],
+          "purpose": "optional coat disabled"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "layered_shirt_coat",
+        "optional_coat",
+        "native_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\CC_MOD_M_1920_LAYERED_UE58.fbx",
+          "size_bytes": 150185312,
+          "sha256": "ff29ff48c0cbe8d2613ddd442d43bf516f10930ace6c1b7db15ea2ac40fd62a6"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\CC_MOD_M_1920_LAYERED_UE58.json",
+          "size_bytes": 345247,
+          "sha256": "a560b54b1b6ae1fffcb55ea89a06702d86e14c0c132fbc7e855f4aa564c8adb0"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_1920_LAYERED.ccProject",
+          "size_bytes": 52187815,
+          "sha256": "590fbc51d81da7efce916dfda3e49dfc6322e5ca4a96d28dc85b65030cd517e3"
+        },
+        "fbm": {
+          "file_count": 33,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\CC_MOD_M_1920_LAYERED_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 13263993
+        },
+        "textures": {
+          "file_count": 1,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_LAYERED\\textures",
+          "present": true,
+          "sample_files": [
+            "CC_MOD_M_1920_LAYERED_UE58\\0920_m_jacket\\0920_M_Jacket\\defaultMat_Tra\\defaultMat_Tra_WeightMap.jpg"
+          ],
+          "total_bytes": 302335
+        }
+      },
+      "cc_inventory": {
+        "object_count": 4,
+        "clothing_object_count": 4,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_1920_LAYERED\\result.json",
+        "sha256": "928bd47e53e154e73cc94c3e5069a9aadfb02f202ec7d4c8857968d1c9792794"
+      }
+    },
+    {
+      "case_id": "M_1920_FULLBODY",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.1920s_collection",
+        "assembly_mode": "slot_groups",
+        "group_id": "full_body",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\outfit_family.json",
+          "size_bytes": 8943,
+          "sha256": "a5f0923de84caad9e6673983edb9616f04f155cf39d90c2c2fcd1552bfe9ecee"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\CC_MOD_M_1920_FULLBODY_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\CC_MOD_M_1920_FULLBODY_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_1920_FULLBODY.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.1920s_collection.asset.04686bc980a8",
+          "display_name": "1920_M_Suit_1",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Full-body\\1920_M_Suit_1.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Full-body\\1920_M_Suit_1.ccCloth",
+          "size_bytes": 6743302,
+          "sha256": "7206112e4281c106f7281091e00cb87c9864ce05ea7cddd92ed2a7400a121c9b",
+          "family_relative_path": "Full-body/1920_M_Suit_1.ccCloth",
+          "module_key": "Full-body/1920_M_Suit_1.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "_920_M_Suit",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.1920s_collection.asset.548846a12ac4",
+          "display_name": "1920_M_Shoes_1",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shoes\\1920_M_Shoes_1.ccshoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\Shoes\\1920_M_Shoes_1.ccshoes",
+          "size_bytes": 10236690,
+          "sha256": "d07bf5ddce26ed53e40abfd62b9330bf58f0105858082d9714a9e6af9382c9af",
+          "family_relative_path": "Shoes/1920_M_Shoes_1.ccshoes",
+          "module_key": "Shoes/1920_M_Shoes_1.ccshoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shoes",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Full-body/1920_M_Suit_1.ccCloth",
+            "Shoes/1920_M_Shoes_1.ccshoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "single full-body garment with native shoes"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "native_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\CC_MOD_M_1920_FULLBODY_UE58.fbx",
+          "size_bytes": 149923360,
+          "sha256": "f4a50a4c28d6fc7c3fa2c0b13c727902edf7a7cc21ad0c8f71b568bc602e4e0f"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\CC_MOD_M_1920_FULLBODY_UE58.json",
+          "size_bytes": 339759,
+          "sha256": "ae0d8108619aace157297605c5d3b872d09cc18cc04e64bc3d9abfdd2f56474d"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_1920_FULLBODY.ccProject",
+          "size_bytes": 48911077,
+          "sha256": "11bf462cc598273dfbc00fd87cbd72fbdc37c80a0892803e6a6152863e310656"
+        },
+        "fbm": {
+          "file_count": 29,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\CC_MOD_M_1920_FULLBODY_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 10011039
+        },
+        "textures": {
+          "file_count": 1,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_1920_FULLBODY\\textures",
+          "present": true,
+          "sample_files": [
+            "CC_MOD_M_1920_FULLBODY_UE58\\0920_m_suit\\0920_M_Suit\\defaultMat_017_Tra\\defaultMat_017_Tra_WeightMap.jpg"
+          ],
+          "total_bytes": 303806
+        }
+      },
+      "cc_inventory": {
+        "object_count": 2,
+        "clothing_object_count": 2,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_1920_FULLBODY\\result.json",
+        "sha256": "f8809e134013f27e22d7b90b31d0a39d7a932c149a184f6421d753babc05286f"
+      }
+    },
+    {
+      "case_id": "M_JIVING_SHARED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.jiving",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\outfit_family.json",
+          "size_bytes": 4001,
+          "sha256": "edf0225560bfb5eb1acf7d7793747a5bf85a94ef19cefad0101c98b6fc20d528"
+        },
+        "footwear_policy": {
+          "mode": "shared_pool",
+          "allowed_shared_shoe_ids": [
+            "M005",
+            "M006",
+            "M007",
+            "M008",
+            "M009",
+            "M010",
+            "M011",
+            "M023",
+            "M024"
+          ],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": {
+            "library_id": "cc_shared_shoes_v1",
+            "revision_id": "curated_20260814_v2_cross_sex"
+          }
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\CC_MOD_M_JIVING_SHARED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\CC_MOD_M_JIVING_SHARED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_JIVING_SHARED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.jiving.asset.3264922c4290",
+          "display_name": "Pants 01",
+          "slot": "pants",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\Pants\\Pants 01.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\Pants\\Pants 01.ccCloth",
+          "size_bytes": 23107406,
+          "sha256": "c83656ee6bd35220e67add67124d6b1e8b882e5c0d0c47cb1bad03a7426fe020",
+          "family_relative_path": "Pants/Pants 01.ccCloth",
+          "module_key": "Pants/Pants 01.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Pants_35366_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.jiving.asset.26cbc1eb61a5",
+          "display_name": "Shirt 01",
+          "slot": "shirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\Shirts\\Shirt 01.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\Shirts\\Shirt 01.ccCloth",
+          "size_bytes": 7783279,
+          "sha256": "9f434a7a4fdba008dfe83374f465ff952c6ed9c591063a8ae401057e9cbd895e",
+          "family_relative_path": "Shirts/Shirt 01.ccCloth",
+          "module_key": "Shirts/Shirt 01.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Shirt_13653_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "M008",
+          "display_name": "Shoes_1",
+          "slot": "shoes",
+          "source": "shared_inventory",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Male\\Casual\\M008_Casual_casual_01_04_Shoes_1.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Male\\Casual\\M008_Casual_casual_01_04_Shoes_1.ccShoes",
+          "size_bytes": 8712080,
+          "sha256": "f4870680179fcd9e240187620de35592d94e8971c494cd1fb852f4b534612cd7",
+          "module_key": "shared:M008",
+          "cloth_options_policy": "fit_body_shape",
+          "validation_status": "not_tested_on_average_bodyfit",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Shoes_10538_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Pants/Pants 01.ccCloth",
+            "Shirts/Shirt 01.ccCloth",
+            "shared:M008"
+          ],
+          "disabled_modules": [],
+          "purpose": "standard separates with a shared footwear pool asset"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "shared_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\CC_MOD_M_JIVING_SHARED_UE58.fbx",
+          "size_bytes": 149790784,
+          "sha256": "bfb8f69264d1a5cc4e7f7c832087caf9ccf22479dcf25a27898f01690eb18553"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\CC_MOD_M_JIVING_SHARED_UE58.json",
+          "size_bytes": 402346,
+          "sha256": "d5a75317a02a01bab90fd6d7bc657d34c488efa7bc70060dc19ea930024ee2ec"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_JIVING_SHARED.ccProject",
+          "size_bytes": 61181616,
+          "sha256": "814c671166751128f2003d7f195e0e6c834c288e978845f263e8e20e141f8555"
+        },
+        "fbm": {
+          "file_count": 71,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\CC_MOD_M_JIVING_SHARED_UE58.fbm",
+          "sample_files": [
+            "BackPockets_Pbr_Diffuse.jpg",
+            "BackPockets_Pbr_Metallic.png",
+            "BeltBuckle_Pbr_Diffuse.jpg",
+            "BeltBuckle_Pbr_Metallic.png",
+            "BeltLoop_Pbr_Diffuse.jpg",
+            "BeltLoop_Pbr_Metallic.png",
+            "BeltStuds_Pbr_Diffuse.jpg",
+            "BeltStuds_Pbr_Metallic.png",
+            "Belt_Pbr_Diffuse.jpg",
+            "Belt_Pbr_Metallic.png",
+            "LeftFootCover_Pbr_Diffuse.jpg",
+            "LeftFootCover_Pbr_Metallic.png",
+            "LeftHeelCover_Pbr_Diffuse.jpg",
+            "LeftHeelCover_Pbr_Metallic.png",
+            "LeftLaces_Pbr_Diffuse.jpg",
+            "LeftLaces_Pbr_Metallic.png",
+            "LeftShoeSole_Pbr_Diffuse.jpg",
+            "LeftShoeSole_Pbr_Metallic.png",
+            "LeftSideCover_Pbr_Diffuse.jpg",
+            "LeftSideCover_Pbr_Metallic.png"
+          ],
+          "total_bytes": 15578951
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_JIVING_SHARED\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 3,
+        "clothing_object_count": 3,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_JIVING_SHARED\\result.json",
+        "sha256": "9d6628a86a9317b98058ff8931d978030f540926b5be0f092b641693d52b047e"
+      }
+    },
+    {
+      "case_id": "M_MERCENERY_SCARF",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.mercenery",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\outfit_family.json",
+          "size_bytes": 2912,
+          "sha256": "25b7c8664dc244c03198c5f665d7d13b1568395ce6948b431c936d88e011464a"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\CC_MOD_M_MERCENERY_SCARF_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\CC_MOD_M_MERCENERY_SCARF_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_MERCENERY_SCARF.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.mercenery.asset.86d3bf90649a",
+          "display_name": "Pants",
+          "slot": "pants",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Pants\\Pants.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Pants\\Pants.ccCloth",
+          "size_bytes": 21592373,
+          "sha256": "dd266a3e7175d502660610562db054bb4b972a34a1159e501db02921f6a84161",
+          "family_relative_path": "Pants/Pants.ccCloth",
+          "module_key": "Pants/Pants.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "pants_v04_34011_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.mercenery.asset.272ee5f88d2e",
+          "display_name": "Shirt",
+          "slot": "shirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Shirts\\Shirt.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Shirts\\Shirt.ccCloth",
+          "size_bytes": 5535767,
+          "sha256": "76329225427578af65bc12d93e96a9b853e7542bcf70aa74692ccf34743f3b21",
+          "family_relative_path": "Shirts/Shirt.ccCloth",
+          "module_key": "Shirts/Shirt.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shirt_remodeled_7394_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.mercenery.asset.f115502451c7",
+          "display_name": "Scarf",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\_Accessories-Pending\\Scarf.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\_Accessories-Pending\\Scarf.ccCloth",
+          "size_bytes": 1800161,
+          "sha256": "892bcc4378a028b421d71605869baf84e1b3942625cb34fc32108c0c26b022af",
+          "family_relative_path": "_Accessories-Pending/Scarf.ccCloth",
+          "module_key": "_Accessories-Pending/Scarf.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shirt_V02_GEO_7394_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.mercenery.asset.b644afc0908a",
+          "display_name": "Boots",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Shoes\\Boots.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\Shoes\\Boots.ccShoes",
+          "size_bytes": 11883137,
+          "sha256": "36aab09bd8f734bbc710f741ba8d526e74e5a2e9be96bbd34dc588b2d486d119",
+          "family_relative_path": "Shoes/Boots.ccShoes",
+          "module_key": "Shoes/Boots.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "boot_LP_GEO1_13784_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "scarf_on",
+          "enabled_modules": [
+            "Pants/Pants.ccCloth",
+            "Shirts/Shirt.ccCloth",
+            "_Accessories-Pending/Scarf.ccCloth",
+            "Shoes/Boots.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "family-local optional accessory enabled"
+        },
+        {
+          "variant_id": "scarf_off",
+          "enabled_modules": [
+            "Pants/Pants.ccCloth",
+            "Shirts/Shirt.ccCloth",
+            "Shoes/Boots.ccShoes"
+          ],
+          "disabled_modules": [
+            "_Accessories-Pending/Scarf.ccCloth"
+          ],
+          "purpose": "family-local optional accessory disabled"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "family_accessory_optional",
+        "native_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\CC_MOD_M_MERCENERY_SCARF_UE58.fbx",
+          "size_bytes": 150283472,
+          "sha256": "258842d5e3fa85772bfa4436f6e19963c3f86d7e698ed5d6cbaa921dba7d9fbc"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\CC_MOD_M_MERCENERY_SCARF_UE58.json",
+          "size_bytes": 351453,
+          "sha256": "114f6ca032e9eb03c691b881f3ea3b431544def6fc433caa56a7ecb556bbcd0e"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_MERCENERY_SCARF.ccProject",
+          "size_bytes": 63396338,
+          "sha256": "2ad8974aa2e918f64bc43dcc18a01cc8bded1cb0b3a9a9d9dd0c80758f86eadb"
+        },
+        "fbm": {
+          "file_count": 37,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\CC_MOD_M_MERCENERY_SCARF_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 13472723
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_MERCENERY_SCARF\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 4,
+        "clothing_object_count": 4,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_MERCENERY_SCARF\\result.json",
+        "sha256": "5a825cdf3274a2e858872803085e2ddfa0348e2f642b1cf826eee922c5413c41"
+      }
+    },
+    {
+      "case_id": "M_REDSOUL_LOCKED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.redsoul",
+        "assembly_mode": "locked_bundle",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\outfit_family.json",
+          "size_bytes": 3565,
+          "sha256": "1df40c8d1cb81cb1180012a78f451c826e490631b15bddfb8c13018ad23e4102"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\CC_MOD_M_REDSOUL_LOCKED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\CC_MOD_M_REDSOUL_LOCKED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_REDSOUL_LOCKED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.redsoul.asset.b7a4b22d397e",
+          "display_name": "SHSV_S02MA_suit",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\Full-body\\SHSV_S02MA_suit.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\Full-body\\SHSV_S02MA_suit.ccCloth",
+          "size_bytes": 27951288,
+          "sha256": "fe338f1fea67dc4549baaf0da2e739b5dbadf94789afe48380a31aba001adb7c",
+          "family_relative_path": "Full-body/SHSV_S02MA_suit.ccCloth",
+          "module_key": "Full-body/SHSV_S02MA_suit.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_combi",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.redsoul.asset.31b40f2f6361",
+          "display_name": "SHSV_S02MA_boots",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\Shoes\\SHSV_S02MA_boots.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\Shoes\\SHSV_S02MA_boots.ccShoes",
+          "size_bytes": 19512204,
+          "sha256": "59db0f1cabb5989ff1cb5ad04720a7c232a15848a050cb68ef2c1ae2be148521",
+          "family_relative_path": "Shoes/SHSV_S02MA_boots.ccShoes",
+          "module_key": "Shoes/SHSV_S02MA_boots.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_Boots",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.redsoul.asset.9517e41aeeaa",
+          "display_name": "SHSV_S02MA_gloves",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_gloves.ccGloves",
+          "path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\outfit_compatibility_aliases\\ee5472b65460_SHSV_S02MA_gloves.ccCloth",
+          "size_bytes": 22819257,
+          "sha256": "ee5472b654601dc717c535a344749004af6d6965ab5eda435a5aa9c8fbb3fc7e",
+          "family_relative_path": "_Accessories-Pending/SHSV_S02MA_gloves.ccGloves",
+          "module_key": "_Accessories-Pending/SHSV_S02MA_gloves.ccGloves",
+          "cloth_options_policy": "fit_body_shape",
+          "compatibility_transform": {
+            "alias_id": "redsoul_gloves_cccloth_dispatch_alias_v1",
+            "byte_identity_verified": true,
+            "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_gloves.ccGloves",
+            "load_path": "D:\\UE\\Lance_Work\\00_engine\\assets\\character_creator\\outfit_compatibility_aliases\\ee5472b65460_SHSV_S02MA_gloves.ccCloth",
+            "transform": "extension_dispatch_alias_only"
+          },
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_gloves",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.redsoul.asset.c255d8db850e",
+          "display_name": "SHSV_S02MA_harness",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_harness.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_harness.ccCloth",
+          "size_bytes": 25101070,
+          "sha256": "4514b29a6b75f9b5a8cdc6d767522a2ec705bb8c6c084d24371e15ce3b747db4",
+          "family_relative_path": "_Accessories-Pending/SHSV_S02MA_harness.ccCloth",
+          "module_key": "_Accessories-Pending/SHSV_S02MA_harness.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_harness",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.redsoul.asset.b27df7cee669",
+          "display_name": "SHSV_S02MA_pockets",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_pockets.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02MA_pockets.ccCloth",
+          "size_bytes": 19617556,
+          "sha256": "c8e05d98059b78b5f82e667247f33d961f23dfbf1f37907ab7d431d19c85f372",
+          "family_relative_path": "_Accessories-Pending/SHSV_S02MA_pockets.ccCloth",
+          "module_key": "_Accessories-Pending/SHSV_S02MA_pockets.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_pockets",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.redsoul.asset.b37f9c3bd4cf",
+          "display_name": "SHSV_S02_MA_hood",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02_MA_hood.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\_Accessories-Pending\\SHSV_S02_MA_hood.ccCloth",
+          "size_bytes": 15097449,
+          "sha256": "e4ce7d63b70a1e913cbbba94bb80929d5d91e34c807693986fdc284207e8c3ac",
+          "family_relative_path": "_Accessories-Pending/SHSV_S02_MA_hood.ccCloth",
+          "module_key": "_Accessories-Pending/SHSV_S02_MA_hood.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "SHSV_MA_hood",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "locked_bundle",
+          "enabled_modules": [
+            "Full-body/SHSV_S02MA_suit.ccCloth",
+            "Shoes/SHSV_S02MA_boots.ccShoes",
+            "_Accessories-Pending/SHSV_S02MA_gloves.ccGloves",
+            "_Accessories-Pending/SHSV_S02MA_harness.ccCloth",
+            "_Accessories-Pending/SHSV_S02MA_pockets.ccCloth",
+            "_Accessories-Pending/SHSV_S02_MA_hood.ccCloth"
+          ],
+          "disabled_modules": [],
+          "purpose": "all authored components remain inseparable"
+        }
+      ],
+      "coverage_tags": [
+        "locked_bundle",
+        "family_accessory_fixed",
+        "native_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\CC_MOD_M_REDSOUL_LOCKED_UE58.fbx",
+          "size_bytes": 148260448,
+          "sha256": "e3d8bc65d67f31502c7bd503ae52b72c64fc32975d61db62935bab2c78934a8b"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\CC_MOD_M_REDSOUL_LOCKED_UE58.json",
+          "size_bytes": 368717,
+          "sha256": "b152f8a8096023585d3c17d867b05b17ca4743481261035ad932d3928cc6ba76"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_REDSOUL_LOCKED.ccProject",
+          "size_bytes": 157849658,
+          "sha256": "03c0af9e1b893e3f2156e7e4d1cf71af5d4bc5cc720a6d7a931293c92140782c"
+        },
+        "fbm": {
+          "file_count": 43,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\CC_MOD_M_REDSOUL_LOCKED_UE58.fbm",
+          "sample_files": [
+            "SHSV_MA_Boots_Pbr_Diffuse.jpg",
+            "SHSV_MA_Boots_Pbr_Metallic.jpg",
+            "SHSV_MA_Boots_Pbr_Normal.png",
+            "SHSV_MA_combi_Pbr_Diffuse.jpg",
+            "SHSV_MA_combi_Pbr_Metallic.jpg",
+            "SHSV_MA_combi_Pbr_Normal.png",
+            "SHSV_MA_harness_Pbr_Diffuse.jpg",
+            "SHSV_MA_harness_Pbr_Metallic.jpg",
+            "SHSV_MA_harness_Pbr_Normal.png",
+            "SHSV_MA_hood_Pbr_Diffuse.jpg",
+            "SHSV_MA_hood_Pbr_Metallic.jpg",
+            "SHSV_MA_hood_Pbr_Normal.png",
+            "SHSV_MA_pockets_Pbr_Diffuse.jpg",
+            "SHSV_MA_pockets_Pbr_Metallic.jpg",
+            "SHSV_MA_pockets_Pbr_Normal.png",
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 44102352
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_REDSOUL_LOCKED\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 6,
+        "clothing_object_count": 6,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_REDSOUL_LOCKED\\result.json",
+        "sha256": "42ce47f1e3c01b3a6e6a68df2378298acd0b64c44d09f2a9f4c6ba6a5eb98a45"
+      }
+    },
+    {
+      "case_id": "M_KILT",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.kilt",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\outfit_family.json",
+          "size_bytes": 2321,
+          "sha256": "8fbfebcf31db3f723d2650a80114b9fdfa23e48f3369833527fc6b5dfa6b4224"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\CC_MOD_M_KILT_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\CC_MOD_M_KILT_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_KILT.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.kilt.asset.873cfed4e461",
+          "display_name": "Kilt",
+          "slot": "skirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Skirts\\Kilt.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Skirts\\Kilt.ccCloth",
+          "size_bytes": 7002546,
+          "sha256": "229fdc2bbd8566c7272194ace3fdcf5e5a38b5d0d3e010fd4bcc00997661d0df",
+          "family_relative_path": "Skirts/Kilt.ccCloth",
+          "module_key": "Skirts/Kilt.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "kilt_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.kilt.asset.efbc088d0b9a",
+          "display_name": "Jacket",
+          "slot": "coats",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Coats\\Jacket.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Coats\\Jacket.ccCloth",
+          "size_bytes": 10316462,
+          "sha256": "4fbc738584504e7d45209f54759bdb8d4ee7ea2339a6faf65502e5bbde6f9d43",
+          "family_relative_path": "Coats/Jacket.ccCloth",
+          "module_key": "Coats/Jacket.ccCloth",
+          "cloth_options_policy": "keep_cloth_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "jacket_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "keep_cloth_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "male.kilt.asset.f250c29bc268",
+          "display_name": "Socks & Shoes",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Shoes\\Socks & Shoes.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\Shoes\\Socks & Shoes.ccShoes",
+          "size_bytes": 7788987,
+          "sha256": "6b69a65c8e56339cb5a0ad7b8235dbf4efe710653a551eba86c89b1172e069ed",
+          "family_relative_path": "Shoes/Socks & Shoes.ccShoes",
+          "module_key": "Shoes/Socks & Shoes.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "ghillie_brogue_10942_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Skirts/Kilt.ccCloth",
+            "Coats/Jacket.ccCloth",
+            "Shoes/Socks & Shoes.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "male skirt-like structural special case"
+        }
+      ],
+      "coverage_tags": [
+        "native_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\CC_MOD_M_KILT_UE58.fbx",
+          "size_bytes": 149490144,
+          "sha256": "26ee444f078fe7f3ee33e9b61e6dee03d52577e40a21737ea8774d490857b3af"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\CC_MOD_M_KILT_UE58.json",
+          "size_bytes": 380008,
+          "sha256": "0e16cfd30ee7902dc7ba17f86bead1c8b47d7de18ab0f191037a713eb9491688"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_KILT.ccProject",
+          "size_bytes": 53811070,
+          "sha256": "3c309205a2027ef0dcc4c1a645e32f89e83070af0c52f8f184326f97d5a2b74c"
+        },
+        "fbm": {
+          "file_count": 64,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\CC_MOD_M_KILT_UE58.fbm",
+          "sample_files": [
+            "Belt_Pbr_Diffuse.jpg",
+            "Belt_Pbr_Metallic.png",
+            "Belt_Pbr_Normal.jpg",
+            "Botton_Jacket_Pbr_Diffuse.jpg",
+            "Botton_Jacket_Pbr_Metallic.png",
+            "Botton_Jacket_Pbr_Normal.jpg",
+            "Botton_Shirt_Pbr_Diffuse.jpg",
+            "Botton_Shirt_Pbr_Metallic.png",
+            "Botton_Shirt_Pbr_Normal.jpg",
+            "Botton_Vest_Pbr_Diffuse.jpg",
+            "Botton_Vest_Pbr_Metallic.png",
+            "Botton_Vest_Pbr_Normal.jpg",
+            "Buckle_Pbr_Diffuse.jpg",
+            "Buckle_Pbr_Metallic.png",
+            "Buckle_Pbr_Normal.jpg",
+            "Ghillie_Brogue_Pbr_Diffuse.jpg",
+            "Ghillie_Brogue_Pbr_Metallic.png",
+            "Ghillie_Brogue_Pbr_Normal.jpg",
+            "Hoes_Pbr_Diffuse.jpg",
+            "Hoes_Pbr_Metallic.png"
+          ],
+          "total_bytes": 14706285
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_KILT\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 3,
+        "clothing_object_count": 3,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_KILT\\result.json",
+        "sha256": "b8b90e92115fdf22a6d5d72031156bd9e4a6496e40adcd23b7b0ec0a16c11084"
+      }
+    },
+    {
+      "case_id": "M_RUGGED_INTEGRATED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family": {
+        "family_id": "male.rugged_trendy",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Rugged & Trendy Collection\\outfit_family.json",
+          "size_bytes": 1641,
+          "sha256": "27dd10b632729928f6b8de3064c20d2d13461f811108333f39582cf3cbe95667"
+        },
+        "footwear_policy": {
+          "mode": "integrated_footwear",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\CC_MOD_M_RUGGED_INTEGRATED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\CC_MOD_M_RUGGED_INTEGRATED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_RUGGED_INTEGRATED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "male.rugged_trendy.asset.8e03542d8d6d",
+          "display_name": "Men Protective Gear",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Rugged & Trendy Collection\\Full-body\\Men Protective Gear.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Rugged & Trendy Collection\\Full-body\\Men Protective Gear.ccShoes",
+          "size_bytes": 11549439,
+          "sha256": "2d51f97c413be433ed4ca4c4e172e64524ebb0f76e798bf86d379a534532d430",
+          "family_relative_path": "Full-body/Men Protective Gear.ccShoes",
+          "module_key": "Full-body/Men Protective Gear.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Men_Protective_Gear",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Full-body/Men Protective Gear.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "full-body asset with integrated footwear"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "integrated_footwear",
+        "male_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\CC_MOD_M_RUGGED_INTEGRATED_UE58.fbx",
+          "size_bytes": 148663744,
+          "sha256": "8f78de7078c39dc86c20f29af947b47aa0d861a7b3d5f0788df175533a2359c0"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\CC_MOD_M_RUGGED_INTEGRATED_UE58.json",
+          "size_bytes": 336958,
+          "sha256": "6f39752ecdd5feab0dbbda1d0a15eb390acd0038f7ba0bc8f3ab2f2a776fd843"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\M_RUGGED_INTEGRATED.ccProject",
+          "size_bytes": 46037025,
+          "sha256": "88c3febec133bffe9e05b01bfb89cc1a0475c3e4d6389852a10b8e2ba8f4dfbd"
+        },
+        "fbm": {
+          "file_count": 28,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\CC_MOD_M_RUGGED_INTEGRATED_UE58.fbm",
+          "sample_files": [
+            "Men_Protective_Gear_Pbr_Diffuse.jpg",
+            "Men_Protective_Gear_Pbr_Metallic.jpg",
+            "Men_Protective_Gear_Pbr_Normal.jpg",
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg"
+          ],
+          "total_bytes": 10949805
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\M_RUGGED_INTEGRATED\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 1,
+        "clothing_object_count": 1,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\M_RUGGED_INTEGRATED\\result.json",
+        "sha256": "6b542aecbcb2f273c1915127638aea5c1a1f54df11db8b6cf35ba1cdda71a567"
+      }
+    },
+    {
+      "case_id": "F_BASE",
+      "case_role": "base_body",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": null,
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\CC_MOD_F_BASE_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\CC_MOD_F_BASE_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_BASE.ccProject"
+      },
+      "modules": [],
+      "runtime_variants": [
+        {
+          "variant_id": "base",
+          "enabled_modules": [],
+          "disabled_modules": [],
+          "purpose": "clothing-free identity and animation leader"
+        }
+      ],
+      "coverage_tags": [
+        "base_body",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\CC_MOD_F_BASE_UE58.fbx",
+          "size_bytes": 143219312,
+          "sha256": "d0e5b3c4cae6580b6404de4ab4ecf10f3392cbf24b1b90ae54cda93876d3b078"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\CC_MOD_F_BASE_UE58.json",
+          "size_bytes": 332157,
+          "sha256": "7bef7b36a3805161be850883c07dabdd0ec64e172bb8f3e460c3e5b8af075fe3"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_BASE.ccProject",
+          "size_bytes": 35697411,
+          "sha256": "11a6b7fd3c909dbb8088c84c3124d0d1b568e7d3a421c47cbf11788675ac90c8"
+        },
+        "fbm": {
+          "file_count": 25,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\CC_MOD_F_BASE_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 4003579
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BASE\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 0,
+        "clothing_object_count": 0,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_BASE\\result.json",
+        "sha256": "1ac3badaa1d0b1b3f1490489bd7e19d6698376251cee90cda88285c204bd6c11"
+      }
+    },
+    {
+      "case_id": "F_DRESS_FULLBODY",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": {
+        "family_id": "female.dress_collection",
+        "assembly_mode": "slot_groups",
+        "group_id": "full_body",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\outfit_family.json",
+          "size_bytes": 9966,
+          "sha256": "fc1ae6239c4706ceddc82c0553c16d4c6c47ca0604135fcf63de23d60d1984c0"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\CC_MOD_F_DRESS_FULLBODY_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\CC_MOD_F_DRESS_FULLBODY_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_DRESS_FULLBODY.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "female.dress_collection.asset.9769d6abd82f",
+          "display_name": "Satin_Dress",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Full-body\\Satin_Dress.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Full-body\\Satin_Dress.ccCloth",
+          "size_bytes": 57012834,
+          "sha256": "5b1450f8441d2b2fc677e008ccaba09e5c8be7460dd4d2bf5516286c624891e9",
+          "family_relative_path": "Full-body/Satin_Dress.ccCloth",
+          "module_key": "Full-body/Satin_Dress.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "dress",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.dress_collection.asset.e9bbf4c4b19a",
+          "display_name": "Black_bow",
+          "slot": "family_accessory",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\_Accessories-Pending\\Black_bow.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\_Accessories-Pending\\Black_bow.ccCloth",
+          "size_bytes": 493179,
+          "sha256": "750f542ad8b5d8afd74a6292ef2d5e9285c838321e9dbf0eee2ae243f33674f5",
+          "family_relative_path": "_Accessories-Pending/Black_bow.ccCloth",
+          "module_key": "_Accessories-Pending/Black_bow.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "bow_1",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.dress_collection.asset.f4ef3053bc38",
+          "display_name": "Satin_red",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shoes\\Satin_red.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shoes\\Satin_red.ccShoes",
+          "size_bytes": 1562046,
+          "sha256": "316a87b21d125514010835a8f20a314a3ab79c5d6bd1b7dcb25c84d6a9ce4acc",
+          "family_relative_path": "Shoes/Satin_red.ccShoes",
+          "module_key": "Shoes/Satin_red.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shoes",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "bow_on",
+          "enabled_modules": [
+            "Full-body/Satin_Dress.ccCloth",
+            "_Accessories-Pending/Black_bow.ccCloth",
+            "Shoes/Satin_red.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "single full-body garment with optional local accessory"
+        },
+        {
+          "variant_id": "bow_off",
+          "enabled_modules": [
+            "Full-body/Satin_Dress.ccCloth",
+            "Shoes/Satin_red.ccShoes"
+          ],
+          "disabled_modules": [
+            "_Accessories-Pending/Black_bow.ccCloth"
+          ],
+          "purpose": "optional local accessory disabled"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "family_accessory_optional",
+        "native_footwear",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\CC_MOD_F_DRESS_FULLBODY_UE58.fbx",
+          "size_bytes": 143381824,
+          "sha256": "d43fd78b12fca8f2e69ea22c6f8e4d93348e466d4e6bf4995caa94cfe054f7f5"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\CC_MOD_F_DRESS_FULLBODY_UE58.json",
+          "size_bytes": 346455,
+          "sha256": "99f85ffbb5205558daa185f5686e5aec64a5264eb4e9b09bf051e7f52e50788f"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_DRESS_FULLBODY.ccProject",
+          "size_bytes": 91540488,
+          "sha256": "046d0674a3eb3bb0edb7cd0bb1898b23113025629f085e56a24ec385cd4114aa"
+        },
+        "fbm": {
+          "file_count": 34,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\CC_MOD_F_DRESS_FULLBODY_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 40957696
+        },
+        "textures": {
+          "file_count": 1,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_FULLBODY\\textures",
+          "present": true,
+          "sample_files": [
+            "CC_MOD_F_DRESS_FULLBODY_UE58\\dress\\dress\\dress_tex_Pbr\\dress_tex_Pbr_WeightMap.jpg"
+          ],
+          "total_bytes": 82389
+        }
+      },
+      "cc_inventory": {
+        "object_count": 3,
+        "clothing_object_count": 3,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_DRESS_FULLBODY\\result.json",
+        "sha256": "728141f04d82f678a68c490a6cd7546eac51252ba58d470926092d4390ca582e"
+      }
+    },
+    {
+      "case_id": "F_DRESS_SEPARATES",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": {
+        "family_id": "female.dress_collection",
+        "assembly_mode": "slot_groups",
+        "group_id": "shirt_with_skirt",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\outfit_family.json",
+          "size_bytes": 9966,
+          "sha256": "fc1ae6239c4706ceddc82c0553c16d4c6c47ca0604135fcf63de23d60d1984c0"
+        },
+        "footwear_policy": {
+          "mode": "native_pool",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\CC_MOD_F_DRESS_SEPARATES_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\CC_MOD_F_DRESS_SEPARATES_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_DRESS_SEPARATES.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "female.dress_collection.asset.6b5b7f926feb",
+          "display_name": "Tripes_skirt",
+          "slot": "skirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Skirts\\Tripes_skirt.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Skirts\\Tripes_skirt.ccCloth",
+          "size_bytes": 8688715,
+          "sha256": "bce945c7d0d830226a60d36cc6f2218a4458fc2e5d1084090cfcc0372cf3cbf8",
+          "family_relative_path": "Skirts/Tripes_skirt.ccCloth",
+          "module_key": "Skirts/Tripes_skirt.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "askirt",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.dress_collection.asset.18dbd4de50c1",
+          "display_name": "Stripes_shirt",
+          "slot": "shirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shirts\\Stripes_shirt.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shirts\\Stripes_shirt.ccCloth",
+          "size_bytes": 44503366,
+          "sha256": "e74c77f784897494c9b4b6aa876e80b6624ca82dae17390e1e92a37563af07ef",
+          "family_relative_path": "Shirts/Stripes_shirt.ccCloth",
+          "module_key": "Shirts/Stripes_shirt.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "stripes_shirt_1",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.dress_collection.asset.f4ef3053bc38",
+          "display_name": "Satin_red",
+          "slot": "shoes",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shoes\\Satin_red.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\Shoes\\Satin_red.ccShoes",
+          "size_bytes": 1562046,
+          "sha256": "316a87b21d125514010835a8f20a314a3ab79c5d6bd1b7dcb25c84d6a9ce4acc",
+          "family_relative_path": "Shoes/Satin_red.ccShoes",
+          "module_key": "Shoes/Satin_red.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "shoes",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Skirts/Tripes_skirt.ccCloth",
+            "Shirts/Stripes_shirt.ccCloth",
+            "Shoes/Satin_red.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "shirt and skirt component structure"
+        }
+      ],
+      "coverage_tags": [
+        "shirt_skirt",
+        "native_footwear",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\CC_MOD_F_DRESS_SEPARATES_UE58.fbx",
+          "size_bytes": 143726432,
+          "sha256": "fdffbf4908f81524b4007b1e58627b847488ea48bd34f9905feca5a73ee87b0f"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\CC_MOD_F_DRESS_SEPARATES_UE58.json",
+          "size_bytes": 345922,
+          "sha256": "932cdd9fdd87b63d47d9bddb6e427252c7d936306fef31a41b5c2264a4360bc7"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_DRESS_SEPARATES.ccProject",
+          "size_bytes": 85519710,
+          "sha256": "72e3852fc2d0c37d53941b701a2ab4b6f8c8f7dde7ee533e9d7b761dd69d4f45"
+        },
+        "fbm": {
+          "file_count": 34,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\CC_MOD_F_DRESS_SEPARATES_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 45376999
+        },
+        "textures": {
+          "file_count": 1,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_DRESS_SEPARATES\\textures",
+          "present": true,
+          "sample_files": [
+            "CC_MOD_F_DRESS_SEPARATES_UE58\\askirt\\askirt\\skirt_tex_Pbr\\skirt_tex_Pbr_WeightMap.jpg"
+          ],
+          "total_bytes": 173538
+        }
+      },
+      "cc_inventory": {
+        "object_count": 3,
+        "clothing_object_count": 3,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_DRESS_SEPARATES\\result.json",
+        "sha256": "0c6728e09fe6bb4dc87cba750dad3497191ebaaf7637a32195753f82597a0c0b"
+      }
+    },
+    {
+      "case_id": "F_BIKINI_LAYERED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": {
+        "family_id": "female.bikini_ruana",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\outfit_family.json",
+          "size_bytes": 7553,
+          "sha256": "0a5c95680da9df3c0eb5c521665bf97f2f6fa05e6312594f7c4b54a102e29fba"
+        },
+        "footwear_policy": {
+          "mode": "shared_pool",
+          "allowed_shared_shoe_ids": [
+            "F022",
+            "F023",
+            "F024",
+            "F025"
+          ],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": true,
+          "shared_inventory_ref": {
+            "library_id": "cc_shared_shoes_v1",
+            "revision_id": "curated_20260814_v2_cross_sex"
+          }
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\CC_MOD_F_BIKINI_LAYERED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\CC_MOD_F_BIKINI_LAYERED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_BIKINI_LAYERED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "female.bikini_ruana.asset.44be85280d19",
+          "display_name": "Bikini_Bottom_Animal",
+          "slot": "pants",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Pants\\Bikini_Bottom_Animal.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Pants\\Bikini_Bottom_Animal.ccCloth",
+          "size_bytes": 17822204,
+          "sha256": "29b7d935c78aa19a14181a75b542fddd3ace0c96871f400ca4fa55edcf39e520",
+          "family_relative_path": "Pants/Bikini_Bottom_Animal.ccCloth",
+          "module_key": "Pants/Bikini_Bottom_Animal.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Bikini_Boottom",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.bikini_ruana.asset.cb86570512f2",
+          "display_name": "Bikini_Top_Animal",
+          "slot": "shirts",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Shirts\\Bikini_Top_Animal.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Shirts\\Bikini_Top_Animal.ccCloth",
+          "size_bytes": 13931176,
+          "sha256": "c84d8b598196f6bee34f44ac34c1dc86ab5937aae6b9e5cbbf11f94ded7b39cb",
+          "family_relative_path": "Shirts/Bikini_Top_Animal.ccCloth",
+          "module_key": "Shirts/Bikini_Top_Animal.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Bikini_Top",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.bikini_ruana.asset.2474204240ba",
+          "display_name": "Bikini_Cover-up_Animal",
+          "slot": "coats",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Coats\\Bikini_Cover-up_Animal.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\Coats\\Bikini_Cover-up_Animal.ccCloth",
+          "size_bytes": 21538708,
+          "sha256": "ad303797a0e2bb7e8e05aa98d5bf6e1ae546b9b23279684a9adfa311729c1a13",
+          "family_relative_path": "Coats/Bikini_Cover-up_Animal.ccCloth",
+          "module_key": "Coats/Bikini_Cover-up_Animal.ccCloth",
+          "cloth_options_policy": "keep_cloth_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "WarriorCloak",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "keep_cloth_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "F022",
+          "display_name": "Shoes 01",
+          "slot": "shoes",
+          "source": "shared_inventory",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Female\\Sandals\\F022_Sandals_dash_Shoes_01.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Female\\Sandals\\F022_Sandals_dash_Shoes_01.ccShoes",
+          "size_bytes": 7381310,
+          "sha256": "0d12421f626de71d3a5e7782f343d51212616853eda01f374870fd2c319fc147",
+          "module_key": "shared:F022",
+          "cloth_options_policy": "fit_body_shape",
+          "validation_status": "not_tested_on_average_bodyfit",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "DashSandals_8752_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "cover_and_shoes",
+          "enabled_modules": [
+            "Pants/Bikini_Bottom_Animal.ccCloth",
+            "Shirts/Bikini_Top_Animal.ccCloth",
+            "Coats/Bikini_Cover-up_Animal.ccCloth",
+            "shared:F022"
+          ],
+          "disabled_modules": [],
+          "purpose": "optional coat and shared shoes enabled"
+        },
+        {
+          "variant_id": "no_cover_with_shoes",
+          "enabled_modules": [
+            "Pants/Bikini_Bottom_Animal.ccCloth",
+            "Shirts/Bikini_Top_Animal.ccCloth",
+            "shared:F022"
+          ],
+          "disabled_modules": [
+            "Coats/Bikini_Cover-up_Animal.ccCloth"
+          ],
+          "purpose": "optional coat disabled"
+        },
+        {
+          "variant_id": "cover_barefoot",
+          "enabled_modules": [
+            "Pants/Bikini_Bottom_Animal.ccCloth",
+            "Shirts/Bikini_Top_Animal.ccCloth",
+            "Coats/Bikini_Cover-up_Animal.ccCloth"
+          ],
+          "disabled_modules": [
+            "shared:F022"
+          ],
+          "purpose": "approved barefoot toggle"
+        },
+        {
+          "variant_id": "no_cover_barefoot",
+          "enabled_modules": [
+            "Pants/Bikini_Bottom_Animal.ccCloth",
+            "Shirts/Bikini_Top_Animal.ccCloth"
+          ],
+          "disabled_modules": [
+            "Coats/Bikini_Cover-up_Animal.ccCloth",
+            "shared:F022"
+          ],
+          "purpose": "coat disabled and approved barefoot toggle"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "layered_shirt_coat",
+        "optional_coat",
+        "shared_footwear",
+        "barefoot_toggle",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\CC_MOD_F_BIKINI_LAYERED_UE58.fbx",
+          "size_bytes": 143174672,
+          "sha256": "0ec80cd4aca21da644cfe03f42bb7227acf939c499f288f9d70f8522339c75ce"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\CC_MOD_F_BIKINI_LAYERED_UE58.json",
+          "size_bytes": 371762,
+          "sha256": "521fbdef765a0b5ad9b367173ac18f4832dc0bedb58e138d50c5a17ee4ccfc4a"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_BIKINI_LAYERED.ccProject",
+          "size_bytes": 91206048,
+          "sha256": "ef38be626362986d3a75aeb37f66e0fb88bef3c6c5d047eb5ec95538dbcf7ea0"
+        },
+        "fbm": {
+          "file_count": 47,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\CC_MOD_F_BIKINI_LAYERED_UE58.fbm",
+          "sample_files": [
+            "Bikini_Bottom_Pbr_Diffuse.png",
+            "Bikini_Bottom_Pbr_Metallic.png",
+            "Bikini_Bottom_Pbr_Normal.png",
+            "Bikini_Bottom_Pbr_Opacity.png",
+            "Bikini_Top_Pbr_Diffuse.png",
+            "Bikini_Top_Pbr_Metallic.png",
+            "Bikini_Top_Pbr_Normal.png",
+            "Bikini_Top_Pbr_Opacity.png",
+            "Nails_Pbr_Diffuse.jpg",
+            "Nails_Pbr_Metallic.png",
+            "Sole_Pbr_Diffuse.jpg",
+            "Sole_Pbr_Metallic.png",
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg"
+          ],
+          "total_bytes": 16092943
+        },
+        "textures": {
+          "file_count": 1,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_BIKINI_LAYERED\\textures",
+          "present": true,
+          "sample_files": [
+            "CC_MOD_F_BIKINI_LAYERED_UE58\\warriorcloak\\WarriorCloak\\WarriorCloak_Pbr\\WarriorCloak_Pbr_WeightMap.jpg"
+          ],
+          "total_bytes": 85896
+        }
+      },
+      "cc_inventory": {
+        "object_count": 4,
+        "clothing_object_count": 4,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_BIKINI_LAYERED\\result.json",
+        "sha256": "a42623a6259b97da08423c861c33605e451ba69a9b18b83402de56a4bad4e200"
+      }
+    },
+    {
+      "case_id": "F_MISAKI_LOCKED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": {
+        "family_id": "female.misaki",
+        "assembly_mode": "locked_bundle",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\outfit_family.json",
+          "size_bytes": 3335,
+          "sha256": "3045fcf6501c575e5bbe6731f407467c8f8b8cdfb0f94647328d7dfad213a532"
+        },
+        "footwear_policy": {
+          "mode": "shared_pool",
+          "allowed_shared_shoe_ids": [
+            "F010",
+            "F011",
+            "F012",
+            "F013",
+            "F014",
+            "F015",
+            "F016",
+            "F017",
+            "F018",
+            "F019",
+            "F020",
+            "F021"
+          ],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": {
+            "library_id": "cc_shared_shoes_v1",
+            "revision_id": "curated_20260814_v2_cross_sex"
+          }
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\CC_MOD_F_MISAKI_LOCKED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\CC_MOD_F_MISAKI_LOCKED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_MISAKI_LOCKED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "female.misaki.asset.f27bc8642eba",
+          "display_name": "1",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\1.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\1.ccCloth",
+          "size_bytes": 13056194,
+          "sha256": "111f4162825f70c890d63d2cb77bb56cad1f52c740a7b771b4a2932622f71fc6",
+          "family_relative_path": "Full-body/Locked-Bundle/1.ccCloth",
+          "module_key": "Full-body/Locked-Bundle/1.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "CP_DOAXVV_Misaki_Cloth_02_5994_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.misaki.asset.b41a7781562c",
+          "display_name": "2",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\2.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\2.ccCloth",
+          "size_bytes": 210380,
+          "sha256": "7b98acb38b69fa9472ce8b499ea094def1e296a1199a14f320ea74a6b8d255e7",
+          "family_relative_path": "Full-body/Locked-Bundle/2.ccCloth",
+          "module_key": "Full-body/Locked-Bundle/2.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "CP_DOAXVV_Misaki_Face_paint_20_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.misaki.asset.dfdf5cd81df8",
+          "display_name": "3",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\3.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\3.ccCloth",
+          "size_bytes": 22830400,
+          "sha256": "447b4429ff35848b167dce8b909b825dfeed48b859f8e7b08ef6f95ad74e66c7",
+          "family_relative_path": "Full-body/Locked-Bundle/3.ccCloth",
+          "module_key": "Full-body/Locked-Bundle/3.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "CP_DOAXVV_Misaki_Cloth_01_6479_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.misaki.asset.7b08cf297183",
+          "display_name": "4",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\4.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\4.ccCloth",
+          "size_bytes": 14417004,
+          "sha256": "d6ce7baf891752aba86db991a2df38dcc28a5923662210e1c787045d1d47fdcc",
+          "family_relative_path": "Full-body/Locked-Bundle/4.ccCloth",
+          "module_key": "Full-body/Locked-Bundle/4.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "CP_DOAXVV_Misaki_Cloth_03_7998_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "female.misaki.asset.6e5f0523d9b2",
+          "display_name": "5",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\5.ccCloth",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\Full-body\\Locked-Bundle\\5.ccCloth",
+          "size_bytes": 5399833,
+          "sha256": "e02340ec5fcf880ce8b44cae842a23ca73a4c1cbae62ecc29ab56e4ed9b7b426",
+          "family_relative_path": "Full-body/Locked-Bundle/5.ccCloth",
+          "module_key": "Full-body/Locked-Bundle/5.ccCloth",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "CP_DOAXVV_Misaki_jewelery_9926_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        },
+        {
+          "asset_id": "F010",
+          "display_name": "Shoes1",
+          "slot": "shoes",
+          "source": "shared_inventory",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Female\\Heels\\F010_Heels_pretty_dresses_Shoes1.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\Female\\Heels\\F010_Heels_pretty_dresses_Shoes1.ccShoes",
+          "size_bytes": 5481641,
+          "sha256": "0e40bb7fc69721d9a2dbda5ecf40af8e68b97050cf4acfef59d52871f1c40fcf",
+          "module_key": "shared:F010",
+          "cloth_options_policy": "fit_body_shape",
+          "validation_status": "not_tested_on_average_bodyfit",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Pumps3_11316_Shape",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "locked_bundle",
+          "enabled_modules": [
+            "Full-body/Locked-Bundle/1.ccCloth",
+            "Full-body/Locked-Bundle/2.ccCloth",
+            "Full-body/Locked-Bundle/3.ccCloth",
+            "Full-body/Locked-Bundle/4.ccCloth",
+            "Full-body/Locked-Bundle/5.ccCloth",
+            "shared:F010"
+          ],
+          "disabled_modules": [],
+          "purpose": "all authored components remain inseparable"
+        }
+      ],
+      "coverage_tags": [
+        "locked_bundle",
+        "family_accessory_fixed",
+        "shared_footwear",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\CC_MOD_F_MISAKI_LOCKED_UE58.fbx",
+          "size_bytes": 145355472,
+          "sha256": "a2daa733c148f4f3776ad09c3e0113d650879241faffad591c988fca3ee64921"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\CC_MOD_F_MISAKI_LOCKED_UE58.json",
+          "size_bytes": 507007,
+          "sha256": "8f6a795ec6afc0167ab453076880a5ea04fee551a99ec6461a54baba8bacc46d"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_MISAKI_LOCKED.ccProject",
+          "size_bytes": 86820922,
+          "sha256": "0982f293f3499694d8f6b8fed1bdff892e09d1b9238c715e42aa2f7bdd0e03c6"
+        },
+        "fbm": {
+          "file_count": 136,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\CC_MOD_F_MISAKI_LOCKED_UE58.fbm",
+          "sample_files": [
+            "Fabric_Pbr_Metallic.png",
+            "Inner_Pbr_Metallic.png",
+            "Metal_Pbr_Metallic.png",
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg"
+          ],
+          "total_bytes": 36770743
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_MISAKI_LOCKED\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 6,
+        "clothing_object_count": 6,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_MISAKI_LOCKED\\result.json",
+        "sha256": "0bcbdc1c0a50c4b3403ec025a910a3c033df0fd5ad7150c49c0e410628ec51ed"
+      }
+    },
+    {
+      "case_id": "F_RUGGED_INTEGRATED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family": {
+        "family_id": "female.rugged_trendy",
+        "assembly_mode": "slot_groups",
+        "group_id": "default",
+        "manifest": {
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Rugged & Trendy Collection\\outfit_family.json",
+          "size_bytes": 1655,
+          "sha256": "b3025557262316f621faa8b2539598729007822c8f8a433199db37b560088049"
+        },
+        "footwear_policy": {
+          "mode": "integrated_footwear",
+          "allowed_shared_shoe_ids": [],
+          "default_shared_shoe_id": null,
+          "allow_barefoot": false,
+          "shared_inventory_ref": null
+        }
+      },
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      },
+      "planned_export": {
+        "root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED",
+        "fbx": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\CC_MOD_F_RUGGED_INTEGRATED_UE58.fbx",
+        "json": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\CC_MOD_F_RUGGED_INTEGRATED_UE58.json",
+        "project": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_RUGGED_INTEGRATED.ccProject"
+      },
+      "modules": [
+        {
+          "asset_id": "female.rugged_trendy.asset.75cae95a33d8",
+          "display_name": "Women Protective Gear",
+          "slot": "full_body",
+          "source": "family",
+          "source_path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Rugged & Trendy Collection\\Full-body\\Women Protective Gear.ccShoes",
+          "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Rugged & Trendy Collection\\Full-body\\Women Protective Gear.ccShoes",
+          "size_bytes": 11480803,
+          "sha256": "58355d8c8cb13769c91a91fc2565223c04cf28e3d75ebb29bd575e8b05257517",
+          "family_relative_path": "Full-body/Women Protective Gear.ccShoes",
+          "module_key": "Full-body/Women Protective Gear.ccShoes",
+          "cloth_options_policy": "fit_body_shape",
+          "cc_scene_objects": [
+            {
+              "collection": "GetClothes",
+              "name": "Women_Protective_Gear",
+              "python_type": "RICloth"
+            }
+          ],
+          "cc_application": {
+            "cloth_options_policy": "fit_body_shape",
+            "dialog_count": 0,
+            "removed_previously_applied_asset_count": 0
+          }
+        }
+      ],
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "enabled_modules": [
+            "Full-body/Women Protective Gear.ccShoes"
+          ],
+          "disabled_modules": [],
+          "purpose": "full-body asset with integrated footwear"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "integrated_footwear",
+        "female_average"
+      ],
+      "validation_status": "cc_export_passed",
+      "export": {
+        "fbx": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\CC_MOD_F_RUGGED_INTEGRATED_UE58.fbx",
+          "size_bytes": 142504112,
+          "sha256": "f43efdab4df374c1ed51740e02f8a6528bdafbaa4435bc403a7023430b4f998a"
+        },
+        "auto_setup_json": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\CC_MOD_F_RUGGED_INTEGRATED_UE58.json",
+          "size_bytes": 337042,
+          "sha256": "7ae22a1820b81db4d16e8aacad5a712dabd9b870769ae831591d04fbf7087d2c"
+        },
+        "project": {
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\projects\\F_RUGGED_INTEGRATED.ccProject",
+          "size_bytes": 45856383,
+          "sha256": "8b9f54aedd8d0a27d05b1dad3532d522e875bb884615bc34693e40d7ff2809ee"
+        },
+        "fbm": {
+          "file_count": 28,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\CC_MOD_F_RUGGED_INTEGRATED_UE58.fbm",
+          "sample_files": [
+            "Std_Cornea_L_Pbr_Metallic.jpg",
+            "Std_Cornea_R_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Metallic.jpg",
+            "Std_Eye_L_Pbr_Normal.jpg",
+            "Std_Eye_Occlusion_L_Pbr_Metallic.png",
+            "Std_Eye_Occlusion_R_Pbr_Metallic.png",
+            "Std_Eye_R_Pbr_Metallic.jpg",
+            "Std_Eye_R_Pbr_Normal.jpg",
+            "Std_Eyelash_Pbr_Normal.png",
+            "Std_Eyelash_Pbr_Opacity.jpg",
+            "Std_Lower_Teeth_Pbr_Diffuse.jpg",
+            "Std_Lower_Teeth_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Diffuse.jpg",
+            "Std_Nails_Pbr_Metallic.jpg",
+            "Std_Nails_Pbr_Normal.png",
+            "Std_Skin_Arm_Pbr_Diffuse.jpg",
+            "Std_Skin_Body_Pbr_Diffuse.jpg",
+            "Std_Skin_Head_Pbr_Diffuse.jpg",
+            "Std_Skin_Leg_Pbr_Diffuse.jpg",
+            "Std_Tearline_L_Pbr_Metallic.png"
+          ],
+          "total_bytes": 10945009
+        },
+        "textures": {
+          "file_count": 0,
+          "path": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1\\full_reference\\F_RUGGED_INTEGRATED\\textures",
+          "present": false,
+          "sample_files": [],
+          "total_bytes": 0
+        }
+      },
+      "cc_inventory": {
+        "object_count": 1,
+        "clothing_object_count": 1,
+        "hair_object_count": 0
+      },
+      "cc_result_evidence": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\cases\\F_RUGGED_INTEGRATED\\result.json",
+        "sha256": "b472df2dedc6c28173ebbf552ce6ee72c042352d57d9c89ee92a9b92f9900a62"
+      }
+    }
+  ],
+  "runtime_contract": {
+    "body_component": "animation_and_identity_leader",
+    "outfit_components": "skeletal_mesh_followers",
+    "pose_sync": "SetLeaderPoseComponent",
+    "curve_and_morph_policy": "explicit propagation or broadcast; Leader Pose alone is insufficient",
+    "collision_policy": "body owns collision and physics; outfit followers default to no collision",
+    "body_surface_hiding": "manifest field required before production; pilot records the gap",
+    "family_compatibility": "only runtime_variants frozen in this manifest are approved"
+  },
+  "cc_export_evidence": {
+    "validation_result": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_creator_bridge\\artifacts\\modular_outfit_pilot\\run_20260830_v3\\validation_result.json",
+      "sha256": "5feef5f687f90f0bd7e48a11b3bba2e627342a2c45ae74aa4f44ec3de8f11a41"
+    },
+    "started_at": "2026-08-30T01:14:47+08:00",
+    "finished_at": "2026-08-30T01:32:57+08:00",
+    "success_count": 14,
+    "failure_count": 0
+  }
+}

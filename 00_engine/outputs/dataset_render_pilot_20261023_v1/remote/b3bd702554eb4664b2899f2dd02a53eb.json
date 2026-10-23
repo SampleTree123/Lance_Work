@@ -1,0 +1,128 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1/reference_pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "pool_mb": 10240,
+    "action": "prepare",
+    "job_id": "ref_garment_train_node_000000_front",
+    "request_id": "b3bd702554eb4664b2899f2dd02a53eb"
+  },
+  "started_at": "2026-10-22T18:03:52.082231+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_pilot_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_render_pilot_20261023_v1/reference_pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'pool_mb': 10240, 'action': 'prepare', 'job_id': 'ref_garment_train_node_000000_front', 'request_id': 'b3bd702554eb4664b2899f2dd02a53eb'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_pilot_prepared_v11_v1\", \"signature\": \"9350b6d1d9eb5f778851bf5947698be8966a965ac96e9f20e06192127bee3923\", \"reference_job_sha256\": \"aab1241e1837398c447e839dd636c2110f6f9f6b6226a814cfc2485d21188bc0\", \"job_id\": \"ref_garment_train_node_000000_front\", \"reference_kind\": \"garment\", \"job\": {\"shot_id\": \"ref_garment_train_node_000000_front\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_garment_train_node_000000_front_09d1bc6a8b.L_ref_garment_train_node_000000_front_09d1bc6a8b\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_garment_train_node_000000_front_09d1bc6a8b.LS_ref_garment_train_node_000000_front_09d1bc6a8b\"}, \"source_job_id\": \"train_node_000000\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_render_pilot_20261023_v1\\\\jobs\\\\train_node_000000\\\\prepared.json\", \"sha256\": \"ffbb5cb33c748ec1f04bc6549a5b313d5aa40621baaa51c9edcca152c8aa47f7\"}, \"source_pins\": [{\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\Maps\\\\L_train_node_000000_cc4a9597.umap\", \"sha256\": \"0e1e4a4500b377cb569a96a65ca8bc1bd7db3245d5a3a57d21493c111e929357\"}, {\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\Sequences\\\\LS_train_node_000000_6032f036.uasset\", \"sha256\": \"d640b16980e5bb4803ddaea694100929ab70575125203b263802d9dbfefcd029\"}], \"source_packages_unchanged\": true, \"camera\": {\"position\": [281.812082431306, 1.7051701545715332, 92.03977012634277], \"rotation_pitch_yaw_roll\": [0.0, 180.0, 0.0], \"horizontal_fov_degrees\": 32.0, \"bounds_center\": [-0.15406417846679688, 1.7051701545715332, 92.03977012634277], \"bounds_extent\": [55.613067626953125, 17.073277950286865, 55.004831314086914], \"presentation_status\": \"prototype_unapproved_front_reference_pose\"}, \"details\": {\"asset\": {\"asset_id\": \"female.dress_collection.asset.24f8fe15fbfe\", \"label\": \"White_lace_dress\", \"slot\": \"full_body\", \"mesh_paths\": [\"/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1\"]}, \"mesh_actors\": [{\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_garment_train_node_000000_front_09d1bc6a8b.L_ref_garment_train_node_000000_front_09d1bc6a8b:PersistentLevel.SkeletalMeshActor_0\", \"mesh\": \"/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1\"}], \"all_item_meshes_loaded\": true, \"body_actor_spawned\": false, \"identity_hair_lashes_spawned\": false, \"pose\": \"unanimated imported skeletal reference pose; no body actor or full actor crop\", \"view\": \"front\", \"environment\": {\"background\": \"owned unlit 18-percent gray sphere\", \"key_intensity\": 0.7, \"fill_intensity\": 100.0, \"manual_exposure_bias\": 0.0, \"status\": \"prototype_lighting_unapproved\"}, \"all_stage_skeletal_meshes\": [\"/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1\"], \"presentation_status\": \"prototype_unapproved_reference_pose_framing_lighting\"}, \"width\": 1024, \"height\": 1024, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 5.3439999999827705, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"prototype_not_frozen\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_pilot_prepared_v11_v1",
+    "signature": "9350b6d1d9eb5f778851bf5947698be8966a965ac96e9f20e06192127bee3923",
+    "reference_job_sha256": "aab1241e1837398c447e839dd636c2110f6f9f6b6226a814cfc2485d21188bc0",
+    "job_id": "ref_garment_train_node_000000_front",
+    "reference_kind": "garment",
+    "job": {
+      "shot_id": "ref_garment_train_node_000000_front",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_garment_train_node_000000_front_09d1bc6a8b.L_ref_garment_train_node_000000_front_09d1bc6a8b",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_garment_train_node_000000_front_09d1bc6a8b.LS_ref_garment_train_node_000000_front_09d1bc6a8b"
+    },
+    "source_job_id": "train_node_000000",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_render_pilot_20261023_v1\\jobs\\train_node_000000\\prepared.json",
+      "sha256": "ffbb5cb33c748ec1f04bc6549a5b313d5aa40621baaa51c9edcca152c8aa47f7"
+    },
+    "source_pins": [
+      {
+        "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\Maps\\L_train_node_000000_cc4a9597.umap",
+        "sha256": "0e1e4a4500b377cb569a96a65ca8bc1bd7db3245d5a3a57d21493c111e929357"
+      },
+      {
+        "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\Sequences\\LS_train_node_000000_6032f036.uasset",
+        "sha256": "d640b16980e5bb4803ddaea694100929ab70575125203b263802d9dbfefcd029"
+      }
+    ],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        281.812082431306,
+        1.7051701545715332,
+        92.03977012634277
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 32.0,
+      "bounds_center": [
+        -0.15406417846679688,
+        1.7051701545715332,
+        92.03977012634277
+      ],
+      "bounds_extent": [
+        55.613067626953125,
+        17.073277950286865,
+        55.004831314086914
+      ],
+      "presentation_status": "prototype_unapproved_front_reference_pose"
+    },
+    "details": {
+      "asset": {
+        "asset_id": "female.dress_collection.asset.24f8fe15fbfe",
+        "label": "White_lace_dress",
+        "slot": "full_body",
+        "mesh_paths": [
+          "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+        ]
+      },
+      "mesh_actors": [
+        {
+          "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_garment_train_node_000000_front_09d1bc6a8b.L_ref_garment_train_node_000000_front_09d1bc6a8b:PersistentLevel.SkeletalMeshActor_0",
+          "mesh": "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+        }
+      ],
+      "all_item_meshes_loaded": true,
+      "body_actor_spawned": false,
+      "identity_hair_lashes_spawned": false,
+      "pose": "unanimated imported skeletal reference pose; no body actor or full actor crop",
+      "view": "front",
+      "environment": {
+        "background": "owned unlit 18-percent gray sphere",
+        "key_intensity": 0.7,
+        "fill_intensity": 100.0,
+        "manual_exposure_bias": 0.0,
+        "status": "prototype_lighting_unapproved"
+      },
+      "all_stage_skeletal_meshes": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/dress_collection/FullBody/White_lace_dress/Meshes/lace_dress_1.lace_dress_1"
+      ],
+      "presentation_status": "prototype_unapproved_reference_pose_framing_lighting"
+    },
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 5.3439999999827705,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "prototype_not_frozen"
+  },
+  "finished_at": "2026-10-22T18:03:58.671804+00:00",
+  "seconds": 6.578000000008615
+}

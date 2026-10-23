@@ -1,0 +1,1053 @@
+{
+  "candidate": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\selected_candidate",
+  "scope": "unique rendered node demands, not session-weighted appearances; camera counts merge sexes/aspects",
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\selected_candidate\\reference_manifest.json",
+      "sha256": "0738956ee39a947f2a46d97ef9111de901e8e6a799855e1a8a405db951609a88"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\selected_candidate\\train\\nodes.json",
+      "sha256": "aa5f69d96e01bef5d1816acdfda3c6472af25b4e67973773fff889c5c3efe28e"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\selected_candidate\\test\\nodes.json",
+      "sha256": "05108a8ed074433b6a08ec4f2eed3c093eab94e0f4d36d59085b551daba693e8"
+    }
+  ],
+  "main_video_count": 6439,
+  "motion_reference_count": 153,
+  "camera_labels": {
+    "front_full": "正面全身",
+    "front_three_quarter_full": "前侧全身",
+    "side_full": "侧面全身",
+    "rear_three_quarter_full": "后侧面全身",
+    "back_full": "背面全身",
+    "front_upper": "正面上半身",
+    "front_three_quarter_upper": "前侧上半身",
+    "side_upper": "侧面上半身",
+    "rear_three_quarter_upper": "后侧面上半身",
+    "back_upper": "背面上半身",
+    "high_full": "俯视全身",
+    "low_full": "仰视全身",
+    "orbit_360": "360°全身环绕",
+    "orbit_120": "120°全身环绕",
+    "dolly_in_front": "正面推进",
+    "dolly_in_side": "侧面推进",
+    "dolly_in_back": "背面推进",
+    "dolly_out_front": "正面拉远",
+    "dolly_out_side": "侧面拉远",
+    "dolly_out_back": "背面拉远",
+    "front_head": "面部近景（柔和跟随头部位置）"
+  },
+  "actions": [
+    {
+      "action": "MOTION_CAND_001",
+      "label": "摆臂转身",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "low_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "low_full"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "low_full": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_002",
+      "label": "调整站姿",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "back_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "back_full"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "back_full": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_003",
+      "label": "弯腰伸展",
+      "splits": {
+        "train": {
+          "videos": 453,
+          "content_states": 315,
+          "camera_counts": {
+            "front_full": 122,
+            "front_head": 116,
+            "side_upper": 104,
+            "orbit_120": 111
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.2693156732891832
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 6,
+      "reference_cameras": [
+        "front_full",
+        "orbit_120",
+        "side_upper"
+      ],
+      "videos": 453,
+      "camera_counts": {
+        "front_full": 122,
+        "front_head": 116,
+        "side_upper": 104,
+        "orbit_120": 111
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.2693156732891832
+    },
+    {
+      "action": "MOTION_CAND_008",
+      "label": "向前行走",
+      "splits": {
+        "train": {
+          "videos": 174,
+          "content_states": 129,
+          "camera_counts": {
+            "front_three_quarter_upper": 87,
+            "orbit_360": 87
+          },
+          "camera_count": 2,
+          "top_camera_share": 0.5
+        },
+        "test": {
+          "videos": 135,
+          "content_states": 84,
+          "camera_counts": {
+            "dolly_in_front": 29,
+            "front_three_quarter_upper": 26,
+            "rear_three_quarter_upper": 27,
+            "back_upper": 28,
+            "orbit_360": 25
+          },
+          "camera_count": 5,
+          "top_camera_share": 0.21481481481481482
+        }
+      },
+      "reference_clips": 14,
+      "reference_cameras": [
+        "back_upper",
+        "dolly_in_front",
+        "front_three_quarter_upper",
+        "orbit_360",
+        "rear_three_quarter_upper"
+      ],
+      "videos": 309,
+      "camera_counts": {
+        "front_three_quarter_upper": 113,
+        "orbit_360": 112,
+        "dolly_in_front": 29,
+        "rear_three_quarter_upper": 27,
+        "back_upper": 28
+      },
+      "camera_count": 5,
+      "top_camera_share": 0.3656957928802589
+    },
+    {
+      "action": "MOTION_CAND_009",
+      "label": "摆姿",
+      "splits": {
+        "train": {
+          "videos": 329,
+          "content_states": 210,
+          "camera_counts": {
+            "back_full": 115,
+            "low_full": 116,
+            "dolly_out_back": 98
+          },
+          "camera_count": 3,
+          "top_camera_share": 0.3525835866261398
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 6,
+      "reference_cameras": [
+        "back_full",
+        "dolly_out_back",
+        "low_full"
+      ],
+      "videos": 329,
+      "camera_counts": {
+        "back_full": 115,
+        "low_full": 116,
+        "dolly_out_back": 98
+      },
+      "camera_count": 3,
+      "top_camera_share": 0.3525835866261398
+    },
+    {
+      "action": "MOTION_CAND_017",
+      "label": "打喷嚏",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "dolly_in_front": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "dolly_in_front"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "dolly_in_front": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_019",
+      "label": "思考",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "back_upper": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "back_upper"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "back_upper": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_020",
+      "label": "扶额",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "dolly_in_front": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 113,
+          "content_states": 80,
+          "camera_counts": {
+            "orbit_120": 23,
+            "dolly_in_side": 21,
+            "dolly_in_back": 24,
+            "dolly_out_side": 22,
+            "dolly_out_back": 23
+          },
+          "camera_count": 5,
+          "top_camera_share": 0.21238938053097345
+        }
+      },
+      "reference_clips": 11,
+      "reference_cameras": [
+        "dolly_in_back",
+        "dolly_in_front",
+        "dolly_in_side",
+        "dolly_out_back",
+        "dolly_out_side",
+        "orbit_120"
+      ],
+      "videos": 114,
+      "camera_counts": {
+        "dolly_in_front": 1,
+        "orbit_120": 23,
+        "dolly_in_side": 21,
+        "dolly_in_back": 24,
+        "dolly_out_side": 22,
+        "dolly_out_back": 23
+      },
+      "camera_count": 6,
+      "top_camera_share": 0.21052631578947367
+    },
+    {
+      "action": "MOTION_CAND_022",
+      "label": "举拳庆祝",
+      "splits": {
+        "train": {
+          "videos": 447,
+          "content_states": 316,
+          "camera_counts": {
+            "front_full": 123,
+            "front_head": 118,
+            "side_upper": 100,
+            "orbit_120": 106
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.2751677852348993
+        },
+        "test": {
+          "videos": 307,
+          "content_states": 208,
+          "camera_counts": {
+            "front_three_quarter_full": 26,
+            "front_upper": 52,
+            "back_full": 31,
+            "dolly_out_front": 47,
+            "side_upper": 28,
+            "orbit_120": 23,
+            "dolly_in_side": 26,
+            "dolly_in_back": 23,
+            "dolly_out_side": 25,
+            "dolly_out_back": 26
+          },
+          "camera_count": 10,
+          "top_camera_share": 0.16938110749185667
+        }
+      },
+      "reference_clips": 26,
+      "reference_cameras": [
+        "back_full",
+        "dolly_in_back",
+        "dolly_in_side",
+        "dolly_out_back",
+        "dolly_out_front",
+        "dolly_out_side",
+        "front_full",
+        "front_three_quarter_full",
+        "front_upper",
+        "orbit_120",
+        "side_upper"
+      ],
+      "videos": 754,
+      "camera_counts": {
+        "front_full": 123,
+        "front_head": 118,
+        "side_upper": 128,
+        "orbit_120": 129,
+        "front_three_quarter_full": 26,
+        "front_upper": 52,
+        "back_full": 31,
+        "dolly_out_front": 47,
+        "dolly_in_side": 26,
+        "dolly_in_back": 23,
+        "dolly_out_side": 25,
+        "dolly_out_back": 26
+      },
+      "camera_count": 12,
+      "top_camera_share": 0.17108753315649866
+    },
+    {
+      "action": "MOTION_CAND_023",
+      "label": "挥手",
+      "splits": {
+        "train": {
+          "videos": 608,
+          "content_states": 403,
+          "camera_counts": {
+            "side_full": 117,
+            "dolly_in_front": 282,
+            "back_upper": 104,
+            "dolly_in_back": 105
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.46381578947368424
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "back_upper",
+        "dolly_in_back",
+        "dolly_in_front",
+        "side_full"
+      ],
+      "videos": 608,
+      "camera_counts": {
+        "side_full": 117,
+        "dolly_in_front": 282,
+        "back_upper": 104,
+        "dolly_in_back": 105
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.46381578947368424
+    },
+    {
+      "action": "MOTION_CAND_024",
+      "label": "鞠躬",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "low_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "low_full"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "low_full": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_029",
+      "label": "甩头转身",
+      "splits": {
+        "train": {
+          "videos": 528,
+          "content_states": 409,
+          "camera_counts": {
+            "rear_three_quarter_full": 100,
+            "dolly_out_front": 244,
+            "high_full": 99,
+            "dolly_out_side": 85
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.4621212121212121
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "dolly_out_front",
+        "dolly_out_side",
+        "high_full",
+        "rear_three_quarter_full"
+      ],
+      "videos": 528,
+      "camera_counts": {
+        "rear_three_quarter_full": 100,
+        "dolly_out_front": 244,
+        "high_full": 99,
+        "dolly_out_side": 85
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.4621212121212121
+    },
+    {
+      "action": "MOTION_CAND_030",
+      "label": "舒展舞步",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "back_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 86,
+          "content_states": 64,
+          "camera_counts": {
+            "front_three_quarter_full": 30,
+            "front_upper": 27,
+            "back_full": 29
+          },
+          "camera_count": 3,
+          "top_camera_share": 0.3488372093023256
+        }
+      },
+      "reference_clips": 7,
+      "reference_cameras": [
+        "back_full",
+        "front_three_quarter_full",
+        "front_upper"
+      ],
+      "videos": 87,
+      "camera_counts": {
+        "back_full": 30,
+        "front_three_quarter_full": 30,
+        "front_upper": 27
+      },
+      "camera_count": 3,
+      "top_camera_share": 0.3448275862068966
+    },
+    {
+      "action": "MOTION_CAND_032",
+      "label": "随乐舞动",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "side_upper": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "side_upper"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "side_upper": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_033",
+      "label": "欢呼跳跃",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "dolly_out_back": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "dolly_out_back"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "dolly_out_back": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "MOTION_CAND_035",
+      "label": "边走边思考",
+      "splits": {
+        "train": {
+          "videos": 334,
+          "content_states": 219,
+          "camera_counts": {
+            "back_full": 113,
+            "low_full": 119,
+            "dolly_out_back": 102
+          },
+          "camera_count": 3,
+          "top_camera_share": 0.3562874251497006
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 6,
+      "reference_cameras": [
+        "back_full",
+        "dolly_out_back",
+        "low_full"
+      ],
+      "videos": 334,
+      "camera_counts": {
+        "back_full": 113,
+        "low_full": 119,
+        "dolly_out_back": 102
+      },
+      "camera_count": 3,
+      "top_camera_share": 0.3562874251497006
+    },
+    {
+      "action": "MOTION_CAND_036",
+      "label": "模特步行",
+      "splits": {
+        "train": {
+          "videos": 549,
+          "content_states": 401,
+          "camera_counts": {
+            "front_three_quarter_full": 109,
+            "front_upper": 255,
+            "rear_three_quarter_upper": 90,
+            "dolly_in_side": 95
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.4644808743169399
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "dolly_in_side",
+        "front_three_quarter_full",
+        "front_upper",
+        "rear_three_quarter_upper"
+      ],
+      "videos": 549,
+      "camera_counts": {
+        "front_three_quarter_full": 109,
+        "front_upper": 255,
+        "rear_three_quarter_upper": 90,
+        "dolly_in_side": 95
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.4644808743169399
+    },
+    {
+      "action": "ACT_F03_AUDIENCE_01",
+      "label": "观众回应",
+      "splits": {
+        "train": {
+          "videos": 592,
+          "content_states": 398,
+          "camera_counts": {
+            "side_full": 118,
+            "dolly_in_front": 266,
+            "back_upper": 105,
+            "dolly_in_back": 103
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.44932432432432434
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "back_upper",
+        "dolly_in_back",
+        "dolly_in_front",
+        "side_full"
+      ],
+      "videos": 592,
+      "camera_counts": {
+        "side_full": 118,
+        "dolly_in_front": 266,
+        "back_upper": 105,
+        "dolly_in_back": 103
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.44932432432432434
+    },
+    {
+      "action": "ACT_F02_CATCH_BREATH",
+      "label": "喘气恢复",
+      "splits": {
+        "train": {
+          "videos": 541,
+          "content_states": 400,
+          "camera_counts": {
+            "front_three_quarter_full": 105,
+            "front_upper": 248,
+            "rear_three_quarter_upper": 90,
+            "dolly_in_side": 98
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.4584103512014787
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "dolly_in_side",
+        "front_three_quarter_full",
+        "front_upper",
+        "rear_three_quarter_upper"
+      ],
+      "videos": 541,
+      "camera_counts": {
+        "front_three_quarter_full": 105,
+        "front_upper": 248,
+        "rear_three_quarter_upper": 90,
+        "dolly_in_side": 98
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.4584103512014787
+    },
+    {
+      "action": "ACT_F05_TIE_SHOES",
+      "label": "系鞋带",
+      "splits": {
+        "train": {
+          "videos": 516,
+          "content_states": 411,
+          "camera_counts": {
+            "rear_three_quarter_full": 96,
+            "dolly_out_front": 240,
+            "high_full": 98,
+            "dolly_out_side": 82
+          },
+          "camera_count": 4,
+          "top_camera_share": 0.46511627906976744
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 8,
+      "reference_cameras": [
+        "dolly_out_front",
+        "dolly_out_side",
+        "high_full",
+        "rear_three_quarter_full"
+      ],
+      "videos": 516,
+      "camera_counts": {
+        "rear_three_quarter_full": 96,
+        "dolly_out_front": 240,
+        "high_full": 98,
+        "dolly_out_side": 82
+      },
+      "camera_count": 4,
+      "top_camera_share": 0.46511627906976744
+    },
+    {
+      "action": "ACT_F06_ELEVATOR_GREETING",
+      "label": "打招呼A",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "dolly_in_front": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "dolly_in_front"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "dolly_in_front": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "ACT_F01_SEXY_DANCE",
+      "label": "舒展舞蹈",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "side_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 1,
+      "reference_cameras": [
+        "side_full"
+      ],
+      "videos": 1,
+      "camera_counts": {
+        "side_full": 1
+      },
+      "camera_count": 1,
+      "top_camera_share": 1.0
+    },
+    {
+      "action": "ACT_M05_ELEVATOR_GREETING",
+      "label": "打招呼B",
+      "splits": {
+        "train": {
+          "videos": 2,
+          "content_states": 1,
+          "camera_counts": {
+            "back_full": 2
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 488,
+          "content_states": 320,
+          "camera_counts": {
+            "front_full": 60,
+            "front_head": 39,
+            "side_full": 59,
+            "rear_three_quarter_full": 63,
+            "dolly_in_front": 57,
+            "front_three_quarter_upper": 24,
+            "rear_three_quarter_upper": 21,
+            "back_upper": 28,
+            "orbit_360": 26,
+            "high_full": 55,
+            "low_full": 56
+          },
+          "camera_count": 11,
+          "top_camera_share": 0.1290983606557377
+        }
+      },
+      "reference_clips": 12,
+      "reference_cameras": [
+        "back_full",
+        "back_upper",
+        "dolly_in_front",
+        "front_three_quarter_upper",
+        "orbit_360",
+        "rear_three_quarter_upper"
+      ],
+      "videos": 490,
+      "camera_counts": {
+        "back_full": 2,
+        "front_full": 60,
+        "front_head": 39,
+        "side_full": 59,
+        "rear_three_quarter_full": 63,
+        "dolly_in_front": 57,
+        "front_three_quarter_upper": 24,
+        "rear_three_quarter_upper": 21,
+        "back_upper": 28,
+        "orbit_360": 26,
+        "high_full": 55,
+        "low_full": 56
+      },
+      "camera_count": 12,
+      "top_camera_share": 0.12857142857142856
+    },
+    {
+      "action": "ACT_M04_LIVING_ROOM_SWING",
+      "label": "摇摆舞",
+      "splits": {
+        "train": {
+          "videos": 171,
+          "content_states": 128,
+          "camera_counts": {
+            "front_three_quarter_upper": 82,
+            "orbit_360": 89
+          },
+          "camera_count": 2,
+          "top_camera_share": 0.52046783625731
+        },
+        "test": {
+          "videos": 0,
+          "content_states": 0,
+          "camera_counts": {},
+          "camera_count": 0,
+          "top_camera_share": 0.0
+        }
+      },
+      "reference_clips": 4,
+      "reference_cameras": [
+        "front_three_quarter_upper",
+        "orbit_360"
+      ],
+      "videos": 171,
+      "camera_counts": {
+        "front_three_quarter_upper": 82,
+        "orbit_360": 89
+      },
+      "camera_count": 2,
+      "top_camera_share": 0.52046783625731
+    },
+    {
+      "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+      "label": "踏步欢舞",
+      "splits": {
+        "train": {
+          "videos": 1,
+          "content_states": 1,
+          "camera_counts": {
+            "side_full": 1
+          },
+          "camera_count": 1,
+          "top_camera_share": 1.0
+        },
+        "test": {
+          "videos": 54,
+          "content_states": 44,
+          "camera_counts": {
+            "dolly_out_front": 27,
+            "side_upper": 27
+          },
+          "camera_count": 2,
+          "top_camera_share": 0.5
+        }
+      },
+      "reference_clips": 4,
+      "reference_cameras": [
+        "dolly_out_front",
+        "side_full",
+        "side_upper"
+      ],
+      "videos": 55,
+      "camera_counts": {
+        "side_full": 1,
+        "dolly_out_front": 27,
+        "side_upper": 27
+      },
+      "camera_count": 3,
+      "top_camera_share": 0.4909090909090909
+    }
+  ],
+  "summary": {
+    "main_camera_count_distribution": {
+      "1": 9,
+      "4": 7,
+      "5": 1,
+      "3": 4,
+      "6": 1,
+      "12": 2,
+      "2": 1
+    },
+    "reference_camera_count_distribution": {
+      "1": 9,
+      "3": 5,
+      "5": 1,
+      "6": 2,
+      "11": 1,
+      "4": 6,
+      "2": 1
+    },
+    "main_action_camera_pairs": 86,
+    "reference_action_camera_pairs": 78
+  }
+}

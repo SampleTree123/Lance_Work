@@ -1,0 +1,306 @@
+{
+  "schema": "dataset_reference_jobs_v11_v1",
+  "path_base": "workspace",
+  "output_path_base": "run_root",
+  "offline_only": true,
+  "media_generated": false,
+  "source_manifest_unchanged": true,
+  "static_presentation": {
+    "status": "identity_hair_design_confirmed_six_image_technical_pass_user_review_pending",
+    "confirmed_date": "2026-10-23",
+    "basis": "user_accepted_existing_corrected_sample_presentation",
+    "canonical_background": "neutral_gray",
+    "canonical_lighting": "soft_fixed_lighting",
+    "identity": "two_white_different_hairstyles_tight_face_no_neck_or_shoulders; select_one_per_step",
+    "hair": "shared_head_shoulders_camera_parameters_both_sexes; most_hair_visible_not_forced_longest_complete; fixed_simple_gray_clothes",
+    "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+    "scene": "target_scene_corresponding_camera_first_frame_without_character",
+    "canonical_resolution": [
+      1024,
+      1024
+    ],
+    "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+    "changes_to_existing_reference_views_or_counts": true,
+    "identity_hair_color": "silver_white",
+    "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+    "identity_garments_present": false,
+    "hair_garments_present": true,
+    "identity_reference_pool_count": 40,
+    "identity_reference_image_count": 80,
+    "hair_neutral_garment_color": true
+  },
+  "sources": [
+    {
+      "path": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected/main_jobs.json",
+      "sha256": "381bb857fb5cf818ff7195e033fb414bb74c44538099bb06b31d425a515c317e"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/reference_manifest.json",
+      "sha256": "93eaadb391dabd8e229cf9ad0a9f7860be210a39945f5d3cb1b43bdb2b24d4f9"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/render_preparation/VIDEO_PROFILE.json",
+      "sha256": "f484ab316c1d87bb1681c11b4368c9c2d489edda0489af96c8e8ea3c0fe888c5"
+    },
+    {
+      "path": "00_engine/outputs/dataset_trial_build_20261021_v1/catalog.json",
+      "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131"
+    },
+    {
+      "path": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/motion_carriers.json",
+      "sha256": "e5e7e04b2dae493ca759350271085e39c37ce3fbaef55726cf7ca164905138a7"
+    },
+    {
+      "path": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_carrier_clothing.json",
+      "sha256": "c84eba55cbb712f31f0f30bae3534040138b174a7ad69915c69875e9b216f8de"
+    }
+  ],
+  "job_count": 4,
+  "jobs": [
+    {
+      "job_id": "ref_f752597252c97a92e70bb469",
+      "reference_id": "ref_f752597252c97a92e70bb469",
+      "requirement_kind": "motion",
+      "reference_kind": "motion",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "action": "MOTION_CAND_020",
+        "camera": "front_full",
+        "sex": "female",
+        "symbolic_aspect": "landscape",
+        "motion_profile": "pending_unfrozen_main_profile"
+      },
+      "fps": 30,
+      "frames": 300,
+      "status": "planned_not_rendered",
+      "view": null,
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "action_id": "MOTION_CAND_020",
+      "camera_id": "front_full",
+      "sex": "female",
+      "aspect": "landscape",
+      "width": 1920,
+      "height": 1080,
+      "duration_seconds": 10,
+      "phase_seconds": 0.0,
+      "play_rate": 1.0,
+      "stage": "neutral_motion",
+      "motion": {
+        "action_id": "MOTION_CAND_020",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_020_landscape_front_full",
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "32e55e71d7bab9f03fd989853ce3d73fc0dfb2f02eed32e853e360f146bc6859",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "clock_binding": "same existing production10 baked clip; start0 rate1 30fps 300frames; no retiming",
+      "carrier_identity": "CFD40_AF_001",
+      "carrier_status": "fixed_selection_configured",
+      "source_job_id": "ref_carrier_motion_f752597252c97a92e70bb469",
+      "source_job_sha256": "e1e17160739f49c3c6df607fe7b5f54f7830a57772dda6f5ed1e235c33084e70",
+      "paths": {
+        "frames": "jobs/ref_f752597252c97a92e70bb469/frames",
+        "receipt": "jobs/ref_f752597252c97a92e70bb469/media_receipt.json",
+        "media": "jobs/ref_f752597252c97a92e70bb469/video.mp4",
+        "video": "jobs/ref_f752597252c97a92e70bb469/video.mp4"
+      }
+    },
+    {
+      "job_id": "ref_7454f04fb9c2b89b132899c1",
+      "reference_id": "ref_7454f04fb9c2b89b132899c1",
+      "requirement_kind": "motion",
+      "reference_kind": "motion",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "action": "MOTION_CAND_001",
+        "camera": "front_full",
+        "sex": "male",
+        "symbolic_aspect": "landscape",
+        "motion_profile": "pending_unfrozen_main_profile"
+      },
+      "fps": 30,
+      "frames": 300,
+      "status": "planned_not_rendered",
+      "view": null,
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "action_id": "MOTION_CAND_001",
+      "camera_id": "front_full",
+      "sex": "male",
+      "aspect": "landscape",
+      "width": 1920,
+      "height": 1080,
+      "duration_seconds": 10,
+      "phase_seconds": 0.0,
+      "play_rate": 1.0,
+      "stage": "neutral_motion",
+      "motion": {
+        "action_id": "MOTION_CAND_001",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "orientation": "landscape",
+        "width": 1280,
+        "height": 720,
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "clock_binding": "same existing production10 baked clip; start0 rate1 30fps 300frames; no retiming",
+      "carrier_identity": "CFD40_AM_001",
+      "carrier_status": "fixed_selection_configured",
+      "source_job_id": "ref_carrier_motion_7454f04fb9c2b89b132899c1",
+      "source_job_sha256": "0c362ad639673441096176dfb431eb27afa2445e0b862084357c5da58e4c1c3e",
+      "paths": {
+        "frames": "jobs/ref_7454f04fb9c2b89b132899c1/frames",
+        "receipt": "jobs/ref_7454f04fb9c2b89b132899c1/media_receipt.json",
+        "media": "jobs/ref_7454f04fb9c2b89b132899c1/video.mp4",
+        "video": "jobs/ref_7454f04fb9c2b89b132899c1/video.mp4"
+      }
+    },
+    {
+      "job_id": "ref_88d4c930ae0374d3deac04b6",
+      "reference_id": "ref_88d4c930ae0374d3deac04b6",
+      "requirement_kind": "motion",
+      "reference_kind": "motion",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "action": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "camera": "front_full",
+        "sex": "female",
+        "symbolic_aspect": "portrait",
+        "motion_profile": "pending_unfrozen_main_profile"
+      },
+      "fps": 30,
+      "frames": 300,
+      "status": "planned_not_rendered",
+      "view": null,
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "action_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+      "camera_id": "front_full",
+      "sex": "female",
+      "aspect": "portrait",
+      "width": 1080,
+      "height": 1920,
+      "duration_seconds": 10,
+      "phase_seconds": 0.0,
+      "play_rate": 1.0,
+      "stage": "neutral_motion",
+      "motion": {
+        "action_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "sex": "female",
+        "animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s.A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_act_m06_cheer_hands_step_dance_portrait_front_full",
+        "motion_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "camera_id": "front_full",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "c5db485c8d7fb167a2ba44b421a6df5d882565f3d28ee57864d5eb06741356fb",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "clock_binding": "same existing production10 baked clip; start0 rate1 30fps 300frames; no retiming",
+      "carrier_identity": "CFD40_AF_001",
+      "carrier_status": "fixed_selection_configured",
+      "source_job_id": "ref_carrier_motion_88d4c930ae0374d3deac04b6",
+      "source_job_sha256": "fc768468dc5a8a909c1b3e3ed801b643f6df10a4d1f5d6535c2e77f1a3083ef1",
+      "paths": {
+        "frames": "jobs/ref_88d4c930ae0374d3deac04b6/frames",
+        "receipt": "jobs/ref_88d4c930ae0374d3deac04b6/media_receipt.json",
+        "media": "jobs/ref_88d4c930ae0374d3deac04b6/video.mp4",
+        "video": "jobs/ref_88d4c930ae0374d3deac04b6/video.mp4"
+      }
+    },
+    {
+      "job_id": "ref_babb48f602439f382fc45647",
+      "reference_id": "ref_babb48f602439f382fc45647",
+      "requirement_kind": "motion",
+      "reference_kind": "motion",
+      "source_jobs_path": "carrier_jobs.json",
+      "main_jobs_path": "carrier_jobs.json",
+      "requirement_key": {
+        "action": "MOTION_CAND_001",
+        "camera": "orbit_120",
+        "sex": "male",
+        "symbolic_aspect": "portrait",
+        "motion_profile": "pending_unfrozen_main_profile"
+      },
+      "fps": 30,
+      "frames": 300,
+      "status": "planned_not_rendered",
+      "view": null,
+      "source_manifest_status": "planned_not_rendered",
+      "formal_reference_id_binding": true,
+      "action_id": "MOTION_CAND_001",
+      "camera_id": "orbit_120",
+      "sex": "male",
+      "aspect": "portrait",
+      "width": 1080,
+      "height": 1920,
+      "duration_seconds": 10,
+      "phase_seconds": 0.0,
+      "play_rate": 1.0,
+      "stage": "neutral_motion",
+      "motion": {
+        "action_id": "MOTION_CAND_001",
+        "sex": "male",
+        "animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+        "fps": 30,
+        "frames": 300,
+        "play_rate": 1.0,
+        "start_frame": 0
+      },
+      "camera_binding": {
+        "shot_id": "production_production10_motion_cand_001_portrait_orbit_120",
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "orbit_120",
+        "orientation": "portrait",
+        "width": 720,
+        "height": 1280,
+        "trajectory_sha256": "fbca54c07c3bf97834990aaf4162cba438be60b8699902a9426f22152cad8fcf",
+        "plan_path": "00_engine/outputs/production_workflow_20261017_v1/camera_library/production10/camera_plan.json"
+      },
+      "clock_binding": "same existing production10 baked clip; start0 rate1 30fps 300frames; no retiming",
+      "carrier_identity": "CFD40_AM_001",
+      "carrier_status": "fixed_selection_configured",
+      "source_job_id": "ref_carrier_motion_babb48f602439f382fc45647",
+      "source_job_sha256": "d3c86540d91d277c6a5e409d6dbb8730cf776ac2094f3a046b4c17958af3143b",
+      "paths": {
+        "frames": "jobs/ref_babb48f602439f382fc45647/frames",
+        "receipt": "jobs/ref_babb48f602439f382fc45647/media_receipt.json",
+        "media": "jobs/ref_babb48f602439f382fc45647/video.mp4",
+        "video": "jobs/ref_babb48f602439f382fc45647/video.mp4"
+      }
+    }
+  ],
+  "selection_note": "demanded original IDs only; female/male x landscape/portrait; three front_full and one moving camera"
+}

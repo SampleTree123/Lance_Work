@@ -1,0 +1,991 @@
+{
+  "schema": "dataset_reference_jobs_v11_v1",
+  "path_base": "workspace",
+  "output_path_base": "run_root",
+  "offline_only": true,
+  "media_generated": false,
+  "source_manifest_unchanged": true,
+  "static_presentation": {
+    "status": "shared_hair_four_images_technical_pass_user_review_pending",
+    "confirmed_date": "2026-10-23",
+    "basis": "user_accepted_existing_corrected_sample_presentation",
+    "canonical_background": "neutral_gray",
+    "canonical_lighting": "soft_fixed_lighting",
+    "identity": "two_white_different_hairstyles_tight_face_no_neck_or_shoulders; select_one_per_step",
+    "hair": "adaptive_complete_hair_bounds; short_closer_long_farther; fixed_simple_gray_clothes",
+    "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+    "scene": "target_scene_corresponding_camera_first_frame_without_character",
+    "canonical_resolution": [
+      1024,
+      1024
+    ],
+    "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+    "changes_to_existing_reference_views_or_counts": true,
+    "identity_hair_color": "silver_white",
+    "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+    "identity_garments_present": false,
+    "hair_garments_present": true,
+    "identity_reference_pool_count": 40,
+    "identity_reference_image_count": 80,
+    "hair_neutral_garment_color": true,
+    "hair_camera": {
+      "policy": "shared_head_shoulders",
+      "distance_cm": 110,
+      "center_z_relative_to_head_cm": 3,
+      "horizontal_fov_degrees": 28,
+      "width": 1024,
+      "height": 1024,
+      "same_numeric_parameters_both_sexes": true,
+      "coverage": "most hair including majority of long hair; longest styles may crop"
+    },
+    "hair_clothing_configuration": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_carrier_clothing.json"
+  },
+  "sources": [
+    {
+      "path": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected/main_jobs.json",
+      "sha256": "381bb857fb5cf818ff7195e033fb414bb74c44538099bb06b31d425a515c317e"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/selected_candidate/reference_manifest.json",
+      "sha256": "93eaadb391dabd8e229cf9ad0a9f7860be210a39945f5d3cb1b43bdb2b24d4f9"
+    },
+    {
+      "path": "00_engine/outputs/dataset_return_control_20261022_v11/render_preparation/VIDEO_PROFILE.json",
+      "sha256": "a9b85a8e315c099ccd0d3800ed74f339c0c96b32966e6443e1d351b74df703b6"
+    },
+    {
+      "path": "00_engine/outputs/dataset_trial_build_20261021_v1/catalog.json",
+      "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131"
+    },
+    {
+      "path": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/motion_carriers.json",
+      "sha256": "e5e7e04b2dae493ca759350271085e39c37ce3fbaef55726cf7ca164905138a7"
+    },
+    {
+      "path": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/hair_carrier_clothing.json",
+      "sha256": "c84eba55cbb712f31f0f30bae3534040138b174a7ad69915c69875e9b216f8de"
+    }
+  ],
+  "identity_reference_pools": [
+    {
+      "identity": "CFD40_WF_002",
+      "sex": "female",
+      "logical_reference_id": "ref_034fe76953945e723876d253",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 14741784243296584843,
+      "variants": [
+        {
+          "reference_id": "ref_034fe76953945e723876d253",
+          "job_id": "ref_034fe76953945e723876d253",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_037c9d9615c62fe2562cd727",
+          "job_id": "ref_037c9d9615c62fe2562cd727",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BM_002",
+      "sex": "male",
+      "logical_reference_id": "ref_038d7a860778b4704e6e5110",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 11622150784201785371,
+      "variants": [
+        {
+          "reference_id": "ref_038d7a860778b4704e6e5110",
+          "job_id": "ref_038d7a860778b4704e6e5110",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_5d8b21b7f7a2e46696ecb925",
+          "job_id": "ref_5d8b21b7f7a2e46696ecb925",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AM_004",
+      "sex": "male",
+      "logical_reference_id": "ref_0e0e35cdbc690c52bddc120f",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13369046617120016878,
+      "variants": [
+        {
+          "reference_id": "ref_0e0e35cdbc690c52bddc120f",
+          "job_id": "ref_0e0e35cdbc690c52bddc120f",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_60d2e45c196c0b8b5acaab36",
+          "job_id": "ref_60d2e45c196c0b8b5acaab36",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AF_002",
+      "sex": "female",
+      "logical_reference_id": "ref_206aef4b60cdd54e9d68c465",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13364678533428255501,
+      "variants": [
+        {
+          "reference_id": "ref_206aef4b60cdd54e9d68c465",
+          "job_id": "ref_206aef4b60cdd54e9d68c465",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_41c51b0b84579b1868dd0671",
+          "job_id": "ref_41c51b0b84579b1868dd0671",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BF_002",
+      "sex": "female",
+      "logical_reference_id": "ref_20bfb170e09a7ccf42721299",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 6378351409996997818,
+      "variants": [
+        {
+          "reference_id": "ref_20bfb170e09a7ccf42721299",
+          "job_id": "ref_20bfb170e09a7ccf42721299",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b87685d3f3e6911c97436295",
+          "job_id": "ref_b87685d3f3e6911c97436295",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LF_003",
+      "sex": "female",
+      "logical_reference_id": "ref_25ee05c8d1f38e6420191747",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 14327493683300479269,
+      "variants": [
+        {
+          "reference_id": "ref_25ee05c8d1f38e6420191747",
+          "job_id": "ref_25ee05c8d1f38e6420191747",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_aa0f8bdc95a56739e9d277f9",
+          "job_id": "ref_aa0f8bdc95a56739e9d277f9",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BF_003",
+      "sex": "female",
+      "logical_reference_id": "ref_27b8ba7554362ca59a1d4da8",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 8849893407941564781,
+      "variants": [
+        {
+          "reference_id": "ref_27b8ba7554362ca59a1d4da8",
+          "job_id": "ref_27b8ba7554362ca59a1d4da8",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_c4a17f2c41f2bae2a0af00fe",
+          "job_id": "ref_c4a17f2c41f2bae2a0af00fe",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BF_001",
+      "sex": "female",
+      "logical_reference_id": "ref_2bb5b8c1703b355954634cce",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 4047511508189361728,
+      "variants": [
+        {
+          "reference_id": "ref_2bb5b8c1703b355954634cce",
+          "job_id": "ref_2bb5b8c1703b355954634cce",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b0857bf1b35062ccf12fe83c",
+          "job_id": "ref_b0857bf1b35062ccf12fe83c",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LF_004",
+      "sex": "female",
+      "logical_reference_id": "ref_2ff822cfb0ab528b0aeec18c",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 11692040703061783997,
+      "variants": [
+        {
+          "reference_id": "ref_2ff822cfb0ab528b0aeec18c",
+          "job_id": "ref_2ff822cfb0ab528b0aeec18c",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_82a57d67b3117f43671ecdff",
+          "job_id": "ref_82a57d67b3117f43671ecdff",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LF_005",
+      "sex": "female",
+      "logical_reference_id": "ref_34f6c00d1fca5c08b293733f",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3223749934904976818,
+      "variants": [
+        {
+          "reference_id": "ref_34f6c00d1fca5c08b293733f",
+          "job_id": "ref_34f6c00d1fca5c08b293733f",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_edad9639a9378fb07f7d22c2",
+          "job_id": "ref_edad9639a9378fb07f7d22c2",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AM_001",
+      "sex": "male",
+      "logical_reference_id": "ref_406ead35b90763a2b4c44447",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 15388913792211244284,
+      "variants": [
+        {
+          "reference_id": "ref_406ead35b90763a2b4c44447",
+          "job_id": "ref_406ead35b90763a2b4c44447",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_57328b82444498223ca485b4",
+          "job_id": "ref_57328b82444498223ca485b4",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BM_001",
+      "sex": "male",
+      "logical_reference_id": "ref_46bc023914f13bc5e41c328e",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3417684489234836909,
+      "variants": [
+        {
+          "reference_id": "ref_46bc023914f13bc5e41c328e",
+          "job_id": "ref_46bc023914f13bc5e41c328e",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_31d95ae2a5b005774e9b6dcf",
+          "job_id": "ref_31d95ae2a5b005774e9b6dcf",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AM_003",
+      "sex": "male",
+      "logical_reference_id": "ref_4ce05dc3645ffe8cc5275951",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 18364627343771245332,
+      "variants": [
+        {
+          "reference_id": "ref_4ce05dc3645ffe8cc5275951",
+          "job_id": "ref_4ce05dc3645ffe8cc5275951",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_5f74357bbe3672bc3165e99a",
+          "job_id": "ref_5f74357bbe3672bc3165e99a",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WM_004",
+      "sex": "male",
+      "logical_reference_id": "ref_4efef9ae539868c03f2bd6c4",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13181998856361487966,
+      "variants": [
+        {
+          "reference_id": "ref_4efef9ae539868c03f2bd6c4",
+          "job_id": "ref_4efef9ae539868c03f2bd6c4",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_2639f32be5f3bb3b43b96c14",
+          "job_id": "ref_2639f32be5f3bb3b43b96c14",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WM_002",
+      "sex": "male",
+      "logical_reference_id": "ref_5885f6ffa60cf4f797c4e02b",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 5966162187544411685,
+      "variants": [
+        {
+          "reference_id": "ref_5885f6ffa60cf4f797c4e02b",
+          "job_id": "ref_5885f6ffa60cf4f797c4e02b",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b05dc9fa451a9e64b9b817b5",
+          "job_id": "ref_b05dc9fa451a9e64b9b817b5",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AF_004",
+      "sex": "female",
+      "logical_reference_id": "ref_623781b92d184114db402d3f",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 12565681535610942092,
+      "variants": [
+        {
+          "reference_id": "ref_623781b92d184114db402d3f",
+          "job_id": "ref_623781b92d184114db402d3f",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_fbd3aa394a649a061b189116",
+          "job_id": "ref_fbd3aa394a649a061b189116",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BM_004",
+      "sex": "male",
+      "logical_reference_id": "ref_666c33500d4094351bd5ae74",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13179561455801945095,
+      "variants": [
+        {
+          "reference_id": "ref_666c33500d4094351bd5ae74",
+          "job_id": "ref_666c33500d4094351bd5ae74",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b2f74aeb6104f72102f4f559",
+          "job_id": "ref_b2f74aeb6104f72102f4f559",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WF_003",
+      "sex": "female",
+      "logical_reference_id": "ref_727c6e8822200982d2094fee",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 7941297636791340797,
+      "variants": [
+        {
+          "reference_id": "ref_727c6e8822200982d2094fee",
+          "job_id": "ref_727c6e8822200982d2094fee",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_637cb215e5254ffacad3d2f3",
+          "job_id": "ref_637cb215e5254ffacad3d2f3",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WF_001",
+      "sex": "female",
+      "logical_reference_id": "ref_7485c58a08a9522e6877cb74",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 8045915165918581826,
+      "variants": [
+        {
+          "reference_id": "ref_7485c58a08a9522e6877cb74",
+          "job_id": "ref_7485c58a08a9522e6877cb74",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_18c1bb81538d38cea1dbf121",
+          "job_id": "ref_18c1bb81538d38cea1dbf121",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WM_005",
+      "sex": "male",
+      "logical_reference_id": "ref_7588504787b60f8787475191",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 16518009959689910471,
+      "variants": [
+        {
+          "reference_id": "ref_7588504787b60f8787475191",
+          "job_id": "ref_7588504787b60f8787475191",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_3cf1f4ba2c1509afcf59fee0",
+          "job_id": "ref_3cf1f4ba2c1509afcf59fee0",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AM_005",
+      "sex": "male",
+      "logical_reference_id": "ref_7f4d8f51f7c9d6650e90518e",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 497711191292602272,
+      "variants": [
+        {
+          "reference_id": "ref_7f4d8f51f7c9d6650e90518e",
+          "job_id": "ref_7f4d8f51f7c9d6650e90518e",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_642e1a20ce1fb5e47f1a8160",
+          "job_id": "ref_642e1a20ce1fb5e47f1a8160",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AM_002",
+      "sex": "male",
+      "logical_reference_id": "ref_8561407b7bcf0e344a12f3b5",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3097832885929491529,
+      "variants": [
+        {
+          "reference_id": "ref_8561407b7bcf0e344a12f3b5",
+          "job_id": "ref_8561407b7bcf0e344a12f3b5",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_efde11140428cc6ae1d1ed8c",
+          "job_id": "ref_efde11140428cc6ae1d1ed8c",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WM_003",
+      "sex": "male",
+      "logical_reference_id": "ref_8c17bfa74975a92a208b98c7",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 14084968286204151072,
+      "variants": [
+        {
+          "reference_id": "ref_8c17bfa74975a92a208b98c7",
+          "job_id": "ref_8c17bfa74975a92a208b98c7",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b58ca8397efefced17af1bc9",
+          "job_id": "ref_b58ca8397efefced17af1bc9",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BM_003",
+      "sex": "male",
+      "logical_reference_id": "ref_90301daf360b6390a174e9f3",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 8892880596500601358,
+      "variants": [
+        {
+          "reference_id": "ref_90301daf360b6390a174e9f3",
+          "job_id": "ref_90301daf360b6390a174e9f3",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_221b2579354cae36199204ec",
+          "job_id": "ref_221b2579354cae36199204ec",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WM_001",
+      "sex": "male",
+      "logical_reference_id": "ref_98aaff6d29f0748c5874855e",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 11951147859014659299,
+      "variants": [
+        {
+          "reference_id": "ref_98aaff6d29f0748c5874855e",
+          "job_id": "ref_98aaff6d29f0748c5874855e",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_b2b872dc2fc2984cf8f7d95b",
+          "job_id": "ref_b2b872dc2fc2984cf8f7d95b",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LF_002",
+      "sex": "female",
+      "logical_reference_id": "ref_9dbe905bf9b0c21b51efbcae",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 9415264738202967244,
+      "variants": [
+        {
+          "reference_id": "ref_9dbe905bf9b0c21b51efbcae",
+          "job_id": "ref_9dbe905bf9b0c21b51efbcae",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_92186eb53ebbd95107aabba0",
+          "job_id": "ref_92186eb53ebbd95107aabba0",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LM_005",
+      "sex": "male",
+      "logical_reference_id": "ref_a4097de2819ce18b801d6c2f",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 7999719378821698273,
+      "variants": [
+        {
+          "reference_id": "ref_a4097de2819ce18b801d6c2f",
+          "job_id": "ref_a4097de2819ce18b801d6c2f",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_807d2428f091574f6d5c595b",
+          "job_id": "ref_807d2428f091574f6d5c595b",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AF_003",
+      "sex": "female",
+      "logical_reference_id": "ref_a7b51c3bc1ac21be45a7f6c8",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 2031344997510324401,
+      "variants": [
+        {
+          "reference_id": "ref_a7b51c3bc1ac21be45a7f6c8",
+          "job_id": "ref_a7b51c3bc1ac21be45a7f6c8",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_6b44c4489f586f119dbbb59a",
+          "job_id": "ref_6b44c4489f586f119dbbb59a",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BM_005",
+      "sex": "male",
+      "logical_reference_id": "ref_aeb78a1bc31cd4805db212e0",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 11341764282499300667,
+      "variants": [
+        {
+          "reference_id": "ref_aeb78a1bc31cd4805db212e0",
+          "job_id": "ref_aeb78a1bc31cd4805db212e0",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_200a0a1760936eda69932257",
+          "job_id": "ref_200a0a1760936eda69932257",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AF_005",
+      "sex": "female",
+      "logical_reference_id": "ref_afa0d2cd016b740d46e0524a",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 12402845679272517419,
+      "variants": [
+        {
+          "reference_id": "ref_afa0d2cd016b740d46e0524a",
+          "job_id": "ref_afa0d2cd016b740d46e0524a",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_37fa398359aab7c04b3033c7",
+          "job_id": "ref_37fa398359aab7c04b3033c7",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LM_004",
+      "sex": "male",
+      "logical_reference_id": "ref_b0fefbb4f5fc0676f1caac20",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 10572554080264990957,
+      "variants": [
+        {
+          "reference_id": "ref_b0fefbb4f5fc0676f1caac20",
+          "job_id": "ref_b0fefbb4f5fc0676f1caac20",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_e47958b1f833382d1b6d0530",
+          "job_id": "ref_e47958b1f833382d1b6d0530",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LM_003",
+      "sex": "male",
+      "logical_reference_id": "ref_bd2d7bbcf1b9f97737c8de6c",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 11609743740094578959,
+      "variants": [
+        {
+          "reference_id": "ref_bd2d7bbcf1b9f97737c8de6c",
+          "job_id": "ref_bd2d7bbcf1b9f97737c8de6c",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_1b3af14775d7923976217ef0",
+          "job_id": "ref_1b3af14775d7923976217ef0",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BF_004",
+      "sex": "female",
+      "logical_reference_id": "ref_c080c051f83eff56f207ed46",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13224665430195786544,
+      "variants": [
+        {
+          "reference_id": "ref_c080c051f83eff56f207ed46",
+          "job_id": "ref_c080c051f83eff56f207ed46",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_abe409def486cde4609600e3",
+          "job_id": "ref_abe409def486cde4609600e3",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LM_001",
+      "sex": "male",
+      "logical_reference_id": "ref_c827b2a6458af701918ec461",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3748260859325236889,
+      "variants": [
+        {
+          "reference_id": "ref_c827b2a6458af701918ec461",
+          "job_id": "ref_c827b2a6458af701918ec461",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_3d023dfdd15d08c9c02f5178",
+          "job_id": "ref_3d023dfdd15d08c9c02f5178",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_BF_005",
+      "sex": "female",
+      "logical_reference_id": "ref_d0887f4901decfdbc65142df",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 13135521299879327916,
+      "variants": [
+        {
+          "reference_id": "ref_d0887f4901decfdbc65142df",
+          "job_id": "ref_d0887f4901decfdbc65142df",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_bef366e1df44dc0b97e18240",
+          "job_id": "ref_bef366e1df44dc0b97e18240",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_AF_001",
+      "sex": "female",
+      "logical_reference_id": "ref_db56d52c03cab2978cf4c205",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 7068890401150299193,
+      "variants": [
+        {
+          "reference_id": "ref_db56d52c03cab2978cf4c205",
+          "job_id": "ref_db56d52c03cab2978cf4c205",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_7bf3237263fb0d4d7da7abda",
+          "job_id": "ref_7bf3237263fb0d4d7da7abda",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LF_001",
+      "sex": "female",
+      "logical_reference_id": "ref_e0df0019aefd163c1b004024",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3761274028301681253,
+      "variants": [
+        {
+          "reference_id": "ref_e0df0019aefd163c1b004024",
+          "job_id": "ref_e0df0019aefd163c1b004024",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_2e5c48f7ab9f7af6cff28f1f",
+          "job_id": "ref_2e5c48f7ab9f7af6cff28f1f",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WF_005",
+      "sex": "female",
+      "logical_reference_id": "ref_e3cd5879f88de6caf935b386",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 3122945953134595037,
+      "variants": [
+        {
+          "reference_id": "ref_e3cd5879f88de6caf935b386",
+          "job_id": "ref_e3cd5879f88de6caf935b386",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_2f769c290cfcb2a600f7973d",
+          "job_id": "ref_2f769c290cfcb2a600f7973d",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_WF_004",
+      "sex": "female",
+      "logical_reference_id": "ref_edce2176a49731674c90bd1d",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 7272387614560558579,
+      "variants": [
+        {
+          "reference_id": "ref_edce2176a49731674c90bd1d",
+          "job_id": "ref_edce2176a49731674c90bd1d",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB1_11",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_1fbeffd37ad69e686a4576c7",
+          "job_id": "ref_1fbeffd37ad69e686a4576c7",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_05",
+          "hair_color": "silver_white"
+        }
+      ]
+    },
+    {
+      "identity": "CFD40_LM_002",
+      "sex": "male",
+      "logical_reference_id": "ref_ee838d75d828463f018c27fd",
+      "hair_color": "silver_white",
+      "hair_pair_seed": 15600054169967860442,
+      "variants": [
+        {
+          "reference_id": "ref_ee838d75d828463f018c27fd",
+          "job_id": "ref_ee838d75d828463f018c27fd",
+          "identity_variant": 1,
+          "hair_id": "HAIR_HB3_01",
+          "hair_color": "silver_white"
+        },
+        {
+          "reference_id": "ref_1f3c0c64e408af9c25a3e75a",
+          "job_id": "ref_1f3c0c64e408af9c25a3e75a",
+          "identity_variant": 2,
+          "hair_id": "HAIR_HB1_13",
+          "hair_color": "silver_white"
+        }
+      ]
+    }
+  ]
+}

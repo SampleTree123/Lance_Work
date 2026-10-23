@@ -1,0 +1,88 @@
+{
+  "scope": "offline data manifests; not rendered videos",
+  "sources": {
+    "train": {
+      "source_split": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train",
+      "files": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train\\edges.json",
+          "bytes": 4878147,
+          "sha256": "8a18375b019fb30994c49b4bb5f7e97f4b1a14c81262b37bdbecdd8945cfd6fa"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train\\metrics.json",
+          "bytes": 493513,
+          "sha256": "a8f08a4e8099a0f7805771d3fa829d6f502d93e6c36af9ed0bae7a89a3a532b8"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train\\nodes.json",
+          "bytes": 3054797,
+          "sha256": "7e6bd423e1239287de10cc7ba02cb52b522002a0bcf27a10cbcf90cfee19b14c"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train\\sampling.json",
+          "bytes": 346303,
+          "sha256": "65a4b771db612b27b25d1b6d9300bd92d63d02f9d4ae30009cca8ee3ca01311a"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train\\sessions.jsonl",
+          "bytes": 5132571,
+          "sha256": "0e869dcc26d532d024c5d8115750ed079b258b68b03d5496aa72e49b6a7d5a73"
+        }
+      ],
+      "sampler_source": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\sampler_source.py",
+        "bytes": 37638,
+        "sha256": "b2ba7bd4d99c19a59979d6e572af8b78051d35d9953e740048c8ccc8eec04b19"
+      }
+    },
+    "test": {
+      "source_split": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test",
+      "files": [
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test\\edges.json",
+          "bytes": 715887,
+          "sha256": "c171637c4c8c3e87b6403063576badf0340472cb6845ca8f59d46e1c5f1ddc71"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test\\metrics.json",
+          "bytes": 121796,
+          "sha256": "b0b5de321c4dbd11e6bc7d44d31b29cc5d66e710aa6d4bfe1acd2e97ed3c02cb"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test\\nodes.json",
+          "bytes": 629752,
+          "sha256": "e4205d95921d367a1b937c43a690c14fc536b37ca884623f4e63b66f15a1040a"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test\\sampling.json",
+          "bytes": 63340,
+          "sha256": "ac424fe69e83b56ac6584904442599844d399cdd280eb6775b68f590aebb367a"
+        },
+        {
+          "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test\\sessions.jsonl",
+          "bytes": 1002351,
+          "sha256": "25ad0e322772d20066be995d6ab4bcb17bb8288ffc63c940ed30d6380e77f4c1"
+        }
+      ],
+      "sampler_source": {
+        "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\sampler_source.py",
+        "bytes": 37638,
+        "sha256": "b2ba7bd4d99c19a59979d6e572af8b78051d35d9953e740048c8ccc8eec04b19"
+      }
+    }
+  },
+  "sampling_configuration": {
+    "sampler": "v68",
+    "history_decay": 0.2,
+    "cap2_attempts": 12,
+    "upper_slack": 0.025,
+    "max_attempts": 240,
+    "late_start_fallback_after_attempts": 120,
+    "start_camera_weights": {
+      "identity_eligible": 1.5,
+      "other": 1.0
+    },
+    "train_test_configuration_identical": true
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "v11_offline_validation_v1",
+  "scope": "offline planner and synthetic encoder only; no UE samples or visual acceptance",
+  "planner": {
+    "jobs": 7203,
+    "unique_ids": 7203,
+    "source_states_exact": true,
+    "portable_bindings": true,
+    "selection_sharding_limit": true,
+    "pilot_jobs": 10
+  },
+  "synthetic_encoder": {
+    "fixture": "300 RGB8 frames, 64x96, synthetic color values, not UE output",
+    "initial_encode": "passed",
+    "exact_input_resume": "passed",
+    "missing_frame": "failed as expected; prior success preserved",
+    "corrupt_video": "not reused; reencoded and verified",
+    "explicit_jobs_manifest": "passed",
+    "media": {
+      "codec": "h264",
+      "pixel_format": "yuv420p",
+      "width": 64,
+      "height": 96,
+      "fps": 30,
+      "decoded_frames": 300,
+      "duration_seconds": 10.0,
+      "audio_streams": 0,
+      "color_range": "tv",
+      "colorspace": "bt709",
+      "stream_description": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(tv, bt709/unknown/unknown, progressive), 64x96, 8 kb/s, 30 fps, 30 tbr, 15360 tbn (default)",
+      "verification": "full_ffmpeg_decode_xerror"
+    },
+    "timing": {
+      "input_check_seconds": 0.6725234999903478,
+      "encode_seconds": 0.10448589999577962,
+      "verification_seconds": 0.06153380000614561,
+      "total_seconds": 0.8781288999889512
+    },
+    "video_bytes": 15435
+  },
+  "limitations": [
+    "Actual UE loading/rendering not exercised here",
+    "No visual compression or gamma acceptance from synthetic fixture",
+    "Raw frames must remain for encoder resume; queue may validate successful output receipt after raw cleanup"
+  ],
+  "rgba_encoder": {
+    "synthetic_300_frame_encode_full_decode": "passed",
+    "input_channels": [
+      "RGBA"
+    ],
+    "alpha_policy": "discard input alpha without compositing; main MP4 contains RGB-derived video only",
+    "actual_UE_alpha_samples": {
+      "frames": [
+        0,
+        149,
+        299
+      ],
+      "extrema": [
+        255,
+        255
+      ],
+      "scope": "only three sampled actual PNG files; full UE media acceptance by main agent"
+    }
+  }
+}

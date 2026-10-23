@@ -1,0 +1,2147 @@
+{
+  "status": "metadata_certified_input_suite_pending_media_and_visual_validation",
+  "pairs": 12,
+  "base_queries": 24,
+  "scored_control_variants_per_query": 3,
+  "planned_scored_model_calls": 72,
+  "diagnostic_information_deficit_calls": 24,
+  "axes": {
+    "action": 4,
+    "identity": 4,
+    "site": 4
+  },
+  "new_gt_endpoint_count": 0,
+  "unique_existing_target_node_ids": 20,
+  "primary_reference_library_keys": 10,
+  "items": [
+    {
+      "case_id": "pair_01_a",
+      "pair_id": "pair_01",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_06ee0cc684a8be85df67",
+        "target_node_id": "simn_00eaff552fa4273df9d4",
+        "history_node_ids": [
+          "simn_274908e0d419f7ff911d",
+          "simn_06ee0cc684a8be85df67",
+          "simn_ed857fb3ba835e0e4477"
+        ],
+        "primary_reference_library_key": "593adbc512c0c0f7e037e4ab722d60839f0715fd0111d848c5a9dae57382934b",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_036",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "ACT_M05_ELEVATOR_GREETING"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_01_b",
+      "pair_id": "pair_01",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_274908e0d419f7ff911d",
+        "target_node_id": "simn_9961d4318aaab1146b98",
+        "history_node_ids": [
+          "simn_274908e0d419f7ff911d",
+          "simn_06ee0cc684a8be85df67",
+          "simn_ed857fb3ba835e0e4477"
+        ],
+        "primary_reference_library_key": "593adbc512c0c0f7e037e4ab722d60839f0715fd0111d848c5a9dae57382934b",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_036",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "ACT_M05_ELEVATOR_GREETING"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_02_a",
+      "pair_id": "pair_02",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_478f66c5f87b9359b42f",
+        "target_node_id": "simn_ab5f06fa67b13cdcd44e",
+        "history_node_ids": [
+          "simn_478f66c5f87b9359b42f",
+          "simn_06ee0cc684a8be85df67"
+        ],
+        "primary_reference_library_key": "593adbc512c0c0f7e037e4ab722d60839f0715fd0111d848c5a9dae57382934b",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_036",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "ACT_M05_ELEVATOR_GREETING"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_02_b",
+      "pair_id": "pair_02",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_06ee0cc684a8be85df67",
+        "target_node_id": "simn_00eaff552fa4273df9d4",
+        "history_node_ids": [
+          "simn_478f66c5f87b9359b42f",
+          "simn_06ee0cc684a8be85df67"
+        ],
+        "primary_reference_library_key": "593adbc512c0c0f7e037e4ab722d60839f0715fd0111d848c5a9dae57382934b",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_036",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "ACT_M05_ELEVATOR_GREETING"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_03_a",
+      "pair_id": "pair_03",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_b2af08df4667925da60a",
+        "target_node_id": "simn_68fb7eb5b79a8042978a",
+        "history_node_ids": [
+          "simn_c3d63081e9f819e20b16",
+          "simn_b2af08df4667925da60a",
+          "simn_0f3c5322d141fe214a99"
+        ],
+        "primary_reference_library_key": "3893ee5757943f639bbd6a3923ec2e08303e5bb0cd052cf7ddb586f02a371ccb",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_032",
+          "camera": "front_three_quarter_full",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "MOTION_CAND_036"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_03_b",
+      "pair_id": "pair_03",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_c3d63081e9f819e20b16",
+        "target_node_id": "simn_036d63a9a3400b299a77",
+        "history_node_ids": [
+          "simn_c3d63081e9f819e20b16",
+          "simn_b2af08df4667925da60a",
+          "simn_0f3c5322d141fe214a99"
+        ],
+        "primary_reference_library_key": "3893ee5757943f639bbd6a3923ec2e08303e5bb0cd052cf7ddb586f02a371ccb",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "MOTION_CAND_032",
+          "camera": "front_three_quarter_full",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "MOTION_CAND_036"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_04_a",
+      "pair_id": "pair_04",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          },
+          {
+            "version_label": "V3",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_cf49dbb4fb3fb4844048",
+        "target_node_id": "simn_06ee0cc684a8be85df67",
+        "history_node_ids": [
+          "simn_d659102695d83affb0f7",
+          "simn_cf49dbb4fb3fb4844048",
+          "simn_2f23b3774b9205743ac0",
+          "simn_ec4ffdc3bbd5cc730d89"
+        ],
+        "primary_reference_library_key": "4254b108baaf09ed67dee2bc8f095b0b76d699d02fc9b80291ba4bae5c2717af",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "MOTION_CAND_032"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_04_b",
+      "pair_id": "pair_04",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          },
+          {
+            "version_label": "V3",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V2继续，只把身体动作改成参考R1展示的身体动作；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 2,
+        "source_node_id": "simn_2f23b3774b9205743ac0",
+        "target_node_id": "simn_274908e0d419f7ff911d",
+        "history_node_ids": [
+          "simn_d659102695d83affb0f7",
+          "simn_cf49dbb4fb3fb4844048",
+          "simn_2f23b3774b9205743ac0",
+          "simn_ec4ffdc3bbd5cc730d89"
+        ],
+        "primary_reference_library_key": "4254b108baaf09ed67dee2bc8f095b0b76d699d02fc9b80291ba4bae5c2717af",
+        "primary_reference_condition": {
+          "axis": "action",
+          "target_attribute_id": "ACT_M05_ELEVATOR_GREETING",
+          "camera": "front_upper",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female"
+        },
+        "distractor_reference_condition": {
+          "axis": "action",
+          "attribute_id": "MOTION_CAND_032"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_05_a",
+      "pair_id": "pair_05",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_ab5f06fa67b13cdcd44e",
+        "target_node_id": "simn_00eaff552fa4273df9d4",
+        "history_node_ids": [
+          "simn_5778526ecfa996bcb655",
+          "simn_ab5f06fa67b13cdcd44e",
+          "simn_4c3f1764dcf258c77b34"
+        ],
+        "primary_reference_library_key": "a2c5932f3f99811e794220213e593c07b932852981f2f69ccd647a1f86a47798",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LF_001"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_WF_002"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "camera"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_05_b",
+      "pair_id": "pair_05",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V2继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 2,
+        "source_node_id": "simn_4c3f1764dcf258c77b34",
+        "target_node_id": "simn_c3d63081e9f819e20b16",
+        "history_node_ids": [
+          "simn_5778526ecfa996bcb655",
+          "simn_ab5f06fa67b13cdcd44e",
+          "simn_4c3f1764dcf258c77b34"
+        ],
+        "primary_reference_library_key": "a2c5932f3f99811e794220213e593c07b932852981f2f69ccd647a1f86a47798",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LF_001"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_WF_002"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "camera"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_06_a",
+      "pair_id": "pair_06",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_19ad1c9dfd972c8b6e54",
+        "target_node_id": "simn_c46d1d31f2fc3d9f0500",
+        "history_node_ids": [
+          "simn_19ad1c9dfd972c8b6e54",
+          "simn_5778526ecfa996bcb655",
+          "simn_ab5f06fa67b13cdcd44e"
+        ],
+        "primary_reference_library_key": "a2c5932f3f99811e794220213e593c07b932852981f2f69ccd647a1f86a47798",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LF_001"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_WF_002"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "action",
+          "site"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_06_b",
+      "pair_id": "pair_06",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V2继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 2,
+        "source_node_id": "simn_ab5f06fa67b13cdcd44e",
+        "target_node_id": "simn_00eaff552fa4273df9d4",
+        "history_node_ids": [
+          "simn_19ad1c9dfd972c8b6e54",
+          "simn_5778526ecfa996bcb655",
+          "simn_ab5f06fa67b13cdcd44e"
+        ],
+        "primary_reference_library_key": "a2c5932f3f99811e794220213e593c07b932852981f2f69ccd647a1f86a47798",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LF_001"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_WF_002"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "action",
+          "site"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_07_a",
+      "pair_id": "pair_07",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_3974e2f937d31c74220a",
+        "target_node_id": "simn_f1842509e2077633a351",
+        "history_node_ids": [
+          "simn_3974e2f937d31c74220a",
+          "simn_a5bc04e2d035ca414733",
+          "simn_0de324134190e0184bef"
+        ],
+        "primary_reference_library_key": "b60d320058765aafd534fec04db5a09d208f4d030b68e02ab7cd025b7fbdb710",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LM_002"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_LM_004"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "camera",
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_07_b",
+      "pair_id": "pair_07",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          },
+          {
+            "version_label": "V2",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V2继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 2,
+        "source_node_id": "simn_0de324134190e0184bef",
+        "target_node_id": "simn_013d4381639ea3b4caec",
+        "history_node_ids": [
+          "simn_3974e2f937d31c74220a",
+          "simn_a5bc04e2d035ca414733",
+          "simn_0de324134190e0184bef"
+        ],
+        "primary_reference_library_key": "b60d320058765aafd534fec04db5a09d208f4d030b68e02ab7cd025b7fbdb710",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_LM_002"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_LM_004"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "camera",
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_08_a",
+      "pair_id": "pair_08",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_c6706fbf82642827f7a3",
+        "target_node_id": "simn_0a74121ccdf70068dfba",
+        "history_node_ids": [
+          "simn_c6706fbf82642827f7a3",
+          "simn_2d3f551cd2a9531d1147"
+        ],
+        "primary_reference_library_key": "4261aeee9908b96f41a165eb7a5a766074a37abbb4c2a6a9b519db8257fc79f5",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_BF_002"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_BF_005"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "action"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_08_b",
+      "pair_id": "pair_08",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把人物身份改成参考R1展示的人物身份；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_2d3f551cd2a9531d1147",
+        "target_node_id": "simn_3d450045eb24891ef348",
+        "history_node_ids": [
+          "simn_c6706fbf82642827f7a3",
+          "simn_2d3f551cd2a9531d1147"
+        ],
+        "primary_reference_library_key": "4261aeee9908b96f41a165eb7a5a766074a37abbb4c2a6a9b519db8257fc79f5",
+        "primary_reference_condition": {
+          "axis": "identity",
+          "target_attribute_id": "CFD40_BF_002"
+        },
+        "distractor_reference_condition": {
+          "axis": "identity",
+          "attribute_id": "CFD40_BF_005"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "action"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_09_a",
+      "pair_id": "pair_09",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_c152586713a052abbfe1",
+        "target_node_id": "simn_0109a026b8b11d6fa65e",
+        "history_node_ids": [
+          "simn_c152586713a052abbfe1",
+          "simn_3df931166ce6c83d8a2c"
+        ],
+        "primary_reference_library_key": "395b003c04ff6c9a2f0f91368e4648dac1f4278fe2180aae439ae94b452251b8",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_6af8ead41a",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "carrier_sex_fit": "male",
+          "motion_dependent_camera_rule": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_7f07230597"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_09_b",
+      "pair_id": "pair_09",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_3df931166ce6c83d8a2c",
+        "target_node_id": "simn_77daced2eeb890dcb6b2",
+        "history_node_ids": [
+          "simn_c152586713a052abbfe1",
+          "simn_3df931166ce6c83d8a2c"
+        ],
+        "primary_reference_library_key": "395b003c04ff6c9a2f0f91368e4648dac1f4278fe2180aae439ae94b452251b8",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_6af8ead41a",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "carrier_sex_fit": "male",
+          "motion_dependent_camera_rule": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_7f07230597"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_10_a",
+      "pair_id": "pair_10",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_505d50e22f5a84117578",
+        "target_node_id": "simn_c6706fbf82642827f7a3",
+        "history_node_ids": [
+          "simn_505d50e22f5a84117578",
+          "simn_923bb61a69e4614b2bb6"
+        ],
+        "primary_reference_library_key": "f3a14fcbf0605e5062eb994b5b46dcccf727548f49fac8dc9a91f05a3bba5597",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_7f07230597",
+          "camera": "orbit_360",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female",
+          "motion_dependent_camera_rule": "ACT_F02_CATCH_BREATH"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_2a054574eb"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_10_b",
+      "pair_id": "pair_10",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_923bb61a69e4614b2bb6",
+        "target_node_id": "simn_0a74121ccdf70068dfba",
+        "history_node_ids": [
+          "simn_505d50e22f5a84117578",
+          "simn_923bb61a69e4614b2bb6"
+        ],
+        "primary_reference_library_key": "f3a14fcbf0605e5062eb994b5b46dcccf727548f49fac8dc9a91f05a3bba5597",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_7f07230597",
+          "camera": "orbit_360",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female",
+          "motion_dependent_camera_rule": "ACT_F02_CATCH_BREATH"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_2a054574eb"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_11_a",
+      "pair_id": "pair_11",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_73bad046e6840b807357",
+        "target_node_id": "simn_19d94183e0b577113999",
+        "history_node_ids": [
+          "simn_73bad046e6840b807357",
+          "simn_636974fb3a559666dc71"
+        ],
+        "primary_reference_library_key": "a90f74e23c6e67d6e4fe5ac40645a83d9d35a00bfc0c797348d397b0dd3bd3e4",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_2a054574eb",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female",
+          "motion_dependent_camera_rule": "MOTION_CAND_003"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_7f07230597"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_11_b",
+      "pair_id": "pair_11",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_636974fb3a559666dc71",
+        "target_node_id": "simn_3126af17074d0a03db30",
+        "history_node_ids": [
+          "simn_73bad046e6840b807357",
+          "simn_636974fb3a559666dc71"
+        ],
+        "primary_reference_library_key": "a90f74e23c6e67d6e4fe5ac40645a83d9d35a00bfc0c797348d397b0dd3bd3e4",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_2a054574eb",
+          "camera": "front_head",
+          "aspect": "landscape",
+          "carrier_sex_fit": "female",
+          "motion_dependent_camera_rule": "MOTION_CAND_003"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_7f07230597"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "identity"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_12_a",
+      "pair_id": "pair_12",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V0继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 0,
+        "source_node_id": "simn_2ce7815a1500714503ef",
+        "target_node_id": "simn_91c0b4f8c7158be6e9c9",
+        "history_node_ids": [
+          "simn_2ce7815a1500714503ef",
+          "simn_a6c5d85e28157709d652"
+        ],
+        "primary_reference_library_key": "0f0d08775030bd7d9c8415d69aceacafa9d7d491163cf079a7468223e105bcf3",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_6af8ead41a",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "carrier_sex_fit": "male",
+          "motion_dependent_camera_rule": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_2a054574eb"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    },
+    {
+      "case_id": "pair_12_b",
+      "pair_id": "pair_12",
+      "public_input": {
+        "history": [
+          {
+            "version_label": "V0",
+            "video_path": null
+          },
+          {
+            "version_label": "V1",
+            "video_path": null
+          }
+        ],
+        "instruction": "从版本V1继续，只把场景改成参考R1展示的场景；参考R2仅为干扰示例，不采用其中任何属性。其他内容保持。",
+        "references": [
+          {
+            "label": "R1",
+            "media_path": null
+          },
+          {
+            "label": "R2",
+            "media_path": null
+          }
+        ]
+      },
+      "input_controls": [
+        {
+          "name": "full_history_correct_reference",
+          "same_gt": true,
+          "reference_order": [
+            "R1",
+            "R2"
+          ]
+        },
+        {
+          "name": "reference_order_permutation_keep_labels",
+          "same_gt": true,
+          "reference_order": [
+            "R2",
+            "R1"
+          ]
+        },
+        {
+          "name": "remove_irrelevant_reference_R2",
+          "same_gt": true,
+          "reference_order": [
+            "R1"
+          ],
+          "instruction_change": "remove R2-ignore sentence only"
+        },
+        {
+          "name": "remove_required_source_version",
+          "scored_as_edit_success": false,
+          "reason": "Intentional information-deficit diagnostic; do not compare against the same GT as a fair input"
+        }
+      ],
+      "private_supervision": {
+        "source_occurrence_gt": 1,
+        "source_node_id": "simn_a6c5d85e28157709d652",
+        "target_node_id": "simn_227af23c9d19b76c0409",
+        "history_node_ids": [
+          "simn_2ce7815a1500714503ef",
+          "simn_a6c5d85e28157709d652"
+        ],
+        "primary_reference_library_key": "0f0d08775030bd7d9c8415d69aceacafa9d7d491163cf079a7468223e105bcf3",
+        "primary_reference_condition": {
+          "axis": "site",
+          "target_attribute_id": "site_6af8ead41a",
+          "camera": "low_full",
+          "aspect": "landscape",
+          "carrier_sex_fit": "male",
+          "motion_dependent_camera_rule": "ACT_M06_CHEER_HANDS_STEP_DANCE"
+        },
+        "distractor_reference_condition": {
+          "axis": "site",
+          "attribute_id": "site_2a054574eb"
+        },
+        "same_primary_reference_in_pair": true,
+        "different_preserved_axes_between_pair": [
+          "hair_color"
+        ],
+        "no_new_gt_endpoint_required": true
+      },
+      "media_status": "not_rendered",
+      "visual_observability_gate": "pending"
+    }
+  ],
+  "interpretation": "Same reference and same history, only source-version pointer changes; correct retained attributes must change. This tests history/source selection beyond reference fidelity.",
+  "limitations": [
+    "No input media created",
+    "Reference-order invariance requires stable labels",
+    "Do not score removal of required history against unchanged GT",
+    "Metadata differences such as identity or hair color need view/visibility validation"
+  ]
+}

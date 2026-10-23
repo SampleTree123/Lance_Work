@@ -7,7 +7,7 @@
 > 实现所有权：验证 ID、触发条件、证据契约、通过/失效语义和状态落点
 > 验证所有权：`VAL-DOC-01`
 > 输出契约：`OUT-GLOBAL-VALIDATION-EVIDENCE`
-> 最近核验：2026-08-25
+> 最近核验：2026-09-02
 
 ## 1. 本目录负责什么
 
@@ -113,9 +113,13 @@ Exit Gate 关闭前，所有 `required` 验证必须为 `passed` 或经当前计
 ### 4.9 `VAL-UE-02` 模块化运行时
 
 - 触发：批次使用分离网格、Leader Pose、运行时服装/毛发切换时。
-- 最小证据：组件拓扑、Leader Pose、Morph 广播、动画同步和切换矩阵报告。
-- 通过：所有声明可切换组件在验证范围内同步且无新增严重穿模。
+- 最小证据：双形态 Bundle 与 Split 导入报告、组件拓扑、共同 Skeleton、Leader Pose、Variant 切换矩阵、同性动作骨轨/时间变化、保存后重载和人工动态视觉检查。若声明 Morph 可编辑，还必须提供 Morph 广播证据。
+- 通过：所有声明可切换组件在验证范围内同步，Actor 与基础身体在切换期间不被替换，动作时间变化成立，保存后可重载，且人工审查没有阻断性的组件错位、漏显示或材质错误。穿模、头发/服装相交等未纳入声明的适配项必须分别标为已接受风险或未覆盖，不能被架构通过结论隐式覆盖。
 - 失效：组件、Skeleton、Leader Pose 或切换逻辑变化。
+
+机器结构与切换检查不能单独关闭该验证。M02/F02 模块化服装 Pilot 已在 2026-09-02 完成人工动态检查，其限定作用域为 `passed`，证据见 `%OUTPUT_ROOT%/unreal_character_import/modular_outfit_pilot_20260829_v1/runtime/manual_visual_review_20260902_v1.json`；轻微穿模按服装适配风险登记，不扩大架构结论。第一批烘焙 Look 的作用域继续为 `not_applicable`。
+
+固定槽位 v002 使用独立作用域 `modular_outfit_runtime_v002_20260902`。男女 Blueprint 均为 15 个空复用槽、候选硬引用为 0，男女各 10 个 Variant 和各 100 个有序切换无错误；人工复核覆盖分层、Full-body 加配件、锁定 6 组件 Bundle、集成单网格及代表动作循环，未发现阻断性的停留、脱落、漏显示或材质错误。该作用域为 `passed`，证据为 `%OUTPUT_ROOT%/unreal_character_import/modular_outfit_pilot_20260829_v1/runtime_v2/manual_visual_review_20260902_v2.json`。既有轻微穿模作为服装适配风险接受，不扩大该架构结论。
 
 ### 4.10 `VAL-UE-03` 可编辑 Morph
 

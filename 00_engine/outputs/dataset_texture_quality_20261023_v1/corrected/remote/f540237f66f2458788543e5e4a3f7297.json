@@ -1,0 +1,109 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/corrected/reference_pilot_jobs.json",
+    "job_id": "ref_scene_train_node_003775",
+    "pool_mb": 10240,
+    "action": "prepare",
+    "request_id": "f540237f66f2458788543e5e4a3f7297"
+  },
+  "started_at": "2026-10-23T01:07:51.138960+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_pilot_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/corrected', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/corrected/reference_pilot_jobs.json', 'job_id': 'ref_scene_train_node_003775', 'pool_mb': 10240, 'action': 'prepare', 'request_id': 'f540237f66f2458788543e5e4a3f7297'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_pilot_prepared_v11_v1\", \"signature\": \"db02ff3f0e4159d8e7d72453f8c0d794978e1abc231fb330916e9233f7f62c2d\", \"reference_job_sha256\": \"e51d23ea837f65e2afe6457af1ad55d949d7a3c97e6601a2d75710420175684e\", \"job_id\": \"ref_scene_train_node_003775\", \"reference_kind\": \"scene\", \"job\": {\"shot_id\": \"ref_scene_train_node_003775\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_scene_train_node_003775_20cd041fe1.LS_ref_scene_train_node_003775_20cd041fe1\"}, \"source_job_id\": \"train_node_003775\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_texture_quality_20261023_v1\\\\corrected\\\\jobs\\\\train_node_003775\\\\prepared.json\", \"sha256\": \"3d7bf682720782fdbd2203575ed35fa98bb033914ebaec9e150b26114efe96d7\"}, \"source_pins\": [{\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\Maps\\\\L_train_node_003775_6dfd95e6.umap\", \"sha256\": \"563088afd6c1f6ed563dde8659f606c2f1fdf80c21722e9a478f7c5ad7b26e43\"}, {\"path\": \"D:\\\\UE\\\\projects\\\\datatry_02\\\\Content\\\\DataMake\\\\Capture\\\\DatasetPilot20261023\\\\Sequences\\\\LS_train_node_003775_00c42192.uasset\", \"sha256\": \"6ac685e012cd43e276848806d8e1ebc3111e1e578c9c741adbc8b48aeef3ea00\"}], \"source_packages_unchanged\": true, \"camera\": {\"position\": [-23013.984375, 262.9132080078125, 30.87919044494629], \"rotation_pitch_yaw_roll\": [0.0, -180.0, 0.0], \"horizontal_fov_degrees\": 35.0, \"scale\": [1.0, 1.0, 1.0], \"source_frame\": 0}, \"details\": {\"camera_binding\": \"actual saved source sequence frame-zero transform/FOV keys\", \"removed_main_subjects_and_followers\": [{\"label\": \"DM_SiteReview_Dataset_Character\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_1\"}, {\"label\": \"DM_Dataset_DM_SiteReview_Pair19_Lash_lash_up_curly\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.SkeletalMeshActor_2\"}, {\"label\": \"DM_Dataset_DM_SiteReview_Pair19_Lash_lash_low_short_bushy\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.SkeletalMeshActor_3\"}], \"target_character_present\": false, \"shadow_policy\": \"destroy character and attached lash actors before a new MRQ world/warmup; no hidden shadow caster remains\", \"source_environment\": \"inherited source main owned map; dynamic environment equality still requires inspection\"}, \"width\": 1080, \"height\": 1920, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 17.60899999999674, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"prototype_not_frozen\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_pilot_prepared_v11_v1",
+    "signature": "db02ff3f0e4159d8e7d72453f8c0d794978e1abc231fb330916e9233f7f62c2d",
+    "reference_job_sha256": "e51d23ea837f65e2afe6457af1ad55d949d7a3c97e6601a2d75710420175684e",
+    "job_id": "ref_scene_train_node_003775",
+    "reference_kind": "scene",
+    "job": {
+      "shot_id": "ref_scene_train_node_003775",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Sequences/LS_ref_scene_train_node_003775_20cd041fe1.LS_ref_scene_train_node_003775_20cd041fe1"
+    },
+    "source_job_id": "train_node_003775",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\corrected\\jobs\\train_node_003775\\prepared.json",
+      "sha256": "3d7bf682720782fdbd2203575ed35fa98bb033914ebaec9e150b26114efe96d7"
+    },
+    "source_pins": [
+      {
+        "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\Maps\\L_train_node_003775_6dfd95e6.umap",
+        "sha256": "563088afd6c1f6ed563dde8659f606c2f1fdf80c21722e9a478f7c5ad7b26e43"
+      },
+      {
+        "path": "D:\\UE\\projects\\datatry_02\\Content\\DataMake\\Capture\\DatasetPilot20261023\\Sequences\\LS_train_node_003775_00c42192.uasset",
+        "sha256": "6ac685e012cd43e276848806d8e1ebc3111e1e578c9c741adbc8b48aeef3ea00"
+      }
+    ],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        -23013.984375,
+        262.9132080078125,
+        30.87919044494629
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        -180.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 35.0,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_frame": 0
+    },
+    "details": {
+      "camera_binding": "actual saved source sequence frame-zero transform/FOV keys",
+      "removed_main_subjects_and_followers": [
+        {
+          "label": "DM_SiteReview_Dataset_Character",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_1"
+        },
+        {
+          "label": "DM_Dataset_DM_SiteReview_Pair19_Lash_lash_up_curly",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.SkeletalMeshActor_2"
+        },
+        {
+          "label": "DM_Dataset_DM_SiteReview_Pair19_Lash_lash_low_short_bushy",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferencePilot/Maps/L_ref_scene_train_node_003775_20cd041fe1.L_ref_scene_train_node_003775_20cd041fe1:PersistentLevel.SkeletalMeshActor_3"
+        }
+      ],
+      "target_character_present": false,
+      "shadow_policy": "destroy character and attached lash actors before a new MRQ world/warmup; no hidden shadow caster remains",
+      "source_environment": "inherited source main owned map; dynamic environment equality still requires inspection"
+    },
+    "width": 1080,
+    "height": 1920,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 17.60899999999674,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "prototype_not_frozen"
+  },
+  "finished_at": "2026-10-23T01:08:09.921520+00:00",
+  "seconds": 18.78200000000652
+}

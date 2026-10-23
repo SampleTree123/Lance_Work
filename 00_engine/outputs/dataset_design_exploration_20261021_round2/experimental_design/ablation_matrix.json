@@ -1,0 +1,46 @@
+{
+  "status": "candidate_training_comparisons_not_executed",
+  "date": "2026-10-21",
+  "real_dataset": {"manifest": null, "size": null, "category_coverage": "not_audited", "same_records_and_presentations_in_all_R_plus_S_arms": true},
+  "ready_same_edge_history_contrast": {
+    "source": "round1 main_scene_holdout_hybrid_train_sessions.jsonl",
+    "unique_synthetic_nodes": 2500,
+    "unique_supervised_directed_edges": 10104,
+    "supervised_target_presentations": 44800,
+    "same_target_record_multiset_across_flat_and_history": true,
+    "flat_source_video_references": 44800,
+    "full_history_video_references_if_all_prefix_nodes_provided": 112800,
+    "targeted_capability": "history representation and reference resolution beyond adding synthetic data",
+    "standalone_prompts_required_for_flat_view": true,
+    "hidden_parent_not_public_for_autonomous_history_view": true,
+    "natural_language_generation_and_model_training_not_executed": true
+  },
+  "history_by_edge_diversity_factorial": {
+    "same_real_records": true,
+    "same_synthetic_node_set": 2500,
+    "same_synthetic_target_presentations": 44800,
+    "same_optimizer_updates_with_fixed_target_batch_definition": true,
+    "low_diversity_unique_edges_target": 7578,
+    "low_diversity_status": "not_yet_sampled; verify node coverage, length/fork quotas and source identifiability before use",
+    "high_diversity_unique_edges_actual": 10104,
+    "arms": [
+      {"id": "F_low", "history": "expanded_single_turn", "edge_diversity": "low"},
+      {"id": "H_low", "history": "coherent_past_dialogue", "edge_diversity": "low"},
+      {"id": "F_high", "history": "expanded_single_turn", "edge_diversity": "high"},
+      {"id": "H_high", "history": "coherent_past_dialogue", "edge_diversity": "high"}
+    ],
+    "within_each_diversity_level_same_ordered_target_multiset_for_F_H": true,
+    "comparisons": {
+      "history_increment": ["H_low-F_low", "H_high-F_high"],
+      "edge_diversity_increment_without_history": "F_high-F_low",
+      "interaction": "(H_high-F_high)-(H_low-F_low)"
+    }
+  },
+  "optional_controls": [
+    {"id": "P_context_volume", "description": "correct source plus standalone instruction with matched frame-slot count of irrelevant/repeated context; ensure answer remains identifiable", "does_not_prove": "perfectly matched compute or absence of distractor effects"},
+    {"id": "R_only_step_matched", "description": "repeat real data in synthetic update slots", "confound": "changes real presentation count and lacks same synthetic media; do not call it fully matched"},
+    {"id": "real_flat_vs_synthetic_flat", "description": "match counts and edit categories where audited", "confound": "different media content; unavailable real manifest prevents current numeric design"}
+  ],
+  "report_budgets_separately": ["unique_videos", "unique_supervised_directed_edges", "target_presentations", "conditioning_video_frame_references", "text_tokens", "optimizer_updates", "total_compute"],
+  "unseen_task_rule": "must be absent from all explicit training sources and equivalent supervision; unseen synthetic values or branch compositions do not imply unseen edit category; foundation pretraining remains unknown"
+}

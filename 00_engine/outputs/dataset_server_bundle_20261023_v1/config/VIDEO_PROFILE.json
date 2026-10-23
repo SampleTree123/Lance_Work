@@ -1,0 +1,444 @@
+{
+  "schema_version": 1,
+  "status": "local_clarity_and_reference_presentation_accepted_reference_execution_server_pending",
+  "confirmed_date": "2026-10-22",
+  "applies_to": [
+    "main_video",
+    "motion_reference_video"
+  ],
+  "duration_seconds": 10,
+  "fps": 30,
+  "output_frame_count": 300,
+  "resolution": {
+    "landscape": {
+      "width": 1920,
+      "height": 1080
+    },
+    "portrait": {
+      "width": 1080,
+      "height": 1920
+    }
+  },
+  "pending": [
+    "server_exact_build_plugins_and_resource_profile",
+    "local_render_and_server_sample_comparison",
+    "remaining_current_reference_plan_execution"
+  ],
+  "render_started": true,
+  "scope": "Next-stage media settings; does not modify adopted v11 nodes, edges, sessions or reference demand.",
+  "scene_reference_images": {
+    "status": "confirmed",
+    "resolution": {
+      "landscape": {
+        "width": 1920,
+        "height": 1080
+      },
+      "portrait": {
+        "width": 1080,
+        "height": 1920
+      }
+    },
+    "matches_corresponding_video": true,
+    "contains_character": false
+  },
+  "canonical_reference_images": {
+    "status": "confirmed",
+    "applies_to": [
+      "identity",
+      "hair",
+      "wardrobe_piece"
+    ],
+    "width": 1024,
+    "height": 1024,
+    "one_image_per_view": true,
+    "collage": false,
+    "framing": "Keep the target face, hairstyle or garment complete and as large as practical within the frame."
+  },
+  "output_format": {
+    "reference_images": "PNG",
+    "video_container": "MP4",
+    "video_codec": "H.264",
+    "crf_initial_sample": 16,
+    "same_video_encoding_for_main_and_motion_references": true,
+    "render_intermediate": "PNG_sequence",
+    "retention": "Keep final MP4 videos and reference images; intermediate frames may be cleaned only after successful encoding and confirming video usability; retain a small original-frame sample for comparison.",
+    "remaining_encoder_details": "Current local MP4 clarity accepted by user; encoding profile retained. No new encoder adjustment required for clarity.",
+    "compression_quality_validated": false,
+    "encoder": "libx264",
+    "preset": "medium",
+    "pixel_format": "yuv420p",
+    "audio": false,
+    "faststart": true,
+    "reference_png_bits_per_channel": 8,
+    "intermediate_png_bits_per_channel": 8,
+    "video_png_write_alpha": false,
+    "reference_png_background": "use approved reference presentation; garment-only does not imply transparent background",
+    "color_conversion_policy": "opaque RGB/RGBA PNG -> discard alpha -> full-range RGB to BT.709 limited-range yuv420p; libx264 CRF16 medium",
+    "actual_local_png_channels": "RGBA, fully opaque in sampled frames despite write_alpha=False",
+    "local_color_spotcheck": "00_engine/outputs/dataset_render_pilot_20261023_v1/COLOR_SPOTCHECK.json",
+    "compression_quality_validation_scope": "User accepted corrected local MP4 clarity; not a separate colorimetric or cross-platform validation."
+  },
+  "motion_timing": {
+    "mode": "production10",
+    "status": "existing_10_second_motion_processing_completed_reuse_without_retiming",
+    "active_actions": 25,
+    "sex_variants": 50,
+    "fps": 30,
+    "duration_seconds": 10,
+    "output_frames": 300,
+    "contract_path": "00_engine/assets/character_creator/production_motion_library_20261017_v1.json",
+    "runtime_pointer_path": "00_engine/outputs/production_workflow_20261017_v1/production_motion_formal_runtime_active_v1.json",
+    "main_and_motion_reference_policy": "Use the same existing production10 motion and clock for the corresponding action/sex; do not reapply original-source slowdown, repeats or holds to the baked asset.",
+    "render_integration_status": "main_12_clips_use_baked_production10_rate1_start0; dedicated_motion_reference_not_rendered",
+    "dedicated_reference_integration_status": "4_current_policy_production10_reference_pilots_technical_pass_no_rebake"
+  },
+  "render_quality": {
+    "render_pass": "deferred",
+    "spatial_sample_count": 1,
+    "temporal_sample_count": 1,
+    "anti_aliasing_policy": "explicit TSR (r.AntiAliasingMethod=4), screen percentage100, dynamic resolution disabled",
+    "legacy_actual_aa_method": "not recorded in historical render receipt",
+    "local_engine_default_aa_method": "TSR; project/camera overrides can differ",
+    "motion_blur_cvars": {
+      "r.MotionBlurQuality": 0,
+      "r.MotionBlur.Amount": 0
+    },
+    "engine_warm_up_count": 120,
+    "render_warm_up_count": 32,
+    "render_warm_up_frames": true,
+    "use_camera_cut_for_warm_up": false,
+    "warmup_advances_output_clock": false,
+    "cinematic_quality_settings": false,
+    "texture_streaming": "MRQ_FULLY_LOAD_used_textures",
+    "texture_streaming_policy_status": "controlled_cold_cache_AB_and_corrected_12_main_6_reference_complete_user_clarity_accepted",
+    "previous_texture_streaming": "preserve_project_streaming; rejected because cold-cache used textures remained at 64x64 despite bounded warmup",
+    "renderer_policy_version": 2,
+    "texture_residency_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+    "texture_policy_boundary": "FULLY_LOAD used textures per MRQ job; local corrected clips completed and clarity accepted. Server VRAM/cost remains to be measured.",
+    "assembled_hair_material_persistence": "dataset_persistent_materials_v2 saved owned MICs; six bindings matched after actual map reload; corrected main/reference rendering completed",
+    "force_lod_zero": false,
+    "disable_hlods": false,
+    "force_high_quality_shadows": false,
+    "override_view_distance_scale": false,
+    "flush_streaming_managers": false,
+    "flush_grass_streaming": false,
+    "exposure": "inherit saved source map postprocess; clear camera exposure overrides; do not restore old site EV",
+    "depth_of_field_bloom_tonemapping": "inherit current accepted map/project/camera settings; record actual settings in local pilot; no extra grading",
+    "resolution_binding": "apply final output resolution without multiplying accepted camera distances or changing aspect-specific trajectories",
+    "resolved_cvars": {
+      "r.AntiAliasingMethod": 4,
+      "r.ScreenPercentage": 100,
+      "r.DynamicRes.OperationMode": 0,
+      "r.DynamicGlobalIlluminationMethod": 1,
+      "r.ReflectionMethod": 1,
+      "r.Shadow.Virtual.Enable": 1,
+      "sg.ViewDistanceQuality": 3,
+      "sg.AntiAliasingQuality": 3,
+      "sg.ShadowQuality": 3,
+      "sg.GlobalIlluminationQuality": 3,
+      "sg.ReflectionQuality": 3,
+      "sg.PostProcessQuality": 3,
+      "sg.TextureQuality": 3,
+      "sg.EffectsQuality": 3,
+      "sg.FoliageQuality": 3
+    },
+    "resolved_settings_evidence": "Controlled runtime CVar/residency A/B, corrected render_contract receipts and MATERIAL_RELOAD_CHECK.json under dataset_texture_quality_20261023_v1; server readback pending.",
+    "texture_readiness_evidence": "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+    "persistent_material_policy": "dataset_persistent_materials_v2"
+  },
+  "execution_plan": "RENDER_EXECUTION_PLAN.md",
+  "basis": [
+    "00_engine/outputs/production_workflow_20261017_v1/render_receipts/serial4_2b93498ca0_1.json",
+    "00_engine/outputs/production_workflow_20261017_v1/media_receipts/formal_trial_2_front_full.json",
+    "00_engine/outputs/render_readiness_20261021_v1/HANDOFF.md",
+    "00_engine/outputs/dataset_texture_quality_20261023_v1/TEXTURE_LOG_EXTRACT.json",
+    "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md"
+  ],
+  "formal_production_render_started": false,
+  "last_updated": "2026-10-23",
+  "local_pilot": {
+    "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+    "main_clips": 12,
+    "reference_image_prototypes": 6,
+    "technical_media_pass": true,
+    "user_visual_acceptance": true,
+    "linux_tested": false,
+    "old_pilot_quality_rejected": true,
+    "quality_report": "00_engine/outputs/dataset_texture_quality_20261023_v1/REPORT.md",
+    "user_visual_acceptance_scope": "corrected_local_video_and_image_clarity"
+  },
+  "texture_quality_validation": {
+    "run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1",
+    "status": "corrected_local_media_complete_user_clarity_accepted",
+    "controlled_fixture": "same freshly assembled black-hair reference map, camera, light, AA and 1024x1024 output",
+    "warm_cache_result": "both inherited-streaming and FULLY_LOAD runs already had clear/full resident textures; warm-only comparisons do not establish the defect",
+    "cold_cache_result": {
+      "face_diffuse": {
+        "inherited_resident": [
+          64,
+          64
+        ],
+        "fully_load_resident": [
+          2048,
+          2048
+        ]
+      },
+      "hair_base_color_and_opacity": {
+        "inherited_resident": [
+          64,
+          64
+        ],
+        "fully_load_resident": [
+          2048,
+          2048
+        ]
+      },
+      "dress_diffuse_and_normal": {
+        "inherited_resident": [
+          64,
+          64
+        ],
+        "fully_load_resident": [
+          4096,
+          4096
+        ]
+      }
+    },
+    "runtime_readback": {
+      "inherited_fully_load_used_textures": 0,
+      "fully_load_fully_load_used_textures": 1,
+      "texture_streaming_enabled_both": 1,
+      "pool_size_mb_both": 10240
+    },
+    "corrected_run_root": "00_engine/outputs/dataset_texture_quality_20261023_v1/corrected",
+    "corrected_main_clips_planned": 12,
+    "corrected_main_clips_complete_at_report_snapshot": 12,
+    "latest_recorded_blocker": null,
+    "driver_resume_guard": "11 focused tests passed; successful media must match current renderer signature and bind to actual completed MRQ receipt; legacy successful MP4 cannot bypass changed rendering policy; valid current-policy MP4 may resume after raw cleanup",
+    "quality_accepted": true,
+    "linux_tested": false,
+    "corrected_reference_images_complete": 6,
+    "quality_acceptance_scope": "corrected_local_video_and_image_clarity"
+  },
+  "user_clarity_acceptance": {
+    "date": "2026-10-23",
+    "source": "user_current_conversation",
+    "statement": "现在修正之后的视频和图片的清晰度足够了",
+    "scope": "corrected_local_video_and_image_clarity",
+    "accepted": true,
+    "does_not_approve": [
+      "reference_presentation_design",
+      "server_rendering",
+      "formal_full_dataset"
+    ]
+  },
+  "motion_reference_presentation": {
+    "status": "assets_selected_4_current_policy_pilot_technical_pass_new_media_review_pending",
+    "confirmed_date": "2026-10-23",
+    "carrier": "one_fixed_existing_male_and_one_fixed_existing_female_matched_to_motion_sex",
+    "carrier_changes_per_action": false,
+    "wardrobe": "fixed_clear_silhouette_top_trousers_shoes; avoid_long_skirts_and_loose_outerwear",
+    "hair": "fixed_short_hair; keep_shoulders_and_back_visible",
+    "background": "neutral_gray_with_simple_ground",
+    "lighting": "fixed_soft_lighting",
+    "camera": "one_video_per_demanded_motion_camera_combination_with_corresponding_aspect_ratio",
+    "timing": "same_production10_asset_speed1_start0_as_main; 10s_30fps_300frames",
+    "selected_character_ids": {
+      "female": "CFD40_AF_001",
+      "male": "CFD40_AM_001"
+    },
+    "selected_wardrobe_ids": {
+      "female": {
+        "family_id": "female.workout_color_outfits",
+        "group_id": "default",
+        "slot_choices": {
+          "full_body": "female.workout_color_outfits.asset.d973df56c996"
+        },
+        "optional_asset_ids": [],
+        "shared_shoe_id": "F003",
+        "hair_id": "HAIR_HB1_02"
+      },
+      "male": {
+        "family_id": "male.workout",
+        "group_id": "default",
+        "slot_choices": {
+          "shirts": "male.workout.asset.79f65ef7f08f",
+          "pants": "male.workout.asset.f991c0f529d5",
+          "shoes": "male.workout.asset.ee823988cfc1"
+        },
+        "optional_asset_ids": [],
+        "shared_shoe_id": null,
+        "hair_id": "HAIR_HB3_02"
+      }
+    },
+    "selected_hair_ids": {
+      "female": "HAIR_HB1_02",
+      "male": "HAIR_HB3_02"
+    },
+    "asset_selection": "choose_suitable_legal_existing_assets_during_implementation",
+    "information_scope": "reference supplies motion; source video supplies identity clothing hair and scene",
+    "carrier_configuration": "00_engine/outputs/dataset_reference_production_20261023_v1/motion_carriers.json"
+  },
+  "static_reference_presentation": {
+    "status": "adaptive_hair_four_images_user_accepted",
+    "confirmed_date": "2026-10-23",
+    "basis": "user_accepted_existing_corrected_sample_presentation",
+    "canonical_background": "neutral_gray",
+    "canonical_lighting": "soft_fixed_lighting",
+    "identity": "two_different_existing_hairstyles_per_identity_all_silver_white_select_one_per_identity_step",
+    "hair": "adaptive_complete_actual_hair_plus_compact_head; short_closer_long_farther; fixed_simple_gray_clothes; retain_two_carriers_front_back_groups",
+    "wardrobe": "one_image_per_target_piece; garment_only_no_body; whole_outfit_change_includes_all_target_pieces_and_shoes",
+    "scene": "target_scene_corresponding_camera_first_frame_without_character",
+    "canonical_resolution": [
+      1024,
+      1024
+    ],
+    "scene_resolution": "match_corresponding_video_aspect_and_dimensions",
+    "changes_to_existing_reference_views_or_counts": true,
+    "identity_hair_color": "silver_white",
+    "identity_framing": "tight_face_no_intentional_neck_or_shoulders_keep_chin_thin_lower_margin_allowed",
+    "identity_garments_present": false,
+    "hair_garments_present": true,
+    "identity_reference_pool_count": 40,
+    "identity_reference_image_count": 80,
+    "hair_neutral_garment_color": true,
+    "hair_camera": {
+      "policy": "adaptive_complete_hair",
+      "distance_policy": "actual_hair_bounds_plus_compact_head_proxy",
+      "horizontal_fov_degrees": 28,
+      "fit_margin": 1.12,
+      "width": 1024,
+      "height": 1024,
+      "distance_varies_with_actual_hair": true,
+      "minimum_distance_100cm": false,
+      "coverage": "complete hairstyle; short closer long farther; no body/clothing in fit"
+    },
+    "hair_clothing_configuration": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/hair_carrier_clothing.json",
+    "hair_user_acceptance": {
+      "date": "2026-10-23",
+      "source": "current_chat_explicit_user_confirmation",
+      "user_statement": "可以，这样就可以了。",
+      "scope": "adaptive_hair_framing_policy_and_four_pilot_images",
+      "full_reference_batch_accepted": false
+    }
+  },
+  "reference_execution": {
+    "status": "four_adaptive_hair_images_user_accepted",
+    "full_plan_ready": true,
+    "full_reference_tasks": 2458,
+    "static_tasks": 1649,
+    "motion_tasks": 809,
+    "identity_portraits": 80,
+    "hair_reference_images": 112,
+    "verified_unique_pilot_tasks": 4,
+    "static_pilot_images": 4,
+    "motion_pilot_clips": 0,
+    "remaining_current_run_tasks": 2454,
+    "new_pilot_visual_acceptance": "accepted",
+    "server_verified": false,
+    "focused_tests_passed": 28,
+    "run_root": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4",
+    "report": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/REPORT.md",
+    "review": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/REVIEW.md",
+    "result": "00_engine/outputs/dataset_reference_hair_adaptive_20261023_v4/EXECUTION_RESULT.json",
+    "full_reference_media_completed": false,
+    "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+    "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+    "prior_accepted_other_samples": 8,
+    "user_acceptance": {
+      "date": "2026-10-23",
+      "source": "current_chat_explicit_user_confirmation",
+      "user_statement": "可以，这样就可以了。",
+      "scope": "adaptive_hair_framing_policy_and_four_pilot_images",
+      "full_reference_batch_accepted": false
+    }
+  },
+  "reference_execution_history": [
+    {
+      "full_plan_ready": true,
+      "full_reference_tasks": 2418,
+      "static_tasks": 1609,
+      "motion_tasks": 809,
+      "verified_unique_pilot_tasks": 11,
+      "motion_pilot_clips": 4,
+      "static_pilot_images": 7,
+      "remaining_full_tasks": 2407,
+      "new_pilot_visual_acceptance": "pending",
+      "server_verified": false,
+      "run_root": "00_engine/outputs/dataset_reference_production_20261023_v1",
+      "report": "00_engine/outputs/dataset_reference_production_20261023_v1/REPORT.md",
+      "review": "00_engine/outputs/dataset_reference_production_20261023_v1/REVIEW.md",
+      "result": "00_engine/outputs/dataset_reference_production_20261023_v1/EXECUTION_RESULT.json",
+      "implementation_status": "full_reference_execution_entry_ready",
+      "motion_carrier_selection": "configured",
+      "full_reference_media_completed": false,
+      "focused_tests_passed": 31
+    },
+    {
+      "status": "six_current_policy_images_technical_pass_user_review_pending",
+      "full_plan_ready": true,
+      "full_reference_tasks": 2458,
+      "static_tasks": 1649,
+      "motion_tasks": 809,
+      "identity_logical_requirements": 40,
+      "identity_portraits": 80,
+      "verified_unique_pilot_tasks": 6,
+      "static_pilot_images": 6,
+      "motion_pilot_clips": 0,
+      "remaining_current_run_tasks": 2452,
+      "prior_accepted_other_samples": 8,
+      "new_pilot_visual_acceptance": "pending",
+      "server_verified": false,
+      "focused_tests_passed": 26,
+      "run_root": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+      "report": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REPORT.md",
+      "review": "00_engine/outputs/dataset_reference_portraits_20261023_v2/REVIEW.md",
+      "result": "00_engine/outputs/dataset_reference_portraits_20261023_v2/EXECUTION_RESULT.json",
+      "full_reference_media_completed": false,
+      "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+      "current_run_scope": "six_portrait_images_only"
+    },
+    {
+      "status": "four_hair_images_technical_pass_user_review_pending",
+      "full_plan_ready": true,
+      "full_reference_tasks": 2458,
+      "static_tasks": 1649,
+      "motion_tasks": 809,
+      "identity_portraits": 80,
+      "hair_reference_images": 112,
+      "verified_unique_pilot_tasks": 4,
+      "static_pilot_images": 4,
+      "motion_pilot_clips": 0,
+      "remaining_current_run_tasks": 2454,
+      "new_pilot_visual_acceptance": "pending",
+      "server_verified": false,
+      "focused_tests_passed": 27,
+      "run_root": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3",
+      "report": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REPORT.md",
+      "review": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/REVIEW.md",
+      "result": "00_engine/outputs/dataset_reference_hair_framing_20261023_v3/EXECUTION_RESULT.json",
+      "full_reference_media_completed": false,
+      "identity_sample_run": "00_engine/outputs/dataset_reference_portraits_20261023_v2",
+      "prior_other_media_run": "00_engine/outputs/dataset_reference_production_20261023_v1",
+      "prior_accepted_other_samples": 8
+    }
+  ],
+  "character_expression": {
+    "face_id": "smile",
+    "scope": [
+      "main_video",
+      "motion_reference_video",
+      "identity_reference_image",
+      "hair_reference_image"
+    ],
+    "catalog": "00_engine/assets/character_creator/dataset_smile_v1.json",
+    "implementation": "Prebuilt native smile on sex-specific shared skeleton; body tracks and production10 timing unchanged.",
+    "source_window_seconds": [
+      27,
+      32
+    ],
+    "video_playback": "Original approved five-second native smile repeated; native eye movements retained.",
+    "static_sample_seconds": 0.0,
+    "version": 1
+  }
+}

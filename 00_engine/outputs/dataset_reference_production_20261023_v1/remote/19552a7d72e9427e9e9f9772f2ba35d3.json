@@ -1,0 +1,126 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "pool_mb": 10240,
+    "job_id": "ref_0e82a6c82a88e459e23b217e",
+    "action": "prepare",
+    "request_id": "19552a7d72e9427e9e9f9772f2ba35d3"
+  },
+  "started_at": "2026-10-23T02:04:56.430698+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'pool_mb': 10240, 'job_id': 'ref_0e82a6c82a88e459e23b217e', 'action': 'prepare', 'request_id': '19552a7d72e9427e9e9f9772f2ba35d3'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_prepared_v11_v1\", \"signature\": \"bec6df95a16d0821f7e1de1f25ba8d14b688c5da59939564ad09ca86fa7f68e7\", \"reference_job_sha256\": \"740abb4971d21e94c740a4d58a55a3e6e9fce31be0174ded6152641c98aa4c85\", \"job_id\": \"ref_0e82a6c82a88e459e23b217e\", \"reference_kind\": \"garment\", \"job\": {\"shot_id\": \"ref_0e82a6c82a88e459e23b217e\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.LS_ref_0e82a6c82a88e459e23b217e_02deb7c7cf\"}, \"source_job_id\": \"ref_carrier_garment_db9ef7aba29a507981d9\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\", \"sha256\": \"95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9\"}, \"source_pins\": [], \"source_packages_unchanged\": true, \"camera\": {\"position\": [0.9292802810668945, 100.37689399719238, 95.41983032226562], \"rotation_pitch_yaw_roll\": [0.0, -90.0, 0.0], \"horizontal_fov_degrees\": 32.0, \"bounds_center\": [0.9292802810668945, 0.3768939971923828, 95.41983032226562], \"bounds_extent\": [19.531235694885254, 18.95574378967285, 8.300483703613281], \"view\": \"front\", \"front_axis\": \"+Y in unrotated CC reference pose\", \"presentation_status\": \"prototype_unapproved_reference_pose\"}, \"details\": {\"asset\": {\"asset_id\": \"male.vacation.asset.32b33be523e3\", \"label\": \"Waist Bag\", \"slot\": \"family_accessory\", \"mesh_paths\": [\"/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape\"]}, \"mesh_actors\": [{\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf:PersistentLevel.SkeletalMeshActor_0\", \"mesh\": \"/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape\"}], \"all_item_meshes_loaded\": true, \"body_actor_spawned\": false, \"identity_hair_lashes_spawned\": false, \"pose\": \"unanimated imported skeletal reference pose; no body actor or full actor crop\", \"view\": \"front\", \"environment\": {\"background\": \"owned unlit 18-percent gray sphere\", \"key_intensity\": 0.7, \"fill_intensity\": 20.0, \"fill_views\": [\"front\", \"back\"], \"manual_exposure_bias\": -1.0, \"status\": \"prototype_lighting_unapproved\"}, \"all_stage_skeletal_meshes\": [\"/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape\"], \"presentation_status\": \"design_confirmed\"}, \"width\": 1024, \"height\": 1024, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 3.625, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"design_confirmed_sample_review\", \"source_jobs_path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_prepared_v11_v1",
+    "signature": "bec6df95a16d0821f7e1de1f25ba8d14b688c5da59939564ad09ca86fa7f68e7",
+    "reference_job_sha256": "740abb4971d21e94c740a4d58a55a3e6e9fce31be0174ded6152641c98aa4c85",
+    "job_id": "ref_0e82a6c82a88e459e23b217e",
+    "reference_kind": "garment",
+    "job": {
+      "shot_id": "ref_0e82a6c82a88e459e23b217e",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.LS_ref_0e82a6c82a88e459e23b217e_02deb7c7cf"
+    },
+    "source_job_id": "ref_carrier_garment_db9ef7aba29a507981d9",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json",
+      "sha256": "95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9"
+    },
+    "source_pins": [],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        0.9292802810668945,
+        100.37689399719238,
+        95.41983032226562
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 32.0,
+      "bounds_center": [
+        0.9292802810668945,
+        0.3768939971923828,
+        95.41983032226562
+      ],
+      "bounds_extent": [
+        19.531235694885254,
+        18.95574378967285,
+        8.300483703613281
+      ],
+      "view": "front",
+      "front_axis": "+Y in unrotated CC reference pose",
+      "presentation_status": "prototype_unapproved_reference_pose"
+    },
+    "details": {
+      "asset": {
+        "asset_id": "male.vacation.asset.32b33be523e3",
+        "label": "Waist Bag",
+        "slot": "family_accessory",
+        "mesh_paths": [
+          "/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape"
+        ]
+      },
+      "mesh_actors": [
+        {
+          "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf.L_ref_0e82a6c82a88e459e23b217e_02deb7c7cf:PersistentLevel.SkeletalMeshActor_0",
+          "mesh": "/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape"
+        }
+      ],
+      "all_item_meshes_loaded": true,
+      "body_actor_spawned": false,
+      "identity_hair_lashes_spawned": false,
+      "pose": "unanimated imported skeletal reference pose; no body actor or full actor crop",
+      "view": "front",
+      "environment": {
+        "background": "owned unlit 18-percent gray sphere",
+        "key_intensity": 0.7,
+        "fill_intensity": 20.0,
+        "fill_views": [
+          "front",
+          "back"
+        ],
+        "manual_exposure_bias": -1.0,
+        "status": "prototype_lighting_unapproved"
+      },
+      "all_stage_skeletal_meshes": [
+        "/Game/DataMake/Appearance/Wardrobe/Male/vacation/Accessories/Waist_Bag/Meshes/vacation_fanny_pack_49957_shape.vacation_fanny_pack_49957_shape"
+      ],
+      "presentation_status": "design_confirmed"
+    },
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 3.625,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "design_confirmed_sample_review",
+    "source_jobs_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json"
+  },
+  "finished_at": "2026-10-23T02:05:00.709795+00:00",
+  "seconds": 4.282000000006519
+}

@@ -1,0 +1,37 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/ref_hair_train_node_000000_front_fully_load_fresh_evict",
+    "source_run": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_texture_quality_20261023_v1\\fresh_fixture",
+    "job_id": "ref_hair_train_node_000000_front",
+    "texture_mode": "fully_load",
+    "action": "evict",
+    "request_id": "242c34cdf5e14b1d903729b3555cb5bf"
+  },
+  "started_at": "2026-10-23T00:25:38.980023+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_texture_probe_v1 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_texture_quality_20261023_v1/ref_hair_train_node_000000_front_fully_load_fresh_evict', 'source_run': 'D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_texture_quality_20261023_v1\\\\fresh_fixture', 'job_id': 'ref_hair_train_node_000000_front', 'texture_mode': 'fully_load', 'action': 'evict', 'request_id': '242c34cdf5e14b1d903729b3555cb5bf'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"scope\": \"temporary streaming cache eviction only; no asset writes\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "scope": "temporary streaming cache eviction only; no asset writes"
+  },
+  "finished_at": "2026-10-23T00:25:39.633721+00:00",
+  "seconds": 0.6559999999881256
+}

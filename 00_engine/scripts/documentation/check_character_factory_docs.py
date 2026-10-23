@@ -724,9 +724,8 @@ def check_status_subsystem(
     state = load_json(state_path, report, "PROJECT_STATE.json")
     if state is None:
         return None
-    active_workflow = state.get("active_workflow_id")
-    if active_workflow not in WORKFLOW_IDS:
-        subsystem_error(report, "Status", f"invalid active_workflow_id: {active_workflow}")
+    for error in active_workflow_errors(state):
+        subsystem_error(report, "Status", error)
     workflow_status = state.get("workflow_status", {})
     if not isinstance(workflow_status, dict) or set(workflow_status) != set(WORKFLOW_IDS):
         subsystem_error(report, "Status", "workflow_status keys do not match workflow set")
@@ -754,12 +753,39 @@ def check_status_subsystem(
     return state
 
 
+def active_workflow_errors(state: dict[str, object]) -> list[str]:
+    """An explicit completed-plan idle state can have no executing workflow."""
+    active = state.get("active_workflow_id")
+    if active in WORKFLOW_IDS:
+        return []
+    if (state.get("project_phase") == "idle_after_completed_plan"
+            and "current_plan_id" in state and state["current_plan_id"] is None
+            and "active_workflow_id" in state and active is None):
+        return []
+    return [f"invalid active_workflow_id: {active}"]
+
+
+def plan_cardinality_errors(state: dict[str, object] | None, count: int) -> list[str]:
+    """Only an explicitly recorded post-completion idle state has no current plan."""
+    state = state or {}
+    errors: list[str] = []
+    if state.get("project_phase") == "idle_after_completed_plan":
+        if "current_plan_id" not in state or state["current_plan_id"] is not None:
+            errors.append("idle_after_completed_plan requires explicit current_plan_id=null")
+        if count != 0:
+            errors.append(f"idle_after_completed_plan expected zero current plans, found {count}")
+    elif count != 1:
+        errors.append(f"expected exactly one current plan, found {count}")
+    return errors
+
+
 def check_plan_subsystem(
     root: Path,
     docs: list[Path],
     texts: dict[Path, str],
     parsed: dict[Path, dict[str, str]],
     report: AuditReport,
+    state: dict[str, object] | None = None,
 ) -> tuple[Path | None, dict[str, set[str]]]:
     require_files(
         root,
@@ -783,10 +809,8 @@ def check_plan_subsystem(
         for path in plan_docs
         if clean_metadata_value(parsed[path].get("生命周期", "")) == "current"
     ]
-    if len(current_plans) != 1:
-        subsystem_error(
-            report, "Plan", f"expected exactly one current plan, found {len(current_plans)}"
-        )
+    for error in plan_cardinality_errors(state, len(current_plans)):
+        subsystem_error(report, "Plan", error)
     for path in plan_docs:
         lifecycle = clean_metadata_value(parsed[path].get("生命周期", ""))
         if lifecycle not in PLAN_LIFECYCLES:
@@ -1048,6 +1072,13 @@ def check_cross_layer_contracts(
                 f"missing={sorted(expected_current_outputs - current_output_ids)}, "
                 f"extra={sorted(current_output_ids - expected_current_outputs)}"
             )
+        plan_count = sum(
+            clean_metadata_value(values.get("文档类型", "")) == "plan"
+            and clean_metadata_value(values.get("生命周期", "")) == "current"
+            for values in parsed.values()
+        )
+        for error in plan_cardinality_errors(state, plan_count):
+            report.errors.append("[CrossLayer] " + error)
         if current_plan is not None:
             plan_id = clean_metadata_value(parsed[current_plan].get("文档 ID", ""))
             if state.get("current_plan_id") != plan_id:
@@ -1078,10 +1109,6 @@ def check_status_and_plans(
         if clean_metadata_value(parsed.get(path, {}).get("文档类型", "")) == "plan"
         and clean_metadata_value(parsed[path].get("生命周期", "")) == "current"
     ]
-    if len(current_plans) != 1:
-        report.errors.append(
-            f"expected exactly one current plan, found {len(current_plans)}"
-        )
     state_path = root / "project_management/status/PROJECT_STATE.json"
     if not state_path.is_file():
         report.errors.append("missing project_management/status/PROJECT_STATE.json")
@@ -1091,13 +1118,12 @@ def check_status_and_plans(
     except (OSError, json.JSONDecodeError) as exc:
         report.errors.append(f"invalid PROJECT_STATE.json: {exc}")
         return
+    report.errors.extend(plan_cardinality_errors(state, len(current_plans)))
     if current_plans:
         plan_id = clean_metadata_value(parsed[current_plans[0]]["文档 ID"])
         if state.get("current_plan_id") != plan_id:
             report.errors.append("PROJECT_STATE current_plan_id does not match current plan")
-    active_workflow = state.get("active_workflow_id")
-    if active_workflow not in WORKFLOW_IDS:
-        report.errors.append(f"invalid active_workflow_id: {active_workflow}")
+    report.errors.extend(active_workflow_errors(state))
     workflow_status = state.get("workflow_status", {})
     if set(workflow_status) != set(WORKFLOW_IDS):
         report.errors.append("PROJECT_STATE workflow_status keys do not match workflow set")
@@ -1130,7 +1156,8 @@ def normalized_script_bytes(path: Path) -> bytes:
 def tracked_scripts(repo: Path, scan_root_relative: str) -> list[Path]:
     try:
         result = subprocess.run(
-            ["git", "-C", str(repo), "ls-files", "-z", "--", scan_root_relative],
+            ["git", "-C", str(repo), "ls-files", "--cached", "--others",
+             "--exclude-standard", "-z", "--", scan_root_relative],
             check=False,
             capture_output=True,
             timeout=30,
@@ -1367,7 +1394,7 @@ def audit_docs(root: Path, repo_root: Path | None = None) -> AuditReport:
 
     error_start, warning_start = len(report.errors), len(report.warnings)
     current_plan, requirement_workflows = check_plan_subsystem(
-        root, docs, texts, parsed, report
+        root, docs, texts, parsed, report, state=state
     )
     record_subsystem_result(report, "Plan", error_start, warning_start)
 

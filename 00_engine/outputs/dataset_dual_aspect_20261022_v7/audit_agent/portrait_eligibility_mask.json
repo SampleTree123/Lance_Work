@@ -1,0 +1,32 @@
+{
+  "schema": "dual_aspect_portrait_eligibility_mask_v1",
+  "rule": "A node is forbidden in portrait when formal Rules.valid_state(state with aspect=portrait) reports any reason. A chain must stay landscape if any history node is forbidden.",
+  "rule_source": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_balanced_graph_20261022_v5\\audit_candidate.py",
+    "sha256": "9eba06e3b1760c9a6d3e8712e7752204165aa1cbceaa821cc7e2b2b9d2ef1299"
+  },
+  "catalog_source": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\catalog.json",
+    "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131"
+  },
+  "splits": {
+    "train": {
+      "portrait_forbidden_node_ids": [],
+      "portrait_forbidden_chain_ids": [],
+      "reasons_by_node_id": {},
+      "node_count": 3752,
+      "session_count": 12000,
+      "portrait_forbidden_node_count": 0,
+      "portrait_forbidden_chain_count": 0
+    },
+    "test": {
+      "portrait_forbidden_node_ids": [],
+      "portrait_forbidden_chain_ids": [],
+      "reasons_by_node_id": {},
+      "node_count": 800,
+      "session_count": 2400,
+      "portrait_forbidden_node_count": 0,
+      "portrait_forbidden_chain_count": 0
+    }
+  }
+}

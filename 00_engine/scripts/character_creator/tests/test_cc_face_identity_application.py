@@ -57,6 +57,7 @@ def load_subject():
 
     pyside = types.ModuleType("PySide2")
     pyside.QtCore = types.SimpleNamespace()
+    pyside.QtGui = types.SimpleNamespace()
     pyside.QtWidgets = types.SimpleNamespace(QApplication=FakeApplication)
     sys.modules["PySide2"] = pyside
 
@@ -240,6 +241,25 @@ class NeutralEyeStateTests(unittest.TestCase):
                 for item in result["differences"]
             )
         )
+
+    def test_explicit_transform_snapshot_keeps_geometry_checks(self):
+        before = neutral_eye_state()
+        before["capture_mode"] = "transforms_only"
+        del before["eye_bones"][0]["t_pose_position"]
+        after = json.loads(json.dumps(before))
+        result = SUBJECT.compare_neutral_eye_states(before, after)
+        self.assertTrue(result["matches"])
+        self.assertEqual(result["t_pose_comparison"], "not_sampled_sdk_modal_side_effect")
+        after["eye_bones"][0]["world_transform"]["translation"]["z"] += 1.0
+        self.assertFalse(SUBJECT.compare_neutral_eye_states(before, after)["matches"])
+
+    def test_missing_t_pose_is_not_implicitly_accepted(self):
+        before = neutral_eye_state()
+        del before["eye_bones"][0]["t_pose_position"]
+        self.assertFalse(SUBJECT.compare_neutral_eye_states(before, before)["matches"])
+        after = json.loads(json.dumps(before))
+        after["capture_mode"] = "transforms_only"
+        self.assertFalse(SUBJECT.compare_neutral_eye_states(before, after)["matches"])
 
     def test_world_state_can_be_deferred_until_outer_cleanup(self):
         before = neutral_eye_state(world_z=165.0)

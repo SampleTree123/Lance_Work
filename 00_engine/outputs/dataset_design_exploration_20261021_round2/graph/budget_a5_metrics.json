@@ -1,0 +1,2437 @@
+{
+  "kind": "catalog_constrained_synthetic_topology_not_UE_validation",
+  "axes": [
+    "identity",
+    "action",
+    "camera",
+    "aspect",
+    "site",
+    "hair_color"
+  ],
+  "settings": {
+    "routes": [
+      "motif"
+    ],
+    "axes": 5,
+    "families": [
+      1
+    ],
+    "budgets": [
+      2000,
+      4000
+    ],
+    "seeds": [
+      20261021
+    ],
+    "closure": 0.35,
+    "parents": 16,
+    "output": "budget_a5_metrics.json",
+    "save": false,
+    "unique_source_result": false,
+    "axis_balance": 0.0
+  },
+  "records": [
+    {
+      "key": "motif_a5_f1_n2000_s20261021_train",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 2000,
+      "seed": 20261021,
+      "split": "train",
+      "unique_nodes": 1667,
+      "registered_directed_edges": 6450,
+      "catalog_rejections": {
+        "saved_site_exclusion": 25061
+      },
+      "growth": {
+        "candidate_attempts": 302999,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 362,
+          "2": 272,
+          "1": 35
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 170,
+            "site": 195,
+            "identity": 151,
+            "camera": 174,
+            "hair_color": 142
+          },
+          "male": {
+            "action": 171,
+            "site": 188,
+            "identity": 153,
+            "camera": 179,
+            "hair_color": 142
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 44,
+            "CFD40_AF_002": 41,
+            "CFD40_AF_003": 40,
+            "CFD40_AF_004": 42,
+            "CFD40_AF_005": 41,
+            "CFD40_AM_001": 41,
+            "CFD40_AM_002": 40,
+            "CFD40_AM_003": 41,
+            "CFD40_AM_004": 41,
+            "CFD40_AM_005": 42,
+            "CFD40_BF_001": 41,
+            "CFD40_BF_002": 41,
+            "CFD40_BF_003": 44,
+            "CFD40_BF_004": 41,
+            "CFD40_BF_005": 40,
+            "CFD40_BM_001": 42,
+            "CFD40_BM_002": 43,
+            "CFD40_BM_003": 42,
+            "CFD40_BM_004": 40,
+            "CFD40_BM_005": 43,
+            "CFD40_LF_001": 42,
+            "CFD40_LF_002": 40,
+            "CFD40_LF_003": 43,
+            "CFD40_LF_004": 40,
+            "CFD40_LF_005": 42,
+            "CFD40_LM_001": 42,
+            "CFD40_LM_002": 43,
+            "CFD40_LM_003": 41,
+            "CFD40_LM_004": 40,
+            "CFD40_LM_005": 43,
+            "CFD40_WF_001": 40,
+            "CFD40_WF_002": 41,
+            "CFD40_WF_003": 42,
+            "CFD40_WF_004": 44,
+            "CFD40_WF_005": 44,
+            "CFD40_WM_001": 43,
+            "CFD40_WM_002": 42,
+            "CFD40_WM_003": 42,
+            "CFD40_WM_004": 41,
+            "CFD40_WM_005": 42
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 41.675,
+            "p95": 44,
+            "max": 44,
+            "gini": 0.016481703659268154,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 40,
+            "cv": 0.029577187847920936,
+            "max_over_mean": 1.0557888422315538
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 64,
+            "ACT_F02_CATCH_BREATH": 65,
+            "ACT_F03_AUDIENCE_01": 69,
+            "ACT_F05_TIE_SHOES": 67,
+            "ACT_F06_ELEVATOR_GREETING": 67,
+            "ACT_M04_LIVING_ROOM_SWING": 64,
+            "ACT_M05_ELEVATOR_GREETING": 69,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 66,
+            "MOTION_CAND_001": 66,
+            "MOTION_CAND_002": 66,
+            "MOTION_CAND_003": 71,
+            "MOTION_CAND_008": 68,
+            "MOTION_CAND_009": 69,
+            "MOTION_CAND_017": 66,
+            "MOTION_CAND_019": 66,
+            "MOTION_CAND_020": 68,
+            "MOTION_CAND_022": 66,
+            "MOTION_CAND_023": 67,
+            "MOTION_CAND_024": 65,
+            "MOTION_CAND_029": 66,
+            "MOTION_CAND_030": 66,
+            "MOTION_CAND_032": 67,
+            "MOTION_CAND_033": 67,
+            "MOTION_CAND_035": 67,
+            "MOTION_CAND_036": 65
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 66.68,
+            "p95": 69,
+            "max": 71,
+            "gini": 0.013149370125974835,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 64,
+            "cv": 0.024263645370313957,
+            "max_over_mean": 1.0647870425914816
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 79,
+            "back_upper": 79,
+            "dolly_in_back": 82,
+            "dolly_in_front": 81,
+            "dolly_in_side": 78,
+            "dolly_out_back": 80,
+            "dolly_out_front": 80,
+            "dolly_out_side": 78,
+            "front_full": 85,
+            "front_head": 79,
+            "front_three_quarter_full": 78,
+            "front_three_quarter_upper": 79,
+            "front_upper": 80,
+            "high_full": 78,
+            "low_full": 77,
+            "orbit_120": 78,
+            "orbit_360": 80,
+            "rear_three_quarter_full": 78,
+            "rear_three_quarter_upper": 80,
+            "side_full": 82,
+            "side_upper": 76
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 79.38095238095238,
+            "p95": 82,
+            "max": 85,
+            "gini": 0.012911703373611028,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 76,
+            "cv": 0.024426242437315338,
+            "max_over_mean": 1.0707858428314336
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 1667
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 1667.0,
+            "p95": 1667,
+            "max": 1667,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 1667,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_05dac27bc7": 104,
+            "site_05e295695d": 103,
+            "site_1bbc32217c": 106,
+            "site_2831090e60": 105,
+            "site_33328cb3f4": 106,
+            "site_4e6b9c18d9": 103,
+            "site_7b963967ee": 100,
+            "site_7ed6554b09": 104,
+            "site_8c41814f5e": 107,
+            "site_98aac485de": 104,
+            "site_9a6519ec02": 108,
+            "site_dc3f593a1d": 103,
+            "site_def046be4c": 103,
+            "site_f3e2dabbd0": 100,
+            "site_fa4a18c3dc": 107,
+            "site_fbf21a9b6a": 104
+          },
+          "distribution_including_missing": {
+            "count": 16,
+            "mean": 104.1875,
+            "p95": 108,
+            "max": 108,
+            "gini": 0.011735152969406082,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 100,
+            "cv": 0.02125133723325537,
+            "max_over_mean": 1.0365926814637072
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 237,
+            "blue": 237,
+            "gold": 237,
+            "original": 236,
+            "pink": 239,
+            "red": 238,
+            "silver_white": 243
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 238.14285714285714,
+            "p95": 243,
+            "max": 243,
+            "gini": 0.004456251606821615,
+            "zeros": 0,
+            "sum": 1667,
+            "min": 236,
+            "cv": 0.009097631006660528,
+            "max_over_mean": 1.0203959208158369
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 1420.0,
+          "p95": 1517,
+          "max": 1612,
+          "gini": 0.025440140845070403,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 1299,
+          "cv": 0.04569657480619365,
+          "max_over_mean": 1.1352112676056338
+        },
+        "action": {
+          "count": 25,
+          "mean": 2272.0,
+          "p95": 2468,
+          "max": 2473,
+          "gini": 0.0209239436619717,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2116,
+          "cv": 0.03796372343127732,
+          "max_over_mean": 1.088468309859155
+        },
+        "camera": {
+          "count": 21,
+          "mean": 2704.7619047619046,
+          "p95": 2855,
+          "max": 2966,
+          "gini": 0.017525150905432607,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2513,
+          "cv": 0.03394874786572351,
+          "max_over_mean": 1.0965845070422535
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 56800.0,
+          "p95": 56800,
+          "max": 56800,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 56800,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 16,
+          "mean": 3550.0,
+          "p95": 3727,
+          "max": 3727,
+          "gini": 0.01577904929577456,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 3276,
+          "cv": 0.02921881820733085,
+          "max_over_mean": 1.0498591549295775
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 8114.285714285715,
+          "p95": 8250,
+          "max": 8250,
+          "gini": 0.0034607645875253112,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 8061,
+          "cv": 0.00728132916532461,
+          "max_over_mean": 1.016725352112676
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 589,
+          "possible": 640,
+          "coverage": 0.9203125
+        },
+        "action__camera": {
+          "observed": 513,
+          "possible": 525,
+          "coverage": 0.9771428571428571
+        },
+        "site__action": {
+          "observed": 397,
+          "possible": 400,
+          "coverage": 0.9925
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 1876,
+        "action": 1892,
+        "site": 1150,
+        "camera": 916,
+        "hair_color": 616
+      },
+      "sampled_edge_axis_counts": {
+        "identity": 12892,
+        "hair_color": 4936,
+        "action": 12127,
+        "site": 7965,
+        "camera": 6880
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 8960.0,
+        "p95": 12892,
+        "max": 12892,
+        "gini": 0.1889196428571429,
+        "zeros": 0,
+        "sum": 44800,
+        "min": 4936,
+        "cv": 0.34217925131004745,
+        "max_over_mean": 1.4388392857142858
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 1290.0,
+        "p95": 1892,
+        "max": 1892,
+        "gini": 0.21779844961240324,
+        "zeros": 0,
+        "sum": 6450,
+        "min": 616,
+        "cv": 0.3982341890430266,
+        "max_over_mean": 1.4666666666666666
+      },
+      "family_session_counts": {
+        "female_0": 5999,
+        "male_0": 6001
+      },
+      "family_node_counts": {
+        "female_0": 833,
+        "male_0": 834
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        834,
+        833
+      ],
+      "degree": {
+        "count": 1667,
+        "mean": 3.8692261547690463,
+        "p95": 8,
+        "max": 14,
+        "gini": 0.27508172784047846,
+        "zeros": 0,
+        "sum": 6450,
+        "min": 2,
+        "cv": 0.5280006063880354,
+        "max_over_mean": 3.6182945736434107
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 1667,
+        "mean": 34.07318536292741,
+        "p95": 51,
+        "max": 70,
+        "gini": 0.10593306690774518,
+        "zeros": 0,
+        "sum": 56800,
+        "min": 26,
+        "cv": 0.2196754088669484,
+        "max_over_mean": 2.0544014084507043
+      },
+      "history_source_result_equivalence": {
+        "fork_count": 4000,
+        "equivalence_set_size_histogram": {
+          "1": 3402,
+          "2": 582,
+          "3": 16
+        },
+        "ambiguous_forks": 598,
+        "examples": [
+          {
+            "occurrences": [
+              1211,
+              1599,
+              1600,
+              1213,
+              1212,
+              970
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "hair_color",
+              "identity",
+              "hair_color",
+              "identity",
+              "hair_color"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              678,
+              1162,
+              1163,
+              447,
+              446,
+              285
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "hair_color",
+              "action",
+              "hair_color",
+              "site",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              758,
+              756,
+              1549,
+              1551,
+              331,
+              657
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              2,
+              4
+            ],
+            "axes": [
+              "camera",
+              "action",
+              "hair_color",
+              "action",
+              "action"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 9417,
+        "root_final_pair_max_sessions": 6,
+        "unique_axis_sequences": 2074,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 2920,
+        "shortest_straight_root_final_classes": 2769,
+        "commuting_order_excess_sessions": 151,
+        "max_commuting_class": 3
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "sampling": {
+        "requested": 12000,
+        "sampled_unique_sessions": 12000,
+        "unique_session_lower_bound": 12000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 15991,
+        "node_occurrence_reuse": {
+          "count": 1667,
+          "mean": 34.07318536292741,
+          "p95": 51,
+          "max": 70,
+          "gini": 0.10593306690774518,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "node_distinct_session_reuse": {
+          "count": 1667,
+          "mean": 34.07318536292741,
+          "p95": 51,
+          "max": 70,
+          "gini": 0.10593306690774518,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 6450,
+          "mean": 6.945736434108527,
+          "p95": 13,
+          "max": 19,
+          "gini": 0.2435801564230342,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "used_directed_edge_reuse": {
+          "count": 6450,
+          "mean": 6.945736434108527,
+          "p95": 13,
+          "max": 19,
+          "gini": 0.2435801564230342,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 6450,
+          "mean": 6.945736434108527,
+          "p95": 13,
+          "max": 19,
+          "gini": 0.2435801564230342,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "unique_directed_edges_used": 6450,
+        "edge_coverage_fraction": 1.0,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 4000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 1600,
+          "branch_source_depth_1": 1983,
+          "branch_source_depth_2": 417,
+          "branch_source_lag_1": 3217,
+          "branch_source_lag_2": 677,
+          "branch_source_lag_3": 106,
+          "branch_then_followup_sessions": 4000,
+          "branch_turn_2": 1136,
+          "branch_turn_3": 2022,
+          "branch_turn_4": 842,
+          "length_2": 2000,
+          "length_3": 2800,
+          "length_4": 3600,
+          "length_5": 3600,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 8000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 12000,
+        "exact_available_two_axis_length2_straight_paths": 17916,
+        "quality_at_least_two_axes_sessions": 12000
+      },
+      "elapsed_seconds": 6.99
+    },
+    {
+      "key": "motif_a5_f1_n2000_s20261021_test",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 2000,
+      "seed": 20261021,
+      "split": "test",
+      "unique_nodes": 333,
+      "registered_directed_edges": 1006,
+      "catalog_rejections": {
+        "saved_site_exclusion": 7744
+      },
+      "growth": {
+        "candidate_attempts": 52833,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 97,
+          "2": 19,
+          "1": 2
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 44,
+            "camera": 47,
+            "identity": 25,
+            "site": 26,
+            "hair_color": 23
+          },
+          "male": {
+            "action": 41,
+            "site": 32,
+            "identity": 27,
+            "camera": 44,
+            "hair_color": 22
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 9,
+            "CFD40_AF_002": 9,
+            "CFD40_AF_003": 10,
+            "CFD40_AF_004": 8,
+            "CFD40_AF_005": 9,
+            "CFD40_AM_001": 9,
+            "CFD40_AM_002": 10,
+            "CFD40_AM_003": 8,
+            "CFD40_AM_004": 7,
+            "CFD40_AM_005": 7,
+            "CFD40_BF_001": 9,
+            "CFD40_BF_002": 7,
+            "CFD40_BF_003": 9,
+            "CFD40_BF_004": 7,
+            "CFD40_BF_005": 7,
+            "CFD40_BM_001": 8,
+            "CFD40_BM_002": 8,
+            "CFD40_BM_003": 8,
+            "CFD40_BM_004": 8,
+            "CFD40_BM_005": 9,
+            "CFD40_LF_001": 7,
+            "CFD40_LF_002": 8,
+            "CFD40_LF_003": 6,
+            "CFD40_LF_004": 9,
+            "CFD40_LF_005": 7,
+            "CFD40_LM_001": 7,
+            "CFD40_LM_002": 11,
+            "CFD40_LM_003": 8,
+            "CFD40_LM_004": 10,
+            "CFD40_LM_005": 7,
+            "CFD40_WF_001": 8,
+            "CFD40_WF_002": 9,
+            "CFD40_WF_003": 9,
+            "CFD40_WF_004": 9,
+            "CFD40_WF_005": 10,
+            "CFD40_WM_001": 7,
+            "CFD40_WM_002": 9,
+            "CFD40_WM_003": 6,
+            "CFD40_WM_004": 10,
+            "CFD40_WM_005": 10
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 8.325,
+            "p95": 10,
+            "max": 11,
+            "gini": 0.08115615615615623,
+            "zeros": 0,
+            "sum": 333,
+            "min": 6,
+            "cv": 0.1456069420108187,
+            "max_over_mean": 1.3213213213213215
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 12,
+            "ACT_F02_CATCH_BREATH": 16,
+            "ACT_F03_AUDIENCE_01": 13,
+            "ACT_F05_TIE_SHOES": 15,
+            "ACT_F06_ELEVATOR_GREETING": 11,
+            "ACT_M04_LIVING_ROOM_SWING": 17,
+            "ACT_M05_ELEVATOR_GREETING": 12,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 14,
+            "MOTION_CAND_001": 14,
+            "MOTION_CAND_002": 14,
+            "MOTION_CAND_003": 14,
+            "MOTION_CAND_008": 11,
+            "MOTION_CAND_009": 11,
+            "MOTION_CAND_017": 12,
+            "MOTION_CAND_019": 12,
+            "MOTION_CAND_020": 18,
+            "MOTION_CAND_022": 11,
+            "MOTION_CAND_023": 16,
+            "MOTION_CAND_024": 12,
+            "MOTION_CAND_029": 12,
+            "MOTION_CAND_030": 13,
+            "MOTION_CAND_032": 13,
+            "MOTION_CAND_033": 13,
+            "MOTION_CAND_035": 12,
+            "MOTION_CAND_036": 15
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 13.32,
+            "p95": 17,
+            "max": 18,
+            "gini": 0.07879879879879881,
+            "zeros": 0,
+            "sum": 333,
+            "min": 11,
+            "cv": 0.14357997703161465,
+            "max_over_mean": 1.3513513513513513
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 21,
+            "back_upper": 15,
+            "dolly_in_back": 18,
+            "dolly_in_front": 18,
+            "dolly_in_side": 13,
+            "dolly_out_back": 16,
+            "dolly_out_front": 18,
+            "dolly_out_side": 16,
+            "front_full": 15,
+            "front_head": 16,
+            "front_three_quarter_full": 17,
+            "front_three_quarter_upper": 14,
+            "front_upper": 14,
+            "high_full": 14,
+            "low_full": 16,
+            "orbit_120": 16,
+            "orbit_360": 14,
+            "rear_three_quarter_full": 14,
+            "rear_three_quarter_upper": 18,
+            "side_full": 15,
+            "side_upper": 15
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 15.857142857142858,
+            "p95": 18,
+            "max": 21,
+            "gini": 0.0643500643500643,
+            "zeros": 0,
+            "sum": 333,
+            "min": 13,
+            "cv": 0.11883699061507134,
+            "max_over_mean": 1.3243243243243243
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 333
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 333.0,
+            "p95": 333,
+            "max": 333,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 333,
+            "min": 333,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_2a054574eb": 73,
+            "site_6af8ead41a": 66,
+            "site_7dbc277564": 69,
+            "site_7f07230597": 68,
+            "site_91fc32ba93": 57
+          },
+          "distribution_including_missing": {
+            "count": 5,
+            "mean": 66.6,
+            "p95": 73,
+            "max": 73,
+            "gini": 0.04204204204204198,
+            "zeros": 0,
+            "sum": 333,
+            "min": 57,
+            "cv": 0.07979177330682537,
+            "max_over_mean": 1.0960960960960962
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 48,
+            "blue": 46,
+            "gold": 43,
+            "original": 47,
+            "pink": 44,
+            "red": 49,
+            "silver_white": 56
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 47.57142857142857,
+            "p95": 56,
+            "max": 56,
+            "gini": 0.04375804375804382,
+            "zeros": 0,
+            "sum": 333,
+            "min": 43,
+            "cv": 0.08322166042372985,
+            "max_over_mean": 1.1771771771771773
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 355.0,
+          "p95": 451,
+          "max": 494,
+          "gini": 0.10545422535211268,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 221,
+          "cv": 0.1840603128599028,
+          "max_over_mean": 1.3915492957746478
+        },
+        "action": {
+          "count": 25,
+          "mean": 568.0,
+          "p95": 736,
+          "max": 760,
+          "gini": 0.09087887323943655,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 428,
+          "cv": 0.1605371241195978,
+          "max_over_mean": 1.3380281690140845
+        },
+        "camera": {
+          "count": 21,
+          "mean": 676.1904761904761,
+          "p95": 848,
+          "max": 885,
+          "gini": 0.07404426559356136,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 558,
+          "cv": 0.1354276803897595,
+          "max_over_mean": 1.3088028169014085
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 14200.0,
+          "p95": 14200,
+          "max": 14200,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 14200,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 5,
+          "mean": 2840.0,
+          "p95": 3128,
+          "max": 3128,
+          "gini": 0.04847887323943656,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 2339,
+          "cv": 0.0944221507437801,
+          "max_over_mean": 1.1014084507042254
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 2028.5714285714287,
+          "p95": 2335,
+          "max": 2335,
+          "gini": 0.04442655935613682,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 1791,
+          "cv": 0.0803081868801938,
+          "max_over_mean": 1.1510563380281689
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 95,
+          "possible": 200,
+          "coverage": 0.475
+        },
+        "action__camera": {
+          "observed": 144,
+          "possible": 525,
+          "coverage": 0.2742857142857143
+        },
+        "site__action": {
+          "observed": 92,
+          "possible": 125,
+          "coverage": 0.736
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 236,
+        "action": 338,
+        "camera": 222,
+        "site": 120,
+        "hair_color": 90
+      },
+      "sampled_edge_axis_counts": {
+        "action": 3568,
+        "hair_color": 1085,
+        "camera": 2404,
+        "identity": 2653,
+        "site": 1490
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 2240.0,
+        "p95": 3568,
+        "max": 3568,
+        "gini": 0.21889285714285722,
+        "zeros": 0,
+        "sum": 11200,
+        "min": 1085,
+        "cv": 0.3921246214534354,
+        "max_over_mean": 1.5928571428571427
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 201.2,
+        "p95": 338,
+        "max": 338,
+        "gini": 0.24333996023856863,
+        "zeros": 0,
+        "sum": 1006,
+        "min": 90,
+        "cv": 0.4407335413695902,
+        "max_over_mean": 1.679920477137177
+      },
+      "family_session_counts": {
+        "male_0": 1498,
+        "female_0": 1502
+      },
+      "family_node_counts": {
+        "female_0": 166,
+        "male_0": 167
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        167,
+        166
+      ],
+      "degree": {
+        "count": 333,
+        "mean": 3.021021021021021,
+        "p95": 5,
+        "max": 6,
+        "gini": 0.1860846930429434,
+        "zeros": 0,
+        "sum": 1006,
+        "min": 2,
+        "cv": 0.34743221602779123,
+        "max_over_mean": 1.9860834990059641
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 333,
+        "mean": 42.64264264264264,
+        "p95": 61,
+        "max": 74,
+        "gini": 0.09645603349828691,
+        "zeros": 0,
+        "sum": 14200,
+        "min": 34,
+        "cv": 0.1922938615263579,
+        "max_over_mean": 1.7353521126760563
+      },
+      "history_source_result_equivalence": {
+        "fork_count": 1000,
+        "equivalence_set_size_histogram": {
+          "1": 932,
+          "2": 68
+        },
+        "ambiguous_forks": 68,
+        "examples": [
+          {
+            "occurrences": [
+              303,
+              203,
+              226,
+              202,
+              55,
+              54
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "action",
+              "identity",
+              "action",
+              "camera",
+              "identity"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              9,
+              313,
+              314,
+              1,
+              8
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "camera",
+              "action",
+              "camera",
+              "identity"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              175,
+              258,
+              260,
+              207,
+              209
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              0,
+              3
+            ],
+            "axes": [
+              "action",
+              "camera",
+              "action",
+              "camera"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 2087,
+        "root_final_pair_max_sessions": 6,
+        "unique_axis_sequences": 972,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 843,
+        "shortest_straight_root_final_classes": 754,
+        "commuting_order_excess_sessions": 89,
+        "max_commuting_class": 2
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "sampling": {
+        "requested": 3000,
+        "sampled_unique_sessions": 3000,
+        "unique_session_lower_bound": 3000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 4107,
+        "node_occurrence_reuse": {
+          "count": 333,
+          "mean": 42.64264264264264,
+          "p95": 61,
+          "max": 74,
+          "gini": 0.09645603349828691,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "node_distinct_session_reuse": {
+          "count": 333,
+          "mean": 42.64264264264264,
+          "p95": 61,
+          "max": 74,
+          "gini": 0.09645603349828691,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 1006,
+          "mean": 11.133200795228628,
+          "p95": 16,
+          "max": 21,
+          "gini": 0.14254632916785015,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "used_directed_edge_reuse": {
+          "count": 1006,
+          "mean": 11.133200795228628,
+          "p95": 16,
+          "max": 21,
+          "gini": 0.14254632916785015,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 1006,
+          "mean": 11.133200795228628,
+          "p95": 16,
+          "max": 21,
+          "gini": 0.14254632916785015,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "unique_directed_edges_used": 1006,
+        "edge_coverage_fraction": 1.0,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 1000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 400,
+          "branch_source_depth_1": 526,
+          "branch_source_depth_2": 74,
+          "branch_source_lag_1": 818,
+          "branch_source_lag_2": 161,
+          "branch_source_lag_3": 21,
+          "branch_then_followup_sessions": 1000,
+          "branch_turn_2": 286,
+          "branch_turn_3": 551,
+          "branch_turn_4": 163,
+          "length_2": 500,
+          "length_3": 700,
+          "length_4": 900,
+          "length_5": 900,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 2000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 3000,
+        "exact_available_two_axis_length2_straight_paths": 2076,
+        "quality_at_least_two_axes_sessions": 3000
+      },
+      "elapsed_seconds": 1.223
+    },
+    {
+      "key": "motif_a5_f1_n4000_s20261021_train",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 4000,
+      "seed": 20261021,
+      "split": "train",
+      "unique_nodes": 3333,
+      "registered_directed_edges": 15620,
+      "catalog_rejections": {
+        "saved_site_exclusion": 49128
+      },
+      "growth": {
+        "candidate_attempts": 753529,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 454,
+          "2": 743,
+          "1": 483
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 337,
+            "site": 337,
+            "identity": 323,
+            "camera": 335,
+            "hair_color": 333
+          },
+          "male": {
+            "action": 339,
+            "site": 334,
+            "identity": 326,
+            "camera": 335,
+            "hair_color": 332
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 84,
+            "CFD40_AF_002": 83,
+            "CFD40_AF_003": 83,
+            "CFD40_AF_004": 83,
+            "CFD40_AF_005": 83,
+            "CFD40_AM_001": 83,
+            "CFD40_AM_002": 83,
+            "CFD40_AM_003": 83,
+            "CFD40_AM_004": 84,
+            "CFD40_AM_005": 83,
+            "CFD40_BF_001": 83,
+            "CFD40_BF_002": 83,
+            "CFD40_BF_003": 83,
+            "CFD40_BF_004": 84,
+            "CFD40_BF_005": 83,
+            "CFD40_BM_001": 83,
+            "CFD40_BM_002": 84,
+            "CFD40_BM_003": 83,
+            "CFD40_BM_004": 84,
+            "CFD40_BM_005": 83,
+            "CFD40_LF_001": 83,
+            "CFD40_LF_002": 83,
+            "CFD40_LF_003": 83,
+            "CFD40_LF_004": 84,
+            "CFD40_LF_005": 83,
+            "CFD40_LM_001": 83,
+            "CFD40_LM_002": 83,
+            "CFD40_LM_003": 83,
+            "CFD40_LM_004": 83,
+            "CFD40_LM_005": 84,
+            "CFD40_WF_001": 83,
+            "CFD40_WF_002": 84,
+            "CFD40_WF_003": 84,
+            "CFD40_WF_004": 84,
+            "CFD40_WF_005": 83,
+            "CFD40_WM_001": 84,
+            "CFD40_WM_002": 83,
+            "CFD40_WM_003": 84,
+            "CFD40_WM_004": 84,
+            "CFD40_WM_005": 83
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 83.325,
+            "p95": 84,
+            "max": 84,
+            "gini": 0.0026327632763276654,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 83,
+            "cv": 0.005621060304589017,
+            "max_over_mean": 1.008100810081008
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 135,
+            "ACT_F02_CATCH_BREATH": 132,
+            "ACT_F03_AUDIENCE_01": 133,
+            "ACT_F05_TIE_SHOES": 134,
+            "ACT_F06_ELEVATOR_GREETING": 132,
+            "ACT_M04_LIVING_ROOM_SWING": 134,
+            "ACT_M05_ELEVATOR_GREETING": 132,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 134,
+            "MOTION_CAND_001": 134,
+            "MOTION_CAND_002": 134,
+            "MOTION_CAND_003": 134,
+            "MOTION_CAND_008": 132,
+            "MOTION_CAND_009": 132,
+            "MOTION_CAND_017": 133,
+            "MOTION_CAND_019": 134,
+            "MOTION_CAND_020": 133,
+            "MOTION_CAND_022": 134,
+            "MOTION_CAND_023": 133,
+            "MOTION_CAND_024": 133,
+            "MOTION_CAND_029": 132,
+            "MOTION_CAND_030": 134,
+            "MOTION_CAND_032": 135,
+            "MOTION_CAND_033": 134,
+            "MOTION_CAND_035": 132,
+            "MOTION_CAND_036": 134
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 133.32,
+            "p95": 135,
+            "max": 135,
+            "gini": 0.003936393639363933,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 132,
+            "cv": 0.007262957357881911,
+            "max_over_mean": 1.0126012601260126
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 158,
+            "back_upper": 157,
+            "dolly_in_back": 159,
+            "dolly_in_front": 160,
+            "dolly_in_side": 158,
+            "dolly_out_back": 158,
+            "dolly_out_front": 159,
+            "dolly_out_side": 160,
+            "front_full": 159,
+            "front_head": 161,
+            "front_three_quarter_full": 157,
+            "front_three_quarter_upper": 160,
+            "front_upper": 161,
+            "high_full": 158,
+            "low_full": 157,
+            "orbit_120": 159,
+            "orbit_360": 158,
+            "rear_three_quarter_full": 159,
+            "rear_three_quarter_upper": 158,
+            "side_full": 157,
+            "side_upper": 160
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 158.71428571428572,
+            "p95": 161,
+            "max": 161,
+            "gini": 0.004371865758004301,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 157,
+            "cv": 0.007812311170892011,
+            "max_over_mean": 1.0144014401440145
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 3333
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 3333.0,
+            "p95": 3333,
+            "max": 3333,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 3333,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_05dac27bc7": 207,
+            "site_05e295695d": 209,
+            "site_1bbc32217c": 210,
+            "site_2831090e60": 208,
+            "site_33328cb3f4": 207,
+            "site_4e6b9c18d9": 209,
+            "site_7b963967ee": 208,
+            "site_7ed6554b09": 209,
+            "site_8c41814f5e": 209,
+            "site_98aac485de": 209,
+            "site_9a6519ec02": 209,
+            "site_dc3f593a1d": 208,
+            "site_def046be4c": 207,
+            "site_f3e2dabbd0": 209,
+            "site_fa4a18c3dc": 207,
+            "site_fbf21a9b6a": 208
+          },
+          "distribution_including_missing": {
+            "count": 16,
+            "mean": 208.3125,
+            "p95": 210,
+            "max": 210,
+            "gini": 0.002381488148814892,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 207,
+            "cv": 0.004399303419926547,
+            "max_over_mean": 1.008100810081008
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 475,
+            "blue": 479,
+            "gold": 472,
+            "original": 476,
+            "pink": 478,
+            "red": 477,
+            "silver_white": 476
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 476.14285714285717,
+            "p95": 479,
+            "max": 479,
+            "gini": 0.002400240024002409,
+            "zeros": 0,
+            "sum": 3333,
+            "min": 472,
+            "cv": 0.0044095224892586465,
+            "max_over_mean": 1.006000600060006
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 1420.0,
+          "p95": 1476,
+          "max": 1481,
+          "gini": 0.012856514084507165,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 1362,
+          "cv": 0.022447562824736273,
+          "max_over_mean": 1.0429577464788733
+        },
+        "action": {
+          "count": 25,
+          "mean": 2272.0,
+          "p95": 2354,
+          "max": 2354,
+          "gini": 0.012004225352112652,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2185,
+          "cv": 0.020971406507305695,
+          "max_over_mean": 1.0360915492957747
+        },
+        "camera": {
+          "count": 21,
+          "mean": 2704.7619047619046,
+          "p95": 2773,
+          "max": 2779,
+          "gini": 0.008697183098591577,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2627,
+          "cv": 0.015216483195571274,
+          "max_over_mean": 1.0274471830985916
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 56800.0,
+          "p95": 56800,
+          "max": 56800,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 56800,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 16,
+          "mean": 3550.0,
+          "p95": 3626,
+          "max": 3626,
+          "gini": 0.00799295774647879,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 3461,
+          "cv": 0.014034417975785946,
+          "max_over_mean": 1.0214084507042254
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 8114.285714285715,
+          "p95": 8218,
+          "max": 8218,
+          "gini": 0.003712273641851116,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 8040,
+          "cv": 0.006695142681725681,
+          "max_over_mean": 1.012781690140845
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 640,
+          "possible": 640,
+          "coverage": 1.0
+        },
+        "action__camera": {
+          "observed": 525,
+          "possible": 525,
+          "coverage": 1.0
+        },
+        "site__action": {
+          "observed": 399,
+          "possible": 400,
+          "coverage": 0.9975
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 5206,
+        "action": 4082,
+        "site": 2406,
+        "camera": 2248,
+        "hair_color": 1678
+      },
+      "sampled_edge_axis_counts": {
+        "hair_color": 5552,
+        "identity": 14111,
+        "camera": 7191,
+        "site": 7034,
+        "action": 10912
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 8960.0,
+        "p95": 14111,
+        "max": 14111,
+        "gini": 0.18746428571428586,
+        "zeros": 0,
+        "sum": 44800,
+        "min": 5552,
+        "cv": 0.34865902088257145,
+        "max_over_mean": 1.5748883928571429
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 3124.0,
+        "p95": 5206,
+        "max": 5206,
+        "gini": 0.2276568501920615,
+        "zeros": 0,
+        "sum": 15620,
+        "min": 1678,
+        "cv": 0.42045193174364914,
+        "max_over_mean": 1.6664532650448143
+      },
+      "family_session_counts": {
+        "male_0": 5995,
+        "female_0": 6005
+      },
+      "family_node_counts": {
+        "female_0": 1666,
+        "male_0": 1667
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        1667,
+        1666
+      ],
+      "degree": {
+        "count": 3333,
+        "mean": 4.686468646864687,
+        "p95": 10,
+        "max": 17,
+        "gini": 0.28903273169826593,
+        "zeros": 0,
+        "sum": 15620,
+        "min": 2,
+        "cv": 0.5464311857963506,
+        "max_over_mean": 3.6274647887323943
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 3333,
+        "mean": 17.04170417041704,
+        "p95": 24,
+        "max": 38,
+        "gini": 0.09973344869698231,
+        "zeros": 0,
+        "sum": 56800,
+        "min": 12,
+        "cv": 0.19817980772080768,
+        "max_over_mean": 2.229823943661972
+      },
+      "history_source_result_equivalence": {
+        "fork_count": 4000,
+        "equivalence_set_size_histogram": {
+          "1": 3340,
+          "2": 642,
+          "3": 18
+        },
+        "ambiguous_forks": 660,
+        "examples": [
+          {
+            "occurrences": [
+              1812,
+              1527,
+              1813,
+              1528,
+              3287
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "camera",
+              "hair_color",
+              "camera",
+              "identity"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              1733,
+              2986,
+              2988,
+              644,
+              642
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "identity",
+              "action",
+              "identity",
+              "site"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              1767,
+              440,
+              2372,
+              3131,
+              1163
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "hair_color",
+              "action",
+              "hair_color",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 11011,
+        "root_final_pair_max_sessions": 4,
+        "unique_axis_sequences": 2343,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 2955,
+        "shortest_straight_root_final_classes": 2917,
+        "commuting_order_excess_sessions": 38,
+        "max_commuting_class": 3
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "sampling": {
+        "requested": 12000,
+        "sampled_unique_sessions": 12000,
+        "unique_session_lower_bound": 12000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 13574,
+        "node_occurrence_reuse": {
+          "count": 3333,
+          "mean": 17.04170417041704,
+          "p95": 24,
+          "max": 38,
+          "gini": 0.09973344869698231,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "node_distinct_session_reuse": {
+          "count": 3333,
+          "mean": 17.04170417041704,
+          "p95": 24,
+          "max": 38,
+          "gini": 0.09973344869698231,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 15620,
+          "mean": 2.8681177976952625,
+          "p95": 6,
+          "max": 11,
+          "gini": 0.30199197457472104,
+          "zeros": 171,
+          "sum": 44800
+        },
+        "used_directed_edge_reuse": {
+          "count": 15449,
+          "mean": 2.899864068871772,
+          "p95": 6,
+          "max": 11,
+          "gini": 0.2942659487900281,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 15620,
+          "mean": 2.8681177976952625,
+          "p95": 6,
+          "max": 11,
+          "gini": 0.30199197457472104,
+          "zeros": 171,
+          "sum": 44800
+        },
+        "unique_directed_edges_used": 15449,
+        "edge_coverage_fraction": 0.9890524967989757,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 4000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 1600,
+          "branch_source_depth_1": 2092,
+          "branch_source_depth_2": 308,
+          "branch_source_lag_1": 3215,
+          "branch_source_lag_2": 648,
+          "branch_source_lag_3": 137,
+          "branch_then_followup_sessions": 4000,
+          "branch_turn_2": 1138,
+          "branch_turn_3": 2094,
+          "branch_turn_4": 768,
+          "length_2": 2000,
+          "length_3": 2800,
+          "length_4": 3600,
+          "length_5": 3600,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 8000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 12000,
+        "exact_available_two_axis_length2_straight_paths": 55158,
+        "quality_at_least_two_axes_sessions": 12000
+      },
+      "elapsed_seconds": 16.228
+    },
+    {
+      "key": "motif_a5_f1_n4000_s20261021_test",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 4000,
+      "seed": 20261021,
+      "split": "test",
+      "unique_nodes": 667,
+      "registered_directed_edges": 2392,
+      "catalog_rejections": {
+        "saved_site_exclusion": 20712
+      },
+      "growth": {
+        "candidate_attempts": 115993,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 142,
+          "2": 114,
+          "1": 11
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 81,
+            "camera": 93,
+            "identity": 47,
+            "site": 63,
+            "hair_color": 48
+          },
+          "male": {
+            "action": 80,
+            "site": 66,
+            "identity": 53,
+            "camera": 89,
+            "hair_color": 45
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 15,
+            "CFD40_AF_002": 16,
+            "CFD40_AF_003": 16,
+            "CFD40_AF_004": 19,
+            "CFD40_AF_005": 16,
+            "CFD40_AM_001": 16,
+            "CFD40_AM_002": 17,
+            "CFD40_AM_003": 18,
+            "CFD40_AM_004": 17,
+            "CFD40_AM_005": 17,
+            "CFD40_BF_001": 17,
+            "CFD40_BF_002": 15,
+            "CFD40_BF_003": 16,
+            "CFD40_BF_004": 18,
+            "CFD40_BF_005": 17,
+            "CFD40_BM_001": 16,
+            "CFD40_BM_002": 17,
+            "CFD40_BM_003": 16,
+            "CFD40_BM_004": 16,
+            "CFD40_BM_005": 16,
+            "CFD40_LF_001": 17,
+            "CFD40_LF_002": 18,
+            "CFD40_LF_003": 17,
+            "CFD40_LF_004": 16,
+            "CFD40_LF_005": 16,
+            "CFD40_LM_001": 16,
+            "CFD40_LM_002": 18,
+            "CFD40_LM_003": 16,
+            "CFD40_LM_004": 16,
+            "CFD40_LM_005": 17,
+            "CFD40_WF_001": 17,
+            "CFD40_WF_002": 18,
+            "CFD40_WF_003": 17,
+            "CFD40_WF_004": 16,
+            "CFD40_WF_005": 16,
+            "CFD40_WM_001": 16,
+            "CFD40_WM_002": 17,
+            "CFD40_WM_003": 18,
+            "CFD40_WM_004": 17,
+            "CFD40_WM_005": 17
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 16.675,
+            "p95": 18,
+            "max": 19,
+            "gini": 0.02792353823088467,
+            "zeros": 0,
+            "sum": 667,
+            "min": 15,
+            "cv": 0.05260211332188556,
+            "max_over_mean": 1.1394302848575713
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 26,
+            "ACT_F02_CATCH_BREATH": 28,
+            "ACT_F03_AUDIENCE_01": 27,
+            "ACT_F05_TIE_SHOES": 26,
+            "ACT_F06_ELEVATOR_GREETING": 27,
+            "ACT_M04_LIVING_ROOM_SWING": 25,
+            "ACT_M05_ELEVATOR_GREETING": 27,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 28,
+            "MOTION_CAND_001": 28,
+            "MOTION_CAND_002": 26,
+            "MOTION_CAND_003": 28,
+            "MOTION_CAND_008": 26,
+            "MOTION_CAND_009": 25,
+            "MOTION_CAND_017": 27,
+            "MOTION_CAND_019": 26,
+            "MOTION_CAND_020": 28,
+            "MOTION_CAND_022": 29,
+            "MOTION_CAND_023": 26,
+            "MOTION_CAND_024": 26,
+            "MOTION_CAND_029": 24,
+            "MOTION_CAND_030": 26,
+            "MOTION_CAND_032": 27,
+            "MOTION_CAND_033": 26,
+            "MOTION_CAND_035": 30,
+            "MOTION_CAND_036": 25
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 26.68,
+            "p95": 29,
+            "max": 30,
+            "gini": 0.02758620689655178,
+            "zeros": 0,
+            "sum": 667,
+            "min": 24,
+            "cv": 0.050531632822646826,
+            "max_over_mean": 1.1244377811094453
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 32,
+            "back_upper": 36,
+            "dolly_in_back": 33,
+            "dolly_in_front": 31,
+            "dolly_in_side": 30,
+            "dolly_out_back": 32,
+            "dolly_out_front": 37,
+            "dolly_out_side": 30,
+            "front_full": 31,
+            "front_head": 31,
+            "front_three_quarter_full": 30,
+            "front_three_quarter_upper": 32,
+            "front_upper": 33,
+            "high_full": 35,
+            "low_full": 29,
+            "orbit_120": 31,
+            "orbit_360": 30,
+            "rear_three_quarter_full": 30,
+            "rear_three_quarter_upper": 32,
+            "side_full": 31,
+            "side_upper": 31
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 31.761904761904763,
+            "p95": 36,
+            "max": 37,
+            "gini": 0.0331262939958592,
+            "zeros": 0,
+            "sum": 667,
+            "min": 29,
+            "cv": 0.06364313426324175,
+            "max_over_mean": 1.1649175412293853
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 667
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 667.0,
+            "p95": 667,
+            "max": 667,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 667,
+            "min": 667,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_2a054574eb": 134,
+            "site_6af8ead41a": 133,
+            "site_7dbc277564": 138,
+            "site_7f07230597": 135,
+            "site_91fc32ba93": 127
+          },
+          "distribution_including_missing": {
+            "count": 5,
+            "mean": 133.4,
+            "p95": 138,
+            "max": 138,
+            "gini": 0.014392803598201054,
+            "zeros": 0,
+            "sum": 667,
+            "min": 127,
+            "cv": 0.027069670292755303,
+            "max_over_mean": 1.0344827586206895
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 96,
+            "blue": 95,
+            "gold": 99,
+            "original": 94,
+            "pink": 91,
+            "red": 96,
+            "silver_white": 96
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 95.28571428571429,
+            "p95": 99,
+            "max": 99,
+            "gini": 0.012422360248447228,
+            "zeros": 0,
+            "sum": 667,
+            "min": 91,
+            "cv": 0.023610218512779044,
+            "max_over_mean": 1.0389805097451275
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 355.0,
+          "p95": 396,
+          "max": 402,
+          "gini": 0.03213732394366198,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 318,
+          "cv": 0.05780828022392576,
+          "max_over_mean": 1.1323943661971831
+        },
+        "action": {
+          "count": 25,
+          "mean": 568.0,
+          "p95": 631,
+          "max": 635,
+          "gini": 0.03511549295774641,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 489,
+          "cv": 0.06205779888698822,
+          "max_over_mean": 1.1179577464788732
+        },
+        "camera": {
+          "count": 21,
+          "mean": 676.1904761904761,
+          "p95": 754,
+          "max": 793,
+          "gini": 0.03396378269617695,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 622,
+          "cv": 0.0634622318396183,
+          "max_over_mean": 1.1727464788732396
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 14200.0,
+          "p95": 14200,
+          "max": 14200,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 14200,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 5,
+          "mean": 2840.0,
+          "p95": 2942,
+          "max": 2942,
+          "gini": 0.018985915492957695,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 2636,
+          "cv": 0.0378896800147051,
+          "max_over_mean": 1.0359154929577465
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 2028.5714285714287,
+          "p95": 2078,
+          "max": 2078,
+          "gini": 0.010402414486921696,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 1935,
+          "cv": 0.020801009772080457,
+          "max_over_mean": 1.0243661971830986
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 173,
+          "possible": 200,
+          "coverage": 0.865
+        },
+        "action__camera": {
+          "observed": 297,
+          "possible": 525,
+          "coverage": 0.5657142857142857
+        },
+        "site__action": {
+          "observed": 124,
+          "possible": 125,
+          "coverage": 0.992
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 564,
+        "action": 846,
+        "camera": 488,
+        "site": 296,
+        "hair_color": 198
+      },
+      "sampled_edge_axis_counts": {
+        "action": 3716,
+        "identity": 2552,
+        "site": 1556,
+        "hair_color": 1049,
+        "camera": 2327
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 2240.0,
+        "p95": 3716,
+        "max": 3716,
+        "gini": 0.2260714285714287,
+        "zeros": 0,
+        "sum": 11200,
+        "min": 1049,
+        "cv": 0.40768613893858724,
+        "max_over_mean": 1.6589285714285715
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 478.4,
+        "p95": 846,
+        "max": 846,
+        "gini": 0.2615384615384615,
+        "zeros": 0,
+        "sum": 2392,
+        "min": 198,
+        "cv": 0.47154077318420634,
+        "max_over_mean": 1.7683946488294315
+      },
+      "family_session_counts": {
+        "female_0": 1489,
+        "male_0": 1511
+      },
+      "family_node_counts": {
+        "female_0": 333,
+        "male_0": 334
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        334,
+        333
+      ],
+      "degree": {
+        "count": 667,
+        "mean": 3.586206896551724,
+        "p95": 6,
+        "max": 9,
+        "gini": 0.2217373754594274,
+        "zeros": 0,
+        "sum": 2392,
+        "min": 2,
+        "cv": 0.4122395803072606,
+        "max_over_mean": 2.5096153846153846
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 667,
+        "mean": 21.28935532233883,
+        "p95": 31,
+        "max": 40,
+        "gini": 0.0927013957809828,
+        "zeros": 0,
+        "sum": 14200,
+        "min": 15,
+        "cv": 0.18900332666012395,
+        "max_over_mean": 1.8788732394366197
+      },
+      "history_source_result_equivalence": {
+        "fork_count": 1000,
+        "equivalence_set_size_histogram": {
+          "1": 863,
+          "3": 5,
+          "2": 132
+        },
+        "ambiguous_forks": 137,
+        "examples": [
+          {
+            "occurrences": [
+              173,
+              497,
+              258,
+              260,
+              207,
+              209
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              2,
+              4
+            ],
+            "axes": [
+              "action",
+              "action",
+              "camera",
+              "action",
+              "camera"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "occurrences": [
+              493,
+              111,
+              104,
+              125,
+              323
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "action",
+              "camera",
+              "action",
+              "hair_color"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              353,
+              641,
+              643,
+              264,
+              135,
+              162
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              1,
+              4
+            ],
+            "axes": [
+              "action",
+              "camera",
+              "action",
+              "action",
+              "action"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 2567,
+        "root_final_pair_max_sessions": 4,
+        "unique_axis_sequences": 1033,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 745,
+        "shortest_straight_root_final_classes": 721,
+        "commuting_order_excess_sessions": 24,
+        "max_commuting_class": 2
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "sampling": {
+        "requested": 3000,
+        "sampled_unique_sessions": 3000,
+        "unique_session_lower_bound": 3000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 3616,
+        "node_occurrence_reuse": {
+          "count": 667,
+          "mean": 21.28935532233883,
+          "p95": 31,
+          "max": 40,
+          "gini": 0.0927013957809828,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "node_distinct_session_reuse": {
+          "count": 667,
+          "mean": 21.28935532233883,
+          "p95": 31,
+          "max": 40,
+          "gini": 0.0927013957809828,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 2392,
+          "mean": 4.682274247491639,
+          "p95": 8,
+          "max": 13,
+          "gini": 0.21554243311036791,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "used_directed_edge_reuse": {
+          "count": 2392,
+          "mean": 4.682274247491639,
+          "p95": 8,
+          "max": 13,
+          "gini": 0.21554243311036791,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 2392,
+          "mean": 4.682274247491639,
+          "p95": 8,
+          "max": 13,
+          "gini": 0.21554243311036791,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "unique_directed_edges_used": 2392,
+        "edge_coverage_fraction": 1.0,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 1000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 400,
+          "branch_source_depth_1": 515,
+          "branch_source_depth_2": 85,
+          "branch_source_lag_1": 806,
+          "branch_source_lag_2": 169,
+          "branch_source_lag_3": 25,
+          "branch_then_followup_sessions": 1000,
+          "branch_turn_2": 289,
+          "branch_turn_3": 518,
+          "branch_turn_4": 193,
+          "length_2": 500,
+          "length_3": 700,
+          "length_4": 900,
+          "length_5": 900,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 2000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 3000,
+        "exact_available_two_axis_length2_straight_paths": 5754,
+        "quality_at_least_two_axes_sessions": 3000
+      },
+      "elapsed_seconds": 2.33
+    }
+  ],
+  "source_sha256": {
+    "appearance_catalog.json": "62ba7bcd5d0382f62a0887f198ccd1637b32acc1f8d8f93f69a277a19f1c01e4",
+    "inventory_landscape.json": "10fcae84f4083b3e6eb9f94c02a2742b6349b48905f9f9b43d201067b7c90f38",
+    "site_checkpoint.json": "7bf43098892045a9103f541976101cff417a56abc8d4b68c04a34befc714b418"
+  },
+  "kernel_sha256": "aa1f9f0de730168c91a61b3e39f1a897140dbf11bb6188181d668fc461c50a21"
+}

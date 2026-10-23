@@ -1,0 +1,539 @@
+{
+  "schema_version": 1,
+  "pilot_id": "cc_modular_outfit_pilot_20260829_v1",
+  "revision_id": "average_bodyfit_structural_coverage_v1",
+  "frozen_at": "2026-08-29T00:00:00+08:00",
+  "output_root": "D:\\UE\\exports\\character_creator\\modular_outfit_pilot_20260829_v1",
+  "expected_case_count": 14,
+  "scope": {
+    "bodyfits": [
+      "M02_Average",
+      "F02_Average"
+    ],
+    "runtime_switching": "registered_and_validated_modules_within_frozen_family_rules",
+    "cross_family_cartesian_mixing": false,
+    "runtime_body_morph": false,
+    "purpose": "prove identity-preserving modular clothing before expanding the production library"
+  },
+  "runtime_contract": {
+    "body_component": "animation_and_identity_leader",
+    "outfit_components": "skeletal_mesh_followers",
+    "pose_sync": "SetLeaderPoseComponent",
+    "curve_and_morph_policy": "explicit propagation or broadcast; Leader Pose alone is insufficient",
+    "collision_policy": "body owns collision and physics; outfit followers default to no collision",
+    "body_surface_hiding": "manifest field required before production; pilot records the gap",
+    "family_compatibility": "only runtime_variants frozen in this manifest are approved"
+  },
+  "manual_followup_requirements": [
+    {
+      "requirement_id": "GARMENT_SIZE_CONFORM_REVIEW",
+      "owner": "manual_curation",
+      "status": "recorded_not_started",
+      "description": "Review and record per-garment conform or size corrections for slight clipping."
+    },
+    {
+      "requirement_id": "HAIR_OUTFIT_COMPATIBILITY_REVIEW",
+      "owner": "manual_curation",
+      "status": "recorded_not_started",
+      "description": "Review hair against collars, hoods, hats, and head-covering garments; freeze compatible combinations."
+    }
+  ],
+  "required_coverage_tags": [
+    "base_body",
+    "standard_separates",
+    "shirt_skirt",
+    "layered_shirt_coat",
+    "optional_coat",
+    "full_body_single",
+    "locked_bundle",
+    "family_accessory_optional",
+    "family_accessory_fixed",
+    "native_footwear",
+    "shared_footwear",
+    "integrated_footwear",
+    "barefoot_toggle",
+    "male_average",
+    "female_average"
+  ],
+  "bodyfits": [
+    {
+      "bodyfit_id": "M02_Average",
+      "sex": "male",
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\M02_Average.ccProject",
+        "size_bytes": 35708143,
+        "sha256": "9f1487c5f70aa9d86564fe4f6bf7c21cd3c1015c6ad5b1c64f10d74abc653457"
+      }
+    },
+    {
+      "bodyfit_id": "F02_Average",
+      "sex": "female",
+      "source_project": {
+        "path": "D:\\CharacterCreator_sucai\\Reallusion Custom\\Project\\CC Project\\F02_Average.ccProject",
+        "size_bytes": 35755303,
+        "sha256": "8cb2f82ede7dc69f24e6a1405928f724c76066135aa7740c9e381a15e913cba3"
+      }
+    }
+  ],
+  "shared_shoe_inventory": {
+    "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\both\\shoes\\shoe_inventory.json",
+    "size_bytes": 119130,
+    "sha256": "1f96aedac2e2743d03fcb4d8cc06e6f6408bddb78edf2b32867afb238432874d"
+  },
+  "cases": [
+    {
+      "case_id": "M_BASE",
+      "case_role": "base_body",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": null,
+      "group_id": null,
+      "selection": null,
+      "runtime_variants": [
+        {
+          "variant_id": "base",
+          "disabled_modules": [],
+          "purpose": "clothing-free identity and animation leader"
+        }
+      ],
+      "coverage_tags": [
+        "base_body",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_1920_LAYERED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\outfit_family.json",
+        "size_bytes": 8943,
+        "sha256": "a5f0923de84caad9e6673983edb9616f04f155cf39d90c2c2fcd1552bfe9ecee"
+      },
+      "group_id": "separates",
+      "selection": {
+        "family_asset_paths": [
+          "Pants/1920_Tux_Pants.ccCloth",
+          "Shirts/tux_shirt.ccCloth",
+          "Coats/1920_M_Jacket_2.cccloth",
+          "Shoes/1920_M_Shoes_1.ccshoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "coat_on",
+          "disabled_modules": [],
+          "purpose": "shirt plus coat layering"
+        },
+        {
+          "variant_id": "coat_off",
+          "disabled_modules": [
+            "Coats/1920_M_Jacket_2.cccloth"
+          ],
+          "purpose": "optional coat disabled"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "layered_shirt_coat",
+        "optional_coat",
+        "native_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_1920_FULLBODY",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\男士服装+帽子\\outfit_family.json",
+        "size_bytes": 8943,
+        "sha256": "a5f0923de84caad9e6673983edb9616f04f155cf39d90c2c2fcd1552bfe9ecee"
+      },
+      "group_id": "full_body",
+      "selection": {
+        "family_asset_paths": [
+          "Full-body/1920_M_Suit_1.ccCloth",
+          "Shoes/1920_M_Shoes_1.ccshoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "single full-body garment with native shoes"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "native_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_JIVING_SHARED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Jiving\\outfit_family.json",
+        "size_bytes": 4001,
+        "sha256": "edf0225560bfb5eb1acf7d7793747a5bf85a94ef19cefad0101c98b6fc20d528"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Pants/Pants 01.ccCloth",
+          "Shirts/Shirt 01.ccCloth"
+        ],
+        "shared_shoe_id": "M008"
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "standard separates with a shared footwear pool asset"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "shared_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_MERCENERY_SCARF",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Mercenery\\outfit_family.json",
+        "size_bytes": 2912,
+        "sha256": "25b7c8664dc244c03198c5f665d7d13b1568395ce6948b431c936d88e011464a"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Pants/Pants.ccCloth",
+          "Shirts/Shirt.ccCloth",
+          "Shoes/Boots.ccShoes",
+          "_Accessories-Pending/Scarf.ccCloth"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "scarf_on",
+          "disabled_modules": [],
+          "purpose": "family-local optional accessory enabled"
+        },
+        {
+          "variant_id": "scarf_off",
+          "disabled_modules": [
+            "_Accessories-Pending/Scarf.ccCloth"
+          ],
+          "purpose": "family-local optional accessory disabled"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "family_accessory_optional",
+        "native_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_REDSOUL_LOCKED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\redsoul\\outfit_family.json",
+        "size_bytes": 3565,
+        "sha256": "1df40c8d1cb81cb1180012a78f451c826e490631b15bddfb8c13018ad23e4102"
+      },
+      "group_id": "default",
+      "selection": {
+        "include_locked_bundle": true
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "locked_bundle",
+          "disabled_modules": [],
+          "purpose": "all authored components remain inseparable"
+        }
+      ],
+      "coverage_tags": [
+        "locked_bundle",
+        "family_accessory_fixed",
+        "native_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_KILT",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Kilt\\outfit_family.json",
+        "size_bytes": 2321,
+        "sha256": "8fbfebcf31db3f723d2650a80114b9fdfa23e48f3369833527fc6b5dfa6b4224"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Coats/Jacket.ccCloth",
+          "Skirts/Kilt.ccCloth",
+          "Shoes/Socks & Shoes.ccShoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "male skirt-like structural special case"
+        }
+      ],
+      "coverage_tags": [
+        "native_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "M_RUGGED_INTEGRATED",
+      "case_role": "outfit_modules",
+      "sex": "male",
+      "bodyfit_id": "M02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\male\\Rugged & Trendy Collection\\outfit_family.json",
+        "size_bytes": 1641,
+        "sha256": "27dd10b632729928f6b8de3064c20d2d13461f811108333f39582cf3cbe95667"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Full-body/Men Protective Gear.ccShoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "full-body asset with integrated footwear"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "integrated_footwear",
+        "male_average"
+      ]
+    },
+    {
+      "case_id": "F_BASE",
+      "case_role": "base_body",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": null,
+      "group_id": null,
+      "selection": null,
+      "runtime_variants": [
+        {
+          "variant_id": "base",
+          "disabled_modules": [],
+          "purpose": "clothing-free identity and animation leader"
+        }
+      ],
+      "coverage_tags": [
+        "base_body",
+        "female_average"
+      ]
+    },
+    {
+      "case_id": "F_DRESS_FULLBODY",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\outfit_family.json",
+        "size_bytes": 9966,
+        "sha256": "fc1ae6239c4706ceddc82c0553c16d4c6c47ca0604135fcf63de23d60d1984c0"
+      },
+      "group_id": "full_body",
+      "selection": {
+        "family_asset_paths": [
+          "Full-body/Satin_Dress.ccCloth",
+          "Shoes/Satin_red.ccShoes",
+          "_Accessories-Pending/Black_bow.ccCloth"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "bow_on",
+          "disabled_modules": [],
+          "purpose": "single full-body garment with optional local accessory"
+        },
+        {
+          "variant_id": "bow_off",
+          "disabled_modules": [
+            "_Accessories-Pending/Black_bow.ccCloth"
+          ],
+          "purpose": "optional local accessory disabled"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "family_accessory_optional",
+        "native_footwear",
+        "female_average"
+      ]
+    },
+    {
+      "case_id": "F_DRESS_SEPARATES",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\连衣裙\\outfit_family.json",
+        "size_bytes": 9966,
+        "sha256": "fc1ae6239c4706ceddc82c0553c16d4c6c47ca0604135fcf63de23d60d1984c0"
+      },
+      "group_id": "shirt_with_skirt",
+      "selection": {
+        "family_asset_paths": [
+          "Shirts/Stripes_shirt.ccCloth",
+          "Skirts/Tripes_skirt.ccCloth",
+          "Shoes/Satin_red.ccShoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "shirt and skirt component structure"
+        }
+      ],
+      "coverage_tags": [
+        "shirt_skirt",
+        "native_footwear",
+        "female_average"
+      ]
+    },
+    {
+      "case_id": "F_BIKINI_LAYERED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\海滩内衣Bikini & Ruana\\outfit_family.json",
+        "size_bytes": 7553,
+        "sha256": "0a5c95680da9df3c0eb5c521665bf97f2f6fa05e6312594f7c4b54a102e29fba"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Pants/Bikini_Bottom_Animal.ccCloth",
+          "Shirts/Bikini_Top_Animal.ccCloth",
+          "Coats/Bikini_Cover-up_Animal.ccCloth"
+        ],
+        "shared_shoe_id": "F022"
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "cover_and_shoes",
+          "disabled_modules": [],
+          "purpose": "optional coat and shared shoes enabled"
+        },
+        {
+          "variant_id": "no_cover_with_shoes",
+          "disabled_modules": [
+            "Coats/Bikini_Cover-up_Animal.ccCloth"
+          ],
+          "purpose": "optional coat disabled"
+        },
+        {
+          "variant_id": "cover_barefoot",
+          "disabled_modules": [
+            "shared:F022"
+          ],
+          "purpose": "approved barefoot toggle"
+        },
+        {
+          "variant_id": "no_cover_barefoot",
+          "disabled_modules": [
+            "Coats/Bikini_Cover-up_Animal.ccCloth",
+            "shared:F022"
+          ],
+          "purpose": "coat disabled and approved barefoot toggle"
+        }
+      ],
+      "coverage_tags": [
+        "standard_separates",
+        "layered_shirt_coat",
+        "optional_coat",
+        "shared_footwear",
+        "barefoot_toggle",
+        "female_average"
+      ]
+    },
+    {
+      "case_id": "F_MISAKI_LOCKED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Misaki\\outfit_family.json",
+        "size_bytes": 3335,
+        "sha256": "3045fcf6501c575e5bbe6731f407467c8f8b8cdfb0f94647328d7dfad213a532"
+      },
+      "group_id": "default",
+      "selection": {
+        "include_locked_bundle": true,
+        "shared_shoe_id": "F010"
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "locked_bundle",
+          "disabled_modules": [],
+          "purpose": "all authored components remain inseparable"
+        }
+      ],
+      "coverage_tags": [
+        "locked_bundle",
+        "family_accessory_fixed",
+        "shared_footwear",
+        "female_average"
+      ]
+    },
+    {
+      "case_id": "F_RUGGED_INTEGRATED",
+      "case_role": "outfit_modules",
+      "sex": "female",
+      "bodyfit_id": "F02_Average",
+      "family_manifest": {
+        "path": "D:\\BaiduNetdiskDownload\\人物和服装_newest50pct_sorted\\female\\Rugged & Trendy Collection\\outfit_family.json",
+        "size_bytes": 1655,
+        "sha256": "b3025557262316f621faa8b2539598729007822c8f8a433199db37b560088049"
+      },
+      "group_id": "default",
+      "selection": {
+        "family_asset_paths": [
+          "Full-body/Women Protective Gear.ccShoes"
+        ]
+      },
+      "runtime_variants": [
+        {
+          "variant_id": "default",
+          "disabled_modules": [],
+          "purpose": "full-body asset with integrated footwear"
+        }
+      ],
+      "coverage_tags": [
+        "full_body_single",
+        "integrated_footwear",
+        "female_average"
+      ]
+    }
+  ]
+}

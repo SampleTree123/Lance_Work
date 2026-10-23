@@ -16,9 +16,9 @@ DEFAULT_OUTFIT_GATE = os.path.join(
     SCRIPT_DIR, "cc_outfit_compatibility_gate_20260816_v3.json"
 )
 DEFAULT_IDENTITY_ROOT = os.path.join(
-    r"D:\UE\Lance_Work\00_engine\outputs\character_creator_bridge\artifacts",
-    "first_batch_identity_assembly",
-    "run_20260820_v1",
+    SCRIPT_DIR,
+    "runtime_assets",
+    "first_batch_identities_20260820_v1",
 )
 DEFAULT_EXPORT_ROOT = r"D:\UE\exports\character_creator\first_data_batch_20260820_v1"
 DEFAULT_OUTPUT = os.path.join(

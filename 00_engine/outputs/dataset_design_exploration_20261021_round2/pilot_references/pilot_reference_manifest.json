@@ -1,0 +1,4381 @@
+{
+  "schema": "pilot_reference_manifest.v1.proposal",
+  "date": "2026-10-21",
+  "status": "offline_demand_only_not_visual_accepted",
+  "input_pins": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\pilot_session_proposal.json",
+      "sha256": "57231a163f18e9ea58bb54d95d792211086121f5c2bc1c0dba934fd7b9f3defc",
+      "bytes": 38864
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_round2\\graph\\appearance_catalog.json",
+      "sha256": "62ba7bcd5d0382f62a0887f198ccd1637b32acc1f8d8f93f69a277a19f1c01e4",
+      "bytes": 413115
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\geometry.json",
+      "sha256": "91b6c0dce0e1c390a099fd06014da36d5b697e8ab97b4fbc8cd9755cf72ca745",
+      "bytes": 8418959
+    }
+  ],
+  "main_media": {
+    "sessions": 12,
+    "unique_videos": 65,
+    "separate_from_additional_references": true
+  },
+  "shared_library_scope": {
+    "identity": {
+      "catalog_identities": 40,
+      "front_images_per_identity": 1,
+      "full_library_front_images": 40
+    },
+    "hair": {
+      "unique_hair_ids": 28,
+      "sex_fit_entries": 33,
+      "views": [
+        "front",
+        "back"
+      ],
+      "full_library_images_single_carrier_per_hair_id": 56,
+      "full_library_images_separate_sex_fit": 66,
+      "carrier_contract": "unresolved_alternative_counts_not_both_required"
+    },
+    "garment_slot": {
+      "catalog_slot_option_asset_ids": 257,
+      "views": [
+        "front",
+        "anatomical_right",
+        "back",
+        "anatomical_left"
+      ],
+      "full_approved_atomic_asset_count": null,
+      "reason": "catalog options are candidate assets; not all formally verified atomic replacements",
+      "pilot_complete_target_asset_gallery_ids": [
+        "garment_gallery_2dbd3a40f8a94d322094",
+        "garment_gallery_40b5d48eb26585287c43",
+        "garment_gallery_4102312cc6b644b45b69",
+        "garment_gallery_6f55c94e9a40f05d8ebc",
+        "garment_gallery_88fef83fa1b10a51bcf8",
+        "garment_gallery_933ea8a6483724c9979e",
+        "garment_gallery_961798496a8e85fe39e5",
+        "garment_gallery_a9d6ddd5911fe5290127",
+        "garment_gallery_b638d5770d272a6c41ac",
+        "garment_gallery_cebbd8791e2c9d3808ba",
+        "garment_gallery_d8e89a4c833fb657a021",
+        "garment_gallery_f2aa7f619787f33bf1e0"
+      ]
+    },
+    "action": {
+      "selected_semantic_motion_families": 25,
+      "canonical_single_carrier_clips": 25,
+      "canonical_two_sex_fit_clips": 50,
+      "full_matched_library_count": null,
+      "reason": "trajectory policy/carrier/timing choice not fixed; request projection below"
+    },
+    "site": {
+      "selected_sites": 21,
+      "canonical_one_image_per_site": 21,
+      "full_exact_library_count": null,
+      "reason": "exact references depend on action-derived trajectory and scene placement"
+    }
+  },
+  "pilot_demand": {
+    "edit_requests": 53,
+    "axis_counts": {
+      "site": 10,
+      "camera": 11,
+      "action": 20,
+      "identity": 2,
+      "hair_color": 3,
+      "garment_slot": 3,
+      "hair": 4
+    },
+    "fixed_identity_hair_garment_requested_images": 16,
+    "pilot_complete_garment_gallery_images": 12,
+    "counts_by_role_in_manifest_including_unselected_gallery_views": {
+      "site_semantic": 9,
+      "site_exact": 10,
+      "action_canonical": 19,
+      "action_matched": 20,
+      "identity_front": 2,
+      "garment_gallery": 12,
+      "hair_gallery": 8
+    },
+    "alternative_demand_counts": {
+      "canonical_semantic": 19,
+      "matched_view_timing": 20,
+      "semantic_image": 9,
+      "exact_trajectory_clip": 10
+    },
+    "scenarios": [
+      {
+        "action_scheme": "canonical_semantic",
+        "site_scheme": "semantic_image",
+        "unique_requested_media": 44,
+        "images": 25,
+        "clips": 19,
+        "clip_frames_at_10s_30fps_scenario": 5700,
+        "reference_ids": [
+          "action_canonical_0145f0bafe93d5f9a81f",
+          "action_canonical_2549e887e85ec466f7db",
+          "action_canonical_2e20da49e96f88312bec",
+          "action_canonical_48f6b1d1cd953454cf78",
+          "action_canonical_5ad16330daef21213f4c",
+          "action_canonical_60b74cee41d5691a8e56",
+          "action_canonical_6b13e7056d4718457c97",
+          "action_canonical_72be1e0615ae7f7fa544",
+          "action_canonical_817be685623d4ea3f4b6",
+          "action_canonical_9031d8f893d3ac866757",
+          "action_canonical_9399f063286a49e6e86d",
+          "action_canonical_b01d338bd8cacd2fec31",
+          "action_canonical_b4d125812af9242d5037",
+          "action_canonical_ddc353da647b149f1d66",
+          "action_canonical_de7a7afc84ef306d5bf6",
+          "action_canonical_e9788d5ee3c5f9ae2e0a",
+          "action_canonical_ea5f4d54b6feea3f7c82",
+          "action_canonical_f344475662047e48f198",
+          "action_canonical_f99151557d33d44ea1d8",
+          "garment_gallery_2dbd3a40f8a94d322094",
+          "garment_gallery_6f55c94e9a40f05d8ebc",
+          "garment_gallery_933ea8a6483724c9979e",
+          "garment_gallery_961798496a8e85fe39e5",
+          "garment_gallery_cebbd8791e2c9d3808ba",
+          "garment_gallery_f2aa7f619787f33bf1e0",
+          "hair_gallery_0550ded72a36b7b9dd0e",
+          "hair_gallery_2eb35926aa2cf53eea38",
+          "hair_gallery_4ab0219b6eafb1ca8630",
+          "hair_gallery_5c1343bc948387ccacd9",
+          "hair_gallery_8e936f15b5448062eeb0",
+          "hair_gallery_a6412442ff223ad5364d",
+          "hair_gallery_a76f72cb7165d6fcfc0d",
+          "hair_gallery_cbff178b573e7fe04c69",
+          "identity_front_3a5830e32d5f4568fbde",
+          "identity_front_f80f35f42f071552eb0d",
+          "site_semantic_37f794ff581bcf196dee",
+          "site_semantic_4436273b7e1a86e21e52",
+          "site_semantic_44fbc9ae8ce271ac148b",
+          "site_semantic_4df9fe4e5ec8b192ed75",
+          "site_semantic_86f3652c49602cdadc96",
+          "site_semantic_b395ffd62f76c04b4210",
+          "site_semantic_d49da81642529ce57e83",
+          "site_semantic_e39158545a2ec647d3e1",
+          "site_semantic_f194333e2f9da3cb4c80"
+        ],
+        "status": "demand_projection_not_render_jobs"
+      },
+      {
+        "action_scheme": "canonical_semantic",
+        "site_scheme": "exact_trajectory_clip",
+        "unique_requested_media": 45,
+        "images": 16,
+        "clips": 29,
+        "clip_frames_at_10s_30fps_scenario": 8700,
+        "reference_ids": [
+          "action_canonical_0145f0bafe93d5f9a81f",
+          "action_canonical_2549e887e85ec466f7db",
+          "action_canonical_2e20da49e96f88312bec",
+          "action_canonical_48f6b1d1cd953454cf78",
+          "action_canonical_5ad16330daef21213f4c",
+          "action_canonical_60b74cee41d5691a8e56",
+          "action_canonical_6b13e7056d4718457c97",
+          "action_canonical_72be1e0615ae7f7fa544",
+          "action_canonical_817be685623d4ea3f4b6",
+          "action_canonical_9031d8f893d3ac866757",
+          "action_canonical_9399f063286a49e6e86d",
+          "action_canonical_b01d338bd8cacd2fec31",
+          "action_canonical_b4d125812af9242d5037",
+          "action_canonical_ddc353da647b149f1d66",
+          "action_canonical_de7a7afc84ef306d5bf6",
+          "action_canonical_e9788d5ee3c5f9ae2e0a",
+          "action_canonical_ea5f4d54b6feea3f7c82",
+          "action_canonical_f344475662047e48f198",
+          "action_canonical_f99151557d33d44ea1d8",
+          "garment_gallery_2dbd3a40f8a94d322094",
+          "garment_gallery_6f55c94e9a40f05d8ebc",
+          "garment_gallery_933ea8a6483724c9979e",
+          "garment_gallery_961798496a8e85fe39e5",
+          "garment_gallery_cebbd8791e2c9d3808ba",
+          "garment_gallery_f2aa7f619787f33bf1e0",
+          "hair_gallery_0550ded72a36b7b9dd0e",
+          "hair_gallery_2eb35926aa2cf53eea38",
+          "hair_gallery_4ab0219b6eafb1ca8630",
+          "hair_gallery_5c1343bc948387ccacd9",
+          "hair_gallery_8e936f15b5448062eeb0",
+          "hair_gallery_a6412442ff223ad5364d",
+          "hair_gallery_a76f72cb7165d6fcfc0d",
+          "hair_gallery_cbff178b573e7fe04c69",
+          "identity_front_3a5830e32d5f4568fbde",
+          "identity_front_f80f35f42f071552eb0d",
+          "site_exact_0cb19161aada8d3ded22",
+          "site_exact_1c2e733b3cdf1d674a48",
+          "site_exact_4641a77db030341ce5cf",
+          "site_exact_4d36700d6b774e8fc0d5",
+          "site_exact_7b24c76024309e688fb5",
+          "site_exact_958f7e244676a065217f",
+          "site_exact_9599b366493ab7f79b23",
+          "site_exact_b4f4189073f1c5c628ee",
+          "site_exact_c2c6a82126c405888de6",
+          "site_exact_d77ebe72c48e12dbae70"
+        ],
+        "status": "demand_projection_not_render_jobs"
+      },
+      {
+        "action_scheme": "matched_view_timing",
+        "site_scheme": "semantic_image",
+        "unique_requested_media": 45,
+        "images": 25,
+        "clips": 20,
+        "clip_frames_at_10s_30fps_scenario": 6000,
+        "reference_ids": [
+          "action_matched_0095ba9949af6eb0d79e",
+          "action_matched_072fce49a39bbaff4d62",
+          "action_matched_15a7a7f2c0a857bc04ad",
+          "action_matched_1e3a56a3f9e2623b619c",
+          "action_matched_251b1405caaa93dbea91",
+          "action_matched_2b504f099c4d3ecf8664",
+          "action_matched_587ea8bbfbac604de514",
+          "action_matched_58ed29eadaa5b243ba32",
+          "action_matched_688eebc0d4edc1890e6e",
+          "action_matched_86cb8979b2b9b6a4efd3",
+          "action_matched_88af988d16414b433476",
+          "action_matched_90376d9d7a3f370075bb",
+          "action_matched_984fe75f4e36d31528c2",
+          "action_matched_9893babfabfff009bdff",
+          "action_matched_a0b73f5a8296063dd602",
+          "action_matched_aa3ed4df6ddab94ff973",
+          "action_matched_c95079e27f6909ece750",
+          "action_matched_ee96366d08169b84b4b8",
+          "action_matched_f01fe7535c433d10ba9f",
+          "action_matched_ff3749338c86950a87f7",
+          "garment_gallery_2dbd3a40f8a94d322094",
+          "garment_gallery_6f55c94e9a40f05d8ebc",
+          "garment_gallery_933ea8a6483724c9979e",
+          "garment_gallery_961798496a8e85fe39e5",
+          "garment_gallery_cebbd8791e2c9d3808ba",
+          "garment_gallery_f2aa7f619787f33bf1e0",
+          "hair_gallery_0550ded72a36b7b9dd0e",
+          "hair_gallery_2eb35926aa2cf53eea38",
+          "hair_gallery_4ab0219b6eafb1ca8630",
+          "hair_gallery_5c1343bc948387ccacd9",
+          "hair_gallery_8e936f15b5448062eeb0",
+          "hair_gallery_a6412442ff223ad5364d",
+          "hair_gallery_a76f72cb7165d6fcfc0d",
+          "hair_gallery_cbff178b573e7fe04c69",
+          "identity_front_3a5830e32d5f4568fbde",
+          "identity_front_f80f35f42f071552eb0d",
+          "site_semantic_37f794ff581bcf196dee",
+          "site_semantic_4436273b7e1a86e21e52",
+          "site_semantic_44fbc9ae8ce271ac148b",
+          "site_semantic_4df9fe4e5ec8b192ed75",
+          "site_semantic_86f3652c49602cdadc96",
+          "site_semantic_b395ffd62f76c04b4210",
+          "site_semantic_d49da81642529ce57e83",
+          "site_semantic_e39158545a2ec647d3e1",
+          "site_semantic_f194333e2f9da3cb4c80"
+        ],
+        "status": "demand_projection_not_render_jobs"
+      },
+      {
+        "action_scheme": "matched_view_timing",
+        "site_scheme": "exact_trajectory_clip",
+        "unique_requested_media": 46,
+        "images": 16,
+        "clips": 30,
+        "clip_frames_at_10s_30fps_scenario": 9000,
+        "reference_ids": [
+          "action_matched_0095ba9949af6eb0d79e",
+          "action_matched_072fce49a39bbaff4d62",
+          "action_matched_15a7a7f2c0a857bc04ad",
+          "action_matched_1e3a56a3f9e2623b619c",
+          "action_matched_251b1405caaa93dbea91",
+          "action_matched_2b504f099c4d3ecf8664",
+          "action_matched_587ea8bbfbac604de514",
+          "action_matched_58ed29eadaa5b243ba32",
+          "action_matched_688eebc0d4edc1890e6e",
+          "action_matched_86cb8979b2b9b6a4efd3",
+          "action_matched_88af988d16414b433476",
+          "action_matched_90376d9d7a3f370075bb",
+          "action_matched_984fe75f4e36d31528c2",
+          "action_matched_9893babfabfff009bdff",
+          "action_matched_a0b73f5a8296063dd602",
+          "action_matched_aa3ed4df6ddab94ff973",
+          "action_matched_c95079e27f6909ece750",
+          "action_matched_ee96366d08169b84b4b8",
+          "action_matched_f01fe7535c433d10ba9f",
+          "action_matched_ff3749338c86950a87f7",
+          "garment_gallery_2dbd3a40f8a94d322094",
+          "garment_gallery_6f55c94e9a40f05d8ebc",
+          "garment_gallery_933ea8a6483724c9979e",
+          "garment_gallery_961798496a8e85fe39e5",
+          "garment_gallery_cebbd8791e2c9d3808ba",
+          "garment_gallery_f2aa7f619787f33bf1e0",
+          "hair_gallery_0550ded72a36b7b9dd0e",
+          "hair_gallery_2eb35926aa2cf53eea38",
+          "hair_gallery_4ab0219b6eafb1ca8630",
+          "hair_gallery_5c1343bc948387ccacd9",
+          "hair_gallery_8e936f15b5448062eeb0",
+          "hair_gallery_a6412442ff223ad5364d",
+          "hair_gallery_a76f72cb7165d6fcfc0d",
+          "hair_gallery_cbff178b573e7fe04c69",
+          "identity_front_3a5830e32d5f4568fbde",
+          "identity_front_f80f35f42f071552eb0d",
+          "site_exact_0cb19161aada8d3ded22",
+          "site_exact_1c2e733b3cdf1d674a48",
+          "site_exact_4641a77db030341ce5cf",
+          "site_exact_4d36700d6b774e8fc0d5",
+          "site_exact_7b24c76024309e688fb5",
+          "site_exact_958f7e244676a065217f",
+          "site_exact_9599b366493ab7f79b23",
+          "site_exact_b4f4189073f1c5c628ee",
+          "site_exact_c2c6a82126c405888de6",
+          "site_exact_d77ebe72c48e12dbae70"
+        ],
+        "status": "demand_projection_not_render_jobs"
+      }
+    ],
+    "do_not_sum_mutually_exclusive_scenarios": true,
+    "counts_are_union_across_train_test": true
+  },
+  "contracts": {
+    "all_media_paths_null": true,
+    "independent_reference_carrier_not_user_target_person_for_hair_garment_action": true,
+    "garment_request_uses_selected_views_only": true,
+    "hair_front_back_both_requested_in_this_pilot": true,
+    "scene_exact_trajectory_role": "strong_target_conditioned_reference; semantic_image is a different input task",
+    "camera_axis": "one semantic preset may jointly change framing and trajectory",
+    "color_camera_reference_media": "none in current pilot plan",
+    "production_jobs_created": false
+  },
+  "unresolved_request_lookups": [],
+  "requests": [
+    {
+      "request_id": "sims_fe7d904aeec89034000c:t1",
+      "split": "train",
+      "session_id": "sims_fe7d904aeec89034000c",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_391cd33a50a7cce43a3c",
+      "target_node": "simn_76b177c497823daa997a",
+      "axis": "site",
+      "target_value": "site_4e6b9c18d9",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_4436273b7e1a86e21e52"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_d77ebe72c48e12dbae70"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe7d904aeec89034000c:t2",
+      "split": "train",
+      "session_id": "sims_fe7d904aeec89034000c",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_76b177c497823daa997a",
+      "target_node": "simn_24a73279ff706cfe0eaa",
+      "axis": "camera",
+      "target_value": "front_three_quarter_upper",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_fe7d904aeec89034000c:t3",
+      "split": "train",
+      "session_id": "sims_fe7d904aeec89034000c",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_24a73279ff706cfe0eaa",
+      "target_node": "simn_c9072bd3cc2e4715409d",
+      "axis": "action",
+      "target_value": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_9031d8f893d3ac866757"
+        ],
+        "matched_view_timing": [
+          "action_matched_c95079e27f6909ece750"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe7d904aeec89034000c:t4",
+      "split": "train",
+      "session_id": "sims_fe7d904aeec89034000c",
+      "turn": 4,
+      "source_occurrence": 1,
+      "source_node": "simn_76b177c497823daa997a",
+      "target_node": "simn_5d1c55710517680f3676",
+      "axis": "identity",
+      "target_value": "CFD40_WF_001",
+      "required_media": [
+        "identity_front_f80f35f42f071552eb0d"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_fe7d904aeec89034000c:t5",
+      "split": "train",
+      "session_id": "sims_fe7d904aeec89034000c",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_5d1c55710517680f3676",
+      "target_node": "simn_c7e1af16b32f63ffb61f",
+      "axis": "hair_color",
+      "target_value": "black",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "hair color attribute; visibility not guaranteed"
+    },
+    {
+      "request_id": "sims_5e88850bc1cd1862d00c:t1",
+      "split": "train",
+      "session_id": "sims_5e88850bc1cd1862d00c",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_65e74b24fe841e3a6b19",
+      "target_node": "simn_938d752acebd08749aa3",
+      "axis": "camera",
+      "target_value": "rear_three_quarter_upper",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_5e88850bc1cd1862d00c:t2",
+      "split": "train",
+      "session_id": "sims_5e88850bc1cd1862d00c",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_938d752acebd08749aa3",
+      "target_node": "simn_fcccefaf5729bab56924",
+      "axis": "camera",
+      "target_value": "front_upper",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_5e88850bc1cd1862d00c:t3",
+      "split": "train",
+      "session_id": "sims_5e88850bc1cd1862d00c",
+      "turn": 3,
+      "source_occurrence": 0,
+      "source_node": "simn_65e74b24fe841e3a6b19",
+      "target_node": "simn_7020e8b43984cab45cba",
+      "axis": "garment_slot",
+      "target_value": "female.streetwear_collection.asset.19cbe40f55c1",
+      "required_media": [
+        "garment_gallery_933ea8a6483724c9979e",
+        "garment_gallery_cebbd8791e2c9d3808ba"
+      ],
+      "alternatives": {},
+      "complete_shared_gallery": {
+        "front": "garment_gallery_40b5d48eb26585287c43",
+        "anatomical_right": "garment_gallery_933ea8a6483724c9979e",
+        "back": "garment_gallery_cebbd8791e2c9d3808ba",
+        "anatomical_left": "garment_gallery_d8e89a4c833fb657a021"
+      },
+      "selected_reference_views": [
+        "anatomical_right",
+        "back"
+      ],
+      "view_selection_evidence": {
+        "status": "proposed_sparse_torso_heading_selection_not_pixel_verified",
+        "sample_counts_by_nearest_view": {
+          "anatomical_right": 19,
+          "back": 2
+        },
+        "rule": "union_of_nearest_90_degree_bins_over_0.5s_camera_body_samples",
+        "limitations": [
+          "torso proxy is not garment surface visibility",
+          "sparse samples may miss brief turns",
+          "anatomical left/right convention must be checked when gallery is made"
+        ]
+      },
+      "resolved_asset_slot": "full_body"
+    },
+    {
+      "request_id": "sims_5e88850bc1cd1862d00c:t4",
+      "split": "train",
+      "session_id": "sims_5e88850bc1cd1862d00c",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_7020e8b43984cab45cba",
+      "target_node": "simn_6d8df341de9710bd3c2c",
+      "axis": "site",
+      "target_value": "site_9a6519ec02",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_f194333e2f9da3cb4c80"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_7b24c76024309e688fb5"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_5e88850bc1cd1862d00c:t5",
+      "split": "train",
+      "session_id": "sims_5e88850bc1cd1862d00c",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_6d8df341de9710bd3c2c",
+      "target_node": "simn_d0710dbcb2d6a1ff3c09",
+      "axis": "hair",
+      "target_value": "HAIR_HB1_11",
+      "required_media": [
+        "hair_gallery_a76f72cb7165d6fcfc0d",
+        "hair_gallery_8e936f15b5448062eeb0"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_fe5840f9910e41a56e4a:t1",
+      "split": "train",
+      "session_id": "sims_fe5840f9910e41a56e4a",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_cf6854fdde16b31cbcdc",
+      "target_node": "simn_0770283e2feaa6af8ced",
+      "axis": "site",
+      "target_value": "site_def046be4c",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_37f794ff581bcf196dee"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_4d36700d6b774e8fc0d5"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe5840f9910e41a56e4a:t2",
+      "split": "train",
+      "session_id": "sims_fe5840f9910e41a56e4a",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_0770283e2feaa6af8ced",
+      "target_node": "simn_9b8b8adbf30315d5256d",
+      "axis": "action",
+      "target_value": "MOTION_CAND_020",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_de7a7afc84ef306d5bf6"
+        ],
+        "matched_view_timing": [
+          "action_matched_9893babfabfff009bdff"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe5840f9910e41a56e4a:t3",
+      "split": "train",
+      "session_id": "sims_fe5840f9910e41a56e4a",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_9b8b8adbf30315d5256d",
+      "target_node": "simn_d22ff347d98bc386436a",
+      "axis": "action",
+      "target_value": "MOTION_CAND_036",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_b01d338bd8cacd2fec31"
+        ],
+        "matched_view_timing": [
+          "action_matched_1e3a56a3f9e2623b619c"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe5840f9910e41a56e4a:t4",
+      "split": "train",
+      "session_id": "sims_fe5840f9910e41a56e4a",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_d22ff347d98bc386436a",
+      "target_node": "simn_2d0bcdeecd47aee05af0",
+      "axis": "action",
+      "target_value": "MOTION_CAND_001",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_60b74cee41d5691a8e56"
+        ],
+        "matched_view_timing": [
+          "action_matched_58ed29eadaa5b243ba32"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ece41458e5531372d3c3:t1",
+      "split": "train",
+      "session_id": "sims_ece41458e5531372d3c3",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_1b339cdd45f67f62d3e6",
+      "target_node": "simn_24306549e2830bf94d33",
+      "axis": "site",
+      "target_value": "site_1bbc32217c",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_44fbc9ae8ce271ac148b"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_4641a77db030341ce5cf"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ece41458e5531372d3c3:t2",
+      "split": "train",
+      "session_id": "sims_ece41458e5531372d3c3",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_24306549e2830bf94d33",
+      "target_node": "simn_e2a56a6d860d8169df84",
+      "axis": "action",
+      "target_value": "ACT_F05_TIE_SHOES",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_ddc353da647b149f1d66"
+        ],
+        "matched_view_timing": [
+          "action_matched_86cb8979b2b9b6a4efd3"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ece41458e5531372d3c3:t3",
+      "split": "train",
+      "session_id": "sims_ece41458e5531372d3c3",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_e2a56a6d860d8169df84",
+      "target_node": "simn_821a318ba153f81b5491",
+      "axis": "action",
+      "target_value": "MOTION_CAND_017",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_72be1e0615ae7f7fa544"
+        ],
+        "matched_view_timing": [
+          "action_matched_0095ba9949af6eb0d79e"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ece41458e5531372d3c3:t4",
+      "split": "train",
+      "session_id": "sims_ece41458e5531372d3c3",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_821a318ba153f81b5491",
+      "target_node": "simn_db10d623f8d44880538a",
+      "axis": "action",
+      "target_value": "MOTION_CAND_001",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_f344475662047e48f198"
+        ],
+        "matched_view_timing": [
+          "action_matched_ee96366d08169b84b4b8"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ece41458e5531372d3c3:t5",
+      "split": "train",
+      "session_id": "sims_ece41458e5531372d3c3",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_db10d623f8d44880538a",
+      "target_node": "simn_b1052154f8d952cd7944",
+      "axis": "site",
+      "target_value": "site_9a6519ec02",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_f194333e2f9da3cb4c80"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_1c2e733b3cdf1d674a48"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_c95ce1a80e97e1a64afa:t1",
+      "split": "train",
+      "session_id": "sims_c95ce1a80e97e1a64afa",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_21596a9edc98e41f1e7c",
+      "target_node": "simn_2d7c9476b3065d1dde64",
+      "axis": "action",
+      "target_value": "ACT_M05_ELEVATOR_GREETING",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_6b13e7056d4718457c97"
+        ],
+        "matched_view_timing": [
+          "action_matched_984fe75f4e36d31528c2"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_c95ce1a80e97e1a64afa:t2",
+      "split": "train",
+      "session_id": "sims_c95ce1a80e97e1a64afa",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_2d7c9476b3065d1dde64",
+      "target_node": "simn_c89ff5fd3d9a81109644",
+      "axis": "action",
+      "target_value": "MOTION_CAND_022",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_817be685623d4ea3f4b6"
+        ],
+        "matched_view_timing": [
+          "action_matched_587ea8bbfbac604de514"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_c95ce1a80e97e1a64afa:t3",
+      "split": "train",
+      "session_id": "sims_c95ce1a80e97e1a64afa",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_c89ff5fd3d9a81109644",
+      "target_node": "simn_4d6e6dda4d9787fc95ae",
+      "axis": "action",
+      "target_value": "ACT_F06_ELEVATOR_GREETING",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_9399f063286a49e6e86d"
+        ],
+        "matched_view_timing": [
+          "action_matched_a0b73f5a8296063dd602"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_c95ce1a80e97e1a64afa:t4",
+      "split": "train",
+      "session_id": "sims_c95ce1a80e97e1a64afa",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_4d6e6dda4d9787fc95ae",
+      "target_node": "simn_35b824567f9066ec3a82",
+      "axis": "camera",
+      "target_value": "back_full",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_c95ce1a80e97e1a64afa:t5",
+      "split": "train",
+      "session_id": "sims_c95ce1a80e97e1a64afa",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_35b824567f9066ec3a82",
+      "target_node": "simn_a193dcb9983ad2a80687",
+      "axis": "action",
+      "target_value": "MOTION_CAND_033",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_2549e887e85ec466f7db"
+        ],
+        "matched_view_timing": [
+          "action_matched_f01fe7535c433d10ba9f"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe72f1a80877aaaffdc9:t1",
+      "split": "train",
+      "session_id": "sims_fe72f1a80877aaaffdc9",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_3db42c2f86a827d2929d",
+      "target_node": "simn_20b841cba3af45357c6a",
+      "axis": "action",
+      "target_value": "MOTION_CAND_035",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_e9788d5ee3c5f9ae2e0a"
+        ],
+        "matched_view_timing": [
+          "action_matched_aa3ed4df6ddab94ff973"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_fe72f1a80877aaaffdc9:t2",
+      "split": "train",
+      "session_id": "sims_fe72f1a80877aaaffdc9",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_20b841cba3af45357c6a",
+      "target_node": "simn_2d11bb6001e106e721e0",
+      "axis": "camera",
+      "target_value": "low_full",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_fe72f1a80877aaaffdc9:t3",
+      "split": "train",
+      "session_id": "sims_fe72f1a80877aaaffdc9",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_2d11bb6001e106e721e0",
+      "target_node": "simn_d3e3c5255137f22b4d6d",
+      "axis": "camera",
+      "target_value": "back_full",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_dfc69f14b491ce5eae39:t1",
+      "split": "test",
+      "session_id": "sims_dfc69f14b491ce5eae39",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_88c363566159fca59c51",
+      "target_node": "simn_e0a1ad157176f77a67b1",
+      "axis": "action",
+      "target_value": "ACT_F01_SEXY_DANCE",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_ea5f4d54b6feea3f7c82"
+        ],
+        "matched_view_timing": [
+          "action_matched_688eebc0d4edc1890e6e"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dfc69f14b491ce5eae39:t2",
+      "split": "test",
+      "session_id": "sims_dfc69f14b491ce5eae39",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_e0a1ad157176f77a67b1",
+      "target_node": "simn_ae7245e962d54e55141a",
+      "axis": "site",
+      "target_value": "site_6af8ead41a",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_d49da81642529ce57e83"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_9599b366493ab7f79b23"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dfc69f14b491ce5eae39:t3",
+      "split": "test",
+      "session_id": "sims_dfc69f14b491ce5eae39",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_ae7245e962d54e55141a",
+      "target_node": "simn_76d02f7e5080a4a0ca8f",
+      "axis": "site",
+      "target_value": "site_7f07230597",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_4df9fe4e5ec8b192ed75"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_b4f4189073f1c5c628ee"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dfc69f14b491ce5eae39:t4",
+      "split": "test",
+      "session_id": "sims_dfc69f14b491ce5eae39",
+      "turn": 4,
+      "source_occurrence": 2,
+      "source_node": "simn_ae7245e962d54e55141a",
+      "target_node": "simn_a2e3c79f6f55b1731022",
+      "axis": "action",
+      "target_value": "MOTION_CAND_032",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_48f6b1d1cd953454cf78"
+        ],
+        "matched_view_timing": [
+          "action_matched_072fce49a39bbaff4d62"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dfc69f14b491ce5eae39:t5",
+      "split": "test",
+      "session_id": "sims_dfc69f14b491ce5eae39",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_a2e3c79f6f55b1731022",
+      "target_node": "simn_cef5b4e3bdea0d711532",
+      "axis": "site",
+      "target_value": "site_91fc32ba93",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_b395ffd62f76c04b4210"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_c2c6a82126c405888de6"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dba9af4c757c99ced577:t1",
+      "split": "test",
+      "session_id": "sims_dba9af4c757c99ced577",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_0436eee6525cf5385e98",
+      "target_node": "simn_fe0bd763d6be84e9d5b0",
+      "axis": "action",
+      "target_value": "MOTION_CAND_023",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_5ad16330daef21213f4c"
+        ],
+        "matched_view_timing": [
+          "action_matched_15a7a7f2c0a857bc04ad"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_dba9af4c757c99ced577:t2",
+      "split": "test",
+      "session_id": "sims_dba9af4c757c99ced577",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_fe0bd763d6be84e9d5b0",
+      "target_node": "simn_caeec58994f85ad62208",
+      "axis": "identity",
+      "target_value": "CFD40_BF_002",
+      "required_media": [
+        "identity_front_3a5830e32d5f4568fbde"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_dba9af4c757c99ced577:t3",
+      "split": "test",
+      "session_id": "sims_dba9af4c757c99ced577",
+      "turn": 3,
+      "source_occurrence": 1,
+      "source_node": "simn_fe0bd763d6be84e9d5b0",
+      "target_node": "simn_b39c8765d1cefc690b03",
+      "axis": "hair",
+      "target_value": "HAIR_HB1_01",
+      "required_media": [
+        "hair_gallery_4ab0219b6eafb1ca8630",
+        "hair_gallery_cbff178b573e7fe04c69"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_dba9af4c757c99ced577:t4",
+      "split": "test",
+      "session_id": "sims_dba9af4c757c99ced577",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_b39c8765d1cefc690b03",
+      "target_node": "simn_bf21e636800cec8989c9",
+      "axis": "camera",
+      "target_value": "rear_three_quarter_full",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_dba9af4c757c99ced577:t5",
+      "split": "test",
+      "session_id": "sims_dba9af4c757c99ced577",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_bf21e636800cec8989c9",
+      "target_node": "simn_059b19adf61fa8441c75",
+      "axis": "garment_slot",
+      "target_value": "female.streetwear_collection.asset.5347ce3fc6a1",
+      "required_media": [
+        "garment_gallery_2dbd3a40f8a94d322094",
+        "garment_gallery_961798496a8e85fe39e5"
+      ],
+      "alternatives": {},
+      "complete_shared_gallery": {
+        "front": "garment_gallery_4102312cc6b644b45b69",
+        "anatomical_right": "garment_gallery_2dbd3a40f8a94d322094",
+        "back": "garment_gallery_961798496a8e85fe39e5",
+        "anatomical_left": "garment_gallery_a9d6ddd5911fe5290127"
+      },
+      "selected_reference_views": [
+        "anatomical_right",
+        "back"
+      ],
+      "view_selection_evidence": {
+        "status": "proposed_sparse_torso_heading_selection_not_pixel_verified",
+        "sample_counts_by_nearest_view": {
+          "anatomical_right": 3,
+          "back": 18
+        },
+        "rule": "union_of_nearest_90_degree_bins_over_0.5s_camera_body_samples",
+        "limitations": [
+          "torso proxy is not garment surface visibility",
+          "sparse samples may miss brief turns",
+          "anatomical left/right convention must be checked when gallery is made"
+        ]
+      },
+      "resolved_asset_slot": "full_body"
+    },
+    {
+      "request_id": "sims_f3cfd150923b990ac52c:t1",
+      "split": "test",
+      "session_id": "sims_f3cfd150923b990ac52c",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_7a20aee6b588d5e70c4b",
+      "target_node": "simn_ba375cc3fc5abddba064",
+      "axis": "site",
+      "target_value": "site_7dbc277564",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_e39158545a2ec647d3e1"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_958f7e244676a065217f"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_f3cfd150923b990ac52c:t2",
+      "split": "test",
+      "session_id": "sims_f3cfd150923b990ac52c",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_ba375cc3fc5abddba064",
+      "target_node": "simn_c46c8f274e1cc432080d",
+      "axis": "action",
+      "target_value": "ACT_M04_LIVING_ROOM_SWING",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_b4d125812af9242d5037"
+        ],
+        "matched_view_timing": [
+          "action_matched_90376d9d7a3f370075bb"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_f3cfd150923b990ac52c:t3",
+      "split": "test",
+      "session_id": "sims_f3cfd150923b990ac52c",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_c46c8f274e1cc432080d",
+      "target_node": "simn_dcfe79fda51bee74a8dd",
+      "axis": "site",
+      "target_value": "site_2a054574eb",
+      "required_media": [],
+      "alternatives": {
+        "semantic_image": [
+          "site_semantic_86f3652c49602cdadc96"
+        ],
+        "exact_trajectory_clip": [
+          "site_exact_0cb19161aada8d3ded22"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_f3cfd150923b990ac52c:t4",
+      "split": "test",
+      "session_id": "sims_f3cfd150923b990ac52c",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_dcfe79fda51bee74a8dd",
+      "target_node": "simn_9319898909a946c0c7fe",
+      "axis": "action",
+      "target_value": "MOTION_CAND_022",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_817be685623d4ea3f4b6"
+        ],
+        "matched_view_timing": [
+          "action_matched_251b1405caaa93dbea91"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_f3cfd150923b990ac52c:t5",
+      "split": "test",
+      "session_id": "sims_f3cfd150923b990ac52c",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_9319898909a946c0c7fe",
+      "target_node": "simn_77d6bd85b1490429d97c",
+      "axis": "hair",
+      "target_value": "HAIR_HB2_19",
+      "required_media": [
+        "hair_gallery_2eb35926aa2cf53eea38",
+        "hair_gallery_a6412442ff223ad5364d"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_57d54e77ad0670151414:t1",
+      "split": "test",
+      "session_id": "sims_57d54e77ad0670151414",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_4fd5abcd63efe276ed99",
+      "target_node": "simn_00534522502cb5bf0a22",
+      "axis": "camera",
+      "target_value": "back_upper",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_57d54e77ad0670151414:t2",
+      "split": "test",
+      "session_id": "sims_57d54e77ad0670151414",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_00534522502cb5bf0a22",
+      "target_node": "simn_b1ac992b2e53edc7b705",
+      "axis": "action",
+      "target_value": "MOTION_CAND_023",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_f99151557d33d44ea1d8"
+        ],
+        "matched_view_timing": [
+          "action_matched_ff3749338c86950a87f7"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_eece5e345f3f285e1a44:t1",
+      "split": "test",
+      "session_id": "sims_eece5e345f3f285e1a44",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_81cbb68918ff01a2c2e7",
+      "target_node": "simn_fd10d9b2de04e2cde8f6",
+      "axis": "action",
+      "target_value": "MOTION_CAND_024",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_2e20da49e96f88312bec"
+        ],
+        "matched_view_timing": [
+          "action_matched_88af988d16414b433476"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_eece5e345f3f285e1a44:t2",
+      "split": "test",
+      "session_id": "sims_eece5e345f3f285e1a44",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_fd10d9b2de04e2cde8f6",
+      "target_node": "simn_323d4c01d4b542c5e260",
+      "axis": "hair_color",
+      "target_value": "pink",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "hair color attribute; visibility not guaranteed"
+    },
+    {
+      "request_id": "sims_eece5e345f3f285e1a44:t3",
+      "split": "test",
+      "session_id": "sims_eece5e345f3f285e1a44",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_323d4c01d4b542c5e260",
+      "target_node": "simn_c1127ce3dd116dcea469",
+      "axis": "hair",
+      "target_value": "HAIR_HB2_07",
+      "required_media": [
+        "hair_gallery_0550ded72a36b7b9dd0e",
+        "hair_gallery_5c1343bc948387ccacd9"
+      ],
+      "alternatives": {}
+    },
+    {
+      "request_id": "sims_eece5e345f3f285e1a44:t4",
+      "split": "test",
+      "session_id": "sims_eece5e345f3f285e1a44",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_c1127ce3dd116dcea469",
+      "target_node": "simn_b78d7413d7092407f445",
+      "axis": "hair_color",
+      "target_value": "silver_white",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "hair color attribute; visibility not guaranteed"
+    },
+    {
+      "request_id": "sims_ffc52e09d4bb249d16e2:t1",
+      "split": "test",
+      "session_id": "sims_ffc52e09d4bb249d16e2",
+      "turn": 1,
+      "source_occurrence": 0,
+      "source_node": "simn_bbf688fdabc69b8863e9",
+      "target_node": "simn_011db50791ab7cc8ab99",
+      "axis": "camera",
+      "target_value": "dolly_in_front",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_ffc52e09d4bb249d16e2:t2",
+      "split": "test",
+      "session_id": "sims_ffc52e09d4bb249d16e2",
+      "turn": 2,
+      "source_occurrence": 1,
+      "source_node": "simn_011db50791ab7cc8ab99",
+      "target_node": "simn_c6849397a39eda120aa3",
+      "axis": "action",
+      "target_value": "MOTION_CAND_032",
+      "required_media": [],
+      "alternatives": {
+        "canonical_semantic": [
+          "action_canonical_0145f0bafe93d5f9a81f"
+        ],
+        "matched_view_timing": [
+          "action_matched_2b504f099c4d3ecf8664"
+        ]
+      }
+    },
+    {
+      "request_id": "sims_ffc52e09d4bb249d16e2:t3",
+      "split": "test",
+      "session_id": "sims_ffc52e09d4bb249d16e2",
+      "turn": 3,
+      "source_occurrence": 2,
+      "source_node": "simn_c6849397a39eda120aa3",
+      "target_node": "simn_3a7e2af145e5d021a4a6",
+      "axis": "camera",
+      "target_value": "high_full",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    },
+    {
+      "request_id": "sims_ffc52e09d4bb249d16e2:t4",
+      "split": "test",
+      "session_id": "sims_ffc52e09d4bb249d16e2",
+      "turn": 4,
+      "source_occurrence": 3,
+      "source_node": "simn_3a7e2af145e5d021a4a6",
+      "target_node": "simn_ec5f3679341cef8253b5",
+      "axis": "garment_slot",
+      "target_value": "female.streetwear_collection.asset.ebcb8a911fca",
+      "required_media": [
+        "garment_gallery_f2aa7f619787f33bf1e0",
+        "garment_gallery_6f55c94e9a40f05d8ebc"
+      ],
+      "alternatives": {},
+      "complete_shared_gallery": {
+        "front": "garment_gallery_f2aa7f619787f33bf1e0",
+        "anatomical_right": "garment_gallery_6f55c94e9a40f05d8ebc",
+        "back": "garment_gallery_88fef83fa1b10a51bcf8",
+        "anatomical_left": "garment_gallery_b638d5770d272a6c41ac"
+      },
+      "selected_reference_views": [
+        "front",
+        "anatomical_right"
+      ],
+      "view_selection_evidence": {
+        "status": "proposed_sparse_torso_heading_selection_not_pixel_verified",
+        "sample_counts_by_nearest_view": {
+          "front": 13,
+          "anatomical_right": 8
+        },
+        "rule": "union_of_nearest_90_degree_bins_over_0.5s_camera_body_samples",
+        "limitations": [
+          "torso proxy is not garment surface visibility",
+          "sparse samples may miss brief turns",
+          "anatomical left/right convention must be checked when gallery is made"
+        ]
+      },
+      "resolved_asset_slot": "full_body"
+    },
+    {
+      "request_id": "sims_ffc52e09d4bb249d16e2:t5",
+      "split": "test",
+      "session_id": "sims_ffc52e09d4bb249d16e2",
+      "turn": 5,
+      "source_occurrence": 4,
+      "source_node": "simn_ec5f3679341cef8253b5",
+      "target_node": "simn_55012f911035a8e63bf6",
+      "axis": "camera",
+      "target_value": "dolly_in_front",
+      "required_media": [],
+      "alternatives": {},
+      "text_only": "camera preset semantic axis"
+    }
+  ],
+  "media": [
+    {
+      "reference_id": "site_semantic_4436273b7e1a86e21e52",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_4e6b9c18d9",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_d77ebe72c48e12dbae70",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_4e6b9c18d9",
+        "source_motion": "ACT_F02_CATCH_BREATH",
+        "camera": "orbit_360",
+        "aspect": "landscape",
+        "trajectory_sha256": "237f967b6a3108a1207bad4d3600f0285cfad491333eb844286322077ff19057",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_act_f02_catch_breath_landscape_orbit_360",
+        "trajectory_sha256": "237f967b6a3108a1207bad4d3600f0285cfad491333eb844286322077ff19057",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F02_CATCH_BREATH_10s.A_ACT_F02_CATCH_BREATH_10s",
+          "source_clip_id": "act_f02_catch_breath_female_production10"
+        },
+        "motion_id": "ACT_F02_CATCH_BREATH",
+        "camera_id": "orbit_360",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_9031d8f893d3ac866757",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_c95079e27f6909ece750",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "fit_sex": "female",
+        "camera": "front_three_quarter_upper",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_f02_catch_breath_landscape_front_three_quarter_upper",
+        "trajectory_sha256": "d4116c6dbb3d570d53a15766752a66b5a508a3a95e410e6ee9c8ce351cfec568",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F02_CATCH_BREATH_10s.A_ACT_F02_CATCH_BREATH_10s",
+          "source_clip_id": "act_f02_catch_breath_female_production10"
+        },
+        "motion_id": "ACT_F02_CATCH_BREATH",
+        "camera_id": "front_three_quarter_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_m06_cheer_hands_step_dance_landscape_front_three_quarter_upper",
+        "trajectory_sha256": "26361d5d7746f10708a9ceeca9ce31b88f5ead3d5e25d9357362332477fa0511",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s.A_ACT_M06_CHEER_HANDS_STEP_DANCE_10s",
+          "source_clip_id": "act_m06_cheer_hands_step_dance_male_production10"
+        },
+        "motion_id": "ACT_M06_CHEER_HANDS_STEP_DANCE",
+        "camera_id": "front_three_quarter_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "identity_front_f80f35f42f071552eb0d",
+      "role": "identity_front",
+      "media_type": "image",
+      "dedup_key": {
+        "identity": "CFD40_WF_001",
+        "view": "front",
+        "carrier_policy": "target_identity_independent_studio"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": "CFD40_WF_001",
+      "source_is_gt": false,
+      "unresolved": [
+        "studio camera/pose and neutral appearance selection",
+        "whether identity edit includes body shape requires task contract"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_40b5d48eb26585287c43",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.19cbe40f55c1",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_D/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_933ea8a6483724c9979e",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.19cbe40f55c1",
+        "view": "anatomical_right",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_D/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_cebbd8791e2c9d3808ba",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.19cbe40f55c1",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_D/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_d8e89a4c833fb657a021",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.19cbe40f55c1",
+        "view": "anatomical_left",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_D/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_f194333e2f9da3cb4c80",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_9a6519ec02",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_7b24c76024309e688fb5",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_9a6519ec02",
+        "source_motion": "MOTION_CAND_019",
+        "camera": "dolly_in_side",
+        "aspect": "landscape",
+        "trajectory_sha256": "0db44d0ca1bb2143a0c6288e14200f4a3c4753973f4c19b2b8239bc0f84c3f35",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_019_landscape_dolly_in_side",
+        "trajectory_sha256": "0db44d0ca1bb2143a0c6288e14200f4a3c4753973f4c19b2b8239bc0f84c3f35",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_019_10s.A_MOTION_CAND_019_10s",
+          "source_clip_id": "motion_cand_019_female_production10"
+        },
+        "motion_id": "MOTION_CAND_019",
+        "camera_id": "dolly_in_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_a76f72cb7165d6fcfc0d",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB1_11",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female",
+        "male"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_8e936f15b5448062eeb0",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB1_11",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female",
+        "male"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_37f794ff581bcf196dee",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_def046be4c",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_4d36700d6b774e8fc0d5",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_def046be4c",
+        "source_motion": "MOTION_CAND_032",
+        "camera": "orbit_120",
+        "aspect": "landscape",
+        "trajectory_sha256": "070b6f88b2a5b627e654de9903c46df4977e0b55aba1b47ca1fd027febddb840",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_032_landscape_orbit_120",
+        "trajectory_sha256": "070b6f88b2a5b627e654de9903c46df4977e0b55aba1b47ca1fd027febddb840",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s.A_MOTION_CAND_032_10s",
+          "source_clip_id": "motion_cand_032_female_production10"
+        },
+        "motion_id": "MOTION_CAND_032",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_de7a7afc84ef306d5bf6",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_020",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_9893babfabfff009bdff",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_020",
+        "fit_sex": "female",
+        "camera": "orbit_120",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_032_landscape_orbit_120",
+        "trajectory_sha256": "070b6f88b2a5b627e654de9903c46df4977e0b55aba1b47ca1fd027febddb840",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s.A_MOTION_CAND_032_10s",
+          "source_clip_id": "motion_cand_032_female_production10"
+        },
+        "motion_id": "MOTION_CAND_032",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_020_landscape_orbit_120",
+        "trajectory_sha256": "65da1df9676113416b46a180105e935527d632454fb86f054ec9b12fbf4ff2dd",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+          "source_clip_id": "motion_cand_020_female_production10"
+        },
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_b01d338bd8cacd2fec31",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_036",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_1e3a56a3f9e2623b619c",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_036",
+        "fit_sex": "female",
+        "camera": "orbit_120",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_020_landscape_orbit_120",
+        "trajectory_sha256": "65da1df9676113416b46a180105e935527d632454fb86f054ec9b12fbf4ff2dd",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_020_10s.A_MOTION_CAND_020_10s",
+          "source_clip_id": "motion_cand_020_female_production10"
+        },
+        "motion_id": "MOTION_CAND_020",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_036_landscape_orbit_120",
+        "trajectory_sha256": "e22ec45dbae91b0997f54939ae98ee90397c98ab1a653b5f61fb871b6b9c53d7",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_036_10s.A_MOTION_CAND_036_10s",
+          "source_clip_id": "motion_cand_036_female_production10"
+        },
+        "motion_id": "MOTION_CAND_036",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_60b74cee41d5691a8e56",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_001",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_58ed29eadaa5b243ba32",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_001",
+        "fit_sex": "female",
+        "camera": "orbit_120",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_036_landscape_orbit_120",
+        "trajectory_sha256": "e22ec45dbae91b0997f54939ae98ee90397c98ab1a653b5f61fb871b6b9c53d7",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_036_10s.A_MOTION_CAND_036_10s",
+          "source_clip_id": "motion_cand_036_female_production10"
+        },
+        "motion_id": "MOTION_CAND_036",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_001_landscape_orbit_120",
+        "trajectory_sha256": "38ba12755ca6e8d5c990b02402cca842a80ac2f114c84a13d891b7b7168cda33",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+          "source_clip_id": "motion_cand_001_female_production10"
+        },
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "orbit_120",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_44fbc9ae8ce271ac148b",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_1bbc32217c",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_4641a77db030341ce5cf",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_1bbc32217c",
+        "source_motion": "MOTION_CAND_029",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "trajectory_sha256": "7b97a346b4eef6bc2a5b7d768ca2104ada08fca6d7dd31b92854e5137cf5939e",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_029_landscape_front_full",
+        "trajectory_sha256": "7b97a346b4eef6bc2a5b7d768ca2104ada08fca6d7dd31b92854e5137cf5939e",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_029_10s.A_MOTION_CAND_029_10s",
+          "source_clip_id": "motion_cand_029_male_production10"
+        },
+        "motion_id": "MOTION_CAND_029",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_ddc353da647b149f1d66",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F05_TIE_SHOES",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_86cb8979b2b9b6a4efd3",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F05_TIE_SHOES",
+        "fit_sex": "male",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_029_landscape_front_full",
+        "trajectory_sha256": "7b97a346b4eef6bc2a5b7d768ca2104ada08fca6d7dd31b92854e5137cf5939e",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_029_10s.A_MOTION_CAND_029_10s",
+          "source_clip_id": "motion_cand_029_male_production10"
+        },
+        "motion_id": "MOTION_CAND_029",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_f05_tie_shoes_landscape_front_full",
+        "trajectory_sha256": "849b034c0efd0862b3c4a9e104fd83c50dced8865e58438dce5f3def10f9cbc2",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F05_TIE_SHOES_10s.A_ACT_F05_TIE_SHOES_10s",
+          "source_clip_id": "act_f05_tie_shoes_female_production10"
+        },
+        "motion_id": "ACT_F05_TIE_SHOES",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_72be1e0615ae7f7fa544",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_017",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_0095ba9949af6eb0d79e",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_017",
+        "fit_sex": "male",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_f05_tie_shoes_landscape_front_full",
+        "trajectory_sha256": "849b034c0efd0862b3c4a9e104fd83c50dced8865e58438dce5f3def10f9cbc2",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F05_TIE_SHOES_10s.A_ACT_F05_TIE_SHOES_10s",
+          "source_clip_id": "act_f05_tie_shoes_female_production10"
+        },
+        "motion_id": "ACT_F05_TIE_SHOES",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_017_landscape_front_full",
+        "trajectory_sha256": "8a4b3e1c1bd78c2500aad46f40ae483a5ef0107f4d5e695032e68689808be252",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_017_10s.A_MOTION_CAND_017_10s",
+          "source_clip_id": "motion_cand_017_female_production10"
+        },
+        "motion_id": "MOTION_CAND_017",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_f344475662047e48f198",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_001",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_ee96366d08169b84b4b8",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_001",
+        "fit_sex": "male",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_017_landscape_front_full",
+        "trajectory_sha256": "8a4b3e1c1bd78c2500aad46f40ae483a5ef0107f4d5e695032e68689808be252",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_017_10s.A_MOTION_CAND_017_10s",
+          "source_clip_id": "motion_cand_017_female_production10"
+        },
+        "motion_id": "MOTION_CAND_017",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+          "source_clip_id": "motion_cand_001_female_production10"
+        },
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "site_exact_1c2e733b3cdf1d674a48",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_9a6519ec02",
+        "source_motion": "MOTION_CAND_001",
+        "camera": "front_full",
+        "aspect": "landscape",
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_001_landscape_front_full",
+        "trajectory_sha256": "53da0a7231fb3ae007489e7b3308d3220936e0e5acdfd512b52421a9b003815f",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_001_10s.A_MOTION_CAND_001_10s",
+          "source_clip_id": "motion_cand_001_female_production10"
+        },
+        "motion_id": "MOTION_CAND_001",
+        "camera_id": "front_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_6b13e7056d4718457c97",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M05_ELEVATOR_GREETING",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_984fe75f4e36d31528c2",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M05_ELEVATOR_GREETING",
+        "fit_sex": "female",
+        "camera": "dolly_out_side",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_033_landscape_dolly_out_side",
+        "trajectory_sha256": "95cef3ae96d98f88a2a0676e631b5bb5b6d3271635fafdcf07c59156ddec77d7",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_033_10s.A_MOTION_CAND_033_10s",
+          "source_clip_id": "motion_cand_033_female_production10"
+        },
+        "motion_id": "MOTION_CAND_033",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_m05_elevator_greeting_landscape_dolly_out_side",
+        "trajectory_sha256": "9a6335290812159e5d0c16afca7d9608fd87a7030df3169fa0e7d4ec06fee523",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M05_ELEVATOR_GREETING_10s.A_ACT_M05_ELEVATOR_GREETING_10s",
+          "source_clip_id": "act_m05_elevator_greeting_male_production10"
+        },
+        "motion_id": "ACT_M05_ELEVATOR_GREETING",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_817be685623d4ea3f4b6",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_022",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_587ea8bbfbac604de514",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_022",
+        "fit_sex": "female",
+        "camera": "dolly_out_side",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_m05_elevator_greeting_landscape_dolly_out_side",
+        "trajectory_sha256": "9a6335290812159e5d0c16afca7d9608fd87a7030df3169fa0e7d4ec06fee523",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M05_ELEVATOR_GREETING_10s.A_ACT_M05_ELEVATOR_GREETING_10s",
+          "source_clip_id": "act_m05_elevator_greeting_male_production10"
+        },
+        "motion_id": "ACT_M05_ELEVATOR_GREETING",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_022_landscape_dolly_out_side",
+        "trajectory_sha256": "a153b74aa29d4a914cfbec4ebdb102c1a9d106c1d15e984f7c5f905575fe527d",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_022_10s.A_MOTION_CAND_022_10s",
+          "source_clip_id": "motion_cand_022_female_production10"
+        },
+        "motion_id": "MOTION_CAND_022",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_9399f063286a49e6e86d",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F06_ELEVATOR_GREETING",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_a0b73f5a8296063dd602",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F06_ELEVATOR_GREETING",
+        "fit_sex": "female",
+        "camera": "dolly_out_side",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_022_landscape_dolly_out_side",
+        "trajectory_sha256": "a153b74aa29d4a914cfbec4ebdb102c1a9d106c1d15e984f7c5f905575fe527d",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_022_10s.A_MOTION_CAND_022_10s",
+          "source_clip_id": "motion_cand_022_female_production10"
+        },
+        "motion_id": "MOTION_CAND_022",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_f06_elevator_greeting_landscape_dolly_out_side",
+        "trajectory_sha256": "0e063c5390036d3aa2cf4cf8345f894909f729aec06c0a0660b6c70379ef03d3",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F06_ELEVATOR_GREETING_10s.A_ACT_F06_ELEVATOR_GREETING_10s",
+          "source_clip_id": "act_f06_elevator_greeting_female_production10"
+        },
+        "motion_id": "ACT_F06_ELEVATOR_GREETING",
+        "camera_id": "dolly_out_side",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_2549e887e85ec466f7db",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_033",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_f01fe7535c433d10ba9f",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_033",
+        "fit_sex": "female",
+        "camera": "back_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_f06_elevator_greeting_landscape_back_full",
+        "trajectory_sha256": "2a05f7990db697bbc7cafdb4a10addc4fd91f66fdd35870d2fdff1a91ea06d8f",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F06_ELEVATOR_GREETING_10s.A_ACT_F06_ELEVATOR_GREETING_10s",
+          "source_clip_id": "act_f06_elevator_greeting_female_production10"
+        },
+        "motion_id": "ACT_F06_ELEVATOR_GREETING",
+        "camera_id": "back_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_033_landscape_back_full",
+        "trajectory_sha256": "5402ebaf5a78c891c29e4fd8c0d850aa1a2a7cb509e2bbce9b0902b0ab7dca91",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_033_10s.A_MOTION_CAND_033_10s",
+          "source_clip_id": "motion_cand_033_female_production10"
+        },
+        "motion_id": "MOTION_CAND_033",
+        "camera_id": "back_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_e9788d5ee3c5f9ae2e0a",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_035",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_aa3ed4df6ddab94ff973",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_035",
+        "fit_sex": "male",
+        "camera": "front_upper",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_002_landscape_front_upper",
+        "trajectory_sha256": "95ce4c06b8d391e1faf2aef7c2ecd709ca7329d5732b77a12b8a279d52b61541",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_002_10s.A_MOTION_CAND_002_10s",
+          "source_clip_id": "motion_cand_002_female_production10"
+        },
+        "motion_id": "MOTION_CAND_002",
+        "camera_id": "front_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_035_landscape_front_upper",
+        "trajectory_sha256": "fe066794a42d5c5f6fd71be0cf893e7078043a91991d1d03472ea4c3c4cadf6b",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_MOTION_CAND_035_10s.A_MOTION_CAND_035_10s",
+          "source_clip_id": "motion_cand_035_male_production10"
+        },
+        "motion_id": "MOTION_CAND_035",
+        "camera_id": "front_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_ea5f4d54b6feea3f7c82",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F01_SEXY_DANCE",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_688eebc0d4edc1890e6e",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_F01_SEXY_DANCE",
+        "fit_sex": "male",
+        "camera": "dolly_out_back",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_003_landscape_dolly_out_back",
+        "trajectory_sha256": "c27cf269f8df96828621376f8c3eedf7c35ed27d5ace3cb3b0d0a11daece12cb",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_003_10s.A_MOTION_CAND_003_10s",
+          "source_clip_id": "motion_cand_003_female_production10"
+        },
+        "motion_id": "MOTION_CAND_003",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_f01_sexy_dance_landscape_dolly_out_back",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F01_SEXY_DANCE_10s.A_ACT_F01_SEXY_DANCE_10s",
+          "source_clip_id": "act_f01_sexy_dance_female_production10"
+        },
+        "motion_id": "ACT_F01_SEXY_DANCE",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_d49da81642529ce57e83",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_6af8ead41a",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_9599b366493ab7f79b23",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_6af8ead41a",
+        "source_motion": "ACT_F01_SEXY_DANCE",
+        "camera": "dolly_out_back",
+        "aspect": "landscape",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_act_f01_sexy_dance_landscape_dolly_out_back",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F01_SEXY_DANCE_10s.A_ACT_F01_SEXY_DANCE_10s",
+          "source_clip_id": "act_f01_sexy_dance_female_production10"
+        },
+        "motion_id": "ACT_F01_SEXY_DANCE",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_4df9fe4e5ec8b192ed75",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_7f07230597",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_b4f4189073f1c5c628ee",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_7f07230597",
+        "source_motion": "ACT_F01_SEXY_DANCE",
+        "camera": "dolly_out_back",
+        "aspect": "landscape",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_act_f01_sexy_dance_landscape_dolly_out_back",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F01_SEXY_DANCE_10s.A_ACT_F01_SEXY_DANCE_10s",
+          "source_clip_id": "act_f01_sexy_dance_female_production10"
+        },
+        "motion_id": "ACT_F01_SEXY_DANCE",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_48f6b1d1cd953454cf78",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_032",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_072fce49a39bbaff4d62",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_032",
+        "fit_sex": "male",
+        "camera": "dolly_out_back",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_f01_sexy_dance_landscape_dolly_out_back",
+        "trajectory_sha256": "8dbedbfb35a93fb62da12dd3bfafea2fb8f3311af202d76a6fa2b260c9cd5cc9",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F01_SEXY_DANCE_10s.A_ACT_F01_SEXY_DANCE_10s",
+          "source_clip_id": "act_f01_sexy_dance_female_production10"
+        },
+        "motion_id": "ACT_F01_SEXY_DANCE",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_032_landscape_dolly_out_back",
+        "trajectory_sha256": "9d2a1db9862372346a61a8b5c134dc2edd6ad8f9ec2cef5fa1ce5b2594347ad5",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s.A_MOTION_CAND_032_10s",
+          "source_clip_id": "motion_cand_032_female_production10"
+        },
+        "motion_id": "MOTION_CAND_032",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_b395ffd62f76c04b4210",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_91fc32ba93",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_c2c6a82126c405888de6",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_91fc32ba93",
+        "source_motion": "MOTION_CAND_032",
+        "camera": "dolly_out_back",
+        "aspect": "landscape",
+        "trajectory_sha256": "9d2a1db9862372346a61a8b5c134dc2edd6ad8f9ec2cef5fa1ce5b2594347ad5",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_032_landscape_dolly_out_back",
+        "trajectory_sha256": "9d2a1db9862372346a61a8b5c134dc2edd6ad8f9ec2cef5fa1ce5b2594347ad5",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s.A_MOTION_CAND_032_10s",
+          "source_clip_id": "motion_cand_032_female_production10"
+        },
+        "motion_id": "MOTION_CAND_032",
+        "camera_id": "dolly_out_back",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_5ad16330daef21213f4c",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_023",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_15a7a7f2c0a857bc04ad",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_023",
+        "fit_sex": "female",
+        "camera": "dolly_out_front",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_f03_audience_01_landscape_dolly_out_front",
+        "trajectory_sha256": "fced8c40ac05bf929bb944d38b09b2e71ba24408d0e28f1c179a4b59ddb704a9",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_ACT_F03_AUDIENCE_01_10s.A_ACT_F03_AUDIENCE_01_10s",
+          "source_clip_id": "act_f03_audience_01_female_production10"
+        },
+        "motion_id": "ACT_F03_AUDIENCE_01",
+        "camera_id": "dolly_out_front",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_023_landscape_dolly_out_front",
+        "trajectory_sha256": "b161b0451aaffa6befe89ecf0dd9256be327d9380c0abbebae179f1ad0362cba",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_023_10s.A_MOTION_CAND_023_10s",
+          "source_clip_id": "motion_cand_023_female_production10"
+        },
+        "motion_id": "MOTION_CAND_023",
+        "camera_id": "dolly_out_front",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "identity_front_3a5830e32d5f4568fbde",
+      "role": "identity_front",
+      "media_type": "image",
+      "dedup_key": {
+        "identity": "CFD40_BF_002",
+        "view": "front",
+        "carrier_policy": "target_identity_independent_studio"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": "CFD40_BF_002",
+      "source_is_gt": false,
+      "unresolved": [
+        "studio camera/pose and neutral appearance selection",
+        "whether identity edit includes body shape requires task contract"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_4ab0219b6eafb1ca8630",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB1_01",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female",
+        "male"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_cbff178b573e7fe04c69",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB1_01",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female",
+        "male"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_4102312cc6b644b45b69",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.5347ce3fc6a1",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/BathingRobe_B/Meshes/bathingrobe.bathingrobe"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_2dbd3a40f8a94d322094",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.5347ce3fc6a1",
+        "view": "anatomical_right",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/BathingRobe_B/Meshes/bathingrobe.bathingrobe"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_961798496a8e85fe39e5",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.5347ce3fc6a1",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/BathingRobe_B/Meshes/bathingrobe.bathingrobe"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_a9d6ddd5911fe5290127",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.5347ce3fc6a1",
+        "view": "anatomical_left",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/BathingRobe_B/Meshes/bathingrobe.bathingrobe"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_e39158545a2ec647d3e1",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_7dbc277564",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_958f7e244676a065217f",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_7dbc277564",
+        "source_motion": "MOTION_CAND_003",
+        "camera": "side_full",
+        "aspect": "landscape",
+        "trajectory_sha256": "9d44b1bf6e89a86a6dc5eb0d4c56ad6df320e7b0a00afa500a3d8b06a20fa39f",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_motion_cand_003_landscape_side_full",
+        "trajectory_sha256": "9d44b1bf6e89a86a6dc5eb0d4c56ad6df320e7b0a00afa500a3d8b06a20fa39f",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_003_10s.A_MOTION_CAND_003_10s",
+          "source_clip_id": "motion_cand_003_female_production10"
+        },
+        "motion_id": "MOTION_CAND_003",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_b4d125812af9242d5037",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M04_LIVING_ROOM_SWING",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_90376d9d7a3f370075bb",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "ACT_M04_LIVING_ROOM_SWING",
+        "fit_sex": "female",
+        "camera": "side_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_003_landscape_side_full",
+        "trajectory_sha256": "9d44b1bf6e89a86a6dc5eb0d4c56ad6df320e7b0a00afa500a3d8b06a20fa39f",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_003_10s.A_MOTION_CAND_003_10s",
+          "source_clip_id": "motion_cand_003_female_production10"
+        },
+        "motion_id": "MOTION_CAND_003",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_act_m04_living_room_swing_landscape_side_full",
+        "trajectory_sha256": "b92d4c40b07c00b05a97726e6a11a08665977aa9be5a39a8a4be7612fcc86d39",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M04_LIVING_ROOM_SWING_10s.A_ACT_M04_LIVING_ROOM_SWING_10s",
+          "source_clip_id": "act_m04_living_room_swing_male_production10"
+        },
+        "motion_id": "ACT_M04_LIVING_ROOM_SWING",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "site_semantic_86f3652c49602cdadc96",
+      "role": "site_semantic",
+      "media_type": "image",
+      "dedup_key": {
+        "site": "site_2a054574eb",
+        "view": "canonical_scene_semantic"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "source_is_gt": false,
+      "contains_person": false,
+      "camera_plan": null,
+      "supervision": "scene_identity_semantics_not_exact_motion_plate",
+      "unresolved": [
+        "canonical scene viewpoint and snapshot selection"
+      ]
+    },
+    {
+      "reference_id": "site_exact_0cb19161aada8d3ded22",
+      "role": "site_exact",
+      "media_type": "clip",
+      "dedup_key": {
+        "site": "site_2a054574eb",
+        "source_motion": "ACT_M04_LIVING_ROOM_SWING",
+        "camera": "side_full",
+        "aspect": "landscape",
+        "trajectory_sha256": "b92d4c40b07c00b05a97726e6a11a08665977aa9be5a39a8a4be7612fcc86d39",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "contains_person": false,
+      "source_is_gt": false,
+      "trajectory": {
+        "shot_id": "production_production10_act_m04_living_room_swing_landscape_side_full",
+        "trajectory_sha256": "b92d4c40b07c00b05a97726e6a11a08665977aa9be5a39a8a4be7612fcc86d39",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M04_LIVING_ROOM_SWING_10s.A_ACT_M04_LIVING_ROOM_SWING_10s",
+          "source_clip_id": "act_m04_living_room_swing_male_production10"
+        },
+        "motion_id": "ACT_M04_LIVING_ROOM_SWING",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "supervision": "target_site_conditioned_strong_background_plate",
+      "unresolved": [
+        "scene anchor/placement and scene-owned exposure snapshot",
+        "reuse actor-derived trajectory after removing actor; no subject tracking re-solve",
+        "runtime plate equivalence and carrier-space transform"
+      ]
+    },
+    {
+      "reference_id": "action_matched_251b1405caaa93dbea91",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_022",
+        "fit_sex": "female",
+        "camera": "side_full",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_act_m04_living_room_swing_landscape_side_full",
+        "trajectory_sha256": "b92d4c40b07c00b05a97726e6a11a08665977aa9be5a39a8a4be7612fcc86d39",
+        "planner_representative_sex": "male",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/male/A_ACT_M04_LIVING_ROOM_SWING_10s.A_ACT_M04_LIVING_ROOM_SWING_10s",
+          "source_clip_id": "act_m04_living_room_swing_male_production10"
+        },
+        "motion_id": "ACT_M04_LIVING_ROOM_SWING",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_022_landscape_side_full",
+        "trajectory_sha256": "db58785121db2e5a55c16b56cf5352a3a2f203ce2d977a4cf81fe307424b84c7",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_022_10s.A_MOTION_CAND_022_10s",
+          "source_clip_id": "motion_cand_022_female_production10"
+        },
+        "motion_id": "MOTION_CAND_022",
+        "camera_id": "side_full",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_2eb35926aa2cf53eea38",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB2_19",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_a6412442ff223ad5364d",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB2_19",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_f99151557d33d44ea1d8",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_023",
+        "fit_sex": "male",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_ff3749338c86950a87f7",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_023",
+        "fit_sex": "male",
+        "camera": "back_upper",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_009_landscape_back_upper",
+        "trajectory_sha256": "943c8d2d4882f009819231adcc47a9c0e1624f8016b47fb5c26e49342ad2b27d",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_009_10s.A_MOTION_CAND_009_10s",
+          "source_clip_id": "motion_cand_009_female_production10"
+        },
+        "motion_id": "MOTION_CAND_009",
+        "camera_id": "back_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_023_landscape_back_upper",
+        "trajectory_sha256": "691f43843bda5b8b07567fff3f6aa473dcbef50e017e0d371d4392ae331b7107",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_023_10s.A_MOTION_CAND_023_10s",
+          "source_clip_id": "motion_cand_023_female_production10"
+        },
+        "motion_id": "MOTION_CAND_023",
+        "camera_id": "back_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_2e20da49e96f88312bec",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_024",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_88af988d16414b433476",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_024",
+        "fit_sex": "female",
+        "camera": "side_upper",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_030_landscape_side_upper",
+        "trajectory_sha256": "c9fb47b3e401ec404ece2961015f594847166204778e1298c5a5488a02d89ebd",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_030_10s.A_MOTION_CAND_030_10s",
+          "source_clip_id": "motion_cand_030_female_production10"
+        },
+        "motion_id": "MOTION_CAND_030",
+        "camera_id": "side_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_024_landscape_side_upper",
+        "trajectory_sha256": "e1843bb9d7785db1d0f324ba5fccc683b11bf81ba4c5749c2ddebd1e8bf184ac",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_024_10s.A_MOTION_CAND_024_10s",
+          "source_clip_id": "motion_cand_024_female_production10"
+        },
+        "motion_id": "MOTION_CAND_024",
+        "camera_id": "side_upper",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_0550ded72a36b7b9dd0e",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB2_07",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "hair_gallery_5c1343bc948387ccacd9",
+      "role": "hair_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "hair_id": "HAIR_HB2_07",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "available_fit_sexes": [
+        "female"
+      ],
+      "unresolved": [
+        "independent carrier identity and neutral hair color",
+        "shared hair_id appearance vs sex-fit reference contract"
+      ]
+    },
+    {
+      "reference_id": "action_canonical_0145f0bafe93d5f9a81f",
+      "role": "action_canonical",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_032",
+        "fit_sex": "female",
+        "view": "canonical_studio",
+        "timing_profile": "production10"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "camera_plan": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "supervision": "semantic_motion; same_timing_family_does_not_imply_pixel_or_spatial_alignment",
+      "unresolved": [
+        "independent carrier and canonical camera contract"
+      ]
+    },
+    {
+      "reference_id": "action_matched_2b504f099c4d3ecf8664",
+      "role": "action_matched",
+      "media_type": "clip",
+      "dedup_key": {
+        "motion": "MOTION_CAND_032",
+        "fit_sex": "female",
+        "camera": "dolly_in_front",
+        "aspect": "landscape",
+        "timing_profile": "production10",
+        "camera_binding_policy": "unresolved"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "carrier_identity": null,
+      "timing": {
+        "profile": "production10",
+        "duration_seconds": 10,
+        "fps": 30,
+        "frames": 300
+      },
+      "source_is_gt": false,
+      "source_trajectory_candidate": {
+        "shot_id": "production_production10_motion_cand_023_landscape_dolly_in_front",
+        "trajectory_sha256": "017da57d6cd5c279312dac0873cec6009cdb32af8d0a1e232227b5fd5ad2f644",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_023_10s.A_MOTION_CAND_023_10s",
+          "source_clip_id": "motion_cand_023_female_production10"
+        },
+        "motion_id": "MOTION_CAND_023",
+        "camera_id": "dolly_in_front",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "target_motion_tracking_candidate": {
+        "shot_id": "production_production10_motion_cand_032_landscape_dolly_in_front",
+        "trajectory_sha256": "847bf4cb53391f3092da11f425e7ce6fc580b5392a92951b04262fd9df67fa33",
+        "planner_representative_sex": "female",
+        "clock": {
+          "source_start_seconds": 0.0,
+          "source_body_play_rate": 1.0,
+          "source_end_seconds": 10.0,
+          "window_start_seconds": 0.0,
+          "duration_seconds": 10.0,
+          "frame_count": 300,
+          "fps": 30,
+          "source_animation": "/Game/DataMake/Animations/Body/Production/female/A_MOTION_CAND_032_10s.A_MOTION_CAND_032_10s",
+          "source_clip_id": "motion_cand_032_female_production10"
+        },
+        "motion_id": "MOTION_CAND_032",
+        "camera_id": "dolly_in_front",
+        "aspect": "landscape",
+        "width": 1280,
+        "height": 720,
+        "binding_status": "formal_planner_trajectory_not_runtime_verified_for_all_carriers"
+      },
+      "unresolved": [
+        "choose source frozen trajectory vs target-motion-following same camera preset",
+        "independent carrier; representative planner sex is not a verified fit"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_f2aa7f619787f33bf1e0",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.ebcb8a911fca",
+        "view": "front",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_G/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_6f55c94e9a40f05d8ebc",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.ebcb8a911fca",
+        "view": "anatomical_right",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_G/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_88fef83fa1b10a51bcf8",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.ebcb8a911fca",
+        "view": "back",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_G/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    },
+    {
+      "reference_id": "garment_gallery_b638d5770d272a6c41ac",
+      "role": "garment_gallery",
+      "media_type": "image",
+      "dedup_key": {
+        "asset_id": "female.streetwear_collection.asset.ebcb8a911fca",
+        "view": "anatomical_left",
+        "carrier_policy": "independent_carrier_v1"
+      },
+      "media_path": null,
+      "status": "planned_not_rendered",
+      "asset_slot": "full_body",
+      "asset_mesh_paths": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/streetwear_collection/FullBody/TrenchCoat_G/Meshes/trenchcoat.trenchcoat"
+      ],
+      "asset_family_id": "female.streetwear_collection",
+      "carrier_identity": null,
+      "source_is_gt": false,
+      "unresolved": [
+        "formal slot assembly and compatible independent carrier",
+        "neutral support garments and shoes"
+      ]
+    }
+  ],
+  "limitations": [
+    "Each media record lists unresolved production choices; zero missing lookup records does not mean executable production configuration",
+    "Do not reuse first-round 1332 reference clips; this is a separate 12-session projection",
+    "Sparse geometry validates planning data only, not clothing visibility or finished pixels",
+    "All gallery carriers, formal slot configurations and scene/camera contracts remain to be fixed"
+  ]
+}

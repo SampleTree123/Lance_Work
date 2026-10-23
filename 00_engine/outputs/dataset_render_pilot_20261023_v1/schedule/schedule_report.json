@@ -1,0 +1,34 @@
+{
+  "schema": "dataset_render_schedule_v11_v1",
+  "jobs": 7203,
+  "workers": 1,
+  "scenes": 21,
+  "before": {
+    "scene": 2181,
+    "identity": 947,
+    "wardrobe": 4134,
+    "hair": 2213,
+    "hair_color": 2647,
+    "action": 2321,
+    "camera": 2379,
+    "aspect": 3
+  },
+  "after": {
+    "scene": 20,
+    "identity": 332,
+    "wardrobe": 1174,
+    "hair": 2174,
+    "hair_color": 4277,
+    "action": 2520,
+    "camera": 4203,
+    "aspect": 300
+  },
+  "jobs_by_worker": [
+    7203
+  ],
+  "policy": "scene > site > sex > identity > wardrobe > hair > color > action > camera > aspect",
+  "worker_policy": "largest scene first, assign each whole scene to lightest worker by video count",
+  "balance_limit": "count proxy only; scene throughput and GPU speed may differ; no source states or graph edges change",
+  "encoding": "serial baseline; one encoder worker can be overlapped after server CPU/RAM measurement",
+  "ordering_sha256": "ab222d87fc5a608f16c962f23b2f2aaee8fb0177be2ea6ced196bb0eafebc2a9"
+}

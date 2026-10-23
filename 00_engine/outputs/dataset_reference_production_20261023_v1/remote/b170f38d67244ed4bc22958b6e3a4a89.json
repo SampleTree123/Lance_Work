@@ -1,0 +1,125 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "pool_mb": 10240,
+    "job_id": "ref_4aef3d17ec27c9c95e278a51",
+    "action": "prepare",
+    "request_id": "b170f38d67244ed4bc22958b6e3a4a89"
+  },
+  "started_at": "2026-10-23T02:04:45.407884+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'pool_mb': 10240, 'job_id': 'ref_4aef3d17ec27c9c95e278a51', 'action': 'prepare', 'request_id': 'b170f38d67244ed4bc22958b6e3a4a89'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_prepared_v11_v1\", \"signature\": \"ab02d1a0ce0068345408eef8e990021ac566e74ddc06c50f845c21368f1878ca\", \"reference_job_sha256\": \"659ad375f70a7ba16db904285059dcdc6a13ac5a8b13164aa6cf22de2c7035ac\", \"job_id\": \"ref_4aef3d17ec27c9c95e278a51\", \"reference_kind\": \"garment\", \"job\": {\"shot_id\": \"ref_4aef3d17ec27c9c95e278a51\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.LS_ref_4aef3d17ec27c9c95e278a51_19b7ff4424\"}, \"source_job_id\": \"ref_carrier_garment_acbfcf43c5ce95ef1b49\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\", \"sha256\": \"95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9\"}, \"source_pins\": [], \"source_packages_unchanged\": true, \"camera\": {\"position\": [-0.0002894401550292969, 106.9460334777832, 3.601177752017975], \"rotation_pitch_yaw_roll\": [0.0, -90.0, 0.0], \"horizontal_fov_degrees\": 32.0, \"bounds_center\": [-0.0002894401550292969, 6.946033477783203, 3.601177752017975], \"bounds_extent\": [12.919384479522705, 13.11490249633789, 3.0432481169700623], \"view\": \"front\", \"front_axis\": \"+Y in unrotated CC reference pose\", \"presentation_status\": \"prototype_unapproved_reference_pose\"}, \"details\": {\"asset\": {\"asset_id\": \"F023\", \"label\": \"Flip Flops\", \"mesh_paths\": [\"/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape\"]}, \"mesh_actors\": [{\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424:PersistentLevel.SkeletalMeshActor_0\", \"mesh\": \"/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape\"}], \"all_item_meshes_loaded\": true, \"body_actor_spawned\": false, \"identity_hair_lashes_spawned\": false, \"pose\": \"unanimated imported skeletal reference pose; no body actor or full actor crop\", \"view\": \"front\", \"environment\": {\"background\": \"owned unlit 18-percent gray sphere\", \"key_intensity\": 0.7, \"fill_intensity\": 20.0, \"fill_views\": [\"front\", \"back\"], \"manual_exposure_bias\": -1.0, \"status\": \"prototype_lighting_unapproved\"}, \"all_stage_skeletal_meshes\": [\"/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape\"], \"presentation_status\": \"design_confirmed\"}, \"width\": 1024, \"height\": 1024, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 3.6560000000172295, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"design_confirmed_sample_review\", \"source_jobs_path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_prepared_v11_v1",
+    "signature": "ab02d1a0ce0068345408eef8e990021ac566e74ddc06c50f845c21368f1878ca",
+    "reference_job_sha256": "659ad375f70a7ba16db904285059dcdc6a13ac5a8b13164aa6cf22de2c7035ac",
+    "job_id": "ref_4aef3d17ec27c9c95e278a51",
+    "reference_kind": "garment",
+    "job": {
+      "shot_id": "ref_4aef3d17ec27c9c95e278a51",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.LS_ref_4aef3d17ec27c9c95e278a51_19b7ff4424"
+    },
+    "source_job_id": "ref_carrier_garment_acbfcf43c5ce95ef1b49",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json",
+      "sha256": "95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9"
+    },
+    "source_pins": [],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        -0.0002894401550292969,
+        106.9460334777832,
+        3.601177752017975
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 32.0,
+      "bounds_center": [
+        -0.0002894401550292969,
+        6.946033477783203,
+        3.601177752017975
+      ],
+      "bounds_extent": [
+        12.919384479522705,
+        13.11490249633789,
+        3.0432481169700623
+      ],
+      "view": "front",
+      "front_axis": "+Y in unrotated CC reference pose",
+      "presentation_status": "prototype_unapproved_reference_pose"
+    },
+    "details": {
+      "asset": {
+        "asset_id": "F023",
+        "label": "Flip Flops",
+        "mesh_paths": [
+          "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+        ]
+      },
+      "mesh_actors": [
+        {
+          "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424.L_ref_4aef3d17ec27c9c95e278a51_19b7ff4424:PersistentLevel.SkeletalMeshActor_0",
+          "mesh": "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+        }
+      ],
+      "all_item_meshes_loaded": true,
+      "body_actor_spawned": false,
+      "identity_hair_lashes_spawned": false,
+      "pose": "unanimated imported skeletal reference pose; no body actor or full actor crop",
+      "view": "front",
+      "environment": {
+        "background": "owned unlit 18-percent gray sphere",
+        "key_intensity": 0.7,
+        "fill_intensity": 20.0,
+        "fill_views": [
+          "front",
+          "back"
+        ],
+        "manual_exposure_bias": -1.0,
+        "status": "prototype_lighting_unapproved"
+      },
+      "all_stage_skeletal_meshes": [
+        "/Game/DataMake/Appearance/Wardrobe/Female/SharedFootwear/Shoes/Flip_Flops/Meshes/oahuflipflops_1954_shape.oahuflipflops_1954_shape"
+      ],
+      "presentation_status": "design_confirmed"
+    },
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 3.6560000000172295,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "design_confirmed_sample_review",
+    "source_jobs_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json"
+  },
+  "finished_at": "2026-10-23T02:04:49.705730+00:00",
+  "seconds": 4.296999999991385
+}

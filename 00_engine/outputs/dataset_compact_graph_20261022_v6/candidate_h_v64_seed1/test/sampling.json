@@ -1,0 +1,930 @@
+{
+  "sampling_variant": "v6.4_camera_jobs_terminal_guard_history_parameter",
+  "requested_sessions": 2400,
+  "sampled_sessions": 2400,
+  "complete": true,
+  "quota_counts": {
+    "fork_4": 280,
+    "linear_5": 400,
+    "fork_5": 280,
+    "linear_3": 400,
+    "linear_4": 400,
+    "fork_3": 160,
+    "linear_2": 400,
+    "fork_2": 80
+  },
+  "failed_jobs": [],
+  "errors_and_retries": {
+    "duplicate_structure_attempts": 1,
+    "dead_end_or_cap_attempts": 2963
+  },
+  "hard_directed_edge_cap": 4,
+  "attempt_cap_counts": {
+    "2": 5156,
+    "3": 208
+  },
+  "edge_reuse_histogram": {
+    "1": 1234,
+    "2": 2815,
+    "3": 632
+  },
+  "four_use_edge_fraction": 0.0,
+  "four_use_edge_soft_target": 0.005,
+  "axis_counts": {
+    "wardrobe": 1409,
+    "action": 1186,
+    "camera": 1409,
+    "hair_color": 1155,
+    "hair": 1382,
+    "site": 1374,
+    "identity": 845
+  },
+  "nonidentity_axis_mean": 1319.1666666666667,
+  "nonidentity_relative_deviation": {
+    "hair": 0.047631080227416245,
+    "hair_color": -0.12444725205306384,
+    "wardrobe": 0.06809854706253948,
+    "action": -0.10094756790903359,
+    "camera": 0.06809854706253948,
+    "site": 0.04156664560960199
+  },
+  "nonidentity_balance_within_10_percent": false,
+  "axis_reuse": {
+    "identity": {
+      "steps": 845,
+      "used_directed_edges": 359,
+      "mean": 2.3537604456824512,
+      "available_directed_edges": 400
+    },
+    "hair": {
+      "steps": 1382,
+      "used_directed_edges": 693,
+      "mean": 1.9942279942279941,
+      "available_directed_edges": 760
+    },
+    "hair_color": {
+      "steps": 1155,
+      "used_directed_edges": 534,
+      "mean": 2.162921348314607,
+      "available_directed_edges": 568
+    },
+    "wardrobe": {
+      "steps": 1409,
+      "used_directed_edges": 826,
+      "mean": 1.7058111380145278,
+      "available_directed_edges": 980
+    },
+    "action": {
+      "steps": 1186,
+      "used_directed_edges": 606,
+      "mean": 1.9570957095709571,
+      "available_directed_edges": 640
+    },
+    "camera": {
+      "steps": 1409,
+      "used_directed_edges": 968,
+      "mean": 1.4555785123966942,
+      "available_directed_edges": 1748
+    },
+    "site": {
+      "steps": 1374,
+      "used_directed_edges": 695,
+      "mean": 1.976978417266187,
+      "available_directed_edges": 744
+    }
+  },
+  "source_conditioned_formal_axis_expectation": {
+    "hair": 1378.4583333333317,
+    "hair_color": 1378.4583333333317,
+    "wardrobe": 1285.958333333334,
+    "action": 1285.958333333334,
+    "camera": 1378.4583333333317,
+    "site": 1378.4583333333317,
+    "identity": 674.2499999999998
+  },
+  "conditional_wardrobe_mode_counts": {
+    "single_piece": 464,
+    "whole_outfit": 444
+  },
+  "conditional_wardrobe_mode_expectation": {
+    "single_piece": 454.0,
+    "whole_outfit": 454.0
+  },
+  "single_piece_slot_actual": {
+    "full_body": 163,
+    "pants": 46,
+    "shirts": 94,
+    "coats": 89,
+    "skirts": 72
+  },
+  "source_support_lookahead_strength": 1.0,
+  "source_support_lookahead_policy": "Softly prefer starts and target nodes with real unsaturated wardrobe edges serving formal single-piece slot deficits and conditional 50:50 mode deficits. Does not invent absent slots or replace source-conditioned formal expectations.",
+  "single_piece_slot_source_conditioned_expectation": {
+    "full_body": 163.0,
+    "pants": 23.0,
+    "shirts": 150.5,
+    "skirts": 83.0,
+    "coats": 44.5
+  },
+  "single_piece_slot_relative_to_expectation": {
+    "full_body": 0.0,
+    "pants": 1.0,
+    "shirts": -0.3754152823920266,
+    "skirts": -0.1325301204819277,
+    "coats": 1.0
+  },
+  "single_piece_slot_missing_graph_or_cap_support": {
+    "shirts": 207,
+    "skirts": 94
+  },
+  "single_piece_slot_actual_by_camera": {
+    "orbit_360": {
+      "full_body": 38
+    },
+    "front_three_quarter_full": {
+      "pants": 26
+    },
+    "back_full": {
+      "shirts": 30
+    },
+    "dolly_in_back": {
+      "full_body": 27
+    },
+    "dolly_in_front": {
+      "full_body": 10
+    },
+    "dolly_out_front": {
+      "coats": 9
+    },
+    "front_full": {
+      "skirts": 37
+    },
+    "high_full": {
+      "coats": 26
+    },
+    "front_three_quarter_upper": {
+      "full_body": 36
+    },
+    "side_full": {
+      "full_body": 27
+    },
+    "rear_three_quarter_full": {
+      "coats": 26
+    },
+    "low_full": {
+      "shirts": 31
+    },
+    "orbit_120": {
+      "skirts": 35
+    },
+    "dolly_out_back": {
+      "shirts": 33
+    },
+    "dolly_out_side": {
+      "coats": 28
+    },
+    "back_upper": {
+      "full_body": 25
+    },
+    "dolly_in_side": {
+      "pants": 20
+    }
+  },
+  "single_piece_slot_expectation_by_camera": {
+    "orbit_360": {
+      "full_body": 38.0
+    },
+    "front_three_quarter_full": {
+      "pants": 13.0,
+      "shirts": 13.0
+    },
+    "back_full": {
+      "shirts": 15.0,
+      "skirts": 15.0
+    },
+    "dolly_in_back": {
+      "full_body": 27.0
+    },
+    "dolly_in_front": {
+      "full_body": 10.0
+    },
+    "dolly_out_front": {
+      "coats": 4.5,
+      "shirts": 4.5
+    },
+    "front_full": {
+      "shirts": 18.5,
+      "skirts": 18.5
+    },
+    "high_full": {
+      "coats": 13.0,
+      "shirts": 13.0
+    },
+    "front_three_quarter_upper": {
+      "full_body": 36.0
+    },
+    "side_full": {
+      "full_body": 27.0
+    },
+    "rear_three_quarter_full": {
+      "coats": 13.0,
+      "shirts": 13.0
+    },
+    "low_full": {
+      "shirts": 15.5,
+      "skirts": 15.5
+    },
+    "orbit_120": {
+      "shirts": 17.5,
+      "skirts": 17.5
+    },
+    "dolly_out_back": {
+      "shirts": 16.5,
+      "skirts": 16.5
+    },
+    "dolly_out_side": {
+      "coats": 14.0,
+      "shirts": 14.0
+    },
+    "back_upper": {
+      "full_body": 25.0
+    },
+    "dolly_in_side": {
+      "pants": 10.0,
+      "shirts": 10.0
+    }
+  },
+  "start_camera_quota": {
+    "front_full": 105,
+    "front_three_quarter_full": 105,
+    "side_full": 105,
+    "rear_three_quarter_full": 105,
+    "back_full": 104,
+    "front_upper": 157,
+    "front_three_quarter_upper": 104,
+    "side_upper": 104,
+    "rear_three_quarter_upper": 104,
+    "back_upper": 104,
+    "high_full": 104,
+    "low_full": 104,
+    "orbit_360": 104,
+    "orbit_120": 104,
+    "dolly_in_front": 157,
+    "dolly_in_side": 104,
+    "dolly_in_back": 104,
+    "dolly_out_front": 157,
+    "dolly_out_side": 104,
+    "dolly_out_back": 104,
+    "front_head": 157
+  },
+  "start_camera_counts": {
+    "front_full": 105,
+    "front_three_quarter_full": 105,
+    "side_full": 105,
+    "rear_three_quarter_full": 105,
+    "back_full": 104,
+    "front_upper": 157,
+    "front_three_quarter_upper": 104,
+    "side_upper": 104,
+    "rear_three_quarter_upper": 104,
+    "back_upper": 104,
+    "high_full": 104,
+    "low_full": 104,
+    "orbit_360": 104,
+    "orbit_120": 104,
+    "dolly_in_front": 157,
+    "dolly_in_side": 104,
+    "dolly_in_back": 104,
+    "dolly_out_front": 157,
+    "dolly_out_side": 104,
+    "dolly_out_back": 104,
+    "front_head": 157
+  },
+  "start_camera_quota_deficits": {
+    "front_full": 0,
+    "front_three_quarter_full": 0,
+    "side_full": 0,
+    "rear_three_quarter_full": 0,
+    "back_full": 0,
+    "front_upper": 0,
+    "front_three_quarter_upper": 0,
+    "side_upper": 0,
+    "rear_three_quarter_upper": 0,
+    "back_upper": 0,
+    "high_full": 0,
+    "low_full": 0,
+    "orbit_360": 0,
+    "orbit_120": 0,
+    "dolly_in_front": 0,
+    "dolly_in_side": 0,
+    "dolly_in_back": 0,
+    "dolly_out_front": 0,
+    "dolly_out_side": 0,
+    "dolly_out_back": 0,
+    "front_head": 0
+  },
+  "start_camera_quota_met": true,
+  "start_camera_graph_support": {
+    "front_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 244,
+      "hard_first_step_capacity": 976,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "side_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 105,
+      "necessary_capacity_sufficient": true
+    },
+    "back_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 236,
+      "hard_first_step_capacity": 944,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "front_upper": {
+      "start_nodes": 62,
+      "outgoing_directed_edges": 442,
+      "hard_first_step_capacity": 1768,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_upper": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 202,
+      "hard_first_step_capacity": 808,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "side_upper": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 224,
+      "hard_first_step_capacity": 896,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_upper": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 250,
+      "hard_first_step_capacity": 1000,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "back_upper": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "high_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "low_full": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 236,
+      "hard_first_step_capacity": 944,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_360": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 202,
+      "hard_first_step_capacity": 808,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_120": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 244,
+      "hard_first_step_capacity": 976,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_front": {
+      "start_nodes": 62,
+      "outgoing_directed_edges": 462,
+      "hard_first_step_capacity": 1848,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_side": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_back": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_front": {
+      "start_nodes": 62,
+      "outgoing_directed_edges": 462,
+      "hard_first_step_capacity": 1848,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_side": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 270,
+      "hard_first_step_capacity": 1080,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_back": {
+      "start_nodes": 34,
+      "outgoing_directed_edges": 236,
+      "hard_first_step_capacity": 944,
+      "requested_starts": 104,
+      "necessary_capacity_sufficient": true
+    },
+    "front_head": {
+      "start_nodes": 36,
+      "outgoing_directed_edges": 240,
+      "hard_first_step_capacity": 960,
+      "requested_starts": 157,
+      "necessary_capacity_sufficient": true
+    }
+  },
+  "start_camera_quota_policy": "Largest-remainder integer quotas over the full catalog: each of the four identity cameras has weight 1.5, every other camera weight 1. Core-coverage starts consume these same quotas. Select a camera once per job, retry within that camera, and never redistribute unsupported quota.",
+  "unused_nodes": 0,
+  "unused_start_nodes": 61,
+  "isolated_start_nodes": 0,
+  "identity_start_counts": {
+    "('female', 'CFD40_AF_001')": 46,
+    "('female', 'CFD40_AF_003')": 329,
+    "('female', 'CFD40_BF_001')": 49,
+    "('female', 'CFD40_BF_004')": 49,
+    "('female', 'CFD40_BF_005')": 320,
+    "('female', 'CFD40_LF_001')": 55,
+    "('female', 'CFD40_LF_002')": 43,
+    "('female', 'CFD40_WF_002')": 312,
+    "('female', 'CFD40_WF_005')": 49,
+    "('male', 'CFD40_AM_001')": 327,
+    "('male', 'CFD40_AM_004')": 46,
+    "('male', 'CFD40_AM_005')": 49,
+    "('male', 'CFD40_BM_001')": 44,
+    "('male', 'CFD40_BM_003')": 325,
+    "('male', 'CFD40_LM_001')": 208,
+    "('male', 'CFD40_LM_003')": 46,
+    "('male', 'CFD40_WM_003')": 50,
+    "('male', 'CFD40_WM_004')": 53
+  },
+  "edited_attribute_target_coverage": {
+    "hair": {
+      "represented_values": 12,
+      "covered_values": 12,
+      "missing_values": []
+    },
+    "hair_color": {
+      "represented_values": 7,
+      "covered_values": 7,
+      "missing_values": []
+    },
+    "wardrobe_family": {
+      "represented_values": 7,
+      "covered_values": 7,
+      "missing_values": []
+    },
+    "wardrobe_group": {
+      "represented_values": 8,
+      "covered_values": 8,
+      "missing_values": []
+    },
+    "wardrobe_core": {
+      "represented_values": 28,
+      "covered_values": 28,
+      "missing_values": []
+    },
+    "action": {
+      "represented_values": 11,
+      "covered_values": 11,
+      "missing_values": []
+    },
+    "camera": {
+      "represented_values": 21,
+      "covered_values": 21,
+      "missing_values": []
+    },
+    "site": {
+      "represented_values": 11,
+      "covered_values": 11,
+      "missing_values": []
+    },
+    "identity": {
+      "represented_values": 16,
+      "covered_values": 16,
+      "missing_values": []
+    }
+  },
+  "history_axis_decay": 0.5,
+  "history_revisits_allowed": true,
+  "history_decay_override_from_v5": false,
+  "start_policy": "exact catalog-camera quotas; soft identity balance within camera; unused nodes; residual edge support",
+  "axis_policy": "legal identity=2/other=1; whole-history 0.5**n; global count feedback",
+  "feedback_exponent": 4.0,
+  "planned_edit_steps": 8760,
+  "soft_identity_target_fraction": 0.09,
+  "nonidentity_axis_terminal_target": 1328.6000000000001,
+  "nonidentity_axis_hard_upper": 1409,
+  "nonidentity_upper_slack": 0.06,
+  "cap2_attempts_before_cap3": 12,
+  "core_coverage_warmup_enabled": true,
+  "forced_coverage_job_count": 13,
+  "forced_coverage_jobs": [
+    {
+      "job": 0,
+      "session_id": "session_000000",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 782,
+      "target": 791,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.01d1133653ac"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.01d1133653ac"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 1,
+      "session_id": "session_000001",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 796,
+      "target": 789,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.a6e845500e7b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.a6e845500e7b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 2,
+      "session_id": "session_000002",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 80,
+      "target": 79,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.b13d9178f0cf"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.b13d9178f0cf"
+        ],
+        [
+          "female",
+          "female.pretty_dresses.asset.c54ffa7f175b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 3,
+      "session_id": "session_000003",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 107,
+      "target": 99,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.1b2641fef7cf"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.1b2641fef7cf"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 4,
+      "session_id": "session_000004",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 708,
+      "target": 706,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.10e2ec97156b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.10e2ec97156b"
+        ],
+        [
+          "female",
+          "female.streetwear_collection.asset.33f04a6e1d91"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 5,
+      "session_id": "session_000005",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 193,
+      "target": 179,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.pyjamas.asset.3264922c4290"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pyjamas.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.pyjamas.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 6,
+      "session_id": "session_000006",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 138,
+      "target": 141,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "male",
+        "male.pyjamas.asset.f8a659401fe8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pyjamas.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 7,
+      "session_id": "session_000007",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 638,
+      "target": 631,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.5d5a9961cca5"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.5d5a9961cca5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 8,
+      "session_id": "session_000008",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 561,
+      "target": 550,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.86d3bf90649a"
+        ],
+        [
+          "male",
+          "male.pop_style.asset.cecf3994d437"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 9,
+      "session_id": "session_000009",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 411,
+      "target": 424,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.e8cbcb665a1e"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.e8cbcb665a1e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 10,
+      "session_id": "session_000010",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 2,
+      "forced_round": 1,
+      "source": 363,
+      "target": 352,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.1bfd23dd3347"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.1bfd23dd3347"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 11,
+      "session_id": "session_000011",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 502,
+      "target": 509,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "male",
+        "male.pop_style.asset.9234b2ae5d5b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pop_style.asset.9234b2ae5d5b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 12,
+      "session_id": "session_000012",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 405,
+      "target": 414,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.elise.asset.39bd258960d8"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.elise.asset.39bd258960d8"
+        ],
+        [
+          "female",
+          "female.elise.asset.42dda85d9749"
+        ],
+        [
+          "female",
+          "female.elise.asset.4e5e5be9ee7f"
+        ],
+        [
+          "female",
+          "female.elise.asset.5f85606f3356"
+        ],
+        [
+          "female",
+          "female.elise.asset.6e5f0523d9b2"
+        ],
+        [
+          "female",
+          "female.elise.asset.7b08cf297183"
+        ],
+        [
+          "female",
+          "female.elise.asset.b244d57696b0"
+        ],
+        [
+          "female",
+          "female.elise.asset.dfdf5cd81df8"
+        ],
+        [
+          "female",
+          "female.elise.asset.fc89536b4802"
+        ]
+      ],
+      "edge_reuse_before": 0
+    }
+  ],
+  "core_coverage_override_policy": "For missing changed-in core values, lock a genuine directed wardrobe edge as round one of an existing fixed job; prioritize scarce incoming support, low reuse, and new-core gain. Kind, length, fork round and fork source remain unchanged. This is explicit coverage sampling, not pure random selection.",
+  "reuse_note": "Reuse below two can result from coverage, zero/one-use preference, fixed fork jobs, and local graph support; no missing edge is invented to raise reuse.",
+  "full_catalog_target_uniformity_claimed": false
+}

@@ -1,0 +1,489 @@
+{
+  "schema": "independent_v11_reference_semantic_review_20261022",
+  "candidate": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate",
+  "read_only_candidate": true,
+  "passed": true,
+  "checks": {
+    "unique_reference_ids": 1,
+    "unique_reference_keys": 1,
+    "planned_not_rendered": 2418,
+    "reference_id_hash": 2418,
+    "scene_empty_background_exact_site": 893,
+    "motion_exact_target_sex_source": 809,
+    "motion_camera_clock_contract": 809,
+    "garment_exact_asset_meshes": 564,
+    "garments_only_neutral_3d": 564,
+    "identity_front_exact_meshes": 40,
+    "hair_two_distinct_legal_carriers": 28,
+    "hair_seed_reproducibility": 28,
+    "hair_exact_pair_and_fit": 56,
+    "unique_step_link_keys": 1,
+    "render_exact_node_id_bijection": 2,
+    "render_matches_entire_node_state": 7203,
+    "render_symbolic_camera_binding": 7203,
+    "render_current_source_camera_template": 7203,
+    "render_explicit_unfrozen_media": 7203,
+    "every_step_has_link": 52560,
+    "link_source_history_binding": 52560,
+    "link_exact_step_and_canonical_binding": 52560,
+    "text_only_camera_color_exact_target": 16531,
+    "scene_motion_link_exact_symbolic_target": 16154,
+    "identity_link_target": 3296,
+    "hair_link_target_and_selected_pair": 7769,
+    "single_reference_changed_slot": 3698,
+    "single_preserves_shoe": 3698,
+    "wardrobe_exact_target_items_and_views": 8810,
+    "barefoot_explicit_no_shoe_image": 8810,
+    "no_extraneous_links": 1,
+    "no_unrequired_reference_items": 1,
+    "summary_recomputed_counts": 1,
+    "input_snapshot_hash_manifest": 11,
+    "input_snapshot_hash_catalog_sources": 7,
+    "input_snapshot_hash_catalog_source_pins": 34
+  },
+  "errors": {},
+  "examples": {},
+  "counts": {
+    "requirements": 2418,
+    "links": 52560,
+    "selected_reference_items": 2418,
+    "pool_only_reference_items": 0,
+    "kind": {
+      "scene": 893,
+      "motion": 809,
+      "wardrobe_piece": 564,
+      "identity": 40,
+      "hair": 112
+    }
+  },
+  "splits": {
+    "train": {
+      "sessions": 12000,
+      "edit_step_occurrences": 43800,
+      "axis_camera": 7235,
+      "axis_action": 7254,
+      "axis_site": 6179,
+      "axis_identity": 2810,
+      "axis_hair": 6492,
+      "axis_hair_color": 6527,
+      "axis_wardrobe": 7303,
+      "wardrobe_single_piece": 2989,
+      "wardrobe_whole_outfit": 4314,
+      "wardrobe_multiple_items": 4314,
+      "wardrobe_barefoot": 813,
+      "unique_used_edges": 21600
+    },
+    "test": {
+      "sessions": 2400,
+      "edit_step_occurrences": 8760,
+      "axis_wardrobe": 1507,
+      "wardrobe_single_piece": 709,
+      "axis_camera": 1493,
+      "axis_identity": 486,
+      "axis_hair": 1277,
+      "axis_hair_color": 1276,
+      "axis_site": 1242,
+      "axis_action": 1479,
+      "wardrobe_whole_outfit": 798,
+      "wardrobe_multiple_items": 798,
+      "unique_used_edges": 4301
+    }
+  },
+  "render_requests": {
+    "train": {
+      "nodes": 5980,
+      "render_requests": 5980,
+      "aspect": {
+        "landscape": 3234,
+        "portrait": 2746
+      }
+    },
+    "test": {
+      "nodes": 1223,
+      "render_requests": 1223,
+      "aspect": {
+        "landscape": 652,
+        "portrait": 571
+      }
+    }
+  },
+  "input_pins": [
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\rules.json",
+      "sha256": "e0f54e3d23ea76263c889848fdd07aa06f838d2264e321df3bafef8f969d8e08",
+      "actual_sha256": "e0f54e3d23ea76263c889848fdd07aa06f838d2264e321df3bafef8f969d8e08",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\catalog.json",
+      "sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131",
+      "actual_sha256": "c94a0c4520a457fe00643c96f0da04692e0a8419c10bae85e0f0656eea8f7131",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\plan_references.py",
+      "sha256": "96b557384e8fece28bf4f9d060e93f711a0c93deebbcdb35ebae3178eda6402e",
+      "actual_sha256": "96b557384e8fece28bf4f9d060e93f711a0c93deebbcdb35ebae3178eda6402e",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_trial_build_20261021_v1\\normalize_catalog.py",
+      "sha256": "bdf9b32e9cdaaed4f598fc7018e5c326b41da46d4d82222a1e6203c7632d989c",
+      "actual_sha256": "bdf9b32e9cdaaed4f598fc7018e5c326b41da46d4d82222a1e6203c7632d989c",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\RULES.json",
+      "sha256": "7ebf65939cc9c0535e642a02e965f0263717f1dcbe1a22dcbb6263ee4a9df6a8",
+      "actual_sha256": "7ebf65939cc9c0535e642a02e965f0263717f1dcbe1a22dcbb6263ee4a9df6a8",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\nodes.json",
+      "sha256": "7a63339348b33cae8fe7ef7f65498c4252b46ba086297c359e11fd5bc67a3cf5",
+      "actual_sha256": "7a63339348b33cae8fe7ef7f65498c4252b46ba086297c359e11fd5bc67a3cf5",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\edges.json",
+      "sha256": "04bf7310ce90c875e15b99b8e7dbb27d1c37c9e978ce6366c357348c360ff173",
+      "actual_sha256": "04bf7310ce90c875e15b99b8e7dbb27d1c37c9e978ce6366c357348c360ff173",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\train\\sessions.jsonl",
+      "sha256": "e755589ed144e1d2504aadd372a88b9b6b7df0c3f289f38004eb033a798edadf",
+      "actual_sha256": "e755589ed144e1d2504aadd372a88b9b6b7df0c3f289f38004eb033a798edadf",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\nodes.json",
+      "sha256": "f2d44e2717265e42a4e4fc8b43c8c79e39448839c72ce48f11162f085d194859",
+      "actual_sha256": "f2d44e2717265e42a4e4fc8b43c8c79e39448839c72ce48f11162f085d194859",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\edges.json",
+      "sha256": "744d6d6390d317edeaf8a8962e0b216b4559fc18b1819010d817805d698cd860",
+      "actual_sha256": "744d6d6390d317edeaf8a8962e0b216b4559fc18b1819010d817805d698cd860",
+      "matches": true
+    },
+    {
+      "origin": "manifest",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_return_control_20261022_v11\\selected_candidate\\test\\sessions.jsonl",
+      "sha256": "c7c61cdda16f99e37298e6179517a9c825604af1d17fe2b96e4e9da21e6d6d16",
+      "actual_sha256": "c7c61cdda16f99e37298e6179517a9c825604af1d17fe2b96e4e9da21e6d6d16",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+      "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "actual_sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+      "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "actual_sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\hair_eye_color_runtime_v1.py",
+      "sha256": "d714c2fd41a7f8d1929394d2f97cd0a47c123b0ca3c702aac73a4420326c7400",
+      "actual_sha256": "d714c2fd41a7f8d1929394d2f97cd0a47c123b0ca3c702aac73a4420326c7400",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\hair_eye_color_formal_root_compatibility_v1.json",
+      "sha256": "4154699579cca1d6d57e2e1387705098813457ebcb5864061b6119ec50219f49",
+      "actual_sha256": "4154699579cca1d6d57e2e1387705098813457ebcb5864061b6119ec50219f49",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_hair_color_trials_v1.py",
+      "sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112",
+      "actual_sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_hair_color_trials_v1.py",
+      "sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112",
+      "method": "neutral_base_v2",
+      "actual_sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112",
+      "matches": true
+    },
+    {
+      "origin": "catalog_sources",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+      "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "actual_sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_refresh_20261018_v1\\user_edited_night_import_20261020_v1\\delivery.json",
+      "sha256": "a950391fef51ec2dcb15a92e512a98ccfa8ad87247a0e796ee8d85720ec1e467",
+      "actual_sha256": "a950391fef51ec2dcb15a92e512a98ccfa8ad87247a0e796ee8d85720ec1e467",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\formal_wardrobe_registry_v1.py",
+      "sha256": "7482ab7c9a46d2d735fccbe0156f293dc7192e462735f98adc6c8f711e7a9a58",
+      "actual_sha256": "7482ab7c9a46d2d735fccbe0156f293dc7192e462735f98adc6c8f711e7a9a58",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\complete_character_slot_review_contract_v1.py",
+      "sha256": "b386ed6712b69cad14fbcf79c1d5a0d2f985fe06779cf0b68db72100c8ba09ed",
+      "actual_sha256": "b386ed6712b69cad14fbcf79c1d5a0d2f985fe06779cf0b68db72100c8ba09ed",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_appearance_v1.py",
+      "sha256": "e92586d104e2dc7353459c28a53cd34f2783a0afd895312d4d9a8add98980a83",
+      "actual_sha256": "e92586d104e2dc7353459c28a53cd34f2783a0afd895312d4d9a8add98980a83",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\pair_review_fast_runtime_v1.py",
+      "sha256": "372976d67a62cc9fc0a587be5f6a2618fbd467f994d6688e6e13cf4681802e08",
+      "actual_sha256": "372976d67a62cc9fc0a587be5f6a2618fbd467f994d6688e6e13cf4681802e08",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\appearance_selection_policy_v1.py",
+      "sha256": "992c5a33a0e981d0f6db2d20de64a3a8d19b60d7db7991f85eaa30378ef28eb4",
+      "actual_sha256": "992c5a33a0e981d0f6db2d20de64a3a8d19b60d7db7991f85eaa30378ef28eb4",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_review_selection_policy_v1.py",
+      "sha256": "698fadcf9412328f8436276795c3564e234ceef869240bd0a4411cd0a555d4a3",
+      "actual_sha256": "698fadcf9412328f8436276795c3564e234ceef869240bd0a4411cd0a555d4a3",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\pair_review_site_intent_v1.py",
+      "sha256": "709bd3961ec3528ea85a7ec0352af6df27f6187cff5e54c46013c53efbb6d0d3",
+      "actual_sha256": "709bd3961ec3528ea85a7ec0352af6df27f6187cff5e54c46013c53efbb6d0d3",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_catalog_v1.py",
+      "sha256": "740a37b4249dcdee3e4563ad918958eee2afec7dc983a2d53fb7b363dd9c7881",
+      "actual_sha256": "740a37b4249dcdee3e4563ad918958eee2afec7dc983a2d53fb7b363dd9c7881",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_active_v1.json",
+      "sha256": "0ba7b18d278f18e8cbd972368bb9bb55a9e55c0d554ec47a578ac7cb9957db0c",
+      "actual_sha256": "0ba7b18d278f18e8cbd972368bb9bb55a9e55c0d554ec47a578ac7cb9957db0c",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\wardrobe_component_corrections_v1.json",
+      "sha256": "d79cc966643d615b02685673eb6c539304725c3b7772e32037d0184c101036c0",
+      "actual_sha256": "d79cc966643d615b02685673eb6c539304725c3b7772e32037d0184c101036c0",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\catalog.json",
+      "sha256": "7c42813dbb6872dd607a28cb0aec82663e055f9754d08afe51dab009f3037191",
+      "actual_sha256": "7c42813dbb6872dd607a28cb0aec82663e055f9754d08afe51dab009f3037191",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\production_motion_formal_runtime_b1348ccf13a6fe739381.json",
+      "sha256": "9d5118c06583a7f7db2133593fbb28d543ea2333ae98b142979353727677aa32",
+      "actual_sha256": "9d5118c06583a7f7db2133593fbb28d543ea2333ae98b142979353727677aa32",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_05dac27bc7.json",
+      "sha256": "70eb407ff27501ec96c6e8860f223e92b1789d251e77c68d6de750042e98cfac",
+      "actual_sha256": "70eb407ff27501ec96c6e8860f223e92b1789d251e77c68d6de750042e98cfac",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_05e295695d.json",
+      "sha256": "939953d2a7582b36635dc1235715e1d75bef78c7f71263f3cdc878c7afebd3fb",
+      "actual_sha256": "939953d2a7582b36635dc1235715e1d75bef78c7f71263f3cdc878c7afebd3fb",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_1bbc32217c.json",
+      "sha256": "ed125dfe4c6b29c7a70c8588fe32a9073c7cd397f767ac28e3a43a7b67a8fe3a",
+      "actual_sha256": "ed125dfe4c6b29c7a70c8588fe32a9073c7cd397f767ac28e3a43a7b67a8fe3a",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_2831090e60.json",
+      "sha256": "27e73ccf92a4cbc3bd61b8b92bb1d803afdf07bc17679c4558dab3a053ab1ebf",
+      "actual_sha256": "27e73ccf92a4cbc3bd61b8b92bb1d803afdf07bc17679c4558dab3a053ab1ebf",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_2a054574eb.json",
+      "sha256": "84441506faa832c14bf2f2c50059332aad7af85eb7a1ede58cb88e3cb015b15e",
+      "actual_sha256": "84441506faa832c14bf2f2c50059332aad7af85eb7a1ede58cb88e3cb015b15e",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_33328cb3f4.json",
+      "sha256": "a3d0a6280e8ea956277a2a3e026ad8713a8bd7c77e04c09bc0be251f284d8ea4",
+      "actual_sha256": "a3d0a6280e8ea956277a2a3e026ad8713a8bd7c77e04c09bc0be251f284d8ea4",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_4e6b9c18d9.json",
+      "sha256": "be09e453345bbcb9ca21e11fb1f8c340c3629ff07109a1555999828007d47c14",
+      "actual_sha256": "be09e453345bbcb9ca21e11fb1f8c340c3629ff07109a1555999828007d47c14",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_6af8ead41a.json",
+      "sha256": "21e1406c446446795ac705c3b88f3e1b8e9ba5fdf14411c07242c80b678140fd",
+      "actual_sha256": "21e1406c446446795ac705c3b88f3e1b8e9ba5fdf14411c07242c80b678140fd",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_7b963967ee.json",
+      "sha256": "c19d72811df29e389e19426df24c1e59750e01ab05b1945f796b47783bafd2e5",
+      "actual_sha256": "c19d72811df29e389e19426df24c1e59750e01ab05b1945f796b47783bafd2e5",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_7dbc277564.json",
+      "sha256": "f906ad9566a7ae378218a370725625c6c808d653a23b796c558db58e11c4c9a5",
+      "actual_sha256": "f906ad9566a7ae378218a370725625c6c808d653a23b796c558db58e11c4c9a5",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_7ed6554b09.json",
+      "sha256": "9f41aa7520a6ef78e10c65ab24f46fabf466a79fdb083255efab2cb9023e6698",
+      "actual_sha256": "9f41aa7520a6ef78e10c65ab24f46fabf466a79fdb083255efab2cb9023e6698",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_7f07230597.json",
+      "sha256": "2cac698b4feb5b6c3dee9098d2043148669173b2661235f49c3094e6be9e8f91",
+      "actual_sha256": "2cac698b4feb5b6c3dee9098d2043148669173b2661235f49c3094e6be9e8f91",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_8c41814f5e.json",
+      "sha256": "dead84518c679204f20355e2fe3ae8b94eaed0f0b15c0f4fe5a5a2156e4e6329",
+      "actual_sha256": "dead84518c679204f20355e2fe3ae8b94eaed0f0b15c0f4fe5a5a2156e4e6329",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_91fc32ba93.json",
+      "sha256": "39e1fba7d14aad5bf9b790ae7b9786e77999b6934ce10a7ee1831f36a4ce4a68",
+      "actual_sha256": "39e1fba7d14aad5bf9b790ae7b9786e77999b6934ce10a7ee1831f36a4ce4a68",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_98aac485de.json",
+      "sha256": "108333e9036d7e848195932b391513be518597f22b712898ae6b59bd153bb8ea",
+      "actual_sha256": "108333e9036d7e848195932b391513be518597f22b712898ae6b59bd153bb8ea",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_9a6519ec02.json",
+      "sha256": "daf9dc943c3e8ef56b660121b00f42ea4bbe920d79a4c73517cb95e4a7f0c582",
+      "actual_sha256": "daf9dc943c3e8ef56b660121b00f42ea4bbe920d79a4c73517cb95e4a7f0c582",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_dc3f593a1d.json",
+      "sha256": "d71a2fdb1721a4b28073b04aacab60dedc7afe6b4ba5f24830ced11f7147e4d6",
+      "actual_sha256": "d71a2fdb1721a4b28073b04aacab60dedc7afe6b4ba5f24830ced11f7147e4d6",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_def046be4c.json",
+      "sha256": "be74a0d1b04112f3503310253ac1d860c1fb9bc107825d606a1e602b53c726d1",
+      "actual_sha256": "be74a0d1b04112f3503310253ac1d860c1fb9bc107825d606a1e602b53c726d1",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_f3e2dabbd0.json",
+      "sha256": "cc499285dc4846bc3f8b854782f8b5b4f345e1b0e686eabe9b5075af424d7050",
+      "actual_sha256": "cc499285dc4846bc3f8b854782f8b5b4f345e1b0e686eabe9b5075af424d7050",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_fa4a18c3dc.json",
+      "sha256": "b26735363e5d9c1cdb6b53baf7cd7d22d2499ee3098fcce5efacad30abaefb68",
+      "actual_sha256": "b26735363e5d9c1cdb6b53baf7cd7d22d2499ee3098fcce5efacad30abaefb68",
+      "matches": true
+    },
+    {
+      "origin": "catalog_source_pins",
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\pair_scene_review_20261019_v1\\sites\\site_fbf21a9b6a.json",
+      "sha256": "413bd04174c4f7bc1fb45dd9dfba357a3be5fbcf000caeda50e004f8244bb09e",
+      "actual_sha256": "413bd04174c4f7bc1fb45dd9dfba357a3be5fbcf000caeda50e004f8244bb09e",
+      "matches": true
+    }
+  ],
+  "current_camera_plan_pin": {
+    "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\camera_plan.json",
+    "sha256": "5e6242b000a8386c2df08f1e253b7e7de12eb838713d63038588b4795b3a719a"
+  },
+  "pending_not_candidate_failures": [
+    "final_resolution_fps_duration",
+    "motion_carrier_and_main_clock",
+    "exact_scene_initial_world_transform_and_frame_signature",
+    "reference_generation_implementation_and_edit_text_templates",
+    "final_render_jobs_must_use_render_readiness_exposure_and_warmup_policy"
+  ],
+  "documentation_issue": "REFERENCES.md still lists aspect as unfrozen despite v11 dual-aspect policy; final numeric media dimensions remain unfrozen."
+}

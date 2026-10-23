@@ -1,0 +1,45 @@
+{
+  "status": "offline_candidate_verified_pending_user_adoption_not_rendered",
+  "primary_candidate": "selected_seed1",
+  "graphs": {"train": "graph_n/train", "test": "graph_t/test"},
+  "sampling_configuration": {
+    "sampler": "v68",
+    "history_decay": 0.2,
+    "cap2_attempts": 12,
+    "upper_slack": 0.025,
+    "max_attempts": 240,
+    "late_start_fallback_after_attempts": 120,
+    "start_camera_weights": {"identity_eligible": 1.5, "other": 1.0},
+    "train_test_configuration_identical": true
+  },
+  "sampling_seeds": [
+    {
+      "assembled_candidate": "selected_seed1",
+      "train": "candidate_n_v68_train_decay02_seed1/train",
+      "test": "candidate_t_v68_test_decay02_seed1/test",
+      "train_seed": 2026102261,
+      "test_seed": 2026102262,
+      "audit": "diagnostics_n_t_decay02_seed1_composite_audit.json"
+    },
+    {
+      "assembled_candidate": "selected_seed2",
+      "train": "candidate_n_v68_train_decay02_seed2/train",
+      "test": "candidate_t_v68_test_decay02_seed2/test",
+      "train_seed": 2026102281,
+      "test_seed": 2026102282,
+      "audit": "diagnostics_n_t_decay02_seed2_composite_audit.json"
+    },
+    {
+      "assembled_candidate": "selected_seed3",
+      "train": "candidate_n_v68_train_decay02_seed3/train",
+      "test": "candidate_t_v68_test_decay02_seed3/test",
+      "train_seed": 2026102301,
+      "test_seed": 2026102302,
+      "audit": "diagnostics_n_t_decay02_seed3_composite_audit.json"
+    }
+  ],
+  "alternate_seeds_are_not_additional_training_or_test_data": true,
+  "prior_v5_candidate_preserved": true,
+  "rendered": false,
+  "training_started": false
+}

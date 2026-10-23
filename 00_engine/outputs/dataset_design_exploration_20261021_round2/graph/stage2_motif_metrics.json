@@ -1,0 +1,3769 @@
+{
+  "kind": "catalog_constrained_synthetic_topology_not_UE_validation",
+  "axes": [
+    "identity",
+    "action",
+    "camera",
+    "aspect",
+    "site",
+    "hair_color"
+  ],
+  "settings": {
+    "routes": [
+      "motif"
+    ],
+    "axes": 5,
+    "families": [
+      1,
+      5
+    ],
+    "budgets": [
+      3000
+    ],
+    "seeds": [
+      20261021
+    ],
+    "closure": 0.35,
+    "parents": 16,
+    "output": "stage2_motif_metrics.json",
+    "save": true
+  },
+  "records": [
+    {
+      "key": "motif_a5_f1_n3000_s20261021_train",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 3000,
+      "seed": 20261021,
+      "split": "train",
+      "unique_nodes": 2500,
+      "registered_directed_edges": 10662,
+      "catalog_rejections": {
+        "saved_site_exclusion": 36504
+      },
+      "growth": {
+        "candidate_attempts": 512717,
+        "rejected": {
+          "motif_candidate_fallback": 1,
+          "constraint": 3
+        },
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 422,
+          "2": 515,
+          "1": 201
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 251,
+            "site": 252,
+            "identity": 243,
+            "camera": 252,
+            "hair_color": 251
+          },
+          "male": {
+            "action": 255,
+            "site": 251,
+            "identity": 240,
+            "camera": 252,
+            "hair_color": 251
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 63,
+            "CFD40_AF_002": 62,
+            "CFD40_AF_003": 63,
+            "CFD40_AF_004": 63,
+            "CFD40_AF_005": 62,
+            "CFD40_AM_001": 63,
+            "CFD40_AM_002": 62,
+            "CFD40_AM_003": 62,
+            "CFD40_AM_004": 62,
+            "CFD40_AM_005": 62,
+            "CFD40_BF_001": 63,
+            "CFD40_BF_002": 62,
+            "CFD40_BF_003": 62,
+            "CFD40_BF_004": 63,
+            "CFD40_BF_005": 63,
+            "CFD40_BM_001": 62,
+            "CFD40_BM_002": 62,
+            "CFD40_BM_003": 63,
+            "CFD40_BM_004": 63,
+            "CFD40_BM_005": 63,
+            "CFD40_LF_001": 63,
+            "CFD40_LF_002": 63,
+            "CFD40_LF_003": 62,
+            "CFD40_LF_004": 62,
+            "CFD40_LF_005": 62,
+            "CFD40_LM_001": 62,
+            "CFD40_LM_002": 62,
+            "CFD40_LM_003": 63,
+            "CFD40_LM_004": 63,
+            "CFD40_LM_005": 62,
+            "CFD40_WF_001": 63,
+            "CFD40_WF_002": 63,
+            "CFD40_WF_003": 62,
+            "CFD40_WF_004": 62,
+            "CFD40_WF_005": 62,
+            "CFD40_WM_001": 63,
+            "CFD40_WM_002": 62,
+            "CFD40_WM_003": 63,
+            "CFD40_WM_004": 63,
+            "CFD40_WM_005": 63
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 63,
+            "gini": 0.0040000000000000036,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 62,
+            "cv": 0.008,
+            "max_over_mean": 1.008
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 99,
+            "ACT_F02_CATCH_BREATH": 99,
+            "ACT_F03_AUDIENCE_01": 102,
+            "ACT_F05_TIE_SHOES": 99,
+            "ACT_F06_ELEVATOR_GREETING": 102,
+            "ACT_M04_LIVING_ROOM_SWING": 99,
+            "ACT_M05_ELEVATOR_GREETING": 99,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 99,
+            "MOTION_CAND_001": 101,
+            "MOTION_CAND_002": 101,
+            "MOTION_CAND_003": 101,
+            "MOTION_CAND_008": 101,
+            "MOTION_CAND_009": 100,
+            "MOTION_CAND_017": 100,
+            "MOTION_CAND_019": 100,
+            "MOTION_CAND_020": 98,
+            "MOTION_CAND_022": 100,
+            "MOTION_CAND_023": 102,
+            "MOTION_CAND_024": 98,
+            "MOTION_CAND_029": 101,
+            "MOTION_CAND_030": 102,
+            "MOTION_CAND_032": 99,
+            "MOTION_CAND_033": 99,
+            "MOTION_CAND_035": 98,
+            "MOTION_CAND_036": 101
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 100.0,
+            "p95": 102,
+            "max": 102,
+            "gini": 0.007263999999999937,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 98,
+            "cv": 0.01296148139681572,
+            "max_over_mean": 1.02
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 121,
+            "back_upper": 119,
+            "dolly_in_back": 119,
+            "dolly_in_front": 118,
+            "dolly_in_side": 118,
+            "dolly_out_back": 120,
+            "dolly_out_front": 118,
+            "dolly_out_side": 121,
+            "front_full": 119,
+            "front_head": 119,
+            "front_three_quarter_full": 119,
+            "front_three_quarter_upper": 120,
+            "front_upper": 119,
+            "high_full": 119,
+            "low_full": 117,
+            "orbit_120": 118,
+            "orbit_360": 119,
+            "rear_three_quarter_full": 120,
+            "rear_three_quarter_upper": 120,
+            "side_full": 118,
+            "side_upper": 119
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 119.04761904761905,
+            "p95": 121,
+            "max": 121,
+            "gini": 0.004533333333333278,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 117,
+            "cv": 0.008390470785361212,
+            "max_over_mean": 1.0164
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 2500
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 2500.0,
+            "p95": 2500,
+            "max": 2500,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 2500,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_05dac27bc7": 157,
+            "site_05e295695d": 157,
+            "site_1bbc32217c": 154,
+            "site_2831090e60": 157,
+            "site_33328cb3f4": 154,
+            "site_4e6b9c18d9": 157,
+            "site_7b963967ee": 158,
+            "site_7ed6554b09": 157,
+            "site_8c41814f5e": 155,
+            "site_98aac485de": 156,
+            "site_9a6519ec02": 156,
+            "site_dc3f593a1d": 156,
+            "site_def046be4c": 157,
+            "site_f3e2dabbd0": 156,
+            "site_fa4a18c3dc": 156,
+            "site_fbf21a9b6a": 157
+          },
+          "distribution_including_missing": {
+            "count": 16,
+            "mean": 156.25,
+            "p95": 158,
+            "max": 158,
+            "gini": 0.003649999999999931,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 154,
+            "cv": 0.006974238309665078,
+            "max_over_mean": 1.0112
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 359,
+            "blue": 355,
+            "gold": 360,
+            "original": 356,
+            "pink": 357,
+            "red": 356,
+            "silver_white": 357
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 357.14285714285717,
+            "p95": 360,
+            "max": 360,
+            "gini": 0.002514285714285691,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 355,
+            "cv": 0.004595650117230422,
+            "max_over_mean": 1.008
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 1420.0,
+          "p95": 1476,
+          "max": 1495,
+          "gini": 0.013661971830986053,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 1352,
+          "cv": 0.024192985256226943,
+          "max_over_mean": 1.0528169014084507
+        },
+        "action": {
+          "count": 25,
+          "mean": 2272.0,
+          "p95": 2353,
+          "max": 2402,
+          "gini": 0.012063380281690073,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2189,
+          "cv": 0.02181962448567559,
+          "max_over_mean": 1.057218309859155
+        },
+        "camera": {
+          "count": 21,
+          "mean": 2704.7619047619046,
+          "p95": 2780,
+          "max": 2800,
+          "gini": 0.012811871227364158,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2565,
+          "cv": 0.022953439175127474,
+          "max_over_mean": 1.035211267605634
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 56800.0,
+          "p95": 56800,
+          "max": 56800,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 56800,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 16,
+          "mean": 3550.0,
+          "p95": 3610,
+          "max": 3610,
+          "gini": 0.007438380281690193,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 3467,
+          "cv": 0.013150736732661915,
+          "max_over_mean": 1.0169014084507042
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 8114.285714285715,
+          "p95": 8280,
+          "max": 8280,
+          "gini": 0.006156941649899439,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 8017,
+          "cv": 0.011179563602076356,
+          "max_over_mean": 1.0204225352112675
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 640,
+          "possible": 640,
+          "cartesian_possible": 640,
+          "coverage": 1.0
+        },
+        "action__camera": {
+          "observed": 525,
+          "possible": 525,
+          "cartesian_possible": 525,
+          "coverage": 1.0
+        },
+        "site__action": {
+          "observed": 399,
+          "possible": 399,
+          "cartesian_possible": 400,
+          "coverage": 1.0
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 3470,
+        "action": 2858,
+        "camera": 1474,
+        "site": 1662,
+        "hair_color": 1198
+      },
+      "sampled_edge_axis_counts": {
+        "identity": 14063,
+        "hair_color": 5763,
+        "camera": 6826,
+        "action": 11188,
+        "site": 6960
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 8960.0,
+        "p95": 14063,
+        "max": 14063,
+        "gini": 0.18716071428571435,
+        "zeros": 0,
+        "sum": 44800,
+        "min": 5763,
+        "cv": 0.3521531956497254,
+        "max_over_mean": 1.56953125
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 2132.4,
+        "p95": 3470,
+        "max": 3470,
+        "gini": 0.222397298818233,
+        "zeros": 0,
+        "sum": 10662,
+        "min": 1198,
+        "cv": 0.41116106410404973,
+        "max_over_mean": 1.6272744325642468
+      },
+      "family_session_counts": {
+        "female_0": 5984,
+        "male_0": 6016
+      },
+      "family_node_counts": {
+        "female_0": 1250,
+        "male_0": 1250
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        1250,
+        1250
+      ],
+      "degree": {
+        "count": 2500,
+        "mean": 4.2648,
+        "p95": 9,
+        "max": 15,
+        "gini": 0.28127593322078415,
+        "zeros": 0,
+        "sum": 10662,
+        "min": 2,
+        "cv": 0.5365122255788013,
+        "max_over_mean": 3.517163759144626
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 2500,
+        "mean": 22.72,
+        "p95": 33,
+        "max": 50,
+        "gini": 0.10207860563380278,
+        "zeros": 0,
+        "sum": 56800,
+        "min": 16,
+        "cv": 0.209743623080966,
+        "max_over_mean": 2.200704225352113
+      },
+      "sampling": {
+        "requested": 12000,
+        "sampled_unique_sessions": 12000,
+        "unique_session_lower_bound": 12000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 14141,
+        "node_occurrence_reuse": {
+          "count": 2500,
+          "mean": 22.72,
+          "p95": 33,
+          "max": 50,
+          "gini": 0.10207860563380278,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "node_distinct_session_reuse": {
+          "count": 2500,
+          "mean": 22.72,
+          "p95": 33,
+          "max": 50,
+          "gini": 0.10207860563380278,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 10662,
+          "mean": 4.201838304258113,
+          "p95": 9,
+          "max": 13,
+          "gini": 0.2704444899442613,
+          "zeros": 14,
+          "sum": 44800
+        },
+        "used_directed_edge_reuse": {
+          "count": 10648,
+          "mean": 4.207362885048836,
+          "p95": 9,
+          "max": 13,
+          "gini": 0.269485269701889,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 10662,
+          "mean": 4.201838304258113,
+          "p95": 9,
+          "max": 13,
+          "gini": 0.2704444899442613,
+          "zeros": 14,
+          "sum": 44800
+        },
+        "unique_directed_edges_used": 10648,
+        "edge_coverage_fraction": 0.9986869255299193,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 4000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 1600,
+          "branch_source_depth_1": 2051,
+          "branch_source_depth_2": 349,
+          "branch_source_lag_1": 3221,
+          "branch_source_lag_2": 647,
+          "branch_source_lag_3": 132,
+          "branch_then_followup_sessions": 4000,
+          "branch_turn_2": 1134,
+          "branch_turn_3": 2072,
+          "branch_turn_4": 794,
+          "length_2": 2000,
+          "length_3": 2800,
+          "length_4": 3600,
+          "length_5": 3600,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 8000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 12000,
+        "exact_available_two_axis_length2_straight_paths": 33498,
+        "quality_at_least_two_axes_sessions": 12000
+      },
+      "elapsed_seconds": 11.133,
+      "history_source_result_equivalence": {
+        "fork_count": 4000,
+        "equivalence_set_size_histogram": {
+          "1": 3379,
+          "2": 604,
+          "3": 17
+        },
+        "ambiguous_forks": 621,
+        "examples": [
+          {
+            "occurrences": [
+              1793,
+              267,
+              258,
+              1067,
+              1068
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "identity",
+              "site",
+              "identity",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              2321,
+              503,
+              504,
+              2461,
+              1255,
+              2406
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "hair_color",
+              "action",
+              "hair_color",
+              "camera",
+              "camera"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              33,
+              986,
+              988,
+              34,
+              438
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "identity",
+              "site",
+              "identity",
+              "site"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 10423,
+        "root_final_pair_max_sessions": 5,
+        "unique_axis_sequences": 2273,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 2939,
+        "shortest_straight_root_final_classes": 2866,
+        "commuting_order_excess_sessions": 73,
+        "max_commuting_class": 2
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "node_factor_balance_conditional": {
+        "female": {
+          "identity": {
+            "count": 20,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 63,
+            "gini": 0.0040000000000000036,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 62,
+            "cv": 0.008,
+            "max_over_mean": 1.008
+          },
+          "action": {
+            "count": 25,
+            "mean": 50.0,
+            "p95": 51,
+            "max": 52,
+            "gini": 0.009152000000000049,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 49,
+            "cv": 0.01697056274847714,
+            "max_over_mean": 1.04
+          },
+          "camera": {
+            "count": 21,
+            "mean": 59.523809523809526,
+            "p95": 60,
+            "max": 60,
+            "gini": 0.004190476190476078,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 59,
+            "cv": 0.008390470785361212,
+            "max_over_mean": 1.008
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 1250.0,
+            "p95": 1250,
+            "max": 1250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 1250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 16,
+            "mean": 78.125,
+            "p95": 79,
+            "max": 79,
+            "gini": 0.005400000000000071,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 77,
+            "cv": 0.009991996797437437,
+            "max_over_mean": 1.0112
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 178.57142857142858,
+            "p95": 180,
+            "max": 180,
+            "gini": 0.0032000000000000917,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 177,
+            "cv": 0.005878775382679628,
+            "max_over_mean": 1.008
+          }
+        },
+        "male": {
+          "identity": {
+            "count": 20,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 63,
+            "gini": 0.0040000000000000036,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 62,
+            "cv": 0.008,
+            "max_over_mean": 1.008
+          },
+          "action": {
+            "count": 25,
+            "mean": 50.0,
+            "p95": 51,
+            "max": 52,
+            "gini": 0.008448000000000011,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 49,
+            "cv": 0.016,
+            "max_over_mean": 1.04
+          },
+          "camera": {
+            "count": 21,
+            "mean": 59.523809523809526,
+            "p95": 61,
+            "max": 61,
+            "gini": 0.007695238095237977,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 58,
+            "cv": 0.014310835055998653,
+            "max_over_mean": 1.0248
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 1250.0,
+            "p95": 1250,
+            "max": 1250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 1250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 16,
+            "mean": 78.125,
+            "p95": 80,
+            "max": 80,
+            "gini": 0.0051000000000001044,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 77,
+            "cv": 0.009991996797437437,
+            "max_over_mean": 1.024
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 178.57142857142858,
+            "p95": 180,
+            "max": 180,
+            "gini": 0.0032000000000000917,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 177,
+            "cv": 0.005878775382679628,
+            "max_over_mean": 1.008
+          }
+        }
+      },
+      "node_factor_balance_legal_expected": {
+        "identity": {
+          "weighted_relative_cv": 0.008,
+          "expected_counts": {
+            "CFD40_AF_001": 62.5,
+            "CFD40_AF_002": 62.5,
+            "CFD40_AF_003": 62.5,
+            "CFD40_AF_004": 62.5,
+            "CFD40_AF_005": 62.5,
+            "CFD40_BF_001": 62.5,
+            "CFD40_BF_002": 62.5,
+            "CFD40_BF_003": 62.5,
+            "CFD40_BF_004": 62.5,
+            "CFD40_BF_005": 62.5,
+            "CFD40_LF_001": 62.5,
+            "CFD40_LF_002": 62.5,
+            "CFD40_LF_003": 62.5,
+            "CFD40_LF_004": 62.5,
+            "CFD40_LF_005": 62.5,
+            "CFD40_WF_001": 62.5,
+            "CFD40_WF_002": 62.5,
+            "CFD40_WF_003": 62.5,
+            "CFD40_WF_004": 62.5,
+            "CFD40_WF_005": 62.5,
+            "CFD40_AM_001": 62.5,
+            "CFD40_AM_002": 62.5,
+            "CFD40_AM_003": 62.5,
+            "CFD40_AM_004": 62.5,
+            "CFD40_AM_005": 62.5,
+            "CFD40_BM_001": 62.5,
+            "CFD40_BM_002": 62.5,
+            "CFD40_BM_003": 62.5,
+            "CFD40_BM_004": 62.5,
+            "CFD40_BM_005": 62.5,
+            "CFD40_LM_001": 62.5,
+            "CFD40_LM_002": 62.5,
+            "CFD40_LM_003": 62.5,
+            "CFD40_LM_004": 62.5,
+            "CFD40_LM_005": 62.5,
+            "CFD40_WM_001": 62.5,
+            "CFD40_WM_002": 62.5,
+            "CFD40_WM_003": 62.5,
+            "CFD40_WM_004": 62.5,
+            "CFD40_WM_005": 62.5
+          }
+        },
+        "action": {
+          "weighted_relative_cv": 0.01296148139681572,
+          "expected_counts": {
+            "MOTION_CAND_001": 100.0,
+            "MOTION_CAND_002": 100.0,
+            "MOTION_CAND_003": 100.0,
+            "MOTION_CAND_008": 100.0,
+            "MOTION_CAND_009": 100.0,
+            "MOTION_CAND_017": 100.0,
+            "MOTION_CAND_019": 100.0,
+            "MOTION_CAND_020": 100.0,
+            "MOTION_CAND_022": 100.0,
+            "MOTION_CAND_023": 100.0,
+            "MOTION_CAND_024": 100.0,
+            "MOTION_CAND_029": 100.0,
+            "MOTION_CAND_030": 100.0,
+            "MOTION_CAND_032": 100.0,
+            "MOTION_CAND_033": 100.0,
+            "MOTION_CAND_035": 100.0,
+            "MOTION_CAND_036": 100.0,
+            "ACT_F03_AUDIENCE_01": 100.0,
+            "ACT_F02_CATCH_BREATH": 100.0,
+            "ACT_F05_TIE_SHOES": 100.0,
+            "ACT_F06_ELEVATOR_GREETING": 100.0,
+            "ACT_F01_SEXY_DANCE": 100.0,
+            "ACT_M05_ELEVATOR_GREETING": 100.0,
+            "ACT_M04_LIVING_ROOM_SWING": 100.0,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 100.0
+          }
+        },
+        "camera": {
+          "weighted_relative_cv": 0.008390470785361212,
+          "expected_counts": {
+            "front_full": 119.04761904761905,
+            "front_three_quarter_full": 119.04761904761905,
+            "side_full": 119.04761904761905,
+            "rear_three_quarter_full": 119.04761904761905,
+            "back_full": 119.04761904761905,
+            "front_upper": 119.04761904761905,
+            "front_three_quarter_upper": 119.04761904761905,
+            "side_upper": 119.04761904761905,
+            "rear_three_quarter_upper": 119.04761904761905,
+            "back_upper": 119.04761904761905,
+            "high_full": 119.04761904761905,
+            "low_full": 119.04761904761905,
+            "orbit_360": 119.04761904761905,
+            "orbit_120": 119.04761904761905,
+            "dolly_in_front": 119.04761904761905,
+            "dolly_in_side": 119.04761904761905,
+            "dolly_in_back": 119.04761904761905,
+            "dolly_out_front": 119.04761904761905,
+            "dolly_out_side": 119.04761904761905,
+            "dolly_out_back": 119.04761904761905,
+            "front_head": 119.04761904761905
+          }
+        },
+        "aspect": {
+          "weighted_relative_cv": 0.0,
+          "expected_counts": {
+            "landscape": 2500.0
+          }
+        },
+        "site": {
+          "weighted_relative_cv": 0.006974238309665078,
+          "expected_counts": {
+            "site_4e6b9c18d9": 156.25,
+            "site_def046be4c": 156.25,
+            "site_2831090e60": 156.25,
+            "site_fbf21a9b6a": 156.25,
+            "site_8c41814f5e": 156.25,
+            "site_f3e2dabbd0": 156.25,
+            "site_7b963967ee": 156.25,
+            "site_33328cb3f4": 156.25,
+            "site_fa4a18c3dc": 156.25,
+            "site_1bbc32217c": 156.25,
+            "site_98aac485de": 156.25,
+            "site_9a6519ec02": 156.25,
+            "site_dc3f593a1d": 156.25,
+            "site_05dac27bc7": 156.25,
+            "site_7ed6554b09": 156.25,
+            "site_05e295695d": 156.25
+          }
+        },
+        "hair_color": {
+          "weighted_relative_cv": 0.004595650117230423,
+          "expected_counts": {
+            "original": 357.14285714285717,
+            "black": 357.14285714285717,
+            "gold": 357.14285714285717,
+            "silver_white": 357.14285714285717,
+            "red": 357.14285714285717,
+            "blue": 357.14285714285717,
+            "pink": 357.14285714285717
+          }
+        }
+      },
+      "axis_value_transition_coverage": {
+        "identity": {
+          "observed_value_pairs": 706,
+          "domain_possible_value_pairs": 760,
+          "coverage": 0.9289473684210526
+        },
+        "action": {
+          "observed_value_pairs": 560,
+          "domain_possible_value_pairs": 600,
+          "coverage": 0.9333333333333333
+        },
+        "camera": {
+          "observed_value_pairs": 346,
+          "domain_possible_value_pairs": 420,
+          "coverage": 0.8238095238095238
+        },
+        "site": {
+          "observed_value_pairs": 232,
+          "domain_possible_value_pairs": 240,
+          "coverage": 0.9666666666666667
+        },
+        "hair_color": {
+          "observed_value_pairs": 42,
+          "domain_possible_value_pairs": 42,
+          "coverage": 1.0
+        }
+      }
+    },
+    {
+      "key": "motif_a5_f1_n3000_s20261021_test",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 1,
+      "total_node_budget": 3000,
+      "seed": 20261021,
+      "split": "test",
+      "unique_nodes": 500,
+      "registered_directed_edges": 1644,
+      "catalog_rejections": {
+        "saved_site_exclusion": 14212
+      },
+      "growth": {
+        "candidate_attempts": 83309,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 124,
+          "2": 60,
+          "1": 6
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 62,
+            "site": 48,
+            "identity": 40,
+            "camera": 70,
+            "hair_color": 29
+          },
+          "male": {
+            "action": 61,
+            "camera": 71,
+            "identity": 35,
+            "site": 47,
+            "hair_color": 35
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 15,
+            "CFD40_AF_002": 12,
+            "CFD40_AF_003": 13,
+            "CFD40_AF_004": 12,
+            "CFD40_AF_005": 12,
+            "CFD40_AM_001": 12,
+            "CFD40_AM_002": 12,
+            "CFD40_AM_003": 14,
+            "CFD40_AM_004": 12,
+            "CFD40_AM_005": 13,
+            "CFD40_BF_001": 13,
+            "CFD40_BF_002": 13,
+            "CFD40_BF_003": 14,
+            "CFD40_BF_004": 13,
+            "CFD40_BF_005": 12,
+            "CFD40_BM_001": 14,
+            "CFD40_BM_002": 12,
+            "CFD40_BM_003": 14,
+            "CFD40_BM_004": 11,
+            "CFD40_BM_005": 12,
+            "CFD40_LF_001": 11,
+            "CFD40_LF_002": 13,
+            "CFD40_LF_003": 12,
+            "CFD40_LF_004": 14,
+            "CFD40_LF_005": 11,
+            "CFD40_LM_001": 12,
+            "CFD40_LM_002": 14,
+            "CFD40_LM_003": 12,
+            "CFD40_LM_004": 12,
+            "CFD40_LM_005": 14,
+            "CFD40_WF_001": 11,
+            "CFD40_WF_002": 13,
+            "CFD40_WF_003": 13,
+            "CFD40_WF_004": 11,
+            "CFD40_WF_005": 12,
+            "CFD40_WM_001": 12,
+            "CFD40_WM_002": 13,
+            "CFD40_WM_003": 12,
+            "CFD40_WM_004": 12,
+            "CFD40_WM_005": 11
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 15,
+            "gini": 0.044499999999999984,
+            "zeros": 0,
+            "sum": 500,
+            "min": 11,
+            "cv": 0.08197560612767679,
+            "max_over_mean": 1.2
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 19,
+            "ACT_F02_CATCH_BREATH": 22,
+            "ACT_F03_AUDIENCE_01": 21,
+            "ACT_F05_TIE_SHOES": 20,
+            "ACT_F06_ELEVATOR_GREETING": 20,
+            "ACT_M04_LIVING_ROOM_SWING": 20,
+            "ACT_M05_ELEVATOR_GREETING": 21,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 21,
+            "MOTION_CAND_001": 20,
+            "MOTION_CAND_002": 19,
+            "MOTION_CAND_003": 20,
+            "MOTION_CAND_008": 20,
+            "MOTION_CAND_009": 21,
+            "MOTION_CAND_017": 19,
+            "MOTION_CAND_019": 20,
+            "MOTION_CAND_020": 21,
+            "MOTION_CAND_022": 19,
+            "MOTION_CAND_023": 20,
+            "MOTION_CAND_024": 20,
+            "MOTION_CAND_029": 20,
+            "MOTION_CAND_030": 18,
+            "MOTION_CAND_032": 21,
+            "MOTION_CAND_033": 19,
+            "MOTION_CAND_035": 21,
+            "MOTION_CAND_036": 18
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 20.0,
+            "p95": 21,
+            "max": 22,
+            "gini": 0.026559999999999917,
+            "zeros": 0,
+            "sum": 500,
+            "min": 18,
+            "cv": 0.04898979485566356,
+            "max_over_mean": 1.1
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 25,
+            "back_upper": 25,
+            "dolly_in_back": 24,
+            "dolly_in_front": 23,
+            "dolly_in_side": 25,
+            "dolly_out_back": 24,
+            "dolly_out_front": 26,
+            "dolly_out_side": 23,
+            "front_full": 23,
+            "front_head": 24,
+            "front_three_quarter_full": 22,
+            "front_three_quarter_upper": 24,
+            "front_upper": 24,
+            "high_full": 25,
+            "low_full": 22,
+            "orbit_120": 24,
+            "orbit_360": 22,
+            "rear_three_quarter_full": 23,
+            "rear_three_quarter_upper": 23,
+            "side_full": 25,
+            "side_upper": 24
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 23.80952380952381,
+            "p95": 25,
+            "max": 26,
+            "gini": 0.025523809523809504,
+            "zeros": 0,
+            "sum": 500,
+            "min": 22,
+            "cv": 0.046043457732885346,
+            "max_over_mean": 1.0919999999999999
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 500
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 500.0,
+            "p95": 500,
+            "max": 500,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 500,
+            "min": 500,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_2a054574eb": 104,
+            "site_6af8ead41a": 101,
+            "site_7dbc277564": 99,
+            "site_7f07230597": 103,
+            "site_91fc32ba93": 93
+          },
+          "distribution_including_missing": {
+            "count": 5,
+            "mean": 100.0,
+            "p95": 104,
+            "max": 104,
+            "gini": 0.02080000000000015,
+            "zeros": 0,
+            "sum": 500,
+            "min": 93,
+            "cv": 0.038987177379235856,
+            "max_over_mean": 1.04
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 72,
+            "blue": 73,
+            "gold": 71,
+            "original": 74,
+            "pink": 68,
+            "red": 74,
+            "silver_white": 68
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 71.42857142857143,
+            "p95": 74,
+            "max": 74,
+            "gini": 0.01828571428571424,
+            "zeros": 0,
+            "sum": 500,
+            "min": 68,
+            "cv": 0.03334666400106614,
+            "max_over_mean": 1.036
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 355.0,
+          "p95": 417,
+          "max": 459,
+          "gini": 0.05900000000000016,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 286,
+          "cv": 0.10525189177434748,
+          "max_over_mean": 1.2929577464788733
+        },
+        "action": {
+          "count": 25,
+          "mean": 568.0,
+          "p95": 616,
+          "max": 625,
+          "gini": 0.03636056338028171,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 486,
+          "cv": 0.06398382432957667,
+          "max_over_mean": 1.1003521126760563
+        },
+        "camera": {
+          "count": 21,
+          "mean": 676.1904761904761,
+          "p95": 738,
+          "max": 752,
+          "gini": 0.03169684775318582,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 598,
+          "cv": 0.05667076039995113,
+          "max_over_mean": 1.112112676056338
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 14200.0,
+          "p95": 14200,
+          "max": 14200,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 14200,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 5,
+          "mean": 2840.0,
+          "p95": 2960,
+          "max": 2960,
+          "gini": 0.0249859154929577,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 2573,
+          "cv": 0.049700052507040064,
+          "max_over_mean": 1.0422535211267605
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 2028.5714285714287,
+          "p95": 2121,
+          "max": 2121,
+          "gini": 0.019718309859154903,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 1933,
+          "cv": 0.035347763606566635,
+          "max_over_mean": 1.0455633802816902
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 138,
+          "possible": 200,
+          "cartesian_possible": 200,
+          "coverage": 0.69
+        },
+        "action__camera": {
+          "observed": 224,
+          "possible": 525,
+          "cartesian_possible": 525,
+          "coverage": 0.4266666666666667
+        },
+        "site__action": {
+          "observed": 119,
+          "possible": 124,
+          "cartesian_possible": 125,
+          "coverage": 0.9596774193548387
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 380,
+        "action": 566,
+        "camera": 360,
+        "site": 208,
+        "hair_color": 130
+      },
+      "sampled_edge_axis_counts": {
+        "identity": 2555,
+        "action": 3635,
+        "site": 1544,
+        "camera": 2427,
+        "hair_color": 1039
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 2240.0,
+        "p95": 3635,
+        "max": 3635,
+        "gini": 0.2215357142857144,
+        "zeros": 0,
+        "sum": 11200,
+        "min": 1039,
+        "cv": 0.3996488812899725,
+        "max_over_mean": 1.6227678571428572
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 328.8,
+        "p95": 566,
+        "max": 566,
+        "gini": 0.2540145985401461,
+        "zeros": 0,
+        "sum": 1644,
+        "min": 130,
+        "cv": 0.4591808819669492,
+        "max_over_mean": 1.7214111922141118
+      },
+      "family_session_counts": {
+        "female_0": 1497,
+        "male_0": 1503
+      },
+      "family_node_counts": {
+        "female_0": 250,
+        "male_0": 250
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        250,
+        250
+      ],
+      "degree": {
+        "count": 500,
+        "mean": 3.288,
+        "p95": 6,
+        "max": 7,
+        "gini": 0.20802676399026754,
+        "zeros": 0,
+        "sum": 1644,
+        "min": 2,
+        "cv": 0.3872283985806588,
+        "max_over_mean": 2.1289537712895377
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 500,
+        "mean": 28.4,
+        "p95": 42,
+        "max": 51,
+        "gini": 0.09391154929577472,
+        "zeros": 0,
+        "sum": 14200,
+        "min": 22,
+        "cv": 0.19219031102440212,
+        "max_over_mean": 1.795774647887324
+      },
+      "sampling": {
+        "requested": 3000,
+        "sampled_unique_sessions": 3000,
+        "unique_session_lower_bound": 3000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 3869,
+        "node_occurrence_reuse": {
+          "count": 500,
+          "mean": 28.4,
+          "p95": 42,
+          "max": 51,
+          "gini": 0.09391154929577472,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "node_distinct_session_reuse": {
+          "count": 500,
+          "mean": 28.4,
+          "p95": 42,
+          "max": 51,
+          "gini": 0.09391154929577472,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 1644,
+          "mean": 6.81265206812652,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.18710842457420918,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "used_directed_edge_reuse": {
+          "count": 1644,
+          "mean": 6.81265206812652,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.18710842457420918,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 1644,
+          "mean": 6.81265206812652,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.18710842457420918,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "unique_directed_edges_used": 1644,
+        "edge_coverage_fraction": 1.0,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 1000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 400,
+          "branch_source_depth_1": 508,
+          "branch_source_depth_2": 92,
+          "branch_source_lag_1": 809,
+          "branch_source_lag_2": 163,
+          "branch_source_lag_3": 28,
+          "branch_then_followup_sessions": 1000,
+          "branch_turn_2": 302,
+          "branch_turn_3": 485,
+          "branch_turn_4": 213,
+          "length_2": 500,
+          "length_3": 700,
+          "length_4": 900,
+          "length_5": 900,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 2000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 3000,
+        "exact_available_two_axis_length2_straight_paths": 3678,
+        "quality_at_least_two_axes_sessions": 3000
+      },
+      "elapsed_seconds": 1.764,
+      "history_source_result_equivalence": {
+        "fork_count": 1000,
+        "equivalence_set_size_histogram": {
+          "1": 888,
+          "2": 110,
+          "3": 2
+        },
+        "ambiguous_forks": 112,
+        "examples": [
+          {
+            "occurrences": [
+              230,
+              290,
+              292,
+              231,
+              291,
+              334
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "action",
+              "hair_color",
+              "action",
+              "hair_color",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              320,
+              394,
+              393,
+              321,
+              319,
+              41
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3,
+              4
+            ],
+            "axes": [
+              "action",
+              "site",
+              "action",
+              "site",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              95,
+              306,
+              305,
+              398,
+              91,
+              453
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              1,
+              4
+            ],
+            "axes": [
+              "action",
+              "camera",
+              "site",
+              "action",
+              "identity"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 2374,
+        "root_final_pair_max_sessions": 6,
+        "unique_axis_sequences": 1017,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 780,
+        "shortest_straight_root_final_classes": 731,
+        "commuting_order_excess_sessions": 49,
+        "max_commuting_class": 2
+      },
+      "within_sex_family_asset_jaccard_mean": {},
+      "node_factor_balance_conditional": {
+        "female": {
+          "identity": {
+            "count": 20,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 15,
+            "gini": 0.04679999999999995,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.08579044235810887,
+            "max_over_mean": 1.2
+          },
+          "action": {
+            "count": 25,
+            "mean": 10.0,
+            "p95": 11,
+            "max": 11,
+            "gini": 0.04352,
+            "zeros": 0,
+            "sum": 250,
+            "min": 9,
+            "cv": 0.08,
+            "max_over_mean": 1.1
+          },
+          "camera": {
+            "count": 21,
+            "mean": 11.904761904761905,
+            "p95": 13,
+            "max": 13,
+            "gini": 0.030095238095237953,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.057410800377629294,
+            "max_over_mean": 1.0919999999999999
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 250.0,
+            "p95": 250,
+            "max": 250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 250,
+            "min": 250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 5,
+            "mean": 50.0,
+            "p95": 52,
+            "max": 52,
+            "gini": 0.01760000000000006,
+            "zeros": 0,
+            "sum": 250,
+            "min": 47,
+            "cv": 0.033466401061363026,
+            "max_over_mean": 1.04
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 35.714285714285715,
+            "p95": 39,
+            "max": 39,
+            "gini": 0.025142857142857133,
+            "zeros": 0,
+            "sum": 250,
+            "min": 34,
+            "cv": 0.0466476151587624,
+            "max_over_mean": 1.0919999999999999
+          }
+        },
+        "male": {
+          "identity": {
+            "count": 20,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 14,
+            "gini": 0.04039999999999999,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.07797435475847171,
+            "max_over_mean": 1.12
+          },
+          "action": {
+            "count": 25,
+            "mean": 10.0,
+            "p95": 11,
+            "max": 11,
+            "gini": 0.03807999999999989,
+            "zeros": 0,
+            "sum": 250,
+            "min": 8,
+            "cv": 0.07483314773547883,
+            "max_over_mean": 1.1
+          },
+          "camera": {
+            "count": 21,
+            "mean": 11.904761904761905,
+            "p95": 13,
+            "max": 13,
+            "gini": 0.036190476190476106,
+            "zeros": 0,
+            "sum": 250,
+            "min": 10,
+            "cv": 0.0681175454637056,
+            "max_over_mean": 1.0919999999999999
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 250.0,
+            "p95": 250,
+            "max": 250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 250,
+            "min": 250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 5,
+            "mean": 50.0,
+            "p95": 53,
+            "max": 53,
+            "gini": 0.03200000000000003,
+            "zeros": 0,
+            "sum": 250,
+            "min": 46,
+            "cv": 0.059329587896765304,
+            "max_over_mean": 1.06
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 35.714285714285715,
+            "p95": 38,
+            "max": 38,
+            "gini": 0.021714285714285797,
+            "zeros": 0,
+            "sum": 250,
+            "min": 34,
+            "cv": 0.03878143885933063,
+            "max_over_mean": 1.064
+          }
+        }
+      },
+      "node_factor_balance_legal_expected": {
+        "identity": {
+          "weighted_relative_cv": 0.08197560612767678,
+          "expected_counts": {
+            "CFD40_AF_001": 12.5,
+            "CFD40_AF_002": 12.5,
+            "CFD40_AF_003": 12.5,
+            "CFD40_AF_004": 12.5,
+            "CFD40_AF_005": 12.5,
+            "CFD40_BF_001": 12.5,
+            "CFD40_BF_002": 12.5,
+            "CFD40_BF_003": 12.5,
+            "CFD40_BF_004": 12.5,
+            "CFD40_BF_005": 12.5,
+            "CFD40_LF_001": 12.5,
+            "CFD40_LF_002": 12.5,
+            "CFD40_LF_003": 12.5,
+            "CFD40_LF_004": 12.5,
+            "CFD40_LF_005": 12.5,
+            "CFD40_WF_001": 12.5,
+            "CFD40_WF_002": 12.5,
+            "CFD40_WF_003": 12.5,
+            "CFD40_WF_004": 12.5,
+            "CFD40_WF_005": 12.5,
+            "CFD40_AM_001": 12.5,
+            "CFD40_AM_002": 12.5,
+            "CFD40_AM_003": 12.5,
+            "CFD40_AM_004": 12.5,
+            "CFD40_AM_005": 12.5,
+            "CFD40_BM_001": 12.5,
+            "CFD40_BM_002": 12.5,
+            "CFD40_BM_003": 12.5,
+            "CFD40_BM_004": 12.5,
+            "CFD40_BM_005": 12.5,
+            "CFD40_LM_001": 12.5,
+            "CFD40_LM_002": 12.5,
+            "CFD40_LM_003": 12.5,
+            "CFD40_LM_004": 12.5,
+            "CFD40_LM_005": 12.5,
+            "CFD40_WM_001": 12.5,
+            "CFD40_WM_002": 12.5,
+            "CFD40_WM_003": 12.5,
+            "CFD40_WM_004": 12.5,
+            "CFD40_WM_005": 12.5
+          }
+        },
+        "action": {
+          "weighted_relative_cv": 0.048989794855663564,
+          "expected_counts": {
+            "MOTION_CAND_001": 20.0,
+            "MOTION_CAND_002": 20.0,
+            "MOTION_CAND_003": 20.0,
+            "MOTION_CAND_008": 20.0,
+            "MOTION_CAND_009": 20.0,
+            "MOTION_CAND_017": 20.0,
+            "MOTION_CAND_019": 20.0,
+            "MOTION_CAND_020": 20.0,
+            "MOTION_CAND_022": 20.0,
+            "MOTION_CAND_023": 20.0,
+            "MOTION_CAND_024": 20.0,
+            "MOTION_CAND_029": 20.0,
+            "MOTION_CAND_030": 20.0,
+            "MOTION_CAND_032": 20.0,
+            "MOTION_CAND_033": 20.0,
+            "MOTION_CAND_035": 20.0,
+            "MOTION_CAND_036": 20.0,
+            "ACT_F03_AUDIENCE_01": 20.0,
+            "ACT_F02_CATCH_BREATH": 20.0,
+            "ACT_F05_TIE_SHOES": 20.0,
+            "ACT_F06_ELEVATOR_GREETING": 20.0,
+            "ACT_F01_SEXY_DANCE": 20.0,
+            "ACT_M05_ELEVATOR_GREETING": 20.0,
+            "ACT_M04_LIVING_ROOM_SWING": 20.0,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 20.0
+          }
+        },
+        "camera": {
+          "weighted_relative_cv": 0.04604345773288535,
+          "expected_counts": {
+            "front_full": 23.80952380952381,
+            "front_three_quarter_full": 23.80952380952381,
+            "side_full": 23.80952380952381,
+            "rear_three_quarter_full": 23.80952380952381,
+            "back_full": 23.80952380952381,
+            "front_upper": 23.80952380952381,
+            "front_three_quarter_upper": 23.80952380952381,
+            "side_upper": 23.80952380952381,
+            "rear_three_quarter_upper": 23.80952380952381,
+            "back_upper": 23.80952380952381,
+            "high_full": 23.80952380952381,
+            "low_full": 23.80952380952381,
+            "orbit_360": 23.80952380952381,
+            "orbit_120": 23.80952380952381,
+            "dolly_in_front": 23.80952380952381,
+            "dolly_in_side": 23.80952380952381,
+            "dolly_in_back": 23.80952380952381,
+            "dolly_out_front": 23.80952380952381,
+            "dolly_out_side": 23.80952380952381,
+            "dolly_out_back": 23.80952380952381,
+            "front_head": 23.80952380952381
+          }
+        },
+        "aspect": {
+          "weighted_relative_cv": 0.0,
+          "expected_counts": {
+            "landscape": 500.0
+          }
+        },
+        "site": {
+          "weighted_relative_cv": 0.038987177379235856,
+          "expected_counts": {
+            "site_7dbc277564": 100.0,
+            "site_7f07230597": 100.0,
+            "site_91fc32ba93": 100.0,
+            "site_2a054574eb": 100.0,
+            "site_6af8ead41a": 100.0
+          }
+        },
+        "hair_color": {
+          "weighted_relative_cv": 0.03334666400106613,
+          "expected_counts": {
+            "original": 71.42857142857143,
+            "black": 71.42857142857143,
+            "gold": 71.42857142857143,
+            "silver_white": 71.42857142857143,
+            "red": 71.42857142857143,
+            "blue": 71.42857142857143,
+            "pink": 71.42857142857143
+          }
+        }
+      },
+      "axis_value_transition_coverage": {
+        "identity": {
+          "observed_value_pairs": 186,
+          "domain_possible_value_pairs": 760,
+          "coverage": 0.24473684210526317
+        },
+        "action": {
+          "observed_value_pairs": 266,
+          "domain_possible_value_pairs": 600,
+          "coverage": 0.44333333333333336
+        },
+        "camera": {
+          "observed_value_pairs": 160,
+          "domain_possible_value_pairs": 420,
+          "coverage": 0.38095238095238093
+        },
+        "site": {
+          "observed_value_pairs": 20,
+          "domain_possible_value_pairs": 20,
+          "coverage": 1.0
+        },
+        "hair_color": {
+          "observed_value_pairs": 34,
+          "domain_possible_value_pairs": 42,
+          "coverage": 0.8095238095238095
+        }
+      }
+    },
+    {
+      "key": "motif_a5_f5_n3000_s20261021_train",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 5,
+      "total_node_budget": 3000,
+      "seed": 20261021,
+      "split": "train",
+      "unique_nodes": 2500,
+      "registered_directed_edges": 11252,
+      "catalog_rejections": {
+        "saved_site_exclusion": 31334
+      },
+      "growth": {
+        "candidate_attempts": 501371,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 345,
+          "2": 534,
+          "1": 387
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 254,
+            "site": 254,
+            "identity": 238,
+            "camera": 254,
+            "hair_color": 245
+          },
+          "male": {
+            "action": 252,
+            "site": 252,
+            "identity": 240,
+            "camera": 250,
+            "hair_color": 251
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 62,
+            "CFD40_AF_002": 63,
+            "CFD40_AF_003": 62,
+            "CFD40_AF_004": 62,
+            "CFD40_AF_005": 62,
+            "CFD40_AM_001": 63,
+            "CFD40_AM_002": 62,
+            "CFD40_AM_003": 62,
+            "CFD40_AM_004": 62,
+            "CFD40_AM_005": 63,
+            "CFD40_BF_001": 63,
+            "CFD40_BF_002": 62,
+            "CFD40_BF_003": 62,
+            "CFD40_BF_004": 63,
+            "CFD40_BF_005": 63,
+            "CFD40_BM_001": 62,
+            "CFD40_BM_002": 62,
+            "CFD40_BM_003": 62,
+            "CFD40_BM_004": 62,
+            "CFD40_BM_005": 63,
+            "CFD40_LF_001": 63,
+            "CFD40_LF_002": 62,
+            "CFD40_LF_003": 63,
+            "CFD40_LF_004": 62,
+            "CFD40_LF_005": 62,
+            "CFD40_LM_001": 62,
+            "CFD40_LM_002": 63,
+            "CFD40_LM_003": 63,
+            "CFD40_LM_004": 64,
+            "CFD40_LM_005": 62,
+            "CFD40_WF_001": 62,
+            "CFD40_WF_002": 63,
+            "CFD40_WF_003": 63,
+            "CFD40_WF_004": 63,
+            "CFD40_WF_005": 63,
+            "CFD40_WM_001": 63,
+            "CFD40_WM_002": 63,
+            "CFD40_WM_003": 63,
+            "CFD40_WM_004": 62,
+            "CFD40_WM_005": 62
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 64,
+            "gini": 0.0043800000000000505,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 62,
+            "cv": 0.008763560920082658,
+            "max_over_mean": 1.024
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 101,
+            "ACT_F02_CATCH_BREATH": 101,
+            "ACT_F03_AUDIENCE_01": 101,
+            "ACT_F05_TIE_SHOES": 101,
+            "ACT_F06_ELEVATOR_GREETING": 100,
+            "ACT_M04_LIVING_ROOM_SWING": 101,
+            "ACT_M05_ELEVATOR_GREETING": 99,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 101,
+            "MOTION_CAND_001": 100,
+            "MOTION_CAND_002": 101,
+            "MOTION_CAND_003": 98,
+            "MOTION_CAND_008": 99,
+            "MOTION_CAND_009": 99,
+            "MOTION_CAND_017": 99,
+            "MOTION_CAND_019": 100,
+            "MOTION_CAND_020": 99,
+            "MOTION_CAND_022": 100,
+            "MOTION_CAND_023": 100,
+            "MOTION_CAND_024": 102,
+            "MOTION_CAND_029": 100,
+            "MOTION_CAND_030": 99,
+            "MOTION_CAND_032": 100,
+            "MOTION_CAND_033": 100,
+            "MOTION_CAND_035": 99,
+            "MOTION_CAND_036": 100
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 100.0,
+            "p95": 101,
+            "max": 102,
+            "gini": 0.005120000000000013,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 98,
+            "cv": 0.00938083151964686,
+            "max_over_mean": 1.02
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 119,
+            "back_upper": 120,
+            "dolly_in_back": 118,
+            "dolly_in_front": 119,
+            "dolly_in_side": 119,
+            "dolly_out_back": 120,
+            "dolly_out_front": 120,
+            "dolly_out_side": 119,
+            "front_full": 118,
+            "front_head": 120,
+            "front_three_quarter_full": 120,
+            "front_three_quarter_upper": 119,
+            "front_upper": 121,
+            "high_full": 120,
+            "low_full": 118,
+            "orbit_120": 118,
+            "orbit_360": 118,
+            "rear_three_quarter_full": 118,
+            "rear_three_quarter_upper": 118,
+            "side_full": 119,
+            "side_upper": 119
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 119.04761904761905,
+            "p95": 120,
+            "max": 121,
+            "gini": 0.004114285714285737,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 118,
+            "cv": 0.007547184905645283,
+            "max_over_mean": 1.0164
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 2500
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 2500.0,
+            "p95": 2500,
+            "max": 2500,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 2500,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_05dac27bc7": 154,
+            "site_05e295695d": 156,
+            "site_1bbc32217c": 154,
+            "site_2831090e60": 158,
+            "site_33328cb3f4": 159,
+            "site_4e6b9c18d9": 156,
+            "site_7b963967ee": 155,
+            "site_7ed6554b09": 157,
+            "site_8c41814f5e": 157,
+            "site_98aac485de": 157,
+            "site_9a6519ec02": 158,
+            "site_dc3f593a1d": 154,
+            "site_def046be4c": 158,
+            "site_f3e2dabbd0": 156,
+            "site_fa4a18c3dc": 155,
+            "site_fbf21a9b6a": 156
+          },
+          "distribution_including_missing": {
+            "count": 16,
+            "mean": 156.25,
+            "p95": 159,
+            "max": 159,
+            "gini": 0.00550000000000006,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 154,
+            "cv": 0.009732420048477151,
+            "max_over_mean": 1.0176
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 358,
+            "blue": 356,
+            "gold": 356,
+            "original": 356,
+            "pink": 360,
+            "red": 357,
+            "silver_white": 357
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 357.14285714285717,
+            "p95": 360,
+            "max": 360,
+            "gini": 0.001942857142857246,
+            "zeros": 0,
+            "sum": 2500,
+            "min": 356,
+            "cv": 0.0037947331922020553,
+            "max_over_mean": 1.008
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 1420.0,
+          "p95": 1465,
+          "max": 1488,
+          "gini": 0.00955985915492974,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 1385,
+          "cv": 0.01728008877184101,
+          "max_over_mean": 1.047887323943662
+        },
+        "action": {
+          "count": 25,
+          "mean": 2272.0,
+          "p95": 2382,
+          "max": 2394,
+          "gini": 0.013511267605633703,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2180,
+          "cv": 0.024294817801121384,
+          "max_over_mean": 1.0536971830985915
+        },
+        "camera": {
+          "count": 21,
+          "mean": 2704.7619047619046,
+          "p95": 2778,
+          "max": 2816,
+          "gini": 0.010603621730382207,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 2589,
+          "cv": 0.019233105411789225,
+          "max_over_mean": 1.0411267605633803
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 56800.0,
+          "p95": 56800,
+          "max": 56800,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 56800,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 16,
+          "mean": 3550.0,
+          "p95": 3686,
+          "max": 3686,
+          "gini": 0.011016725352112733,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 3405,
+          "cv": 0.019784346163180193,
+          "max_over_mean": 1.0383098591549296
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 8114.285714285715,
+          "p95": 8200,
+          "max": 8200,
+          "gini": 0.003566398390342007,
+          "zeros": 0,
+          "sum": 56800,
+          "min": 8046,
+          "cv": 0.006293909434764789,
+          "max_over_mean": 1.01056338028169
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 640,
+          "possible": 640,
+          "cartesian_possible": 640,
+          "coverage": 1.0
+        },
+        "action__camera": {
+          "observed": 525,
+          "possible": 525,
+          "cartesian_possible": 525,
+          "coverage": 1.0
+        },
+        "site__action": {
+          "observed": 399,
+          "possible": 399,
+          "cartesian_possible": 400,
+          "coverage": 1.0
+        }
+      },
+      "registered_edge_axis_counts": {
+        "identity": 2948,
+        "action": 3110,
+        "camera": 1572,
+        "site": 2342,
+        "hair_color": 1280
+      },
+      "sampled_edge_axis_counts": {
+        "site": 8126,
+        "identity": 12034,
+        "action": 11616,
+        "hair_color": 5946,
+        "camera": 7078
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 8960.0,
+        "p95": 12034,
+        "max": 12034,
+        "gini": 0.1492321428571428,
+        "zeros": 0,
+        "sum": 44800,
+        "min": 5946,
+        "cv": 0.27258425548678655,
+        "max_over_mean": 1.3430803571428571
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 2250.4,
+        "p95": 3110,
+        "max": 3110,
+        "gini": 0.17902595094205487,
+        "zeros": 0,
+        "sum": 11252,
+        "min": 1280,
+        "cv": 0.3226381535195401,
+        "max_over_mean": 1.3819765375044435
+      },
+      "family_session_counts": {
+        "male_0": 1194,
+        "male_4": 1184,
+        "female_3": 1201,
+        "female_0": 1192,
+        "female_1": 1209,
+        "female_4": 1206,
+        "male_2": 1197,
+        "male_1": 1207,
+        "male_3": 1196,
+        "female_2": 1214
+      },
+      "family_node_counts": {
+        "female_0": 250,
+        "female_1": 250,
+        "female_2": 250,
+        "female_3": 250,
+        "female_4": 250,
+        "male_0": 250,
+        "male_1": 250,
+        "male_2": 250,
+        "male_3": 250,
+        "male_4": 250
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250,
+        250
+      ],
+      "degree": {
+        "count": 2500,
+        "mean": 4.5008,
+        "p95": 9,
+        "max": 14,
+        "gini": 0.26086832563099893,
+        "zeros": 0,
+        "sum": 11252,
+        "min": 2,
+        "cv": 0.48317460050906275,
+        "max_over_mean": 3.1105581230003554
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 2500,
+        "mean": 22.72,
+        "p95": 30,
+        "max": 46,
+        "gini": 0.08175080281690139,
+        "zeros": 0,
+        "sum": 56800,
+        "min": 15,
+        "cv": 0.16491132432882386,
+        "max_over_mean": 2.024647887323944
+      },
+      "sampling": {
+        "requested": 12000,
+        "sampled_unique_sessions": 12000,
+        "unique_session_lower_bound": 12000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 13511,
+        "node_occurrence_reuse": {
+          "count": 2500,
+          "mean": 22.72,
+          "p95": 30,
+          "max": 46,
+          "gini": 0.08175080281690139,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "node_distinct_session_reuse": {
+          "count": 2500,
+          "mean": 22.72,
+          "p95": 30,
+          "max": 46,
+          "gini": 0.08175080281690139,
+          "zeros": 0,
+          "sum": 56800
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 11252,
+          "mean": 3.981514397440455,
+          "p95": 8,
+          "max": 14,
+          "gini": 0.27026623441546893,
+          "zeros": 4,
+          "sum": 44800
+        },
+        "used_directed_edge_reuse": {
+          "count": 11248,
+          "mean": 3.9829302987197726,
+          "p95": 8,
+          "max": 14,
+          "gini": 0.2700067273864559,
+          "zeros": 0,
+          "sum": 44800
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 11252,
+          "mean": 3.981514397440455,
+          "p95": 8,
+          "max": 14,
+          "gini": 0.27026623441546893,
+          "zeros": 4,
+          "sum": 44800
+        },
+        "unique_directed_edges_used": 11248,
+        "edge_coverage_fraction": 0.9996445076430857,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 4000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 1600,
+          "branch_source_depth_1": 2077,
+          "branch_source_depth_2": 323,
+          "branch_source_lag_1": 3206,
+          "branch_source_lag_2": 649,
+          "branch_source_lag_3": 145,
+          "branch_then_followup_sessions": 4000,
+          "branch_turn_2": 1111,
+          "branch_turn_3": 2116,
+          "branch_turn_4": 773,
+          "length_2": 2000,
+          "length_3": 2800,
+          "length_4": 3600,
+          "length_5": 3600,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 8000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 12000,
+        "exact_available_two_axis_length2_straight_paths": 36592,
+        "quality_at_least_two_axes_sessions": 12000
+      },
+      "elapsed_seconds": 10.922,
+      "history_source_result_equivalence": {
+        "fork_count": 4000,
+        "equivalence_set_size_histogram": {
+          "1": 3374,
+          "2": 603,
+          "3": 23
+        },
+        "ambiguous_forks": 626,
+        "examples": [
+          {
+            "occurrences": [
+              2082,
+              1097,
+              1032,
+              1096,
+              1031
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "site",
+              "identity",
+              "site",
+              "identity"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              2393,
+              1788,
+              1786,
+              1201,
+              1787,
+              1200
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              1,
+              4
+            ],
+            "axes": [
+              "identity",
+              "camera",
+              "identity",
+              "identity",
+              "camera"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              863,
+              862,
+              111,
+              1690,
+              1731
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "hair_color",
+              "action",
+              "hair_color",
+              "action"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 10525,
+        "root_final_pair_max_sessions": 5,
+        "unique_axis_sequences": 2348,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 3011,
+        "shortest_straight_root_final_classes": 2927,
+        "commuting_order_excess_sessions": 84,
+        "max_commuting_class": 3
+      },
+      "within_sex_family_asset_jaccard_mean": {
+        "identity": 0.0,
+        "action": 0.6691677018633541,
+        "camera": 0.5639724310776942,
+        "aspect": 1.0,
+        "site": 1.0,
+        "hair_color": 0.9428571428571428
+      },
+      "node_factor_balance_conditional": {
+        "female": {
+          "identity": {
+            "count": 20,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 63,
+            "gini": 0.0040000000000000036,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 62,
+            "cv": 0.008,
+            "max_over_mean": 1.008
+          },
+          "action": {
+            "count": 25,
+            "mean": 50.0,
+            "p95": 51,
+            "max": 51,
+            "gini": 0.005376000000000047,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 49,
+            "cv": 0.01131370849898476,
+            "max_over_mean": 1.02
+          },
+          "camera": {
+            "count": 21,
+            "mean": 59.523809523809526,
+            "p95": 60,
+            "max": 61,
+            "gini": 0.005714285714285561,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 58,
+            "cv": 0.011142710621747294,
+            "max_over_mean": 1.0248
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 1250.0,
+            "p95": 1250,
+            "max": 1250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 1250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 16,
+            "mean": 78.125,
+            "p95": 79,
+            "max": 79,
+            "gini": 0.005900000000000016,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 77,
+            "cv": 0.01096904736064167,
+            "max_over_mean": 1.0112
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 178.57142857142858,
+            "p95": 180,
+            "max": 180,
+            "gini": 0.0020571428571429795,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 178,
+            "cv": 0.004079215610874228,
+            "max_over_mean": 1.008
+          }
+        },
+        "male": {
+          "identity": {
+            "count": 20,
+            "mean": 62.5,
+            "p95": 63,
+            "max": 64,
+            "gini": 0.0047200000000000575,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 62,
+            "cv": 0.009465727652959385,
+            "max_over_mean": 1.024
+          },
+          "action": {
+            "count": 25,
+            "mean": 50.0,
+            "p95": 51,
+            "max": 52,
+            "gini": 0.007616000000000067,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 49,
+            "cv": 0.014966629547095767,
+            "max_over_mean": 1.04
+          },
+          "camera": {
+            "count": 21,
+            "mean": 59.523809523809526,
+            "p95": 60,
+            "max": 61,
+            "gini": 0.004952380952380819,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 59,
+            "cv": 0.009863062404750362,
+            "max_over_mean": 1.0248
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 1250.0,
+            "p95": 1250,
+            "max": 1250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 1250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 16,
+            "mean": 78.125,
+            "p95": 80,
+            "max": 80,
+            "gini": 0.005900000000000016,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 77,
+            "cv": 0.01096904736064167,
+            "max_over_mean": 1.024
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 178.57142857142858,
+            "p95": 180,
+            "max": 180,
+            "gini": 0.0020571428571429795,
+            "zeros": 0,
+            "sum": 1250,
+            "min": 178,
+            "cv": 0.004079215610874228,
+            "max_over_mean": 1.008
+          }
+        }
+      },
+      "node_factor_balance_legal_expected": {
+        "identity": {
+          "weighted_relative_cv": 0.008763560920082658,
+          "expected_counts": {
+            "CFD40_AF_001": 62.5,
+            "CFD40_AF_002": 62.5,
+            "CFD40_AF_003": 62.5,
+            "CFD40_AF_004": 62.5,
+            "CFD40_AF_005": 62.5,
+            "CFD40_BF_001": 62.5,
+            "CFD40_BF_002": 62.5,
+            "CFD40_BF_003": 62.5,
+            "CFD40_BF_004": 62.5,
+            "CFD40_BF_005": 62.5,
+            "CFD40_LF_001": 62.5,
+            "CFD40_LF_002": 62.5,
+            "CFD40_LF_003": 62.5,
+            "CFD40_LF_004": 62.5,
+            "CFD40_LF_005": 62.5,
+            "CFD40_WF_001": 62.5,
+            "CFD40_WF_002": 62.5,
+            "CFD40_WF_003": 62.5,
+            "CFD40_WF_004": 62.5,
+            "CFD40_WF_005": 62.5,
+            "CFD40_AM_001": 62.5,
+            "CFD40_AM_002": 62.5,
+            "CFD40_AM_003": 62.5,
+            "CFD40_AM_004": 62.5,
+            "CFD40_AM_005": 62.5,
+            "CFD40_BM_001": 62.5,
+            "CFD40_BM_002": 62.5,
+            "CFD40_BM_003": 62.5,
+            "CFD40_BM_004": 62.5,
+            "CFD40_BM_005": 62.5,
+            "CFD40_LM_001": 62.5,
+            "CFD40_LM_002": 62.5,
+            "CFD40_LM_003": 62.5,
+            "CFD40_LM_004": 62.5,
+            "CFD40_LM_005": 62.5,
+            "CFD40_WM_001": 62.5,
+            "CFD40_WM_002": 62.5,
+            "CFD40_WM_003": 62.5,
+            "CFD40_WM_004": 62.5,
+            "CFD40_WM_005": 62.5
+          }
+        },
+        "action": {
+          "weighted_relative_cv": 0.00938083151964686,
+          "expected_counts": {
+            "MOTION_CAND_001": 100.0,
+            "MOTION_CAND_002": 100.0,
+            "MOTION_CAND_003": 100.0,
+            "MOTION_CAND_008": 100.0,
+            "MOTION_CAND_009": 100.0,
+            "MOTION_CAND_017": 100.0,
+            "MOTION_CAND_019": 100.0,
+            "MOTION_CAND_020": 100.0,
+            "MOTION_CAND_022": 100.0,
+            "MOTION_CAND_023": 100.0,
+            "MOTION_CAND_024": 100.0,
+            "MOTION_CAND_029": 100.0,
+            "MOTION_CAND_030": 100.0,
+            "MOTION_CAND_032": 100.0,
+            "MOTION_CAND_033": 100.0,
+            "MOTION_CAND_035": 100.0,
+            "MOTION_CAND_036": 100.0,
+            "ACT_F03_AUDIENCE_01": 100.0,
+            "ACT_F02_CATCH_BREATH": 100.0,
+            "ACT_F05_TIE_SHOES": 100.0,
+            "ACT_F06_ELEVATOR_GREETING": 100.0,
+            "ACT_F01_SEXY_DANCE": 100.0,
+            "ACT_M05_ELEVATOR_GREETING": 100.0,
+            "ACT_M04_LIVING_ROOM_SWING": 100.0,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 100.0
+          }
+        },
+        "camera": {
+          "weighted_relative_cv": 0.007547184905645283,
+          "expected_counts": {
+            "front_full": 119.04761904761905,
+            "front_three_quarter_full": 119.04761904761905,
+            "side_full": 119.04761904761905,
+            "rear_three_quarter_full": 119.04761904761905,
+            "back_full": 119.04761904761905,
+            "front_upper": 119.04761904761905,
+            "front_three_quarter_upper": 119.04761904761905,
+            "side_upper": 119.04761904761905,
+            "rear_three_quarter_upper": 119.04761904761905,
+            "back_upper": 119.04761904761905,
+            "high_full": 119.04761904761905,
+            "low_full": 119.04761904761905,
+            "orbit_360": 119.04761904761905,
+            "orbit_120": 119.04761904761905,
+            "dolly_in_front": 119.04761904761905,
+            "dolly_in_side": 119.04761904761905,
+            "dolly_in_back": 119.04761904761905,
+            "dolly_out_front": 119.04761904761905,
+            "dolly_out_side": 119.04761904761905,
+            "dolly_out_back": 119.04761904761905,
+            "front_head": 119.04761904761905
+          }
+        },
+        "aspect": {
+          "weighted_relative_cv": 0.0,
+          "expected_counts": {
+            "landscape": 2500.0
+          }
+        },
+        "site": {
+          "weighted_relative_cv": 0.009732420048477151,
+          "expected_counts": {
+            "site_4e6b9c18d9": 156.25,
+            "site_def046be4c": 156.25,
+            "site_2831090e60": 156.25,
+            "site_fbf21a9b6a": 156.25,
+            "site_8c41814f5e": 156.25,
+            "site_f3e2dabbd0": 156.25,
+            "site_7b963967ee": 156.25,
+            "site_33328cb3f4": 156.25,
+            "site_fa4a18c3dc": 156.25,
+            "site_1bbc32217c": 156.25,
+            "site_98aac485de": 156.25,
+            "site_9a6519ec02": 156.25,
+            "site_dc3f593a1d": 156.25,
+            "site_05dac27bc7": 156.25,
+            "site_7ed6554b09": 156.25,
+            "site_05e295695d": 156.25
+          }
+        },
+        "hair_color": {
+          "weighted_relative_cv": 0.0037947331922020553,
+          "expected_counts": {
+            "original": 357.14285714285717,
+            "black": 357.14285714285717,
+            "gold": 357.14285714285717,
+            "silver_white": 357.14285714285717,
+            "red": 357.14285714285717,
+            "blue": 357.14285714285717,
+            "pink": 357.14285714285717
+          }
+        }
+      },
+      "axis_value_transition_coverage": {
+        "identity": {
+          "observed_value_pairs": 120,
+          "domain_possible_value_pairs": 760,
+          "coverage": 0.15789473684210525
+        },
+        "action": {
+          "observed_value_pairs": 550,
+          "domain_possible_value_pairs": 600,
+          "coverage": 0.9166666666666666
+        },
+        "camera": {
+          "observed_value_pairs": 358,
+          "domain_possible_value_pairs": 420,
+          "coverage": 0.8523809523809524
+        },
+        "site": {
+          "observed_value_pairs": 238,
+          "domain_possible_value_pairs": 240,
+          "coverage": 0.9916666666666667
+        },
+        "hair_color": {
+          "observed_value_pairs": 42,
+          "domain_possible_value_pairs": 42,
+          "coverage": 1.0
+        }
+      }
+    },
+    {
+      "key": "motif_a5_f5_n3000_s20261021_test",
+      "route": "motif",
+      "editable_axes": 5,
+      "family_count_per_sex": 5,
+      "total_node_budget": 3000,
+      "seed": 20261021,
+      "split": "test",
+      "unique_nodes": 500,
+      "registered_directed_edges": 1708,
+      "catalog_rejections": {
+        "saved_site_exclusion": 11533
+      },
+      "growth": {
+        "candidate_attempts": 69932,
+        "rejected": {},
+        "omitted_cross_family_atomic_edges": {},
+        "motif_new_node_batch_sizes": {
+          "3": 97,
+          "2": 89,
+          "1": 21
+        },
+        "generation_axis_counts": {
+          "female": {
+            "action": 60,
+            "site": 54,
+            "identity": 27,
+            "camera": 68,
+            "hair_color": 36
+          },
+          "male": {
+            "action": 60,
+            "site": 54,
+            "identity": 30,
+            "camera": 69,
+            "hair_color": 32
+          }
+        }
+      },
+      "node_factor_balance": {
+        "identity": {
+          "counts": {
+            "CFD40_AF_001": 14,
+            "CFD40_AF_002": 12,
+            "CFD40_AF_003": 12,
+            "CFD40_AF_004": 13,
+            "CFD40_AF_005": 12,
+            "CFD40_AM_001": 13,
+            "CFD40_AM_002": 11,
+            "CFD40_AM_003": 11,
+            "CFD40_AM_004": 11,
+            "CFD40_AM_005": 12,
+            "CFD40_BF_001": 12,
+            "CFD40_BF_002": 12,
+            "CFD40_BF_003": 13,
+            "CFD40_BF_004": 13,
+            "CFD40_BF_005": 14,
+            "CFD40_BM_001": 11,
+            "CFD40_BM_002": 13,
+            "CFD40_BM_003": 13,
+            "CFD40_BM_004": 12,
+            "CFD40_BM_005": 12,
+            "CFD40_LF_001": 13,
+            "CFD40_LF_002": 13,
+            "CFD40_LF_003": 12,
+            "CFD40_LF_004": 12,
+            "CFD40_LF_005": 12,
+            "CFD40_LM_001": 14,
+            "CFD40_LM_002": 13,
+            "CFD40_LM_003": 13,
+            "CFD40_LM_004": 13,
+            "CFD40_LM_005": 13,
+            "CFD40_WF_001": 11,
+            "CFD40_WF_002": 13,
+            "CFD40_WF_003": 13,
+            "CFD40_WF_004": 12,
+            "CFD40_WF_005": 12,
+            "CFD40_WM_001": 12,
+            "CFD40_WM_002": 13,
+            "CFD40_WM_003": 13,
+            "CFD40_WM_004": 14,
+            "CFD40_WM_005": 13
+          },
+          "distribution_including_missing": {
+            "count": 40,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 14,
+            "gini": 0.03590000000000004,
+            "zeros": 0,
+            "sum": 500,
+            "min": 11,
+            "cv": 0.06693280212272605,
+            "max_over_mean": 1.12
+          }
+        },
+        "action": {
+          "counts": {
+            "ACT_F01_SEXY_DANCE": 19,
+            "ACT_F02_CATCH_BREATH": 21,
+            "ACT_F03_AUDIENCE_01": 19,
+            "ACT_F05_TIE_SHOES": 20,
+            "ACT_F06_ELEVATOR_GREETING": 20,
+            "ACT_M04_LIVING_ROOM_SWING": 19,
+            "ACT_M05_ELEVATOR_GREETING": 20,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 19,
+            "MOTION_CAND_001": 22,
+            "MOTION_CAND_002": 21,
+            "MOTION_CAND_003": 19,
+            "MOTION_CAND_008": 20,
+            "MOTION_CAND_009": 22,
+            "MOTION_CAND_017": 20,
+            "MOTION_CAND_019": 18,
+            "MOTION_CAND_020": 18,
+            "MOTION_CAND_022": 21,
+            "MOTION_CAND_023": 21,
+            "MOTION_CAND_024": 22,
+            "MOTION_CAND_029": 20,
+            "MOTION_CAND_030": 20,
+            "MOTION_CAND_032": 20,
+            "MOTION_CAND_033": 22,
+            "MOTION_CAND_035": 19,
+            "MOTION_CAND_036": 18
+          },
+          "distribution_including_missing": {
+            "count": 25,
+            "mean": 20.0,
+            "p95": 22,
+            "max": 22,
+            "gini": 0.034399999999999986,
+            "zeros": 0,
+            "sum": 500,
+            "min": 18,
+            "cv": 0.061644140029689765,
+            "max_over_mean": 1.1
+          }
+        },
+        "camera": {
+          "counts": {
+            "back_full": 25,
+            "back_upper": 24,
+            "dolly_in_back": 23,
+            "dolly_in_front": 22,
+            "dolly_in_side": 25,
+            "dolly_out_back": 23,
+            "dolly_out_front": 25,
+            "dolly_out_side": 23,
+            "front_full": 23,
+            "front_head": 26,
+            "front_three_quarter_full": 22,
+            "front_three_quarter_upper": 23,
+            "front_upper": 26,
+            "high_full": 25,
+            "low_full": 24,
+            "orbit_120": 23,
+            "orbit_360": 23,
+            "rear_three_quarter_full": 24,
+            "rear_three_quarter_upper": 21,
+            "side_full": 24,
+            "side_upper": 26
+          },
+          "distribution_including_missing": {
+            "count": 21,
+            "mean": 23.80952380952381,
+            "p95": 26,
+            "max": 26,
+            "gini": 0.03200000000000003,
+            "zeros": 0,
+            "sum": 500,
+            "min": 21,
+            "cv": 0.057410800377629294,
+            "max_over_mean": 1.0919999999999999
+          }
+        },
+        "aspect": {
+          "counts": {
+            "landscape": 500
+          },
+          "distribution_including_missing": {
+            "count": 1,
+            "mean": 500.0,
+            "p95": 500,
+            "max": 500,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 500,
+            "min": 500,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          }
+        },
+        "site": {
+          "counts": {
+            "site_2a054574eb": 103,
+            "site_6af8ead41a": 101,
+            "site_7dbc277564": 101,
+            "site_7f07230597": 103,
+            "site_91fc32ba93": 92
+          },
+          "distribution_including_missing": {
+            "count": 5,
+            "mean": 100.0,
+            "p95": 103,
+            "max": 103,
+            "gini": 0.019200000000000106,
+            "zeros": 0,
+            "sum": 500,
+            "min": 92,
+            "cv": 0.040987803063838396,
+            "max_over_mean": 1.03
+          }
+        },
+        "hair_color": {
+          "counts": {
+            "black": 72,
+            "blue": 73,
+            "gold": 72,
+            "original": 73,
+            "pink": 70,
+            "red": 70,
+            "silver_white": 70
+          },
+          "distribution_including_missing": {
+            "count": 7,
+            "mean": 71.42857142857143,
+            "p95": 73,
+            "max": 73,
+            "gini": 0.009714285714285786,
+            "zeros": 0,
+            "sum": 500,
+            "min": 70,
+            "cv": 0.01811077027627483,
+            "max_over_mean": 1.022
+          }
+        }
+      },
+      "session_factor_exposure": {
+        "identity": {
+          "count": 40,
+          "mean": 355.0,
+          "p95": 392,
+          "max": 402,
+          "gini": 0.039186619718309945,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 303,
+          "cv": 0.0689277988915051,
+          "max_over_mean": 1.1323943661971831
+        },
+        "action": {
+          "count": 25,
+          "mean": 568.0,
+          "p95": 639,
+          "max": 641,
+          "gini": 0.04259154929577469,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 494,
+          "cv": 0.07529944190497137,
+          "max_over_mean": 1.1285211267605635
+        },
+        "camera": {
+          "count": 21,
+          "mean": 676.1904761904761,
+          "p95": 728,
+          "max": 739,
+          "gini": 0.03515090543259558,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 548,
+          "cv": 0.06487104385538071,
+          "max_over_mean": 1.092887323943662
+        },
+        "aspect": {
+          "count": 1,
+          "mean": 14200.0,
+          "p95": 14200,
+          "max": 14200,
+          "gini": 0.0,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 14200,
+          "cv": 0.0,
+          "max_over_mean": 1.0
+        },
+        "site": {
+          "count": 5,
+          "mean": 2840.0,
+          "p95": 2980,
+          "max": 2980,
+          "gini": 0.02357746478873235,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 2603,
+          "cv": 0.04520501470515363,
+          "max_over_mean": 1.0492957746478873
+        },
+        "hair_color": {
+          "count": 7,
+          "mean": 2028.5714285714287,
+          "p95": 2078,
+          "max": 2078,
+          "gini": 0.011871227364185222,
+          "zeros": 0,
+          "sum": 14200,
+          "min": 1968,
+          "cv": 0.021372282271998593,
+          "max_over_mean": 1.0243661971830986
+        }
+      },
+      "pair_coverage": {
+        "identity__site": {
+          "observed": 131,
+          "possible": 200,
+          "cartesian_possible": 200,
+          "coverage": 0.655
+        },
+        "action__camera": {
+          "observed": 225,
+          "possible": 525,
+          "cartesian_possible": 525,
+          "coverage": 0.42857142857142855
+        },
+        "site__action": {
+          "observed": 123,
+          "possible": 124,
+          "cartesian_possible": 125,
+          "coverage": 0.9919354838709677
+        }
+      },
+      "registered_edge_axis_counts": {
+        "action": 642,
+        "site": 268,
+        "identity": 312,
+        "camera": 348,
+        "hair_color": 138
+      },
+      "sampled_edge_axis_counts": {
+        "site": 1904,
+        "identity": 2152,
+        "action": 3854,
+        "hair_color": 1028,
+        "camera": 2262
+      },
+      "sampled_axis_balance": {
+        "count": 5,
+        "mean": 2240.0,
+        "p95": 3854,
+        "max": 3854,
+        "gini": 0.21464285714285714,
+        "zeros": 0,
+        "sum": 11200,
+        "min": 1028,
+        "cv": 0.40891804415644795,
+        "max_over_mean": 1.7205357142857143
+      },
+      "registered_axis_balance": {
+        "count": 5,
+        "mean": 341.6,
+        "p95": 642,
+        "max": 642,
+        "gini": 0.25480093676814985,
+        "zeros": 0,
+        "sum": 1708,
+        "min": 138,
+        "cv": 0.4863842181724267,
+        "max_over_mean": 1.879391100702576
+      },
+      "family_session_counts": {
+        "female_3": 296,
+        "female_1": 300,
+        "male_3": 306,
+        "female_2": 294,
+        "male_2": 300,
+        "male_4": 295,
+        "male_1": 303,
+        "female_4": 304,
+        "female_0": 306,
+        "male_0": 296
+      },
+      "family_node_counts": {
+        "female_0": 50,
+        "female_1": 50,
+        "female_2": 50,
+        "female_3": 50,
+        "female_4": 50,
+        "male_0": 50,
+        "male_1": 50,
+        "male_2": 50,
+        "male_3": 50,
+        "male_4": 50
+      },
+      "structural_errors": {},
+      "all_nodes_referenced": true,
+      "graph_components": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "degree": {
+        "count": 500,
+        "mean": 3.416,
+        "p95": 6,
+        "max": 7,
+        "gini": 0.19891334894613588,
+        "zeros": 0,
+        "sum": 1708,
+        "min": 2,
+        "cv": 0.36503920877561996,
+        "max_over_mean": 2.0491803278688523
+      },
+      "nodes_with_only_one_edit_axis": 0,
+      "node_reuse": {
+        "count": 500,
+        "mean": 28.4,
+        "p95": 38,
+        "max": 48,
+        "gini": 0.083009295774648,
+        "zeros": 0,
+        "sum": 14200,
+        "min": 22,
+        "cv": 0.16663525459456316,
+        "max_over_mean": 1.6901408450704227
+      },
+      "sampling": {
+        "requested": 3000,
+        "sampled_unique_sessions": 3000,
+        "unique_session_lower_bound": 3000,
+        "capacity_claim": "lower_bound_only_not_exhaustive_capacity",
+        "sampling_attempts": 3647,
+        "node_occurrence_reuse": {
+          "count": 500,
+          "mean": 28.4,
+          "p95": 38,
+          "max": 48,
+          "gini": 0.083009295774648,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "node_distinct_session_reuse": {
+          "count": 500,
+          "mean": 28.4,
+          "p95": 38,
+          "max": 48,
+          "gini": 0.083009295774648,
+          "zeros": 0,
+          "sum": 14200
+        },
+        "directed_edge_reuse_including_zeros": {
+          "count": 1708,
+          "mean": 6.557377049180328,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.1906231180996989,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "used_directed_edge_reuse": {
+          "count": 1708,
+          "mean": 6.557377049180328,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.1906231180996989,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "edge_distinct_session_reuse_including_zeros": {
+          "count": 1708,
+          "mean": 6.557377049180328,
+          "p95": 11,
+          "max": 15,
+          "gini": 0.1906231180996989,
+          "zeros": 0,
+          "sum": 11200
+        },
+        "unique_directed_edges_used": 1708,
+        "edge_coverage_fraction": 1.0,
+        "counts": {
+          "ancestor_state_loop_sessions": 0,
+          "branch": 1000,
+          "branch_source_alias_sessions": 0,
+          "branch_source_depth_0": 400,
+          "branch_source_depth_1": 508,
+          "branch_source_depth_2": 92,
+          "branch_source_lag_1": 806,
+          "branch_source_lag_2": 165,
+          "branch_source_lag_3": 29,
+          "branch_then_followup_sessions": 1000,
+          "branch_turn_2": 290,
+          "branch_turn_3": 505,
+          "branch_turn_4": 205,
+          "length_2": 500,
+          "length_3": 700,
+          "length_4": 900,
+          "length_5": 900,
+          "repeat_node_sessions": 0,
+          "returns_to_root_sessions": 0,
+          "straight": 2000
+        },
+        "all_nodes_referenced": true,
+        "quality_nonrepeated_state_sessions": 3000,
+        "exact_available_two_axis_length2_straight_paths": 3866,
+        "quality_at_least_two_axes_sessions": 3000
+      },
+      "elapsed_seconds": 1.413,
+      "history_source_result_equivalence": {
+        "fork_count": 1000,
+        "equivalence_set_size_histogram": {
+          "1": 856,
+          "2": 141,
+          "3": 3
+        },
+        "ambiguous_forks": 144,
+        "examples": [
+          {
+            "occurrences": [
+              243,
+              242,
+              368,
+              485,
+              484
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              1,
+              3
+            ],
+            "axes": [
+              "identity",
+              "site",
+              "identity",
+              "site"
+            ],
+            "fork_turn": 3,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              369,
+              484,
+              485,
+              242,
+              368,
+              225
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              1,
+              4
+            ],
+            "axes": [
+              "identity",
+              "site",
+              "identity",
+              "identity",
+              "site"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              0,
+              1
+            ]
+          },
+          {
+            "occurrences": [
+              414,
+              413,
+              206,
+              179,
+              208,
+              412
+            ],
+            "parents": [
+              null,
+              0,
+              1,
+              2,
+              2,
+              4
+            ],
+            "axes": [
+              "action",
+              "camera",
+              "action",
+              "camera",
+              "action"
+            ],
+            "fork_turn": 4,
+            "equivalent_source_occurrences": [
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "order_diversity": {
+        "unique_root_final_pairs": 2347,
+        "root_final_pair_max_sessions": 4,
+        "unique_axis_sequences": 970,
+        "unique_parent_patterns": 14,
+        "shortest_straight_sessions": 766,
+        "shortest_straight_root_final_classes": 731,
+        "commuting_order_excess_sessions": 35,
+        "max_commuting_class": 3
+      },
+      "within_sex_family_asset_jaccard_mean": {
+        "identity": 0.0,
+        "action": 0.20560823013415894,
+        "camera": 0.14348734598734597,
+        "aspect": 1.0,
+        "site": 0.6525000000000001,
+        "hair_color": 0.23666666666666666
+      },
+      "node_factor_balance_conditional": {
+        "female": {
+          "identity": {
+            "count": 20,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 14,
+            "gini": 0.03079999999999994,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.059329587896765304,
+            "max_over_mean": 1.12
+          },
+          "action": {
+            "count": 25,
+            "mean": 10.0,
+            "p95": 11,
+            "max": 11,
+            "gini": 0.04352,
+            "zeros": 0,
+            "sum": 250,
+            "min": 9,
+            "cv": 0.08,
+            "max_over_mean": 1.1
+          },
+          "camera": {
+            "count": 21,
+            "mean": 11.904761904761905,
+            "p95": 14,
+            "max": 14,
+            "gini": 0.040000000000000036,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.07735631842325487,
+            "max_over_mean": 1.176
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 250.0,
+            "p95": 250,
+            "max": 250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 250,
+            "min": 250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 5,
+            "mean": 50.0,
+            "p95": 53,
+            "max": 53,
+            "gini": 0.027200000000000113,
+            "zeros": 0,
+            "sum": 250,
+            "min": 46,
+            "cv": 0.04898979485566356,
+            "max_over_mean": 1.06
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 35.714285714285715,
+            "p95": 38,
+            "max": 38,
+            "gini": 0.019428571428571573,
+            "zeros": 0,
+            "sum": 250,
+            "min": 34,
+            "cv": 0.03577708763999664,
+            "max_over_mean": 1.064
+          }
+        },
+        "male": {
+          "identity": {
+            "count": 20,
+            "mean": 12.5,
+            "p95": 14,
+            "max": 14,
+            "gini": 0.0391999999999999,
+            "zeros": 0,
+            "sum": 250,
+            "min": 11,
+            "cv": 0.0737563556583431,
+            "max_over_mean": 1.12
+          },
+          "action": {
+            "count": 25,
+            "mean": 10.0,
+            "p95": 11,
+            "max": 11,
+            "gini": 0.03648000000000007,
+            "zeros": 0,
+            "sum": 250,
+            "min": 9,
+            "cv": 0.06928203230275509,
+            "max_over_mean": 1.1
+          },
+          "camera": {
+            "count": 21,
+            "mean": 11.904761904761905,
+            "p95": 13,
+            "max": 14,
+            "gini": 0.04152380952380952,
+            "zeros": 0,
+            "sum": 250,
+            "min": 10,
+            "cv": 0.07735631842325487,
+            "max_over_mean": 1.176
+          },
+          "aspect": {
+            "count": 1,
+            "mean": 250.0,
+            "p95": 250,
+            "max": 250,
+            "gini": 0.0,
+            "zeros": 0,
+            "sum": 250,
+            "min": 250,
+            "cv": 0.0,
+            "max_over_mean": 1.0
+          },
+          "site": {
+            "count": 5,
+            "mean": 50.0,
+            "p95": 52,
+            "max": 52,
+            "gini": 0.02080000000000015,
+            "zeros": 0,
+            "sum": 250,
+            "min": 46,
+            "cv": 0.04195235392680607,
+            "max_over_mean": 1.04
+          },
+          "hair_color": {
+            "count": 7,
+            "mean": 35.714285714285715,
+            "p95": 38,
+            "max": 38,
+            "gini": 0.017142857142857126,
+            "zeros": 0,
+            "sum": 250,
+            "min": 34,
+            "cv": 0.03249615361854384,
+            "max_over_mean": 1.064
+          }
+        }
+      },
+      "node_factor_balance_legal_expected": {
+        "identity": {
+          "weighted_relative_cv": 0.06693280212272604,
+          "expected_counts": {
+            "CFD40_AF_001": 12.5,
+            "CFD40_AF_002": 12.5,
+            "CFD40_AF_003": 12.5,
+            "CFD40_AF_004": 12.5,
+            "CFD40_AF_005": 12.5,
+            "CFD40_BF_001": 12.5,
+            "CFD40_BF_002": 12.5,
+            "CFD40_BF_003": 12.5,
+            "CFD40_BF_004": 12.5,
+            "CFD40_BF_005": 12.5,
+            "CFD40_LF_001": 12.5,
+            "CFD40_LF_002": 12.5,
+            "CFD40_LF_003": 12.5,
+            "CFD40_LF_004": 12.5,
+            "CFD40_LF_005": 12.5,
+            "CFD40_WF_001": 12.5,
+            "CFD40_WF_002": 12.5,
+            "CFD40_WF_003": 12.5,
+            "CFD40_WF_004": 12.5,
+            "CFD40_WF_005": 12.5,
+            "CFD40_AM_001": 12.5,
+            "CFD40_AM_002": 12.5,
+            "CFD40_AM_003": 12.5,
+            "CFD40_AM_004": 12.5,
+            "CFD40_AM_005": 12.5,
+            "CFD40_BM_001": 12.5,
+            "CFD40_BM_002": 12.5,
+            "CFD40_BM_003": 12.5,
+            "CFD40_BM_004": 12.5,
+            "CFD40_BM_005": 12.5,
+            "CFD40_LM_001": 12.5,
+            "CFD40_LM_002": 12.5,
+            "CFD40_LM_003": 12.5,
+            "CFD40_LM_004": 12.5,
+            "CFD40_LM_005": 12.5,
+            "CFD40_WM_001": 12.5,
+            "CFD40_WM_002": 12.5,
+            "CFD40_WM_003": 12.5,
+            "CFD40_WM_004": 12.5,
+            "CFD40_WM_005": 12.5
+          }
+        },
+        "action": {
+          "weighted_relative_cv": 0.061644140029689765,
+          "expected_counts": {
+            "MOTION_CAND_001": 20.0,
+            "MOTION_CAND_002": 20.0,
+            "MOTION_CAND_003": 20.0,
+            "MOTION_CAND_008": 20.0,
+            "MOTION_CAND_009": 20.0,
+            "MOTION_CAND_017": 20.0,
+            "MOTION_CAND_019": 20.0,
+            "MOTION_CAND_020": 20.0,
+            "MOTION_CAND_022": 20.0,
+            "MOTION_CAND_023": 20.0,
+            "MOTION_CAND_024": 20.0,
+            "MOTION_CAND_029": 20.0,
+            "MOTION_CAND_030": 20.0,
+            "MOTION_CAND_032": 20.0,
+            "MOTION_CAND_033": 20.0,
+            "MOTION_CAND_035": 20.0,
+            "MOTION_CAND_036": 20.0,
+            "ACT_F03_AUDIENCE_01": 20.0,
+            "ACT_F02_CATCH_BREATH": 20.0,
+            "ACT_F05_TIE_SHOES": 20.0,
+            "ACT_F06_ELEVATOR_GREETING": 20.0,
+            "ACT_F01_SEXY_DANCE": 20.0,
+            "ACT_M05_ELEVATOR_GREETING": 20.0,
+            "ACT_M04_LIVING_ROOM_SWING": 20.0,
+            "ACT_M06_CHEER_HANDS_STEP_DANCE": 20.0
+          }
+        },
+        "camera": {
+          "weighted_relative_cv": 0.057410800377629294,
+          "expected_counts": {
+            "front_full": 23.80952380952381,
+            "front_three_quarter_full": 23.80952380952381,
+            "side_full": 23.80952380952381,
+            "rear_three_quarter_full": 23.80952380952381,
+            "back_full": 23.80952380952381,
+            "front_upper": 23.80952380952381,
+            "front_three_quarter_upper": 23.80952380952381,
+            "side_upper": 23.80952380952381,
+            "rear_three_quarter_upper": 23.80952380952381,
+            "back_upper": 23.80952380952381,
+            "high_full": 23.80952380952381,
+            "low_full": 23.80952380952381,
+            "orbit_360": 23.80952380952381,
+            "orbit_120": 23.80952380952381,
+            "dolly_in_front": 23.80952380952381,
+            "dolly_in_side": 23.80952380952381,
+            "dolly_in_back": 23.80952380952381,
+            "dolly_out_front": 23.80952380952381,
+            "dolly_out_side": 23.80952380952381,
+            "dolly_out_back": 23.80952380952381,
+            "front_head": 23.80952380952381
+          }
+        },
+        "aspect": {
+          "weighted_relative_cv": 0.0,
+          "expected_counts": {
+            "landscape": 500.0
+          }
+        },
+        "site": {
+          "weighted_relative_cv": 0.04098780306383839,
+          "expected_counts": {
+            "site_7dbc277564": 100.0,
+            "site_7f07230597": 100.0,
+            "site_91fc32ba93": 100.0,
+            "site_2a054574eb": 100.0,
+            "site_6af8ead41a": 100.0
+          }
+        },
+        "hair_color": {
+          "weighted_relative_cv": 0.018110770276274835,
+          "expected_counts": {
+            "original": 71.42857142857143,
+            "black": 71.42857142857143,
+            "gold": 71.42857142857143,
+            "silver_white": 71.42857142857143,
+            "red": 71.42857142857143,
+            "blue": 71.42857142857143,
+            "pink": 71.42857142857143
+          }
+        }
+      },
+      "axis_value_transition_coverage": {
+        "identity": {
+          "observed_value_pairs": 92,
+          "domain_possible_value_pairs": 760,
+          "coverage": 0.12105263157894737
+        },
+        "action": {
+          "observed_value_pairs": 278,
+          "domain_possible_value_pairs": 600,
+          "coverage": 0.4633333333333333
+        },
+        "camera": {
+          "observed_value_pairs": 142,
+          "domain_possible_value_pairs": 420,
+          "coverage": 0.3380952380952381
+        },
+        "site": {
+          "observed_value_pairs": 20,
+          "domain_possible_value_pairs": 20,
+          "coverage": 1.0
+        },
+        "hair_color": {
+          "observed_value_pairs": 30,
+          "domain_possible_value_pairs": 42,
+          "coverage": 0.7142857142857143
+        }
+      }
+    }
+  ],
+  "source_sha256": {
+    "appearance_catalog.json": "62ba7bcd5d0382f62a0887f198ccd1637b32acc1f8d8f93f69a277a19f1c01e4",
+    "inventory_landscape.json": "10fcae84f4083b3e6eb9f94c02a2742b6349b48905f9f9b43d201067b7c90f38",
+    "site_checkpoint.json": "7bf43098892045a9103f541976101cff417a56abc8d4b68c04a34befc714b418"
+  },
+  "kernel_sha256": "82255630086be49bc5ba5a911e18dae0fde148a5e99ba438bb391d842ffd2318"
+}

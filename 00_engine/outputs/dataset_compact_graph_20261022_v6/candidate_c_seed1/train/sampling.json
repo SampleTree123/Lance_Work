@@ -1,0 +1,4208 @@
+{
+  "sampling_variant": "v6.1_exact_start_camera_quotas_formal_slot_feedback",
+  "requested_sessions": 12000,
+  "sampled_sessions": 12000,
+  "complete": true,
+  "quota_counts": {
+    "fork_4": 1400,
+    "linear_2": 2000,
+    "linear_4": 2000,
+    "linear_5": 2000,
+    "fork_5": 1400,
+    "fork_2": 400,
+    "linear_3": 2000,
+    "fork_3": 800
+  },
+  "failed_jobs": [],
+  "errors_and_retries": {
+    "dead_end_or_cap_attempts": 78605,
+    "duplicate_structure_attempts": 2
+  },
+  "hard_directed_edge_cap": 4,
+  "attempt_cap_counts": {
+    "2": 40379,
+    "3": 50199,
+    "4": 29
+  },
+  "edge_reuse_histogram": {
+    "1": 11238,
+    "2": 14430,
+    "3": 1198,
+    "4": 27
+  },
+  "four_use_edge_fraction": 0.0010039787305246718,
+  "four_use_edge_soft_target": 0.005,
+  "axis_counts": {
+    "wardrobe": 6629,
+    "site": 6692,
+    "action": 4753,
+    "hair": 6810,
+    "camera": 6810,
+    "hair_color": 6719,
+    "identity": 5387
+  },
+  "nonidentity_axis_mean": 6402.166666666667,
+  "nonidentity_relative_deviation": {
+    "hair": 0.06370239241923303,
+    "hair_color": 0.049488454429490014,
+    "wardrobe": 0.035430713560513416,
+    "action": -0.2575950849972666,
+    "camera": 0.06370239241923303,
+    "site": 0.04527113216879708
+  },
+  "nonidentity_balance_within_10_percent": false,
+  "axis_reuse": {
+    "identity": {
+      "steps": 5387,
+      "used_directed_edges": 3137,
+      "mean": 1.7172457762193178,
+      "available_directed_edges": 4026
+    },
+    "hair": {
+      "steps": 6810,
+      "used_directed_edges": 4388,
+      "mean": 1.5519598906107566,
+      "available_directed_edges": 7054
+    },
+    "hair_color": {
+      "steps": 6719,
+      "used_directed_edges": 3522,
+      "mean": 1.9077228847245884,
+      "available_directed_edges": 3924
+    },
+    "wardrobe": {
+      "steps": 6629,
+      "used_directed_edges": 3922,
+      "mean": 1.69020907700153,
+      "available_directed_edges": 5782
+    },
+    "action": {
+      "steps": 4753,
+      "used_directed_edges": 2496,
+      "mean": 1.904246794871795,
+      "available_directed_edges": 2708
+    },
+    "camera": {
+      "steps": 6810,
+      "used_directed_edges": 5904,
+      "mean": 1.1534552845528456,
+      "available_directed_edges": 28768
+    },
+    "site": {
+      "steps": 6692,
+      "used_directed_edges": 3524,
+      "mean": 1.8989784335981839,
+      "available_directed_edges": 3970
+    }
+  },
+  "source_conditioned_formal_axis_expectation": {
+    "hair": 6883.33333333322,
+    "hair_color": 6883.33333333322,
+    "wardrobe": 6329.333333333264,
+    "action": 6329.333333333264,
+    "camera": 6883.33333333322,
+    "site": 6883.33333333322,
+    "identity": 3607.9999999999873
+  },
+  "conditional_wardrobe_mode_counts": {
+    "whole_outfit": 4085,
+    "single_piece": 2449
+  },
+  "conditional_wardrobe_mode_expectation": {
+    "single_piece": 3267.0,
+    "whole_outfit": 3267.0
+  },
+  "single_piece_slot_actual": {
+    "shirts": 679,
+    "full_body": 674,
+    "skirts": 236,
+    "coats": 605,
+    "pants": 255
+  },
+  "single_piece_slot_source_conditioned_expectation": {
+    "pants": 321.4999999999996,
+    "shirts": 897.5000000000019,
+    "full_body": 674.0,
+    "skirts": 118.0,
+    "coats": 437.9999999999991
+  },
+  "single_piece_slot_relative_to_expectation": {
+    "pants": -0.20684292379471125,
+    "shirts": -0.24345403899721607,
+    "full_body": 0.0,
+    "skirts": 1.0,
+    "coats": 0.38127853881278817
+  },
+  "single_piece_slot_missing_graph_or_cap_support": {
+    "pants": 460,
+    "shirts": 1096,
+    "coats": 343
+  },
+  "single_piece_slot_actual_by_camera": {
+    "back_full": {
+      "shirts": 40,
+      "pants": 39,
+      "skirts": 33,
+      "full_body": 35
+    },
+    "rear_three_quarter_full": {
+      "full_body": 51,
+      "shirts": 47,
+      "coats": 70
+    },
+    "front_full": {
+      "skirts": 30,
+      "pants": 32,
+      "full_body": 39,
+      "shirts": 31
+    },
+    "low_full": {
+      "full_body": 43,
+      "shirts": 23,
+      "coats": 70
+    },
+    "dolly_out_front": {
+      "coats": 27,
+      "full_body": 9,
+      "shirts": 22
+    },
+    "rear_three_quarter_upper": {
+      "shirts": 36,
+      "full_body": 39
+    },
+    "high_full": {
+      "pants": 33,
+      "skirts": 32,
+      "full_body": 37,
+      "shirts": 38
+    },
+    "back_upper": {
+      "full_body": 35,
+      "shirts": 38,
+      "coats": 63
+    },
+    "side_full": {
+      "full_body": 23,
+      "skirts": 22,
+      "pants": 39,
+      "shirts": 43
+    },
+    "side_upper": {
+      "full_body": 44,
+      "coats": 70,
+      "shirts": 37
+    },
+    "dolly_out_side": {
+      "pants": 29,
+      "full_body": 36,
+      "shirts": 37,
+      "skirts": 30
+    },
+    "dolly_in_back": {
+      "shirts": 39,
+      "skirts": 38,
+      "full_body": 34,
+      "pants": 37
+    },
+    "dolly_in_side": {
+      "shirts": 39,
+      "full_body": 34,
+      "coats": 68
+    },
+    "front_three_quarter_upper": {
+      "shirts": 37,
+      "full_body": 39
+    },
+    "orbit_120": {
+      "full_body": 32,
+      "shirts": 33,
+      "coats": 69
+    },
+    "front_three_quarter_full": {
+      "coats": 67,
+      "full_body": 36,
+      "shirts": 41
+    },
+    "orbit_360": {
+      "pants": 32,
+      "full_body": 36,
+      "skirts": 37,
+      "shirts": 29
+    },
+    "front_upper": {
+      "full_body": 14,
+      "shirts": 17,
+      "coats": 29
+    },
+    "dolly_in_front": {
+      "skirts": 14,
+      "full_body": 21,
+      "pants": 14,
+      "shirts": 17
+    },
+    "dolly_out_back": {
+      "full_body": 37,
+      "coats": 72,
+      "shirts": 35
+    }
+  },
+  "single_piece_slot_expectation_by_camera": {
+    "back_full": {
+      "pants": 21.5,
+      "shirts": 56.0,
+      "skirts": 16.5,
+      "coats": 18.0,
+      "full_body": 35.0
+    },
+    "rear_three_quarter_full": {
+      "full_body": 51.0,
+      "pants": 36.16666666666666,
+      "shirts": 52.16666666666667,
+      "coats": 28.66666666666667
+    },
+    "front_full": {
+      "shirts": 46.5,
+      "skirts": 15.0,
+      "pants": 16.0,
+      "full_body": 39.0,
+      "coats": 15.5
+    },
+    "low_full": {
+      "full_body": 43.0,
+      "pants": 19.833333333333332,
+      "shirts": 42.33333333333336,
+      "coats": 30.83333333333332
+    },
+    "dolly_out_front": {
+      "coats": 11.500000000000002,
+      "pants": 15.0,
+      "shirts": 22.5,
+      "full_body": 9.0
+    },
+    "rear_three_quarter_upper": {
+      "coats": 18.0,
+      "shirts": 18.0,
+      "full_body": 39.0
+    },
+    "high_full": {
+      "pants": 16.5,
+      "shirts": 51.5,
+      "skirts": 16.0,
+      "full_body": 37.0,
+      "coats": 19.0
+    },
+    "back_upper": {
+      "full_body": 35.0,
+      "shirts": 69.5,
+      "coats": 31.5
+    },
+    "side_full": {
+      "full_body": 23.0,
+      "shirts": 52.0,
+      "skirts": 11.0,
+      "pants": 19.5,
+      "coats": 21.5
+    },
+    "side_upper": {
+      "full_body": 44.0,
+      "coats": 35.0,
+      "shirts": 72.0
+    },
+    "dolly_out_side": {
+      "pants": 14.5,
+      "shirts": 48.0,
+      "full_body": 36.0,
+      "coats": 18.5,
+      "skirts": 15.0
+    },
+    "dolly_in_back": {
+      "coats": 19.5,
+      "shirts": 57.0,
+      "skirts": 19.0,
+      "full_body": 34.0,
+      "pants": 18.5
+    },
+    "dolly_in_side": {
+      "pants": 31.499999999999986,
+      "shirts": 47.5,
+      "full_body": 34.0,
+      "coats": 28.0
+    },
+    "front_three_quarter_upper": {
+      "coats": 18.5,
+      "shirts": 18.5,
+      "full_body": 39.0
+    },
+    "orbit_120": {
+      "full_body": 32.0,
+      "pants": 28.166666666666654,
+      "shirts": 45.16666666666667,
+      "coats": 28.66666666666666
+    },
+    "front_three_quarter_full": {
+      "coats": 27.999999999999996,
+      "shirts": 48.50000000000001,
+      "full_body": 36.0,
+      "pants": 31.49999999999999
+    },
+    "orbit_360": {
+      "pants": 16.0,
+      "shirts": 49.0,
+      "full_body": 36.0,
+      "skirts": 18.5,
+      "coats": 14.5
+    },
+    "front_upper": {
+      "full_body": 14.0,
+      "shirts": 31.5,
+      "coats": 14.5
+    },
+    "dolly_in_front": {
+      "shirts": 22.5,
+      "skirts": 7.0,
+      "full_body": 21.0,
+      "pants": 7.0,
+      "coats": 8.5
+    },
+    "dolly_out_back": {
+      "full_body": 37.0,
+      "coats": 29.833333333333325,
+      "shirts": 47.333333333333336,
+      "pants": 29.83333333333332
+    }
+  },
+  "start_camera_quota": {
+    "front_full": 522,
+    "front_three_quarter_full": 522,
+    "side_full": 522,
+    "rear_three_quarter_full": 522,
+    "back_full": 522,
+    "front_upper": 782,
+    "front_three_quarter_upper": 522,
+    "side_upper": 522,
+    "rear_three_quarter_upper": 522,
+    "back_upper": 522,
+    "high_full": 522,
+    "low_full": 522,
+    "orbit_360": 522,
+    "orbit_120": 522,
+    "dolly_in_front": 782,
+    "dolly_in_side": 522,
+    "dolly_in_back": 522,
+    "dolly_out_front": 782,
+    "dolly_out_side": 521,
+    "dolly_out_back": 521,
+    "front_head": 782
+  },
+  "start_camera_counts": {
+    "front_full": 522,
+    "front_three_quarter_full": 522,
+    "side_full": 522,
+    "rear_three_quarter_full": 522,
+    "back_full": 522,
+    "front_upper": 782,
+    "front_three_quarter_upper": 522,
+    "side_upper": 522,
+    "rear_three_quarter_upper": 522,
+    "back_upper": 522,
+    "high_full": 522,
+    "low_full": 522,
+    "orbit_360": 522,
+    "orbit_120": 522,
+    "dolly_in_front": 782,
+    "dolly_in_side": 522,
+    "dolly_in_back": 522,
+    "dolly_out_front": 782,
+    "dolly_out_side": 521,
+    "dolly_out_back": 521,
+    "front_head": 782
+  },
+  "start_camera_quota_deficits": {
+    "front_full": 0,
+    "front_three_quarter_full": 0,
+    "side_full": 0,
+    "rear_three_quarter_full": 0,
+    "back_full": 0,
+    "front_upper": 0,
+    "front_three_quarter_upper": 0,
+    "side_upper": 0,
+    "rear_three_quarter_upper": 0,
+    "back_upper": 0,
+    "high_full": 0,
+    "low_full": 0,
+    "orbit_360": 0,
+    "orbit_120": 0,
+    "dolly_in_front": 0,
+    "dolly_in_side": 0,
+    "dolly_in_back": 0,
+    "dolly_out_front": 0,
+    "dolly_out_side": 0,
+    "dolly_out_back": 0,
+    "front_head": 0
+  },
+  "start_camera_quota_met": true,
+  "start_camera_graph_support": {
+    "front_full": {
+      "start_nodes": 172,
+      "outgoing_directed_edges": 2470,
+      "hard_first_step_capacity": 9880,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_full": {
+      "start_nodes": 159,
+      "outgoing_directed_edges": 2244,
+      "hard_first_step_capacity": 8976,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "side_full": {
+      "start_nodes": 168,
+      "outgoing_directed_edges": 2452,
+      "hard_first_step_capacity": 9808,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_full": {
+      "start_nodes": 168,
+      "outgoing_directed_edges": 2342,
+      "hard_first_step_capacity": 9368,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "back_full": {
+      "start_nodes": 173,
+      "outgoing_directed_edges": 2468,
+      "hard_first_step_capacity": 9872,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "front_upper": {
+      "start_nodes": 339,
+      "outgoing_directed_edges": 4392,
+      "hard_first_step_capacity": 17568,
+      "requested_starts": 782,
+      "necessary_capacity_sufficient": true
+    },
+    "front_three_quarter_upper": {
+      "start_nodes": 140,
+      "outgoing_directed_edges": 2236,
+      "hard_first_step_capacity": 8944,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "side_upper": {
+      "start_nodes": 142,
+      "outgoing_directed_edges": 2146,
+      "hard_first_step_capacity": 8584,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "rear_three_quarter_upper": {
+      "start_nodes": 141,
+      "outgoing_directed_edges": 2238,
+      "hard_first_step_capacity": 8952,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "back_upper": {
+      "start_nodes": 140,
+      "outgoing_directed_edges": 2136,
+      "hard_first_step_capacity": 8544,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "high_full": {
+      "start_nodes": 162,
+      "outgoing_directed_edges": 2416,
+      "hard_first_step_capacity": 9664,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "low_full": {
+      "start_nodes": 161,
+      "outgoing_directed_edges": 2256,
+      "hard_first_step_capacity": 9024,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_360": {
+      "start_nodes": 142,
+      "outgoing_directed_edges": 2290,
+      "hard_first_step_capacity": 9160,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "orbit_120": {
+      "start_nodes": 141,
+      "outgoing_directed_edges": 2142,
+      "hard_first_step_capacity": 8568,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_front": {
+      "start_nodes": 338,
+      "outgoing_directed_edges": 4534,
+      "hard_first_step_capacity": 18136,
+      "requested_starts": 782,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_side": {
+      "start_nodes": 141,
+      "outgoing_directed_edges": 2142,
+      "hard_first_step_capacity": 8568,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_in_back": {
+      "start_nodes": 142,
+      "outgoing_directed_edges": 2288,
+      "hard_first_step_capacity": 9152,
+      "requested_starts": 522,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_front": {
+      "start_nodes": 340,
+      "outgoing_directed_edges": 4408,
+      "hard_first_step_capacity": 17632,
+      "requested_starts": 782,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_side": {
+      "start_nodes": 142,
+      "outgoing_directed_edges": 2284,
+      "hard_first_step_capacity": 9136,
+      "requested_starts": 521,
+      "necessary_capacity_sufficient": true
+    },
+    "dolly_out_back": {
+      "start_nodes": 142,
+      "outgoing_directed_edges": 2146,
+      "hard_first_step_capacity": 8584,
+      "requested_starts": 521,
+      "necessary_capacity_sufficient": true
+    },
+    "front_head": {
+      "start_nodes": 344,
+      "outgoing_directed_edges": 4202,
+      "hard_first_step_capacity": 16808,
+      "requested_starts": 782,
+      "necessary_capacity_sufficient": true
+    }
+  },
+  "start_camera_quota_policy": "Largest-remainder integer quotas over the full catalog: each of the four identity cameras has weight 1.5, every other camera weight 1. Core-coverage starts consume these same quotas; no unsupported quota is redistributed.",
+  "unused_nodes": 0,
+  "unused_start_nodes": 556,
+  "isolated_start_nodes": 0,
+  "identity_start_counts": {
+    "('female', 'CFD40_AF_001')": 12,
+    "('female', 'CFD40_AF_002')": 12,
+    "('female', 'CFD40_AF_003')": 179,
+    "('female', 'CFD40_AF_004')": 14,
+    "('female', 'CFD40_AF_005')": 12,
+    "('female', 'CFD40_BF_001')": 165,
+    "('female', 'CFD40_BF_002')": 163,
+    "('female', 'CFD40_BF_003')": 13,
+    "('female', 'CFD40_BF_004')": 1999,
+    "('female', 'CFD40_BF_005')": 185,
+    "('female', 'CFD40_LF_001')": 4,
+    "('female', 'CFD40_LF_002')": 2268,
+    "('female', 'CFD40_LF_003')": 181,
+    "('female', 'CFD40_LF_004')": 14,
+    "('female', 'CFD40_LF_005')": 190,
+    "('female', 'CFD40_WF_001')": 181,
+    "('female', 'CFD40_WF_002')": 13,
+    "('female', 'CFD40_WF_003')": 172,
+    "('female', 'CFD40_WF_004')": 14,
+    "('female', 'CFD40_WF_005')": 13,
+    "('male', 'CFD40_AM_001')": 3,
+    "('male', 'CFD40_AM_002')": 194,
+    "('male', 'CFD40_AM_003')": 12,
+    "('male', 'CFD40_AM_004')": 181,
+    "('male', 'CFD40_AM_005')": 14,
+    "('male', 'CFD40_BM_001')": 14,
+    "('male', 'CFD40_BM_002')": 191,
+    "('male', 'CFD40_BM_003')": 2180,
+    "('male', 'CFD40_BM_004')": 11,
+    "('male', 'CFD40_BM_005')": 2435,
+    "('male', 'CFD40_LM_001')": 14,
+    "('male', 'CFD40_LM_002')": 13,
+    "('male', 'CFD40_LM_003')": 176,
+    "('male', 'CFD40_LM_004')": 184,
+    "('male', 'CFD40_LM_005')": 183,
+    "('male', 'CFD40_WM_001')": 13,
+    "('male', 'CFD40_WM_002')": 12,
+    "('male', 'CFD40_WM_003')": 10,
+    "('male', 'CFD40_WM_004')": 171,
+    "('male', 'CFD40_WM_005')": 185
+  },
+  "edited_attribute_target_coverage": {
+    "hair": {
+      "represented_values": 33,
+      "covered_values": 33,
+      "missing_values": []
+    },
+    "hair_color": {
+      "represented_values": 7,
+      "covered_values": 7,
+      "missing_values": []
+    },
+    "wardrobe_family": {
+      "represented_values": 37,
+      "covered_values": 37,
+      "missing_values": []
+    },
+    "wardrobe_group": {
+      "represented_values": 45,
+      "covered_values": 45,
+      "missing_values": []
+    },
+    "wardrobe_core": {
+      "represented_values": 239,
+      "covered_values": 239,
+      "missing_values": []
+    },
+    "action": {
+      "represented_values": 25,
+      "covered_values": 25,
+      "missing_values": []
+    },
+    "camera": {
+      "represented_values": 21,
+      "covered_values": 21,
+      "missing_values": []
+    },
+    "site": {
+      "represented_values": 21,
+      "covered_values": 21,
+      "missing_values": []
+    },
+    "identity": {
+      "represented_values": 40,
+      "covered_values": 40,
+      "missing_values": []
+    }
+  },
+  "history_axis_decay": 0.5,
+  "history_revisits_allowed": true,
+  "start_policy": "exact catalog-camera quotas; soft identity balance within camera; unused nodes; residual edge support",
+  "axis_policy": "legal identity=2/other=1; whole-history 0.5**n; global count feedback",
+  "feedback_exponent": 4.0,
+  "planned_edit_steps": 43800,
+  "soft_identity_target_fraction": 0.09,
+  "nonidentity_axis_terminal_target": 6643.0,
+  "nonidentity_axis_hard_upper": 6810,
+  "nonidentity_upper_slack": 0.025,
+  "cap2_attempts_before_cap3": 12,
+  "core_coverage_warmup_enabled": true,
+  "forced_coverage_job_count": 136,
+  "forced_coverage_jobs": [
+    {
+      "job": 0,
+      "session_id": "session_000000",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 3233,
+      "target": 3727,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.lederhosen.asset.86d3bf90649a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.lederhosen.asset.272ee5f88d2e"
+        ],
+        [
+          "male",
+          "male.lederhosen.asset.86d3bf90649a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 1,
+      "session_id": "session_000001",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1015,
+      "target": 3788,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.10e2ec97156b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.10e2ec97156b"
+        ],
+        [
+          "female",
+          "female.streetwear_collection.asset.5d5a9961cca5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 2,
+      "session_id": "session_000002",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2852,
+      "target": 3866,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.62897933e569"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.058dc73fcfbb"
+        ],
+        [
+          "male",
+          "male.1920s_collection.asset.62897933e569"
+        ],
+        [
+          "male",
+          "male.1920s_collection.asset.c1dfff3174ec"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 3,
+      "session_id": "session_000003",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2023,
+      "target": 3860,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.workout.asset.91886d6d7894"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.workout.asset.91886d6d7894"
+        ],
+        [
+          "male",
+          "male.workout.asset.f991c0f529d5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 4,
+      "session_id": "session_000004",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1869,
+      "target": 3724,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.dawkins.asset.86d3bf90649a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.dawkins.asset.86d3bf90649a"
+        ],
+        [
+          "male",
+          "male.dawkins.asset.efbc088d0b9a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 5,
+      "session_id": "session_000005",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1902,
+      "target": 3844,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.oahu.asset.13301aa60ca8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.oahu.asset.13301aa60ca8"
+        ],
+        [
+          "male",
+          "male.oahu.asset.49a4c6698aa9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 6,
+      "session_id": "session_000006",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 5,
+      "fork_source_position": 3,
+      "forced_round": 1,
+      "source": 108,
+      "target": 3719,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.5481c0ed925b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.1a9a05fb245f"
+        ],
+        [
+          "female",
+          "female.african_casual.asset.5481c0ed925b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 7,
+      "session_id": "session_000007",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 1359,
+      "target": 3781,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.a81fc6318bfd"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.a81fc6318bfd"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 8,
+      "session_id": "session_000008",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 105,
+      "target": 3799,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.50c82f9e6e6b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.50c82f9e6e6b"
+        ],
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.953597f8c225"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 9,
+      "session_id": "session_000009",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1378,
+      "target": 3749,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.workout_color_outfits.asset.d973df56c996"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.workout_color_outfits.asset.d973df56c996"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 10,
+      "session_id": "session_000010",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1972,
+      "target": 3729,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.mercenery.asset.86d3bf90649a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.mercenery.asset.272ee5f88d2e"
+        ],
+        [
+          "male",
+          "male.mercenery.asset.86d3bf90649a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 11,
+      "session_id": "session_000011",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1905,
+      "target": 3838,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.jiving.asset.49a4c6698aa9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.49a4c6698aa9"
+        ],
+        [
+          "male",
+          "male.jiving.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 12,
+      "session_id": "session_000012",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 107,
+      "target": 3755,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.jumpsuits_accessories.asset.4bd01360bcf2"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.jumpsuits_accessories.asset.4bd01360bcf2"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 13,
+      "session_id": "session_000013",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2256,
+      "target": 3829,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.27c49cc0e517"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.02e663ba6cf3"
+        ],
+        [
+          "male",
+          "male.casual_01_04.asset.27c49cc0e517"
+        ],
+        [
+          "male",
+          "male.casual_01_04.asset.6201ec711cd3"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 14,
+      "session_id": "session_000014",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 171,
+      "target": 3709,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.misaki.asset.7b08cf297183"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.misaki.asset.6e5f0523d9b2"
+        ],
+        [
+          "female",
+          "female.misaki.asset.7b08cf297183"
+        ],
+        [
+          "female",
+          "female.misaki.asset.b41a7781562c"
+        ],
+        [
+          "female",
+          "female.misaki.asset.dfdf5cd81df8"
+        ],
+        [
+          "female",
+          "female.misaki.asset.f27bc8642eba"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 15,
+      "session_id": "session_000015",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2062,
+      "target": 3854,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.summer.asset.79f65ef7f08f"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.summer.asset.79f65ef7f08f"
+        ],
+        [
+          "male",
+          "male.summer.asset.f991c0f529d5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 16,
+      "session_id": "session_000016",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 418,
+      "target": 3782,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.19cbe40f55c1"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.19cbe40f55c1"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 17,
+      "session_id": "session_000017",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2844,
+      "target": 3870,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.e1447d6ca3f7"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.e1447d6ca3f7"
+        ],
+        [
+          "male",
+          "male.1920s_collection.asset.f456f57eb13f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 18,
+      "session_id": "session_000018",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 191,
+      "target": 3817,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.e0ec1cc76613"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.e0ec1cc76613"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 19,
+      "session_id": "session_000019",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 139,
+      "target": 3776,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.e653995cc239"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.e653995cc239"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 20,
+      "session_id": "session_000020",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1941,
+      "target": 3728,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.lincoln.asset.dda2c4a63452"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.lincoln.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.lincoln.asset.dda2c4a63452"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 21,
+      "session_id": "session_000021",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 156,
+      "target": 3783,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.d2cebf9c8179"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.d2cebf9c8179"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 22,
+      "session_id": "session_000022",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 68,
+      "target": 3791,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.33f04a6e1d91"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.33f04a6e1d91"
+        ],
+        [
+          "female",
+          "female.streetwear_collection.asset.8f0c9c4362e0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 23,
+      "session_id": "session_000023",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1029,
+      "target": 3785,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.38e28569f367"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.38e28569f367"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 24,
+      "session_id": "session_000024",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 417,
+      "target": 3803,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.9a4bd4424235"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.9a4bd4424235"
+        ],
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.9b63499ec5e0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 25,
+      "session_id": "session_000025",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1344,
+      "target": 3813,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.36f74a9cb0f3"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.36f74a9cb0f3"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 26,
+      "session_id": "session_000026",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1067,
+      "target": 3797,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.dcc6e58e95a3"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.dcc6e58e95a3"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 27,
+      "session_id": "session_000027",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 86,
+      "target": 3820,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.5059469cc8c1"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.5059469cc8c1"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 28,
+      "session_id": "session_000028",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 29,
+      "target": 3795,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.e7275f1c6a0b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.e7275f1c6a0b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 29,
+      "session_id": "session_000029",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2060,
+      "target": 3721,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.cheer_leader.asset.49a4c6698aa9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.cheer_leader.asset.49a4c6698aa9"
+        ],
+        [
+          "male",
+          "male.cheer_leader.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 30,
+      "session_id": "session_000030",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1066,
+      "target": 3761,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.707fe7f87b6a"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.707fe7f87b6a"
+        ],
+        [
+          "female",
+          "female.bikini_ruana.asset.f57898bead73"
+        ],
+        [
+          "female",
+          "female.bikini_ruana.asset.f9bae8aaff89"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 31,
+      "session_id": "session_000031",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 5,
+      "fork_source_position": 3,
+      "forced_round": 1,
+      "source": 403,
+      "target": 3751,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.summer_girl_four_colors.asset.1099a24fc984"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.1099a24fc984"
+        ],
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.4e67156bce78"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 32,
+      "session_id": "session_000032",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1085,
+      "target": 3796,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.1557955e05f0"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.1557955e05f0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 33,
+      "session_id": "session_000033",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 157,
+      "target": 3764,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.2474204240ba"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.2474204240ba"
+        ],
+        [
+          "female",
+          "female.bikini_ruana.asset.6f0bf2d7a98b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 34,
+      "session_id": "session_000034",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2043,
+      "target": 3845,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.oahu.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.oahu.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.oahu.asset.f991c0f529d5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 35,
+      "session_id": "session_000035",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 999,
+      "target": 3763,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.905bf58b22bb"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.905bf58b22bb"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 36,
+      "session_id": "session_000036",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 2847,
+      "target": 3865,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.01d1133653ac"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.01d1133653ac"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 37,
+      "session_id": "session_000037",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1953,
+      "target": 3869,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.05bdaf6c7f02"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.05bdaf6c7f02"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 38,
+      "session_id": "session_000038",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3201,
+      "target": 3874,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.c2bc49eb07f3"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.c2bc49eb07f3"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 39,
+      "session_id": "session_000039",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2047,
+      "target": 3843,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.mesh_it_up.asset.bdef73564949"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.mesh_it_up.asset.bdef73564949"
+        ],
+        [
+          "male",
+          "male.mesh_it_up.asset.f0040cb9d1f6"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 40,
+      "session_id": "session_000040",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 357,
+      "target": 3769,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.682960233eff"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.6377ee58f8bf"
+        ],
+        [
+          "female",
+          "female.pretty_dresses.asset.682960233eff"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 41,
+      "session_id": "session_000041",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3784,
+      "target": 3792,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.ce1d879870b4"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.ce1d879870b4"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 42,
+      "session_id": "session_000042",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3774,
+      "target": 3819,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.add77661146b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.add77661146b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 43,
+      "session_id": "session_000043",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1073,
+      "target": 3824,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.194089042fee"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.194089042fee"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 44,
+      "session_id": "session_000044",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 44,
+      "target": 3772,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.4e67156bce78"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.0ed824a818b0"
+        ],
+        [
+          "female",
+          "female.pretty_dresses.asset.4e67156bce78"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 45,
+      "session_id": "session_000045",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1363,
+      "target": 3779,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.22798f030063"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.22798f030063"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 46,
+      "session_id": "session_000046",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1363,
+      "target": 3793,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.0ab0f0cb4d69"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.0ab0f0cb4d69"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 47,
+      "session_id": "session_000047",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 967,
+      "target": 3753,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.summer_girl_four_colors.asset.ce980960242b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.b566a1cef149"
+        ],
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.ce980960242b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 48,
+      "session_id": "session_000048",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3723,
+      "target": 3871,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.ae0d04906a0b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.ae0d04906a0b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 49,
+      "session_id": "session_000049",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 3857,
+      "target": 3861,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.workout.asset.13301aa60ca8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.workout.asset.13301aa60ca8"
+        ],
+        [
+          "male",
+          "male.workout.asset.88d3de51af97"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 50,
+      "session_id": "session_000050",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3857,
+      "target": 3849,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetstyle.asset.f8a659401fe8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetstyle.asset.8d019c53d19f"
+        ],
+        [
+          "male",
+          "male.streetstyle.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 51,
+      "session_id": "session_000051",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 1355,
+      "target": 3809,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.0421e2cbed91"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.0421e2cbed91"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 52,
+      "session_id": "session_000052",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2898,
+      "target": 3840,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.mesh_it_up.asset.b637e5071085"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.mesh_it_up.asset.3264922c4290"
+        ],
+        [
+          "male",
+          "male.mesh_it_up.asset.b637e5071085"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 53,
+      "session_id": "session_000053",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3743,
+      "target": 3821,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.39fcbc663d6e"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.39fcbc663d6e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 54,
+      "session_id": "session_000054",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2210,
+      "target": 3737,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.vacation.asset.dda2c4a63452"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.vacation.asset.272ee5f88d2e"
+        ],
+        [
+          "male",
+          "male.vacation.asset.dda2c4a63452"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 55,
+      "session_id": "session_000055",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 70,
+      "target": 3814,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.24f8fe15fbfe"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.24f8fe15fbfe"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 56,
+      "session_id": "session_000056",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1004,
+      "target": 3765,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.da1e675a22e4"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.da1e675a22e4"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 57,
+      "session_id": "session_000057",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 372,
+      "target": 3816,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.6b5b7f926feb"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.6b5b7f926feb"
+        ],
+        [
+          "female",
+          "female.dress_collection.asset.85e080cd1ad9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 58,
+      "session_id": "session_000058",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2926,
+      "target": 3848,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetscape.asset.3264922c4290"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetscape.asset.3264922c4290"
+        ],
+        [
+          "male",
+          "male.streetscape.asset.79f65ef7f08f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 59,
+      "session_id": "session_000059",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 1944,
+      "target": 3748,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.redsoul.asset.b7a4b22d397e"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.redsoul.asset.b7a4b22d397e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 60,
+      "session_id": "session_000060",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1057,
+      "target": 3708,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.elise.asset.dfdf5cd81df8"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.elise.asset.39bd258960d8"
+        ],
+        [
+          "female",
+          "female.elise.asset.42dda85d9749"
+        ],
+        [
+          "female",
+          "female.elise.asset.4e5e5be9ee7f"
+        ],
+        [
+          "female",
+          "female.elise.asset.5f85606f3356"
+        ],
+        [
+          "female",
+          "female.elise.asset.6e5f0523d9b2"
+        ],
+        [
+          "female",
+          "female.elise.asset.7b08cf297183"
+        ],
+        [
+          "female",
+          "female.elise.asset.b244d57696b0"
+        ],
+        [
+          "female",
+          "female.elise.asset.dfdf5cd81df8"
+        ],
+        [
+          "female",
+          "female.elise.asset.fc89536b4802"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 61,
+      "session_id": "session_000061",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 93,
+      "target": 3794,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.e2cec4dc5cb5"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.e2cec4dc5cb5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 62,
+      "session_id": "session_000062",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 150,
+      "target": 3800,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.c8931457ac2d"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.c8931457ac2d"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 63,
+      "session_id": "session_000063",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 126,
+      "target": 3767,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.df44c83a46e0"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.df44c83a46e0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 64,
+      "session_id": "session_000064",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1999,
+      "target": 3725,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.hippasuta.asset.272ee5f88d2e"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.hippasuta.asset.272ee5f88d2e"
+        ],
+        [
+          "male",
+          "male.hippasuta.asset.86d3bf90649a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 65,
+      "session_id": "session_000065",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1915,
+      "target": 3841,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.mesh_it_up.asset.b3fcdb5d4a89"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.mesh_it_up.asset.b3fcdb5d4a89"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 66,
+      "session_id": "session_000066",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 5,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1316,
+      "target": 3815,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.18dbd4de50c1"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.18dbd4de50c1"
+        ],
+        [
+          "female",
+          "female.dress_collection.asset.866c55f4f8f0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 67,
+      "session_id": "session_000067",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2942,
+      "target": 3722,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.cheer_leader.asset.bdef73564949"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.cheer_leader.asset.8d019c53d19f"
+        ],
+        [
+          "male",
+          "male.cheer_leader.asset.bdef73564949"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 68,
+      "session_id": "session_000068",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2018,
+      "target": 3853,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetstyle.asset.16a1605c95a7"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetstyle.asset.16a1605c95a7"
+        ],
+        [
+          "male",
+          "male.streetstyle.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 69,
+      "session_id": "session_000069",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3221,
+      "target": 3855,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.summer.asset.13301aa60ca8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.summer.asset.13301aa60ca8"
+        ],
+        [
+          "male",
+          "male.summer.asset.88d3de51af97"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 70,
+      "session_id": "session_000070",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 10,
+      "target": 3746,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.86cd53408afc"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.86cd53408afc"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 71,
+      "session_id": "session_000071",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2881,
+      "target": 3833,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.db46dcf64da2"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.db46dcf64da2"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 72,
+      "session_id": "session_000072",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1926,
+      "target": 3872,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.5d7e667f9336"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.5d7e667f9336"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 73,
+      "session_id": "session_000073",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 8,
+      "target": 3770,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.c54ffa7f175b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.c54ffa7f175b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 74,
+      "session_id": "session_000074",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1091,
+      "target": 3789,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.34785312a46a"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.34785312a46a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 75,
+      "session_id": "session_000075",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1374,
+      "target": 3823,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.9e47113b442e"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.9e47113b442e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 76,
+      "session_id": "session_000076",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 2,
+      "forced_round": 1,
+      "source": 2820,
+      "target": 3839,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.jiving.asset.8d019c53d19f"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.8d019c53d19f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 77,
+      "session_id": "session_000077",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1877,
+      "target": 3847,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetscape.asset.88d3de51af97"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetscape.asset.88d3de51af97"
+        ],
+        [
+          "male",
+          "male.streetscape.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 78,
+      "session_id": "session_000078",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 408,
+      "target": 3790,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.91e5b14dea86"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.91e5b14dea86"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 79,
+      "session_id": "session_000079",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3771,
+      "target": 3822,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.96e8937b77fe"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.96e8937b77fe"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 80,
+      "session_id": "session_000080",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 981,
+      "target": 3780,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.8089de7317db"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.8089de7317db"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 81,
+      "session_id": "session_000081",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 24,
+      "target": 3810,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.9769d6abd82f"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.9769d6abd82f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 82,
+      "session_id": "session_000082",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1951,
+      "target": 3842,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.mesh_it_up.asset.f8a659401fe8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.mesh_it_up.asset.f8a659401fe8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 83,
+      "session_id": "session_000083",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 393,
+      "target": 3744,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.0e6d0f352335"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.0e6d0f352335"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 84,
+      "session_id": "session_000084",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1334,
+      "target": 3811,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.b220452d0cb7"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.b220452d0cb7"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 85,
+      "session_id": "session_000085",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2843,
+      "target": 3851,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetstyle.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetstyle.asset.26cbc1eb61a5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 86,
+      "session_id": "session_000086",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 376,
+      "target": 3771,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.38a1d0dcf092"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.38a1d0dcf092"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 87,
+      "session_id": "session_000087",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 360,
+      "target": 3806,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.34ee24d2b8c9"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.34ee24d2b8c9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 88,
+      "session_id": "session_000088",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 134,
+      "target": 3760,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.cb86570512f2"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.cb86570512f2"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 89,
+      "session_id": "session_000089",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2264,
+      "target": 3827,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.4ebb880d6ff8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.4ebb880d6ff8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 90,
+      "session_id": "session_000090",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 3823,
+      "target": 3752,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.summer_girl_four_colors.asset.454a62c51e63"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.summer_girl_four_colors.asset.454a62c51e63"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 91,
+      "session_id": "session_000091",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 144,
+      "target": 3747,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.african_casual.asset.f38c5065edf5"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.african_casual.asset.010dfebd5858"
+        ],
+        [
+          "female",
+          "female.african_casual.asset.f38c5065edf5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 92,
+      "session_id": "session_000092",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1077,
+      "target": 3808,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.3f7477fd29de"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.3f7477fd29de"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 93,
+      "session_id": "session_000093",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1032,
+      "target": 3742,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.jumpsuits_accessories.asset.40a1f9e04a4a"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.jumpsuits_accessories.asset.40a1f9e04a4a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 94,
+      "session_id": "session_000094",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1935,
+      "target": 3873,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.9e172cfc87eb"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.9e172cfc87eb"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 95,
+      "session_id": "session_000095",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 410,
+      "target": 3812,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.02087ba7dc0c"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.02087ba7dc0c"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 96,
+      "session_id": "session_000096",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 12,
+      "target": 3758,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.f85e6af8279c"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.f85e6af8279c"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 97,
+      "session_id": "session_000097",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 4,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 2876,
+      "target": 3862,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.workout.asset.886a1a39c52e"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.workout.asset.886a1a39c52e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 98,
+      "session_id": "session_000098",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3858,
+      "target": 3732,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.owen.asset.86d3bf90649a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.owen.asset.86d3bf90649a"
+        ],
+        [
+          "male",
+          "male.owen.asset.efbc088d0b9a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 99,
+      "session_id": "session_000099",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2052,
+      "target": 3856,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.white_tie.asset.9234b2ae5d5b"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.white_tie.asset.9234b2ae5d5b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 100,
+      "session_id": "session_000100",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3758,
+      "target": 3775,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.6b7096a0d95f"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.6b7096a0d95f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 101,
+      "session_id": "session_000101",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 2049,
+      "target": 3868,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.5183a0fb4596"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.5183a0fb4596"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 102,
+      "session_id": "session_000102",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 54,
+      "target": 3773,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.e8cbcb665a1e"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.e8cbcb665a1e"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 103,
+      "session_id": "session_000103",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3228,
+      "target": 3826,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.5d60bdd7593c"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.5d60bdd7593c"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 104,
+      "session_id": "session_000104",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2049,
+      "target": 3863,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.a664a631725a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.a664a631725a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 105,
+      "session_id": "session_000105",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 21,
+      "target": 3745,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.dress_collection.asset.3d7953e7cadb"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.dress_collection.asset.3d7953e7cadb"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 106,
+      "session_id": "session_000106",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 2880,
+      "target": 3836,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.jiving.asset.bdef73564949"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.bdef73564949"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 107,
+      "session_id": "session_000107",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3812,
+      "target": 3786,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.1bfd23dd3347"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.1bfd23dd3347"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 108,
+      "session_id": "session_000108",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3873,
+      "target": 3850,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetstyle.asset.bdef73564949"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetstyle.asset.bdef73564949"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 109,
+      "session_id": "session_000109",
+      "kind": "fork",
+      "length": 2,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 115,
+      "target": 3750,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.workout_color_outfits.asset.8b81e2e96991"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.workout_color_outfits.asset.8b81e2e96991"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 110,
+      "session_id": "session_000110",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3747,
+      "target": 3768,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.5b02ba4e3a1b"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.5b02ba4e3a1b"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 111,
+      "session_id": "session_000111",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1863,
+      "target": 3835,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.jiving.asset.3264922c4290"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 112,
+      "session_id": "session_000112",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 56,
+      "target": 3762,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.e11b4c856170"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.e11b4c856170"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 113,
+      "session_id": "session_000113",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3745,
+      "target": 3787,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.b47b6209ecba"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.b47b6209ecba"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 114,
+      "session_id": "session_000114",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2258,
+      "target": 3828,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.9c6b257f1e74"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.9c6b257f1e74"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 115,
+      "session_id": "session_000115",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1857,
+      "target": 3831,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.fd7a6a43d53f"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.fd7a6a43d53f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 116,
+      "session_id": "session_000116",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2225,
+      "target": 3739,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.wrinkled.asset.260fa428356c"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.wrinkled.asset.260fa428356c"
+        ],
+        [
+          "male",
+          "male.wrinkled.asset.3b277a90b86f"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 117,
+      "session_id": "session_000117",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2003,
+      "target": 3825,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.19269ba011f9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.19269ba011f9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 118,
+      "session_id": "session_000118",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1857,
+      "target": 3837,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.jiving.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.jiving.asset.26cbc1eb61a5"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 119,
+      "session_id": "session_000119",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2823,
+      "target": 3846,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.pyjamas.asset.49a4c6698aa9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.pyjamas.asset.49a4c6698aa9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 120,
+      "session_id": "session_000120",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3739,
+      "target": 3852,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.streetstyle.asset.49a4c6698aa9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.streetstyle.asset.49a4c6698aa9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 121,
+      "session_id": "session_000121",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 115,
+      "target": 3818,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.off_shoulder_dresses.asset.ebc9595ed4e8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 122,
+      "session_id": "session_000122",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 1033,
+      "target": 3805,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.0e4801bb0b79"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.0e4801bb0b79"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 123,
+      "session_id": "session_000123",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2907,
+      "target": 3830,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.casual_01_04.asset.25f33395c7db"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.casual_01_04.asset.25f33395c7db"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 124,
+      "session_id": "session_000124",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2260,
+      "target": 3834,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.dash.asset.49a4c6698aa9"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.dash.asset.49a4c6698aa9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 125,
+      "session_id": "session_000125",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3736,
+      "target": 3867,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.12310057d1a0"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.12310057d1a0"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 126,
+      "session_id": "session_000126",
+      "kind": "fork",
+      "length": 4,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 3802,
+      "target": 3777,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.streetwear_collection.asset.c8ed28f65323"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.streetwear_collection.asset.c8ed28f65323"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 127,
+      "session_id": "session_000127",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 5,
+      "fork_source_position": 2,
+      "forced_round": 1,
+      "source": 1088,
+      "target": 3759,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.bikini_ruana.asset.8620d97a77a9"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.bikini_ruana.asset.8620d97a77a9"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 128,
+      "session_id": "session_000128",
+      "kind": "linear",
+      "length": 4,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1088,
+      "target": 3754,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.jumpsuits_accessories.asset.01913375a5cc"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.jumpsuits_accessories.asset.01913375a5cc"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 129,
+      "session_id": "session_000129",
+      "kind": "fork",
+      "length": 3,
+      "fork_round": 2,
+      "fork_source_position": 0,
+      "forced_round": 1,
+      "source": 3743,
+      "target": 3798,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.shirts_pants_a_i.asset.363f2368fd28"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.shirts_pants_a_i.asset.363f2368fd28"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 130,
+      "session_id": "session_000130",
+      "kind": "linear",
+      "length": 5,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 3863,
+      "target": 3720,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.cheer_leader.asset.26cbc1eb61a5"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.cheer_leader.asset.26cbc1eb61a5"
+        ],
+        [
+          "male",
+          "male.cheer_leader.asset.3264922c4290"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 131,
+      "session_id": "session_000131",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 1315,
+      "target": 3743,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.pretty_dresses.asset.1b2641fef7cf"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.pretty_dresses.asset.1b2641fef7cf"
+        ],
+        [
+          "female",
+          "female.pretty_dresses.asset.c7bdcbf37ae1"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 132,
+      "session_id": "session_000132",
+      "kind": "linear",
+      "length": 2,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2912,
+      "target": 3714,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.cyberpunk_locked.asset.6e5f0523d9b2"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.cyberpunk_locked.asset.6e5f0523d9b2"
+        ],
+        [
+          "male",
+          "male.cyberpunk_locked.asset.7b08cf297183"
+        ],
+        [
+          "male",
+          "male.cyberpunk_locked.asset.f27bc8642eba"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 133,
+      "session_id": "session_000133",
+      "kind": "linear",
+      "length": 3,
+      "fork_round": null,
+      "fork_source_position": null,
+      "forced_round": 1,
+      "source": 2912,
+      "target": 3864,
+      "axis": "wardrobe",
+      "mode": "single_piece",
+      "requested_core": [
+        "male",
+        "male.1920s_collection.asset.04686bc980a8"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.1920s_collection.asset.04686bc980a8"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 134,
+      "session_id": "session_000134",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 5,
+      "fork_source_position": 3,
+      "forced_round": 1,
+      "source": 2058,
+      "target": 3736,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "male",
+        "male.underbelly.asset.86d3bf90649a"
+      ],
+      "new_core_gains": [
+        [
+          "male",
+          "male.underbelly.asset.272ee5f88d2e"
+        ],
+        [
+          "male",
+          "male.underbelly.asset.86d3bf90649a"
+        ]
+      ],
+      "edge_reuse_before": 0
+    },
+    {
+      "job": 135,
+      "session_id": "session_000135",
+      "kind": "fork",
+      "length": 5,
+      "fork_round": 3,
+      "fork_source_position": 1,
+      "forced_round": 1,
+      "source": 135,
+      "target": 3740,
+      "axis": "wardrobe",
+      "mode": "whole_outfit",
+      "requested_core": [
+        "female",
+        "female.workout_color_outfits.asset.5a50d4fe03d3"
+      ],
+      "new_core_gains": [
+        [
+          "female",
+          "female.workout_color_outfits.asset.5a50d4fe03d3"
+        ]
+      ],
+      "edge_reuse_before": 0
+    }
+  ],
+  "core_coverage_override_policy": "For missing changed-in core values, lock a genuine directed wardrobe edge as round one of an existing fixed job; prioritize scarce incoming support, low reuse, and new-core gain. Kind, length, fork round and fork source remain unchanged. This is explicit coverage sampling, not pure random selection.",
+  "reuse_note": "Reuse below two can result from coverage, zero/one-use preference, fixed fork jobs, and local graph support; no missing edge is invented to raise reuse.",
+  "full_catalog_target_uniformity_claimed": false
+}

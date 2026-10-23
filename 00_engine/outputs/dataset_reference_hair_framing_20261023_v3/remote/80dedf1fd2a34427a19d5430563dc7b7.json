@@ -1,0 +1,732 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_hair_framing_20261023_v3",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_framing_pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "pool_mb": 10240,
+    "job_id": "ref_4e863251d8337df6439af55f",
+    "action": "prepare",
+    "request_id": "80dedf1fd2a34427a19d5430563dc7b7"
+  },
+  "started_at": "2026-10-23T03:13:45.426516+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_hair_framing_20261023_v3', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_hair_framing_20261023_v3/hair_framing_pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'pool_mb': 10240, 'job_id': 'ref_4e863251d8337df6439af55f', 'action': 'prepare', 'request_id': '80dedf1fd2a34427a19d5430563dc7b7'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_prepared_v11_v1\", \"signature\": \"4dc599e590dca0e3b9afe108ebc6db495b5f20dc4de49f688d061c5a6835290a\", \"reference_job_sha256\": \"844eb5ad212c6b871f1201a0190804d7c7ddeca96670201dcc24c0570a4de13b\", \"job_id\": \"ref_4e863251d8337df6439af55f\", \"reference_kind\": \"hair\", \"job\": {\"shot_id\": \"ref_4e863251d8337df6439af55f\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_4e863251d8337df6439af55f_33fb61fa70.LS_ref_4e863251d8337df6439af55f_33fb61fa70\"}, \"source_job_id\": \"ref_carrier_hair_05375a4c5230106b01dd\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_hair_framing_20261023_v3\\\\carrier_jobs.json\", \"sha256\": \"f83479799894134f4552e11e0ebb590c85f436e800aba70a8c7cfaed807e7070\"}, \"source_pins\": [], \"source_packages_unchanged\": true, \"camera\": {\"position\": [0.007734596317921838, 107.91390590295019, 153.7399479167931], \"rotation_pitch_yaw_roll\": [0.0, -90.0, 0.0], \"horizontal_fov_degrees\": 28.0, \"bounds_center\": [0.007734596317921838, -2.0860940970498154, 153.7399479167931], \"bounds_extent\": [25.0, 15.0, 25.0], \"view\": \"front\", \"focus_kind\": \"hair\", \"head_socket\": [0.007734596317921838, -2.0860940970498154, 150.7399479167931], \"framing_scope\": \"shared male/female head-relative camera; most hair; longest tips may crop\", \"camera_distance_cm\": 110.0, \"head_relative_center_z_cm\": 3.0, \"presentation_status\": \"shared_parameters_sample_review\"}, \"details\": {\"target_identity\": \"CFD40_LF_003\", \"hair_id\": \"HAIR_HB2_04\", \"view\": \"front\", \"hair_color\": \"black\", \"face_id\": \"none\", \"carrier\": \"formal source 38-slot actor with current 40-person revision and permanent lash followers\", \"template_map\": \"/Game/DataMake/Capture/StageSources/L_cam_01_static_front_v003\", \"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"formal_assembly_readback\": {\"success\": true, \"selection\": {\"character_id\": \"CFD40_LF_003\", \"sex\": \"female\", \"choice\": {\"family_id\": \"female.shirts_pants_a_i\", \"group_id\": \"default\", \"slot_choices\": {\"shirts\": \"female.shirts_pants_a_i.asset.ce1d879870b4\", \"pants\": \"female.shirts_pants_a_i.asset.c8931457ac2d\"}, \"optional_asset_ids\": [], \"shared_shoe_id\": \"F003\", \"hair_id\": \"HAIR_HB2_04\"}, \"hair_color\": \"black\", \"eye_color\": \"original\", \"face_id\": \"none\", \"sources\": {\"character_registry\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\production_workflow_20261017_v1\\\\asset_inventory_formal_runtime_catalog_20261016T191604.json\", \"sha256\": \"12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329\"}, \"wardrobe_registry\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\production_workflow_20261017_v1\\\\asset_inventory_formal_runtime_catalog_20261016T191604.json\", \"sha256\": \"12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329\"}, \"appearance_palette\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\scripts\\\\unreal\\\\hair_eye_color_runtime_v1.py\", \"sha256\": \"d714c2fd41a7f8d1929394d2f97cd0a47c123b0ca3c702aac73a4420326c7400\"}, \"appearance_palette_compatibility\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\production_workflow_20261017_v1\\\\hair_eye_color_formal_root_compatibility_v1.json\", \"sha256\": \"4154699579cca1d6d57e2e1387705098813457ebcb5864061b6119ec50219f49\"}, \"hair_color_trials\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\scripts\\\\unreal\\\\scene_site_hair_color_trials_v1.py\", \"sha256\": \"aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112\"}, \"hair_color_method\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\scripts\\\\unreal\\\\scene_site_hair_color_trials_v1.py\", \"sha256\": \"aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112\", \"method\": \"neutral_base_v2\"}, \"native_face_library\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\production_workflow_20261017_v1\\\\asset_inventory_formal_runtime_catalog_20261016T191604.json\", \"sha256\": \"12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329\"}, \"character_revision\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\character_refresh_20261018_v1\\\\user_edited_night_import_20261020_v1\\\\delivery.json\", \"sha256\": \"a950391fef51ec2dcb15a92e512a98ccfa8ad87247a0e796ee8d85720ec1e467\", \"bytes\": 205797}}}, \"time_seconds\": 0.0, \"animation_path\": null, \"face\": null, \"components\": {\"Body\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_body.cc_base_body\", \"Tongue\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_tongue.cc_base_tongue\", \"Eyes\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_eye.cc_base_eye\", \"Teeth\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_teeth.cc_base_teeth\", \"Tearline\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_tearline.cc_base_tearline\", \"EyeOcclusion\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion\", \"UpperInner\": \"/Game/DataMake/Appearance/Wardrobe/Female/shirts_pants_a_i/Shirts/Shirt_A/Meshes/shirt.shirt\", \"UpperOuter\": null, \"Bottom\": \"/Game/DataMake/Appearance/Wardrobe/Female/shirts_pants_a_i/Pants/Pants_A/Meshes/pants.pants\", \"FullBody\": null, \"Footwear\": \"/Game/DataMake/Appearance/Wardrobe/Female/pretty_dresses/Shoes/Shoes3/Meshes/sneakers_18172_shape.sneakers_18172_shape\", \"BundlePart01\": null, \"BundlePart02\": null, \"BundlePart03\": null, \"BundlePart04\": null, \"BundlePart05\": null, \"BundlePart06\": null, \"BundlePart07\": null, \"BundlePart08\": null, \"BundlePart09\": null, \"BundlePart10\": null, \"HairPart01\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/chunky_highlights_bangs.chunky_highlights_bangs\", \"HairPart02\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/double_half_up.double_half_up\", \"HairPart03\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_l.hair_bows_l\", \"HairPart04\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_r.hair_bows_r\", \"HairPart05\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/straight_long_low.straight_long_low\", \"HairPart06\": null, \"HairPart07\": null, \"HairPart08\": null, \"HairPart09\": null, \"HairPart10\": null, \"HairPart11\": null, \"HairPart12\": null, \"HairPart13\": null, \"HairPart14\": null, \"HairPart15\": null, \"HairPart16\": null, \"HairPart17\": null}, \"hair_reason\": \"allowed\", \"source_assets_modified\": false, \"hair_coverage\": {\"version\": \"hair_coverage_v1\", \"bindings\": [{\"component\": \"HairPart01\", \"slot\": 0, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair_T_Transparency_Pbr_StrandsV2.MI_Hair_T_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_970cd4d2b130c4a1eeab.MI_teal_970cd4d2b130c4a1eeab\", \"material\": \"/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}, {\"component\": \"HairPart01\", \"slot\": 1, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair_B_Transparency_Pbr_StrandsV2.MI_Hair_B_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_6c143f2dbe02d51ce903.MI_teal_6c143f2dbe02d51ce903\", \"material\": \"/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}, {\"component\": \"HairPart02\", \"slot\": 0, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair59_Transparency_Pbr_StrandsV2.MI_Hair59_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_afd1b01a8db4ca05ea65.MI_teal_afd1b01a8db4ca05ea65\", \"material\": \"/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}, {\"component\": \"HairPart03\", \"slot\": 0, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair58_Transparency_Pbr_StrandsV2.MI_Hair58_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_5d84272c8e6400accec5.MI_teal_5d84272c8e6400accec5\", \"material\": \"/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}, {\"component\": \"HairPart04\", \"slot\": 0, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair57_Transparency_Pbr_StrandsV2.MI_Hair57_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_7ecd07d4b2a3eeff2ba0.MI_teal_7ecd07d4b2a3eeff2ba0\", \"material\": \"/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}, {\"component\": \"HairPart05\", \"slot\": 0, \"source\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair60_Transparency_Pbr_StrandsV2.MI_Hair60_Transparency_Pbr_StrandsV2\", \"color_parent\": \"/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_98994f5eb53effa118df.MI_teal_98994f5eb53effa118df\", \"material\": \"/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197\", \"clip\": 0.34, \"opacity_repaired\": null, \"alpha_multiplier\": 1.5}], \"source_assets_modified\": false, \"review_alpha_multiplier\": 1.5}, \"pair_revision\": {\"revision\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1\", \"owners\": [{\"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"character_id\": \"CFD40_LF_003\", \"root_component_count\": 38, \"followers\": [{\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_0\", \"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"mesh\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_up_dropping.lash_up_dropping\", \"leader\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attached_to\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attach_parent_bounds\": true, \"tick\": true}, {\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_1\", \"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"mesh\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_low_outward.lash_low_outward\", \"leader\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attached_to\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attach_parent_bounds\": true, \"tick\": true}], \"propagate_curves_to_followers\": true, \"structural_pass\": true, \"evaluated_morph_pixels_verified\": false}], \"visual_acceptance\": \"pending_actual_review\"}}, \"persistent_lashes\": {\"revision\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1\", \"owners\": [{\"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"character_id\": \"CFD40_LF_003\", \"root_component_count\": 38, \"followers\": [{\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_2\", \"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"mesh\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_up_dropping.lash_up_dropping\", \"leader\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attached_to\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attach_parent_bounds\": true, \"tick\": true}, {\"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_3\", \"owner\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"mesh\": \"/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_low_outward.lash_low_outward\", \"leader\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attached_to\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body\", \"attach_parent_bounds\": true, \"tick\": true}], \"propagate_curves_to_followers\": true, \"structural_pass\": true, \"evaluated_morph_pixels_verified\": false}], \"visual_acceptance\": \"pending_actual_review\"}, \"persistent_materials\": {\"version\": \"dataset_persistent_materials_v2\", \"actor\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0\", \"asset_root\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1\", \"bindings\": [{\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart01\", \"material_index\": 0, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_92bb86c47714d916767b48da.MI_92bb86c47714d916767b48da\"}, {\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart01\", \"material_index\": 1, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_bea291a6ce96e3575ee4b605.MI_bea291a6ce96e3575ee4b605\"}, {\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart02\", \"material_index\": 0, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_6199edef83cf53e1af681342.MI_6199edef83cf53e1af681342\"}, {\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart03\", \"material_index\": 0, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_2bfb48aaf9d74921deb4b685.MI_2bfb48aaf9d74921deb4b685\"}, {\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart04\", \"material_index\": 0, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_f35a970ae312cae090090cd7.MI_f35a970ae312cae090090cd7\"}, {\"component\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart05\", \"material_index\": 0, \"source_dynamic_material\": \"/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_a490076dc25777049af38f64.MI_a490076dc25777049af38f64\"}], \"materials\": [{\"source_dynamic_material\": \"/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_92bb86c47714d916767b48da.MI_92bb86c47714d916767b48da\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_0f33e250b5a7b353c6cc.MI_0f33e250b5a7b353c6cc\", \"created\": false, \"spec_sha256\": \"92bb86c47714d916767b48da4f89086b2f4fc4fb76020d1198d4da9b5815ffd8\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}, {\"source_dynamic_material\": \"/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_bea291a6ce96e3575ee4b605.MI_bea291a6ce96e3575ee4b605\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_a1dcd168cc3e0125c383.MI_a1dcd168cc3e0125c383\", \"created\": false, \"spec_sha256\": \"bea291a6ce96e3575ee4b605e7230614813afc33962939d1b31caf3822ea30e9\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}, {\"source_dynamic_material\": \"/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_6199edef83cf53e1af681342.MI_6199edef83cf53e1af681342\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_f098a003b305f6bcaac7.MI_f098a003b305f6bcaac7\", \"created\": false, \"spec_sha256\": \"6199edef83cf53e1af6813426b158c5d2f6111ba568d62ef6dd47a439b68921f\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}, {\"source_dynamic_material\": \"/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_2bfb48aaf9d74921deb4b685.MI_2bfb48aaf9d74921deb4b685\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_c06bb76091ee33e6cea5.MI_c06bb76091ee33e6cea5\", \"created\": false, \"spec_sha256\": \"2bfb48aaf9d74921deb4b6857c35851031ecebd4e940f7b2e26880c6a96da2bf\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}, {\"source_dynamic_material\": \"/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_f35a970ae312cae090090cd7.MI_f35a970ae312cae090090cd7\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_edfef6dfe4dd210c0c84.MI_edfef6dfe4dd210c0c84\", \"created\": false, \"spec_sha256\": \"f35a970ae312cae090090cd7bbe9e92f6b49df54057b9e4e834f2c0738bffe60\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}, {\"source_dynamic_material\": \"/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197\", \"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_a490076dc25777049af38f64.MI_a490076dc25777049af38f64\", \"parent\": \"/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_5a5951cafd1fcc42555f.MI_5a5951cafd1fcc42555f\", \"created\": false, \"spec_sha256\": \"a490076dc25777049af38f6483d13c2602d2ce65163d633f1de2fcff7818f04b\", \"local_overrides\": {\"scalar_parameter_values\": [\"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Alpha Multiplier\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)\", \"(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\\\"Compensate Color Power\\\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)\"], \"vector_parameter_values\": [\"(ParameterInfo=(Name=\\\"Base Color Tint\\\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)\"], \"texture_parameter_values\": [], \"base_property_overrides\": {\"flags\": {\"bOverride_OpacityMaskClipValue\": \"False\", \"bOverride_BlendMode\": \"False\", \"bOverride_ShadingModel\": \"False\", \"bOverride_DitheredLODTransition\": \"False\", \"bOverride_CastDynamicShadowAsMasked\": \"False\", \"bOverride_TwoSided\": \"False\", \"bOverride_bIsThinSurface\": \"False\", \"bOverride_OutputTranslucentVelocity\": \"False\", \"bOverride_bHasPixelAnimation\": \"False\", \"bOverride_bEnableTessellation\": \"False\", \"bOverride_DisplacementScaling\": \"False\", \"bOverride_bEnableDisplacementFade\": \"False\", \"bOverride_DisplacementFadeRange\": \"False\", \"bOverride_MaxWorldPositionOffsetDisplacement\": \"False\", \"bOverride_CompatibleWithLumenCardSharing\": \"False\", \"bOverride_UsageFlags\": \"0\"}, \"active_values\": {}}}}], \"source_materials_modified\": false, \"map_saved\": false, \"reload_verified\": false}, \"pose\": \"unanimated imported reference pose; no body animation or expressive face\", \"body_animation\": null, \"body_time_seconds\": 0.0, \"actor_rotation_pitch_yaw_roll\": [0.0, 0.0, 0.0], \"neutral_front_axis\": \"+Y\", \"hair_bounds\": [{\"component\": \"HairPart01\", \"mesh\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/chunky_highlights_bangs.chunky_highlights_bangs\", \"center\": [0.06294822692871094, 6.207283139228821, 156.14505767822266], \"extent\": [9.858071327209473, 4.05400550365448, 13.385169982910156], \"method\": \"mesh reference bounds corners transformed by live component transform\"}, {\"component\": \"HairPart02\", \"mesh\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/double_half_up.double_half_up\", \"center\": [-0.31490182876586914, -1.9872121810913086, 160.1181182861328], \"extent\": [11.91439962387085, 10.179954528808594, 12.482467651367188], \"method\": \"mesh reference bounds corners transformed by live component transform\"}, {\"component\": \"HairPart03\", \"mesh\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_l.hair_bows_l\", \"center\": [8.50072056055069, -5.648056387901306, 169.08763885498047], \"extent\": [7.867170751094818, 3.238864541053772, 6.551155090332031], \"method\": \"mesh reference bounds corners transformed by live component transform\"}, {\"component\": \"HairPart04\", \"mesh\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_r.hair_bows_r\", \"center\": [-8.841289013624191, -6.047244071960449, 169.33390045166016], \"extent\": [7.862852603197098, 3.0860977172851562, 6.599555969238281], \"method\": \"mesh reference bounds corners transformed by live component transform\"}, {\"component\": \"HairPart05\", \"mesh\": \"/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/straight_long_low.straight_long_low\", \"center\": [-0.0803995132446289, -10.552765965461731, 143.21467208862305], \"extent\": [14.676766395568848, 8.839728236198425, 21.556018829345703], \"method\": \"mesh reference bounds corners transformed by live component transform\"}], \"hair_asset_meshes_match_source\": true, \"garments_present\": true, \"removed_garments\": [], \"neutral_clothes\": {\"material\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Materials/M_HairReferenceClothes_33fb61fa70.M_HairReferenceClothes_33fb61fa70\", \"components\": [\"UpperInner\", \"Bottom\", \"Footwear\"], \"style\": \"opaque plain neutral gray, roughness 0.9; source materials unchanged\"}, \"environment\": {\"background\": \"owned unlit 18-percent gray sphere\", \"key_intensity\": 0.7, \"fill_intensity\": 20.0, \"fill_views\": [\"front\", \"back\"], \"manual_exposure_bias\": -1.0, \"status\": \"prototype_lighting_unapproved\"}, \"presentation_status\": \"design_confirmed\", \"reference_manifest_binding\": \"not published; source main node lineage only\"}, \"width\": 1024, \"height\": 1024, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 6.8289999999979045, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"design_confirmed_sample_review\", \"source_jobs_path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_hair_framing_20261023_v3\\\\carrier_jobs.json\"}"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_prepared_v11_v1",
+    "signature": "4dc599e590dca0e3b9afe108ebc6db495b5f20dc4de49f688d061c5a6835290a",
+    "reference_job_sha256": "844eb5ad212c6b871f1201a0190804d7c7ddeca96670201dcc24c0570a4de13b",
+    "job_id": "ref_4e863251d8337df6439af55f",
+    "reference_kind": "hair",
+    "job": {
+      "shot_id": "ref_4e863251d8337df6439af55f",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_4e863251d8337df6439af55f_33fb61fa70.LS_ref_4e863251d8337df6439af55f_33fb61fa70"
+    },
+    "source_job_id": "ref_carrier_hair_05375a4c5230106b01dd",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_hair_framing_20261023_v3\\carrier_jobs.json",
+      "sha256": "f83479799894134f4552e11e0ebb590c85f436e800aba70a8c7cfaed807e7070"
+    },
+    "source_pins": [],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        0.007734596317921838,
+        107.91390590295019,
+        153.7399479167931
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 28.0,
+      "bounds_center": [
+        0.007734596317921838,
+        -2.0860940970498154,
+        153.7399479167931
+      ],
+      "bounds_extent": [
+        25.0,
+        15.0,
+        25.0
+      ],
+      "view": "front",
+      "focus_kind": "hair",
+      "head_socket": [
+        0.007734596317921838,
+        -2.0860940970498154,
+        150.7399479167931
+      ],
+      "framing_scope": "shared male/female head-relative camera; most hair; longest tips may crop",
+      "camera_distance_cm": 110.0,
+      "head_relative_center_z_cm": 3.0,
+      "presentation_status": "shared_parameters_sample_review"
+    },
+    "details": {
+      "target_identity": "CFD40_LF_003",
+      "hair_id": "HAIR_HB2_04",
+      "view": "front",
+      "hair_color": "black",
+      "face_id": "none",
+      "carrier": "formal source 38-slot actor with current 40-person revision and permanent lash followers",
+      "template_map": "/Game/DataMake/Capture/StageSources/L_cam_01_static_front_v003",
+      "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+      "formal_assembly_readback": {
+        "success": true,
+        "selection": {
+          "character_id": "CFD40_LF_003",
+          "sex": "female",
+          "choice": {
+            "family_id": "female.shirts_pants_a_i",
+            "group_id": "default",
+            "slot_choices": {
+              "shirts": "female.shirts_pants_a_i.asset.ce1d879870b4",
+              "pants": "female.shirts_pants_a_i.asset.c8931457ac2d"
+            },
+            "optional_asset_ids": [],
+            "shared_shoe_id": "F003",
+            "hair_id": "HAIR_HB2_04"
+          },
+          "hair_color": "black",
+          "eye_color": "original",
+          "face_id": "none",
+          "sources": {
+            "character_registry": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+              "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329"
+            },
+            "wardrobe_registry": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+              "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329"
+            },
+            "appearance_palette": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\hair_eye_color_runtime_v1.py",
+              "sha256": "d714c2fd41a7f8d1929394d2f97cd0a47c123b0ca3c702aac73a4420326c7400"
+            },
+            "appearance_palette_compatibility": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\hair_eye_color_formal_root_compatibility_v1.json",
+              "sha256": "4154699579cca1d6d57e2e1387705098813457ebcb5864061b6119ec50219f49"
+            },
+            "hair_color_trials": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_hair_color_trials_v1.py",
+              "sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112"
+            },
+            "hair_color_method": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\scripts\\unreal\\scene_site_hair_color_trials_v1.py",
+              "sha256": "aceda1efc37ffba7881c6baab697772a1dce97f709a7872f569ab29650152112",
+              "method": "neutral_base_v2"
+            },
+            "native_face_library": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\asset_inventory_formal_runtime_catalog_20261016T191604.json",
+              "sha256": "12326d78ad1176dc2fc7708857e99d94d487ffd920067b0236a7fe6307705329"
+            },
+            "character_revision": {
+              "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\character_refresh_20261018_v1\\user_edited_night_import_20261020_v1\\delivery.json",
+              "sha256": "a950391fef51ec2dcb15a92e512a98ccfa8ad87247a0e796ee8d85720ec1e467",
+              "bytes": 205797
+            }
+          }
+        },
+        "time_seconds": 0.0,
+        "animation_path": null,
+        "face": null,
+        "components": {
+          "Body": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_body.cc_base_body",
+          "Tongue": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_tongue.cc_base_tongue",
+          "Eyes": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_eye.cc_base_eye",
+          "Teeth": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_teeth.cc_base_teeth",
+          "Tearline": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_tearline.cc_base_tearline",
+          "EyeOcclusion": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/cc_base_eyeocclusion.cc_base_eyeocclusion",
+          "UpperInner": "/Game/DataMake/Appearance/Wardrobe/Female/shirts_pants_a_i/Shirts/Shirt_A/Meshes/shirt.shirt",
+          "UpperOuter": null,
+          "Bottom": "/Game/DataMake/Appearance/Wardrobe/Female/shirts_pants_a_i/Pants/Pants_A/Meshes/pants.pants",
+          "FullBody": null,
+          "Footwear": "/Game/DataMake/Appearance/Wardrobe/Female/pretty_dresses/Shoes/Shoes3/Meshes/sneakers_18172_shape.sneakers_18172_shape",
+          "BundlePart01": null,
+          "BundlePart02": null,
+          "BundlePart03": null,
+          "BundlePart04": null,
+          "BundlePart05": null,
+          "BundlePart06": null,
+          "BundlePart07": null,
+          "BundlePart08": null,
+          "BundlePart09": null,
+          "BundlePart10": null,
+          "HairPart01": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/chunky_highlights_bangs.chunky_highlights_bangs",
+          "HairPart02": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/double_half_up.double_half_up",
+          "HairPart03": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_l.hair_bows_l",
+          "HairPart04": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_r.hair_bows_r",
+          "HairPart05": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/straight_long_low.straight_long_low",
+          "HairPart06": null,
+          "HairPart07": null,
+          "HairPart08": null,
+          "HairPart09": null,
+          "HairPart10": null,
+          "HairPart11": null,
+          "HairPart12": null,
+          "HairPart13": null,
+          "HairPart14": null,
+          "HairPart15": null,
+          "HairPart16": null,
+          "HairPart17": null
+        },
+        "hair_reason": "allowed",
+        "source_assets_modified": false,
+        "hair_coverage": {
+          "version": "hair_coverage_v1",
+          "bindings": [
+            {
+              "component": "HairPart01",
+              "slot": 0,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair_T_Transparency_Pbr_StrandsV2.MI_Hair_T_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_970cd4d2b130c4a1eeab.MI_teal_970cd4d2b130c4a1eeab",
+              "material": "/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            },
+            {
+              "component": "HairPart01",
+              "slot": 1,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair_B_Transparency_Pbr_StrandsV2.MI_Hair_B_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_6c143f2dbe02d51ce903.MI_teal_6c143f2dbe02d51ce903",
+              "material": "/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            },
+            {
+              "component": "HairPart02",
+              "slot": 0,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair59_Transparency_Pbr_StrandsV2.MI_Hair59_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_afd1b01a8db4ca05ea65.MI_teal_afd1b01a8db4ca05ea65",
+              "material": "/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            },
+            {
+              "component": "HairPart03",
+              "slot": 0,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair58_Transparency_Pbr_StrandsV2.MI_Hair58_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_5d84272c8e6400accec5.MI_teal_5d84272c8e6400accec5",
+              "material": "/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            },
+            {
+              "component": "HairPart04",
+              "slot": 0,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair57_Transparency_Pbr_StrandsV2.MI_Hair57_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_7ecd07d4b2a3eeff2ba0.MI_teal_7ecd07d4b2a3eeff2ba0",
+              "material": "/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            },
+            {
+              "component": "HairPart05",
+              "slot": 0,
+              "source": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Materials/MI_Hair60_Transparency_Pbr_StrandsV2.MI_Hair60_Transparency_Pbr_StrandsV2",
+              "color_parent": "/Game/DataMake/Validation/PairRevision20261019_v1/Materials/NeutralHairTrialsV1/Instances/MI_teal_98994f5eb53effa118df.MI_teal_98994f5eb53effa118df",
+              "material": "/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197",
+              "clip": 0.34,
+              "opacity_repaired": null,
+              "alpha_multiplier": 1.5
+            }
+          ],
+          "source_assets_modified": false,
+          "review_alpha_multiplier": 1.5
+        },
+        "pair_revision": {
+          "revision": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1",
+          "owners": [
+            {
+              "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+              "character_id": "CFD40_LF_003",
+              "root_component_count": 38,
+              "followers": [
+                {
+                  "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_0",
+                  "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+                  "mesh": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_up_dropping.lash_up_dropping",
+                  "leader": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                  "attached_to": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                  "attach_parent_bounds": true,
+                  "tick": true
+                },
+                {
+                  "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_1",
+                  "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+                  "mesh": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_low_outward.lash_low_outward",
+                  "leader": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                  "attached_to": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                  "attach_parent_bounds": true,
+                  "tick": true
+                }
+              ],
+              "propagate_curves_to_followers": true,
+              "structural_pass": true,
+              "evaluated_morph_pixels_verified": false
+            }
+          ],
+          "visual_acceptance": "pending_actual_review"
+        }
+      },
+      "persistent_lashes": {
+        "revision": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1",
+        "owners": [
+          {
+            "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+            "character_id": "CFD40_LF_003",
+            "root_component_count": 38,
+            "followers": [
+              {
+                "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_2",
+                "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+                "mesh": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_up_dropping.lash_up_dropping",
+                "leader": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                "attached_to": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                "attach_parent_bounds": true,
+                "tick": true
+              },
+              {
+                "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.SkeletalMeshActor_3",
+                "owner": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+                "mesh": "/Game/DataMake/Characters/Revisions/CFD40_20261019_v1/CFD40_LF_003/Meshes/lash_low_outward.lash_low_outward",
+                "leader": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                "attached_to": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.Body",
+                "attach_parent_bounds": true,
+                "tick": true
+              }
+            ],
+            "propagate_curves_to_followers": true,
+            "structural_pass": true,
+            "evaluated_morph_pixels_verified": false
+          }
+        ],
+        "visual_acceptance": "pending_actual_review"
+      },
+      "persistent_materials": {
+        "version": "dataset_persistent_materials_v2",
+        "actor": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0",
+        "asset_root": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1",
+        "bindings": [
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart01",
+            "material_index": 0,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_92bb86c47714d916767b48da.MI_92bb86c47714d916767b48da"
+          },
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart01",
+            "material_index": 1,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_bea291a6ce96e3575ee4b605.MI_bea291a6ce96e3575ee4b605"
+          },
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart02",
+            "material_index": 0,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_6199edef83cf53e1af681342.MI_6199edef83cf53e1af681342"
+          },
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart03",
+            "material_index": 0,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_2bfb48aaf9d74921deb4b685.MI_2bfb48aaf9d74921deb4b685"
+          },
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart04",
+            "material_index": 0,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_f35a970ae312cae090090cd7.MI_f35a970ae312cae090090cd7"
+          },
+          {
+            "component": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_4e863251d8337df6439af55f_33fb61fa70.L_ref_4e863251d8337df6439af55f_33fb61fa70:PersistentLevel.BP_DM_Complete_Female_FixedSlots_v001_C_0.HairPart05",
+            "material_index": 0,
+            "source_dynamic_material": "/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_a490076dc25777049af38f64.MI_a490076dc25777049af38f64"
+          }
+        ],
+        "materials": [
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_0f33e250b5a7b353c6cc_192",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_92bb86c47714d916767b48da.MI_92bb86c47714d916767b48da",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_0f33e250b5a7b353c6cc.MI_0f33e250b5a7b353c6cc",
+            "created": false,
+            "spec_sha256": "92bb86c47714d916767b48da4f89086b2f4fc4fb76020d1198d4da9b5815ffd8",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          },
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_a1dcd168cc3e0125c383_193",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_bea291a6ce96e3575ee4b605.MI_bea291a6ce96e3575ee4b605",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_a1dcd168cc3e0125c383.MI_a1dcd168cc3e0125c383",
+            "created": false,
+            "spec_sha256": "bea291a6ce96e3575ee4b605e7230614813afc33962939d1b31caf3822ea30e9",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          },
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_f098a003b305f6bcaac7_194",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_6199edef83cf53e1af681342.MI_6199edef83cf53e1af681342",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_f098a003b305f6bcaac7.MI_f098a003b305f6bcaac7",
+            "created": false,
+            "spec_sha256": "6199edef83cf53e1af6813426b158c5d2f6111ba568d62ef6dd47a439b68921f",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          },
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_c06bb76091ee33e6cea5_195",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_2bfb48aaf9d74921deb4b685.MI_2bfb48aaf9d74921deb4b685",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_c06bb76091ee33e6cea5.MI_c06bb76091ee33e6cea5",
+            "created": false,
+            "spec_sha256": "2bfb48aaf9d74921deb4b6857c35851031ecebd4e940f7b2e26880c6a96da2bf",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          },
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_edfef6dfe4dd210c0c84_196",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_f35a970ae312cae090090cd7.MI_f35a970ae312cae090090cd7",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_edfef6dfe4dd210c0c84.MI_edfef6dfe4dd210c0c84",
+            "created": false,
+            "spec_sha256": "f35a970ae312cae090090cd7bbe9e92f6b49df54057b9e4e834f2c0738bffe60",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          },
+          {
+            "source_dynamic_material": "/Engine/Transient.MID_MI_5a5951cafd1fcc42555f_197",
+            "material": "/Game/DataMake/Capture/DatasetPilot20261023/Materials/PersistentV1/MI_a490076dc25777049af38f64.MI_a490076dc25777049af38f64",
+            "parent": "/Game/DataMake/Appearance/Materials/HairCoverageV1/MI_5a5951cafd1fcc42555f.MI_5a5951cafd1fcc42555f",
+            "created": false,
+            "spec_sha256": "a490076dc25777049af38f6483d13c2602d2ce65163d633f1de2fcff7818f04b",
+            "local_overrides": {
+              "scalar_parameter_values": [
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Alpha Multiplier\",Association=GlobalParameter,Index=-1),ParameterValue=1.500000,ExpressionGUID=<editor-generated>)",
+                "(AtlasData=(bIsUsedAsAtlasPosition=False,Curve=None,Atlas=None),ParameterInfo=(Name=\"Compensate Color Power\",Association=GlobalParameter,Index=-1),ParameterValue=1.800000,ExpressionGUID=<editor-generated>)"
+              ],
+              "vector_parameter_values": [
+                "(ParameterInfo=(Name=\"Base Color Tint\",Association=GlobalParameter,Index=-1),ParameterValue=(R=0.100000,G=0.100000,B=0.100000,A=1.000000),ExpressionGUID=<editor-generated>)"
+              ],
+              "texture_parameter_values": [],
+              "base_property_overrides": {
+                "flags": {
+                  "bOverride_OpacityMaskClipValue": "False",
+                  "bOverride_BlendMode": "False",
+                  "bOverride_ShadingModel": "False",
+                  "bOverride_DitheredLODTransition": "False",
+                  "bOverride_CastDynamicShadowAsMasked": "False",
+                  "bOverride_TwoSided": "False",
+                  "bOverride_bIsThinSurface": "False",
+                  "bOverride_OutputTranslucentVelocity": "False",
+                  "bOverride_bHasPixelAnimation": "False",
+                  "bOverride_bEnableTessellation": "False",
+                  "bOverride_DisplacementScaling": "False",
+                  "bOverride_bEnableDisplacementFade": "False",
+                  "bOverride_DisplacementFadeRange": "False",
+                  "bOverride_MaxWorldPositionOffsetDisplacement": "False",
+                  "bOverride_CompatibleWithLumenCardSharing": "False",
+                  "bOverride_UsageFlags": "0"
+                },
+                "active_values": {}
+              }
+            }
+          }
+        ],
+        "source_materials_modified": false,
+        "map_saved": false,
+        "reload_verified": false
+      },
+      "pose": "unanimated imported reference pose; no body animation or expressive face",
+      "body_animation": null,
+      "body_time_seconds": 0.0,
+      "actor_rotation_pitch_yaw_roll": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "neutral_front_axis": "+Y",
+      "hair_bounds": [
+        {
+          "component": "HairPart01",
+          "mesh": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/chunky_highlights_bangs.chunky_highlights_bangs",
+          "center": [
+            0.06294822692871094,
+            6.207283139228821,
+            156.14505767822266
+          ],
+          "extent": [
+            9.858071327209473,
+            4.05400550365448,
+            13.385169982910156
+          ],
+          "method": "mesh reference bounds corners transformed by live component transform"
+        },
+        {
+          "component": "HairPart02",
+          "mesh": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/double_half_up.double_half_up",
+          "center": [
+            -0.31490182876586914,
+            -1.9872121810913086,
+            160.1181182861328
+          ],
+          "extent": [
+            11.91439962387085,
+            10.179954528808594,
+            12.482467651367188
+          ],
+          "method": "mesh reference bounds corners transformed by live component transform"
+        },
+        {
+          "component": "HairPart03",
+          "mesh": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_l.hair_bows_l",
+          "center": [
+            8.50072056055069,
+            -5.648056387901306,
+            169.08763885498047
+          ],
+          "extent": [
+            7.867170751094818,
+            3.238864541053772,
+            6.551155090332031
+          ],
+          "method": "mesh reference bounds corners transformed by live component transform"
+        },
+        {
+          "component": "HairPart04",
+          "mesh": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/hair_bows_r.hair_bows_r",
+          "center": [
+            -8.841289013624191,
+            -6.047244071960449,
+            169.33390045166016
+          ],
+          "extent": [
+            7.862852603197098,
+            3.0860977172851562,
+            6.599555969238281
+          ],
+          "method": "mesh reference bounds corners transformed by live component transform"
+        },
+        {
+          "component": "HairPart05",
+          "mesh": "/Game/DataMake/Appearance/FixedHeadHair/Hair/HB2_04/Female/Meshes/straight_long_low.straight_long_low",
+          "center": [
+            -0.0803995132446289,
+            -10.552765965461731,
+            143.21467208862305
+          ],
+          "extent": [
+            14.676766395568848,
+            8.839728236198425,
+            21.556018829345703
+          ],
+          "method": "mesh reference bounds corners transformed by live component transform"
+        }
+      ],
+      "hair_asset_meshes_match_source": true,
+      "garments_present": true,
+      "removed_garments": [],
+      "neutral_clothes": {
+        "material": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Materials/M_HairReferenceClothes_33fb61fa70.M_HairReferenceClothes_33fb61fa70",
+        "components": [
+          "UpperInner",
+          "Bottom",
+          "Footwear"
+        ],
+        "style": "opaque plain neutral gray, roughness 0.9; source materials unchanged"
+      },
+      "environment": {
+        "background": "owned unlit 18-percent gray sphere",
+        "key_intensity": 0.7,
+        "fill_intensity": 20.0,
+        "fill_views": [
+          "front",
+          "back"
+        ],
+        "manual_exposure_bias": -1.0,
+        "status": "prototype_lighting_unapproved"
+      },
+      "presentation_status": "design_confirmed",
+      "reference_manifest_binding": "not published; source main node lineage only"
+    },
+    "width": 1024,
+    "height": 1024,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 6.8289999999979045,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "design_confirmed_sample_review",
+    "source_jobs_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_hair_framing_20261023_v3\\carrier_jobs.json"
+  },
+  "finished_at": "2026-10-23T03:13:52.945788+00:00",
+  "seconds": 7.51600000000326
+}

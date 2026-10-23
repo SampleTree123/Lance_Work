@@ -1,0 +1,66 @@
+{
+  "kind": "symbolic_audit_fixtures_not_model_inputs_or_rendered_visual_claims",
+  "cases": [
+    {
+      "id": "history_needed_despite_identical_current_input",
+      "instruction": "以最初那一版为起点，只把走路改成跑步。",
+      "shared_previous_instruction": "把相机改成近景。",
+      "edit": {"axis": "action", "value": "run"},
+      "left_history": [{"identity": "a", "camera": "far", "action": "walk"}, {"identity": "a", "camera": "near", "action": "walk"}],
+      "right_history": [{"identity": "a", "camera": "high", "action": "walk"}, {"identity": "a", "camera": "near", "action": "walk"}],
+      "parent": 0,
+      "left_target": {"identity": "a", "camera": "far", "action": "run"},
+      "right_target": {"identity": "a", "camera": "high", "action": "run"},
+      "expected": "same_latest_and_current_text_different_history_and_targets",
+      "no_history_balanced_pair_item_accuracy_upper_bound": 0.5,
+      "source_pointer_can_be_correct_on_both_without_solving_generation": true
+    },
+    {
+      "id": "full_history_still_insufficient_when_projection_hides_difference",
+      "instruction": "从最初那版继续，只把走路改成跑步。",
+      "edit": {"axis": "action", "value": "run"},
+      "left_history": [{"identity": "a", "camera": "near", "action": "walk"}, {"identity": "c", "camera": "near", "action": "walk"}],
+      "right_history": [{"identity": "b", "camera": "near", "action": "walk"}, {"identity": "c", "camera": "near", "action": "walk"}],
+      "visible_fields_in_all_history_media": ["camera", "action"],
+      "parent": 0,
+      "expected": "public_projection_equal_but_hidden_target_identity_different; request_more_evidence_or_exclude",
+      "warning": "projection is a toy assumption, not proof any actual two character videos are pixel-identical"
+    },
+    {
+      "id": "latest_filter_does_not_remove_other_edit_conditional_aliases",
+      "instruction": "从最初那版继续，只把衣服换成绿色。",
+      "history": [{"outfit": "red", "camera": "near", "action": "walk"}, {"outfit": "blue", "camera": "near", "action": "walk"}, {"outfit": "blue", "camera": "far", "action": "walk"}],
+      "edit": {"axis": "outfit", "value": "green"},
+      "strict_parent": 0,
+      "target": {"outfit": "green", "camera": "near", "action": "walk"},
+      "result_equivalent_sources": [0, 1],
+      "latest_source_is_not_equivalent": true,
+      "expected": "video_result_cannot_identify_parent_occurrence_even_with_latest_counterfactual_filter"
+    },
+    {
+      "id": "partial_attribute_restore_is_not_full_historical_fork",
+      "instruction": "只把衣服恢复成最初的红色，保留现在的远景和跑步。",
+      "history": [{"outfit": "red", "camera": "near", "action": "walk"}, {"outfit": "blue", "camera": "far", "action": "run"}],
+      "expected_target": {"outfit": "red", "camera": "far", "action": "run"},
+      "expected": "source_is_latest_and_value_is_grounded_in_history; do_not_label_whole_state_fork"
+    },
+    {
+      "id": "rollout_nominal_gt_conflicts_with_actual_source_preservation",
+      "instruction": "只改成跑步，其余保持不变。",
+      "nominal_parent": {"outfit": "blue", "camera": "near", "action": "walk"},
+      "actual_generated_parent": {"outfit": "green", "camera": "near", "action": "walk"},
+      "edit": {"axis": "action", "value": "run"},
+      "faithful_to_visible_parent": {"outfit": "green", "camera": "near", "action": "run"},
+      "nominal_gt_target": {"outfit": "blue", "camera": "near", "action": "run"},
+      "expected": "score_local_delta_contract_and_cumulative_nominal_success_separately"
+    },
+    {
+      "id": "ambiguous_visual_reference_has_multiple_admissible_targets",
+      "instruction": "从蓝衣服的那版继续，把动作改成跑步。",
+      "history": [{"outfit": "blue", "camera": "near", "action": "walk"}, {"outfit": "blue", "camera": "far", "action": "walk"}],
+      "edit": {"axis": "action", "value": "run"},
+      "admissible_sources": [0, 1],
+      "expected": "different_full_targets; ask_near_or_far_rather_than_scoring_arbitrary_canonical_parent"
+    }
+  ]
+}

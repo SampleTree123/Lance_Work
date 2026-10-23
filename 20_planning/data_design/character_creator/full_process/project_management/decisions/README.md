@@ -4,7 +4,7 @@
 > 文档类型：`decision_index`
 > 生命周期：`current`
 > 权威范围：改变长期技术、数据或文档契约的已接受决定
-> 最近核验：2026-08-25
+> 最近核验：2026-10-05（显式结项空闲规则）
 
 | ADR | 主题 | 状态 | 主要影响 |
 | --- | --- | --- | --- |
@@ -24,6 +24,9 @@
 | [0014](./ADR-0014-COMPATIBILITY-DOMAINS-AND-CHAIN-POLICIES.md) | 兼容域与双链策略 | accepted | `WF-70..WF-90` |
 | [0015](./ADR-0015-DOCUMENTATION-OPERATING-MODEL.md) | 可持续文档运行模型初版 | superseded | 由 ADR-0016 取代 |
 | [0016](./ADR-0016-INDEPENDENT-DOCUMENT-SUBSYSTEMS.md) | 文档子系统独立闭合与显式跨层契约 | accepted | 全局 |
+| [0017](./ADR-0017-COMPLETED-PLAN-IDLE-STATE.md) | 计划完成归档后等待用户下一任务的显式空闲状态 | accepted | Plan/Status/Governance |
+
+| [0018](./ADR-0018-ACTION-DEPENDENT-STABLE-CAMERA.md) | 动作替换保镜头配方、允许派生平滑轨迹不同 | accepted | WF-60/70/80实验范围 |
 
 只有改变长期规则的决定进入 ADR。一次故障、单批结果和临时参数分别进入 Technical Recovery、Batch Status 或 Plan。
 

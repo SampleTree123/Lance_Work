@@ -1,0 +1,159 @@
+{
+  "schema_version": "split_exploration_v1",
+  "status": "parameterized_candidates_not_frozen",
+  "date": "2026-10-21",
+  "scope": "dataset_training_unseen_not_pretraining_unseen",
+  "budgets": {
+    "train_side_unique_video_nodes": 2500,
+    "test_unique_video_nodes": 500,
+    "train_side_sessions": 12000,
+    "test_sessions": 3000,
+    "budget_scope_requires_user_decision": true,
+    "default_candidate_main_nodes_include_root_intermediate_branch": true,
+    "reference_video_budget_options": ["additional_to_3000_main_video_nodes", "inside_3000_hard_total_requires_deducting_main_nodes_and_rechecking_capacity"],
+    "default_total_rendered_video_formula": "3000 + unique_reference_clips_not_already_in_main_media",
+    "reuse_node_does_not_consume_new_video_budget": true,
+    "reference_images_count_separately": true
+  },
+  "uniform_length_alternative_parameters": {
+    "length_scheme_scope": "uniform_length_alternative_not_root_graph_primary_candidate; do_not_mix_quotas",
+    "lengths": [2, 3, 4, 5],
+    "length_weights": [0.25, 0.25, 0.25, 0.25],
+    "train_sessions_per_length": 3000,
+    "test_sessions_per_length": 750,
+    "linear_to_one_fork_ratio": [2, 1],
+    "train_linear_and_fork": [8000, 4000],
+    "test_linear_and_fork": [2000, 1000],
+    "atomic_edit_count_train": 42000,
+    "atomic_edit_count_test": 10500,
+    "fork_round_rule": "2 <= fork_round <= edit_length; root occurrence index is 0",
+    "fork_parent_rule": "0 <= parent_occurrence_index <= fork_round - 2",
+    "fork_count_per_fork_session": 1,
+    "inheritance": "full_selected_parent_state_then_replace_one_axis",
+    "merge_discarded_branch": false,
+    "allow_revisit_same_node_with_distinct_occurrences": true,
+    "test_fork_round_quotas": {
+      "2": {"2": 250},
+      "3": {"2": 125, "3": 125},
+      "4": {"2": 84, "3": 83, "4": 83},
+      "5": {"2": 63, "3": 63, "4": 62, "5": 62}
+    },
+    "source_sampling": "balance available recent/distant and root/intermediate sources; no impossible cross-cell quotas"
+  },
+  "root_graph_primary_length_candidate": {
+    "status": "candidate_to_be_integrated_by_root_not_frozen",
+    "linear_lengths": [2, 3, 4, 5],
+    "linear_weights": [0.25, 0.25, 0.25, 0.25],
+    "fork_lengths": [3, 4, 5],
+    "fork_weights": [0.2, 0.4, 0.4],
+    "train_linear_counts": [2000, 2000, 2000, 2000],
+    "train_fork_counts": [800, 1600, 1600],
+    "test_linear_counts": [500, 500, 500, 500],
+    "test_fork_counts": [200, 400, 400],
+    "train_atomic_edit_count": 44800,
+    "test_atomic_edit_count": 11200,
+    "fork_round_quotas": "derive_for_this_candidate; do_not_copy_uniform_alternative_quotas"
+  },
+  "candidate_asset_holdouts": {
+    "scene_families": {"catalog_nominal_map_count": 21, "dev_only": 1, "test_only": 4, "fit_during_development_nominal": 16, "final_train_nominal": 17},
+    "identity_for_candidate_b": {"catalog_nominal": 40, "test_female": 4, "test_male": 4, "dev_female": 2, "dev_male": 2, "final_train_nominal": 32},
+    "ids": null,
+    "freeze_blockers": ["read_actual_catalog", "group_map_and_asset_variants", "apply_wardrobe_hair_compatibility", "apply_1428_manual_exclusions", "verify_atomic_edges_and_unique_session_capacity"],
+    "all_counts_are_provisional_until_catalog_checks": true
+  },
+  "candidates": [
+    {
+      "id": "A_scene_composition",
+      "recommendation": "preferred",
+      "test_budget_partitions": [
+        {"stratum": "seen_value_control", "unique_nodes": 80, "sessions": 480},
+        {"stratum": "unseen_scene", "unique_nodes": 340, "sessions": 2040},
+        {"stratum": "unseen_composition", "unique_nodes": 80, "sessions": 480}
+      ],
+      "unseen_identity_required": false,
+      "unseen_edit_category_required": false,
+      "composition_definition": "predeclare held-out identity-by-scene pairs among individually seen values; all atomic edit categories remain trained",
+      "claim": "primary unseen-scene evaluation; composition is exploratory only",
+      "pre_model_structural_fallback": "if composition partition has inadequate unique-session capacity or independent families, reassign its budget to unseen_scene and retain composition tags only; revise manifest before model evaluation"
+    },
+    {
+      "id": "B_scene_composition_identity",
+      "recommendation": "alternative_if_unseen_people_is_intended",
+      "test_budget_partitions": [
+        {"stratum": "seen_value_control", "unique_nodes": 80, "sessions": 480},
+        {"stratum": "unseen_scene", "unique_nodes": 220, "sessions": 1320},
+        {"stratum": "unseen_composition", "unique_nodes": 100, "sessions": 600},
+        {"stratum": "unseen_identity", "unique_nodes": 100, "sessions": 600}
+      ],
+      "unseen_identity_required": true,
+      "unseen_edit_category_required": false,
+      "claim": "separate scene, composition and identity-value diagnostics"
+    },
+    {
+      "id": "C_scene_composition_unseen_edit_category",
+      "recommendation": "separate_research_question_not_default",
+      "test_budget_partitions": [
+        {"stratum": "seen_value_control", "unique_nodes": 80, "sessions": 480},
+        {"stratum": "unseen_scene", "unique_nodes": 220, "sessions": 1320},
+        {"stratum": "unseen_composition", "unique_nodes": 100, "sessions": 600},
+        {"stratum": "unseen_edit_category", "unique_nodes": 100, "sessions": 600}
+      ],
+      "held_out_edit_category": null,
+      "category_holdout_rule": "zero corresponding edit supervision, inverse edges, equivalent instructions and indirect supervised equivalents throughout training",
+      "requires_rebuilt_training_distribution": true,
+      "claim": "transfer to an entire untrained edit operation; not equivalent to unseen values"
+    }
+  ],
+  "partition_semantics": {
+    "node_quotas_include_seen_context_connectors": true,
+    "each_partition_owns_all_its_root_and_intermediate_media": true,
+    "sessions_have_one_primary_stratum_and_all_actual_tags": true,
+    "nodes_are_not_automatically_unseen_because_of_partition_name": true,
+    "strata_graphs_may_have_multiple_compatibility_components": true,
+    "six_sessions_per_node_is_budget_allocation_not_capacity_proof": true,
+    "small_pool_tradeoff": "root/connector/domain overhead reduces independent families and unique chains; many correlated sessions do not prove robustness across all axes",
+    "unseen_task_intent_pending_user_definition": true,
+    "full_configuration_hash_and_media_cross_split_overlap": 0,
+    "single_factor_values_may_overlap_unless_held_out": true,
+    "forbid_all_axis_value_isolation_as_default": true
+  },
+  "development_validation": {
+    "source": "inside_2500_train_side_nodes_and_12000_train_side_sessions",
+    "target_dev_nodes": 250,
+    "target_dev_sessions": 1200,
+    "target_fit_nodes": 2250,
+    "target_fit_sessions": 10800,
+    "quotas_may_shift_to_preserve_complete_families": true,
+    "dev_only_proxy_scene_identity_and_composition_distinct_from_test": true,
+    "after_model_selection_options": ["keep_fit_dev_separate_and_report_actual_fit_count", "freeze_all_choices_then_final_refit_full_train_side_and_disclose_dev_is_no_longer_independent"],
+    "test_for_tuning": false
+  },
+  "reference_contract": {
+    "condition_modes_report_separately": ["text_only", "image_reference", "video_reference"],
+    "unseen_value_may_be_shown_in_test_reference": true,
+    "scope": "dataset_training_including_reference_media_and_retrieval_indexes",
+    "forbid_future_target_or_target_derived_frame_as_reference": true,
+    "same_full_target_state_copy_condition_is_separate_reconstruction_diagnostic": true,
+    "record_reference_target_attribute_overlap_and_provenance": true
+  },
+  "evaluation_views": [
+    {"name": "known_reference_single_turn", "source": "explicit_task_input", "history_source_selection_scored": false},
+    {"name": "oracle_source_diagnostic", "source": "hidden_gt_parent", "main_result": false},
+    {"name": "autonomous_source_gt_history_diagnostic", "source": "model_selected_gt_history_occurrence", "main_result": false},
+    {"name": "autonomous_source_rollout", "source": "model_selected_generated_history_occurrence", "main_result": true}
+  ],
+  "aggregation": {
+    "required_counts": ["unique_nodes", "unique_directed_edges", "unique_sessions", "provenance_families", "scene_families", "identity_families", "node_edge_reuse"],
+    "primary_mean": "mean within provenance family then mean across families",
+    "also_report": "session_weighted_mean_and_per_scene_family_results",
+    "confidence_resampling_unit": "family; if families share media use shared-media dependency components",
+    "giant_dependency_component_rule": "report limitation; no iid turn-level confidence interval",
+    "same_path_paraphrases_are_not_extra_sessions": true
+  },
+  "sources_checked_20261021": [
+    "https://wilds.stanford.edu/submit/",
+    "https://cs.stanford.edu/people/jcjohns/clevr/",
+    "https://proceedings.mlr.press/v80/lake18a.html",
+    "https://vchitect.github.io/VBench-project/"
+  ]
+}

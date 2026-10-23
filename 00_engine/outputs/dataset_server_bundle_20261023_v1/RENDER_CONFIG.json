@@ -1,0 +1,104 @@
+{
+  "schema": "dataset_render_bundle_v1",
+  "engine_version": "5.8.1",
+  "profile_snapshot": "config/VIDEO_PROFILE.json",
+  "content_inventory": "config/CONTENT_CONFIG.json",
+  "runtime": {
+    "portable_runtime": true,
+    "command_timeout": 600,
+    "render_timeout": 3600,
+    "discovery_timeout": 120
+  },
+  "queues": {
+    "smoke_main": {
+      "jobs": "queues/main/pilot_jobs.json",
+      "worker_module": "ue_dataset_render_v11",
+      "output_subdir": "main"
+    },
+    "main": {
+      "jobs": "queues/main/ordered_jobs.json",
+      "worker_module": "ue_dataset_render_v11",
+      "output_subdir": "main"
+    },
+    "scene": {
+      "jobs": "queues/references/scene_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    },
+    "identity": {
+      "jobs": "queues/references/identity_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    },
+    "hair": {
+      "jobs": "queues/references/hair_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    },
+    "garment": {
+      "jobs": "queues/references/garment_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    },
+    "motion": {
+      "jobs": "queues/references/motion_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    },
+    "smoke_references": {
+      "jobs": "queues/references/smoke_jobs.json",
+      "worker_module": "ue_dataset_reference_v11",
+      "output_subdir": "references",
+      "seed_files": {
+        "carrier_jobs.json": "queues/references/carrier_jobs.json"
+      }
+    }
+  },
+  "execution_order": [
+    "smoke_main",
+    "smoke_references",
+    "main",
+    "scene",
+    "identity",
+    "hair",
+    "garment",
+    "motion"
+  ],
+  "single_editor_serial": true,
+  "resume": "same output root; successful matching jobs skipped by existing driver",
+  "retry": "no automatic retry; fix error then explicitly rerun same queue",
+  "profile_semantics": "Frozen documented contract with current worker implementation; job dimensions and timings consumed directly. Editing profile alone does not override worker CVar/AA/encoding constants; regenerate and test affected code/plan.",
+  "character_expression": {
+    "face_id": "smile",
+    "scope": [
+      "main_video",
+      "motion_reference_video",
+      "identity_reference_image",
+      "hair_reference_image"
+    ],
+    "catalog": "00_engine/assets/character_creator/dataset_smile_v1.json",
+    "implementation": "Prebuilt native smile on sex-specific shared skeleton; body tracks and production10 timing unchanged.",
+    "source_window_seconds": [
+      27,
+      32
+    ],
+    "video_playback": "Original approved five-second native smile repeated; native eye movements retained.",
+    "static_sample_seconds": 0.0,
+    "version": 1
+  }
+}

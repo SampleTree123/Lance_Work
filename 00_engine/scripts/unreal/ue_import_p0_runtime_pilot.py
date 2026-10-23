@@ -6,6 +6,12 @@ one of: preflight, female_reference, male_reference.
 
 from __future__ import annotations
 
+
+# RETIRED_EXECUTION_ENTRY_20261001: imports/shared helpers remain available.
+if globals().get("__name__") == "__main__":
+    raise RuntimeError("Retired execution entry: ue_import_p0_runtime_pilot.py. Use the current Character Factory v003/review or canonical FirstBatch workflow; historical evidence remains available.")
+
+
 from collections import Counter
 from datetime import datetime, timezone
 import hashlib

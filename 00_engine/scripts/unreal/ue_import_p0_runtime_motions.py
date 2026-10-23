@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+
+# RETIRED_EXECUTION_ENTRY_20261001: imports/shared helpers remain available.
+if globals().get("__name__") == "__main__":
+    raise RuntimeError("Retired execution entry: ue_import_p0_runtime_motions.py. Use the current Character Factory v003/review or canonical FirstBatch workflow; historical evidence remains available.")
+
+
 import hashlib
 import json
 from datetime import datetime, timezone

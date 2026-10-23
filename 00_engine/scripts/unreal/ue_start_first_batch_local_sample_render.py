@@ -11,7 +11,7 @@ PRESET_PATH = "/Game/DataMake/Render/Presets/MRQ_DM_FirstBatch_1440p30_PNG_v001"
 MAP_PATH = str(
     globals().get(
         "DM_MAP_PATH",
-        "/Game/DataMake/Scenes/TokyoStylized/"
+        "/Game/Scenes/TokyoStylizedEnvironment/WorkingMaps/"
         "L_DM_TokyoStylized.L_DM_TokyoStylized",
     )
 )

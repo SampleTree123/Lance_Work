@@ -1,0 +1,2191 @@
+{
+  "schema": "v6_independent_iteration_summary",
+  "generated_utc": "2026-10-21T17:20:03.447288+00:00",
+  "selected_candidate": "selected_seed1",
+  "status": "Final offline recommendation selected_seed1 is N3752+T800/v68/history0.2, independently verified with three same-configuration sampling seeds; pending user adoption, not rendered. Previous v5, N+S/0.3 fallback and failed experiments remain preserved.",
+  "formal_baseline_for_earlier_stage": "dataset_sequence_graph_20261021_v4/rotated",
+  "v5_comparison": "dataset_balanced_graph_20261022_v5/candidate_c_seed1",
+  "iterations": {
+    "candidate_c_seed1": {
+      "passed_retained_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_c_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3937,
+            "used_nodes": 3937,
+            "unused_nodes": 0,
+            "registered_directed_edges": 56232,
+            "used_directed_edges": 26893,
+            "sessions": 12000,
+            "edit_steps": 43800,
+            "unique_full_chains": 12000
+          },
+          "hard_errors": {
+            "six_axis_deviation_over_10_percent": 1
+          },
+          "six_axis_max_relative_deviation": 0.2575950849972666,
+          "axis_counts": {
+            "identity": 5387,
+            "hair": 6810,
+            "hair_color": 6719,
+            "wardrobe": 6629,
+            "action": 4753,
+            "camera": 6810,
+            "site": 6692
+          },
+          "four_use_edge_fraction": 0.0010039787305246718,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.0014166666666666217,
+          "start_camera_total_variation": 0.00032608695652172615,
+          "start_front_fraction": 0.26066666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.37480869299051117,
+          "single_slot_conditional_tv": 0.11637403021641572,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 679,
+              "formal_conditional_expected_given_actual_single_events": 897.5000000000033,
+              "graph_node_missing_slot_fraction": 0.8716884774976061
+            },
+            "coats": {
+              "actual_single_edit_count": 605,
+              "formal_conditional_expected_given_actual_single_events": 437.9999999999984,
+              "graph_node_missing_slot_fraction": 0.7562461913467398
+            },
+            "pants": {
+              "actual_single_edit_count": 255,
+              "formal_conditional_expected_given_actual_single_events": 321.4999999999993,
+              "graph_node_missing_slot_fraction": 0.8666666666666667
+            },
+            "skirts": {
+              "actual_single_edit_count": 236,
+              "formal_conditional_expected_given_actual_single_events": 118.0,
+              "graph_node_missing_slot_fraction": 0.6911196911196911
+            },
+            "full_body": {
+              "actual_single_edit_count": 674,
+              "formal_conditional_expected_given_actual_single_events": 674.0,
+              "graph_node_missing_slot_fraction": 0.09684684684684684
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.222058823529412,
+          "L5_linear_mean": 3.2625,
+          "L5_fork_mean": 3.164285714285714,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.1874091489453957,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.7749817901245581
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.263017833159746,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.670337847984824
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 1.7172457762193178,
+            "hair": 1.5519598906107566,
+            "hair_color": 1.9077228847245884,
+            "wardrobe": 1.69020907700153,
+            "action": 1.904246794871795,
+            "camera": 1.1534552845528456,
+            "site": 1.8989784335981839
+          },
+          "edited_axis_target_missing": {}
+        },
+        "test": {
+          "counts": {
+            "nodes": 756,
+            "used_nodes": 756,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6846,
+            "used_directed_edges": 4553,
+            "sessions": 2392,
+            "edit_steps": 8725,
+            "unique_full_chains": 2392
+          },
+          "hard_errors": {
+            "target_sessions": 1,
+            "target_edit_steps": 1,
+            "length_kind_quota": 1,
+            "six_axis_deviation_over_10_percent": 1
+          },
+          "six_axis_max_relative_deviation": 0.1551387260648691,
+          "axis_counts": {
+            "identity": 1048,
+            "hair": 1362,
+            "hair_color": 1362,
+            "wardrobe": 1362,
+            "action": 1081,
+            "camera": 1362,
+            "site": 1148
+          },
+          "four_use_edge_fraction": 0.056665934548649245,
+          "four_use_soft_target_pass": false,
+          "start_camera_max_relative_deviation": 0.038461538461538436,
+          "start_camera_total_variation": 0.0025083612040133763,
+          "start_front_fraction": 0.2591973244147157,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {
+            "front_upper": 1,
+            "front_head": 7
+          },
+          "formal_single_eligible_single_fraction": 0.41409691629955947,
+          "single_slot_conditional_tv": 0.1548463356973997,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 153,
+              "formal_conditional_expected_given_actual_single_events": 212.1666666666668,
+              "graph_node_missing_slot_fraction": 0.8341625207296849
+            },
+            "coats": {
+              "actual_single_edit_count": 145,
+              "formal_conditional_expected_given_actual_single_events": 62.66666666666669,
+              "graph_node_missing_slot_fraction": 0.6183206106870229
+            },
+            "pants": {
+              "actual_single_edit_count": 37,
+              "formal_conditional_expected_given_actual_single_events": 65.16666666666673,
+              "graph_node_missing_slot_fraction": 0.8536585365853658
+            },
+            "skirts": {
+              "actual_single_edit_count": 66,
+              "formal_conditional_expected_given_actual_single_events": 61.0,
+              "graph_node_missing_slot_fraction": 0.6875
+            },
+            "full_body": {
+              "actual_single_edit_count": 163,
+              "formal_conditional_expected_given_actual_single_events": 163.0,
+              "graph_node_missing_slot_fraction": 0.0
+            }
+          },
+          "true_introduced_core_distinct": 24,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 2.985207100591716,
+          "L5_linear_mean": 3.0302267002518892,
+          "L5_fork_mean": 2.921146953405018,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 2.8281228575346224,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -1.1900966600326943
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 2.9534573620112803,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -1.1001559629827558
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 3.214723926380368,
+            "hair": 2.0574018126888216,
+            "hair_color": 1.863201094391245,
+            "wardrobe": 1.6214285714285714,
+            "action": 2.2615062761506275,
+            "camera": 1.277673545966229,
+            "site": 2.551111111111111
+          }
+        }
+      },
+      "passed_v6_hard_checks": false
+    },
+    "candidate_d_seed1": {
+      "passed_retained_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_d_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3777,
+            "used_nodes": 3777,
+            "unused_nodes": 0,
+            "registered_directed_edges": 53578,
+            "used_directed_edges": 26030,
+            "sessions": 11966,
+            "edit_steps": 43685,
+            "unique_full_chains": 11966
+          },
+          "hard_errors": {
+            "target_sessions": 1,
+            "target_edit_steps": 1,
+            "length_kind_quota": 1,
+            "train_edited_axis_target_coverage": 3
+          },
+          "six_axis_max_relative_deviation": 0.07292935050130837,
+          "axis_counts": {
+            "identity": 5086,
+            "hair": 6524,
+            "hair_color": 6479,
+            "wardrobe": 6343,
+            "action": 5964,
+            "camera": 6810,
+            "site": 6479
+          },
+          "four_use_edge_fraction": 0.0025355359200922014,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.02741099782717693,
+          "start_camera_total_variation": 0.002438067277576308,
+          "start_front_fraction": 0.2585659368209928,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {
+            "dolly_in_front": 23,
+            "dolly_out_front": 9,
+            "front_head": 2
+          },
+          "formal_single_eligible_single_fraction": 0.38879131406674117,
+          "single_slot_conditional_tv": 0.20095824777549628,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 669,
+              "formal_conditional_expected_given_actual_single_events": 888.1666666666706,
+              "graph_node_missing_slot_fraction": 0.8664007976071785
+            },
+            "coats": {
+              "actual_single_edit_count": 585,
+              "formal_conditional_expected_given_actual_single_events": 224.66666666666785,
+              "graph_node_missing_slot_fraction": 0.7054491899852725
+            },
+            "pants": {
+              "actual_single_edit_count": 247,
+              "formal_conditional_expected_given_actual_single_events": 517.1666666666642,
+              "graph_node_missing_slot_fraction": 0.9070034443168772
+            },
+            "skirts": {
+              "actual_single_edit_count": 258,
+              "formal_conditional_expected_given_actual_single_events": 129.0,
+              "graph_node_missing_slot_fraction": 0.6812749003984063
+            },
+            "full_body": {
+              "actual_single_edit_count": 676,
+              "formal_conditional_expected_given_actual_single_events": 676.0,
+              "graph_node_missing_slot_fraction": 0.11086474501108648
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.2894193928676687,
+          "L5_linear_mean": 3.3011022044088176,
+          "L5_fork_mean": 3.272727272727273,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.2866625162965395,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.6757284227734145
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.3033777547657435,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.6299779263788267
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 1.8900037160906726,
+            "hair": 1.9137577002053388,
+            "hair_color": 1.9421462829736211,
+            "wardrobe": 1.6758256274768824,
+            "action": 1.669185558354324,
+            "camera": 1.1664953751284686,
+            "site": 1.9067098293113596
+          },
+          "edited_axis_target_missing": {
+            "identity": [
+              "CFD40_AF_002",
+              "CFD40_AM_004",
+              "CFD40_WM_002"
+            ],
+            "hair": [
+              "HAIR_HB3_03"
+            ],
+            "action": [
+              "ACT_M05_ELEVATOR_GREETING"
+            ]
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 756,
+            "used_nodes": 756,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6708,
+            "used_directed_edges": 4647,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {
+            "six_axis_deviation_over_10_percent": 1
+          },
+          "six_axis_max_relative_deviation": 0.10618675547585506,
+          "axis_counts": {
+            "identity": 953,
+            "hair": 1341,
+            "hair_color": 1362,
+            "wardrobe": 1217,
+            "action": 1163,
+            "camera": 1362,
+            "site": 1362
+          },
+          "four_use_edge_fraction": 0.030126963632451043,
+          "four_use_soft_target_pass": false,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.37880032867707475,
+          "single_slot_conditional_tv": 0.1594360086767897,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 123,
+              "formal_conditional_expected_given_actual_single_events": 177.0000000000001,
+              "graph_node_missing_slot_fraction": 0.9066874027993779
+            },
+            "coats": {
+              "actual_single_edit_count": 127,
+              "formal_conditional_expected_given_actual_single_events": 54.500000000000036,
+              "graph_node_missing_slot_fraction": 0.8013245033112583
+            },
+            "pants": {
+              "actual_single_edit_count": 33,
+              "formal_conditional_expected_given_actual_single_events": 52.500000000000036,
+              "graph_node_missing_slot_fraction": 0.918552036199095
+            },
+            "skirts": {
+              "actual_single_edit_count": 50,
+              "formal_conditional_expected_given_actual_single_events": 49.0,
+              "graph_node_missing_slot_fraction": 0.8125
+            },
+            "full_body": {
+              "actual_single_edit_count": 128,
+              "formal_conditional_expected_given_actual_single_events": 128.0,
+              "graph_node_missing_slot_fraction": 0.0
+            }
+          },
+          "true_introduced_core_distinct": 24,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.036764705882353,
+          "L5_linear_mean": 3.0525,
+          "L5_fork_mean": 3.0142857142857142,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 2.928541470063961,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -1.0896780475033552
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 2.97914378029688,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -1.0744695446971557
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 3.0643086816720255,
+            "hair": 2.118483412322275,
+            "hair_color": 1.860655737704918,
+            "wardrobe": 1.8780864197530864,
+            "action": 1.977891156462585,
+            "camera": 1.2717086834733893,
+            "site": 2.0512048192771086
+          }
+        }
+      },
+      "passed_v6_hard_checks": false
+    },
+    "candidate_f_seed1": {
+      "passed_retained_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_f_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3616,
+            "used_nodes": 3614,
+            "unused_nodes": 2,
+            "registered_directed_edges": 39630,
+            "used_directed_edges": 25035,
+            "sessions": 11642,
+            "edit_steps": 42432,
+            "unique_full_chains": 11642
+          },
+          "hard_errors": {
+            "target_sessions": 1,
+            "target_edit_steps": 1,
+            "length_kind_quota": 1,
+            "six_axis_deviation_over_10_percent": 1,
+            "train_used_value_coverage": 1,
+            "train_edited_axis_target_coverage": 3
+          },
+          "six_axis_max_relative_deviation": 0.20410130106548166,
+          "axis_counts": {
+            "identity": 5078,
+            "hair": 6810,
+            "hair_color": 6810,
+            "wardrobe": 6704,
+            "action": 4955,
+            "camera": 6007,
+            "site": 6068
+          },
+          "four_use_edge_fraction": 0.005032953864589575,
+          "four_use_soft_target_pass": false,
+          "start_camera_max_relative_deviation": 0.1544408177289126,
+          "start_camera_total_variation": 0.02293793834915562,
+          "start_front_fraction": 0.23793162686823568,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {
+            "front_upper": 140,
+            "dolly_in_front": 44,
+            "dolly_out_front": 45,
+            "front_head": 129
+          },
+          "formal_single_eligible_single_fraction": 0.48813868613138683,
+          "single_slot_conditional_tv": 0.07336448598131401,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 970,
+              "formal_conditional_expected_given_actual_single_events": 1022.0000000000251,
+              "graph_node_missing_slot_fraction": 0.6363636363636364
+            },
+            "coats": {
+              "actual_single_edit_count": 809,
+              "formal_conditional_expected_given_actual_single_events": 576.999999999998,
+              "graph_node_missing_slot_fraction": 0.5942028985507246
+            },
+            "pants": {
+              "actual_single_edit_count": 505,
+              "formal_conditional_expected_given_actual_single_events": 688.5000000000088,
+              "graph_node_missing_slot_fraction": 0.7564534231200898
+            },
+            "skirts": {
+              "actual_single_edit_count": 158,
+              "formal_conditional_expected_given_actual_single_events": 154.5,
+              "graph_node_missing_slot_fraction": 0.5183946488294314
+            },
+            "full_body": {
+              "actual_single_edit_count": 768,
+              "formal_conditional_expected_given_actual_single_events": 768.0,
+              "graph_node_missing_slot_fraction": 0.0846286701208981
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {
+            "hair": [
+              "HAIR_HB1_16",
+              "HAIR_HB3_14"
+            ]
+          },
+          "L5_all_kind_mean_distinct_axes": 3.7972560975609757,
+          "L5_linear_mean": 3.799379524301965,
+          "L5_fork_mean": 3.7942050520059434,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.8203898480928817,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.14200109097707223
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.7698123978663474,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.1635432832782229
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.6530825496342736,
+            "hair": 1.5306810519217802,
+            "hair_color": 1.6256863213177368,
+            "wardrobe": 1.4698531023898267,
+            "action": 1.8606834397296281,
+            "camera": 1.4381134785731386,
+            "site": 1.9688513951979234
+          },
+          "edited_axis_target_missing": {
+            "identity": [
+              "CFD40_AM_005",
+              "CFD40_LF_002"
+            ],
+            "hair": [
+              "HAIR_HB1_16",
+              "HAIR_HB3_14"
+            ],
+            "action": [
+              "ACT_M04_LIVING_ROOM_SWING",
+              "MOTION_CAND_002"
+            ]
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 5840,
+            "used_directed_edges": 4620,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {},
+          "six_axis_max_relative_deviation": 0.09384948427352599,
+          "axis_counts": {
+            "identity": 907,
+            "hair": 1362,
+            "hair_color": 1186,
+            "wardrobe": 1362,
+            "action": 1219,
+            "camera": 1362,
+            "site": 1362
+          },
+          "four_use_edge_fraction": 0.0,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.39133627019089573,
+          "single_slot_conditional_tv": 0.150093808630394,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 106,
+              "formal_conditional_expected_given_actual_single_events": 171.5,
+              "graph_node_missing_slot_fraction": 0.896551724137931
+            },
+            "coats": {
+              "actual_single_edit_count": 99,
+              "formal_conditional_expected_given_actual_single_events": 49.5,
+              "graph_node_missing_slot_fraction": 0.5121951219512195
+            },
+            "pants": {
+              "actual_single_edit_count": 61,
+              "formal_conditional_expected_given_actual_single_events": 30.5,
+              "graph_node_missing_slot_fraction": 0.7435897435897436
+            },
+            "skirts": {
+              "actual_single_edit_count": 77,
+              "formal_conditional_expected_given_actual_single_events": 91.5,
+              "graph_node_missing_slot_fraction": 0.726027397260274
+            },
+            "full_body": {
+              "actual_single_edit_count": 190,
+              "formal_conditional_expected_given_actual_single_events": 190.0,
+              "graph_node_missing_slot_fraction": 0.34782608695652173
+            }
+          },
+          "true_introduced_core_distinct": 30,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.648529411764706,
+          "L5_linear_mean": 3.65,
+          "L5_fork_mean": 3.6464285714285714,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.4976688536377116,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -0.5205506639296048
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.636358488059255,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -0.4172548369347804
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.478142076502732,
+            "hair": 1.9429386590584878,
+            "hair_color": 2.1841620626151013,
+            "wardrobe": 1.6982543640897756,
+            "action": 2.004934210526316,
+            "camera": 1.4676724137931034,
+            "site": 2.0267857142857144
+          }
+        }
+      },
+      "passed_v6_hard_checks": false
+    },
+    "candidate_g_v63_seed1": {
+      "passed_retained_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_g_v63_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3745,
+            "used_nodes": 3745,
+            "unused_nodes": 0,
+            "registered_directed_edges": 40586,
+            "used_directed_edges": 26312,
+            "sessions": 11926,
+            "edit_steps": 43540,
+            "unique_full_chains": 11926
+          },
+          "hard_errors": {
+            "target_sessions": 1,
+            "target_edit_steps": 1,
+            "length_kind_quota": 1,
+            "train_edited_axis_target_coverage": 3
+          },
+          "six_axis_max_relative_deviation": 0.07698186264520078,
+          "axis_counts": {
+            "identity": 4284,
+            "hair": 6126,
+            "hair_color": 6810,
+            "wardrobe": 6810,
+            "action": 6810,
+            "camera": 6661,
+            "site": 6039
+          },
+          "four_use_edge_fraction": 0.003762541806020067,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.007434736430208422,
+          "start_camera_total_variation": 0.0014473310049654027,
+          "start_front_fraction": 0.2600201240986081,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {
+            "front_full": 1,
+            "front_three_quarter_full": 2,
+            "side_full": 1,
+            "rear_three_quarter_full": 3,
+            "back_full": 2,
+            "front_upper": 6,
+            "front_three_quarter_upper": 4,
+            "side_upper": 4,
+            "rear_three_quarter_upper": 5,
+            "back_upper": 3,
+            "high_full": 1,
+            "low_full": 3,
+            "orbit_360": 6,
+            "orbit_120": 5,
+            "dolly_in_front": 6,
+            "dolly_in_back": 3,
+            "dolly_out_front": 5,
+            "dolly_out_side": 3,
+            "dolly_out_back": 1,
+            "front_head": 10
+          },
+          "formal_single_eligible_single_fraction": 0.4703244132157273,
+          "single_slot_conditional_tv": 0.0713604577240947,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 1009,
+              "formal_conditional_expected_given_actual_single_events": 1147.500000000004,
+              "graph_node_missing_slot_fraction": 0.6448202959830867
+            },
+            "coats": {
+              "actual_single_edit_count": 763,
+              "formal_conditional_expected_given_actual_single_events": 538.499999999997,
+              "graph_node_missing_slot_fraction": 0.44038155802861684
+            },
+            "pants": {
+              "actual_single_edit_count": 466,
+              "formal_conditional_expected_given_actual_single_events": 541.4999999999968,
+              "graph_node_missing_slot_fraction": 0.6912080057183703
+            },
+            "skirts": {
+              "actual_single_edit_count": 136,
+              "formal_conditional_expected_given_actual_single_events": 146.5,
+              "graph_node_missing_slot_fraction": 0.52
+            },
+            "full_body": {
+              "actual_single_edit_count": 772,
+              "formal_conditional_expected_given_actual_single_events": 772.0,
+              "graph_node_missing_slot_fraction": 0.08019639934533551
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.8838309193023943,
+          "L5_linear_mean": 3.8809643395278752,
+          "L5_fork_mean": 3.8879310344827585,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.9237516698169546,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.0386392692529993
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.8781049472318547,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.055250733912715906
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 1.988857938718663,
+            "hair": 1.9048507462686568,
+            "hair_color": 1.6034848128090418,
+            "wardrobe": 1.4379222972972974,
+            "action": 1.6046182846371349,
+            "camera": 1.4626701800614843,
+            "site": 1.9104713698196774
+          },
+          "edited_axis_target_missing": {
+            "identity": [
+              "CFD40_AM_003",
+              "CFD40_BF_005",
+              "CFD40_BM_003"
+            ],
+            "action": [
+              "MOTION_CAND_008",
+              "MOTION_CAND_019",
+              "MOTION_CAND_036"
+            ],
+            "site": [
+              "site_33328cb3f4"
+            ]
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 5840,
+            "used_directed_edges": 4625,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {},
+          "six_axis_max_relative_deviation": 0.07236842105263153,
+          "axis_counts": {
+            "identity": 856,
+            "hair": 1362,
+            "hair_color": 1222,
+            "wardrobe": 1362,
+            "action": 1234,
+            "camera": 1362,
+            "site": 1362
+          },
+          "four_use_edge_fraction": 0.0,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.3920704845814978,
+          "single_slot_conditional_tv": 0.149812734082397,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 99,
+              "formal_conditional_expected_given_actual_single_events": 167.5,
+              "graph_node_missing_slot_fraction": 0.896551724137931
+            },
+            "coats": {
+              "actual_single_edit_count": 106,
+              "formal_conditional_expected_given_actual_single_events": 53.0,
+              "graph_node_missing_slot_fraction": 0.5121951219512195
+            },
+            "pants": {
+              "actual_single_edit_count": 54,
+              "formal_conditional_expected_given_actual_single_events": 27.0,
+              "graph_node_missing_slot_fraction": 0.7435897435897436
+            },
+            "skirts": {
+              "actual_single_edit_count": 76,
+              "formal_conditional_expected_given_actual_single_events": 87.5,
+              "graph_node_missing_slot_fraction": 0.726027397260274
+            },
+            "full_body": {
+              "actual_single_edit_count": 199,
+              "formal_conditional_expected_given_actual_single_events": 199.0,
+              "graph_node_missing_slot_fraction": 0.34782608695652173
+            }
+          },
+          "true_introduced_core_distinct": 30,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.6926470588235296,
+          "L5_linear_mean": 3.715,
+          "L5_fork_mean": 3.6607142857142856,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.626880034310375,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -0.3913394832569417
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.679506033182504,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -0.3741072918115321
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.4318181818181817,
+            "hair": 1.962536023054755,
+            "hair_color": 2.2463235294117645,
+            "wardrobe": 1.700374531835206,
+            "action": 2.0196399345335516,
+            "camera": 1.4458598726114649,
+            "site": 2.0
+          }
+        }
+      },
+      "passed_v6_hard_checks": false
+    },
+    "candidate_h_v64_seed1": {
+      "passed_retained_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_h_v64_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3745,
+            "used_nodes": 3745,
+            "unused_nodes": 0,
+            "registered_directed_edges": 40586,
+            "used_directed_edges": 26340,
+            "sessions": 11924,
+            "edit_steps": 43529,
+            "unique_full_chains": 11924
+          },
+          "hard_errors": {
+            "target_sessions": 1,
+            "target_edit_steps": 1,
+            "length_kind_quota": 1,
+            "train_edited_axis_target_coverage": 4
+          },
+          "six_axis_max_relative_deviation": 0.08687012788505626,
+          "axis_counts": {
+            "identity": 4275,
+            "hair": 6062,
+            "hair_color": 6911,
+            "wardrobe": 7042,
+            "action": 6746,
+            "camera": 6519,
+            "site": 5974
+          },
+          "four_use_edge_fraction": 0.003492786636294609,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.012411942301241319,
+          "start_camera_total_variation": 0.0015569622099383083,
+          "start_front_fraction": 0.2600637370010064,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {
+            "front_full": 6,
+            "front_three_quarter_full": 3,
+            "side_full": 1,
+            "rear_three_quarter_full": 4,
+            "back_full": 5,
+            "front_upper": 6,
+            "front_three_quarter_upper": 3,
+            "side_upper": 3,
+            "back_upper": 4,
+            "high_full": 2,
+            "low_full": 2,
+            "orbit_360": 4,
+            "orbit_120": 2,
+            "dolly_in_front": 5,
+            "dolly_in_side": 2,
+            "dolly_in_back": 2,
+            "dolly_out_front": 2,
+            "dolly_out_side": 4,
+            "dolly_out_back": 2,
+            "front_head": 14
+          },
+          "formal_single_eligible_single_fraction": 0.4700101170689406,
+          "single_slot_conditional_tv": 0.07077695776957807,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 1043,
+              "formal_conditional_expected_given_actual_single_events": 1184.333333333336,
+              "graph_node_missing_slot_fraction": 0.6448202959830867
+            },
+            "coats": {
+              "actual_single_edit_count": 788,
+              "formal_conditional_expected_given_actual_single_events": 557.8333333333311,
+              "graph_node_missing_slot_fraction": 0.44038155802861684
+            },
+            "pants": {
+              "actual_single_edit_count": 481,
+              "formal_conditional_expected_given_actual_single_events": 558.8333333333309,
+              "graph_node_missing_slot_fraction": 0.6912080057183703
+            },
+            "skirts": {
+              "actual_single_edit_count": 139,
+              "formal_conditional_expected_given_actual_single_events": 150.0,
+              "graph_node_missing_slot_fraction": 0.52
+            },
+            "full_body": {
+              "actual_single_edit_count": 801,
+              "formal_conditional_expected_given_actual_single_events": 801.0,
+              "graph_node_missing_slot_fraction": 0.08019639934533551
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.8989928909952605,
+          "L5_linear_mean": 3.895266868076536,
+          "L5_fork_mean": 3.90431654676259,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.943831734000014,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.018559205069940073
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.892955443744752,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.04040023739981797
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 1.9902234636871508,
+            "hair": 1.8920099875156056,
+            "hair_color": 1.6120830417541405,
+            "wardrobe": 1.4522581975665085,
+            "action": 1.6000948766603416,
+            "camera": 1.451246660730187,
+            "site": 1.9001272264631044
+          },
+          "edited_axis_target_missing": {
+            "identity": [
+              "CFD40_AF_001",
+              "CFD40_AM_003",
+              "CFD40_BF_005",
+              "CFD40_BM_003"
+            ],
+            "hair": [
+              "HAIR_HB3_09"
+            ],
+            "action": [
+              "MOTION_CAND_008",
+              "MOTION_CAND_019",
+              "MOTION_CAND_036"
+            ],
+            "site": [
+              "site_33328cb3f4"
+            ]
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 5840,
+            "used_directed_edges": 4681,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {
+            "six_axis_deviation_over_10_percent": 1
+          },
+          "six_axis_max_relative_deviation": 0.12444725205306385,
+          "axis_counts": {
+            "identity": 845,
+            "hair": 1382,
+            "hair_color": 1155,
+            "wardrobe": 1409,
+            "action": 1186,
+            "camera": 1409,
+            "site": 1374
+          },
+          "four_use_edge_fraction": 0.0,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.5110132158590308,
+          "single_slot_conditional_tv": 0.14547413793103448,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 94,
+              "formal_conditional_expected_given_actual_single_events": 150.5,
+              "graph_node_missing_slot_fraction": 0.8571428571428571
+            },
+            "coats": {
+              "actual_single_edit_count": 89,
+              "formal_conditional_expected_given_actual_single_events": 44.5,
+              "graph_node_missing_slot_fraction": 0.3939393939393939
+            },
+            "pants": {
+              "actual_single_edit_count": 46,
+              "formal_conditional_expected_given_actual_single_events": 23.0,
+              "graph_node_missing_slot_fraction": 0.23076923076923078
+            },
+            "skirts": {
+              "actual_single_edit_count": 72,
+              "formal_conditional_expected_given_actual_single_events": 83.0,
+              "graph_node_missing_slot_fraction": 0.6923076923076923
+            },
+            "full_body": {
+              "actual_single_edit_count": 163,
+              "formal_conditional_expected_given_actual_single_events": 163.0,
+              "graph_node_missing_slot_fraction": 0.34782608695652173
+            }
+          },
+          "true_introduced_core_distinct": 28,
+          "used_value_coverage_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.6941176470588237,
+          "L5_linear_mean": 3.685,
+          "L5_fork_mean": 3.7071428571428573,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.5839862054212808,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -0.43423331214603555
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.7387723785166243,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -0.31484094647741173
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.3537604456824512,
+            "hair": 1.9942279942279941,
+            "hair_color": 2.162921348314607,
+            "wardrobe": 1.7058111380145278,
+            "action": 1.9570957095709571,
+            "camera": 1.4555785123966942,
+            "site": 1.976978417266187
+          }
+        }
+      },
+      "passed_v6_hard_checks": false
+    },
+    "candidate_j_v65_seed1": {
+      "passed_retained_hard_checks": false,
+      "passed_v6_hard_checks": false,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_j_v65_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3745,
+            "used_nodes": 3745,
+            "unused_nodes": 0,
+            "registered_directed_edges": 40586,
+            "used_directed_edges": 25127,
+            "sessions": 12000,
+            "edit_steps": 43800,
+            "unique_full_chains": 12000
+          },
+          "hard_errors": {
+            "train_edited_axis_target_coverage": 1
+          },
+          "six_axis_max_relative_deviation": 0.03440419229892914,
+          "axis_counts": {
+            "identity": 4299,
+            "hair": 6464,
+            "hair_color": 6765,
+            "wardrobe": 6810,
+            "action": 6623,
+            "camera": 6403,
+            "site": 6436
+          },
+          "four_use_edge_fraction": 0.0,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.0014166666666666217,
+          "start_camera_total_variation": 0.00032608695652172615,
+          "start_front_fraction": 0.26066666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.4892053973013493,
+          "single_slot_conditional_tv": 0.07513535601185035,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 991,
+              "formal_conditional_expected_given_actual_single_events": 1176.8333333333364,
+              "graph_node_missing_slot_fraction": 0.6448202959830867
+            },
+            "coats": {
+              "actual_single_edit_count": 825,
+              "formal_conditional_expected_given_actual_single_events": 579.8333333333316,
+              "graph_node_missing_slot_fraction": 0.44038155802861684
+            },
+            "pants": {
+              "actual_single_edit_count": 483,
+              "formal_conditional_expected_given_actual_single_events": 540.8333333333305,
+              "graph_node_missing_slot_fraction": 0.6912080057183703
+            },
+            "skirts": {
+              "actual_single_edit_count": 158,
+              "formal_conditional_expected_given_actual_single_events": 159.5,
+              "graph_node_missing_slot_fraction": 0.52
+            },
+            "full_body": {
+              "actual_single_edit_count": 806,
+              "formal_conditional_expected_given_actual_single_events": 806.0,
+              "graph_node_missing_slot_fraction": 0.08019639934533551
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "edited_axis_target_missing": {
+            "identity": [
+              "CFD40_AM_003",
+              "CFD40_BF_005"
+            ]
+          },
+          "L5_all_kind_mean_distinct_axes": 3.9073529411764705,
+          "L5_linear_mean": 3.9265,
+          "L5_fork_mean": 3.88,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 3.9299868855836553,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": -0.03240405348629874
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 3.9261447344233007,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": -0.007210946721269077
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.0278301886792454,
+            "hair": 2.1256165734955608,
+            "hair_color": 1.646385981990752,
+            "wardrobe": 1.5103127079174983,
+            "action": 1.6393564356435644,
+            "camera": 1.4932369402985075,
+            "site": 2.1311258278145697
+          },
+          "allaxis_coverage_warmup_disclosure": {
+            "record_count": 193,
+            "records_match_saved_sessions_and_previously_unseen_actual_targets": true,
+            "selection_is_explicit_coverage_not_pure_random": true
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6632,
+            "used_directed_edges": 4703,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {},
+          "six_axis_max_relative_deviation": 0.09759876065065841,
+          "axis_counts": {
+            "identity": 1014,
+            "hair": 1206,
+            "hair_color": 1165,
+            "wardrobe": 1362,
+            "action": 1322,
+            "camera": 1362,
+            "site": 1329
+          },
+          "four_use_edge_fraction": 0.02679140973846481,
+          "four_use_soft_target_pass": false,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.48368953880764903,
+          "single_slot_conditional_tv": 0.17713178294573614,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 99,
+              "formal_conditional_expected_given_actual_single_events": 133.8333333333332,
+              "graph_node_missing_slot_fraction": 0.7566137566137566
+            },
+            "coats": {
+              "actual_single_edit_count": 88,
+              "formal_conditional_expected_given_actual_single_events": 31.33333333333329,
+              "graph_node_missing_slot_fraction": 0.14035087719298245
+            },
+            "pants": {
+              "actual_single_edit_count": 56,
+              "formal_conditional_expected_given_actual_single_events": 97.33333333333317,
+              "graph_node_missing_slot_fraction": 0.788135593220339
+            },
+            "skirts": {
+              "actual_single_edit_count": 47,
+              "formal_conditional_expected_given_actual_single_events": 27.5,
+              "graph_node_missing_slot_fraction": 0.0
+            },
+            "full_body": {
+              "actual_single_edit_count": 140,
+              "formal_conditional_expected_given_actual_single_events": 140.0,
+              "graph_node_missing_slot_fraction": 0.1
+            }
+          },
+          "true_introduced_core_distinct": 32,
+          "used_value_coverage_missing": {},
+          "edited_axis_target_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.5573529411764704,
+          "L5_linear_mean": 3.6,
+          "L5_fork_mean": 3.4964285714285714,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.2676131058484,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -0.7506064117189166
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.4542836248718602,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -0.5993297001221756
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 3.0634441087613293,
+            "hair": 1.926517571884984,
+            "hair_color": 1.8729903536977492,
+            "wardrobe": 1.5066371681415929,
+            "action": 2.12540192926045,
+            "camera": 1.4321766561514195,
+            "site": 2.054095826893354
+          },
+          "allaxis_coverage_warmup_disclosure": {
+            "record_count": 51,
+            "records_match_saved_sessions_and_previously_unseen_actual_targets": true,
+            "selection_is_explicit_coverage_not_pure_random": true
+          }
+        }
+      }
+    },
+    "candidate_l_v66_seed1": {
+      "passed_retained_hard_checks": true,
+      "passed_v6_hard_checks": true,
+      "selected": false,
+      "audit_report": "diagnostics_candidate_l_v66_seed1_audit.json",
+      "splits": {
+        "train": {
+          "counts": {
+            "nodes": 3931,
+            "used_nodes": 3931,
+            "unused_nodes": 0,
+            "registered_directed_edges": 47218,
+            "used_directed_edges": 25923,
+            "sessions": 12000,
+            "edit_steps": 43800,
+            "unique_full_chains": 12000
+          },
+          "hard_errors": {},
+          "six_axis_max_relative_deviation": 0.05972734804549221,
+          "axis_counts": {
+            "identity": 3969,
+            "hair": 6672,
+            "hair_color": 6638,
+            "wardrobe": 6810,
+            "action": 6242,
+            "camera": 6810,
+            "site": 6659
+          },
+          "four_use_edge_fraction": 0.0,
+          "four_use_soft_target_pass": true,
+          "start_camera_max_relative_deviation": 0.0014166666666666217,
+          "start_camera_total_variation": 0.00032608695652172615,
+          "start_front_fraction": 0.26066666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.49100371747211896,
+          "single_slot_conditional_tv": 0.0024227740763173833,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 1664,
+              "formal_conditional_expected_given_actual_single_events": 1656.0,
+              "graph_node_missing_slot_fraction": 0.04539295392953929
+            },
+            "coats": {
+              "actual_single_edit_count": 166,
+              "formal_conditional_expected_given_actual_single_events": 167.0,
+              "graph_node_missing_slot_fraction": 0.102803738317757
+            },
+            "pants": {
+              "actual_single_edit_count": 739,
+              "formal_conditional_expected_given_actual_single_events": 742.0,
+              "graph_node_missing_slot_fraction": 0.07246376811594203
+            },
+            "skirts": {
+              "actual_single_edit_count": 150,
+              "formal_conditional_expected_given_actual_single_events": 154.0,
+              "graph_node_missing_slot_fraction": 0.026615969581749048
+            },
+            "full_body": {
+              "actual_single_edit_count": 583,
+              "formal_conditional_expected_given_actual_single_events": 583.0,
+              "graph_node_missing_slot_fraction": 0.0748663101604278
+            }
+          },
+          "true_introduced_core_distinct": 239,
+          "used_value_coverage_missing": {},
+          "edited_axis_target_missing": {},
+          "L5_all_kind_mean_distinct_axes": 4.095,
+          "L5_linear_mean": 4.096,
+          "L5_fork_mean": 4.093571428571429,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.8913043478260869,
+              "candidate_common_camera_standardized_mean": 4.115387265831048,
+              "baseline_common_camera_standardized_mean": 3.962390939069954,
+              "same_camera_standardized_delta": 0.15299632676109354
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 1.0,
+              "candidate_common_camera_standardized_mean": 4.099132958778182,
+              "baseline_common_camera_standardized_mean": 3.9333556811445702,
+              "same_camera_standardized_delta": 0.165777277633612
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 1.6049332794177114,
+            "hair": 1.9322328410078193,
+            "hair_color": 1.9358413531641878,
+            "wardrobe": 1.2167232445953189,
+            "action": 1.9987191802753763,
+            "camera": 1.5400271370420624,
+            "site": 1.943666082895505
+          },
+          "allaxis_coverage_warmup_disclosure": {
+            "record_count": 197,
+            "records_match_saved_sessions_and_previously_unseen_actual_targets": true,
+            "selection_is_explicit_coverage_not_pure_random": true
+          }
+        },
+        "test": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6632,
+            "used_directed_edges": 5042,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "hard_errors": {},
+          "six_axis_max_relative_deviation": 0.053348467650397274,
+          "axis_counts": {
+            "identity": 831,
+            "hair": 1279,
+            "hair_color": 1251,
+            "wardrobe": 1362,
+            "action": 1313,
+            "camera": 1362,
+            "site": 1362
+          },
+          "four_use_edge_fraction": 0.013883379611265371,
+          "four_use_soft_target_pass": false,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "start_camera_total_variation": 0.0018840579710144717,
+          "start_front_fraction": 0.26166666666666666,
+          "start_front_target_fraction": 0.2608695652173913,
+          "start_camera_remaining_quota_deficits": {},
+          "formal_single_eligible_single_fraction": 0.4793577981651376,
+          "single_slot_conditional_tv": 0.1909888357256775,
+          "single_slots": {
+            "shirts": {
+              "actual_single_edit_count": 97,
+              "formal_conditional_expected_given_actual_single_events": 128.6666666666664,
+              "graph_node_missing_slot_fraction": 0.7566137566137566
+            },
+            "coats": {
+              "actual_single_edit_count": 93,
+              "formal_conditional_expected_given_actual_single_events": 33.66666666666663,
+              "graph_node_missing_slot_fraction": 0.14035087719298245
+            },
+            "pants": {
+              "actual_single_edit_count": 43,
+              "formal_conditional_expected_given_actual_single_events": 91.16666666666661,
+              "graph_node_missing_slot_fraction": 0.788135593220339
+            },
+            "skirts": {
+              "actual_single_edit_count": 46,
+              "formal_conditional_expected_given_actual_single_events": 25.5,
+              "graph_node_missing_slot_fraction": 0.0
+            },
+            "full_body": {
+              "actual_single_edit_count": 139,
+              "formal_conditional_expected_given_actual_single_events": 139.0,
+              "graph_node_missing_slot_fraction": 0.1
+            }
+          },
+          "true_introduced_core_distinct": 32,
+          "used_value_coverage_missing": {},
+          "edited_axis_target_missing": {},
+          "L5_all_kind_mean_distinct_axes": 3.695588235294118,
+          "L5_linear_mean": 3.7275,
+          "L5_fork_mean": 3.65,
+          "L5_v5_same_camera_conditioned": {
+            "fork_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.5707983193277313,
+              "baseline_common_camera_standardized_mean": 4.018219517567316,
+              "same_camera_standardized_delta": -0.4474211982395855
+            },
+            "linear_5": {
+              "common_camera_target_probability_mass": 0.3695652173913043,
+              "candidate_common_camera_standardized_mean": 3.7078290779429297,
+              "baseline_common_camera_standardized_mean": 4.0536133249940365,
+              "same_camera_standardized_delta": -0.34578424705110594
+            }
+          },
+          "axis_mean_reuse": {
+            "identity": 2.4156976744186047,
+            "hair": 1.8536231884057972,
+            "hair_color": 1.8,
+            "wardrobe": 1.4582441113490363,
+            "action": 1.8973988439306357,
+            "camera": 1.4055727554179567,
+            "site": 1.8969359331476323
+          },
+          "allaxis_coverage_warmup_disclosure": {
+            "record_count": 49,
+            "records_match_saved_sessions_and_previously_unseen_actual_targets": true,
+            "selection_is_explicit_coverage_not_pure_random": true
+          }
+        }
+      },
+      "status": "hard_checks_passed_test_soft_targets_pending"
+    }
+  },
+  "interpretation_notes": [
+    "All counts and semantic checks are recomputed from saved nodes, edges and sessions.",
+    "v5 starts overrepresented identity-eligible front cameras; v6 versus v5 diversity comparisons include camera-conditioned standardized means.",
+    "v5 test lacks fourteen start-camera categories; same-camera test comparisons cover only common represented cameras, not the full target distribution.",
+    "Single slots are compared to the source-formal conditional expected slots; five-slot uniformity is not required.",
+    "Static first-edge capacity is only necessary, not proof that all complete chain and global-axis quotas can be met."
+  ],
+  "v6_additional_hard_requirement": "All train edited-axis target values must be covered; wardrobe core values count only when genuinely introduced versus source.",
+  "l_v66_train_seed_stability": {
+    "report": "diagnostics_l_v66_train_seed_stability.json",
+    "all_three_pass": false,
+    "nodes_files_identical_across_seeds": true,
+    "seeds": {
+      "1": {
+        "passed_train_hard_checks": true,
+        "counts": {
+          "nodes": 3931,
+          "used_nodes": 3931,
+          "unused_nodes": 0,
+          "registered_directed_edges": 47218,
+          "used_directed_edges": 25923,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "unique_full_chains": 12000
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.05972734804549221,
+        "four_use_edge_fraction": 0.0,
+        "slot_max_relative_deviation": 0.025974025974025983,
+        "history_axis_decay": 0.3
+      },
+      "2": {
+        "passed_train_hard_checks": true,
+        "counts": {
+          "nodes": 3931,
+          "used_nodes": 3931,
+          "unused_nodes": 0,
+          "registered_directed_edges": 47218,
+          "used_directed_edges": 26071,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "unique_full_chains": 12000
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.05326663482567059,
+        "four_use_edge_fraction": 0.0,
+        "slot_max_relative_deviation": 0.024390243902439046,
+        "history_axis_decay": 0.3
+      },
+      "3": {
+        "passed_train_hard_checks": false,
+        "counts": {
+          "nodes": 3931,
+          "used_nodes": 3931,
+          "unused_nodes": 0,
+          "registered_directed_edges": 47218,
+          "used_directed_edges": 25987,
+          "sessions": 11999,
+          "edit_steps": 43795,
+          "unique_full_chains": 11999
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.05004015257980321,
+        "four_use_edge_fraction": 7.696155770192789e-05,
+        "slot_max_relative_deviation": 0.024691358024691468,
+        "history_axis_decay": 0.3
+      }
+    }
+  },
+  "independently_audited_compositions": {
+    "l_train_m_test_v66": {
+      "audit_report": "diagnostics_l_train_m_test_v66_composite_audit.json",
+      "source_paths": {
+        "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_l_v66_seed1\\train",
+        "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_m_v66_test_seed1\\test"
+      },
+      "passed_hard_checks": true,
+      "canonical_overlap": 0,
+      "test_four_use_fraction": 0.0041832669322709164,
+      "test_slot_tv": 0.1710719530102788,
+      "selected": false
+    }
+  },
+  "test_only_audits": {
+    "candidate_o_v66_test_seed1": {
+      "audit_report": "diagnostics_candidate_o_v66_test_seed1_test_audit.json",
+      "source_paths": {
+        "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_o_v66_test_seed1\\test"
+      },
+      "passed_test_hard_checks": true,
+      "cross_split_disjointness_checked": false,
+      "counts": {
+        "nodes": 800,
+        "used_nodes": 800,
+        "unused_nodes": 0,
+        "registered_directed_edges": 6488,
+        "used_directed_edges": 4525,
+        "sessions": 2400,
+        "edit_steps": 8760,
+        "unique_full_chains": 2400
+      },
+      "six_axis_max_relative_deviation": 0.08670667858511051,
+      "four_use_fraction": 0.008397790055248619,
+      "single_fraction": 0.6151761517615176,
+      "single_slot_tv": 0.005139500734214391,
+      "single_slot_max_relative_deviation": 0.028037383177569986,
+      "L5linear": 3.6675,
+      "L5fork": 3.6285714285714286,
+      "selected": false
+    }
+  },
+  "v68_train_only_verifications": {
+    "candidate_l_v68_train_seed3": {
+      "audit_report": "diagnostics_candidate_l_v68_train_seed3_train_audit.json",
+      "source_paths": {
+        "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_l_v68_train_seed3\\train"
+      },
+      "passed_train_hard_checks": true,
+      "cross_split_disjointness_checked": false,
+      "counts": {
+        "nodes": 3931,
+        "used_nodes": 3931,
+        "unused_nodes": 0,
+        "registered_directed_edges": 47218,
+        "used_directed_edges": 25995,
+        "sessions": 12000,
+        "edit_steps": 43800,
+        "unique_full_chains": 12000
+      },
+      "all_edited_target_values_covered": true,
+      "true_introduced_core_distinct": 239,
+      "provenance": {
+        "roots": 6,
+        "non_roots": 3925
+      },
+      "six_axis_max_relative_deviation": 0.047176680308318106,
+      "four_use_edge_fraction": 0.0,
+      "single_fraction": 0.4923647146034099,
+      "single_slot_tv": 0.0037639265281541705,
+      "single_slot_max_relative_deviation": 0.024691358024691468,
+      "L5linear": 4.097,
+      "L5fork": 4.101428571428571,
+      "history_axis_decay": 0.3,
+      "selected": false
+    },
+    "candidate_n_v68_train_seed1": {
+      "audit_report": "diagnostics_candidate_n_v68_train_seed1_train_audit.json",
+      "source_paths": {
+        "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_seed1\\train"
+      },
+      "passed_train_hard_checks": true,
+      "cross_split_disjointness_checked": false,
+      "counts": {
+        "nodes": 3752,
+        "used_nodes": 3752,
+        "unused_nodes": 0,
+        "registered_directed_edges": 45916,
+        "used_directed_edges": 25229,
+        "sessions": 12000,
+        "edit_steps": 43800,
+        "unique_full_chains": 12000
+      },
+      "all_edited_target_values_covered": true,
+      "true_introduced_core_distinct": 239,
+      "provenance": {
+        "roots": 6,
+        "non_roots": 3746
+      },
+      "six_axis_max_relative_deviation": 0.038985721073295114,
+      "four_use_edge_fraction": 0.0,
+      "single_fraction": 0.4890207715133531,
+      "single_slot_tv": 0.003033980582524272,
+      "single_slot_max_relative_deviation": 0.03886925795053009,
+      "L5linear": 4.101,
+      "L5fork": 4.058571428571429,
+      "history_axis_decay": 0.3,
+      "selected": false
+    }
+  },
+  "n_pruning_lineage_report": "diagnostics_n_pruning_lineage.json",
+  "n_v68_train_seed_stability": {
+    "report": "diagnostics_n_v68_train_seed_stability.json",
+    "all_three_pass": true,
+    "nodes_files_identical_across_seeds": true,
+    "sampler_source_identical_across_seeds": true,
+    "seeds": {
+      "1": {
+        "passed_train_hard_checks": true,
+        "counts": {
+          "nodes": 3752,
+          "used_nodes": 3752,
+          "unused_nodes": 0,
+          "registered_directed_edges": 45916,
+          "used_directed_edges": 25229,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "unique_full_chains": 12000
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.038985721073295114,
+        "four_use_edge_fraction": 0.0,
+        "slot_max_relative_deviation": 0.03886925795053009,
+        "single_fraction": 0.4890207715133531,
+        "L5_combined": 4.083529411764706,
+        "history_axis_decay": 0.3
+      },
+      "2": {
+        "passed_train_hard_checks": true,
+        "counts": {
+          "nodes": 3752,
+          "used_nodes": 3752,
+          "unused_nodes": 0,
+          "registered_directed_edges": 45916,
+          "used_directed_edges": 25221,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "unique_full_chains": 12000
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.04043234587670132,
+        "four_use_edge_fraction": 0.0,
+        "slot_max_relative_deviation": 0.033766233766233666,
+        "single_fraction": 0.48886248886248884,
+        "L5_combined": 4.061764705882353,
+        "history_axis_decay": 0.3
+      },
+      "3": {
+        "passed_train_hard_checks": true,
+        "counts": {
+          "nodes": 3752,
+          "used_nodes": 3752,
+          "unused_nodes": 0,
+          "registered_directed_edges": 45916,
+          "used_directed_edges": 25217,
+          "sessions": 12000,
+          "edit_steps": 43800,
+          "unique_full_chains": 12000
+        },
+        "target_values_all_covered": true,
+        "true_introduced_core": 239,
+        "six_axis_max_relative_deviation": 0.03970577197327929,
+        "four_use_edge_fraction": 0.0,
+        "slot_max_relative_deviation": 0.03125,
+        "single_fraction": 0.4910926365795725,
+        "L5_combined": 4.07,
+        "history_axis_decay": 0.3
+      }
+    }
+  },
+  "declined_without_full_independent_audit": {
+    "candidate_n_small_v68_train_seed1": {
+      "reason": "Further 3664-node compression was stopped after saved sampling metadata reported a four-use-edge fraction above the soft target. No three-seed audit was expanded.",
+      "source_metadata": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_small_v68_train_seed1\\train\\sampling.json",
+      "reported_sessions": 12000,
+      "reported_four_use_fraction": 0.011304489264801562,
+      "reported_rejections": {
+        "dead_end_or_cap_attempts": 35459,
+        "duplicate_structure_attempts": 3
+      },
+      "selected": false
+    }
+  },
+  "n_s_v68_three_seed_composite_evidence": {
+    "report": "diagnostics_n_s_v68_three_seed_summary.json",
+    "all_three_compositions_pass_hard": true,
+    "all_three_cross_split_disjoint": true,
+    "composite_reports": [
+      "diagnostics_n_s_seed1_composite_audit.json",
+      "diagnostics_n_s_seed2_composite_audit.json",
+      "diagnostics_n_s_seed3_composite_audit.json"
+    ],
+    "seeds": {
+      "1": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_seed1\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_s_v68_test_seed1\\test"
+        },
+        "canonical_overlap": 0,
+        "test_summary": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6786,
+            "used_directed_edges": 4641,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "used_node_value_distinct_counts": {
+            "identity": 14,
+            "hair": 7,
+            "hair_color": 7,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "six_axis_max_deviation": 0.060012634238787166,
+          "four_use_edge_fraction": 0.0010773540185304892,
+          "single_fraction": 0.5158730158730159,
+          "slot_tv": 0.004807692307692308,
+          "slot_max_relative_deviation": 0.050000000000000044,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "L5mean": 3.6823529411764704,
+          "per_axis_mean_reuse": {
+            "identity": 2.3407202216066483,
+            "hair": 2.2794117647058822,
+            "hair_color": 2.134796238244514,
+            "wardrobe": 1.3184898354307841,
+            "action": 2.3555555555555556,
+            "camera": 1.4143302180685358,
+            "site": 2.3434163701067616
+          },
+          "history_axis_decay": 0.3
+        }
+      },
+      "2": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_seed2\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_s_v68_test_seed2\\test"
+        },
+        "canonical_overlap": 0,
+        "test_summary": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6786,
+            "used_directed_edges": 4622,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "used_node_value_distinct_counts": {
+            "identity": 14,
+            "hair": 7,
+            "hair_color": 7,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "six_axis_max_deviation": 0.0731582972215142,
+          "four_use_edge_fraction": 0.002379922111639983,
+          "single_fraction": 0.5239551478083588,
+          "slot_tv": 0.005836575875486381,
+          "slot_max_relative_deviation": 0.08823529411764708,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "L5mean": 3.761764705882353,
+          "per_axis_mean_reuse": {
+            "identity": 2.510989010989011,
+            "hair": 2.2654205607476636,
+            "hair_color": 2.124804992199688,
+            "wardrobe": 1.3405511811023623,
+            "action": 2.3141263940520447,
+            "camera": 1.4099378881987579,
+            "site": 2.3185053380782916
+          },
+          "history_axis_decay": 0.3
+        }
+      },
+      "3": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_seed3\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_s_v68_test_seed3\\test"
+        },
+        "canonical_overlap": 0,
+        "test_summary": {
+          "counts": {
+            "nodes": 800,
+            "used_nodes": 800,
+            "unused_nodes": 0,
+            "registered_directed_edges": 6786,
+            "used_directed_edges": 4629,
+            "sessions": 2400,
+            "edit_steps": 8760,
+            "unique_full_chains": 2400
+          },
+          "used_node_value_distinct_counts": {
+            "identity": 14,
+            "hair": 7,
+            "hair_color": 7,
+            "family": 8,
+            "group": 8,
+            "core_asset": 34,
+            "action": 6,
+            "camera": 21,
+            "site": 7
+          },
+          "six_axis_max_deviation": 0.07822085889570553,
+          "four_use_edge_fraction": 0.003024411319939512,
+          "single_fraction": 0.5245579567779961,
+          "slot_tv": 0.006554307116104869,
+          "slot_max_relative_deviation": 0.0736842105263158,
+          "start_camera_max_relative_deviation": 0.006249999999999867,
+          "L5mean": 3.7147058823529413,
+          "per_axis_mean_reuse": {
+            "identity": 2.6218487394957983,
+            "hair": 2.263653483992467,
+            "hair_color": 2.141509433962264,
+            "wardrobe": 1.3223300970873786,
+            "action": 2.315985130111524,
+            "camera": 1.3940634595701127,
+            "site": 2.3035714285714284
+          },
+          "history_axis_decay": 0.3
+        }
+      }
+    }
+  },
+  "validated_fallback_composition": "n_v68 train + s_v68 test, history decay0.3, same-seed pairs1/2/3",
+  "n_t_decay02_v68_three_seed_composite_evidence": {
+    "report": "diagnostics_n_t_decay02_v68_three_seed_summary.json",
+    "all_three_compositions_pass_hard": true,
+    "all_three_cross_split_disjoint": true,
+    "history_axis_decay": 0.2,
+    "composite_reports": [
+      "diagnostics_n_t_decay02_seed1_composite_audit.json",
+      "diagnostics_n_t_decay02_seed2_composite_audit.json",
+      "diagnostics_n_t_decay02_seed3_composite_audit.json"
+    ],
+    "seeds": {
+      "1": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed1\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed1\\test"
+        },
+        "canonical_overlap": 0,
+        "splits": {
+          "train": {
+            "counts": {
+              "nodes": 3752,
+              "used_nodes": 3752,
+              "unused_nodes": 0,
+              "registered_directed_edges": 45916,
+              "used_directed_edges": 25203,
+              "sessions": 12000,
+              "edit_steps": 43800,
+              "unique_full_chains": 12000
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 40,
+              "hair": 28,
+              "hair_color": 7,
+              "family": 37,
+              "group": 45,
+              "core_asset": 239,
+              "action": 25,
+              "camera": 21,
+              "site": 21
+            },
+            "six_axis_max_deviation": 0.04079746171334354,
+            "four_use_edge_fraction": 0.0,
+            "single_fraction": 0.4863541975674874,
+            "slot_tv": 0.0056419640134187255,
+            "slot_max_relative_deviation": 0.022774327122153215,
+            "start_camera_max_relative_deviation": 0.0014166666666666217,
+            "L5mean": 4.215294117647058,
+            "per_axis_mean_reuse": {
+              "identity": 1.7041553748870821,
+              "hair": 2.0146312332039416,
+              "hair_color": 2.036033261472128,
+              "wardrobe": 1.2193375111906894,
+              "action": 2.0366008911521325,
+              "camera": 1.55125284738041,
+              "site": 2.02991452991453
+            },
+            "history_axis_decay": 0.2
+          },
+          "test": {
+            "counts": {
+              "nodes": 800,
+              "used_nodes": 800,
+              "unused_nodes": 0,
+              "registered_directed_edges": 6862,
+              "used_directed_edges": 4649,
+              "sessions": 2400,
+              "edit_steps": 8760,
+              "unique_full_chains": 2400
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 14,
+              "hair": 6,
+              "hair_color": 6,
+              "family": 8,
+              "group": 8,
+              "core_asset": 34,
+              "action": 6,
+              "camera": 21,
+              "site": 7
+            },
+            "six_axis_max_deviation": 0.06944971537001897,
+            "four_use_edge_fraction": 0.0,
+            "single_fraction": 0.5194931773879142,
+            "slot_tv": 0.008442776735459663,
+            "slot_max_relative_deviation": 0.08571428571428563,
+            "start_camera_max_relative_deviation": 0.006249999999999867,
+            "L5mean": 3.8132352941176473,
+            "per_axis_mean_reuse": {
+              "identity": 2.401685393258427,
+              "hair": 2.27037037037037,
+              "hair_color": 2.1181959564541213,
+              "wardrobe": 1.2824858757062148,
+              "action": 2.4149532710280375,
+              "camera": 1.4261780104712043,
+              "site": 2.3315412186379927
+            },
+            "history_axis_decay": 0.2
+          }
+        }
+      },
+      "2": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed2\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed2\\test"
+        },
+        "canonical_overlap": 0,
+        "splits": {
+          "train": {
+            "counts": {
+              "nodes": 3752,
+              "used_nodes": 3752,
+              "unused_nodes": 0,
+              "registered_directed_edges": 45916,
+              "used_directed_edges": 25093,
+              "sessions": 12000,
+              "edit_steps": 43800,
+              "unique_full_chains": 12000
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 40,
+              "hair": 28,
+              "hair_color": 7,
+              "family": 37,
+              "group": 45,
+              "core_asset": 239,
+              "action": 25,
+              "camera": 21,
+              "site": 21
+            },
+            "six_axis_max_deviation": 0.04217048066353548,
+            "four_use_edge_fraction": 0.0,
+            "single_fraction": 0.49017272185824895,
+            "slot_tv": 0.0037970838396111785,
+            "slot_max_relative_deviation": 0.016995241332427025,
+            "start_camera_max_relative_deviation": 0.0014166666666666217,
+            "L5mean": 4.21235294117647,
+            "per_axis_mean_reuse": {
+              "identity": 1.706787330316742,
+              "hair": 2.0387174833635813,
+              "hair_color": 2.056965944272446,
+              "wardrobe": 1.22152466367713,
+              "action": 2.0402298850574714,
+              "camera": 1.556215722120658,
+              "site": 2.0324754901960786
+            },
+            "history_axis_decay": 0.2
+          },
+          "test": {
+            "counts": {
+              "nodes": 800,
+              "used_nodes": 800,
+              "unused_nodes": 0,
+              "registered_directed_edges": 6862,
+              "used_directed_edges": 4582,
+              "sessions": 2400,
+              "edit_steps": 8760,
+              "unique_full_chains": 2400
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 14,
+              "hair": 6,
+              "hair_color": 6,
+              "family": 8,
+              "group": 8,
+              "core_asset": 34,
+              "action": 6,
+              "camera": 21,
+              "site": 7
+            },
+            "six_axis_max_deviation": 0.05191187642441119,
+            "four_use_edge_fraction": 0.004583151462243562,
+            "single_fraction": 0.5090725806451613,
+            "slot_tv": 0.007920792079207921,
+            "slot_max_relative_deviation": 0.08000000000000007,
+            "start_camera_max_relative_deviation": 0.006249999999999867,
+            "L5mean": 3.8823529411764706,
+            "per_axis_mean_reuse": {
+              "identity": 2.455840455840456,
+              "hair": 2.3401869158878505,
+              "hair_color": 2.165341812400636,
+              "wardrobe": 1.3458498023715415,
+              "action": 2.3502824858757063,
+              "camera": 1.4158004158004158,
+              "site": 2.3345195729537367
+            },
+            "history_axis_decay": 0.2
+          }
+        }
+      },
+      "3": {
+        "passed_all_hard_checks": true,
+        "source_paths": {
+          "train": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_n_v68_train_decay02_seed3\\train",
+          "test": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\candidate_t_v68_test_decay02_seed3\\test"
+        },
+        "canonical_overlap": 0,
+        "splits": {
+          "train": {
+            "counts": {
+              "nodes": 3752,
+              "used_nodes": 3752,
+              "unused_nodes": 0,
+              "registered_directed_edges": 45916,
+              "used_directed_edges": 25166,
+              "sessions": 12000,
+              "edit_steps": 43800,
+              "unique_full_chains": 12000
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 40,
+              "hair": 28,
+              "hair_color": 7,
+              "family": 37,
+              "group": 45,
+              "core_asset": 239,
+              "action": 25,
+              "camera": 21,
+              "site": 21
+            },
+            "six_axis_max_deviation": 0.04489612465041954,
+            "four_use_edge_fraction": 0.0,
+            "single_fraction": 0.49070908280065406,
+            "slot_tv": 0.0018176310209027568,
+            "slot_max_relative_deviation": 0.02506963788300831,
+            "start_camera_max_relative_deviation": 0.0014166666666666217,
+            "L5mean": 4.205882352941177,
+            "per_axis_mean_reuse": {
+              "identity": 1.6923770861524583,
+              "hair": 2.0271657108361003,
+              "hair_color": 2.0617437170338193,
+              "wardrobe": 1.206591070163005,
+              "action": 2.0478637969804048,
+              "camera": 1.5526675786593707,
+              "site": 2.0464831804281345
+            },
+            "history_axis_decay": 0.2
+          },
+          "test": {
+            "counts": {
+              "nodes": 800,
+              "used_nodes": 800,
+              "unused_nodes": 0,
+              "registered_directed_edges": 6862,
+              "used_directed_edges": 4590,
+              "sessions": 2400,
+              "edit_steps": 8760,
+              "unique_full_chains": 2400
+            },
+            "used_node_value_distinct_counts": {
+              "identity": 14,
+              "hair": 6,
+              "hair_color": 6,
+              "family": 8,
+              "group": 8,
+              "core_asset": 34,
+              "action": 6,
+              "camera": 21,
+              "site": 7
+            },
+            "six_axis_max_deviation": 0.055899053627760195,
+            "four_use_edge_fraction": 0.0032679738562091504,
+            "single_fraction": 0.5256410256410257,
+            "slot_tv": 0.005628517823639775,
+            "slot_max_relative_deviation": 0.11764705882352944,
+            "start_camera_max_relative_deviation": 0.006249999999999867,
+            "L5mean": 3.875,
+            "per_axis_mean_reuse": {
+              "identity": 2.3925501432664755,
+              "hair": 2.3178438661710037,
+              "hair_color": 2.134796238244514,
+              "wardrobe": 1.336604514229637,
+              "action": 2.3692022263450836,
+              "camera": 1.4321766561514195,
+              "site": 2.365107913669065
+            },
+            "history_axis_decay": 0.2
+          }
+        }
+      }
+    }
+  },
+  "final_selection": "FINAL_SELECTION.json",
+  "selected_configuration": {
+    "train_graph": "graph_n/train",
+    "test_graph": "graph_t/test",
+    "sampler": "v68",
+    "history_axis_decay": 0.2,
+    "primary": "selected_seed1",
+    "stability_alternatives": [
+      "selected_seed2",
+      "selected_seed3"
+    ],
+    "alternatives_not_combined": true
+  },
+  "experimentation_stopped": true
+}

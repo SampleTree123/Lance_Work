@@ -7,7 +7,7 @@
 > 实现所有权：稳定输出 ID、存储类别、Run Root、Manifest、晋升和失效语义
 > 验证所有权：`VAL-DOC-01`
 > 输出契约：`OUT-GLOBAL-OUTPUT-INVENTORY`
-> 最近核验：2026-08-25
+> 最近核验：2026-09-30（既有输出语义不变，服务器证据边界对齐）
 
 ## 1. 目的与边界
 
@@ -37,7 +37,7 @@
 | `OUT-WF10-BATCH-SPEC` | `WF-10` | Batch ID、轴、兼容域、媒体/交付规格、规模、停止与降级条件 | `versioned_registry` | [批次规格](../dataset/BATCH_SPECIFICATION.md) | [WF-10 状态](../../project_management/status/workflows/WF-10.md) |
 | `OUT-WF20-ASSET-MATRIX` | `WF-20` | 生产资产 ID、源哈希、兼容域、排除项、矩阵与完整性报告 | `versioned_registry` | [资产矩阵冻结](../dataset/ASSET_MATRIX_FREEZE.md) | [WF-20 状态](../../project_management/status/workflows/WF-20.md) |
 | `OUT-WF30-CC-ASSETS` | `WF-30` | 规范 `.ccProject`、Look Manifest、CC Gate、视觉决定 | `external_binary` + `run_evidence` | [CC 组装与验收](../character_creator/ASSEMBLY_AND_ACCEPTANCE.md) | [WF-30 状态](../../project_management/status/workflows/WF-30.md) |
-| `OUT-WF40-TRANSFER-BUNDLE` | `WF-40` | CC Bundle、UE FullReference、Object Path 映射和导入聚合报告 | `cc_export_bundle` + `ue_asset` + `run_evidence` | [CC→UE FullReference](../transfer/CC_TO_UE_FULLREFERENCE.md) | [WF-40 状态](../../project_management/status/workflows/WF-40.md) |
+| `OUT-WF40-TRANSFER-BUNDLE` | `WF-40` | CC Bundle、UE FullReference、条件 Split 模块、Object Path 映射和导入聚合报告 | `cc_export_bundle` + `ue_asset` + `run_evidence` | [Transfer 索引](../transfer/README.md) | [WF-40 状态](../../project_management/status/workflows/WF-40.md) |
 | `OUT-WF50-RUNTIME-ACCEPTANCE` | `WF-50` | 接受的 Look/Action/Expression、运行时资产、兼容警告和 Gate 报告 | `ue_asset` + `run_evidence` | [角色运行时](../unreal/CHARACTER_RUNTIME.md) | [WF-50 状态](../../project_management/status/workflows/WF-50.md) |
 | `OUT-WF60-SEQUENCE-TEMPLATE` | `WF-60` | Scene/Camera/Anchor Registry、Sequence、MRQ Profile 和布局证据 | `versioned_registry` + `ue_asset` + `run_evidence` | [场景、相机与 Sequence](../unreal/SCENE_CAMERA_SEQUENCE.md) | [WF-60 状态](../../project_management/status/workflows/WF-60.md) |
 | `OUT-WF70-JOB-GRAPH` | `WF-70` | Source Manifest、Assets/Domains/Nodes/Edges/Chains、Render Jobs、Prompt 和报告 | `versioned_registry` + `%OUTPUT_ROOT%` authoritative 根 | [配置图与链](../dataset/CONFIG_GRAPH_AND_CHAINS.md) | [WF-70 状态](../../project_management/status/workflows/WF-70.md) |
@@ -99,12 +99,13 @@ FBX/JSON/纹理属于 `OUT-WF40-TRANSFER-BUNDLE`，不得与本输出混淆。�
 
 ### 3.5 `OUT-WF40-TRANSFER-BUNDLE`
 
-该 ID 表示一次可追溯的 CC→UE 转移结果，不表示单个目录。四部分必须共同解释，任何一部分都不能单独宣称 `GATE-40` 已通过：
+该 ID 表示一次可追溯的 CC→UE 转移结果，不表示单个目录。基础四部分必须共同解释；当声明模块化运行时时还必须包含条件 Split 部分。任何一部分都不能单独宣称 `GATE-40` 已通过：
 
 | 部分 | 最小内容 | 作用 | 当前位置所有者 |
 | --- | --- | --- | --- |
 | `cc_export_bundle` | 每 Look FBX、JSON、纹理/`.fbm`、源哈希与 Bundle 标识 | 提供不可变导入源和确定性重导入依据 | [WF-40 Status](../../project_management/status/workflows/WF-40.md#当前输出与证据) |
 | `ue_asset` | Vendor 根下的 FullReference 资产及规范同性 Skeleton | 提供 `WF-50`–`WF-80` 实际消费的 UE 角色 | [WF-40 Status](../../project_management/status/workflows/WF-40.md#当前输出与证据) |
+| `ue_modular_split`（条件） | FullReference Witness、Split 服装网格、基础 Skeleton 和模块分类映射 | 当运行时声明模块化服装时，为 `VAL-UE-02` 提供可追溯 Follower 来源；不适用时明确省略 | [模块化服装 Transfer](../transfer/CC_TO_UE_MODULAR_OUTFIT_PILOT.md) |
 | source/Object Path mapping | Look ID、Bundle 文件、UE Object Path、Skeleton 和导入版本映射 | 支撑正反向追溯、单 Look 重试和发布引用 | [资产追溯](../transfer/ASSET_TRACEABILITY.md) |
 | `run_evidence` | 每 Look 导入验证、聚合报告、失败分类和 Gate 结论 | 支撑 `VAL-TRANSFER-01`，不能由资产存在性替代 | [WF-40 Status](../../project_management/status/workflows/WF-40.md#验证状态) |
 
@@ -119,6 +120,7 @@ FBX/JSON/纹理属于 `OUT-WF40-TRANSFER-BUNDLE`，不得与本输出混淆。�
 | Performance assets | 规范 Body Motion、Face Clip/Composite 和必要可逆材质补丁 | 给 Sequence/Render Job 提供可直接绑定资产 | [WF-50 Status](../../project_management/status/workflows/WF-50.md#当前输出与证据) |
 | Accepted combination matrix | Look × Action × Expression、Skeleton 和窗口映射 | 阻止未验证组合进入渲染 | [角色运行时 Technical](../unreal/CHARACTER_RUNTIME.md) |
 | Runtime policies | Root Motion/InPlace、Padding、曲线/骨骼分层和条件能力边界 | 保持运行时、图和渲染器解释一致 | [动作/表情 Technical](../unreal/ANIMATION_EXPRESSION_MORPH.md) |
+| Modular runtime（条件） | Body Leader、服装 Follower、允许 Variant、共同 Skeleton、切换和动作同步报告 | 仅当 `VAL-UE-02` 对声明作用域通过时，允许下游把模块化切换当作运行时能力 | [角色运行时 Technical](../unreal/CHARACTER_RUNTIME.md#3-模块化服装-pilot) |
 | Warnings/Gate evidence | 已接受穿模风险、Pilot 限制、机器报告和视觉结论 | 支撑 `VAL-UE-01..03` 与 `GATE-50` | [WF-50 Status](../../project_management/status/workflows/WF-50.md#验证状态) |
 
 模块化 Pilot 和可编辑 Morph 只有在对应条件验证通过时才进入本输出。当前第一批消费的是烘焙 FullReference 与批准 Composite。主要下游是 `WF-60` 的 Sequence/Camera 绑定、`WF-70` 的图源和 `WF-80` 的节点渲染。
@@ -164,7 +166,7 @@ FBX/JSON/纹理属于 `OUT-WF40-TRANSFER-BUNDLE`，不得与本输出混淆。�
 | Media Manifest/status | Node 到 URI、字节数、SHA-256、接受/失败状态和完成清单 | 支撑零悬空引用和只重跑失败节点 | `WF-90` |
 | Smoke/benchmark evidence | 本地代表链、服务器基准和视觉抽检 | 在全量运行前发现系统性错误 | `VAL-RENDER-01/VAL-SERVER-01` |
 
-本地正式节点 Run Root 已在 `%OUTPUT_ROOT%/unreal_render/first_batch_formal_executor_smoke_20260825_v003/` 建立并通过 2 节点真渲染与哈希恢复；它是 `retained_evidence`，不是完整批次权威媒体。服务器 640 节点 Run Root 尚未创建。执行命令、目录字段和当前边界由 [渲染 Technical](../rendering_release/RENDER_EXECUTION.md) 负责，准确状态由 [WF-80 Status](../../project_management/status/workflows/WF-80.md) 负责。主要下游是 `WF-90` 的媒体解析、QA、Sidecar 和发布包。
+本地正式节点 Run Root 已在 `%OUTPUT_ROOT%/unreal_render/first_batch_formal_executor_smoke_20260825_v003/` 建立并通过 2 节点真渲染与哈希恢复；它是 `retained_evidence`，不是完整批次权威媒体。服务器完整渲染已由用户确认，正式 Run Root/Manifest 尚未同步到本地。执行命令、目录字段和当前边界由 [渲染 Technical](../rendering_release/RENDER_EXECUTION.md) 负责，准确状态由 [WF-80 Status](../../project_management/status/workflows/WF-80.md) 负责。主要下游是 `WF-90` 的媒体解析、QA、Sidecar 和发布包。
 
 ### 3.10 `OUT-WF90-DATASET-RELEASE`
 

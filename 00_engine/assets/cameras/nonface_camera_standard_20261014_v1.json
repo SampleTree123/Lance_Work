@@ -1,0 +1,879 @@
+{
+  "schema": "camera_nonface_standard_config_v1",
+  "horizontal_fov_degrees": 35.0,
+  "initial_world_facing_yaw_degrees": 90.0,
+  "target_proxy_height_fraction": {
+    "full": 0.78,
+    "upper": 0.75
+  },
+  "distance_policy": "Use the stored absolute distances as-is for each orientation; portrait +15% revision is already included. Apply no further multiplier.",
+  "cropping_allowed": true,
+  "automatic_fit": false,
+  "automatic_zoom": false,
+  "dolly_finish_seconds": 7.0,
+  "tracking_policy": {
+    "pelvis_xy_sigma_seconds": 1.15,
+    "torso_xyz_sigma_seconds": 0.9,
+    "torso_weights": {
+      "pelvis": 0.25,
+      "spine_02": 0.5,
+      "neck_01": 0.25
+    },
+    "full": {
+      "local_xy_gain": 0.45,
+      "vertical_gain": 0.45,
+      "vertical_soft_limit_cm": 22.0
+    },
+    "upper": {
+      "local_xy_gain": 0.65,
+      "vertical_gain": 1.0,
+      "vertical_soft_limit_cm": 70.0,
+      "vertical_reference_weights": {
+        "pelvis": 0.15,
+        "spine_02": 0.25,
+        "neck_01": 0.6
+      }
+    },
+    "facing": "fixed neutral character +Y (90 world degrees); no motion heading pursuit",
+    "smoothing": "symmetric local-linear Gaussian; no delay for constant speed travel",
+    "local_xy": "smoothed torso relative to pelvis; excludes hand/foot extents",
+    "vertical": "full v1 preserved; upper 15% pelvis/25% spine02/60% neck smoothed Z delta then gain1.0 and tanh70cm",
+    "initial_anchor": "initial pelvis XY, fixed common target Z; filtered delta starts at zero",
+    "per_action_tuning": false
+  },
+  "neutral_reference": {
+    "clip_id": "motion_cand_003_female",
+    "source_time_seconds": 0.0,
+    "reason": "upright first pose, same representative female character"
+  },
+  "orientations": {
+    "landscape": {
+      "front_full": {
+        "preset": {
+          "id": "front_full",
+          "label": "正面全身",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.656776252501,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_three_quarter_full": {
+        "preset": {
+          "id": "front_three_quarter_full",
+          "label": "前侧全身",
+          "azimuth": 45,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 650.6447844708873,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "side_full": {
+        "preset": {
+          "id": "side_full",
+          "label": "侧面全身",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 648.4700151159268,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "rear_three_quarter_full": {
+        "preset": {
+          "id": "rear_three_quarter_full",
+          "label": "后侧面全身",
+          "azimuth": 135,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 645.6340488247224,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "back_full": {
+        "preset": {
+          "id": "back_full",
+          "label": "背面全身",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.3177939140751,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_upper": {
+        "preset": {
+          "id": "front_upper",
+          "label": "正面上半身",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 290.8002714072154,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_three_quarter_upper": {
+        "preset": {
+          "id": "front_three_quarter_upper",
+          "label": "前侧上半身",
+          "azimuth": 45,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 294.8133328576114,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "side_upper": {
+        "preset": {
+          "id": "side_upper",
+          "label": "侧面上半身",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 291.92612732228554,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "rear_three_quarter_upper": {
+        "preset": {
+          "id": "rear_three_quarter_upper",
+          "label": "后侧面上半身",
+          "azimuth": 135,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 296.61275298012697,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "back_upper": {
+        "preset": {
+          "id": "back_upper",
+          "label": "背面上半身",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 293.3395127300173,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "high_full": {
+        "preset": {
+          "id": "high_full",
+          "label": "俯视全身",
+          "azimuth": 35,
+          "elevation": 25,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 637.3128930753592,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "low_full": {
+        "preset": {
+          "id": "low_full",
+          "label": "仰视全身",
+          "azimuth": 35,
+          "elevation": -2.5,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 648.0997134789504,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "orbit_360": {
+        "preset": {
+          "id": "orbit_360",
+          "label": "360°全身环绕",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "orbit",
+          "orbit": 360
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.656776252501,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "orbit_120": {
+        "preset": {
+          "id": "orbit_120",
+          "label": "120°全身环绕",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "orbit",
+          "orbit": 120
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.656776252501,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_front": {
+        "preset": {
+          "id": "dolly_in_front",
+          "label": "正面推进",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.656776252501,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 290.8002714072154,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_side": {
+        "preset": {
+          "id": "dolly_in_side",
+          "label": "侧面推进",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 648.4700151159268,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 291.92612732228554,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_back": {
+        "preset": {
+          "id": "dolly_in_back",
+          "label": "背面推进",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 643.3177939140751,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 293.3395127300173,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_front": {
+        "preset": {
+          "id": "dolly_out_front",
+          "label": "正面拉远",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 290.8002714072154,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 643.656776252501,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_side": {
+        "preset": {
+          "id": "dolly_out_side",
+          "label": "侧面拉远",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 291.92612732228554,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 648.4700151159268,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_back": {
+        "preset": {
+          "id": "dolly_out_back",
+          "label": "背面拉远",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 293.3395127300173,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 643.3177939140751,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      }
+    },
+    "portrait": {
+      "front_full": {
+        "preset": {
+          "id": "front_full",
+          "label": "正面全身",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 241.89950707468049,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_three_quarter_full": {
+        "preset": {
+          "id": "front_three_quarter_full",
+          "label": "前侧全身",
+          "azimuth": 45,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 249.08864168009129,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "side_full": {
+        "preset": {
+          "id": "side_full",
+          "label": "侧面全身",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 246.5966201238252,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "rear_three_quarter_full": {
+        "preset": {
+          "id": "rear_three_quarter_full",
+          "label": "后侧面全身",
+          "azimuth": 135,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 244.69940447193127,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "back_full": {
+        "preset": {
+          "id": "back_full",
+          "label": "背面全身",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 242.74888632885174,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_upper": {
+        "preset": {
+          "id": "front_upper",
+          "label": "正面上半身",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 111.92097323686674,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "front_three_quarter_upper": {
+        "preset": {
+          "id": "front_three_quarter_upper",
+          "label": "前侧上半身",
+          "azimuth": 45,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 116.5373638924775,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "side_upper": {
+        "preset": {
+          "id": "side_upper",
+          "label": "侧面上半身",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 113.22184602527658,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "rear_three_quarter_upper": {
+        "preset": {
+          "id": "rear_three_quarter_upper",
+          "label": "后侧面上半身",
+          "azimuth": 135,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 118.64665026003875,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "back_upper": {
+        "preset": {
+          "id": "back_upper",
+          "label": "背面上半身",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "upper",
+          "end": "upper",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 114.8839132978046,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "high_full": {
+        "preset": {
+          "id": "high_full",
+          "label": "俯视全身",
+          "azimuth": 35,
+          "elevation": 25,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 241.3593605734686,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "low_full": {
+        "preset": {
+          "id": "low_full",
+          "label": "仰视全身",
+          "azimuth": 35,
+          "elevation": -8,
+          "start": "full",
+          "end": "full",
+          "kind": "follow",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 244.96554470983662,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "orbit_360": {
+        "preset": {
+          "id": "orbit_360",
+          "label": "360°全身环绕",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "orbit",
+          "orbit": 360
+        },
+        "references": {
+          "full": {
+            "distance_cm": 241.89950707468049,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "orbit_120": {
+        "preset": {
+          "id": "orbit_120",
+          "label": "120°全身环绕",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "full",
+          "kind": "orbit",
+          "orbit": 120
+        },
+        "references": {
+          "full": {
+            "distance_cm": 241.89950707468049,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_front": {
+        "preset": {
+          "id": "dolly_in_front",
+          "label": "正面推进",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 241.89950707468049,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 111.92097323686674,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_side": {
+        "preset": {
+          "id": "dolly_in_side",
+          "label": "侧面推进",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 246.5966201238252,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 113.22184602527658,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_in_back": {
+        "preset": {
+          "id": "dolly_in_back",
+          "label": "背面推进",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "full",
+          "end": "upper",
+          "kind": "dolly_in",
+          "orbit": 0
+        },
+        "references": {
+          "full": {
+            "distance_cm": 242.74888632885174,
+            "initial_target_height_cm": 80.87819047288502
+          },
+          "upper": {
+            "distance_cm": 114.8839132978046,
+            "initial_target_height_cm": 131.48534418988044
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_front": {
+        "preset": {
+          "id": "dolly_out_front",
+          "label": "正面拉远",
+          "azimuth": 0,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 111.92097323686674,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 241.89950707468049,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_side": {
+        "preset": {
+          "id": "dolly_out_side",
+          "label": "侧面拉远",
+          "azimuth": 90,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 113.22184602527658,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 246.5966201238252,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      },
+      "dolly_out_back": {
+        "preset": {
+          "id": "dolly_out_back",
+          "label": "背面拉远",
+          "azimuth": 180,
+          "elevation": 0,
+          "start": "upper",
+          "end": "full",
+          "kind": "dolly_out",
+          "orbit": 0
+        },
+        "references": {
+          "upper": {
+            "distance_cm": 114.8839132978046,
+            "initial_target_height_cm": 131.48534418988044
+          },
+          "full": {
+            "distance_cm": 242.74888632885174,
+            "initial_target_height_cm": 80.87819047288502
+          }
+        },
+        "removed_floor_clamp": true
+      }
+    }
+  },
+  "scope": "30 accepted representative motions; 20 non-face cameras; landscape and portrait. Face closeup uses a separate per-action configuration.",
+  "revision_reason": "Promote accepted current numeric camera parameters to the reusable official standard; no numeric transform.",
+  "portrait_distance_multiplier": 1.0,
+  "standard_version": "nonface_camera_standard_20261014_v1",
+  "status": "current_accepted_standard",
+  "human_acceptance": "accepted",
+  "effective_date": "2026-10-14",
+  "portrait_distance_revision_already_baked": 1.15,
+  "source_config": {
+    "path": "00_engine/outputs/camera_all_motions_portrait115_20261014_v1/camera_common_presets_config_v1.json",
+    "sha256": "9eae42c45a2d77ad7f8d7ca816c7f5e8b8644751f2e08bddd939f96fc1da2660"
+  },
+  "acceptance_source": {
+    "path": "00_engine/outputs/camera_all_motions_portrait115_20261014_v1/user_acceptance_20261014_v1.json",
+    "basis": "explicit user acceptance in the current chat on 2026-10-14; all 20 non-face cameras provisionally retained; limited larger portrait crops accepted"
+  }
+}

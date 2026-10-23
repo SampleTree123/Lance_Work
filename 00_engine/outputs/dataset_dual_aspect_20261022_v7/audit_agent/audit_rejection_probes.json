@@ -1,0 +1,23 @@
+{
+  "schema": "dual_aspect_audit_targeted_rejection_probes_v1",
+  "scope": "Two in-memory corruptions of candidate reads; all source files immutable",
+  "probes": [
+    {
+      "probe": "mixed_aspect",
+      "rejected": true,
+      "error_counts": {
+        "invalid_graph_edge": 26,
+        "mixed_aspect_session": 15
+      }
+    },
+    {
+      "probe": "history_parent",
+      "rejected": true,
+      "error_counts": {
+        "original_steps_changed": 1,
+        "history_parent_not_fully_inherited": 1,
+        "fork_logic_invalid": 1
+      }
+    }
+  ]
+}

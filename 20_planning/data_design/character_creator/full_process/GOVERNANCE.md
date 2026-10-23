@@ -4,7 +4,7 @@
 > 文档类型：`governance`
 > 生命周期：`current`
 > 权威范围：文档角色、事实所有权、生命周期、输出保留和审计规则
-> 最近核验：2026-08-25
+> 最近核验：2026-10-05（执行中唯一计划与显式结项空闲规则）
 
 ## 1. 目标
 
@@ -126,7 +126,7 @@ Workflow 不保存某个批次的完整资产列表，不保存长命令块，�
 
 ### 7.2 计划
 
-恰好允许一个 `current` 主计划。其他未完成计划只能是 `queued` 或 `paused`；`blocked` 是需求状态，不是计划生命周期。每项计划需求使用稳定 ID，并列出：目标、影响 Workflow、验收条件、当前落实状态和证据位置。
+有获授权的执行任务时，恰好一个 `current` 主计划。仅在所有当前需求完成、计划已迁入 History 且没有获授权的下一任务时，明确记录 `PROJECT_STATE.project_phase=idle_after_completed_plan` 和 `current_plan_id=null`，此时必须零个 `current`；多个 `current` 在任何状态均不允许。`queued` 不因结项或审计自动晋升。 空闲状态不是计划生命周期，也不是暂停或新任务授权；保留最后完成计划及其证据，唯一下一步为等待用户启动排队计划或指定新任务。其他未完成计划只能是 `queued` 或 `paused`；`blocked` 是需求状态，不是计划生命周期。每项计划需求使用稳定 ID，并列出：目标、影响 Workflow、验收条件、当前落实状态和证据位置。
 
 计划完成必须同时满足：
 
@@ -226,7 +226,7 @@ delivery/<batch_id>/
 | Output | 每个 `OUT-*` 有生产者、存储类别、Manifest、晋升、保留和状态落点 |
 | Technical | 所有当前文档被索引，代码/配置/命令/验证实现/输出产生/恢复可复现 |
 | Status | 只描述当前事实，并为每个阶段列能力、计划、验证、输出、风险和下一 Gate |
-| Plan | 生命周期和需求状态合法，恰好一个 current，需求有验收与证据入口 |
+| Plan | 生命周期和需求状态合法；执行中恰好一个 current，显式结项空闲/null 状态必须零 current，任何状态不允许多个；需求有验收与证据入口 |
 | History | 只保存关闭事实、最终证据与当时范围，不伪装当前入口 |
 | Decisions | accepted/superseded 关系闭合，当前规则有复审条件 |
 | Reference | 术语、路径别名和 URI 边界完整，不保存动态状态 |
@@ -267,7 +267,7 @@ delivery/<batch_id>/
 - 目录 README 索引直接子文档。
 - 类型化元数据和链接有效。
 - Workflow 的 `VAL-*`、`OUT-*`、Technical 和 Status 全部可解析且职责一致。
-- 恰好一个 current 计划，且与 `PROJECT_STATE.json` 一致。
+- current 计划数量与 `PROJECT_STATE.json` 一致：执行状态恰好一个；仅显式 `idle_after_completed_plan` 且 `current_plan_id=null` 的结项空闲状态必须零个。空闲标记与非空/缺失 current_plan_id、空闲仍有 current 或执行中零 current 均失败。
 - Plan Requirement 与 Workflow Status/Evidence 一致。
 - Registry 当前权威与 Technical/Status 当前指针一致。
 - accepted/superseded ADR 与受影响定义一致。

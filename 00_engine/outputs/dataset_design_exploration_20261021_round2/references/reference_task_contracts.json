@@ -1,0 +1,93 @@
+{
+  "status": "round2_research_proposal_not_frozen",
+  "created_at": "2026-10-21",
+  "common_invariants": [
+    "Reference may reveal the requested target attribute by design",
+    "Reference role, copied axes and source-history pointer are separate variables",
+    "Abandoned-branch reference remains observable but is not automatically active",
+    "Global constraints cannot silently override single-axis atomic state transitions",
+    "Oracle resolved state/provenance stays in private supervision",
+    "Reference order changes preserve stable labels and semantics"
+  ],
+  "tracks": [
+    {
+      "track_id": "asset_first_semantic_motion",
+      "reference_origin": "independent_neutral_carrier",
+      "source_of_identity_and_wardrobe": "selected_history_version",
+      "reference_authority": ["motion_semantics"],
+      "not_required": ["reference_pixel_alignment", "exact_timing"],
+      "required_evaluation": ["motion_technique_and_stage_order", "selected_source_preservation"],
+      "gt_pixel_error_is_complete_metric": false,
+      "round1_union_action_clip_count_single_carrier": 25,
+      "round1_union_action_clip_count_sex_fit_carriers": 50
+    },
+    {
+      "track_id": "matched_motion_and_background",
+      "reference_origin": "independent_render_with_resolved_camera_and_timing",
+      "reference_authority": ["requested_motion", "target_background"],
+      "additional_conditions": ["camera_path", "time_profile"],
+      "required_evaluation": ["source_pointer_counterfactual_pairs", "target_attribute_success", "preserved_foreground", "physical_integration"],
+      "round1_union_action_clips": 487,
+      "round1_conservative_background_clips": 845,
+      "background_trajectory_hash_conditional_count": 808,
+      "background_trajectory_hash_condition": "All identities and sex adaptations must reuse the same resolved numerical camera path; not verified by representative geometry alone"
+    },
+    {
+      "track_id": "target_derived_reference_completion",
+      "reference_origin": "GT_derived_then_attribute_preserving_transformation",
+      "legitimacy": "Established data-construction route; not automatically invalid",
+      "required_audit": ["record_target_derivation", "measure_ref_target_near_duplication", "keep_independent_reference_test_group", "report_source_pointer_shortcut_controls"],
+      "not_allowed_claims": ["independent_user_reference_generalization_without_evidence", "history_understanding_from_reference_fidelity_alone"],
+      "primary_evidence": ["Kiwi-Edit/RefVIE section 3.1", "RCEdit-500K section 3.2 and appendix B.2"]
+    },
+    {
+      "track_id": "history_video_as_axis_reference",
+      "reference_origin": "already_observed_history_video",
+      "instruction_example": "从V2继续，只采用V0中的身体动作；人物、服装、场景仍以V2为准。",
+      "reference_authority": ["one_explicit_axis_only"],
+      "extra_gt_endpoint_required_for_mined_candidates": false,
+      "round1_mined_rewrite_candidate_requests": 1164,
+      "not_already_natural_language_annotated": true,
+      "value": "Tests selective copying under real appearance distractors and reference reuse",
+      "limitation": "Cannot replace independent references when the target attribute has never appeared in visible history"
+    },
+    {
+      "track_id": "multi_source_composition_optional_separate_track",
+      "instruction_example": "场景取V1，人物取V2，动作取V3。",
+      "may_change_multiple_axes": true,
+      "compatible_with_single_atomic_edge": false,
+      "allowed_resolution": ["split_into_multiple_atomic_edges", "label_as_separate_composition_task"],
+      "not_in_current_round1_budget": true
+    }
+  ],
+  "reference_binding_events": [
+    {
+      "event": "introduce",
+      "visible_instruction_example": "之后提到动作参考A，指这段视频。",
+      "effect": "Stable reference identity and axis role become available in subsequent visible history"
+    },
+    {
+      "event": "correct_selection",
+      "visible_instruction_example": "刚才A不用了，这次动作改按B。",
+      "effect": "Current requested axis adopts B; do not revert unrelated edits"
+    },
+    {
+      "event": "revive_abandoned_reference",
+      "visible_instruction_example": "从V1继续，动作采用弃掉分支里的参考B。",
+      "effect": "Selected base state comes from V1; B supplies only the motion axis"
+    },
+    {
+      "event": "reaffirm_inherited_axis",
+      "visible_instruction_example": "现在只换人物，动作仍沿用B。",
+      "single_edge_validity": "Only if the chosen source version already has the B action; otherwise two axes would change"
+    }
+  ],
+  "input_ablation_contract": {
+    "same_reference_different_source_pointer": "Different expected retained state; both GT endpoints must exist",
+    "reference_order_permutation": "Same expected output when labels/roles are unchanged",
+    "remove_irrelevant_reference": "Same expected output",
+    "remove_required_history_or_reference": "Intentional information-deficit diagnostic; not fair same-GT ranking",
+    "swap_directed_reference": "Usually changes the task truth; do not keep old GT unless explicit instruction ignores that reference",
+    "strong_vs_weak_target_text": "Weaken target detail only; preserve source pointer and required scope constraints"
+  }
+}

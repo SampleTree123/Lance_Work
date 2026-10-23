@@ -1,0 +1,274 @@
+{
+  "train": {
+    "node_occurrence": {
+      "distinct": 5980,
+      "min": 1,
+      "median": 9.0,
+      "max": 34,
+      "p95": 18,
+      "top10_share": 0.005573476702508961
+    },
+    "root_occurrence": {
+      "distinct": 5816,
+      "min": 1,
+      "median": 2.0,
+      "max": 15,
+      "p95": 5,
+      "top10_share": 0.010583333333333333
+    },
+    "sex_nodes": {
+      "female": 3424,
+      "male": 2556
+    },
+    "sex_chains": {
+      "male": 5284,
+      "female": 6716
+    },
+    "aspect_nodes": {
+      "landscape": 3234,
+      "portrait": 2746
+    },
+    "aspect_chains": {
+      "landscape": 6388,
+      "portrait": 5612
+    },
+    "root_cameras": {
+      "dolly_out_side": 521,
+      "dolly_in_front": 782,
+      "front_head": 782,
+      "back_full": 522,
+      "dolly_in_back": 522,
+      "rear_three_quarter_full": 522,
+      "front_three_quarter_full": 522,
+      "orbit_360": 522,
+      "orbit_120": 522,
+      "dolly_out_front": 782,
+      "low_full": 522,
+      "front_upper": 782,
+      "dolly_in_side": 522,
+      "front_full": 522,
+      "rear_three_quarter_upper": 522,
+      "side_full": 522,
+      "back_upper": 522,
+      "side_upper": 522,
+      "dolly_out_back": 521,
+      "high_full": 522,
+      "front_three_quarter_upper": 522
+    },
+    "chain_lengths": {
+      "3": 2800,
+      "4": 3400,
+      "2": 2400,
+      "5": 3400
+    },
+    "distinct_axis_by_length": {
+      "2": {
+        "mean": 1.9533333333333334,
+        "histogram": {
+          "1": 112,
+          "2": 2288
+        }
+      },
+      "3": {
+        "mean": 2.8507142857142855,
+        "histogram": {
+          "1": 13,
+          "2": 392,
+          "3": 2395
+        }
+      },
+      "4": {
+        "mean": 3.356176470588235,
+        "histogram": {
+          "1": 9,
+          "2": 114,
+          "3": 1934,
+          "4": 1343
+        }
+      },
+      "5": {
+        "mean": 3.776764705882353,
+        "histogram": {
+          "1": 2,
+          "2": 34,
+          "3": 1415,
+          "4": 1219,
+          "5": 730
+        }
+      }
+    },
+    "per_aspect": {
+      "landscape": {
+        "chains": 6388,
+        "sex": {
+          "male": 2921,
+          "female": 3467
+        },
+        "axes": {
+          "camera": 3737,
+          "action": 3729,
+          "site": 3303,
+          "identity": 1707,
+          "hair": 3590,
+          "hair_color": 3635,
+          "wardrobe": 3644
+        },
+        "root_camera_count": 21,
+        "six_axis_maxdev": 0.0841112857010815
+      },
+      "portrait": {
+        "chains": 5612,
+        "sex": {
+          "male": 2363,
+          "female": 3249
+        },
+        "axes": {
+          "camera": 3498,
+          "hair": 2902,
+          "identity": 1103,
+          "hair_color": 2892,
+          "action": 3525,
+          "wardrobe": 3659,
+          "site": 2876
+        },
+        "root_camera_count": 21,
+        "six_axis_maxdev": 0.13445638693675077
+      }
+    }
+  },
+  "test": {
+    "node_occurrence": {
+      "distinct": 1223,
+      "min": 1,
+      "median": 8,
+      "max": 28,
+      "p95": 17,
+      "top10_share": 0.021505376344086023
+    },
+    "root_occurrence": {
+      "distinct": 1221,
+      "min": 1,
+      "median": 1,
+      "max": 12,
+      "p95": 5,
+      "top10_share": 0.04
+    },
+    "sex_nodes": {
+      "male": 592,
+      "female": 631
+    },
+    "sex_chains": {
+      "female": 1214,
+      "male": 1186
+    },
+    "aspect_nodes": {
+      "landscape": 652,
+      "portrait": 571
+    },
+    "aspect_chains": {
+      "portrait": 1148,
+      "landscape": 1252
+    },
+    "root_cameras": {
+      "dolly_out_back": 104,
+      "front_full": 105,
+      "dolly_in_front": 157,
+      "front_head": 157,
+      "dolly_out_front": 157,
+      "back_upper": 104,
+      "back_full": 104,
+      "rear_three_quarter_full": 105,
+      "front_upper": 157,
+      "high_full": 104,
+      "dolly_in_back": 104,
+      "rear_three_quarter_upper": 104,
+      "front_three_quarter_upper": 104,
+      "low_full": 104,
+      "orbit_120": 104,
+      "front_three_quarter_full": 105,
+      "side_upper": 104,
+      "orbit_360": 104,
+      "dolly_out_side": 104,
+      "side_full": 105,
+      "dolly_in_side": 104
+    },
+    "chain_lengths": {
+      "2": 480,
+      "3": 560,
+      "5": 680,
+      "4": 680
+    },
+    "distinct_axis_by_length": {
+      "2": {
+        "mean": 1.96875,
+        "histogram": {
+          "1": 15,
+          "2": 465
+        }
+      },
+      "3": {
+        "mean": 2.9285714285714284,
+        "histogram": {
+          "1": 1,
+          "2": 38,
+          "3": 521
+        }
+      },
+      "4": {
+        "mean": 3.4235294117647057,
+        "histogram": {
+          "2": 11,
+          "3": 370,
+          "4": 299
+        }
+      },
+      "5": {
+        "mean": 3.7808823529411764,
+        "histogram": {
+          "2": 4,
+          "3": 293,
+          "4": 231,
+          "5": 152
+        }
+      }
+    },
+    "per_aspect": {
+      "landscape": {
+        "chains": 1252,
+        "sex": {
+          "female": 580,
+          "male": 672
+        },
+        "axes": {
+          "hair_color": 670,
+          "site": 634,
+          "hair": 693,
+          "wardrobe": 775,
+          "action": 744,
+          "identity": 290,
+          "camera": 772
+        },
+        "root_camera_count": 21,
+        "six_axis_maxdev": 0.11287313432835822
+      },
+      "portrait": {
+        "chains": 1148,
+        "sex": {
+          "female": 634,
+          "male": 514
+        },
+        "axes": {
+          "wardrobe": 732,
+          "camera": 721,
+          "identity": 196,
+          "hair": 584,
+          "action": 735,
+          "site": 608,
+          "hair_color": 606
+        },
+        "root_camera_count": 21,
+        "six_axis_maxdev": 0.1209232313095836
+      }
+    }
+  }
+}

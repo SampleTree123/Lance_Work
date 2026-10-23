@@ -1,0 +1,203 @@
+{
+  "history_decay": 0.4,
+  "same_graph": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1",
+  "baseline_aspect_candidate": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\selected_candidate",
+  "sampling_parameters": {
+    "source": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\sample_compact_v68_snapshot.py",
+    "saved_source": "sampler_source.py",
+    "sha256": "b2ba7bd4d99c19a59979d6e572af8b78051d35d9953e740048c8ccc8eec04b19",
+    "sampler_selection": "v68",
+    "parameter_overrides": {
+      "history_decay": 0.4,
+      "nonidentity_upper_slack": 0.025,
+      "cap2_attempts": 12,
+      "tail_fallback_after": 120
+    }
+  },
+  "inputs": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_decay04_20261022_v8\\finish_candidate.py",
+      "sha256": "b96550558a51e3a1f5b1c1ae2535a867ad304a4c03946ae98257f4d59bb84140"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\partition_agent\\partition.py",
+      "sha256": "ba1c97feb4ee2219009a40d743056b765db35f3f01817e43c55fb85c91a9d5b4"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\materialize.py",
+      "sha256": "d1758664ef335d4a148aa70eae3b2d144840f4151774036eb12c52c81f7523d3"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\audit_agent\\audit_dual_aspect.py",
+      "sha256": "a99209a7dcf3ef2f08ec7e8d5c7fd41049cfc321d9872bdaf617013b6ae66c1b"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\sample_compact_v68_snapshot.py",
+      "sha256": "b2ba7bd4d99c19a59979d6e572af8b78051d35d9953e740048c8ccc8eec04b19"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\audit_compact.py",
+      "sha256": "0123889c950999863419c11890bf34e45b06622f14e438ff17b6da4c23350b9d"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_dual_aspect_20261022_v7\\RULES.json",
+      "sha256": "40b0913718c14937cc8e9ec0938c71c81df16a2e0164b1943e838238d95d89b5"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\nodes.json",
+      "sha256": "7e6bd423e1239287de10cc7ba02cb52b522002a0bcf27a10cbcf90cfee19b14c"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\edges.json",
+      "sha256": "8a18375b019fb30994c49b4bb5f7e97f4b1a14c81262b37bdbecdd8945cfd6fa"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\train\\sessions.jsonl",
+      "sha256": "b9b2eb69e62fc5e53e8db8529e6661d2de59f388033645c5772545d9d0b267df"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\nodes.json",
+      "sha256": "e4205d95921d367a1b937c43a690c14fc536b37ca884623f4e63b66f15a1040a"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\edges.json",
+      "sha256": "c171637c4c8c3e87b6403063576badf0340472cb6845ca8f59d46e1c5f1ddc71"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_compact_graph_20261022_v6\\selected_seed1\\test\\sessions.jsonl",
+      "sha256": "70ae573421d1849735308479eb237bf95404827a817937cec0f49a070bb567c1"
+    }
+  ],
+  "partition_trials": {
+    "train": {
+      "economy": {
+        "renders": 5256,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.030248306997742613,
+          "portrait": 0.042250710829550564
+        }
+      }
+    },
+    "test": {
+      "economy": {
+        "renders": 1116,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.26067073170731714,
+          "portrait": 0.3466833541927409
+        }
+      },
+      "axis_balanced": {
+        "renders": 1183,
+        "six_axis_max_relative_deviation": {
+          "landscape": 0.045866935483870996,
+          "portrait": 0.05374716124148371
+        }
+      }
+    }
+  },
+  "counts": {
+    "train": {
+      "content_nodes": 3752,
+      "render_nodes": 5256,
+      "additional_render_nodes": 1504,
+      "chain_count": 12000,
+      "chain_count_by_aspect": {
+        "portrait": 5987,
+        "landscape": 6013
+      },
+      "render_count_by_aspect": {
+        "landscape": 2706,
+        "portrait": 2550
+      },
+      "edit_count": 43800,
+      "all_original_chains_preserved_once": true
+    },
+    "test": {
+      "content_nodes": 800,
+      "render_nodes": 1183,
+      "additional_render_nodes": 383,
+      "chain_count": 2400,
+      "chain_count_by_aspect": {
+        "landscape": 1200,
+        "portrait": 1200
+      },
+      "render_count_by_aspect": {
+        "landscape": 624,
+        "portrait": 559
+      },
+      "edit_count": 8760,
+      "all_original_chains_preserved_once": true
+    }
+  },
+  "references": {
+    "schema": "trial_reference_summary_20261021_v1",
+    "candidate": "selected_candidate",
+    "seed": 20261022,
+    "media_generated": false,
+    "reference_count_against_main_node_budget": false,
+    "unique_reference_items": 1155,
+    "unique_images": 1002,
+    "unique_motion_clips": 153,
+    "unique_reference_items_by_kind": {
+      "hair": 112,
+      "wardrobe_piece": 574,
+      "motion": 153,
+      "scene": 276,
+      "identity": 40
+    },
+    "unique_hair_ids": 28,
+    "hair_photos_per_unique_hair": 4,
+    "hair_carrier_pairs_per_unique_hair": 2,
+    "reference_link_occurrences": 52560,
+    "unique_used_edges": 32621,
+    "split_counts": {
+      "train": {
+        "sessions": 12000,
+        "edit_step_occurrences": 43800,
+        "axis_hair": 6681,
+        "axis_wardrobe": 6810,
+        "axis_camera": 6810,
+        "no_media_link_occurrences": 13393,
+        "axis_action": 6422,
+        "axis_site": 6676,
+        "axis_hair_color": 6583,
+        "axis_identity": 3818,
+        "unique_used_edges": 27299,
+        "unique_selected_reference_items": 983
+      },
+      "test": {
+        "sessions": 2400,
+        "edit_step_occurrences": 8760,
+        "axis_identity": 829,
+        "axis_hair_color": 1362,
+        "no_media_link_occurrences": 2724,
+        "axis_action": 1261,
+        "axis_camera": 1362,
+        "axis_site": 1322,
+        "axis_hair": 1262,
+        "axis_wardrobe": 1362,
+        "unique_used_edges": 5322,
+        "unique_selected_reference_items": 276
+      }
+    },
+    "reference_pool_shared_across_splits": true,
+    "hair_carrier_variants_add_structural_sessions": false,
+    "all_media_paths_null": true,
+    "motion_carrier_status": "pending_user_freeze",
+    "scene_initial_frames_status": "symbolic_demands_pending_exact_final_transform",
+    "unfrozen": [
+      "identity_reference_generation_implementation",
+      "hair_reference_generation_implementation",
+      "wardrobe_reference_generation_implementation",
+      "motion_reference_generation_implementation",
+      "reference_and_edit_text_templates",
+      "motion_carrier",
+      "resolution",
+      "fps",
+      "duration"
+    ],
+    "count_scope": "actual_session_used_edges_only; media requirement dedup; not rendered file count"
+  },
+  "single_seed_pair_only": true,
+  "elapsed_finish_seconds": 62.7868013381958
+}

@@ -1,0 +1,997 @@
+{
+  "status": "offline_projection_diagnostic_not_pixel_or_occlusion_acceptance",
+  "sources": [
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\geometry.json",
+      "sha256": "91b6c0dce0e1c390a099fd06014da36d5b697e8ab97b4fbc8cd9755cf72ca745"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\production_workflow_20261017_v1\\camera_library\\production10\\camera_plan.json",
+      "sha256": "5e6242b000a8386c2df08f1e253b7e7de12eb838713d63038588b4795b3a719a"
+    },
+    {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_design_exploration_20261021_v1\\inventory\\normalized_inventory.json",
+      "sha256": "d022b5c3814b0d752233a8feaf3763f3ea6f0ca75f4e06323d80e46808f9db73"
+    }
+  ],
+  "limitations": [
+    "Bone positions are representative planner data, not every identity mesh.",
+    "Sparse body probes do not prove absence between sample times.",
+    "World-axis envelopes do not encode hair/clothing silhouette or occlusion.",
+    "Torso facing is not eye/head orientation; threshold sweeps are sensitivity, not accepted visibility rules.",
+    "No source scene geometry, shadows, lighting, skin or garment texture is evaluated.",
+    "Production follow-ground transform can add further camera motion.",
+    "Translation parallax scale assumes lateral motion and fixed approximate depth, not measured image error."
+  ],
+  "shot_count": 1050,
+  "active_motions": 25,
+  "approx_static_count": 0,
+  "by_camera": [
+    {
+      "aspect": "landscape",
+      "camera": "back_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.039968380255404,
+        "median": 14.580838050887245,
+        "p95": 328.20458024472936,
+        "max": 450.19699958886963
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "back_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448424,
+        "median": 15.350520966144192,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 24,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_in_back",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 134.44253841074175,
+        "median": 183.580217690481,
+        "p95": 505.0861563161371,
+        "max": 627.3316738036978
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_in_front",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 136.58117086454476,
+        "median": 183.91896004086402,
+        "p95": 238.14577012930732,
+        "max": 293.0320646854499
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_in_side",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 135.9537907948049,
+        "median": 185.60494939778098,
+        "p95": 385.1649515443187,
+        "max": 495.1298983439865
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 18,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_out_back",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 137.6337486058173,
+        "median": 183.39466177851745,
+        "p95": 237.59414600825133,
+        "max": 293.7174180391824
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_out_front",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 137.10282376216938,
+        "median": 185.10218372608162,
+        "p95": 506.910798063305,
+        "max": 628.4492572116922
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "landscape",
+      "camera": "dolly_out_side",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 140.1238461101938,
+        "median": 188.23028987827905,
+        "p95": 388.82544967326464,
+        "max": 478.50360010715485
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 18,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "landscape",
+      "camera": "front_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.039968380255404,
+        "median": 14.580838050887245,
+        "p95": 328.20458024472936,
+        "max": 450.19699958886963
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "landscape",
+      "camera": "front_head",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 9.97042476605782,
+        "median": 32.023814938701065,
+        "p95": 325.6051916474188,
+        "max": 451.46627932025905
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 25,
+      "lower_absent_sparse_count": 21,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "landscape",
+      "camera": "front_three_quarter_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447293,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 8.537736462515939e-07,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "landscape",
+      "camera": "front_three_quarter_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448286,
+        "median": 15.350520966144181,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 8.537736462515939e-07,
+        "max": 1.2074182697257333e-06
+      },
+      "feet_absent_sparse_count": 23,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 22
+    },
+    {
+      "aspect": "landscape",
+      "camera": "front_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448424,
+        "median": 15.350520966144192,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 24,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "landscape",
+      "camera": "high_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 8.537736462515939e-07,
+        "p95": 1.2074182697257333e-06,
+        "max": 1.2074182697257333e-06
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "landscape",
+      "camera": "low_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888696
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "landscape",
+      "camera": "orbit_120",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 321.2378787767075,
+        "median": 556.992458034628,
+        "p95": 564.802558728219,
+        "max": 594.158297034192
+      },
+      "camera_rotation_degrees": {
+        "min": 119.99999999999999,
+        "median": 119.99999999999999,
+        "p95": 119.99999999999999,
+        "max": 119.99999999999999
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 24,
+      "identity_proxy_64px_front_halfclip_count": 16
+    },
+    {
+      "aspect": "landscape",
+      "camera": "orbit_360",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 375.4577553989312,
+        "median": 643.7778879493449,
+        "p95": 658.2758590859839,
+        "max": 687.8819143520928
+      },
+      "camera_rotation_degrees": {
+        "min": 180.0,
+        "median": 180.0,
+        "p95": 180.0,
+        "max": 180.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 6
+    },
+    {
+      "aspect": "landscape",
+      "camera": "rear_three_quarter_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 5,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "rear_three_quarter_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448286,
+        "median": 15.350520966144192,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 8.537736462515939e-07,
+        "max": 1.2074182697257333e-06
+      },
+      "feet_absent_sparse_count": 24,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 6,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "landscape",
+      "camera": "side_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802553916,
+        "median": 14.580838050887294,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 18,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "landscape",
+      "camera": "side_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448228,
+        "median": 15.350520966144208,
+        "p95": 327.8836804268871,
+        "max": 450.31635126981996
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 24,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 18,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "portrait",
+      "camera": "back_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.039968380255404,
+        "median": 14.580838050887245,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "back_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448284,
+        "median": 15.3505209661442,
+        "p95": 327.8836804268871,
+        "max": 450.31635126981996
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 23,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_in_back",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 103.5795316049357,
+        "median": 139.11535004162494,
+        "p95": 458.24322638246673,
+        "max": 580.4161304235386
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_in_front",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 106.03032640612473,
+        "median": 140.64435995684428,
+        "p95": 205.1374161116697,
+        "max": 324.78537205430484
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_in_side",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 106.42723697291827,
+        "median": 143.67444435764577,
+        "p95": 364.2567047508725,
+        "max": 478.72966224565624
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 17,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_out_back",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 107.23472438714118,
+        "median": 139.4369836335889,
+        "p95": 207.84948830292748,
+        "max": 326.38356029732563
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 8,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_out_front",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 107.14361525414418,
+        "median": 141.3557561350253,
+        "p95": 460.7569851074043,
+        "max": 582.1895433039111
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "portrait",
+      "camera": "dolly_out_side",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 110.96446378303543,
+        "median": 148.21186400797734,
+        "p95": 367.27732520438894,
+        "max": 465.81429997665225
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 17,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "portrait",
+      "camera": "front_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.039968380255404,
+        "median": 14.580838050887246,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "portrait",
+      "camera": "front_head",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 9.97042476605783,
+        "median": 32.023814938701065,
+        "p95": 325.6051916474188,
+        "max": 451.466279320259
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 24,
+      "lower_absent_sparse_count": 14,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "portrait",
+      "camera": "front_three_quarter_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "portrait",
+      "camera": "front_three_quarter_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448286,
+        "median": 15.350520966144211,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 22,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 22
+    },
+    {
+      "aspect": "portrait",
+      "camera": "front_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448284,
+        "median": 15.3505209661442,
+        "p95": 327.8836804268871,
+        "max": 450.31635126982
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 23,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 24
+    },
+    {
+      "aspect": "portrait",
+      "camera": "high_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.039968380255405,
+        "median": 14.580838050887252,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 1.2074182697257333e-06,
+        "p95": 1.2074182697257333e-06,
+        "max": 1.2074182697257333e-06
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "portrait",
+      "camera": "low_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.20458024472936,
+        "max": 450.19699958886963
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 23
+    },
+    {
+      "aspect": "portrait",
+      "camera": "orbit_120",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 281.19115391256724,
+        "median": 418.60302307593514,
+        "p95": 426.3924661391787,
+        "max": 456.172498740263
+      },
+      "camera_rotation_degrees": {
+        "min": 119.99999999999999,
+        "median": 119.99999999999999,
+        "p95": 119.99999999999999,
+        "max": 119.99999999999999
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 24,
+      "identity_proxy_64px_front_halfclip_count": 16
+    },
+    {
+      "aspect": "portrait",
+      "camera": "orbit_360",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 328.2045802447294,
+        "median": 483.99901649835556,
+        "p95": 498.86100358739736,
+        "max": 529.9932931782162
+      },
+      "camera_rotation_degrees": {
+        "min": 180.0,
+        "median": 180.0,
+        "p95": 180.0,
+        "max": 180.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 25,
+      "identity_proxy_64px_front_halfclip_count": 6
+    },
+    {
+      "aspect": "portrait",
+      "camera": "rear_three_quarter_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802554045,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 5,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "rear_three_quarter_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448286,
+        "median": 15.350520966144181,
+        "p95": 327.8836804268871,
+        "max": 450.31635126981996
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 8.537736462515939e-07
+      },
+      "feet_absent_sparse_count": 21,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 6,
+      "identity_proxy_64px_front_halfclip_count": 0
+    },
+    {
+      "aspect": "portrait",
+      "camera": "side_full",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 2.0399683802553947,
+        "median": 14.580838050887238,
+        "p95": 328.2045802447294,
+        "max": 450.1969995888697
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 0,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 18,
+      "identity_proxy_64px_front_halfclip_count": 1
+    },
+    {
+      "aspect": "portrait",
+      "camera": "side_upper",
+      "motions": 25,
+      "static_count": 0,
+      "camera_translation_cm": {
+        "min": 1.5890099973448228,
+        "median": 15.350520966144208,
+        "p95": 327.8836804268871,
+        "max": 450.31635126981996
+      },
+      "camera_rotation_degrees": {
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0
+      },
+      "feet_absent_sparse_count": 22,
+      "lower_absent_sparse_count": 0,
+      "head_absent_sparse_count": 0,
+      "identity_proxy_64px_front_ever_count": 16,
+      "identity_proxy_64px_front_halfclip_count": 1
+    }
+  ]
+}

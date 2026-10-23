@@ -1,0 +1,104 @@
+{
+  "request": {
+    "run_root": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1",
+    "jobs_path": "D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json",
+    "workspace": "D:/UE/Lance_Work",
+    "project_root": "D:/UE/projects/datatry_02",
+    "pool_mb": 10240,
+    "job_id": "ref_483aff5be6d54f4edbca2560",
+    "action": "prepare",
+    "request_id": "6d5d72d577ac49fa848c805ee635850a"
+  },
+  "started_at": "2026-10-23T02:04:04.844932+00:00",
+  "node": {
+    "user": "Macheniek",
+    "machine": "DESKTOP-08B3D2B",
+    "engine_version": "5.8.1-56057345+++UE5+Release-5.8",
+    "engine_root": "D:/UE/UE_5.8/Engine/",
+    "project_root": "D:/UE/projects/datatry_02/",
+    "project_name": "datatry_02",
+    "node_id": "6CD389CB4FABE0E57B364FB1156B065B"
+  },
+  "remote_reply": {
+    "success": true,
+    "command": "import sys, json, importlib\nsys.path.insert(0, 'D:/UE/Lance_Work/00_engine/scripts/unreal')\nimport ue_dataset_reference_v11 as _dataset_v11\nimportlib.reload(_dataset_v11)\n_dataset_result = _dataset_v11.dispatch({'run_root': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1', 'jobs_path': 'D:/UE/Lance_Work/00_engine/outputs/dataset_reference_production_20261023_v1/static_pilot_jobs.json', 'workspace': 'D:/UE/Lance_Work', 'project_root': 'D:/UE/projects/datatry_02', 'pool_mb': 10240, 'job_id': 'ref_483aff5be6d54f4edbca2560', 'action': 'prepare', 'request_id': '6d5d72d577ac49fa848c805ee635850a'})\nprint('DM_DATASET_DRIVER_V11=' + json.dumps(_dataset_result, ensure_ascii=False, default=str))",
+    "result": "None",
+    "output": [
+      {
+        "type": "Info",
+        "output": "DM_DATASET_DRIVER_V11={\"success\": true, \"schema\": \"dataset_reference_prepared_v11_v1\", \"signature\": \"29b420376f84b601035be31f096428d632eb978087a111a277d4624179b065f4\", \"reference_job_sha256\": \"b97b91c81187c4a1ed949f70e2c1e42fd39e68ea8f1e5aa18e3e3e31f14930d9\", \"job_id\": \"ref_483aff5be6d54f4edbca2560\", \"reference_kind\": \"scene\", \"job\": {\"shot_id\": \"ref_483aff5be6d54f4edbca2560\", \"map\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7\", \"sequence\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_483aff5be6d54f4edbca2560_68093962a7.LS_ref_483aff5be6d54f4edbca2560_68093962a7\"}, \"source_job_id\": \"train_node_000967\", \"source_prepared\": {\"path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\", \"sha256\": \"95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9\"}, \"source_pins\": [], \"source_packages_unchanged\": true, \"camera\": {\"position\": [-509.8855285644531, 4660.27294921875, 80.87824249267578], \"rotation_pitch_yaw_roll\": [0.0, -90.0, 0.0], \"horizontal_fov_degrees\": 64.47086334228516, \"scale\": [1.0, 1.0, 1.0], \"source_frame\": 0}, \"details\": {\"camera_binding\": \"actual saved source sequence frame-zero transform/FOV keys\", \"removed_main_subjects_and_followers\": [{\"label\": \"DM_SiteReview_Dataset_Character\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.BP_DM_Complete_Male_FixedSlots_v001_C_0\"}, {\"label\": \"DM_Dataset_DM_SiteReview_Pair19_Lash_lash_up_curly\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.SkeletalMeshActor_2\"}, {\"label\": \"DM_Dataset_DM_SiteReview_Pair19_Lash_lash_low_short_bushy\", \"path\": \"/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.SkeletalMeshActor_3\"}], \"target_character_present\": false, \"shadow_policy\": \"destroy character and attached lash actors before a new MRQ world/warmup; no hidden shadow caster remains\", \"source_environment\": \"inherited source main owned map; dynamic environment equality still requires inspection\", \"presentation_status\": \"design_confirmed\"}, \"width\": 1920, \"height\": 1080, \"frames\": 1, \"fps\": 30, \"preparation_seconds\": 15.405999999988126, \"visual_acceptance\": \"pending\", \"reference_manifest_publication\": false, \"presentation_status\": \"design_confirmed_sample_review\", \"source_jobs_path\": \"D:\\\\UE\\\\Lance_Work\\\\00_engine\\\\outputs\\\\dataset_reference_production_20261023_v1\\\\carrier_jobs.json\"}\r\n"
+      }
+    ]
+  },
+  "result": {
+    "success": true,
+    "schema": "dataset_reference_prepared_v11_v1",
+    "signature": "29b420376f84b601035be31f096428d632eb978087a111a277d4624179b065f4",
+    "reference_job_sha256": "b97b91c81187c4a1ed949f70e2c1e42fd39e68ea8f1e5aa18e3e3e31f14930d9",
+    "job_id": "ref_483aff5be6d54f4edbca2560",
+    "reference_kind": "scene",
+    "job": {
+      "shot_id": "ref_483aff5be6d54f4edbca2560",
+      "map": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7",
+      "sequence": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Sequences/LS_ref_483aff5be6d54f4edbca2560_68093962a7.LS_ref_483aff5be6d54f4edbca2560_68093962a7"
+    },
+    "source_job_id": "train_node_000967",
+    "source_prepared": {
+      "path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json",
+      "sha256": "95bc2c47224e62ace750121234883d3598c6347042db2b4093b8728a6859fbd9"
+    },
+    "source_pins": [],
+    "source_packages_unchanged": true,
+    "camera": {
+      "position": [
+        -509.8855285644531,
+        4660.27294921875,
+        80.87824249267578
+      ],
+      "rotation_pitch_yaw_roll": [
+        0.0,
+        -90.0,
+        0.0
+      ],
+      "horizontal_fov_degrees": 64.47086334228516,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_frame": 0
+    },
+    "details": {
+      "camera_binding": "actual saved source sequence frame-zero transform/FOV keys",
+      "removed_main_subjects_and_followers": [
+        {
+          "label": "DM_SiteReview_Dataset_Character",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.BP_DM_Complete_Male_FixedSlots_v001_C_0"
+        },
+        {
+          "label": "DM_Dataset_DM_SiteReview_Pair19_Lash_lash_up_curly",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.SkeletalMeshActor_2"
+        },
+        {
+          "label": "DM_Dataset_DM_SiteReview_Pair19_Lash_lash_low_short_bushy",
+          "path": "/Game/DataMake/Capture/DatasetPilot20261023/ReferenceProduction/Maps/L_ref_483aff5be6d54f4edbca2560_68093962a7.L_ref_483aff5be6d54f4edbca2560_68093962a7:PersistentLevel.SkeletalMeshActor_3"
+        }
+      ],
+      "target_character_present": false,
+      "shadow_policy": "destroy character and attached lash actors before a new MRQ world/warmup; no hidden shadow caster remains",
+      "source_environment": "inherited source main owned map; dynamic environment equality still requires inspection",
+      "presentation_status": "design_confirmed"
+    },
+    "width": 1920,
+    "height": 1080,
+    "frames": 1,
+    "fps": 30,
+    "preparation_seconds": 15.405999999988126,
+    "visual_acceptance": "pending",
+    "reference_manifest_publication": false,
+    "presentation_status": "design_confirmed_sample_review",
+    "source_jobs_path": "D:\\UE\\Lance_Work\\00_engine\\outputs\\dataset_reference_production_20261023_v1\\carrier_jobs.json"
+  },
+  "finished_at": "2026-10-23T02:04:20.923436+00:00",
+  "seconds": 16.07799999997951
+}

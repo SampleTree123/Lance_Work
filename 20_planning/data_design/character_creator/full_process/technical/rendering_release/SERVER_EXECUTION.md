@@ -8,13 +8,13 @@
 > 验证所有权：`VAL-SERVER-01`
 > 输出契约：`OUT-WF00-SESSION`、`OUT-WF80-NODE-MEDIA`
 > 运行环境：Linux、NVIDIA、Vulkan、Unreal Engine 5.8
-> 最近核验：2026-08-28
+> 最近核验：2026-09-30（历史失败与用户确认的服务器完成分开；未重验服务器）
 
 ## 1. 当前状态
 
-预检脚本和正式 Render Job 执行器均已存在；执行器已通过本地 2 节点真渲染与恢复。目标服务器项目和 UE 5.8 可以启动、加载、Cook 和 Package，但 `H64Y574/job117396` 的 H200/565.57.01 环境无法完成最小 Vulkan 像素输出，因此 `VAL-SERVER-01` 为 `failed`，10 节点与正式批量均未启动。服务器不能仅凭 Git 仓库生产：还需要 Batch Status 与 `required_exports.json` 指定的 UE 项目和二进制资产。
+预检脚本和正式 Render Job 执行器均已存在；执行器已通过本地 2 节点真渲染与恢复。2026-08-28 的 `H64Y574/job117396` H200/565.57.01 环境曾无法完成最小 Vulkan 像素输出；该精确范围的失败保留为历史。用户于 2026-09-22 已确认服务器正式渲染完成，当前成功运行的环境、预检/基准、Run Root、Manifest 和 QA 尚未同步，本地 `VAL-SERVER-01` 保持证据待闭合，准确结果见 [WF-80 状态](../../project_management/status/workflows/WF-80.md)。服务器不能仅凭 Git 仓库生产：还需要 Batch Status 与 `required_exports.json` 指定的 UE 项目和二进制资产。
 
-### 1.1 当前目标环境证据
+### 1.1 历史失败环境证据
 
 2026-08-28 核验范围：
 
@@ -34,7 +34,7 @@
 - Vulkan Validation 报告图像布局错误 `VUID-vkCmdDispatch-imageLayout-00344`；Lavapipe 软件 Vulkan 在 Editor 和最小 packaged runtime 中均以同一 libc `0x4251f` 空指针 SIGSEGV 退出，不能作为生产降级。
 - 诊断前后源地图 SHA-256 均为 `e45167092fb3d213b68481803daa14a0bcacdeef7a31e9a9ff2f7a1ed118e987`，原始关卡未被修改。
 
-Epic 的 [UE 5.8 Linux Development Requirements](https://dev.epicgames.com/documentation/unreal-engine/linux-development-requirements-for-unreal-engine?lang=en-US) 在本次核验日期要求 NVIDIA 570 或更高版本。当前 565.57.01 低于该边界。生产恢复顺序为：
+Epic 的 [UE 5.8 Linux Development Requirements](https://dev.epicgames.com/documentation/unreal-engine/linux-development-requirements-for-unreal-engine?lang=en-US) 在 2026-08-28 取证日期要求 NVIDIA 570 或更高版本。当时 565.57.01 低于该边界；此处只记录历史要求，不构成 2026-09-30 的外部规格重新核验。若重新使用该旧失败环境，恢复顺序为：
 
 1. 首选切换到满足 UE 5.8 要求的 NVIDIA 驱动节点或镜像。
 2. 若集群驱动不能变化，只能建立独立的旧版 UE 兼容分支并重新验证项目/资产兼容性；不能把 UE 5.8 项目直接降级覆盖。
@@ -49,7 +49,7 @@ srun --jobid=<job_id> --overlap --nodes=1 --ntasks=1 \
 
 ## 2. 预检入口
 
-唯一权威脚本：`20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh`。该版本已针对当前 Slurm 集群、用户级 UE 运行库和无 `vulkaninfo` 时的 UE Vulkan 日志取证进行验证。
+唯一权威脚本：`20_planning/implementation/FIRST_BATCH_SERVER_PREFLIGHT.sh`。该版本曾针对报告中的 Slurm 环境、用户级 UE 运行库和无 `vulkaninfo` 时的 UE Vulkan 日志取证验证；换环境时须重新核对实际版本与脚本门槛，本次未改代码或重新执行服务器预检。
 
 环境预检：
 
@@ -176,3 +176,6 @@ python 00_engine/scripts/unreal/run_first_batch_render_jobs.py \
 ## 10. 通过条件
 
 完整预检通过、两次启动稳定、10 节点 10/10 accepted、正式执行器可按 Node 续跑/重试且不改配置，所有计划 Render Jobs 进入可解释终态。批次精确数量与最终发布条件见 [Batch Status](../../project_management/status/batches/BATCH-001-FIRST-DATA.md) 和 [数据集封装](./DATASET_PACKAGE.md)。
+## 2026-10-23 v11数据集本地准备交接
+
+当前v11使用新的参数化入口，本地12真实节点完成，未连接服务器或上传。运行命令及分片见[OPERATIONS](../../../../../../00_engine/outputs/dataset_render_pilot_20261023_v1/OPERATIONS.md)；路径、Linux UE5.8.1与RLPlugin范围见[PORTABILITY](../../../../../../00_engine/outputs/dataset_render_pilot_20261023_v1/PORTABILITY.md)；传输文件清单见[TRANSFER_PLAN](../../../../../../00_engine/outputs/dataset_render_pilot_20261023_v1/TRANSFER_PLAN.md)。先把工程／脚本／数据配置迁移到独立服务器运行根，再做同任务小样；不要复制本机资源profile后绕过机器名检查，不要把历史服务器运行结论替代本批验证。多GPU按独立UE进程与整场景清单分配，显式确认Vulkan设备；本次未决定服务器并发数。
