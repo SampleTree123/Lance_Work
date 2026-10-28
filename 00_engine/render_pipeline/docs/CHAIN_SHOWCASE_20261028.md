@@ -55,4 +55,8 @@
 
 ## 交付状态与后续
 
-本机网页和媒体检查已通过，展示包已提交为 `a5e6743`（Add portable 16-chain showcase with authorized video copies）。GitHub远端尚未更新：HTTPS没有可用写入凭据；现有GitHub专用SSH密钥可认证King-Wood-Shen，但目标SampleTree123/Lance_Work拒绝该账号写入。未更换origin、未强推。需要用户在终端使用该仓库有写权限的凭据完成push，不能将本地提交误写成上传完成。成功后可下载完整文件夹进行展示检查。生产数据修复仍等待本地具体修复内容和影响范围；参考图片/文本仍待上传，本次不改模型架构或训练计划。
+2026-10-28用户已完成HTTPS认证并成功推送，随后独立查询远端确认 `main = 963eb1dce9300841ec1c68123720b95b3a504275`。该版本包含展示提交 `a5e6743` 及检查归档，72份实际MP4已随网页上传，媒体约1.39GiB。GitHub对其中53.49MB视频发出建议性大文件警告，但此次推送成功；没有转换为LFS指针，也没有强推。此前写权限阻碍已解除。
+
+[GitHub展示目录](https://github.com/SampleTree123/Lance_Work/tree/main/00_engine/render_pipeline/showcase/chain_examples_20261028)。下载完整文件夹后打开index.html；GitHub仓库浏览页本身不作为网页托管服务。
+
+生产数据修复仍等待本地具体修复内容和影响范围；参考图片/文本仍待上传，本次不改模型架构或训练计划。
