@@ -1,5 +1,7 @@
 # Lance_Work / DataMake
 
+2026-10-28展示发布例外：用户明确允许将选例网页与对应原视频副本一起上传Git，限于 `00_engine/render_pipeline/showcase/chain_examples_20261028/`；其他大型媒体仍排除。范围、核验与选例见[展示归档](00_engine/render_pipeline/docs/CHAIN_SHOWCASE_20261028.md)，本次不改变模型架构与训练计划。
+
 用于构建可追溯的 Unreal Engine 多轮视频编辑数据集。系统把角色与场景资产、确定性配置图、原子编辑链、文本指令和节点媒体连接为可复现的生产流水线。第一批数据已通过 WF-90 并发布；下游 Lance 已接入 UE＋CoinVE 混合数据、双分支 LoRA 与两种历史策略。2026-10-11 已整理架构，并完成可选单张 ViT 参考图的代码与工程验证；参考图训练数据及质量验收仍待后续，实时状态由项目 Status 维护。
 
 新会话先读 [`HANDOFF.md`](./HANDOFF.md)。角色工厂与数据生产的唯一主入口是 [`full_process/README.md`](./20_planning/data_design/character_creator/full_process/README.md)，当前事实与唯一下一步见 [`PROJECT_STATUS.md`](./20_planning/data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md)。

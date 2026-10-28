@@ -1,5 +1,7 @@
 # 项目当前状态
 
+2026-10-28服务器展示任务完成本机验证；独立展示包与服装问题的用户最新反馈见[服务器状态](SERVER_SYNC_STATUS.md)及[展示归档](../../../../../../00_engine/render_pipeline/docs/CHAIN_SHOWCASE_20261028.md)。本轮不改变Lance主计划或模型架构决定。
+
 > 文档 ID：`STATUS-PROJECT`
 > 文档类型：`status`
 > 生命周期：`current`

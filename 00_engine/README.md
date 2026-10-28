@@ -1,5 +1,7 @@
 # `00_engine`：生产实现与运行工作层
 
+2026-10-28新增[离线编辑链展示包](render_pipeline/showcase/chain_examples_20261028/README.md)，网页、视频副本、属性与编辑说明集中在同一目录；本包获用户特许入Git，源生产媒体未改动。详情见[展示归档](render_pipeline/docs/CHAIN_SHOWCASE_20261028.md)。
+
 本目录承载 Character Creator、Unreal Engine、配置图和视觉审查的实际实现与输出。长期流程从 [Character Factory Master](../20_planning/data_design/character_creator/full_process/README.md) 进入；当前成熟度和下一步从 [项目状态](../20_planning/data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md) 获取。
 
 ## 目录职责

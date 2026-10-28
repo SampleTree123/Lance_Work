@@ -1,5 +1,7 @@
 # HANDOFF：DataMake 当前接手说明
 
+2026-10-28展示包已完成本机验证：按用户最终要求选择2–5轮各4条完整直链，网页、原始MP4副本及属性/编辑说明统一保存；本次视频获明确Git上传例外，发布范围仅限展示包。用户已在本地定位此前服装问题并表示大部分视频无需处理，服务器尚未收到具体修复方案，本轮未改生产媒体。详见[展示归档](00_engine/render_pipeline/docs/CHAIN_SHOWCASE_20261028.md)，下一步为上传后用户查看展示、等待本地修复说明与参考图片/文本。
+
 最近核验：2026-10-23，Asia/Singapore。当前事实的人类入口是 [PROJECT_STATUS.md](./20_planning/data_design/character_creator/full_process/project_management/status/PROJECT_STATUS.md)，机器入口是同目录的 PROJECT_STATE.json。不要将历史报告中带日期的“当前/运行中/待提交”当作实时状态。
 
 ## 新会话阅读顺序
