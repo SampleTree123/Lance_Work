@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataMake · 分叉编辑链展示</title>
+  <link rel="icon" href="data:,"><link rel="stylesheet" href="style.css">
+  <script defer src="branch_data.js"></script><script defer src="branch_app.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span> DATAMAKE / VIDEO EDITING DATASET <span class="date">2026.10.28</span></div>
+    <div class="hero-grid"><div><h1>回到历史版本，<br>开启另一条路径<span>。</span></h1>
+      <p class="intro">8条真实分叉会话。先看父子关系图，再沿两条路径比较编辑结果。V编号按生成顺序递增，箭头只连接实际编辑的起点与结果。</p>
+    </div><div class="stats"><div><b>8</b><span>分叉会话</span></div><div><b>28</b><span>真实编辑边</span></div><div><b>36</b><span>节点视频</span></div></div></div>
+    <div class="context"><span>2–5轮 · 每组2条</span><span>原始UE视频 · 10秒 / 30 FPS</span><span>男女角色 · 横竖画幅</span></div>
+  </header>
+  <nav class="filters" aria-label="按编辑轮数筛选">
+    <div class="filter-buttons"><button class="active" data-length="all" aria-pressed="true">全部 <small>8</small></button>
+      <button data-length="2" aria-pressed="false">2轮 <small>2</small></button><button data-length="3" aria-pressed="false">3轮 <small>2</small></button>
+      <button data-length="4" aria-pressed="false">4轮 <small>2</small></button><button data-length="5" aria-pressed="false">5轮 <small>2</small></button></div>
+    <span id="count" aria-live="polite">显示8条链</span>
+  </nav>
+  <main>
+    <p class="reading-note"><a href="index.html">← 查看16条直链</a> · 沿真实父子关系阅读：<strong>原始版本 → 编辑内容 → 新版本</strong>。路径可横向滚动；分叉后不会把两个兄弟版本串成一条链。编辑说明来自节点属性差异，正式训练prompt尚未上传；本页为选例展示。</p>
+    <div id="chains"></div>
+    <noscript>请启用JavaScript以查看编辑链。完整结构也可在examples.json中读取。</noscript>
+  </main>
+  <footer><b>DataMake</b><span>8条完整分叉会话 · 保留原会话和节点编号 · 不是模型推理结果</span><a href="branch_examples.json">查看选例数据</a><a href="README.md">使用与来源说明</a></footer>
+</body>
+</html>
