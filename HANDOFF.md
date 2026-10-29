@@ -1,6 +1,6 @@
 # HANDOFF：DataMake 当前接手说明
 
-2026-10-29修复展示已获用户Git上传授权：2322条重渲染技术验收完成，24条正式样例已打包；GitHub推送待执行，用户视觉验收与整体数据替换仍待确认。详见[发布记录](00_engine/render_pipeline/docs/REPAIR_SHOWCASE_PUBLICATION_20261029.md)。
+2026-10-29修复展示已获用户Git上传授权：2322条重渲染技术验收完成，24条正式样例已打包；本地已提交，GitHub推送因缺少HTTPS写入凭据待用户在终端认证；用户视觉验收与整体数据替换仍待确认。详见[发布记录](00_engine/render_pipeline/docs/REPAIR_SHOWCASE_PUBLICATION_20261029.md)。
 
 2026-10-28追加8条分叉展示：2–5轮各2条，按真实父子关系画SVG，并分两条路径展示共享前缀。原16条直链保留，统一展示目录现含24个会话及108份视频副本。入口为branches.html，详见[追加记录](00_engine/render_pipeline/docs/BRANCH_SHOWCASE_20261028.md)。
 

@@ -1,6 +1,6 @@
 # 服务器同步与 UE 渲染工作状态
 
-2026-10-29修复展示已获用户Git上传授权：独立展示包含24条最终production视频，2322条全量重渲染已技术通过；推送待执行，整体数据仍REPAIR_PENDING，视觉确认和数据替换不在本次上传授权中。详见[发布记录](../../../../../../00_engine/render_pipeline/docs/REPAIR_SHOWCASE_PUBLICATION_20261029.md)。
+2026-10-29修复展示已获用户Git上传授权：独立展示包含24条最终production视频，2322条全量重渲染已技术通过；本地提交已完成，推送因缺少HTTPS写入凭据待用户在终端认证；整体数据仍REPAIR_PENDING，视觉确认和数据替换不在本次上传授权中。详见[发布记录](../../../../../../00_engine/render_pipeline/docs/REPAIR_SHOWCASE_PUBLICATION_20261029.md)。
 
 2026-10-28按用户要求追加8条真实分叉会话，新增36份视频副本；直链和分叉分别成页、互相链接。实际起点由原source_history_occurrence定位，不把兄弟节点串成直链。校验和发布记录见[分叉展示归档](../../../../../../00_engine/render_pipeline/docs/BRANCH_SHOWCASE_20261028.md)。
 
