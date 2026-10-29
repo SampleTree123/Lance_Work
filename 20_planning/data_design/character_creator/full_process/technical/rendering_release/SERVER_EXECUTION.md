@@ -1,5 +1,7 @@
 # Linux/NVIDIA 服务器执行
 
+2026-10-29新增修复展示导出：`00_engine/render_pipeline/showcase/repair_examples_20261029/`由本文负责，用户明确授权网页及24份正式production视频副本入Git。媒体范围仅限此展示目录；全量运行证据保留服务器，用户视觉验收及整体dataset替换仍待确认。目录和校验说明见[发布记录](../../../../../../00_engine/render_pipeline/docs/REPAIR_SHOWCASE_PUBLICATION_20261029.md)。
+
 2026-10-28展示工具追加 `00_engine/render_pipeline/tools/server/build_branch_showcase.py`，生命周期production、归属本文。复用build_chain_showcase.py的属性解释和复制校验；冻结8个分叉会话，验证真实父子关系、单轴变化与图边，再输出branch_examples.json和branch_data.js并合并媒体SHA256清单。branches.html用SVG与两条root-to-leaf路径呈现，共享前缀重复引用同一份媒体。输出仍在获准的同一showcase目录，不创建运行outputs类别；[记录](../../../../../../00_engine/render_pipeline/docs/BRANCH_SHOWCASE_20261028.md)。
 
 2026-10-28新增离线展示工具：`00_engine/render_pipeline/tools/server/build_chain_showcase.py` 由本文负责，生命周期为production（数据展示导出，不执行UE渲染）。从服务器已整理的节点/会话JSON及motion catalog读取属性，冻结selection后验证完整直链与单轴变化，再用 `--copy-media` 创建真实MP4副本；不改源数据。输出范围为 `00_engine/render_pipeline/showcase/chain_examples_20261028/`，属于用户特许保留并入Git的展示包，不在运行outputs中，禁止扩展此例外到其他媒体。临时抽帧/浏览器证据在该目录validation内忽略入Git；正式选例与校验摘要见[展示归档](../../../../../../00_engine/render_pipeline/docs/CHAIN_SHOWCASE_20261028.md)。网页源码与离线字体一并保存，正式训练prompt未上传时只写真实属性差异，不冒充训练指令。
